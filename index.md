@@ -17,7 +17,7 @@ Please also note that the public docker container restarts itself once a week. P
 
 Tailor the docker container image for your enviorment:
 
-1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu)](https://hub.docker.com/r/kstawiski/omicselector-gpu)
+1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
 
 ```
 docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector-gpu
@@ -80,9 +80,7 @@ Please note that application of `mxnet` requires the `mxnet` R package which is 
 
 Examplary files for the analysis:
 
-- [TCGA-based tissue expression of miRNAs: `tissue_miRNA_counts.csv`](https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts.csv)
-- [TCGA-based tissue expression of miRNAs with random missing values (for testing of missing values imputation): `tissue_miRNA_counts_withmissing.csv`](https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts_withmissing.csv)
-- [TCGA-based tissue expression of miRNAs with random missing values (for testing of missing values imputation) and with batch variable (for testing of batch-effect correction): `tissue_miRNA_counts_withmissing_wthbatcheffect.csv`](https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts_withmissing_wthbatcheffect.csv)
+- [miRNA-seq, serum, ovarian cancer vs. controls](https://github.com/kstawiski/OmicSelector/blob/master/example/Elias2017.csv) (source: [Elias et al. 2017](https://elifesciences.org/articles/28932))
 
 ## Development
 
