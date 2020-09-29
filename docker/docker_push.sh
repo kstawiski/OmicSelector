@@ -10,21 +10,21 @@ docker image prune -a
 
 docker build --rm --force-rm -f ../Dockerfile.gpu -t OmicSelector-gpu ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../
-docker tag OmicSelector-gpu:latest kstawiski/OmicSelector-gpu:latest
-docker push kstawiski/OmicSelector-gpu
+docker tag OmicSelector-gpu:latest kstawiski/omicselector-gpu:latest
+docker push kstawiski/omicselector-gpu
 
 docker build --rm --force-rm -t OmicSelector ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../ 
-docker tag OmicSelector:latest kstawiski/OmicSelector:latest
-docker push kstawiski/OmicSelector
+docker tag OmicSelector:latest kstawiski/omicselector:latest
+docker push kstawiski/omicselector
 
 # for google cloud
 # docker tag kstawiski/OmicSelector:latest gcr.io/konsta/OmicSelector:latest
 # docker push gcr.io/konsta/OmicSelector
-docker pull kstawiski/OmicSelector
+docker pull kstawiski/omicselector
 
 
-docker run --name OmicSelector --rm -d -p 28888:80 -v /boot/temp/:/tmp/ -v /home/konrad/:/OmicSelector/host/ kstawiski/OmicSelector
+docker run --name OmicSelector --rm -d -p 28888:80 -v /boot/temp/:/tmp/ -v /home/konrad/:/OmicSelector/host/ kstawiski/omicselector
 
 
 # RAMDISK:

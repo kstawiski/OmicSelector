@@ -13,13 +13,13 @@ Go to https://kstawiski.github.io/OmicSelector/ for more details.
 ### Docker 
 
 
-1. GPU-based, using Nvidia CUDA: [kstawiski/OmicSelector-gpu](https://hub.docker.com/r/kstawiski/OmicSelector-gpu)
+1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
 
 ```
-docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(pwd)/:/OmicSelector/host/ kstawiski/OmicSelector-gpu
+docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector-gpu
 ```
 
-2. CPU-based: [kstawiski/OmicSelector](https://hub.docker.com/r/kstawiski/OmicSelector)
+2. CPU-based: [kstawiski/omicselector](https://hub.docker.com/r/kstawiski/omicselector)
 
 ```
 docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/OmicSelector
@@ -27,7 +27,7 @@ docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicS
 
 As docker image updates itself, it may take few minutes for the app to be operational. You can check logs using `docker logs OmicSelector`. The GUI is accessable via `http://your-host-ip:28888/`. If you use command above, your working directory will be binded as `/OmicSelector/host/`.
 
-3. Lite CPU-based version, used in CI and debuging, does not contain `mxnet` library: [kstawiski/OmicSelector-ci](https://hub.docker.com/r/kstawiski/OmicSelector-ci)
+3. Lite CPU-based version, used in CI and debuging, does not contain `mxnet` library: [kstawiski/omicselector-ci](https://hub.docker.com/r/kstawiski/omicselector-ci)
 
 ### R package:
 
