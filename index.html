@@ -106,7 +106,7 @@
 <a href="#option-1-docker-version-recommended" class="anchor"></a>[OPTION 1] Docker version (recommended):</h3>
 <p>Tailor the docker container image for your enviorment:</p>
 <ol>
-<li>GPU-based, using Nvidia CUDA: <a href="https://hub.docker.com/r/kstawiski/omicselector-gpu">kstawiski/omicselector-gpu)</a>
+<li>GPU-based, using Nvidia CUDA: <a href="https://hub.docker.com/r/kstawiski/omicselector-gpu">kstawiski/omicselector-gpu</a>
 </li>
 </ol>
 <pre><code>docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector-gpu</code></pre>
@@ -160,9 +160,8 @@ OmicSelector_setup()</a></code></pre>
 </ul>
 <p>Examplary files for the analysis:</p>
 <ul>
-<li><a href="https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts.csv">TCGA-based tissue expression of miRNAs: <code>tissue_miRNA_counts.csv</code></a></li>
-<li><a href="https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts_withmissing.csv">TCGA-based tissue expression of miRNAs with random missing values (for testing of missing values imputation): <code>tissue_miRNA_counts_withmissing.csv</code></a></li>
-<li><a href="https://github.com/kstawiski/OmicSelector/blob/master/example/tissue_miRNA_counts_withmissing_wthbatcheffect.csv">TCGA-based tissue expression of miRNAs with random missing values (for testing of missing values imputation) and with batch variable (for testing of batch-effect correction): <code>tissue_miRNA_counts_withmissing_wthbatcheffect.csv</code></a></li>
+<li>
+<a href="https://github.com/kstawiski/OmicSelector/blob/master/example/Elias2017.csv">miRNA-seq, serum, ovarian cancer vs. controls</a> (source: <a href="https://elifesciences.org/articles/28932">Elias et al. 2017</a>)</li>
 </ul>
 </div>
 <div id="development" class="section level2">
