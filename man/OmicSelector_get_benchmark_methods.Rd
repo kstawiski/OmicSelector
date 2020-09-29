@@ -4,7 +4,9 @@
 \alias{OmicSelector_get_benchmark_methods}
 \title{OmicSelector_get_benchmark_methods}
 \usage{
-OmicSelector_get_benchmark_methods(benchmark_csv = "benchmark1578929876.21765.csv")
+OmicSelector_get_benchmark_methods(
+  benchmark_csv = "benchmark1578929876.21765.csv"
+)
 }
 \arguments{
 \item{benchmark_csv}{Path to benchmark csv file.}

@@ -4,10 +4,10 @@
 \alias{OmicSelector_create_formula}
 \title{OmicSelector_create_formula}
 \usage{
-OmicSelector_create_formula(wybrane_miRy)
+OmicSelector_create_formula(selected_features)
 }
 \arguments{
-\item{wybrane_miRy}{Selected miRNAs as characted vector.}
+\item{selected_features}{Selected miRNAs as characted vector.}
 }
 \value{
 Formula "Class ~ ..." to be used in another functions.

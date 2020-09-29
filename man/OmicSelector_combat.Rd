@@ -4,7 +4,11 @@
 \alias{OmicSelector_combat}
 \title{OmicSelector_combat}
 \usage{
-OmicSelector_combat(danex, metadane = metadane, model = c("~ Batch", "~ Batch + Class"))
+OmicSelector_combat(
+  danex,
+  metadane = metadane,
+  model = c("~ Batch", "~ Batch + Class")
+)
 }
 \arguments{
 \item{danex}{Matrix with miRNA normalized expression values (e.g. TPM, deltaCt) with miRNAs in columns and cases in rows.}

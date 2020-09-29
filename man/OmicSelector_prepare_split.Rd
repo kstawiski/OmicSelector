@@ -4,7 +4,11 @@
 \alias{OmicSelector_prepare_split}
 \title{OmicSelector_prepare_split}
 \usage{
-OmicSelector_prepare_split(metadane = metadane, ttpm = ttpm_features, train_proc = 0.6)
+OmicSelector_prepare_split(
+  metadane = metadane,
+  ttpm = ttpm_features,
+  train_proc = 0.6
+)
 }
 \arguments{
 \item{metadane}{Metadata of cases. Must contain `Class` variable with `Cancer` and `Control` values.}

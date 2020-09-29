@@ -18,5 +18,5 @@ OmicSelector_get_features_from_benchmark(
 Vector of miRNAs.
 }
 \description{
-Get which miRNAs are used by which method in the benchmark.
+Get which features are used by which method in the benchmark.
 }
