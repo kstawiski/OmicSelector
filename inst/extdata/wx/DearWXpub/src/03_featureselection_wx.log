@@ -1,0 +1,36 @@
+          name                                              python
+1    anaconda3                   /home/konrad/anaconda3/bin/python
+2 r-reticulate /home/konrad/anaconda3/envs/r-reticulate/bin/python
+3   tensorflow   /home/konrad/anaconda3/envs/tensorflow/bin/python
+python:         /home/konrad/anaconda3/envs/tensorflow/bin/python
+libpython:      /home/konrad/anaconda3/envs/tensorflow/lib/libpython3.7m.so
+pythonhome:     /home/konrad/anaconda3/envs/tensorflow:/home/konrad/anaconda3/envs/tensorflow
+version:        3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 21:52:21)  [GCC 7.3.0]
+numpy:          /home/konrad/anaconda3/envs/tensorflow/lib/python3.7/site-packages/numpy
+numpy_version:  1.17.3
+tensorflow:     /home/konrad/anaconda3/envs/tensorflow/lib/python3.7/site-packages/tensorflow
+
+NOTE: Python version was forced by use_python function
+Warning in file(file, "rt") :
+  cannot open file 'mixed_train.csv': No such file or directory
+Error in file(file, "rt") : cannot open the connection
+Warning in file(file, "rt") :
+  cannot open file 'mixed_test.csv': No such file or directory
+Error in file(file, "rt") : cannot open the connection
+Warning in file(file, "rt") :
+  cannot open file 'mixed_valid.csv': No such file or directory
+Error in file(file, "rt") : cannot open the connection
+Error in fwrite(traindata, "feature_selection/wx/DearWXpub/src/train-data.csv",  : 
+  No such file or directory: 'feature_selection/wx/DearWXpub/src/train-data.csv'. Unable to create new file for writing (it does not exist already). Do you have permission to write here, is there space on the disk and does the path exist?
+Error in fwrite(testdata, "feature_selection/wx/DearWXpub/src/test-data.csv",  : 
+  No such file or directory: 'feature_selection/wx/DearWXpub/src/test-data.csv'. Unable to create new file for writing (it does not exist already). Do you have permission to write here, is there space on the disk and does the path exist?
+Error in fwrite(trainanno, "feature_selection/wx/DearWXpub/src/train-anno.csv",  : 
+  No such file or directory: 'feature_selection/wx/DearWXpub/src/train-anno.csv'. Unable to create new file for writing (it does not exist already). Do you have permission to write here, is there space on the disk and does the path exist?
+Error in fwrite(testanno, "feature_selection/wx/DearWXpub/src/test-anno.csv",  : 
+  No such file or directory: 'feature_selection/wx/DearWXpub/src/test-anno.csv'. Unable to create new file for writing (it does not exist already). Do you have permission to write here, is there space on the disk and does the path exist?
+Error in setwd(paste0(orgpath, "/feature_selection/wx/DearWXpub/src/")) : 
+  cannot change working directory
+Error in py_run_file_impl(file, local, convert) : 
+  IndexError: index 0 is out of bounds for axis 0 with size 0
+ [1] "hsa.miR.21.5p"   "hsa.miR.148b.5p" "hsa.miR.451a"    "hsa.miR.148a.3p" "hsa.miR.454.5p"  "hsa.let.7f.5p"  
+ [7] "hsa.miR.122.5p"  "hsa.let.7b.5p"   "hsa.miR.26b.5p"  "hsa.let.7i.5p"  

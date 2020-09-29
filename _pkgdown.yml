@@ -1,0 +1,13 @@
+home:
+  links:
+  - text: Konrad Stawiski M.D.
+    href: https://konsta.com.pl
+  
+  - text: Department of Biostatistics and Translational Research (UMED LODZ)
+    href: https://biostat.umed.pl
+
+template:
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-53584749-8
+    package: OmicSelector

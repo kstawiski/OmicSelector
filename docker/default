@@ -1,0 +1,59 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	server_name _;
+
+  location = /e/tree/ {
+        return 403;
+  }
+
+  location = /e/tree {
+        return 403;
+  }
+
+	location ~* /e.* {
+            proxy_pass http://127.0.0.1:8888;
+
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Real-IP $remote_addr;
+
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header  Referer  http://localhost;
+            proxy_set_header Origin "";
+        }
+
+
+
+	location / {
+		root /OmicSelector/OmicSelector/static/;
+		index index.php;
+		
+		location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+	
+		# With php-fpm (or other unix sockets):
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+		# With php-cgi (or other tcp sockets):
+		# fastcgi_pass 127.0.0.1:9000;
+	}
+	}
+
+	rewrite ^/rstudio$ $scheme://$http_host/rstudio/ permanent; 
+    
+    location /rstudio/ {
+      rewrite ^/rstudio/(.*)$ /$1 break;
+      proxy_pass http://localhost:8787;
+      proxy_redirect http://localhost:8787/ $scheme://$http_host/rstudio/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+    }
+
+}
+

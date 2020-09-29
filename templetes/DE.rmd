@@ -1,0 +1,21 @@
+Whole dataset:
+
+```{r echo = FALSE}
+suppressMessages(library(OmicSelector))
+dane = data.table::fread("data_start.csv")
+x = dplyr::select(dane, starts_with("hsa"))
+DE = OmicSelector_differential_expression_ttest(x, classes = dane$Class,)
+data.table::fwrite(DE, "DE_wholedataset.csv")
+OmicSelector_table(DE)
+```
+
+Training set only:
+
+```{r echo = FALSE}
+suppressMessages(library(OmicSelector))
+dane = data.table::fread("mixed_train.csv")
+x = dplyr::select(dane, starts_with("hsa"))
+DE = OmicSelector_differential_expression_ttest(x, classes = dane$Class,)
+data.table::fwrite(DE, "DE.csv")
+OmicSelector_table(DE)
+```

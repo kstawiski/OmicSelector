@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+**/temp
+**/models
+inst/extdata/wx/DearWXpub/GSE_DATA/Total_hg38.txt
+workDir
+Rplots.pdf
+..Rcheck
+**/*.RDS
+**/*.rds
+vignettes/*.csv
+vignettes/*.csv.gz
+docs
+vignettes/balanced_dataset.csv.gz

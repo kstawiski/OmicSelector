@@ -1,0 +1,54 @@
+---
+title: "OmicSelector: Available methods of feature selection and benchmarking."
+author:
+- name: Konrad Stawiski
+  affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
+  email: konrad@konsta.com.pl
+- name: Marcin Kaszkowiak
+  affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
+package: OmicSelector
+output: 
+  BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, message=FALSE, warning=FALSE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(fig.width=12, fig.height=8)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=150),tidy=TRUE)
+options(rgl.useNULL = TRUE)
+options(warn=-1)
+suppressMessages(library(dplyr))
+set.seed(1)
+options(knitr.table.format = "html")
+library(OmicSelector)
+```
+
+The main purpose of OmicSelector is to give you the set of candidate features for further validation of biomarker study. The package performs feature selection first. In the next step the sets of features are tested in the process called "benchmarking". In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the avarage performance of sets in cross-validation or holdout-validation (testing on test set and/or validation set) we can sugesst which of the signitures (set of features) is have the greatest potential in further validation.
+
+Please note that presented methods below are those avaiable in GUI (via web browser). Those can be further extended with ease by users with intermediate R knowledge. Please refer to our extension manuals (comming soon).
+
+# Feature selection methods
+
+```{r echo = F}
+shiny::includeHTML("methods.html")
+```
+Those methods can be applied via GUI or via `OmicSelector_OmicSelector()` function in the R package.
+
+# Benchmarking (data-minig modelling methods)
+
+The GUI offers server data-mining algorithms which can be used in benchmarking:
+
+```{r echo = F}
+shiny::includeHTML("models.html")
+```
+
+However, the `OmicSelector_benchmark()` function works using [caret](https://topepo.github.io/caret/), meaning that every model from the (caret list of methods)[https://topepo.github.io/caret/available-models.html] can be applied (assuming that the depending packages are installed; see the reference of `OmicSelector_benchmark()` for more details). 
+
+Note that the package performs the random search of hyperparameters. The best set of hyperparameters is chosen based on the performance on testing set (holdout validation) or strictly on training set (using cross-validation).

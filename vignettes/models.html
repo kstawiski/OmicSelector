@@ -1,0 +1,67 @@
+<table class="table">
+      <thead><tr><th>ID</th><th>Description</th></tr></thead>
+      <tbody>
+      <tr>
+
+        <td><code>glm<code></td>
+        <td>Logistic regression (generalized linear model with binomial link function).</td>
+        </tr>
+        <tr>
+
+          <td><code>mlp<code></td>
+          <td>Multilayer perceptron (MLP) -  fully connected feedforward neural network with 1 hidden layer and logistic activiation function. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/mlp.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/RSNNS" target="_blank">package</a>.</td>
+            </tr>
+            <tr>
+
+              <td><code>mlpML<code></td>
+              <td>Multilayer perceptron (MLP) -  fully connected feedforward neural network with up to 3 hidden layers and logistic activiation function. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/mlpML.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/RSNNS" target="_blank">package</a>.</td>
+                </tr>
+                <tr>
+
+                  <td><code>svmRadial<code></td>
+                  <td>Support vector machines with radial basis function kernel. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/svmRadial.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/kernlab" target="_blank">package</a>.</td>
+                    </tr>
+                    <tr>
+
+                      <td><code>svmLinear<code></td>
+                      <td>Support vector machines with linear kernel. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/svmLinear.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/kernlab" target="_blank">package</a>.</td>
+                        </tr>
+                        <tr>
+
+                          <td><code>rf<code></td>
+                          <td>Random forest. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/rf.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/randomForest" target="_blank">package</a>.</td>
+                            </tr>
+                            <tr>
+
+                              <td><code>C5.0<code></td>
+                              <td>C5.0 decision trees and rule-based models. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/C5.0.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/C50" target="_blank">package</a>.</td>
+                                </tr>
+                                <tr>
+
+                                  <td><code>rpart<code></td>
+                                  <td>CART decision trees with modulation of complexity parameter. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/rpart.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/rpart" target="_blank">package</a>.</td>
+                                    </tr>
+                                    <tr>
+
+                                      <td><code>rpart2<code></td>
+                                      <td>CART decision trees with modulation of max tree depth. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/rpart2.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/rpart" target="_blank">package</a>.</td>
+                                        </tr>
+                                        <tr>
+
+                                          <td><code>ctree<code></td>
+                                          <td>Conditional inference trees. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/ctree.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/party" target="_blank">package</a>.</td>
+                                            </tr>
+                                            <tr>
+
+                                              <td><code>mxnet<code></td>
+                                              <td>MXNET-based deep neural networks up to 2 hidden layers, with multiple activation functions tested. Note that predefined grid search is used in hyperparameter optimization for this method (not random search). Details: <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_benchmark.R#L173" target="_blank">code</a>, <a href="https://mxnet.apache.org/" target="_blank">package</a>.
+                                              <br>
+                                                It uses early stopping with set by user maximum number of epochs.
+                                                  </td>
+                                                  </tr>
+                                                  <tr>
+
+                                                    <td><code>xgbTree<code></td>
+                                                    <td>eXtreme gradient boosting. (note: this is a time-consuming method). Details: <a href="https://github.com/topepo/caret/blob/master/models/files/xgbTree.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/xgboost" target="_blank">package</a>.</td>
+                                                      </tr>
+                                                      </tbody></table>

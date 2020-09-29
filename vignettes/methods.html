@@ -1,0 +1,361 @@
+<table class="table">
+    <thead><th>ID</th><th>Description</th></td></thead>
+    <tbody>
+    <tr>
+        <td>No: 1<br /><code>all<code></td>
+        <td>Get all features (all features staring with 'hsa').</td>
+    </tr>
+    <tr>
+        <td>No: 2<br /><code>sig, sigtop, sigtopBonf, sigtopHolm, topFC, sigSMOTE, sigtopSMOTE, sigtopBonfSMOTE, sigtopHolmSMOTE, topFCSMOTE</code></td>
+        <td>Selects features significantly differently expressed between classes by performing unpaired t-test with and without correction for multiple testing. We get: <code>sig</code> - all significant (adjusted p-value less or equal to 0.05) miRNAs with comparison using unpaired t-test and after the Benjamini-Hochberg procedure (BH, false discovery rate); <code>sigtop</code> - <code>sig</code> but limited only to the your prefered number of features (most significant features sorted by p-value), <code>sigtopBonf</code> - uses Bonferroni instead of BH correction, <code>sigtopHolm</code> - uses Holm–Bonferroni instead of BH correction, <code>topFC</code> - selects prefered number of features based on decreasing absolute value of fold change in differential analysis.
+        <br />All the methods are also checked on dataset balanced with SMOTE (<a href="https://arxiv.org/pdf/1106.1813.pdf" target="_blank">Synthetic Minority Oversampling TEchnique</a>) - those formulas which names are appended with <code>SMOTE</code>.</td>
+    </tr>
+
+    <tr>
+        <td>No: 3<br /><code>fcsig, fcsigSMOTE</code></td>
+        <td>Features significant in DE analysis using unpaired t-test and which absolute log2FC is greater than 1. Thus, features significant and up- or down-regulated in the higher magnitudes. FC - fold-change, DE - differential analysis.</td>
+    </tr>
+
+    <tr>
+        <td>No: 4<br /><code>cfs, cfsSMOTE, cfs_sig, cfsSMOTE_sig</code></td>
+        <td><a href="https://www.cs.waikato.ac.nz/~mhall/thesis.pdf" target="_blank">Correlation-based feature selection</a> (CFS) - a heuristic algorithm selecting features that are highly correlated with class (binary) and lowly correlated with one another. It explores a search space in best-first manner, until stopping criteria are met.</td>
+    </tr>
+
+
+    <tr>
+        <td>No: 5<br /><code>classloop</code></td>
+        <td>Classifier loop - performs multiple classification procedures using various algorithms (with embedded feature ranking) and various performance metrices. Final feature selection is done by combining the results. Modeling methods used: support vector machines, linear discriminant a nalysis, random forest and nearest shrunken centroid. Features are selected based on the AUC ROC and assessed in k-fold cross-validation according to the <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/classifier.loop" target="_blank">documentation</a>. As this requires time, we do not perform it on SMOTEd dataset.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 6<br /><code>classloopSMOTE</code></td>
+        <td>Application of <code>classloop</code> on balanced dataset (with SMOTE).</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 7<br /><code>classloop_sig</code></td>
+        <td>Application of <code>classloop</code> but only on the features which are significant in DE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 8<br /><code>classloopSMOTE_sig</code></td>
+        <td>Application of <code>classloop</code> on balanced training set and only on the features which are significant in DE (after balancing).</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 9<br /><code>fcfs</code></td>
+        <td>An algorithm similar to CFS, though exploring search space in greedy forward search manner (adding one, most attractive, feature at the time, until such addition does not improve set’s overall quality). Based on <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.411.9868&rep=rep1&type=pdf" target="_blank">Wang et al. 2005</a> and documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.forward.Corr" target="_blank">here</a>.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 10<br /><code>fcfsSMOTE</code></td>
+        <td>Application of <code>fcfs</code> on balanced training set.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 11<br /><code>fcfs_sig</code></td>
+        <td>Application of <code>fcfs</code> on features significant in DE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 12<br /><code>fcfsSMOTE_sig</code></td>
+        <td>Application of <code>fcfs</code> on balanced dataset and on features significant in DE (after balancing).</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 13<br /><code>fwrap</code></td>
+        <td>A decision tree algorithm and forward search strategy documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.forward.wrapper" target="_blank">here</a>.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 14<br /><code>fwrapSMOTE</code></td>
+        <td>Application of <code>fwrap</code> on balanced training set.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 15<br /><code>fwrap_sig</code></td>
+        <td>Application of <code>fwrap</code> on features significant in DE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 16<br /><code>fwrapSMOTE_sig</code></td>
+        <td>Application of <code>fwrap</code> on balanced dataset and on features significant in DE (after balancing).</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 17<br /><code>AUC_MDL</code></td>
+        <td>Feature ranking based on ROC AUC and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 18<br /><code>SU_MDL</code></td>
+        <td>Feature ranking based on symmetrical uncertainty and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 19<br /><code>CorrSF_MDL</code></td>
+        <td>Feature ranking based on CFS algorithm with forward search and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 20<br /><code>AUC_MDLSMOTE</code></td>
+        <td>Feature ranking based on ROC AUC and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 21<br /><code>SU_MDLSMOTE</code></td>
+        <td>Feature ranking based on symmetrical uncertainty and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 22<br /><code>CorrSF_MDLSMOTE</code></td>
+        <td>Feature ranking based on CFS algorithm with forward search and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 23<br /><code>AUC_MDL_sig</code></td>
+        <td>Feature ranking based on ROC AUC and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 24<br /><code>SU_MDL_sig</code></td>
+        <td>Feature ranking based on symmetrical uncertainty and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 25<br /><code>CorrSF_MDL_sig</code></td>
+        <td>Feature ranking based on CFS algorithm with forward search and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 26<br /><code>AUC_MDLSMOTE_sig</code></td>
+        <td>Feature ranking based on ROC AUC and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 27<br /><code>SU_MDLSMOTE_sig</code></td>
+        <td>Feature ranking based on symmetrical uncertainty and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 28<br /><code>CorrSF_MDLSMOTE_sig</code></td>
+        <td>Feature ranking based on CFS algorithm with forward search and minimal description length (MDL) discretization algorithm documented <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/select.process" target="_blank">here</a>. After the ranking, the number of features are limited as set in options below. Performed on the training set balanced with SMOTE. Only features significant in DE are allowed.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 29<br /><code>bounceR-full, bounceR-stability</code></td>
+        <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 30<br /><code>bounceR-full_SMOTE, bounceR-stability_SMOTE</code></td>
+        <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 31<br /><code>bounceR-full_SIG, bounceR-stability_SIG</code></td>
+        <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Only features significant in DE are allowed. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 32<br /><code>bounceR-full_SIGSMOTE, bounceR-stability_SIGSMOTE</code></td>
+        <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 33<br /><code>RandomForestRFE</code></td>
+        <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 34<br /><code>RandomForestRFESMOTE</code></td>
+        <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 35<br /><code>RandomForestRFE_sig</code></td>
+        <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Only features significant in DE are allowed.  </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 36<br /><code>RandomForestRFESMOTE_sig</code></td>
+        <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 37<br /><code>GeneticAlgorithmRF</code></td>
+        <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 38<br /><code>GeneticAlgorithmRFSMOTE</code></td>
+        <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 39<br /><code>GeneticAlgorithmRF_sig</code></td>
+        <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Only features significant in DE are allowed.  </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 40<br /><code>GeneticAlgorithmRFSMOTE_sig</code></td>
+        <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 41<br /><code>SimulatedAnnealingRF</code></td>
+        <td>Simulated Annealing - explores a feature space by randomly modifying a given feature subset and evaluating classification performance using new attributes to check whether changes were beneficial. It is is a global search method that makes small random changes (i.e. perturbations) to an initial candidate solution. In this method also random forest is used as a model for evaluation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-simulated-annealing.html" target="_blank">here</a>. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 42<br /><code>SimulatedAnnealingRFSMOTE</code></td>
+        <td>Simulated Annealing - explores a feature space by randomly modifying a given feature subset and evaluating classification performance using new attributes to check whether changes were beneficial. It is is a global search method that makes small random changes (i.e. perturbations) to an initial candidate solution. In this method also random forest is used as a model for evaluation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-simulated-annealing.html" target="_blank">here</a>. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 43<br /><code>SimulatedAnnealingRF_sig</code></td>
+        <td>Simulated Annealing - explores a feature space by randomly modifying a given feature subset and evaluating classification performance using new attributes to check whether changes were beneficial. It is is a global search method that makes small random changes (i.e. perturbations) to an initial candidate solution. In this method also random forest is used as a model for evaluation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-simulated-annealing.html" target="_blank">here</a>. Only features significant in DE are allowed.  </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 44<br /><code>SimulatedAnnealingRFSMOTE_sig</code></td>
+        <td>Simulated Annealing - explores a feature space by randomly modifying a given feature subset and evaluating classification performance using new attributes to check whether changes were beneficial. It is is a global search method that makes small random changes (i.e. perturbations) to an initial candidate solution. In this method also random forest is used as a model for evaluation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-simulated-annealing.html" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 45<br /><code>Boruta</code></td>
+        <td>Boruta - utilizes random forrest algorithm to iteratively remove features proved to be less relevant than random variables. Details are available in paper by <a href="https://www.jstatsoft.org/v36/i11/paper/" target="_blank">Kursa et al. 2010</a> or <a href="https://www.datacamp.com/community/tutorials/feature-selection-R-boruta" target="_blank">this blog post</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 46<br /><code>BorutaSMOTE</code></td>
+        <td>Boruta - utilizes random forrest algorithm to iteratively remove features proved to be less relevant than random variables. Details are available in paper by <a href="https://www.jstatsoft.org/v36/i11/paper/" target="_blank">Kursa et al. 2010</a> or <a href="https://www.datacamp.com/community/tutorials/feature-selection-R-boruta" target="_blank">this blog post</a>. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 47<br /><code>spFSR</code></td>
+        <td>spFSR - feature selection and ranking by simultaneous perturbation stochastic approximation. This is an algorithm based on pseudo-gradient descent stochastic optimisation with Barzilai-Borwein method for step size and gradient estimation optimization.  Details are available in paper by <a href="https://arxiv.org/abs/1804.05589" target="_blank">Zeren et al. 2018</a>. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 48<br /><code>spFSRSMOTE</code></td>
+        <td>spFSR - feature selection and ranking by simultaneous perturbation stochastic approximation. This is an algorithm based on pseudo-gradient descent stochastic optimisation with Barzilai-Borwein method for step size and gradient estimation optimization. Details are available in paper by <a href="https://arxiv.org/abs/1804.05589" target="_blank">Zeren et al. 2018</a>. Performed on the training set balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 49<br /><code>varSelRF, varSelRFSMOTE</code></td>
+        <td>varSelRF - recursively eliminates features using random forrest feature scores, seeking to minimize out-of-bag classification error.  Details are available in paper by <a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-7-3" target="_blank">Díaz-Uriarte et al. 2006</a>. Performed on the unbalanced training set as well as on balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 50<br /><code>Wx, WxSMOTE</code></td>
+        <td>Wx - deep neural network-based (deep learning) feature (gene) selection algorithm. <a href="https://github.com/kstawiski/OmicSelector/blob/master/inst/extdata/wx/DearWXpub/src/wx_konsta.py" target="_blank">We use 2 hidden layers with 16 hidden neurons.</a> Details are available in paper by <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6642261/" target="_blank">Park et al. 2019</a>. Performed on the unbalanced training set as well as on balanced with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 51<br /><code>Mystepwise_glm_binomial, Mystepwise_sig_glm_binomial</code></td>
+        <td>Stepwise variable selection procedure (with iterations between the 'forward' and 'backward' steps) for generalized linear models with logit link function (i.e. logistic regression). We use p=0.05 as a threshold for both entry (SLE) and stay (SLS). Details are available <a href="https://www.rdocumentation.org/packages/My.stepwise" target="_blank">here</a>. Performed on all features of training set as well as features initially selected in DE (significant in DE). </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 52<br /><code>Mystepwise_glm_binomialSMOTE, Mystepwise_sig_glm_binomialSMOTE</code></td>
+        <td>Stepwise variable selection procedure (with iterations between the 'forward' and 'backward' steps) for generalized linear models with logit link function (i.e. logistic regression). We use p=0.05 as a threshold for both entry (SLE) and stay (SLS). Details are available <a href="https://www.rdocumentation.org/packages/My.stepwise" target="_blank">here</a>. Performed on all features of training set as well as features initially selected in DE (significant in DE) after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 53<br /><code>stepAIC, stepAICsig</code></td>
+        <td>Here we perform a stepwise model selection by AIC (Akaike Information Criterion) based on logistic regression. Details are available <a href="https://www.rdocumentation.org/packages/MASS/versions/7.3-53/topics/stepAIC" target="_blank">here</a>. Performed on all features of training set as well as features initially selected in DE (significant in DE). </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 54<br /><code>stepAIC_SMOTE, stepAICsig_SMOTE</code></td>
+        <td>Here we perform a stepwise model selection by AIC (Akaike Information Criterion) based on logistic regression. Details are available <a href="https://www.rdocumentation.org/packages/MASS/versions/7.3-53/topics/stepAIC" target="_blank">here</a>. Performed on all features of training set as well as features initially selected in DE (significant in DE) after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 55<br /><code>iteratedRFECV, iteratedRFETest</code></td>
+        <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>.</td>
+    </tr>
+
+    <tr>
+
+        <td>No: 56<br /><code>iteratedRFECV_SMOTE, iteratedRFETest_SMOTE</code></td>
+        <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>. Performed after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 57<br /><code>LASSO, LASSO_SMOTE</code></td>
+        <td>Feature selection based on LASSO (Least Absolute Shrinkage and Selection Operator) model with alpha = 1  - penalizes with L1-norm; with 10-fold cross-validation. See the source <a href="https://www.rdocumentation.org/packages/glmnet/versions/4.0-2/topics/glmnet" target="_blank">here</a>. Performed on originial training set and after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 58<br /><code>ElasticNet, ElasticNet_SMOTE</code></td>
+        <td>Feature selection based on elastic net with tuning the value of alpha through a line search. See the source <a href="https://www.rdocumentation.org/packages/glmnet/versions/4.0-2/topics/glmnet" target="_blank">here</a>. Performed on originial training set and after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 59<br /><code>stepLDA, stepLDA_SMOTE</code></td>
+        <td>Forward/backward variable selection (both directions) for linear discriminant analysis. See the source <a href="https://www.rdocumentation.org/packages/klaR" target="_blank">here</a>. Performed on originial training set and after balancing the training set with SMOTE. </td>
+    </tr>
+
+    <tr>
+
+        <td>No: 60<br /><code>feseR_filter.corr, feseR_gain.inf, feseR_matrix.corr, feseR_combineFS_RF, feseR_filter.corr_SMOTE, feseR_gain.inf_SMOTE, feseR_matrix.corr_SMOTE, feseR_combineFS_RF_SMOTE</code></td>
+        <td>Set of feature selection methods embeded in feseR package published by Perez-Rivelor et al. All default parameters are used, but mincorr is set to 0.2. See the paper <a href="https://doi.org/10.1371/journal.pone.0189875" target="_blank">here</a>. Performed on originial training set and after balancing the training set with SMOTE. </td>
+    </tr>
+
+    </tbody>
+    </table>

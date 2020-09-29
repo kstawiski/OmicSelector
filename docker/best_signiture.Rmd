@@ -1,0 +1,327 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.4.2
+  kernelspec:
+    display_name: OmicSelector
+    language: R
+    name: ir
+output:
+  html_document:
+    theme: null
+    highlight: null
+---
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+library(OmicSelector)
+options(width = 138)
+knitr::opts_chunk$set(
+    comment = '', fig.width = 11.5, fig.height = 7
+)
+library(kableExtra)
+dane = OmicSelector_load_datamix(use_smote_not_rose = T)  # load mixed_*.csv files
+train = dane[[1]]
+test = dane[[2]]
+valid = dane[[3]]
+train_smoted = dane[[4]]
+trainx = dane[[5]]
+trainx_smoted = dane[[6]]  # get the objects from list to make the code more readable.
+
+mixed = data.table::fread("mixed.csv")
+de = OmicSelector_differential_expression_ttest(trainx, train$Class)
+```
+
+#### Check overall methods performance:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+metody = OmicSelector_get_benchmark_methods("benchmark.csv")  # gets the methods used in benchmark
+par(mfrow = c(2, 2))
+for (i in 1:length(metody)) {
+    temp = OmicSelector_get_benchmark("benchmark.csv")  # loads benchmark
+    temp2 = dplyr::select(temp, starts_with(paste0(metody[i], "_")))
+    boxplot(temp[, paste0(metody[i], "_train_Accuracy")], temp[, paste0(metody[i], "_test_Accuracy")], temp[, paste0(metody[i], "_valid_Accuracy")], main = paste0("Method: ",
+        metody[i]), names = c("Training", "Testing", "Validation"), ylab = "Accuracy", ylim = c(0.5, 1))
+    tempids = c(match(paste0(metody[i], "_train_Accuracy"), colnames(temp)), match(paste0(metody[i], "_test_Accuracy"), colnames(temp)), match(paste0(metody[i],
+        "_valid_Accuracy"), colnames(temp)))
+}
+par(mfrow = c(1, 1))
+```
+
+### Best set proposals
+
+#### Top 3 sets which achived the best accuracy in training, testing and validation:
+
+(metaindex = mean of all 3 accuracy metrics)
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = F)  # generates the benchmark sorted by metaindex
+best_signatures = acc[1:3, ]  # get top 3 methods
+OmicSelector_table(best_signatures[, c("metaindex", "method", "miRy")])  %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+Performance of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+for (i in 1:3) {
+    # cat(paste0("\n\n## ", acc$method[i], "\n\n"))
+    par(mfrow = c(1, 2))
+    # acc = OmicSelector_best_signiture_proposals_meta11("benchmark.csv")
+    metody = OmicSelector_get_benchmark_methods("benchmark.csv")
+    ktory_set = match(acc$method[i], OmicSelector_get_benchmark("benchmark.csv")$method)
+    # do_ktorej_kolumny = which(colnames(acc) == 'metaindex') barplot(as.numeric(acc[i,1:do_ktorej_kolumny]))
+    for (ii in 1:length(metody)) {
+
+        temp = OmicSelector_get_benchmark("benchmark.csv") %>% dplyr::select(starts_with(paste0(metody[ii], "_t")), starts_with(paste0(metody[ii], "_v")))
+
+        ROCtext = paste0("Training AUC ROC: ", round(temp[ktory_set, 1], 2), " (95%CI: ", round(temp[ktory_set, 2], 2), "-", round(temp[ktory_set, 3],
+            2), ")")
+
+        temp = temp[, -c(1:3)]
+        temp2 = as.numeric(temp[ktory_set, ])
+        temp3 = matrix(temp2, nrow = 3, byrow = T)
+        colnames(temp3) = c("Accuracy", "Sensitivity", "Specificity")
+        rownames(temp3) = c("Training", "Testing", "Validation")
+        temp3 = t(temp3)
+
+        plot1 = barplot(temp3, beside = T, ylim = c(0, 1), xlab = paste0(ROCtext, "\nBlack - accuracy, blue - sensitivity, green - specificity"), width = 0.85,
+            col = c("black", "blue", "green"), legend = F, args.legend = list(x = "topright", bty = "n", inset = c(0, -0.25)), cex.lab = 0.7, main = paste0(acc$method[i],
+                " - ", metody[ii]), font.lab = 2)
+        ## Add text at top of bars
+        text(x = plot1, y = as.numeric(temp3), label = paste0(round(as.numeric(temp[ktory_set, ]) * 100, 1), "%"), pos = 3, cex = 0.6, col = "red")
+    }
+    par(mfrow = c(1, 1))
+
+}
+```
+
+##### Overlap of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+overlap = OmicSelector_signiture_overlap(acc$method[1:3], "benchmark.csv")
+attr(overlap, "intersections")
+```
+
+#### Top 3 sets which achived the best accuracy in testing and validation: 
+
+(metaindex = mean of 2 accuracy metrics)
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = T)  # generates the benchmark sorted by metaindex
+best_signatures = acc[1:3, ]  # get top 3 methods
+OmicSelector_table(best_signatures[, c("metaindex", "method", "miRy")])  %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+Performance of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+for (i in 1:3) {
+    # cat(paste0("\n\n## ", acc$method[i], "\n\n"))
+    par(mfrow = c(1, 2))
+    # acc = OmicSelector_best_signiture_proposals_meta11("benchmark.csv")
+    metody = OmicSelector_get_benchmark_methods("benchmark.csv")
+    ktory_set = match(acc$method[i], OmicSelector_get_benchmark("benchmark.csv")$method)
+    # do_ktorej_kolumny = which(colnames(acc) == 'metaindex') barplot(as.numeric(acc[i,1:do_ktorej_kolumny]))
+    for (ii in 1:length(metody)) {
+
+        temp = OmicSelector_get_benchmark("benchmark.csv") %>% dplyr::select(starts_with(paste0(metody[ii], "_t")), starts_with(paste0(metody[ii], "_v")))
+
+        ROCtext = paste0("Training AUC ROC: ", round(temp[ktory_set, 1], 2), " (95%CI: ", round(temp[ktory_set, 2], 2), "-", round(temp[ktory_set, 3],
+            2), ")")
+
+        temp = temp[, -c(1:3)]
+        temp2 = as.numeric(temp[ktory_set, ])
+        temp3 = matrix(temp2, nrow = 3, byrow = T)
+        colnames(temp3) = c("Accuracy", "Sensitivity", "Specificity")
+        rownames(temp3) = c("Training", "Testing", "Validation")
+        temp3 = t(temp3)
+
+        plot1 = barplot(temp3, beside = T, ylim = c(0, 1), xlab = paste0(ROCtext, "\nBlack - accuracy, blue - sensitivity, green - specificity"), width = 0.85,
+            col = c("black", "blue", "green"), legend = F, args.legend = list(x = "topright", bty = "n", inset = c(0, -0.25)), cex.lab = 0.7, main = paste0(acc$method[i],
+                " - ", metody[ii]), font.lab = 2)
+        ## Add text at top of bars
+        text(x = plot1, y = as.numeric(temp3), label = paste0(round(as.numeric(temp[ktory_set, ]) * 100, 1), "%"), pos = 3, cex = 0.6, col = "red")
+    }
+    par(mfrow = c(1, 1))
+
+}
+```
+
+##### Overlap of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+overlap = OmicSelector_signiture_overlap(acc$method[1:3], "benchmark.csv")
+attr(overlap, "intersections")
+```
+
+#### Top 3 sets which achived the best sensitivity and specificity in validation: 
+
+(metaindex = mean of sensivitiy and specificity in validation dataset)
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc = OmicSelector_best_signiture_proposals_meta11(benchmark_csv = "benchmark.csv")  # generates the benchmark sorted by metaindex
+best_signatures = acc[1:3, ]  # get top 3 methods
+OmicSelector_table(best_signatures[, c("metaindex", "method", "miRy")])  %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+Performance of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+for (i in 1:3) {
+    # cat(paste0("\n\n## ", acc$method[i], "\n\n"))
+    par(mfrow = c(1, 2))
+    # acc = OmicSelector_best_signiture_proposals_meta11("benchmark.csv")
+    metody = OmicSelector_get_benchmark_methods("benchmark.csv")
+    ktory_set = match(acc$method[i], OmicSelector_get_benchmark("benchmark.csv")$method)
+    # do_ktorej_kolumny = which(colnames(acc) == 'metaindex') barplot(as.numeric(acc[i,1:do_ktorej_kolumny]))
+    for (ii in 1:length(metody)) {
+
+        temp = OmicSelector_get_benchmark("benchmark.csv") %>% dplyr::select(starts_with(paste0(metody[ii], "_t")), starts_with(paste0(metody[ii], "_v")))
+
+        ROCtext = paste0("Training AUC ROC: ", round(temp[ktory_set, 1], 2), " (95%CI: ", round(temp[ktory_set, 2], 2), "-", round(temp[ktory_set, 3],
+            2), ")")
+
+        temp = temp[, -c(1:3)]
+        temp2 = as.numeric(temp[ktory_set, ])
+        temp3 = matrix(temp2, nrow = 3, byrow = T)
+        colnames(temp3) = c("Accuracy", "Sensitivity", "Specificity")
+        rownames(temp3) = c("Training", "Testing", "Validation")
+        temp3 = t(temp3)
+
+        plot1 = barplot(temp3, beside = T, ylim = c(0, 1), xlab = paste0(ROCtext, "\nBlack - accuracy, blue - sensitivity, green - specificity"), width = 0.85,
+            col = c("black", "blue", "green"), legend = F, args.legend = list(x = "topright", bty = "n", inset = c(0, -0.25)), cex.lab = 0.7, main = paste0(acc$method[i],
+                " - ", metody[ii]), font.lab = 2)
+        ## Add text at top of bars
+        text(x = plot1, y = as.numeric(temp3), label = paste0(round(as.numeric(temp[ktory_set, ]) * 100, 1), "%"), pos = 3, cex = 0.6, col = "red")
+    }
+    par(mfrow = c(1, 1))
+
+}
+```
+
+##### Overlap of those signitures:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+overlap = OmicSelector_signiture_overlap(acc$method[1:3], "benchmark.csv")
+attr(overlap, "intersections")
+```
+
+### General analysis
+
+#### Overfitting analysis:
+
+This is by default performed for top 6 sets which achived the best accuracy in training, testing and validation.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = F)  # change here the default method of signiture selection
+for (i in 1:length(metody)) {
+    suppressMessages(library(PairedData))
+    suppressMessages(library(profileR))
+    pd = paired(as.numeric(acc[1:6, paste0(metody[i], "_train_Accuracy")]), as.numeric(acc[1:6, paste0(metody[i], "_test_Accuracy")]))
+    colnames(pd) = c("Train Accuracy", "Test Accuracy")
+    plot2 = OmicSelector_profileplot(pd, Method.id = acc$method[1:6], standardize = F)
+    pd = paired(as.numeric(acc[1:6, paste0(metody[i], "_train_Accuracy")]), as.numeric(acc[1:6, paste0(metody[i], "_valid_Accuracy")]))
+    colnames(pd) = c("Train Accuracy", "Valid Accuracy")
+    plot3 = OmicSelector_profileplot(pd, Method.id = acc$method[1:6], standardize = F)
+    pd = paired(as.numeric(acc[1:6, paste0(metody[i], "_test_Accuracy")]), as.numeric(acc[1:6, paste0(metody[i], "_valid_Accuracy")]))
+    colnames(pd) = c("Test Accuracy", "Valid Accuracy")
+    plot4 = OmicSelector_profileplot(pd, Method.id = acc$method[1:6], standardize = F)
+
+
+
+    require(gridExtra)
+    grid.arrange(arrangeGrob(plot2, plot3, ncol = 2, nrow = 1, top = metody[i]))
+    grid.arrange(arrangeGrob(plot4, ncol = 1, nrow = 1, top = metody[i]))
+}
+```
+
+#### Relationship between accuracy on testing and validation sets:
+
+For top 6 methods.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc2 = acc[1:6, ]  # get top 6 methods
+accmelt = melt(acc2, id.vars = "method") %>% filter(variable != "metaindex") %>% filter(variable != "miRy")
+accmelt = cbind(accmelt, strsplit2(accmelt$variable, "_"))
+acctest = accmelt$value[accmelt$`2` == "test"]
+accvalid = accmelt$value[accmelt$`2` == "valid"]
+accmeth = accmelt$method[accmelt$`2` == "test"]
+plot5 = ggplot(, aes(x = as.numeric(acctest), y = as.numeric(accvalid), shape = accmeth)) + geom_point() + scale_x_continuous(name = "Accuracy on test set",
+    limits = c(0.5, 1)) + scale_y_continuous(name = "Accuracy on validation set", limits = c(0.5, 1)) + theme_bw()
+grid.arrange(arrangeGrob(plot5, ncol = 1, nrow = 1))
+```
+
+### Best feature set
+
+By default we choose the best performing set which achived the best mean accuracy in training, testing and validation.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+acc1 = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = F)  # here you can customize how the best signiture is selected.
+best_signatures = acc1[1:3, ]  # get top 3 methods
+```
+
+**Best set:**
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+OmicSelector_table(best_signatures[1, c("metaindex", "method", "miRy")])  %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+#### DE of selected features:
+
+This should serve as a sanity check.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+selected_miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", best_signatures$method[1])
+best_de = OmicSelector_best_signiture_de(selected_miRNAs)
+OmicSelector_table(best_de)  %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+#### Exploratory analysis best set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+OmicSelector_vulcano_plot(selected_miRNAs = de$miR, DE = de, only_label = selected_miRNAs)
+```
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+OmicSelector_heatmap(x = dplyr::select(mixed, selected_miRNAs), rlab = data.frame(Class = mixed$Class, Mix = mixed$mix), zscore = F, margins = c(10,
+    10), expression_name = "value")
+```
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+OmicSelector_heatmap(x = dplyr::select(mixed, selected_miRNAs), rlab = data.frame(Class = mixed$Class, Mix = mixed$mix), zscore = T, margins = c(10,
+    10), expression_name = "value")
+```
+
+### Best classifiers
+
+Based on benchmark results. You could achive better model by further tuning it.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+methods = OmicSelector_get_benchmark_methods(benchmark_csv = "benchmark.csv")
+benchmark_results = OmicSelector_get_benchmark(benchmark_csv = "benchmark.csv")
+model_results = data.frame()
+
+for (i in 1:length(methods))
+{
+  for (ii in 1:length(nrow(benchmark_results)))
+  {
+    current_method = methods[i]
+    temp_name = paste0(current_method,"+",benchmark_results[ii, "method"])
+    temp_id = benchmark_results[ii, paste0(current_method,"_modelname")]
+    temp_AUC = benchmark_results[ii, paste0(current_method,"_train_ROCAUC")]
+    temp_trainAcc = benchmark_results[ii, paste0(current_method,"_train_Accuracy")]
+    temp_testAcc = benchmark_results[ii, paste0(current_method,"_test_Accuracy")]
+    temp_validAcc = benchmark_results[ii, paste0(current_method,"_valid_Accuracy")]
+    temp_metaindex = mean(c(temp_trainAcc, temp_testAcc, temp_validAcc))
+    model_results = rbind(model_results, c(temp_name, temp_id, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex))
+  }
+}
+colnames(model_results) = c("Name", "ID", "Train ROC AUC", "Train Acc", "Test Acc", "Valid Acc", "Metaindex")
+model_results = model_results[rev(order(model_results$Metaindex)),]
+
+# Top 3 models
+OmicSelector_table(model_results[1:3,]) %>% kable_styling(bootstrap_options = c("striped", "hover"))
+```
