@@ -10,7 +10,7 @@ Go to https://kstawiski.github.io/OmicSelector/ for more details.
 
 ## Quick start
 
-### Docker 
+### Docker
 
 
 1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
@@ -22,7 +22,7 @@ docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(p
 2. CPU-based: [kstawiski/omicselector](https://hub.docker.com/r/kstawiski/omicselector)
 
 ```
-docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/OmicSelector
+docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector
 ```
 
 As docker image updates itself, it may take few minutes for the app to be operational. You can check logs using `docker logs OmicSelector`. The GUI is accessable via `http://your-host-ip:28888/`. If you use command above, your working directory will be binded as `/OmicSelector/host/`.
@@ -33,10 +33,10 @@ As docker image updates itself, it may take few minutes for the app to be operat
 
 1. Installing the package in own Anaconda enviorment:
 
-Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment. 
+Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment.
 
 ```
-conda update --all 
+conda update --all
 conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
 echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
 Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes"));'
@@ -72,4 +72,4 @@ Authors:
 
 For any troubleshooting use [https://github.com/kstawiski/OmicSelector/issues](https://github.com/kstawiski/OmicSelector/issues).
 
-Department of Biostatistics and Translational Medicine, Medical Univeristy of Lodz, Poland (https://biostat.umed.pl) 
+Department of Biostatistics and Translational Medicine, Medical Univeristy of Lodz, Poland (https://biostat.umed.pl)
