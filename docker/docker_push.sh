@@ -18,6 +18,11 @@ docker build --rm --force-rm -t omicselector ../
 docker tag omicselector:latest kstawiski/omicselector:latest
 docker push kstawiski/omicselector
 
+docker build --rm --force-rm -f ../Dockerfile.public -t omicselector-public ../
+# if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../
+docker tag omicselector-public:latest kstawiski/omicselector-public:latest
+docker push kstawiski/omicselector-public
+
 # for google cloud
 # docker tag kstawiski/OmicSelector:latest gcr.io/konsta/OmicSelector:latest
 # docker push gcr.io/konsta/OmicSelector
