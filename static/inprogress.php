@@ -36,15 +36,15 @@ else {
 <head>
     <title>OmicSelector (task in progress)</title>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+   
   crossorigin="anonymous"></script>
     <script src="jquery-ui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+          />
     <link rel="stylesheet" href="bootstrap-theme.min.css"
           crossorigin="anonymous" />
     <script src="bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+         >
     </script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -52,8 +52,8 @@ else {
     <meta name="description" content="OmicSelector - a tool for selecting great miRNA biomarkers." />
     <meta name="author" content="Konrad Stawiski (konrad@konsta.com.pl)" />
     <link rel="stylesheet" href="css/starter-template.css" />
-    <script src="all.min.js"
-        integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"
+         ></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-53584749-8"></script>
     <script>
