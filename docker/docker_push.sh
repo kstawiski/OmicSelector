@@ -8,14 +8,14 @@
 docker builder prune
 docker image prune -a
 
-docker build --rm --force-rm -f ../Dockerfile.gpu -t OmicSelector-gpu ../
+docker build --rm --force-rm -f ../Dockerfile.gpu -t omicselector-gpu ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../
-docker tag OmicSelector-gpu:latest kstawiski/omicselector-gpu:latest
+docker tag omicselector-gpu:latest kstawiski/omicselector-gpu:latest
 docker push kstawiski/omicselector-gpu
 
-docker build --rm --force-rm -t OmicSelector ../
+docker build --rm --force-rm -t omicselector ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../ 
-docker tag OmicSelector:latest kstawiski/omicselector:latest
+docker tag omicselector:latest kstawiski/omicselector:latest
 docker push kstawiski/omicselector
 
 # for google cloud
