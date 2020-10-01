@@ -1,4 +1,5 @@
 FROM ubuntu
+ENV PUBLIC=0
 
 # Basic build setup
 ENV DEBIAN_FRONTEND noninteractive

@@ -1,5 +1,5 @@
 <?php
-if (strpos($_SERVER['REQUEST_URI'], 'public') !== false) {
+if (getenv("PUBLIC") == "1") {
     die('Not allowed in public (demo) version.');
 }
 ?>
