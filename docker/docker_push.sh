@@ -1,8 +1,7 @@
 #!/bin/bash
 
 
-
-
+# start command: ./docker_push.sh | tee build.log
 # must start in ./docker/ dir
 # docker login --username=kstawiski
 docker builder prune
