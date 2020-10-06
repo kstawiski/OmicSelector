@@ -389,7 +389,7 @@ foreach($images as $image) {
 <tr>
 <td><label class="switch"><input type="checkbox" name="method[]" value="5" checked><span class="slider round"></span></label></td>
     <td>No: 5<br /><code>classloop</code></td>
-    <td>Classifier loop - performs multiple classification procedures using various algorithms (with embedded feature ranking) and various performance metrices. Final feature selection is done by combining the results. Modeling methods used: support vector machines, linear discriminant a nalysis, random forest and nearest shrunken centroid. Features are selected based on the AUC ROC and assessed in k-fold cross-validation according to the <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/classifier.loop" target="_blank">documentation</a>. As this requires time, we do not perform it on SMOTEd dataset.</td>
+    <td>Classifier loop - performs multiple classification procedures using various algorithms (with embedded feature ranking) and various performance metrices. Final feature selection is done by combining the results. Modeling methods used: support vector machines, linear discriminant a nalysis, random forest and nearest shrunken centroid. Features are selected based on the AUC ROC and assessed in k-fold cross-validation according to the <a href="https://www.rdocumentation.org/packages/Biocomb/versions/0.4/topics/classifier.loop" target="_blank">documentation</a>. As this requires time, we do not perform it on SMOTEd dataset at once.</td>
 </tr>
 
 <tr>
@@ -537,9 +537,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="30" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="30"><span class="slider round"></span></label></td>
     <td>No: 30<br /><code>bounceR-full_SMOTE, bounceR-stability_SMOTE</code></td>
-    <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Performed on the training set balanced with SMOTE. </td>
+    <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Performed on the training set balanced with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i></td>
 </tr>
 
 <tr>
@@ -549,9 +549,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="32" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="32"><span class="slider round"></span></label></td>
     <td>No: 32<br /><code>bounceR-full_SIGSMOTE, bounceR-stability_SIGSMOTE</code></td>
-    <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    <td>A component-wise-boosting-based algorithm selecting optimal features in multiple iterations of single feature-models construction. See the source <a href="https://github.com/STATWORX/bounceR" target="_blank">here</a>. <code>bounceR-stability</code> gets the most stable features. Wrapper methods implemented here leverage componentwise boosting as a weak learners. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
 <tr>
@@ -561,9 +561,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="34" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="34"><span class="slider round"></span></label></td>
     <td>No: 34<br /><code>RandomForestRFESMOTE</code></td>
-    <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Performed on the training set balanced with SMOTE. </td>
+    <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Performed on the training set balanced with SMOTE.<br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
 <tr>
@@ -573,9 +573,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="36" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="36"><span class="slider round"></span></label></td>
     <td>No: 36<br /><code>RandomForestRFESMOTE_sig</code></td>
-    <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    <td>Recursively eliminates features from the feature space based on ranking from Random Forrest classifier (retrained woth resampling after each elimination). Details are available <a href="https://topepo.github.io/caret/recursive-feature-elimination.html#search" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
 <tr>
@@ -585,9 +585,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="38" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="38"><span class="slider round"></span></label></td>
     <td>No: 38<br /><code>GeneticAlgorithmRFSMOTE</code></td>
-    <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Performed on the training set balanced with SMOTE. </td>
+    <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Performed on the training set balanced with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
 <tr>
@@ -597,9 +597,9 @@ foreach($images as $image) {
 </tr>
 
 <tr>
-<td><label class="switch"><input type="checkbox" name="method[]" value="40" checked><span class="slider round"></span></label></td>
+<td><label class="switch"><input type="checkbox" name="method[]" value="40"><span class="slider round"></span></label></td>
     <td>No: 40<br /><code>GeneticAlgorithmRFSMOTE_sig</code></td>
-    <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. </td>
+    <td>Uses genetic algorithm principle to search for optimal subset of the feature space. This uses internally implemented random forest model and 10-fold cross validation to assess performance of the "chromosomes" in each generation. Details are available <a href="https://topepo.github.io/caret/feature-selection-using-genetic-algorithms.html" target="_blank">here</a>. Only features significant in DE are allowed. Performed on the training set balanced with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
 <tr>
@@ -689,13 +689,13 @@ foreach($images as $image) {
 <tr>
 <td><label class="switch"><input type="checkbox" name="method[]" value="55"><span class="slider round"></span></label></td>
     <td>No: 55<br /><code>iteratedRFECV, iteratedRFETest</code></td>
-    <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>.</td>
+    <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i></td>
 </tr>
 
 <tr>
 <td><label class="switch"><input type="checkbox" name="method[]" value="56"><span class="slider round"></span></label></td>
     <td>No: 56<br /><code>iteratedRFECV_SMOTE, iteratedRFETest_SMOTE</code></td>
-    <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>. Performed after balancing the training set with SMOTE. </td>
+    <td>Iterated RFE tested in cross-validation and on test set (watch out for bias!). See the source <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_iteratedRFE.R" target="_blank">here</a>. Performed after balancing the training set with SMOTE. <br /><i>Note: This method may take a lot of memory or other resources for larger datasets, thus is disabled by default!</i> </td>
 </tr>
 
     <tr>
