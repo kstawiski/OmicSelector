@@ -1,5 +1,5 @@
 <?php
-if (getenv("PUBLIC") == "1") {
+if (exec('/bin/bash -c "echo $PUBLIC"') == "1") {
     die('Not allowed in public (demo) version.');
 }
 ?>
