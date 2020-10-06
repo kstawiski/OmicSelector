@@ -2,6 +2,10 @@
 conda init
 . ~/.bashrc
 Rscript /update.R
+
+# Check public
+echo $PUBLIC > /PUBLIC
+
 cd /OmicSelector/
 git clone https://github.com/kstawiski/OmicSelector.git
 chmod -R 755 /OmicSelector/OmicSelector/static/

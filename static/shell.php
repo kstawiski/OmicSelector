@@ -1,5 +1,5 @@
 <?php
-if (exec('/bin/bash -c "echo $PUBLIC"') == "1") {
+if (file_get_contents("/PUBLIC") == "1") {
     die('Not allowed in public (demo) version.');
 }
 ?>

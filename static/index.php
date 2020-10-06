@@ -149,7 +149,7 @@ $(window).on('load', function() { // makes sure the whole site is loaded
 
         <p>Your current version of software: <code>OmicSelector v1.0.<?php echo $version; ?></code></p>
         <?php
-            if (exec('/bin/bash -c "echo $PUBLIC"') == "1") {
+            if (file_get_contents("/PUBLIC") == "1") {
                 echo '<p><b>This is a public (demo) version of software. Some hacking options are restricted.</b></p>';
             }
         ?>
