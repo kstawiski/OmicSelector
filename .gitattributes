@@ -4,4 +4,4 @@
 *.R linguist-detectable=true
 *.html linguist-detectable=false
 *.py linguist-detectable=false
-*.php linguist-detectable=true
+*.php linguist-detectable=false
