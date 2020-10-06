@@ -116,7 +116,7 @@
 <li>CPU-based: <a href="https://hub.docker.com/r/kstawiski/omicselector">kstawiski/omicselector</a>
 </li>
 </ol>
-<pre><code>docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/OmicSelector</code></pre>
+<pre><code>docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector</code></pre>
 <p>As docker image updates itself, it may take few minutes for the app to be operational. You can check logs using <code>docker logs OmicSelector</code>. The GUI (web-based user interface) is accessable via <code>http://your-host-ip:28888/</code>. If you use command above, your working directory will be binded as <code>/OmicSelector/host/</code>.</p>
 <ol>
 <li>Lite dev CPU-based version, used in CI and debuging, does not contain <code>mxnet</code> library: <a href="https://hub.docker.com/r/kstawiski/omicselector-ci">kstawiski/omicselector-ci</a>
