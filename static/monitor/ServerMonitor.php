@@ -1,5 +1,7 @@
 <?php
-
+if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
+    die('Not allowed in public (demo) version.');
+}
 class ServerMonitor {
 
 

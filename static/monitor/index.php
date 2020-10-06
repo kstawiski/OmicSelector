@@ -1,9 +1,9 @@
 <?php
-if (strpos($_SERVER['REQUEST_URI'], 'public') !== false) {
+if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
     die('Not allowed in public (demo) version.');
 }
 ?>
-!doctype html>
+<!doctype html>
 <html class="no-js">
     <head>
         <meta charset="utf-8">
