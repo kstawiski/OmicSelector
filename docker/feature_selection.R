@@ -21,9 +21,9 @@ max_iterations = as.numeric(readLines("var_max_iterations.txt", warn = F))
 timeout_sec = as.numeric(readLines("var_timeout_sec.txt", warn = F))
 
 for (i in m) {
-OmicSelector_OmicSelector(m = i, max_iterations = max_iterations, stamp = "fs", debug = F, # we set debug to false (to make the package smaller), you may also want to change stamp to something meaningful, max_iterations was set to 1 to recude the computational time.. in real life scenarios it is resonable to use at least 10 iterations.
+try(OmicSelector_OmicSelector(m = i, max_iterations = max_iterations, stamp = "fs", debug = F, # we set debug to false (to make the package smaller), you may also want to change stamp to something meaningful, max_iterations was set to 1 to recude the computational time.. in real life scenarios it is resonable to use at least 10 iterations.
                   prefer_no_features = prefer_no_features, # Few methods are filter rather than wrapper methods, thus requires the maximum number of maximum features.    
-                  timeout_sec = timeout_sec)
+                  timeout_sec = timeout_sec))
 }
 
 
