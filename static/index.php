@@ -7,6 +7,12 @@ $version = file_get_contents('/version.txt');
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-task | awk '{print $2}'");
 if($pid != "") { header("Location: /inprogress.php"); }
 
+$prev_analysis = "";
+if(isset($_SESSION["analysis_id"]))
+{
+    $prev_analysis = $_SESSION["analysis_id"];
+}
+
 
 ?>
 
@@ -156,7 +162,7 @@ $(window).on('load', function() { // makes sure the whole site is loaded
                     <td>
                         <h4>Resume analysis:</h4>
                 <p><form action="/analysis.php" method="get">
-                    <p><input type="text" id="id" name="id" placeholder="Provide analysis ID" class="form-control"></p>
+                    <p><input type="text" id="id" name="id" placeholder="Provide analysis ID" class="form-control" value="<?php echo $prev_analysis; ?>"></p>
                 <p><button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Loading...');"><i class="fas fa-folder-open"></i>&emsp;Resume analysis</button></p>
                 </form></p>
             </td></tr>
