@@ -7,6 +7,7 @@ $version = file_get_contents('/version.txt');
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-task | awk '{print $2}'");
 if($pid != "") { header("Location: /inprogress.php"); }
 
+session_start();
 $prev_analysis = "";
 if(isset($_SESSION["analysis_id"]))
 {
