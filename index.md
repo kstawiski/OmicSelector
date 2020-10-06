@@ -8,7 +8,7 @@ The main purpose of OmicSelector is to provide you with the set of **candidate f
 
 ## Public implementation
 
-For testing purposes, we offer a publically available version of our software at [https://biostat.umed.pl/OmicSelector/](https://biostat.umed.pl/OmicSelector/). Please note, however, that we restrict this instance to 12 CPU cores and 16 GB of RAM; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g. access to files via shell or Jupyter), so we highly discourage the users from using this instance for real-life projects.
+For testing purposes, we offer a publically available version of our software at [https://biostat.umed.pl/OmicSelector/](https://biostat.umed.pl/OmicSelector/). Please note, however, that we restrict this instance to 12 CPU cores and 32 GB of RAM; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g. access to files via shell or Jupyter), so we highly discourage the users from using this instance for real-life projects.
 Please also note that the public docker container restarts itself once a week. Project files should be intact, but we may occasionally remove some old projects to save space in our server workspace.
 
 We run the public implementation using following docker run command:
