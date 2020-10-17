@@ -145,8 +145,7 @@ $(window).on('load', function() { // makes sure the whole site is loaded
             <?php } ?>
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-info"></i>&emsp;&emsp;Welcome to OmicSelector</div>
-                <div class="panel-body"><p>Welcome to <b>OmicSelector</b> - the software intended to find the best biomarker signiture based on NGS (miRNA-seq, RNA-seq) and
-            qPCR data.</p>
+                <div class="panel-body"><p>Welcome to <b>OmicSelector</b> - the software intended to find the best biomarker signiture based on NGS or other omic modalities (miRNA-seq, RNA-seq).</p>
 
         <p>Your current version of software: <code>OmicSelector v1.0.<?php echo $version; ?></code></p>
         <?php

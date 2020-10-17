@@ -106,8 +106,7 @@
             </p>
             <p><br></p>
         </div>
-        <p>Welcome to <b>OmicSelector</b> - the software intended to find the best biomarker signiture based on NGS (miRNA-seq, RNA-seq) and
-            qPCR data.</p>
+        <p>Welcome to <b>OmicSelector</b>. This form can be used to set up the new analysis.</p>
         <div class="panel-group">
             <?php if ($_GET["msg"] != "") { ?>
             <div class="panel panel-danger">
@@ -122,10 +121,10 @@
 
                     <p><b>How to prepare files for the analysis?</b>
                     <ul>
-                        <li>All variables which name starts with <code>hsa</code> will be considered a features of interest. Features of interest must be numeric and has no missing values.</li>
-                        <li>All variables which name doesn't start with <code>hsa</code> will be considered a metadata.</li>
-                        <li>The dataset has to have the variable <code>Class</code> with no missing data and with values expicitly encoded as <code>Cancer</code> or <code>Control</code> cases.</li>
-                        <li>The pipeline will perform data spltting in ratio 60% (training set) : 20% (testing set) : 20% (validation set). If you wish to enforce your way of spltting, the submitted file should have the variable named <code>mix</code> with values <code>train</code>, <code>test</code> and <code>valid</code>.</li>
+                        <li>All variables which (column) name starts with <code>hsa</code> will be considered features of interest. Features of interest must be numeric and have no missing values.</li>
+                        <li>All variables which name doesn't start with <code>hsa</code> will be considered as metadata.</li>
+                        <li>The dataset has to have the variable named <code>Class</code> with no missing data and with values expicitly encoded as <code>Cancer</code> or <code>Control</code> cases. If your problem does not involve cancer detecton, please temporary change your encoding and interpret the results accordingly.</li>
+                        <li>The pipeline will perform random data spltting in ratio 60% (training set) : 20% (testing set) : 20% (validation set). If you wish to enforce your way of spltting, the submitted file should have the variable named <code>mix</code> with values <code>train</code>, <code>test</code> and <code>valid</code>.</li>
                     </ul>
                     </p>
                     <p><a href="https://github.com/kstawiski/OmicSelector/blob/master/example/Elias2017.csv" target="_blank">See exemplary file: <code>Elias2017.csv</code></a>. This file originates from our paper <a href="https://elifesciences.org/articles/28932" target="_blank">Elias et al. 2017</a>.
