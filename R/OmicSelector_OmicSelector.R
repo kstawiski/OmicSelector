@@ -65,7 +65,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
                             max_iterations = 10, code_path = system.file("extdata", "", package = "OmicSelector"),
                             register_parallel = T, clx = NULL, stamp = as.numeric(Sys.time()),
                             prefer_no_features = 11, conda_path = "/home/konrad/anaconda3/bin/conda", debug = F,
-                            timeout_sec = 172800, type = "deltact") {
+                            timeout_sec = 172800, type = "deltact", type = "auto") {
 
   oldwd = getwd()
   setwd(wd)
@@ -104,8 +104,8 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   #sink(zz, type = "message")
   #pdf(paste0("temp/",stamp,paste0(m, collapse = "+"),"featureselection.pdf"))
 
-
-  if(file.exists("var_type.txt")) { type = readLines("var_type.txt", warn = F) } 
+  # not_needed as set to auto
+  # if(file.exists("var_type.txt")) { type = readLines("var_type.txt", warn = F) } 
 
   wynik_finalny = withTimeout({
   dane = OmicSelector_load_datamix(); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
@@ -127,6 +127,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   
   wyniki = OmicSelector_differential_expression_ttest(trainx, train$Class, mode = type)
   istotne = filter(wyniki, `p-value BH` <= 0.05) %>% arrange(`p-value BH`)
+  if(length(istotne$miR) == 0) { istotne = wyniki %>% arrange(`p-value BH`) } # what to do if none significant
   istotne_top = wyniki %>% arrange(`p-value BH`) %>% head(prefer_no_features)
   istotne_topBonf = wyniki %>% arrange(`p-value Bonferroni`) %>% head(prefer_no_features)
   istotne_topHolm = wyniki %>% arrange(`p-value Holm`) %>% head(prefer_no_features)
@@ -143,6 +144,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   wyniki_smoted = OmicSelector_differential_expression_ttest(trainx_smoted, train_smoted$Class, mode = type)
   istotne_smoted = filter(wyniki_smoted, `p-value BH` <= 0.05) %>% arrange(`p-value BH`)
+  if(length(istotne_smoted$miR) == 0) { istotne = wyniki_smoted %>% arrange(`p-value BH`) } # what to do if none significant
   istotne_top_smoted = wyniki_smoted %>% arrange(`p-value BH`) %>% head(prefer_no_features)
   istotne_topBonf_smoted = wyniki_smoted %>% arrange(`p-value Bonferroni`) %>% head(prefer_no_features)
   istotne_topHolm_smoted = wyniki_smoted %>% arrange(`p-value Holm`) %>% head(prefer_no_features)
