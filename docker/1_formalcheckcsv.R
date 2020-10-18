@@ -49,21 +49,21 @@ writeLines(as.character(positive), "var_seemslikecounts.txt", sep="")
 suppressMessages(library(OmicSelector))
 if("mix" %in% colnames(dane)) {
     if(sum(which(dane$mix == 'train')) > 0) { 
-    cat(paste0("\n✓ Samples in training set: ", sum(which(dane$mix == 'train'))));
+    cat(paste0("\n✓ Samples in training set: ", sum(dane$mix == 'train')));
     } else {
         cat(paste0("\n✓ Samples in training set: ", sum(which(dane$mix == 'train'))));
         stop("There are no samples in training set! Please fix the 'mix' variable. This variable should contain the assignment to 'train', 'test' and 'valid' groups.")
     }
     if(sum(which(dane$mix == 'test')) > 0) { 
-    cat(paste0("\n✓ Samples in test set: ", sum(which(dane$mix == 'test'))));
+    cat(paste0("\n✓ Samples in test set: ", sum(dane$mix == 'test')));
     } else {
-        cat(paste0("\n✓ Samples in test set: ", sum(which(dane$mix == 'test'))));
+        cat(paste0("\n✓ Samples in test set: ", sum(dane$mix == 'test')));
         stop("There are no samples in test set! Please fix the 'mix' variable. This variable should contain the assignment to 'train', 'test' and 'valid' groups.")
     }
     if(sum(which(dane$mix == 'valid')) > 0) { 
-    cat(paste0("\n✓ Samples in validation set: ", sum(which(dane$mix == 'valid'))));
+    cat(paste0("\n✓ Samples in validation set: ", sum(dane$mix == 'valid')));
     } else {
-        cat(paste0("\n✓ Samples in validation set: ", sum(which(dane$mix == 'valid'))));
+        cat(paste0("\n✓ Samples in validation set: ", sum(dane$mix == 'valid')));
         stop("There are no samples in validation set! Please fix the 'mix' variable. This variable should contain the assignment to 'train', 'test' and 'valid' groups.")
     }
     train = dplyr::filter(dane, mix == "train")
