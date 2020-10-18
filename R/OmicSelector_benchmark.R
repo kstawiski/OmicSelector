@@ -164,11 +164,11 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
         #temptrain = rbind.fill(temptrain,test,valid)
         fit_on = list(rs1 = 1:nrow(temptrain))
         pred_on = list(rs1 = (nrow(temptrain)+1):((nrow(temptrain))+nrow(test)))
-        temptrain = rbind(temptrain,test)
+        temptrain = rbind.fill(temptrain,test)
       }
 
      #Debug:
-     temptrain = as.data.frame(temptrain)
+     temptrain = temptrain[complete.cases(temptrain), ] # Keep only the complete rows - useful for SMOTE on low number of samples
      head(temptrain)
 
 
@@ -218,7 +218,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
         #if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
         #                                                 classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
         train_control = trainControl(method= "none")
-        model1 = caret::train(as.formula(formulas[[i]]), data=temptrain, trControl=train_control, method=algorytm, family="binomial")
+        model1 = caret::train(as.formula(formulas[[i]]), data=temptrain, trControl=train_control, method="glm", family="binomial")
         print(model1$finalModel)
       } else {
         train_control <- trainControl(method="repeatedcv", repeats=5, number = 10, search="random", classProbs = TRUE, verboseIter = TRUE,
