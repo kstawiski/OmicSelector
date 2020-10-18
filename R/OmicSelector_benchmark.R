@@ -213,10 +213,11 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
                               epochs = keras_epochs)
         print(model1$finalModel)
       } else if (algorytm == "glm") {
-        train_control <- trainControl(method="repeatedcv", repeats=5, number = 10, search="random", classProbs = TRUE, verboseIter = TRUE,
-                                      summaryFunction = twoClassSummary, savePredictions = TRUE)
-        if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
-                                                         classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
+        #train_control <- trainControl(method="repeatedcv", repeats=5, number = 10, search="random", classProbs = TRUE, verboseIter = TRUE,
+        #                              summaryFunction = twoClassSummary, savePredictions = TRUE)
+        #if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
+        #                                                 classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
+        train_control = trainControl(method= "none")
         model1 = caret::train(as.formula(formulas[[i]]), data=temptrain, trControl=train_control, method=algorytm, family="binomial")
         print(model1$finalModel)
       } else {
