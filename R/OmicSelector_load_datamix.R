@@ -72,12 +72,12 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_over = 10000, use_smote
   if(use_smote_not_rose) {
     train_smoted = DMwR::SMOTE(Class ~ ., data = train, perc.over = smote_over,perc.under=100, k=10)
     train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
-    train_smoted = [complete.cases(train_smoted), ]
+    train_smoted = train_smoted[complete.cases(train_smoted), ]
   } else {
     rosed = ROSE(Class ~ ., data = train, N = nrow(train)*10, seed = 1)
     train_smoted = rosed[["data"]]
     train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
-    train_smoted = [complete.cases(train_smoted), ]
+    train_smoted = train_smoted[complete.cases(train_smoted), ]
   }
 
 
