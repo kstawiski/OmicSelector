@@ -65,7 +65,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
                             max_iterations = 10, code_path = system.file("extdata", "", package = "OmicSelector"),
                             register_parallel = T, clx = NULL, stamp = as.numeric(Sys.time()),
                             prefer_no_features = 11, conda_path = "/home/konrad/anaconda3/bin/conda", debug = F,
-                            timeout_sec = 172800, type = "deltact", type = "auto") {
+                            timeout_sec = 172800, type = "auto") {
 
   oldwd = getwd()
   setwd(wd)
