@@ -390,7 +390,7 @@ class NumberFormat extends Supervisor
     }
 
     /**
-     * Search/replace values to convert Excel date/time format masks to PHP format masOmicSelector_
+     * Search/replace values to convert Excel date/time format masks to PHP format masks.
      *
      * @var array
      */

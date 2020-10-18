@@ -15,10 +15,10 @@ GETPIVOTDATA		= HENTPIVOTDATA			##	Returnerer data, der er lagret i en pivottabe
 ##
 ##	Cube functions					Kubefunktioner
 ##
-CUBEKPIMEMBER		= KUBE.KPI.MEDLEM		##	Returnerer navn, egenskab og mål for en KPI-indikator og viser navnet og egenskaben i cellen. En KPI-indikator er en målbar størrelse, f.eOmicSelector_ bruttooverskud pr. måned eller personaleudskiftning pr. kvartal, der bruges til at overvåge en organisations præstationer.
+CUBEKPIMEMBER		= KUBE.KPI.MEDLEM		##	Returnerer navn, egenskab og mål for en KPI-indikator og viser navnet og egenskaben i cellen. En KPI-indikator er en målbar størrelse, f.eks. bruttooverskud pr. måned eller personaleudskiftning pr. kvartal, der bruges til at overvåge en organisations præstationer.
 CUBEMEMBER		= KUBE.MEDLEM			##	Returnerer et medlem eller en tupel fra kubehierarkiet. Bruges til at validere, om et medlem eller en tupel findes i kuben.
 CUBEMEMBERPROPERTY	= KUBEMEDLEM.EGENSKAB		##	Returnerer værdien af en egenskab for et medlem i kuben. Bruges til at validere, om et medlemsnavn findes i kuben, og returnere den angivne egenskab for medlemmet.
-CUBERANKEDMEMBER	= KUBEMEDLEM.RANG		##	Returnerer det n'te eller rangordnede medlem i et sæt. Bruges til at returnere et eller flere elementer i et sæt, f.eOmicSelector_ topsælgere eller de 10 bedste elever.
+CUBERANKEDMEMBER	= KUBEMEDLEM.RANG		##	Returnerer det n'te eller rangordnede medlem i et sæt. Bruges til at returnere et eller flere elementer i et sæt, f.eks. topsælgere eller de 10 bedste elever.
 CUBESET			= KUBESÆT			##	Definerer et beregnet sæt medlemmer eller tupler ved at sende et sætudtryk til kuben på serveren, som opretter sættet og returnerer det til Microsoft Office Excel.
 CUBESETCOUNT		= KUBESÆT.TÆL			##	Returnerer antallet af elementer i et sæt.
 CUBEVALUE		= KUBEVÆRDI			##	Returnerer en sammenlagt (aggregeret) værdi fra en kube.
@@ -164,7 +164,7 @@ VDB			= VSA				##	Returnerer afskrivningen på et aktiv i en angivet periode, he
 XIRR			= INTERN.RENTE			##	Returnerer den interne rente for en plan over pengestrømme, der ikke behøver at være periodiske
 XNPV			= NETTO.NUTIDSVÆRDI		##	Returnerer nutidsværdien for en plan over pengestrømme, der ikke behøver at være periodiske
 YIELD			= AFKAST			##	Returnerer afkastet for et værdipapir med periodiske renteudbetalinger
-YIELDDISC		= AFKAST.DISKONTO		##	Returnerer det årlige afkast for et diskonteret værdipapir, f.eOmicSelector_ en statsobligation
+YIELDDISC		= AFKAST.DISKONTO		##	Returnerer det årlige afkast for et diskonteret værdipapir, f.eks. en statsobligation
 YIELDMAT		= AFKAST.UDLØBSDATO		##	Returnerer det årlige afkast for et værdipapir, hvor renten udbetales ved papirets udløb
 
 

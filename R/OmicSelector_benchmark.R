@@ -164,8 +164,11 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
         #temptrain = rbind.fill(temptrain,test,valid)
         fit_on = list(rs1 = 1:nrow(temptrain))
         pred_on = list(rs1 = (nrow(temptrain)+1):((nrow(temptrain))+nrow(test)))
-        temptrain = rbind.fill(temptrain,test)
+updat        temptrain = rbind(temptrain,test)
       }
+
+     #Debug:
+     head(temptrain)
 
 
       # wyniki2 = tryCatch({

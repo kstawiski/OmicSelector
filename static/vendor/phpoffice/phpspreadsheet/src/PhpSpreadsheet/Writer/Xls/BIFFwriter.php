@@ -187,7 +187,7 @@ class BIFFwriter
     /**
      * Excel limits the size of BIFF records. In Excel 5 the limit is 2084 bytes. In
      * Excel 97 the limit is 8228 bytes. Records that are longer than these limits
-     * must be split up into CONTINUE blocOmicSelector_
+     * must be split up into CONTINUE blocks.
      *
      * This function takes a long BIFF record and inserts CONTINUE records as
      * necessary.

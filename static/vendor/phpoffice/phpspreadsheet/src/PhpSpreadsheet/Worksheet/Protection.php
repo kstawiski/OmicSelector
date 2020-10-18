@@ -74,7 +74,7 @@ class Protection
     private $insertRows = false;
 
     /**
-     * Insert hyperlinOmicSelector_
+     * Insert hyperlinks.
      *
      * @var bool
      */
@@ -142,13 +142,6 @@ class Protection
      * @var string
      */
     private $algorithm = '';
-
-    /**
-     * Hash value.
-     *
-     * @var string
-     */
-    private $hash = '';
 
     /**
      * Salt value.
@@ -389,7 +382,7 @@ class Protection
     }
 
     /**
-     * Get InsertHyperlinOmicSelector_
+     * Get InsertHyperlinks.
      *
      * @return bool
      */
@@ -399,7 +392,7 @@ class Protection
     }
 
     /**
-     * Set InsertHyperlinOmicSelector_
+     * Set InsertHyperlinks.
      *
      * @param bool $pValue
      *
