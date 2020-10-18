@@ -157,7 +157,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
       if (wyniki$SMOTE[i] == "Yes") { temptrain = train_smoted }
 
       # Hold-out czy CV?
-      temptrainold = temptrain
+      temptrainold = temptrain[complete.cases(temptrain), ] # Keep only the complete rows - useful for SMOTE on low number of samples
       if(holdout == T) {
         #fit_on = list(rs1 = 1:nrow(temptrain), rs2 = 1:nrow(temptrain))
         #pred_on = list(rs1 = (nrow(temptrain)+1):((nrow(temptrain)+1)+nrow(test)), rs2 = ((nrow(temptrain)+1)+nrow(test)+1):((nrow(temptrain)+1)+nrow(test)+1+nrow(valid)))
