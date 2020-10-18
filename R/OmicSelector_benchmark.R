@@ -124,7 +124,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
     }
 
 
-    algorytmy = c("glm", "mxnetAdam","mxnet", algorithms)
+    algorytmy = c("glm", "mxnetAdam", algorithms)
   } else {
     algorytmy = c("glm",algorithms)
   }
