@@ -740,7 +740,7 @@ foreach($images as $image) {
 <font size="1"><i>(max time for the method to run in seconds, if you do not want to wait the ethernity for the results in misconfigured pipeline)</i></font></p>
     </div>
     <div class="col-sm-5">
-      <input class="form-control" id="timeout_sec" name="timeout_sec" type="number" min="0" max="2629743" value="86400" />
+      <input class="form-control" id="timeout_sec" name="timeout_sec" type="number" min="0" max="2629743" value="3600" />
     </div>
   </div>
   <div class="form-group row">
@@ -749,7 +749,7 @@ foreach($images as $image) {
 <font size="1"><i>(maximum number of iterations in selected methods, setting this too high may results in very long comupting time)</i></font></p>
     </div>
     <div class="col-sm-5">
-      <input class="form-control" id="max_iterations" name="max_iterations" type="number" min="1" max="50" value="10" />
+      <input class="form-control" id="max_iterations" name="max_iterations" type="number" min="1" max="50" value="5" />
     </div>
   </div>
     </td>
@@ -853,11 +853,11 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
     <td>Conditional inference trees. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/ctree.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/party" target="_blank">package</a>.</td>
 </tr>
 <tr>
-    <td><label class="switch"><input type="checkbox" name="mxnet" value="TRUE" checked><span class="slider round"></span></label></td>
+    <td><label class="switch"><input type="checkbox" name="mxnet" value="TRUE"><span class="slider round"></span></label></td>
     <td><code>mxnet<code></td>
     <td>MXNET-based deep neural networks up to 2 hidden layers, with multiple activation functions tested. Note that predefined grid search is used in hyperparameter optimization for this method (not random search). Details: <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_benchmark.R#L173" target="_blank">code</a>, <a href="https://mxnet.apache.org/" target="_blank">package</a>.
     <br>
-        <i>It uses early stopping, but what maximum number of epochs should be used? <input class="form-control" id="search_iters_mxnet" name="search_iters_mxnet" type="number" min="1" max="500000" value="2000" /></i>
+        <i>It uses early stopping, but what maximum number of epochs should be used? <input class="form-control" id="search_iters_mxnet" name="search_iters_mxnet" type="number" min="1" max="500000" value="200" /></i>
 </td>
 </tr>
 <tr>
@@ -875,7 +875,7 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
 <font size="1"><i>(hyperparameter search is performed via <a href="https://topepo.github.io/caret/random-hyperparameter-search.html" target="_blank">random search</a>, how many should be checked?)</i></font></p>
     </div>
     <div class="col-sm-5">
-      <input class="form-control" id="search_iter" name="search_iter" type="number" min="1" max="500000" value="2000" />
+      <input class="form-control" id="search_iter" name="search_iter" type="number" min="1" max="500000" value="20" />
     </div>
   </div>
   <div class="form-group row">
