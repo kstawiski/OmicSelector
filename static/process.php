@@ -283,7 +283,8 @@ switch($_GET['type'])
         $method = $_GET['method'];
         $filename = $target_dir . $method . ".csv";
 
-        $skrypt = 'library(OmicSelector); miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", method = "' . $method . '"); library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
+        // $skrypt = 'library(OmicSelector); miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", method = "' . $method . '"); library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
+        $skrypt = 'library(OmicSelector); input_formulas = readRDS("featureselection_formulas_final.RDS"); miRNAs = all.vars(as.formula(input_formulas[["' . $method . '"]]))[-1]; library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
         //Get file type and set it as Content Type
