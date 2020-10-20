@@ -130,8 +130,6 @@ else {
         var substring = "[OmicSelector: TASK COMPLETED]";
         console.log("Refreshing log..");
         if(feedback.includes(substring)) { location.reload(); }
-        var substring = "Error";
-        if(feedback.includes(substring)) { location.reload(); }
 
         $('#log').html(feedback);
     }
