@@ -11,7 +11,7 @@ if(file_exists($target_log)) {
     // $czy_dziala = shell_exec('ps -ef | grep -v grep | grep OmicSelector-task | wc -l');
     if ($pid != "") { $czy_dziala = "Running"; }
     $skonczone = 0; if (strpos($zawartosc_logu, '[OmicSelector: TASK COMPLETED]') !== false) { $skonczone = 1; } 
-    if (strpos($zawartosc_logu, 'Error') !== false) { $skonczone = 1; } 
+    // if (strpos($zawartosc_logu, 'Error') !== false) { $skonczone = 1; } 
 } else { $msg = urlencode("The task was not initialized. Please run it again."); header("Location: /?msg=" . $msg); die(); }
 }
 else {
@@ -27,7 +27,7 @@ else {
         // $czy_dziala = shell_exec('ps -ef | grep -v grep | grep OmicSelector-task | wc -l');
         if ($pid != "") { $czy_dziala = "Running"; }
         $skonczone = 0; if (strpos($zawartosc_logu, '[OmicSelector: TASK COMPLETED]') !== false) { $skonczone = 1; } 
-        if (strpos($zawartosc_logu, 'Error') !== false) { $skonczone = 1; } 
+        // if (strpos($zawartosc_logu, 'Error') !== false) { $skonczone = 1; } 
 } else { $msg = urlencode("The task was not initialized. Please run it again. Go again to your analysis and init it."); header("Location: /?msg=" . $msg); die(); }
 }
 // if()
