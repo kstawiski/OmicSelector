@@ -544,6 +544,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 34
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+  ctrl <- rfeControl(functions =rfFuncs,
+                     method = "cv", number = 10,
+                     saveDetails = TRUE,
+                     allowParallel = TRUE,
+                     returnResamp = "all",
+                     verbose = T)
   rfProfile <- rfe(trainx_smoted, train_smoted$Class,
                    sizes = 3:11,
                    rfeControl = ctrl)
@@ -555,6 +561,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 35
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+  ctrl <- rfeControl(functions =rfFuncs,
+                     method = "cv", number = 10,
+                     saveDetails = TRUE,
+                     allowParallel = TRUE,
+                     returnResamp = "all",
+                     verbose = T)
   rfProfile <- rfe(trainx_sig, train_sig$Class,
                    sizes = 3:11,
                    rfeControl = ctrl)
@@ -566,6 +578,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 36
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+  ctrl <- rfeControl(functions =rfFuncs,
+                     method = "cv", number = 10,
+                     saveDetails = TRUE,
+                     allowParallel = TRUE,
+                     returnResamp = "all",
+                     verbose = T)
   rfProfile <- rfe(trainx_sig_smoted, train_sig_smoted$Class,
                    sizes = 3:11,
                    rfeControl = ctrl)
