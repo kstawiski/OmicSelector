@@ -29,7 +29,7 @@ COPY vignettes/setup.R /
 COPY docker/register_jupyter.R /
 COPY docker/keras.R /
 
-RUN Rscript -e "chooseCRANmirror(ind=1); update.packages(ask = F);" && Rscript /setup.R && echo 'root:biostat' | chpasswd 
+RUN Rscript -e "chooseCRANmirror(ind=1);" && Rscript /setup.R && echo 'root:biostat' | chpasswd 
 RUN Rscript /register_jupyter.R && jupyter notebook --generate-config && mkdir /OmicSelector/ 
 
 # Setup keras in R env
