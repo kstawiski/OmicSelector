@@ -7,6 +7,7 @@
 #'
 #' @export
 OmicSelector_create_formula = function(selected_features) {
+  if(selected_features == "." || length(selected_features) ==0 ) { stop("Too few features selected.") }
   selected_features<-selected_features[!is.na(selected_features)]
   as.formula(paste0("Class ~ ",paste0(as.character(selected_features), collapse = " + ")))
 }
