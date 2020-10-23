@@ -189,6 +189,12 @@ $(window).on('load', function() { // makes sure the whole site is loaded
                         data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalYT2"><i class="fas fa-terminal"></i>&emsp;Shell</button>&emsp;
                         <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>&emsp;<a href="process.php?type=init_update" role="button" onclick="waitingDialog.show('Starting update...');" class="btn btn-primary"><i class="fas fa-arrow-up"></i></i>&emsp;Update</a>
                     &emsp;<a href="e/notebooks/OmicSelector/vignettes/Tutorial.Rmd" role="button" class="btn btn-primary" target="_blank"><i class="fas fa-graduation-cap"></i>&emsp;Learn R package</a>
+                    <?php
+                    // Advanced features in private version:
+                    if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
+                        echo '&emsp;<a href="e/tree" role="button" class="btn btn-primary" target="_blank"><i class="fas fa-puzzle-piece"></i>&emsp;Advanced features</a>';
+                    }
+                    ?>
                     </div>
             </div>
 
