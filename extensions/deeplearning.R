@@ -944,9 +944,9 @@ y_valid_pred <- predict(object = init_model, x = x_valid_scale)
 #message("Checkpoint passed: chunk 29")
 
 #wyniki[i, "training_AUC"] = cutoff$AUC
-tempwyniki[1, "training_AUC"] = cutoff$AUC
+tempwyniki[1, "new_training_AUC"] = cutoff$AUC
 #wyniki[i, "cutoff"] = wybrany_cutoff
-tempwyniki[1, "cutoff"] = wybrany_cutoff
+tempwyniki[1, "new_cutoff"] = wybrany_cutoff
 #message("Checkpoint passed: chunk 30")
 
 cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
@@ -957,19 +957,19 @@ print(cm_train)
 #message("Checkpoint passed: chunk 31")
 
 t1_roc = pROC::roc(Class ~ as.numeric(Pred.2), data=pred)
-tempwyniki[1, "training_AUC2"] = t1_roc$auc
-tempwyniki[1, "training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
-tempwyniki[1, "training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
+tempwyniki[1, "new_training_AUC2"] = t1_roc$auc
+tempwyniki[1, "new_training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
+tempwyniki[1, "new_training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
 saveRDS(t1_roc, paste0("init_training_ROC.RDS"))
 #ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/training_ROC.png"), grid.arrange(plot(t1_roc), nrow =1, top = "Training ROC curve"))
 #message("Checkpoint passed: chunk 32")
 
-tempwyniki[1, "training_Accuracy"] = cm_train$overall[1]
-tempwyniki[1, "training_Sensitivity"] = cm_train$byClass[1]
-tempwyniki[1, "training_Specificity"] = cm_train$byClass[2]
-tempwyniki[1, "training_PPV"] = cm_train$byClass[3]
-tempwyniki[1, "training_NPV"] = cm_train$byClass[4]
-tempwyniki[1, "training_F1"] = cm_train$byClass[7]
+tempwyniki[1, "new_training_Accuracy"] = cm_train$overall[1]
+tempwyniki[1, "new_training_Sensitivity"] = cm_train$byClass[1]
+tempwyniki[1, "new_training_Specificity"] = cm_train$byClass[2]
+tempwyniki[1, "new_training_PPV"] = cm_train$byClass[3]
+tempwyniki[1, "new_training_NPV"] = cm_train$byClass[4]
+tempwyniki[1, "new_training_F1"] = cm_train$byClass[7]
 saveRDS(cm_train, paste0("init_cm_train.RDS"))
 #message("Checkpoint passed: chunk 33")
 
@@ -979,12 +979,12 @@ pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
 pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
 cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
 print(cm_test)
-tempwyniki[1, "test_Accuracy"] = cm_test$overall[1]
-tempwyniki[1, "test_Sensitivity"] = cm_test$byClass[1]
-tempwyniki[1, "test_Specificity"] = cm_test$byClass[2]
-tempwyniki[1, "test_PPV"] = cm_test$byClass[3]
-tempwyniki[1, "test_NPV"] = cm_test$byClass[4]
-tempwyniki[1, "test_F1"] = cm_test$byClass[7]
+tempwyniki[1, "new_test_Accuracy"] = cm_test$overall[1]
+tempwyniki[1, "new_test_Sensitivity"] = cm_test$byClass[1]
+tempwyniki[1, "new_test_Specificity"] = cm_test$byClass[2]
+tempwyniki[1, "new_test_PPV"] = cm_test$byClass[3]
+tempwyniki[1, "new_test_NPV"] = cm_test$byClass[4]
+tempwyniki[1, "new_test_F1"] = cm_test$byClass[7]
 saveRDS(cm_test, paste0("init_cm_test.RDS"))
 #message("Checkpoint passed: chunk 34")
 
@@ -994,12 +994,12 @@ pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
 pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
 cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
 print(cm_valid)
-tempwyniki[1, "valid_Accuracy"] = cm_valid$overall[1]
-tempwyniki[1, "valid_Sensitivity"] = cm_valid$byClass[1]
-tempwyniki[1, "valid_Specificity"] = cm_valid$byClass[2]
-tempwyniki[1, "valid_PPV"] = cm_valid$byClass[3]
-tempwyniki[1, "valid_NPV"] = cm_valid$byClass[4]
-tempwyniki[1, "valid_F1"] = cm_valid$byClass[7]
+tempwyniki[1, "new_valid_Accuracy"] = cm_valid$overall[1]
+tempwyniki[1, "new_valid_Sensitivity"] = cm_valid$byClass[1]
+tempwyniki[1, "new_valid_Specificity"] = cm_valid$byClass[2]
+tempwyniki[1, "new_valid_PPV"] = cm_valid$byClass[3]
+tempwyniki[1, "new_valid_NPV"] = cm_valid$byClass[4]
+tempwyniki[1, "new_valid_F1"] = cm_valid$byClass[7]
 saveRDS(cm_valid, paste0("init_cm_valid.RDS"))
 #message("Checkpoint passed: chunk 35")
 
@@ -1070,9 +1070,9 @@ y_valid_pred <- predict(object = trans_model, x = x_valid_scale)
 #message("Checkpoint passed: chunk 29")
 
 #wyniki[i, "training_AUC"] = cutoff$AUC
-tempwyniki[scenario_i, "training_AUC"] = cutoff$AUC
+tempwyniki[scenario_i, "new_training_AUC"] = cutoff$AUC
 #wyniki[i, "cutoff"] = wybrany_cutoff
-tempwyniki[scenario_i, "cutoff"] = wybrany_cutoff
+tempwyniki[scenario_i, "new_cutoff"] = wybrany_cutoff
 #message("Checkpoint passed: chunk 30")
 
 cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
@@ -1083,19 +1083,19 @@ print(cm_train)
 #message("Checkpoint passed: chunk 31")
 
 t1_roc = pROC::roc(Class ~ as.numeric(Pred.2), data=pred)
-tempwyniki[scenario_i, "training_AUC2"] = t1_roc$auc
-tempwyniki[scenario_i, "training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
-tempwyniki[scenario_i, "training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
-saveRDS(t1_roc, paste0("trans_training_ROC.RDS"))
+tempwyniki[scenario_i, "new_training_AUC2"] = t1_roc$auc
+tempwyniki[scenario_i, "new_training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
+tempwyniki[scenario_i, "new_training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
+saveRDS(t1_roc, paste0("new_trans_training_ROC.RDS"))
 #ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/training_ROC.png"), grid.arrange(plot(t1_roc), nrow =1, top = "Training ROC curve"))
 #message("Checkpoint passed: chunk 32")
 
-tempwyniki[scenario_i, "training_Accuracy"] = cm_train$overall[1]
-tempwyniki[scenario_i, "training_Sensitivity"] = cm_train$byClass[1]
-tempwyniki[scenario_i, "training_Specificity"] = cm_train$byClass[2]
-tempwyniki[scenario_i, "training_PPV"] = cm_train$byClass[3]
-tempwyniki[scenario_i, "training_NPV"] = cm_train$byClass[4]
-tempwyniki[scenario_i, "training_F1"] = cm_train$byClass[7]
+tempwyniki[scenario_i, "new_training_Accuracy"] = cm_train$overall[1]
+tempwyniki[scenario_i, "new_training_Sensitivity"] = cm_train$byClass[1]
+tempwyniki[scenario_i, "new_training_Specificity"] = cm_train$byClass[2]
+tempwyniki[scenario_i, "new_training_PPV"] = cm_train$byClass[3]
+tempwyniki[scenario_i, "new_training_NPV"] = cm_train$byClass[4]
+tempwyniki[scenario_i, "new_training_F1"] = cm_train$byClass[7]
 saveRDS(cm_train, paste0("trans_cm_train.RDS"))
 #message("Checkpoint passed: chunk 33")
 
@@ -1105,12 +1105,12 @@ pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
 pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
 cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
 print(cm_test)
-tempwyniki[scenario_i, "test_Accuracy"] = cm_test$overall[1]
-tempwyniki[scenario_i, "test_Sensitivity"] = cm_test$byClass[1]
-tempwyniki[scenario_i, "test_Specificity"] = cm_test$byClass[2]
-tempwyniki[scenario_i, "test_PPV"] = cm_test$byClass[3]
-tempwyniki[scenario_i, "test_NPV"] = cm_test$byClass[4]
-tempwyniki[scenario_i, "test_F1"] = cm_test$byClass[7]
+tempwyniki[scenario_i, "new_test_Accuracy"] = cm_test$overall[1]
+tempwyniki[scenario_i, "new_test_Sensitivity"] = cm_test$byClass[1]
+tempwyniki[scenario_i, "new_test_Specificity"] = cm_test$byClass[2]
+tempwyniki[scenario_i, "new_test_PPV"] = cm_test$byClass[3]
+tempwyniki[scenario_i, "new_test_NPV"] = cm_test$byClass[4]
+tempwyniki[scenario_i, "new_test_F1"] = cm_test$byClass[7]
 saveRDS(cm_test, paste0("trans_cm_test.RDS"))
 #message("Checkpoint passed: chunk 34")
 
@@ -1120,12 +1120,12 @@ pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
 pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
 cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
 print(cm_valid)
-tempwyniki[scenario_i, "valid_Accuracy"] = cm_valid$overall[1]
-tempwyniki[scenario_i, "valid_Sensitivity"] = cm_valid$byClass[1]
-tempwyniki[scenario_i, "valid_Specificity"] = cm_valid$byClass[2]
-tempwyniki[scenario_i, "valid_PPV"] = cm_valid$byClass[3]
-tempwyniki[scenario_i, "valid_NPV"] = cm_valid$byClass[4]
-tempwyniki[scenario_i, "valid_F1"] = cm_valid$byClass[7]
+tempwyniki[scenario_i, "new_valid_Accuracy"] = cm_valid$overall[1]
+tempwyniki[scenario_i, "new_valid_Sensitivity"] = cm_valid$byClass[1]
+tempwyniki[scenario_i, "new_valid_Specificity"] = cm_valid$byClass[2]
+tempwyniki[scenario_i, "new_valid_PPV"] = cm_valid$byClass[3]
+tempwyniki[scenario_i, "new_valid_NPV"] = cm_valid$byClass[4]
+tempwyniki[scenario_i, "new_valid_F1"] = cm_valid$byClass[7]
 saveRDS(cm_valid, paste0("trans_cm_valid.RDS"))
 #message("Checkpoint passed: chunk 35")
 
