@@ -18,6 +18,7 @@
 #' @param search_iters The number of random hyperparameters tested in the process of model induction.
 #' @param keras_epochs Number of epochs used in keras-based methods, if keras methods are used. (e.g. "mlpKerasDropout", "mlpKerasDecay")
 #' @param keras_threds This package supports training of keras networks in parallel. Here you can set the number of threads used. (e.g. "mlpKerasDropout", "mlpKerasDecay")
+#' @param OmicSelector_docker Adding features used by OmicSelector GUI. Almost always you should set it to FALSE (default).
 #'
 #' @return Results of benchmark. Note that benchmark files are also saved in working directory (`wd`).
 #'
@@ -27,7 +28,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
                         output_file = "benchmark.csv", mxnet = F, gpu = F,
                         #algorithms = c("nnet","svmRadial", "svmLinear","rf","C5.0","mlp", "mlpML","xgbTree"),
                         algorithms = c("mlp", "mlpML", "svmRadial", "svmLinear","rf","C5.0", "rpart", "rpart2", "ctree"),
-                        holdout = T, stamp = as.character(as.numeric(Sys.time()))) {
+                        holdout = T, stamp = as.character(as.numeric(Sys.time())), OmicSelector_docker = F) {
   suppressMessages(library(plyr))
   suppressMessages(library(dplyr))
   suppressMessages(library(edgeR))
@@ -131,11 +132,15 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
 
 
 
-
+  ile_do_zrobienia = length(algorytmy) * length(formulas)
+  ile_zrobilismy = 0
 
   for (ii in 1:length(algorytmy)) {
     algorytm = algorytmy[ii]
     print(algorytm)
+    if(OmicSelector_docker) { 
+      ile_zrobilismy = ile_zrobilismy + 1
+      OmicSelector_log(paste0("Benchmarking: working on model ", ile_zrobilismy, " out of ", ile_do_zrobienia, " | algorithm: ", algorytm, " | formula: ", as.character(formulas[[i]])), "task.log") }
 
     suppressMessages(library(doParallel))
     suppressMessages(library(doParallel))
@@ -167,6 +172,9 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
         temptrain = rbind(temptrain,test)
       }
 
+
+      # add failover
+      try({
 
 
       # wyniki2 = tryCatch({
@@ -276,6 +284,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
       # colnames(wyniki2) = make.names(colnames(wyniki2), unique = TRUE, allow_ = FALSE)
       # stargazer(wyniki2, type = 'html', out = paste0("temp/wyniki",stamp,".html"), summary = F)
       write.csv(wyniki,paste0("temp/",output_file))
+      })
     }
 
     stopCluster(cl)
