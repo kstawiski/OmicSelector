@@ -800,3 +800,346 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     unlink(paste0(normalizePath(temp_dir), "/", dir(temp_dir)), recursive = TRUE)
   }
 }
+
+#' OmicSelector_transfer_learning_neural_network()
+#'
+#' This function allows to perform simple transfer learning of the network created in the process above by freezing the weights on particular layers.
+#'
+#' @param selected_miRNAs Which features should be selected?
+#' @param new_scaling If to generate new scaling for scaled models (it is recommended for recalibration procedures). If set to false you should set old_train_csv_to_restore_scaling - used to recreate initial scaling.
+#' @param model_path Point zip file to be used as ininital model for transfer learning.
+#' @param save_scaling Whould you like to save scaling parameters for further reference? Default: yes
+#' @param freeze_from Which layers to freeze? Set from in https://keras.rstudio.com/reference/freeze_weights.html. If set to 0 or below - the algorithm will omit freezing.
+#' @param freeze_to Which layers to freeze? Set to in https://keras.rstudio.com/reference/freeze_weights.html
+#' @param train Provide train set.
+#' @param test Provide test set.
+#' @param valid Provide validation set.
+#'
+#' @return Results of uncalibrated and recalibrated models.
+#'
+#' @export
+OmicSelector_transfer_learning_neural_network = function(selected_miRNAs = ".", new_scaling = TRUE, model_path = "tcga_models/pancreatic_tcga_165592-1601307872.zip", save_scaling = TRUE, 
+old_train_csv_to_restore_scaling = "../tcga/mixed_train.csv" # used if save_scaling is F and no scaling properties were saved in the model; this regenerates scaling based on previous training set.
+, freeze_from = 1
+, freeze_to = 2,
+train = fread("circ_data/mixed_train.csv"),
+test = fread("circ_data/mixed_test.csv"),
+valid = fread("circ_data/mixed_valid.csv")) {
+tempwyniki = data.frame()
+library(keras)
+# library(OmicSelector)
+# OmicSelector_load_extension("deeplearning")
+library(data.table)
+
+
+x_train <- train %>%
+  { if (selected_miRNAs != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
+  as.matrix()
+y_train <- train %>%
+  dplyr::select("Class") %>%
+  as.matrix()
+y_train[,1] = ifelse(y_train[,1] == "Cancer",1,0)
+
+
+x_test <- test %>%
+  { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+  as.matrix()
+y_test <- test %>%
+  dplyr::select("Class") %>%
+  as.matrix()
+y_test[,1] = ifelse(y_test[,1] == "Cancer",1,0)
+
+x_valid <- valid %>%
+  { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+  as.matrix()
+y_valid <- valid %>%
+  dplyr::select("Class") %>%
+  as.matrix()
+y_valid[,1] = ifelse(y_valid[,1] == "Cancer",1,0)
+
+
+
+#####
+# INIT MODEL
+
+model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("finalmodel.hdf5",Name))[1,"Name"]
+unzip(model_path, model_path_in_zip, exdir = tempdir())
+model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
+init_model = keras::load_model_hdf5(model_path_unzipped)
+init_model
+wagi_wyjsciowe = get_weights(init_model)
+
+wyniki_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("wyniki.csv",Name))[1,"Name"]
+unzip(model_path, wyniki_path_in_zip, exdir = tempdir())
+wyniki_path_unzipped = paste0(tempdir(), "/", wyniki_path_in_zip)
+pre_conf = data.table::fread(wyniki_path_unzipped)
+
+
+#
+# If scaled
+if(as.logical(pre_conf[1,"scaled"])) {
+  if(new_scaling) {
+    x_train_scale = x_train %>% scale()
+    
+    col_mean_train <- attr(x_train_scale, "scaled:center")
+    col_sd_train <- attr(x_train_scale, "scaled:scale")
+    
+    saveRDS(col_mean_train, "transfer_col_mean_train.RDS")
+    saveRDS(col_sd_train, "transfer_col_sd_train.RDS")
+    
+    x_test_scale <- x_test %>%
+      scale(center = col_mean_train,
+            scale = col_sd_train)
+    
+    x_valid_scale <- x_valid %>%
+      scale(center = col_mean_train,
+            scale = col_sd_train)
+  } else {
+    tcga_train = fread(old_train_csv_to_restore_scaling)
+    tcga_train <- tcga_train %>%
+      { if (selected_miRNAs != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
+      as.matrix() %>% scale()
+    col_mean_train <- attr(tcga_train, "scaled:center")
+    col_sd_train <- attr(tcga_train, "scaled:scale")
+    
+    saveRDS(col_mean_train, "transfer_col_mean_train.RDS")
+    saveRDS(col_sd_train, "transfer_col_sd_train.RDS")
+    
+    
+    x_train_scale <- x_train %>%
+      scale(center = col_mean_train,
+            scale = col_sd_train)
+    
+    x_test_scale <- x_test %>%
+      scale(center = col_mean_train,
+            scale = col_sd_train)
+    
+    x_valid_scale <- x_valid %>%
+      scale(center = col_mean_train,
+            scale = col_sd_train)
+  } 
+} else {
+  x_train_scale <- x_train
+  x_test_scale <- x_test 
+  x_valid_scale <- x_valid 
+}
+
+
+preds = predict(init_model, x_train_scale)[,2]
+library(pROC)
+
+
+# wybranie odciecia
+pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Cancer","Control")), `Pred` = predict(init_model, x_train_scale))
+library(cutpointr)
+cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+print(summary(cutoff))
+ggplot2::ggsave(file = paste0("cutoff.png"), plot(cutoff))
+wybrany_cutoff = cutoff$optimal_cutpoint
+
+
+y_train_pred <- predict(object = init_model, x = x_train_scale)
+y_test_pred <- predict(object = init_model, x = x_test_scale)
+y_valid_pred <- predict(object = init_model, x = x_valid_scale)
+#message("Checkpoint passed: chunk 29")
+
+#wyniki[i, "training_AUC"] = cutoff$AUC
+tempwyniki[1, "new_training_AUC"] = cutoff$AUC
+#wyniki[i, "cutoff"] = wybrany_cutoff
+tempwyniki[1, "new_cutoff"] = wybrany_cutoff
+#message("Checkpoint passed: chunk 30")
+
+cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_train)
+#message("Checkpoint passed: chunk 31")
+
+t1_roc = pROC::roc(Class ~ as.numeric(Pred.2), data=pred)
+tempwyniki[1, "new_training_AUC2"] = t1_roc$auc
+tempwyniki[1, "new_training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
+tempwyniki[1, "new_training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
+saveRDS(t1_roc, paste0("init_training_ROC.RDS"))
+#ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/training_ROC.png"), grid.arrange(plot(t1_roc), nrow =1, top = "Training ROC curve"))
+#message("Checkpoint passed: chunk 32")
+
+tempwyniki[1, "new_training_Accuracy"] = cm_train$overall[1]
+tempwyniki[1, "new_training_Sensitivity"] = cm_train$byClass[1]
+tempwyniki[1, "new_training_Specificity"] = cm_train$byClass[2]
+tempwyniki[1, "new_training_PPV"] = cm_train$byClass[3]
+tempwyniki[1, "new_training_NPV"] = cm_train$byClass[4]
+tempwyniki[1, "new_training_F1"] = cm_train$byClass[7]
+saveRDS(cm_train, paste0("init_cm_train.RDS"))
+#message("Checkpoint passed: chunk 33")
+
+cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
+pred = data.frame(`Class` = as.factor(test$Class), `Pred` = y_test_pred)
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_test)
+tempwyniki[1, "new_test_Accuracy"] = cm_test$overall[1]
+tempwyniki[1, "new_test_Sensitivity"] = cm_test$byClass[1]
+tempwyniki[1, "new_test_Specificity"] = cm_test$byClass[2]
+tempwyniki[1, "new_test_PPV"] = cm_test$byClass[3]
+tempwyniki[1, "new_test_NPV"] = cm_test$byClass[4]
+tempwyniki[1, "new_test_F1"] = cm_test$byClass[7]
+saveRDS(cm_test, paste0("init_cm_test.RDS"))
+#message("Checkpoint passed: chunk 34")
+
+cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
+pred = data.frame(`Class` = as.factor(valid$Class), `Pred` = y_valid_pred)
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_valid)
+tempwyniki[1, "new_valid_Accuracy"] = cm_valid$overall[1]
+tempwyniki[1, "new_valid_Sensitivity"] = cm_valid$byClass[1]
+tempwyniki[1, "new_valid_Specificity"] = cm_valid$byClass[2]
+tempwyniki[1, "new_valid_PPV"] = cm_valid$byClass[3]
+tempwyniki[1, "new_valid_NPV"] = cm_valid$byClass[4]
+tempwyniki[1, "new_valid_F1"] = cm_valid$byClass[7]
+saveRDS(cm_valid, paste0("init_cm_valid.RDS"))
+#message("Checkpoint passed: chunk 35")
+
+
+#####
+# RECALIBRATION
+scenario_i = 2
+scenario = "trans1"
+trans_model = clone_model(init_model)
+
+
+early_stop <- callback_early_stopping(monitor = "val_loss", mode="min", patience = 200)
+cp_callback <- callback_model_checkpoint(
+  filepath =  paste0(scenario,"_model.hdf5"),
+  save_best_only = TRUE, period = 10, monitor = "val_loss",
+  verbose = 0
+)
+keras_batch_size = 64
+
+
+
+# Opcje transferu:
+compile(trans_model, loss = 'binary_crossentropy',
+        metrics = 'accuracy', optimizer = pre_conf$optimizer)
+
+set_weights(trans_model, get_weights(init_model))
+if(freeze_from>0) {
+freeze_weights(trans_model, from = freeze_from, to = freeze_to)
+compile(trans_model, loss = 'binary_crossentropy',
+        metrics = 'accuracy', optimizer = pre_conf$optimizer) }
+
+# Rekalibracja:
+history <-  fit(trans_model, x = x_train_scale,
+                y = to_categorical(y_train),
+                epochs = 5000,
+                validation_data = list(x_test_scale, to_categorical(y_test)),
+                callbacks = list(
+                  cp_callback,
+                  #callback_reduce_lr_on_plateau(monitor = "val_loss", factor = 0.1),
+                  #callback_model_checkpoint(paste0(temp_dir,"/models/keras",model_id,"/finalmodel.hdf5")),
+                  early_stop),
+                verbose = 0,
+                view_metrics = FALSE,
+                batch_size = keras_batch_size, shuffle = T)
+history
+
+get_weights(init_model)
+get_weights(trans_model)
+
+
+# Ocena po rekalibracji:
+preds = predict(trans_model, x_train_scale)[,2]
+library(pROC)
+
+
+# wybranie odciecia
+pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Cancer","Control")), `Pred` = predict(trans_model, x_train_scale))
+library(cutpointr)
+cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+print(summary(cutoff))
+ggplot2::ggsave(file = paste0("trans_cutoff.png"), plot(cutoff))
+wybrany_cutoff = cutoff$optimal_cutpoint
+
+
+y_train_pred <- predict(object = trans_model, x = x_train_scale)
+y_test_pred <- predict(object = trans_model, x = x_test_scale)
+y_valid_pred <- predict(object = trans_model, x = x_valid_scale)
+#message("Checkpoint passed: chunk 29")
+
+#wyniki[i, "training_AUC"] = cutoff$AUC
+tempwyniki[scenario_i, "new_training_AUC"] = cutoff$AUC
+#wyniki[i, "cutoff"] = wybrany_cutoff
+tempwyniki[scenario_i, "new_cutoff"] = wybrany_cutoff
+#message("Checkpoint passed: chunk 30")
+
+cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_train)
+#message("Checkpoint passed: chunk 31")
+
+t1_roc = pROC::roc(Class ~ as.numeric(Pred.2), data=pred)
+tempwyniki[scenario_i, "new_training_AUC2"] = t1_roc$auc
+tempwyniki[scenario_i, "new_training_AUC_lower95CI"] = as.character(ci(t1_roc))[1]
+tempwyniki[scenario_i, "new_training_AUC_upper95CI"] = as.character(ci(t1_roc))[3]
+saveRDS(t1_roc, paste0("new_trans_training_ROC.RDS"))
+#ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/training_ROC.png"), grid.arrange(plot(t1_roc), nrow =1, top = "Training ROC curve"))
+#message("Checkpoint passed: chunk 32")
+
+tempwyniki[scenario_i, "new_training_Accuracy"] = cm_train$overall[1]
+tempwyniki[scenario_i, "new_training_Sensitivity"] = cm_train$byClass[1]
+tempwyniki[scenario_i, "new_training_Specificity"] = cm_train$byClass[2]
+tempwyniki[scenario_i, "new_training_PPV"] = cm_train$byClass[3]
+tempwyniki[scenario_i, "new_training_NPV"] = cm_train$byClass[4]
+tempwyniki[scenario_i, "new_training_F1"] = cm_train$byClass[7]
+saveRDS(cm_train, paste0("trans_cm_train.RDS"))
+#message("Checkpoint passed: chunk 33")
+
+cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
+pred = data.frame(`Class` = as.factor(test$Class), `Pred` = y_test_pred)
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_test)
+tempwyniki[scenario_i, "new_test_Accuracy"] = cm_test$overall[1]
+tempwyniki[scenario_i, "new_test_Sensitivity"] = cm_test$byClass[1]
+tempwyniki[scenario_i, "new_test_Specificity"] = cm_test$byClass[2]
+tempwyniki[scenario_i, "new_test_PPV"] = cm_test$byClass[3]
+tempwyniki[scenario_i, "new_test_NPV"] = cm_test$byClass[4]
+tempwyniki[scenario_i, "new_test_F1"] = cm_test$byClass[7]
+saveRDS(cm_test, paste0("trans_cm_test.RDS"))
+#message("Checkpoint passed: chunk 34")
+
+cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
+pred = data.frame(`Class` = as.factor(valid$Class), `Pred` = y_valid_pred)
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
+cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+print(cm_valid)
+tempwyniki[scenario_i, "new_valid_Accuracy"] = cm_valid$overall[1]
+tempwyniki[scenario_i, "new_valid_Sensitivity"] = cm_valid$byClass[1]
+tempwyniki[scenario_i, "new_valid_Specificity"] = cm_valid$byClass[2]
+tempwyniki[scenario_i, "new_valid_PPV"] = cm_valid$byClass[3]
+tempwyniki[scenario_i, "new_valid_NPV"] = cm_valid$byClass[4]
+tempwyniki[scenario_i, "new_valid_F1"] = cm_valid$byClass[7]
+saveRDS(cm_valid, paste0("trans_cm_valid.RDS"))
+#message("Checkpoint passed: chunk 35")
+
+
+resu = cbind(pre_conf, tempwyniki)
+resu$type = c("crude","recalibrated")
+resu$based_on = basename(model_path)
+resu$based_on_path = model_path
+new_name = make.names(paste0("transfer-",as.numeric(Sys.time())))
+resu$new_model_name = c("",new_name)
+fwrite(resu, "resu.csv")
+
+zip(zipfile = paste0(new_name,".zip"), files = c(list.files(".", pattern = ".hdf5"), list.files(".", pattern = ".csv"), list.files(".", pattern = ".RDS"), list.files(".", pattern = ".png")))
+unlink(c(list.files(".", pattern = ".hdf5"), list.files(".", pattern = ".csv"), list.files(".", pattern = ".RDS"), list.files(".", pattern = ".png")))
+
+resu
+}

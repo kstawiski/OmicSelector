@@ -32,7 +32,7 @@ OmicSelector_benchmark(
   gpu = gpu,
   algorithms = m,
   holdout = holdout,
-  stamp = "OmicSelector"
+  stamp = "OmicSelector", OmicSelector_docker = T
 )
 cat("\n\nBenchmarking done. Moving to the analysis of best signature...\n\n")
 rmarkdown::render("best_signiture.Rmd")
