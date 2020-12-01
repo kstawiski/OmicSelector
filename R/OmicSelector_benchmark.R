@@ -138,9 +138,7 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
   for (ii in 1:length(algorytmy)) {
     algorytm = algorytmy[ii]
     print(algorytm)
-    if(OmicSelector_docker) { 
-      ile_zrobilismy = ile_zrobilismy + 1
-      OmicSelector_log(paste0("Benchmarking: working on model ", ile_zrobilismy, " out of ", ile_do_zrobienia, " | algorithm: ", algorytm, " | formula: ", as.character(formulas[[i]])), "task.log") }
+    
 
     suppressMessages(library(doParallel))
     suppressMessages(library(doParallel))
@@ -156,6 +154,9 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
 
     for (i in 1:length(formulas)) {
       print(paste0("Testing formula: ", as.character(formulas[[i]])))
+      if(OmicSelector_docker) { 
+      ile_zrobilismy = ile_zrobilismy + 1
+      OmicSelector_log(paste0("Benchmarking: working on model ", ile_zrobilismy, " out of ", ile_do_zrobienia, " | algorithm: ", algorytm, " | formula: ", as.character(formulas[[i]])), "task.log") }
 
       wyniki$miRy[i] = as.character(formulas[[i]])
       temptrain = train
