@@ -72,7 +72,18 @@ OmicSelector_merge_formulas = function(wd = getwd(), max_miRNAs = 11, add = list
   formulas_final = as.list(final$formula)
   names(formulas_final) = make.names(final$name, unique = T)
   setwd(oldwd)
-  saveRDS(formulas_final, "featureselection_formulas_final.RDS")
+
+  # Deduplicate before save
+  f2 = unique(formulas_final)
+  f2 = as.list(f2)
+  for (i in 1:length(f2))
+  {
+        names(f2)[i] = names(formulas_final)[match(as.character(f2[[i]]),as.character(formulas_final))] # only one is matched
+  }
+
+
+
+  saveRDS(f2, "featureselection_formulas_final.RDS")
   #sink()
   #dev.off()
   fwrite(finalold, "featureselection_formulas_all.csv")
