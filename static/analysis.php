@@ -350,7 +350,7 @@ foreach($images as $image) {
 </tbody>
 </table>
             </div>
-
+<?php if($var_initcheck != "OK") { die("There is an error in your data. See the log above. Fix this error, go back and try again with a new file. In case of any questions write to konrad@konsta.com.pl"); }  ?>
 <?php if(!file_exists($target_dir . "featureselection_formulas_all.csv"))  { ?>
         <div class="panel panel-primary">
             <div class="panel-heading"><i class="fas fa-microscope"></i>&emsp;&emsp;Feature selection</div>
