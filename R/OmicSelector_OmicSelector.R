@@ -672,6 +672,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 42
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting SimulatedAnealing")
+  sa_ctrl <- safsControl(functions = rfSA,
+                         method = "repeatedcv",
+                         number=5, repeats=10, allowParallel=T,
+                         improve = 50)
+  
   rf_sa <- safs(x = trainx_smoted, y = train_smoted$Class,
                 iters = max_iterations,
                 safsControl = sa_ctrl)
@@ -685,6 +691,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 43
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting SimulatedAnealing")
+  sa_ctrl <- safsControl(functions = rfSA,
+                         method = "repeatedcv",
+                         number=5, repeats=10, allowParallel=T,
+                         improve = 50)
+  
   rf_sa <- safs(x = trainx_sig, y = train_sig$Class,
                 iters = max_iterations,
                 safsControl = sa_ctrl)
@@ -698,6 +710,12 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
   # n = 44
   n = n + 1; if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting..")); start_time <- Sys.time();
+    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting SimulatedAnealing")
+  sa_ctrl <- safsControl(functions = rfSA,
+                         method = "repeatedcv",
+                         number=5, repeats=10, allowParallel=T,
+                         improve = 50)
+  
   rf_sa <- safs(x = trainx_sig_smoted, y = train_sig_smoted$Class,
                 iters = max_iterations,
                 safsControl = sa_ctrl)
