@@ -914,7 +914,11 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
                 <?php echo file_get_contents($target_dir . "best_signiture.html"); ?>
                 <table class="table">
                 <tr><td>Benchmark results:</td><td><p><a href="viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv" class="btn btn-info" role="button" target="popup"
-                        onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/benchmark.csv"  class="btn btn-warning" ><i class="fas fa-download"></i> Download</a>&emsp;<a href="/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log" class="btn btn-primary" role="button" target="popup"
+                        onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/benchmark.csv"  class="btn btn-warning" ><i class="fas fa-download"></i> Download</a>
+                        &emsp;
+                        <a href="viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-info" role="button" target="popup"
+                        onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/model_results.csv"  class="btn btn-warning" ><i class="fas fa-download"></i>Simplified</a>
+                        &emsp;<a href="/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log" class="btn btn-primary" role="button" target="popup"
                         onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="/e/tree/<?php echo $_GET['id']; ?>/models" class="btn btn-primary" role="button" target="popup"
                         onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>/models','popup','width=1150,height=800'); return false;"><i class="fas fa-list"></i> Browse models</a></p></td></tr>
 

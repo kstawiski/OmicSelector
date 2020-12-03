@@ -297,7 +297,7 @@ OmicSelector_heatmap(x = dplyr::select(mixed, selected_miRNAs), rlab = data.fram
 
 ### Best classifiers
 
-Based on benchmark results. You could achive better model by further tuning it.
+Based on benchmark results. You could achive better model by further tuning it. Metaindex - mean accuracy on training, testing and validation datasets. Metaindex2 - mean accuracy on testing and validation datasets only. 
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 methods = OmicSelector_get_benchmark_methods(benchmark_csv = "benchmark.csv")
@@ -306,22 +306,93 @@ model_results = data.frame()
 
 for (i in 1:length(methods))
 {
-  for (ii in 1:length(nrow(benchmark_results)))
+  for (ii in 1:nrow(benchmark_results))
   {
     current_method = methods[i]
     temp_name = paste0(current_method,"+",benchmark_results[ii, "method"])
+    temp_fsmethod = current_method
+    temp_method = benchmark_results[ii, "method"]
     temp_id = benchmark_results[ii, paste0(current_method,"_modelname")]
     temp_AUC = benchmark_results[ii, paste0(current_method,"_train_ROCAUC")]
     temp_trainAcc = benchmark_results[ii, paste0(current_method,"_train_Accuracy")]
     temp_testAcc = benchmark_results[ii, paste0(current_method,"_test_Accuracy")]
     temp_validAcc = benchmark_results[ii, paste0(current_method,"_valid_Accuracy")]
     temp_metaindex = mean(c(temp_trainAcc, temp_testAcc, temp_validAcc))
-    model_results = rbind(model_results, c(temp_name, temp_id, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex))
+    temp_metaindex2 = mean(c(temp_testAcc, temp_validAcc))
+    model_results = rbind(model_results, c(temp_name, temp_id, temp_fsmethod, temp_method, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex, temp_metaindex2))
   }
 }
-colnames(model_results) = c("Name", "ID", "Train ROC AUC", "Train Acc", "Test Acc", "Valid Acc", "Metaindex")
+colnames(model_results) = c("Name", "ID", "Modelling Method","Selection Method","Train ROC AUC", "Train Acc", "Test Acc", "Valid Acc", "Metaindex", "Metaindex2")
 model_results = model_results[rev(order(model_results$Metaindex)),]
+model_results = model_results[complete.cases(model_results),]
+data.table::fwrite(model_results, "model_results.csv")
 
-# Top 3 models
-OmicSelector_table(model_results[1:3,]) %>% kable_styling(bootstrap_options = c("striped", "hover"))
+# Top 20 models
+OmicSelector_table(model_results[1:20,]) 
+```
+
+#### Best classifier for metaindex:
+
+Metrics on training set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+model_file = paste0("models/",model_results[which(model_results$Metaindex == max(model_results$Metaindex))[1],"ID"],".RDS")
+bestmodel = readRDS(model_file)
+predtrain_y = predict(bestmodel, train, type="prob")[,"Cancer"]
+predtrain = predict(bestmodel, train)
+caret::confusionMatrix(predtrain, train$Class, positive = "Cancer")
+
+trainroc = pROC::roc(train$Class ~ predtrain_y)
+print(trainroc)
+pROC::ci(trainroc)
+plot(trainroc)
+```
+
+Metrics on testing set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+pred_y = predict(bestmodel, test, type="prob")[,"Cancer"]
+pred = predict(bestmodel, test)
+caret::confusionMatrix(pred, test$Class, positive = "Cancer")
+```
+
+Metrics on validation set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+pred_y = predict(bestmodel, valid, type="prob")[,"Cancer"]
+pred = predict(bestmodel, valid)
+caret::confusionMatrix(pred, valid$Class, positive = "Cancer")
+```
+
+#### Best classifier for metaindex2:
+
+Metrics on training set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+model_file = paste0("models/",model_results[which(model_results$Metaindex2 == max(model_results$Metaindex2))[1],"ID"],".RDS")
+bestmodel = readRDS(model_file)
+predtrain_y = predict(bestmodel, train, type="prob")[,"Cancer"]
+predtrain = predict(bestmodel, train)
+caret::confusionMatrix(predtrain, train$Class, positive = "Cancer")
+
+trainroc = pROC::roc(train$Class ~ predtrain_y)
+print(trainroc)
+pROC::ci(trainroc)
+plot(trainroc)
+```
+
+Metrics on testing set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+pred_y = predict(bestmodel, test, type="prob")[,"Cancer"]
+pred = predict(bestmodel, test)
+caret::confusionMatrix(pred, test$Class, positive = "Cancer")
+```
+
+Metrics on validation set:
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+pred_y = predict(bestmodel, valid, type="prob")[,"Cancer"]
+pred = predict(bestmodel, valid)
+caret::confusionMatrix(pred, valid$Class, positive = "Cancer")
 ```
