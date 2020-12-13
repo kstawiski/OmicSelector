@@ -818,7 +818,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 #' @return Results of uncalibrated and recalibrated models.
 #'
 #' @export
-OmicSelector_transfer_learning_neural_network = function(selected_miRNAs = ".", new_scaling = TRUE, model_path = "tcga_models/pancreatic_tcga_165592-1601307872.zip", save_scaling = TRUE, 
+OmicSelector_transfer_learning_neural_network = function(selected_miRNAs = ".", new_scaling = TRUE, model_path = "tcga_models/pancreatic_tcga_165592-1601307872.zip", save_scaling = TRUE,
 old_train_csv_to_restore_scaling = "../tcga/mixed_train.csv" # used if save_scaling is F and no scaling properties were saved in the model; this regenerates scaling based on previous training set.
 , freeze_from = 1
 , freeze_to = 2,
@@ -880,17 +880,17 @@ pre_conf = data.table::fread(wyniki_path_unzipped)
 if(as.logical(pre_conf[1,"scaled"])) {
   if(new_scaling) {
     x_train_scale = x_train %>% scale()
-    
+
     col_mean_train <- attr(x_train_scale, "scaled:center")
     col_sd_train <- attr(x_train_scale, "scaled:scale")
-    
+
     saveRDS(col_mean_train, "transfer_col_mean_train.RDS")
     saveRDS(col_sd_train, "transfer_col_sd_train.RDS")
-    
+
     x_test_scale <- x_test %>%
       scale(center = col_mean_train,
             scale = col_sd_train)
-    
+
     x_valid_scale <- x_valid %>%
       scale(center = col_mean_train,
             scale = col_sd_train)
@@ -901,27 +901,27 @@ if(as.logical(pre_conf[1,"scaled"])) {
       as.matrix() %>% scale()
     col_mean_train <- attr(tcga_train, "scaled:center")
     col_sd_train <- attr(tcga_train, "scaled:scale")
-    
+
     saveRDS(col_mean_train, "transfer_col_mean_train.RDS")
     saveRDS(col_sd_train, "transfer_col_sd_train.RDS")
-    
-    
+
+
     x_train_scale <- x_train %>%
       scale(center = col_mean_train,
             scale = col_sd_train)
-    
+
     x_test_scale <- x_test %>%
       scale(center = col_mean_train,
             scale = col_sd_train)
-    
+
     x_valid_scale <- x_valid %>%
       scale(center = col_mean_train,
             scale = col_sd_train)
-  } 
+  }
 } else {
   x_train_scale <- x_train
-  x_test_scale <- x_test 
-  x_valid_scale <- x_valid 
+  x_test_scale <- x_test
+  x_valid_scale <- x_valid
 }
 
 

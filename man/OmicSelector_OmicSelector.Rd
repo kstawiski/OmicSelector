@@ -16,7 +16,7 @@ OmicSelector_OmicSelector(
   conda_path = "/home/konrad/anaconda3/bin/conda",
   debug = F,
   timeout_sec = 172800,
-  type = "deltact"
+  type = "auto"
 )
 }
 \arguments{
