@@ -1143,3 +1143,140 @@ unlink(c(list.files(".", pattern = ".hdf5"), list.files(".", pattern = ".csv"), 
 
 resu
 }
+
+OmicSelector_deep_learning_predict_transfered = function(model_path = "our_models/model5.zip",
+                                                         new_dataset = data.table::fread("Data/ks_data.csv"),
+                                                         new_scaling = T,
+                                                         old_train_csv_to_restore_scaling = "previous_validation/previous_train.csv",
+                                                         override_cutoff = NULL,
+                                                         blinded = T) {
+  # Load model data
+  library(keras)
+  library(reticulate)
+  model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("trans1_model.hdf5",Name))[1,"Name"]
+  unzip(model_path, model_path_in_zip, exdir = tempdir())
+  model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
+  
+  if(!file.exists(model_path_unzipped)) { stop("Model file does not exist in provided file. Is it the correct one?") }
+  
+  init_model = keras::load_model_hdf5(model_path_unzipped)
+  print(init_model)
+  
+  
+  wyniki_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("resu.csv",Name))[1,"Name"]
+  unzip(model_path, wyniki_path_in_zip, exdir = tempdir())
+  wyniki_path_unzipped = paste0(tempdir(), "/", wyniki_path_in_zip)
+  
+  if(!file.exists(wyniki_path_unzipped)) { stop("Configuration file does not exist in model package. Is it damaged?") }
+  
+  pre_conf = data.table::fread(wyniki_path_unzipped)
+  #colnames(pre_conf)
+  
+  # Match variables
+  library(dplyr)
+  network_features = strsplit(x = as.character(pre_conf[1,"formula"]),split = " + ", fixed = T)[[1]]
+  
+  if(sum(is.na(match(network_features, colnames(new_dataset))))>0) {
+    stop(paste0("The new dataset does not contain features: ", paste0(network_features[which(is.na(match(network_features, colnames(new_dataset))))], collapse = ", ")))
+  }
+  
+  
+  
+  new_x <- new_dataset %>% dplyr::select(., all_of(network_features)) %>% as.matrix()
+  if(blinded == FALSE) {
+    new_y <- new_dataset %>%
+      dplyr::select("Class") %>%
+      as.matrix()
+    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0) }
+  
+  
+  
+  # If scaled
+  col_mean_train = NA
+  col_sd_train = NA
+  if (pre_conf[1,"scaled"] == "TRUE") {
+    cat("This network is scaled.")
+    temp_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("col_mean_train.RDS",Name))[1,"Name"]
+    unzip(model_path, temp_path_in_zip, exdir = tempdir())
+    temp_path_unzipped = paste0(tempdir(), "/", temp_path_in_zip)
+    if (file.exists(temp_path_unzipped)) { col_mean_train = readRDS(temp_path_unzipped) } else { cat(" Scaling mean not saved in model.") }
+    
+    temp_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("col_sd_train.RDS",Name))[1,"Name"]
+    unzip(model_path, temp_path_in_zip, exdir = tempdir())
+    temp_path_unzipped = paste0(tempdir(), "/", temp_path_in_zip)
+    if (file.exists(temp_path_unzipped)) { col_sd_train = readRDS(temp_path_unzipped) } else { cat(" Scaling SD not saved in model.") }
+    
+    
+    
+    
+    if(new_scaling) {
+      new_x = new_x %>% scale()
+      new_x[is.nan(new_x)] <- 0
+      cat("\n\nNew scaling was performed with col_mean: ")
+      print(attr(new_x, "scaled:center"))
+      cat("\n\nNew col_sd: ")
+      print(attr(new_x, "scaled:scale"))
+    } else {
+      if(!is.na(col_mean_train) == TRUE & !is.na(col_mean_train) == TRUE) {
+        new_x = new_x %>%
+          scale(center = col_mean_train,
+                scale = col_sd_train)
+        new_x[is.nan(new_x)] <- 0
+      } else {
+        
+        if(!file.exists(old_train_csv_to_restore_scaling)) { stop(" A file to restore scaling from does not exist.") }
+        temp_train = data.table::fread(old_train_csv_to_restore_scaling)
+        temp_train_x = dplyr::select(temp_train, all_of(network_features))
+        temp_train_x = temp_train_x %>% scale()
+        col_mean_train <- attr(temp_train_x, "scaled:center")
+        col_sd_train <- attr(temp_train_x, "scaled:scale")
+        new_x = new_x %>%
+          scale(center = col_mean_train,
+                scale = col_sd_train)
+        new_x[is.nan(new_x)] <- 0
+        cat("\n\nScaling was restored from provided file. Final col_mean: ")
+        print(attr(new_x, "scaled:center"))
+        cat("\n\nFinal col_sd: ")
+        print(attr(new_x, "scaled:scale"))
+      }}
+  } # koniec jesli scaled
+  
+  # Przewidywanie
+  library(pROC)
+  cutoff = as.numeric(pre_conf$new_cutoff[2])
+  if(!is.null(override_cutoff)) { cutoff = as.numeric(override_cutoff) }
+  if(is.na(cutoff)) { stop("Why is cutoff not numeric? Check your override_cutoff parameter or the value set in the model.") }
+  
+  if(blinded){
+    predictions = predict(init_model, new_x)
+    pred = data.frame(`Pred` = predictions[,2])
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    confusion_matrix = NA
+    roc = NA
+    roc_auc = NA
+    
+  } else {
+    predictions = predict(init_model, new_x)
+    pred = data.frame(`Class` = as.factor(ifelse(new_y==1,"Cancer","Control")), `Pred` = predictions[,2])
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    pred$Correctness = ifelse(pred$Prediction == pred$Class, "Correct", "Incorrect")
+    confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Cancer")
+    roc = pROC::roc(pred$Class ~ pred$Pred)
+    roc_auc = pROC::ci.auc(roc(pred$Class ~ pred$Pred))
+  }
+  
+  
+  
+  final_return = list(`predictions` = pred,
+                      `network_config` = pre_conf,
+                      `new_dataset` = new_dataset,
+                      `new_dataset_x` = new_x,
+                      `network_features` = network_features,
+                      `cutoff` = cutoff,
+                      `col_mean_train` = col_mean_train,
+                      `col_sd_train` = col_sd_train,
+                      `confusion_matrix` = confusion_matrix,
+                      `roc` = roc,
+                      `roc_auc` = roc_auc)
+  final_return
+}
