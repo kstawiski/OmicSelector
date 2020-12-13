@@ -1049,6 +1049,7 @@ history
 get_weights(init_model)
 get_weights(trans_model)
 
+trans_model %>% save_model_hdf5("trans_model.hdf5")
 
 # Ocena po rekalibracji:
 preds = predict(trans_model, x_train_scale)[,2]
@@ -1203,7 +1204,8 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
     new_y <- new_dataset %>%
       dplyr::select("Class") %>%
       as.matrix()
-    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0) }
+    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0)
+    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Cancer")) }
 
 
 
@@ -1273,7 +1275,7 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
 
   } else {
     predictions = predict(init_model, new_x)
-    pred = data.frame(`Class` = as.factor(ifelse(new_y==1,"Cancer","Control")), `Pred` = predictions[,2])
+    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Cancer","Control"), levels = c("Control","Cancer")), `Pred` = predictions[,2])
     pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
     pred$Correctness = ifelse(pred$Prediction == pred$Class, "Correct", "Incorrect")
     confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Cancer")
@@ -1306,7 +1308,7 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
   # Load model data
   library(keras)
   library(reticulate)
-  model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("trans1_model.hdf5",Name))[1,"Name"]
+  model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("trans_model.hdf5",Name))[1,"Name"]
   unzip(model_path, model_path_in_zip, exdir = tempdir())
   model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
   
@@ -1337,10 +1339,12 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
   
   new_x <- new_dataset %>% dplyr::select(., all_of(network_features)) %>% as.matrix()
   if(blinded == FALSE) {
+    
     new_y <- new_dataset %>%
       dplyr::select("Class") %>%
       as.matrix()
-    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0) }
+    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0)
+    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Cancer")) }
   
   
   
@@ -1410,7 +1414,7 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
     
   } else {
     predictions = predict(init_model, new_x)
-    pred = data.frame(`Class` = as.factor(ifelse(new_y==1,"Cancer","Control")), `Pred` = predictions[,2])
+    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Cancer","Control"), levels = c("Control","Cancer")), `Pred` = predictions[,2])
     pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
     pred$Correctness = ifelse(pred$Prediction == pred$Class, "Correct", "Incorrect")
     confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Cancer")
