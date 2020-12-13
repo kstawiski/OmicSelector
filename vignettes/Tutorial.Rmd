@@ -56,8 +56,8 @@ To present the package functionality, we will use the pan-cancer data from TCGA 
 Please note, that this process may take some time (depending on your network connection), but has to be performed only once. 
 
 ```{r, eval = F}
-OmicSelector_download_tissue_miRNA_data_from_TCGA()
-OmicSelector_process_tissue_miRNA_TCGA(remove_miRNAs_with_null_var = T)
+# OmicSelector_download_tissue_miRNA_data_from_TCGA() # do not run it if you do not need to... You can use already downloaded files via data("orginal_TCGA_data") provided with the package.
+# OmicSelector_process_tissue_miRNA_TCGA(remove_miRNAs_with_null_var = T)
 ```
 
 Both of those function produce 2 files: `tissue_miRNA_counts.csv` and `tissue_miRNA_logtpm.csv`.

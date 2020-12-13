@@ -18,7 +18,8 @@ OmicSelector_benchmark(
   algorithms = c("mlp", "mlpML", "svmRadial", "svmLinear", "rf", "C5.0", "rpart",
     "rpart2", "ctree"),
   holdout = T,
-  stamp = as.character(as.numeric(Sys.time()))
+  stamp = as.character(as.numeric(Sys.time())),
+  OmicSelector_docker = F
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ OmicSelector_benchmark(
 \item{holdout}{Best set of hyperparameters can be selected using: (1) if TURE - using hold-out validation on test set, (2) if FALSE - using 10-fold cross-validation repeated 5 times.}
 
 \item{stamp}{Character vector or timestamp to make the benchmark unique.}
+
+\item{OmicSelector_docker}{Adding features used by OmicSelector GUI. Almost always you should set it to FALSE (default).}
 
 \item{input_fomulas}{List of formulas as created by `OmicSelector_OmicSelector` or `OmicSelector_merge_formulas`. Those formulas will be check in benchmark.}
 
