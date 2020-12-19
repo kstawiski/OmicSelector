@@ -130,10 +130,22 @@
                     <p><a href="https://github.com/kstawiski/OmicSelector/blob/master/example/Elias2017.csv" target="_blank">See exemplary file: <code>Elias2017.csv</code></a>. This file originates from our paper <a href="https://elifesciences.org/articles/28932" target="_blank">Elias et al. 2017</a>.
                     </p>
                     <hr>
-                    <p><b>Upload the file for the analysis:</b></p>
+                    <p><b>Create new analysis:</b></p>
                     <form action="process.php?type=new_analysis" method="post" enctype="multipart/form-data">
-                        <p>Type of expression data:
-                        <select name="type" id="type">
+                        <div class="form-group">
+                        <p>Analysis ID <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>:
+                         <input type="text" class="form-control" id="analysisid" name="analysisid" value="<?php echo uniqid(); ?>">
+                        </p>
+
+                        <p>Split the dataset <i>(splitting allows for overfitting-resilient analysis, but sometimes your sample is just too small)</i>:
+                        <select class="form-control" name="split" id="split">
+                            <option value="yes">Yes. Use 'mix' columen or split to training (60%), testing (20%) and validation sets (20%).</option>
+                            <option value="no">No. Oversample training set to create testing and validation sets.</option>
+                        </select>
+                        </p>
+                        
+                        <p>Type of expression data <i>(this will modify how the differential expression is calculated)</i>:
+                        <select class="form-control" name="type" id="type">
                             <option value="logtpm">Log10-transformed values (e.g. logTPM from NGS experiments)</option>
                             <option value="deltact">Crude values (e.g. deltaCt values from qPCR analysis)</option>
                         </select>
@@ -145,7 +157,7 @@
                         <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Uploading and performing initial check...');">
                         <i class="fas fa-upload"></i>&emsp;Upload
                         </button>&emsp;<a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
-                    </form>
+                    </div></form>
 
                 </div>
             </div>

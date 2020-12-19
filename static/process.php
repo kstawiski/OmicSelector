@@ -65,8 +65,17 @@ switch($_GET['type'])
 {
     
     case "new_analysis":
-        $analysis_id = hash("sha1", uniqid("OmicSelector",TRUE));
+        $analysis_id = $_POST['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
+
+
+        if(ctype_alnum($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
+             echo "Yes, It's an alphanumeric string/text";
+        } else {
+            $msg = $msg . "The analysis ID is too long, not an alphanumeric text or the analysis with the same ID already exists. ";
+            header("Location: /start.php?msg=" . $msg); die();
+            }
+        
         
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -107,6 +116,7 @@ switch($_GET['type'])
     // if everything is ok, try to upload file
     } else {
         exec("mkdir " . $target_dir);
+        file_put_contents($target_dir . '/var_split.txt', $_POST['split']);
         file_put_contents($target_dir . '/var_type.txt', $_POST['type']);
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         $msg = "The file `". basename( $_FILES["fileToUpload"]["name"]). "` has been uploaded. It was saved in the main project directory. You can continue with formal checking of file and starting the pipeline.";
@@ -237,6 +247,24 @@ switch($_GET['type'])
         // Redirect to analysis
         header("Location: /analysis.php?id=" . $analysis_id); die();
     break;
+
+
+    // Setup R studio for user:
+    case "rstudio":
+        // Sanity check
+        $analysis_id = $_GET['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        // Setup account
+        exec('useradd -s /bin/bash -d '.$target_dir.' -M "' . $analysis_id  . '"');
+        exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
+        exec('echo "'.$analysis_id.':OmicSelector"|chpasswd');
+
+        // Redirect to Rstudio
+        header("Location: /rstudio/"); die();
+    break;
+
     
     // Benchmarking invoked by analysis.php
     case "new_benchmark":
