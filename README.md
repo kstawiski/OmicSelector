@@ -33,17 +33,17 @@ As docker image updates itself, it may take few minutes for the app to be operat
 
 1. Installing the package in own Anaconda enviorment:
 
-Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment. 
+Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment.  Please note the this will work only when running on **Linux (Ubuntu)** OS.
 
 ```
-conda update --all 
-conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
+conda update --all
+conda install mamba -c conda-forge
+mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base=4.0.3 tensorflow keras jupyter jupytext numpy pandas r-devtools r-rgl r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick gfortran_linux-64 libgit2 mesa-libgl-cos6-x86_64 libglu mesa opencv libx11-devel-cos6-x86_64 freeglut freetype
 echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes"));'
 Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
 ```
 
-If you have compatible GPU you can consider changing `tensorflow` to `tensorflow-gpu` in `conda install` command.
+If you have compatible GPU you can consider changing `tensorflow` to `tensorflow-gpu` in `mamba install` command.
 
 2. Setup the package in your own R enviroment.
 
@@ -57,7 +57,7 @@ library(OmicSelector)
 OmicSelector_setup()
 ```
 
-Please note that application of `mxnet` requires the `mxnet` R package which is not installed automatically. You can search for `mxnet R package` in Google to find the tutorial on package installation or just use our docker container.
+Please note that application of `mxnet` requires the `mxnet` R package which is not installed automatically. You can search for `mxnet R package` in Google to find the tutorial on package installation or just use our docker container. If you install JRE, R and Rtools in Windows, this should work.
 
 ## Footnote
 
