@@ -15,7 +15,7 @@ jobs:
         run: |
           conda update --all
           conda install mamba -c conda-forge
-          mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base=4.0.2 tensorflow keras jupyter jupytext numpy pandas r-devtools r-rgl r-xml r-nlme gxx_linux-64 libxml2 pandoc r-rjava r-magick gfortran_linux-64 libgit2 mesa-libgl-cos6-x86_64 libglu mesa opencv libx11-devel-cos6-x86_64 freeglut freetype xorg-libx11 cairo fortran-compiler
+          mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base tensorflow-gpu keras jupyter jupytext numpy pandas r-devtools gxx_linux-64 libxml2 pandoc r-rjava r-magick gfortran_linux-64 libglu libx11-devel-cos6-x86_64 libgit2 xorg-libx11 mesa-libgl-cos6-x86_64 mesa opencv freeglut freetype cairo fortran-compiler
           echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
           Rscript -e 'update.packages(ask=F); devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R");'
 
