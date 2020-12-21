@@ -17,7 +17,7 @@ jobs:
           conda install mamba -c conda-forge
           mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base=4.0.3 tensorflow-gpu keras jupyter jupytext numpy pandas gxx_linux-64 libxml2 pandoc r-rjava r-magick gfortran_linux-64 libglu libx11-devel-cos6-x86_64 libgit2 xorg-libx11 mesa-libgl-cos6-x86_64 mesa opencv freeglut freetype cairo fortran-compiler
           echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
-          Rscript -e 'update.packages(ask=F); devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R");'
+          Rscript -e 'update.packages(ask=F); install.package("devtools"); devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R");'
 
       - name: Install package
         run: R CMD INSTALL .
