@@ -1428,6 +1428,28 @@ tempdb = cbind(`Class` = train_smoted$Class, trainx_smoted)
     if(debug) { save(list = ls(), file = paste0("temp/all",n,"-",run_id,".rdata")); print(formulas) }
   }
 
+   # n = 61
+  # Asakura2020
+  n = n + 1
+  if (n %in% m) { OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Matched method ", n, " with those requested.. Starting.."));
+    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting feseR")
+    start_time <- Sys.time()
+
+    dane = OmicSelector_load_datamix(replace_smote = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
+
+    source(system.file("extdata", "Asakura2020/init.R", package = "readr"))
+
+    # TO DO
+
+    
+
+
+    end_time <- Sys.time()
+    saveRDS(end_time - start_time, paste0("temp/time",n,"-",run_id,".RDS"))
+    saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))
+    if(debug) { save(list = ls(), file = paste0("temp/all",n,"-",run_id,".rdata")); print(formulas) }
+  }
+
 
   # End
   OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("Ending task. Selected: \n", formulas))
