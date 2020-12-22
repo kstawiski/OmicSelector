@@ -3,8 +3,8 @@ r = getOption("repos")
 r["CRAN"] = "https://cran.r-project.org"
 options(repos = r)
 
-install.packages('devtools')
-devtools::install_github('rstudio/keras')
+# install.packages('devtools')
+# devtools::install_github('rstudio/keras', upgrade = 'never')
 install.packages(c('reticulate','opencv'))
 reticulate::use_python('/opt/conda/bin/python')
 
