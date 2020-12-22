@@ -1441,6 +1441,83 @@ tempdb = cbind(`Class` = train_smoted$Class, trainx_smoted)
 
     # TO DO
 
+    fisher_pivot_num <- 20
+    fisher_turn_num <- 3
+    cancer_type <- "SC"
+    output_dir <- "output"
+    include_miRNA <- c()
+    include_miR_logical <- "and"
+    exclude_miRNA <- c()
+
+    model <- train
+    test <- test
+
+  if (!identical(colnames(model), colnames(test))) {
+    stop("MODEL/TEST column name mismatched")
+  }
+
+  for (i in seq_len(ncol(model))) {
+    miR2 <- unlist(strsplit(colnames(model)[i], ","))
+    if (length(miR2) > 1) {
+      colnames(model)[i] <- miR2[1]
+      colnames(test)[i] <- miR2[1]
+    }
+  }
+
+  for (miR in exclude_miRNA) {
+    col <- charmatch(miR, colnames(model), 0)
+    if (col > 0) {
+      model <- model[-col]
+      test <- test[-col]
+    }
+  }
+
+  fisher_miR <- matrix(0, nrow = fisher_pivot_num, ncol = fisher_turn_num + 1)
+
+  print_log(paste0("Fisher process turn : ", 1))
+
+  cols <- c()
+  cols_hash <- hash()
+  miRs <- next_miR(model, fisher_pivot_num, cols, cols_hash)
+  sortlist <- order(miRs$V2, decreasing = T)
+  miRs <- miRs[sortlist, ]
+
+  for (i in seq_len(nrow(fisher_miR))) {
+    fisher_miR[i, 1] <- miRs$V1[i]
+    fisher_miR[i, ncol(fisher_miR)] <- miRs$V2[i]
+  }
+  output_turn_fisher(model, test, 1, fisher_miR, process_name)
+
+  for (i in seq(2, fisher_turn_num)) {
+    print_log(paste0("Fisher process turn : ", i))
+    k <- 0
+    wk_fisher_miR <- matrix(0,
+      nrow = fisher_pivot_num * ncol(model),
+      ncol = ncol(fisher_miR)
+    )
+    for (j in seq_len(fisher_pivot_num)) {
+      if (is.na(fisher_miR[j, 1])) break
+      cols <- fisher_miR[j, 1:(i - 1)]
+      miRs <- next_miR(model, fisher_pivot_num, cols, cols_hash)
+      d <- k * ncol(model)
+      for (l in seq_len(nrow(miRs))) {
+        wk_fisher_miR[d + l, 1:(i - 1)] <- cols
+        wk_fisher_miR[d + l, i] <- miRs$V1[l]
+        wk_fisher_miR[d + l, ncol(fisher_miR)] <- miRs$V2[l]
+      }
+      k <- k + 1
+    }
+    sortlist <- order(wk_fisher_miR[, ncol(fisher_miR)], decreasing = T)
+    wk_fisher_miR <- wk_fisher_miR[sortlist, ]
+    wk_fisher_miR <- wk_fisher_miR[wk_fisher_miR[, ncol(fisher_miR)] > 0, ]
+    for (j in seq_len(min(nrow(fisher_miR), nrow(wk_fisher_miR)))) {
+      fisher_miR[j, ] <- wk_fisher_miR[j, ]
+    }
+    output_turn_fisher(model, test, i, fisher_miR, process_name)
+    clear(cols_hash)
+  }
+
+
     
 
 

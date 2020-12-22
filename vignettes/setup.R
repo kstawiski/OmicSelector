@@ -5,9 +5,10 @@ r["CRAN"] = "https://cran.r-project.org"
 options(repos = r)
 
 
-tylko_cran = c("BiocManager","devtools","reticulate","remotes","keras")
+tylko_cran = c("BiocManager","devtools","reticulate","remotes","keras","parallel")
 if (length(setdiff(tylko_cran, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(tylko_cran, rownames(installed.packages())), ask = F)  }
+options(Ncpus = parallel::detectCores() - 1)
 
 packages = c("remotes","devtools","parallel","rlang","ps","roxygen2", "plotly", "rJava", "mice","BiocManager", "MatchIt","curl",
                        "reticulate", "kableExtra","plyr","dplyr","edgeR","epiDisplay","rsq","MASS","Biocomb","caret","dplyr",

@@ -27,7 +27,11 @@ ENV OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so.1
 
 RUN apt-get update --fix-missing && \
     apt-get install -y apt-utils sshfs libxml2-dev cifs-utils libffi-dev libssl-dev wget bzip2 libx11-dev libfreetype6-dev mesa-common-dev libglu1-mesa-dev ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libfontconfig1-dev libxext6 libsm6 libxrender1 gfortran-7 gcc-7 && apt-get clean && \
-    conda install mamba -c conda-forge && mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base tensorflow keras jupyter jupytext numpy pandas r-devtools gxx_linux-64 libxml2 pandoc r-rjava r-magick r-devtools r-rgl r-reticulate r-keras gfortran_linux-64 libglu libx11-devel-cos6-x86_64 libgit2 xorg-libx11 mesa-libgl-cos6-x86_64 mesa opencv freeglut freetype cairo fortran-compiler && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+    conda install mamba -c conda-forge && mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base tensorflow keras jupyter jupytext numpy pandas r-devtools gxx_linux-64 libxml2 pandoc r-rjava r-magick r-devtools r-rgl r-reticulate r-keras gfortran_linux-64 libglu libx11-devel-cos6-x86_64 libgit2 xorg-libx11 mesa-libgl-cos6-x86_64 mesa opencv freeglut freetype cairo fortran-compiler ccache && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+
+# Speed up compliation in R:
+RUN mkdir $HOME/.ccache && mkdir $HOME/.R && echo -e 'CXX_STD = CXX14\n\nVER=\nCCACHE=ccache\nCC=$(CCACHE) gcc$(VER) -std=gnu99\nCXX=$(CCACHE) g++$(VER)\nC11=$(CCACHE) g++$(VER)\nC14=$(CCACHE) g++$(VER)\nFC=$(CCACHE) gfortran$(VER)\nF77=$(CCACHE) gfortran$(VER)' > $HOME/.R/Makevars && echo -e 'max_size = 5.0G\nsloppiness = include_file_ctime\nhash_dir=false' > $HOME/.ccache/ccache.conf
+
 
 # R:
 # RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -sc)-cran40/" && apt update && apt -y dist-upgrade && apt install -y r-base-dev texlive-full texlive-xetex ttf-mscorefonts-installer r-recommended build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && Rscript -e "install.packages(c('remotes','devtools','BiocManager','keras'))"
