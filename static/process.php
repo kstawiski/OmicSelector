@@ -279,7 +279,7 @@ switch($_GET['type'])
         exec('echo "options(repos=structure(c(CRAN=\"http://cran.r-project.org\")))" > /root/'.$analysis_id.'/.Rprofile');
         exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
         exec('echo "'.$analysis_id.':OmicSelector"|chpasswd');
-        exec('sudo -H -u '.$analysis_id.' bash -c "conda init"');
+        exec('sudo -H -u '.$analysis_id.' bash -c "conda init bash"');
         exec('sudo -H -u '.$analysis_id.' bash -c "config --set auto_activate_base true"');
 
         // Redirect to Rstudio

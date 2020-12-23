@@ -10,7 +10,7 @@ echo $PUBLIC > /PUBLIC
 cd /OmicSelector/
 git clone https://github.com/kstawiski/OmicSelector.git
 chmod -R 755 /OmicSelector/OmicSelector/static/
-screen -dmS permissionsfix find /opt/conda ! -perm 775 -print0 | xargs -0 -I {} chmod 775 {}
+screen -dmS permissionsfix find /opt/conda ! -perm 777 -print0 | xargs -0 -I {} chmod 777 {}
 
 # nignx+php
 /usr/sbin/nginx -g "daemon off;" &
