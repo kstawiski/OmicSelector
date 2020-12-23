@@ -1540,7 +1540,7 @@ tempdb = cbind(`Class` = train_smoted$Class, trainx_smoted)
   setwd(oldwd)
   formulas}, timeout = timeout_sec, onTimeout = "silent")
   if (is.null(wynik_finalny)) {
-    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "STOPED BECAUSE OF TIMEOUT REACHED!!")
+    OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = paste0("STOPED BECAUSE OF ERROR OR TIMEOUT REACHED!! Debug result: ", print(wynik_finalny)))
     warnings()
     save(list = ls(), file = paste0("temp/timeoutdebug_",stamp,"-",m,".rdata"))
   }

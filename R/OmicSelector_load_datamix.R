@@ -69,16 +69,23 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_over = 10000, use_smote
   #test = as_tibble(test)
   #valid = as_tibble(valid)
 
+if(file.exists("mixed_train_balanced.csv")) {
+  train_smoted = data.table::fread("mixed_train_balanced.csv")
+} else {
+  cat("Balanced dataset will be save as mixed_train_balanced.csv")
   if(use_smote_not_rose) {
     train_smoted = DMwR::SMOTE(Class ~ ., data = train, perc.over = smote_over,perc.under=100, k=10)
     train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
     train_smoted = train_smoted[complete.cases(train_smoted), ]
+    data.table::fwrite(train_smoted, "mixed_train_balanced.csv")
   } else {
     rosed = ROSE(Class ~ ., data = train, N = nrow(train)*10, seed = 1)
     train_smoted = rosed[["data"]]
     train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
     train_smoted = train_smoted[complete.cases(train_smoted), ]
+    data.table::fwrite(train_smoted, "mixed_train_balanced.csv")
   }
+}
 
 
 
