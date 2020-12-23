@@ -2,7 +2,7 @@
 $target_dir = "/OmicSelector/" . $_GET['id'] . "/";
 if(!file_exists($target_dir . "initial_check.txt")) { 
     // Czy to jest custom analysis?
-    if(file_exists($target_dir)) { header("Location: /analysis_custom.php?id=" . $_GET['id']); die(); }
+    if(file_exists($target_dir)) { }
     else { $msg .= "This analysis does not exist. Please check if your analysis id is correct."; $msg = urlencode($msg); header("Location: /index.php?msg=" . $msg); die(); }}
 session_start();
 $_SESSION["analysis_id"]=$_GET['id'];
