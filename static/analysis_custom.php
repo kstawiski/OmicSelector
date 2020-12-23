@@ -299,7 +299,7 @@ input:checked + .slider:before {
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Files (Jupyter)</div>
                 <div class="panel-body">
-                <iframe src="/e/tree/<?php echo $_GET['id']; ?>" frameborder="0" sandbox="allow-forms allow-scripts" style="width:100%;height: 600px;"></iframe>
+                <iframe src="/e/tree/<?php echo $_GET['id']; ?>" frameborder="0" style="width:100%;height: 600px;"></iframe>
                 </div>
             </div>
 
