@@ -284,14 +284,14 @@ input:checked + .slider:before {
                 <div class="panel-body"><p>Analysis ID: <code><b><?php echo $_GET['id']; ?></b></code></p><p><font size="1">Please save this analysis id for any further reference. If you loose it, you will not be able to resume your analysis.</font></p></div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-success">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Analysis tools</div>
-                <div class="panel-body"><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
-                        onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Jupyter-based notebooks</a>&emsp;
+                <div class="panel-body"><center><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
+                        onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;<b>Jupyter</b>-based notebooks</a>&emsp;
                         <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
-                        onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;R Studio</a>&emsp;
+                        onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup2','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;R Studio</a></center>&emsp;
                     
-                        <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
+                        
                         <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
                     </div>
             </div>
@@ -299,7 +299,7 @@ input:checked + .slider:before {
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Files (Jupyter)</div>
                 <div class="panel-body">
-                <iframe src="/e/tree/<?php echo $_GET['id']; ?>" frameborder="0" style="width:100%;height: 400px;"></iframe>
+                <iframe src="/e/tree/<?php echo $_GET['id']; ?>" frameborder="0" sandbox="allow-forms allow-scripts" style="width:100%;height: 600px;"></iframe>
                 </div>
             </div>
 
@@ -307,7 +307,8 @@ input:checked + .slider:before {
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
                 <div class="panel-body"><button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalYT2"><i class="fas fa-terminal"></i>&emsp;Shell</button>&emsp;
-                        <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>
+                        <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>&emsp;
+                        <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
                     </div>
             </div>
 

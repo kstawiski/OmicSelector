@@ -140,7 +140,7 @@ if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
 
                         <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Setting up your enviorment...');">
                         <i class="fas fa-diagnoses"></i>&emsp;Start custom analysis
-                        </button>&emsp;<a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
+                        </button>&emsp;<a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
                     </div></form>
 
                 </div>
