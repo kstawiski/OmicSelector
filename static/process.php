@@ -277,6 +277,7 @@ switch($_GET['type'])
         // Setup account
         exec('useradd -s /bin/bash -d '.$target_dir.' -M "' . $analysis_id  . '"');
         exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
+        exec('chmod -R 755 /opt/conda/ &');
         exec('echo "'.$analysis_id.':OmicSelector"|chpasswd');
 
         // Redirect to Rstudio
