@@ -19,8 +19,7 @@ mkdir -p /run/php/
 php-fpm7.3 -R -F &
 
 # Rstudio server
-conda activate base
-screen -dmS rstudioserver /rstudio-server-conda/start_rstudio_server.sh 8787
+rstudio-server start
 
 # Jupyter
 jupyter serverextension enable jupytext
