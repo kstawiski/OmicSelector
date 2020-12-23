@@ -63,7 +63,25 @@ function matematyczny_input($ma) {
 
 switch($_GET['type'])
 {
-    
+    case "new_custom_analysis":
+        $analysis_id = $_POST['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+
+
+        if(ctype_alnum($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
+             echo "Yes, It's an alphanumeric string/text";
+        } else {
+            $msg = $msg . "The analysis ID is too long, not an alphanumeric text or the analysis with the same ID already exists. ";
+            header("Location: /start_custom.php?msg=" . $msg); die();
+        }
+        
+        exec("mkdir " . $target_dir);
+        exec("cp /OmicSelector/OmicSelector/docker/own_analysis.R " . $target_dir . "own_analysis.R");
+        header("Location: /analysis_custom.php?id=" . $analysis_id); die();
+
+        break;
+
+
     case "new_analysis":
         $analysis_id = $_POST['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";

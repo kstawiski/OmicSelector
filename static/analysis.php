@@ -1,8 +1,12 @@
 <?php
 $target_dir = "/OmicSelector/" . $_GET['id'] . "/";
-if(!file_exists($target_dir . "initial_check.txt")) { $msg .= "This analysis does not exist. Please check if your analysis id is correct."; $msg = urlencode($msg); header("Location: /index.php?msg=" . $msg); die(); }
+if(!file_exists($target_dir . "initial_check.txt")) { 
+    // Czy to jest custom analysis?
+    if(file_exists($target_dir)) { header("Location: /analysis_custom.php?id=" . $_GET['id']); die(); }
+    else { $msg .= "This analysis does not exist. Please check if your analysis id is correct."; $msg = urlencode($msg); header("Location: /index.php?msg=" . $msg); die(); }}
 session_start();
 $_SESSION["analysis_id"]=$_GET['id'];
+
 
 // Czy jest task in progress?
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-" . $_GET['id'] ." | awk '{print $2}'");
@@ -950,7 +954,7 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
                         onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (R Studio)</a>&emsp;
                     
                         <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
-                        <br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
+                        <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
                     </div>
             </div>
 

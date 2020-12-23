@@ -162,7 +162,8 @@ $(window).on('load', function() { // makes sure the whole site is loaded
                 <table class="table">
                     <tr><td>
                     <h4>Start new analysis:</h4>
-                    <p><a href="/start.php" role="button" class="btn btn-primary"><i class="fas fa-plus"></i>&emsp;New analysis</a></p>
+                    <p><a href="/start.php" role="button" class="btn btn-primary"><i class="fas fa-plus"></i>&emsp;New OmicSelector analysis</a></p>
+                    <p><a href="/start_custom.php" role="button" class="btn btn-secondary"><i class="fas fa-plus"></i>&emsp;New custom analysis</a></p>
                     </td>
                     <td>
                         <h4>Resume analysis:</h4>
