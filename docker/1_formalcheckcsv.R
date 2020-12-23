@@ -47,6 +47,8 @@ if(sum(like_counts)/ncol(x)) { cat("\n✓ Feature values are positive integers. 
 writeLines(as.character(positive), "var_seemslikecounts.txt", sep="")
 
 suppressMessages(library(OmicSelector))
+split = readLines("var_split.txt", warn = F)
+if(split == "yes") {
 if("mix" %in% colnames(dane)) {
     if(sum(which(dane$mix == 'train')) > 0) { 
     cat(paste0("\n✓ Samples in training set: ", sum(dane$mix == 'train')));
@@ -81,6 +83,19 @@ if("mix" %in% colnames(dane)) {
     ttpm_features = dplyr::select(dane, starts_with("hsa"))
     mixed = OmicSelector_prepare_split(metadane = metadane, ttpm = ttpm_features, train_proc = 0.6)
     fwrite(mixed, "data_start.csv")
+    fwrite(mixed, "mixed.csv")
+}} else {
+    fwrite(dane, "data_start.csv")
+    train = dane
+    train$mix = "train"
+    fwrite(train, "mixed_train.csv")
+    test = dane
+    test$mix = "test"
+    fwrite(test, "mixed_test.csv")
+    valid = dane
+    valid$mix = "valid"
+    fwrite(valid, "mixed_valid.csv")
+    mixed = rbind(train,test,valid)
     fwrite(mixed, "mixed.csv")
 }
 
