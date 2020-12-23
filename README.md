@@ -36,10 +36,9 @@ As docker image updates itself, it may take few minutes for the app to be operat
 Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment.  Please note the this will work only when running on **Linux (Ubuntu)** OS.
 
 ```
-conda update --all
-conda install mamba -c conda-forge
-mamba install --channel "conda-forge" --channel "anaconda" --channel "r" python=3.6 r-base=4.0.3 tensorflow keras jupyter jupytext numpy pandas r-devtools r-rgl r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick gfortran_linux-64 libgit2 mesa-libgl-cos6-x86_64 libglu mesa opencv libx11-devel-cos6-x86_64 freeglut freetype
+conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
 echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes")); remotes::install_cran("pkgdown");'
 Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
 ```
 
