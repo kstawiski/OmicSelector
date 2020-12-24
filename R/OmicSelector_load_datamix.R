@@ -12,7 +12,7 @@
 #' @param replace_smote For some analyses we may want to replace imbalanced train dataset with balanced dataset. This saved coding time in some functions.
 #' @param selected_miRNAs If null - take all features staring with "hsa", if set - vector of feature names to be selected.
 #'
-#' @return The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted. (trainx contains only the miRNA data without metadata)
+#' @return The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)
 #'
 #' @export
 OmicSelector_load_datamix = function(wd = getwd(), smote_over = 10000, use_smote_not_rose = T, replace_smote = F, selected_miRNAs = NULL) {
@@ -98,7 +98,21 @@ if(file.exists("mixed_train_balanced.csv")) {
       trainx = dplyr::select(train, selected_miRNAs)
       trainx_smoted = dplyr::select(train_smoted, selected_miRNAs)    
   }
+
+  if(!file.exists("merged.csv")) {
+    cat("Writing merged.csv for reference.")
+    train2 = data.table::fread("mixed_train.csv")
+    train2$mix = "train"
+    test2 = data.table::fread("mixed_test.csv")
+    test2$mix = "test"
+    valid2 = data.table::fread("mixed_valid.csv")
+    valid2$mix = "valid"
+    train_balanced2 = data.table::fread("mixed_train_balanced.csv")
+    train_balanced2$mix = "train_balanced"
+    merged_init = rbind.fill(train2, test2, valid2, train_balanced2)
+    data.table::fwrite(merged_init, "merged.csv")
+  } else { merged_init = data.table::fread("merged.csv") }
   
   setwd(oldwd)
-  return(list(train, test, valid, train_smoted, trainx, trainx_smoted))
+  return(list(train, test, valid, train_smoted, trainx, trainx_smoted, merged_init))
 }
