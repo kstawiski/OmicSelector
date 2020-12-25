@@ -24,7 +24,7 @@ OmicSelector_load_datamix(
 \item{selected_miRNAs}{If null - take all features staring with "hsa", if set - vector of feature names to be selected.}
 }
 \value{
-The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted. (trainx contains only the miRNA data without metadata)
+The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)
 }
 \description{
 This function loads the data created in preparation phase.
