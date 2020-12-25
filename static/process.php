@@ -314,6 +314,7 @@ switch($_GET['type'])
         // Setup files
         exec("cp /OmicSelector/OmicSelector/extensions/deeplearning_settings.R " . $target_dir . "deeplearning_settings.R");
         exec("cp /OmicSelector/OmicSelector/extensions/deeplearning.sh " . $target_dir . "deeplearning.sh");
+        exec("cp /OmicSelector/OmicSelector/extensions/deeplearning.R " . $target_dir . "deeplearning.R"); // Copy of ext to speed up
         exec("chmod +x " . $target_dir . "deeplearning.sh");
 
         // Start
