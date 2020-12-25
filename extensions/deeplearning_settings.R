@@ -1,10 +1,10 @@
 # Parameters:
 balanced = F
-if(file.exists("var_deeplearning_balanced.txt")) { balanced = readLines("var_deeplearning_balanced.txt", warn = F) }
+if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
 autoencoders = F
-if(file.exists("var_deeplearning_autoencoders.txt")) { autoencoders = readLines("var_deeplearning_autoencoders.txt", warn = F) }
+if(file.exists("var_deeplearning_autoencoders.txt")) { autoencoders = as.logical(readLines("var_deeplearning_autoencoders.txt", warn = F)) }
 keras_threads = 30
-if(file.exists("var_deeplearning_keras_threads.txt")) { autoencoders = readLines("var_deeplearning_keras_threads.txt", warn = F) }
+if(file.exists("var_deeplearning_keras_threads.txt")) { keras_threads = as.numeric(readLines("var_deeplearning_keras_threads.txt", warn = F)) }
 if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
 if(selected_miRNAs != "all")
 {
