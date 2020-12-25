@@ -777,7 +777,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     sink()
     sink(type="message")
     OmicSelector_log(logfile = "task.log",  message_to_log = paste0("OmicSelector: Finished training network id: ",model_id, " : training_acc: ", tempwyniki[1, "training_Accuracy"], ", testing_acc: ", tempwyniki[1, "test_Accuracy"], " ==> worth_saving: ", tempwyniki[1, "training_Accuracy"]>save_threshold_trainacc & tempwyniki[1, "test_Accuracy"]>save_threshold_testacc))
-    message(paste0("OmicSelector: Finished training network id: ",model_id, " : training_acc: ", tempwyniki[1, "training_Accuracy"], ", testing_acc: ", tempwyniki[1, "test_Accuracy"], " ==> worth_saving: ", tempwyniki[1, "training_Accuracy"]>save_threshold_trainacc & tempwyniki[1, "test_Accuracy"]>save_threshold_testacc))
+    # message(paste0("OmicSelector: Finished training network id: ",model_id, " : training_acc: ", tempwyniki[1, "training_Accuracy"], ", testing_acc: ", tempwyniki[1, "test_Accuracy"], " ==> worth_saving: ", tempwyniki[1, "training_Accuracy"]>save_threshold_trainacc & tempwyniki[1, "test_Accuracy"]>save_threshold_testacc))
     #dev.off()
     tempwyniki2 = cbind(hyperparameters[i,],tempwyniki)
     tempwyniki2[1,"name"] = paste0(codename,"_", model_id)
