@@ -4,6 +4,8 @@ server {
 
 	server_name _;
 
+  
+
 	location ~* /e/.* {
             proxy_pass http://127.0.0.1:8888;
 
@@ -31,6 +33,32 @@ server {
       proxy_read_timeout 20d;
     }
 
+    rewrite ^/shiny$ $scheme://$http_host/shiny/ permanent;
+    
+    location /shiny/ {
+      rewrite ^/shiny/(.*)$ /$1 break;
+      proxy_pass http://localhost:3838;
+      proxy_redirect / $scheme://$http_host/shiny/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+    }
+
+    rewrite ^/radiant$ $scheme://$http_host/radiant/ permanent;
+    location /radiant/ {
+      rewrite ^/radiant/(.*)$ /$1 break;
+      proxy_pass http://localhost:3839;
+      proxy_redirect / $scheme://$http_host/shiny/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+    }
+
+
 
 	location / {
 		root /OmicSelector/OmicSelector/static/;
@@ -50,3 +78,7 @@ server {
 
 }
 
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+  }

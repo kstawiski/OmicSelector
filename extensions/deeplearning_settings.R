@@ -1,16 +1,22 @@
-# Do wywalenia potem: 
-studyMirs = make.names(c('hsa-miR-192-5p', 'hsa-let-7g-5p', 'hsa-let-7a-5p', 'hsa-let-7d-5p', 'hsa-miR-194-5p', 'hsa-miR-98-5p', 'hsa-let-7f-5p', 'hsa-miR-122-5p', 'hsa-miR-340-5p', 'hsa-miR-26b-5p'))
-norm3_1 = make.names(c('hsa-miR-17-5p', 'hsa-miR-92a-3p', 'hsa-miR-199a-3p'))
-norm2 = make.names(c('hsa-miR-28-3p', 'hsa-miR-92a-3p'))
-normQ = make.names('hsa-miR-23a-3p')
-all_norm = make.names(c('hsa-miR-17-5p', 'hsa-miR-92a-3p', 'hsa-miR-199a-3p', 'hsa-miR-23a-3p', 'hsa-miR-28-3p'))
-
 # Parameters:
 balanced = F
-nazwa_konfiguracji = "init.csv"
-selected_miRNAs = studyMirs
+if(file.exists("var_deeplearning_balanced.txt")) { balanced = readLines("var_deeplearning_balanced.txt", warn = F) }
+autoencoders = F
+if(file.exists("var_deeplearning_autoencoders.txt")) { autoencoders = readLines("var_deeplearning_autoencoders.txt", warn = F) }
+keras_threads = 30
+if(file.exists("var_deeplearning_keras_threads.txt")) { autoencoders = readLines("var_deeplearning_keras_threads.txt", warn = F) }
+if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
+if(selected_miRNAs != "all")
+{
+  library(OmicSelector)
+  input_formulas = readRDS("featureselection_formulas_final.RDS")
+  miRNAs = all.vars(as.formula(input_formulas[[selected_miRNAs]]))[-1];
+  if(length(miRNAs)>0) { selected_miRNAs = miRNAs }
+} else { selected_miRNAs = colnames(data.table::fread("mixed_train.csv"))[startsWith(colnames(data.table::fread("mixed_train.csv")),"hsa")] }
+
 
 # Code:
+nazwa_konfiguracji = "deeplearning.csv"
 options(warn = -1)
 if(file.exists("task.log")) { file.remove("task.log") }
 con <- file("task.log")
@@ -30,7 +36,20 @@ if(balanced == F) {
 
 
 # autoencoder ma softmax na deep feature
-hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+if(autoencoders) { hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+                                    activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
+                                    dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
+                                    layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    stringsAsFactors = F)
+hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3,11, by = 2)), layer3 = c(seq(0,11, by = 2)),
+                                    activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu","sigmoid","selu"), activation_function_layer3 = c("relu","sigmoid","selu"),
+                                    dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
+                                    layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    stringsAsFactors = F)
+hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) }
+else { hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
                                     layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
@@ -42,9 +61,9 @@ hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3
                                     layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
                                     optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
                                     stringsAsFactors = F)
-hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2)
+hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) }
 
-head(hyperparameters)
+# head(hyperparameters)
 
 ile = nrow(hyperparameters)
 ile_w_batchu = 250

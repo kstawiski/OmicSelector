@@ -1,5 +1,5 @@
 #!/bin/bash
 until Rscript deeplearning_settings.R; do
-  echo "Failed.. Restarting..."
+  echo "Restarting..."
   sleep 10
 done

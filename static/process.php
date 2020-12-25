@@ -286,7 +286,45 @@ switch($_GET['type'])
         header("Location: /rstudio/"); die();
     break;
 
+    case "radiant":
+        // Sanity check
+        $analysis_id = $_GET['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        // Convert files
+        echo("Converting csv files to rda (for usage in Radiant)... Please wait... They will be saved to /radiant-data so you can easly load them with Load button...");
+        exec('Rscript /OmicSelector/OmicSelector/docker/radiant.R '. $analysis_id );
+
+        // Redirect to Radiant
+        header("Location: /radiant/"); die();
+    break;
     
+    case "init_deeplearning":
+        // Sanity check
+        $analysis_id = $_POST['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        // Setup config
+        file_put_contents($target_dir . '/var_deeplearning_balanced.txt', $_POST['balanced']);
+        file_put_contents($target_dir . '/var_deeplearning_autoencoders.txt', $_POST['autoencoders']);
+        file_put_contents($target_dir . '/var_deeplearning_selected.txt', $_POST['selected']);
+        file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', $_POST['keras_threads']);
+        // Setup files
+        exec("cp /OmicSelector/OmicSelector/extensions/deeplearning_settings.R " . $target_dir . "deeplearning_settings.R");
+        exec("cp /OmicSelector/OmicSelector/extensions/deeplearning.sh " . $target_dir . "deeplearning.sh");
+        exec("chmod +x " . $target_dir . "deeplearning.sh");
+
+        // Start
+        exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." ./deeplearning.sh");
+        sleep(3); // Wait to start writing log.
+
+        // Redirect to analysis
+        header("Location: /analysis.php?id=" . $analysis_id); die();
+
+    break;
+
     // Benchmarking invoked by analysis.php
     case "new_benchmark":
         // Sanity check

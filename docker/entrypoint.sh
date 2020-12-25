@@ -20,7 +20,13 @@ php-fpm7.3 -R -F &
 
 # Rstudio server
 rstudio-server start
+screen -dmS shiny shiny-server
 
+Rscript -e 'if(!dir.exists("/radiant-data")) { dir.create("/radiant-data") }'
+cd /radiant-data/
+screen -dmS radiant Rscript -e "radiant::radiant_url(port = 3839)"
+
+cd /OmicSelector/
 # Jupyter
 jupyter serverextension enable jupytext
 jupyter notebook --no-browser

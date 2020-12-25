@@ -195,6 +195,27 @@ input:checked + .slider:before {
         waitingDialog.show('Processing.. Please wait...');
             });
 
+    $(document).on('click', '.panel div.clickable', function (e) {
+        var $this = $(this); //Heading
+        var $panel = $this.parent('.panel');
+        var $panel_body = $panel.children('.panel-body');
+        var $display = $panel_body.css('display');
+
+        if ($display == 'block') {
+            $panel_body.slideUp();
+        } else if($display == 'none') {
+            $panel_body.slideDown();
+        }
+    });
+
+    $(document).ready(function(e){
+        var $classy = '.panel.autocollapse';
+
+        var $found = $($classy);
+        $found.find('.panel-body').hide();
+        $found.removeClass($classy);
+    });
+
     var waitingDialog = waitingDialog || (function ($) { 'use strict';
 
 	// Creating modal dialog's DOM
@@ -313,6 +334,12 @@ foreach($images as $image) {
 <td>Training set:</td>
 <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train.csv" class="btn btn-info" role="button" target="popup"
                         onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/mixed_train.csv"  class="btn btn-warning" ><i class="fas fa-download"></i> Download</a></td>
+</tr>
+
+<tr>
+<td>Training set (balanced):</td>
+<td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train.csv" class="btn btn-info" role="button" target="popup"
+                        onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train_balanced.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/mixed_train_balanced.csv"  class="btn btn-warning" ><i class="fas fa-download"></i> Download</a></td>
 </tr>
 
 <tr>
@@ -943,7 +970,55 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
 
             <div class="panel panel-warning">
                 <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Post-analysis extensions</div>
-                <div class="panel-body">Coming soon...</div>
+                <div class="panel-body">
+                <div class="panel panel-success autocollapse">
+    					<div class="panel-heading clickable">
+    						<h3 class="panel-title">
+                            <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Training deep neural networks with grid search of hyperparameters.
+    						</h3>
+    					</div>
+    					<div class="panel-body">
+    						<p>Welcome to <b>deep learning</b> model training induction. This section will run deep learning extension and perform a grid search find the most optimal (deep) neural network for your datasets.</p>
+                            <form action="process.php?type=init_deeplearning" method="post" enctype="multipart/form-data"><input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
+                        <div class="form-group">
+                        <p>Choose feature set the networks should be trained on <i>(note: only "all" features are avaiable if you do not run feature selection)</i>:
+                        <select class="form-control" name="selected" id="selected">
+                            <option value="all">All features (without feature selection)</option>
+                            <?php
+                                if(file_exists($target_dir . "featureselection_formulas_final.csv")) {
+                                    $types = array_map('str_getcsv', file($target_dir . "featureselection_formulas_final.csv"));
+                                    $i = 1;
+                                    foreach($types as $row) { 
+                                        if($i > 1) { echo  '<option value="' .  $row[0] . '">' .  $row[0] . ": " . $row[1] . '</option>'; }
+                                        $i = $i + 1;
+                                        }} ?>
+                        </select>
+                        </p>
+                        <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
+                        <select class="form-control" name="autoencoders" id="autoencoders">
+                            <option value="FALSE">Train grid search without autoencoders (97848 hyperparameter combinations)</option>
+                            <option value="TRUE">Train grid search with autoencoders (293544 hyperparameter combinations)</option>
+                        </select>
+                        </p>
+                        <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used)</i>:
+                        <select class="form-control" name="balanced" id="balanced">
+                            <option value="FALSE">No. Use original dataset.</option>
+                            <option value="TRUE">Yes. Use balanced dataset.</option>
+                        </select>
+                        </p>
+                        <p>Number of parallel training processes <i>(this is highly dependent on your CPU/GPU and RAM, maximum should be picked based on trial and error, or just use e.g. 2 threads)</i>:
+                        <input class="form-control" name="keras_threads" id="keras_threads" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="2" />
+                        </p>
+
+                        <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Setting up your enviorment...');">
+                        <i class="fas fa-diagnoses"></i>&emsp;Start/re-run deep learning
+                        </button>
+                        </form>
+
+    					</div>
+    				</div>
+                
+                </div>
             </div>
 
             <div class="panel panel-default">
@@ -952,6 +1027,8 @@ if(!file_exists($target_dir . "benchmark.csv"))  { ?>
                         onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (Jupyter)</a>&emsp;
                         <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
                         onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (R Studio)</a>&emsp;
+                        <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
+                        onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant (exploratory analysis)</a>&emsp;
                     
                         <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
                         <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
