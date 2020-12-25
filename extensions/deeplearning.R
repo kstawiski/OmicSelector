@@ -128,7 +128,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
   # tu musi isc iteracja
   cat(paste0("\nStarting parallel loop.. There are: ", end-start+1, " hyperparameter sets to be checked.\n"))
-  final <- foreach(i=as.numeric(start):as.numeric(end), .combine=rbind, .verbose=F, .inorder=F, , .errorhandling = 'remove', .export = ls()
+  final <- foreach(i=as.numeric(start):as.numeric(end), .combine=rbind, .verbose=F, .inorder=F, .errorhandling = 'remove', .export = ls()
                    #,.packages = loadedNamespaces()
   ) %dopar% {
 
