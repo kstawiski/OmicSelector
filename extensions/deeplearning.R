@@ -128,7 +128,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
   # tu musi isc iteracja
   cat(paste0("\nStarting parallel loop.. There are: ", end-start+1, " hyperparameter sets to be checked.\n"))
-  final <- foreach(i=as.numeric(start):as.numeric(end), .combine=rbind, .verbose=F, .inorder=F, .export = ls()
+  final <- foreach(i=as.numeric(start):as.numeric(end), .combine=rbind, .verbose=F, .inorder=F, , .errorhandling = 'remove', .export = ls()
                    #,.packages = loadedNamespaces()
   ) %dopar% {
 
@@ -787,12 +787,14 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     tempwyniki2
   }
 
+  if(nrow(final) == 0) { stop("Networks are not being trained. Something is wrong.") }
+
   saveRDS(final, paste0(output_file,".RDS"))
   cat("\nAll done!! Ending..\n")
   if (file.exists(output_file)) {
-    tempfi = fread(output_file)
+    tempfi = data.table::fread(output_file)
     final = rbind(tempfi, final) }
-  fwrite(final, output_file)
+  data.table::fwrite(final, output_file)
   setwd(oldwd)
   #options(warn=0)
   # sprztanie
