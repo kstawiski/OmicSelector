@@ -1,0 +1,3 @@
+[submodule "inst/extdata/IRIC"]
+	path = inst/extdata/IRIC
+	url = git@github.com:kstawiski/OmicSelector-IRIC.git
