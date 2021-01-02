@@ -2,11 +2,11 @@
 # SmoteExs: obtain Smote instances for minority instances
 #=========================================================
 
-SmoteExs<-
-  function(data, percOver, k)
+SmoteExsKS<-
+  function(data, howManyNew, k)
     # Input:
     #     data      : dataset of the minority instances
-    #     percOver   : percentage of oversampling 
+    #     howManyNew   : how many new cases - oversampling 
     #     k         : number of nearest neighours
     
   {
@@ -26,7 +26,7 @@ SmoteExs<-
         dataTransformed[, col] <- data[, col]
       }
     }
-    numExs  <-  round(percOver/100) # this is the number of artificial instances generated
+    numExs  <-  howManyNew # this is the number of artificial instances generated
     newExs  <-  matrix(ncol = numCol-1, nrow = numRow*numExs)
     
     indexDiff <- sapply(dataX, function(x) length(unique(x)) > 1)
