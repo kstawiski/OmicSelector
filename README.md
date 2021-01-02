@@ -31,20 +31,7 @@ As docker image updates itself, it may take few minutes for the app to be operat
 
 ### R package:
 
-1. Installing the package in own Anaconda enviorment:
-
-Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment.  Please note the this will work only when running on **Linux (Ubuntu)** OS.
-
-```
-conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
-echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes")); remotes::install_cran("pkgdown");'
-Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
-```
-
-If you have compatible GPU you can consider changing `tensorflow` to `tensorflow-gpu` in `mamba install` command.
-
-2. Setup the package in your own R enviroment.
+#### Own enviorment:
 
 ```
 library("devtools") # if not installed, install via install.packages('devtools')
@@ -55,8 +42,35 @@ install_keras()
 library(OmicSelector)
 OmicSelector_setup()
 ```
+Please note that application of `mxnet` requires the `mxnet` R package which is not installed automatically. You can search for `mxnet R package` in Google to find the tutorial on package installation or just use our docker container. If you install JRE, R and Rtools in Windows, this should work. This apporach may require troubleshooting to detect if all needed software packages are installed.
 
-Please note that application of `mxnet` requires the `mxnet` R package which is not installed automatically. You can search for `mxnet R package` in Google to find the tutorial on package installation or just use our docker container. If you install JRE, R and Rtools in Windows, this should work.
+#### Linux/macOS using conda
+
+1. Installing the package in own Anaconda enviorment:
+
+Use e.g. `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your enviorment.  Please note the this will work only when running on **Linux (Ubuntu)** OS or macOS.
+
+```
+conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
+echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes")); remotes::install_cran("pkgdown");'
+Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
+```
+
+If you have compatible GPU you can consider changing `tensorflow` to `tensorflow-gpu` in `mamba install` command.
+
+#### Windows OS
+
+You can download our Windows-based R enviroment from here: https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu 
+
+After unpacking, if you wish to use our enviorment please consider setting the our R version in your [R Studio](https://rstudio.com/products/rstudio/download/) installation:
+
+![](vignettes/win1.png)
+
+![](vignettes/win2.png)
+
+![](vignettes/win3.png)
+
 
 ## Footnote
 
