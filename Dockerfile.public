@@ -71,7 +71,8 @@ RUN apt-get install -y libopencv-dev && Rscript -e "install.packages('opencv')" 
 
 # Shiny server:
 RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION -O "version.txt" && VERSION=$(cat version.txt)  && wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && gdebi -n ss-latest.deb && rm -f version.txt ss-latest.deb
-COPY docker/shiny-server.conf /etc/shiny-server/shiny-server.conf && Rscript -e 'install.packages(c("shiny","rmarkdown"))' && Rscript -e 'devtools::install_github("radiant-rstats/radiant")' && echo 'options(radiant.init.data = list.files(path = "/radiant-data", full.names = TRUE))' >> /root/.Rprofile
+COPY docker/shiny-server.conf /etc/shiny-server/shiny-server.conf 
+RUN Rscript -e 'install.packages(c("shiny","rmarkdown"))' && Rscript -e 'devtools::install_github("radiant-rstats/radiant")' && echo "options(radiant.init.data = list.files(path = '/radiant-data', full.names = TRUE))" >> /root/.Rprofile
 
 EXPOSE 8888
 EXPOSE 80
