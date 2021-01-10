@@ -200,7 +200,7 @@ $(document).ready(function(e){
                     ?>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/standalone/selectize.js" integrity="sha512-B03hDxgZPMBobOrnBhFiKvf8XCO7IRNa26/WiQK9lU+grXd5WXVHq3togZ67YLcUnNdrtoBbn5bi0GhYd0ivCA==" crossorigin="anonymous"></script>
                     <script>$(document).ready(function () { $('#id').selectize({sortField: 'text'});}); </script>
-                    <select id="id" name="id" class="form-control" placeholder="Provide analysis ID">
+                    <select id="id" name="id" placeholder="Provide analysis ID">
                         <?php
                         $directories = glob('/OmicSelector' . '/*' , GLOB_ONLYDIR);
 
