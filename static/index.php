@@ -43,6 +43,7 @@ if(isset($_SESSION["analysis_id"]))
          ></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53584749-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/selectize.min.js" integrity="sha512-SCkKEdq76Y59bezh6C5QR+MY43MHDK0B/8TSGYCltL5UFhKlW1ak0GtONnIz2oONZ7Vxd0S8DrGyksuqzFknhA==" crossorigin="anonymous"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -144,6 +145,11 @@ $(document).ready(function(e){
 	};
 
 })(jQuery);
+
+
+
+
+
     </script>
 </head>
 
@@ -189,7 +195,31 @@ $(document).ready(function(e){
                     <td>
                         <h4>Resume analysis:</h4>
                 <p><form action="/analysis.php" method="get">
-                    <p><input type="text" id="id" name="id" placeholder="Provide analysis ID" class="form-control" value="<?php echo $prev_analysis; ?>" autocomplete="analysisid name"></p>
+                    <p>
+                    <?php
+                    if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
+                    ?>
+                    <script>$(document).ready(function () { $('select').selectize({sortField: 'text'});}); </script>
+                    <select id="id" name="id" placeholder="Provide analysis ID">
+                        <?php
+                        $directories = glob('/OmicSelector' . '/*' , GLOB_ONLYDIR);
+
+                        //Usuwamy katalog OmicSelector
+                        foreach (array_keys($directories, 'OmicSelector') as $key) {
+                            unset($directories[$key]);
+                        }
+
+                        foreach($directories as $item){
+                            echo "<option value='$item'>$item</option>";
+                        }
+                        ?>
+                    </select>
+                    <?php } else { ?>
+                    <input type="text" id="id" name="id" placeholder="Provide analysis ID" class="form-control" value="<?php echo $prev_analysis; ?>" autocomplete="analysisid name">
+                    <?php } ?>
+                    
+                    
+                    </p>
                 <p><button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Loading...');"><i class="fas fa-folder-open"></i>&emsp;Resume analysis</button></p>
                 </form></p>
             </td></tr>
