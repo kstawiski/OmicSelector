@@ -43,7 +43,6 @@ if(isset($_SESSION["analysis_id"]))
          ></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53584749-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/selectize.min.js" integrity="sha512-SCkKEdq76Y59bezh6C5QR+MY43MHDK0B/8TSGYCltL5UFhKlW1ak0GtONnIz2oONZ7Vxd0S8DrGyksuqzFknhA==" crossorigin="anonymous"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -199,6 +198,7 @@ $(document).ready(function(e){
                     <?php
                     if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
                     ?>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/standalone/selectize.js" integrity="sha512-B03hDxgZPMBobOrnBhFiKvf8XCO7IRNa26/WiQK9lU+grXd5WXVHq3togZ67YLcUnNdrtoBbn5bi0GhYd0ivCA==" crossorigin="anonymous"></script>
                     <script>$(document).ready(function () { $('#id').selectize({sortField: 'text'});}); </script>
                     <select id="id" name="id" class="form-control" placeholder="Provide analysis ID">
                         <?php
@@ -210,7 +210,8 @@ $(document).ready(function(e){
                         }
 
                         foreach($directories as $item){
-                            echo "<option value='basename($item)'>basename($item)</option>";
+                            $item2 = basename($item);
+                            echo "<option value='$item2'>$item2</option>";
                         }
                         ?>
                     </select>
