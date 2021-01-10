@@ -199,8 +199,8 @@ $(document).ready(function(e){
                     <?php
                     if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
                     ?>
-                    <script>$(document).ready(function () { $('select').selectize({sortField: 'text'});}); </script>
-                    <select id="id" name="id" placeholder="Provide analysis ID">
+                    <script>$(document).ready(function () { $('#id').selectize({sortField: 'text'});}); </script>
+                    <select id="id" name="id" class="form-control" placeholder="Provide analysis ID">
                         <?php
                         $directories = glob('/OmicSelector' . '/*' , GLOB_ONLYDIR);
 
@@ -210,7 +210,7 @@ $(document).ready(function(e){
                         }
 
                         foreach($directories as $item){
-                            echo "<option value='$item'>$item</option>";
+                            echo "<option value='basename($item)'>basename($item)</option>";
                         }
                         ?>
                     </select>
