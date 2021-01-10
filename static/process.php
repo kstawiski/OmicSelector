@@ -33,7 +33,8 @@ function print_r_xml($arr,$wrapper = 'data',$cycle = 1)
 /* tabify */
 function tabify($num_tabs)
 {
-	for($x = 1; $x <= $num_tabs; $x++) { $return.= "\t"; }
+    $return = "";
+    for($x = 1; $x <= $num_tabs; $x++) { $return .= "\t"; }
 	return $return;
 }
 
@@ -298,6 +299,16 @@ switch($_GET['type'])
 
         // Redirect to Radiant
         header("Location: /radiant/"); die();
+    break;
+
+    case "vscode":
+        // Sanity check
+        $analysis_id = $_GET['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        // Redirect to VS Code
+        header("Location: /vscode/?folder=" . $target_dir); die();
     break;
     
     case "init_deeplearning":

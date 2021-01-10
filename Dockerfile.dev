@@ -74,6 +74,8 @@ RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION 
 COPY docker/shiny-server.conf /etc/shiny-server/shiny-server.conf 
 RUN Rscript -e 'install.packages(c("shiny","rmarkdown"))' && Rscript -e 'devtools::install_github("radiant-rstats/radiant")' && echo "options(radiant.init.data = list.files(path = '/radiant-data', full.names = TRUE))" >> /root/.Rprofile
 
+# VSCODE:
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 EXPOSE 8888
 EXPOSE 80

@@ -291,7 +291,9 @@ input:checked + .slider:before {
                         <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
                         onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup2','width=1150,height=800'); return false;"><h5><b>R Studio</b></h5></a>&emsp;
                         <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
-                        onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><h5><b>Radiant</b></h5></a></center>
+                        onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><h5><b>Radiant</b></h5></a>&emsp;
+                        <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
+                        onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><h5><b>VS Code</b></h5></a></center>
                     
                         <hr /><p><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i></p>
                     </div>

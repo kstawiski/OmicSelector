@@ -1114,10 +1114,10 @@ function konsta_readcsv_formulas($filename, $header = true)
 
     <div class="panel panel-default">
         <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
-        <div class="panel-body"><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (Jupyter)</a>&emsp;
-            <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (R Studio)</a>&emsp;
-            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant (exploratory analysis)</a>&emsp;
-
+        <div class="panel-body"><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Jupyter</a>&emsp;
+            <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;R Studio</a>&emsp;
+            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant</a>&emsp;
+            <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant</a>&emsp;
             <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
             <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
         </div>

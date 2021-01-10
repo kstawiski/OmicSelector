@@ -186,32 +186,29 @@ $(document).ready(function(e){
                 <div class="panel-body">
                 <p>You can start new analysis or resume your previous one.</p>
                 <table class="table">
-                    <tr><td>
+                    <tr><td width="50%">
                     <h4>Start new analysis:</h4>
                     <p><a href="/start.php" role="button" class="btn btn-primary"><i class="fas fa-plus"></i>&emsp;New OmicSelector analysis</a></p>
                     <p><a href="/start_custom.php" role="button" class="btn btn-warning"><i class="fas fa-plus"></i>&emsp;New custom analysis</a></p>
                     </td>
-                    <td>
+                    <td width="50%">
                         <h4>Resume analysis:</h4>
                 <p><form action="/analysis.php" method="get">
                     <p>
                     <?php
                     if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
                     ?>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.0/js/standalone/selectize.js" integrity="sha512-B03hDxgZPMBobOrnBhFiKvf8XCO7IRNa26/WiQK9lU+grXd5WXVHq3togZ67YLcUnNdrtoBbn5bi0GhYd0ivCA==" crossorigin="anonymous"></script>
-                    <script>$(document).ready(function () { $('#id').selectize({sortField: 'text'});}); </script>
-                    <select id="id" name="id" placeholder="Provide analysis ID">
+                    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                    <script>$(document).ready(function () { $('#id').select2(); }); </script>
+                    <select id="id" name="id" placeholder="Provide analysis ID" class="form-control">
                         <?php
                         $directories = glob('/OmicSelector' . '/*' , GLOB_ONLYDIR);
 
-                        //Usuwamy katalog OmicSelector
-                        foreach (array_keys($directories, 'OmicSelector') as $key) {
-                            unset($directories[$key]);
-                        }
-
                         foreach($directories as $item){
                             $item2 = basename($item);
-                            echo "<option value='$item2'>$item2</option>";
+                            if($item2 != "OmicSelector") {
+                            echo "<option value='$item2'>$item2</option>"; }
                         }
                         ?>
                     </select>
