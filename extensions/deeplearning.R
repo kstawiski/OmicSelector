@@ -196,7 +196,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     y_train <- train %>%
       dplyr::select("Class") %>%
       as.matrix()
-    y_train[,1] = ifelse(y_train[,1] == "Cancer",1,0)
+    y_train[,1] = ifelse(y_train[,1] == "Case",1,0)
 
 
     x_test <- test %>%
@@ -205,7 +205,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     y_test <- test %>%
       dplyr::select("Class") %>%
       as.matrix()
-    y_test[,1] = ifelse(y_test[,1] == "Cancer",1,0)
+    y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
     x_valid <- valid %>%
       { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
@@ -213,7 +213,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
     y_valid <- valid %>%
       dplyr::select("Class") %>%
       as.matrix()
-    y_valid[,1] = ifelse(y_valid[,1] == "Cancer",1,0)
+    y_valid[,1] = ifelse(y_valid[,1] == "Case",1,0)
     #message("Checkpoint passed: chunk 3")
 
     if(automatic_weight) {
@@ -428,7 +428,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       # wybranie odciecia
       pred = data.frame(`Class` = train$Class, `Pred` = y_train_pred)
       library(cutpointr)
-      cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+      cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Case", metric = youden)
       summary(cutoff)
       ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/cutoff.png"), plot(cutoff))
       wybrany_cutoff = cutoff$optimal_cutpoint
@@ -439,9 +439,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       cat(paste0("\n\n---- TRAINING AUC: ",cutoff$AUC," ----\n\n"))
       cat(paste0("\n\n---- OPTIMAL CUTOFF: ",wybrany_cutoff," ----\n\n"))
       cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_train)
       #message("Checkpoint passed: chunk 14")
 
@@ -463,9 +463,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
       cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
       pred = data.frame(`Class` = test$Class, `Pred` = y_test_pred)
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_test)
       tempwyniki[1, "test_Accuracy"] = cm_test$overall[1]
       tempwyniki[1, "test_Sensitivity"] = cm_test$byClass[1]
@@ -478,9 +478,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
       cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
       pred = data.frame(`Class` = valid$Class, `Pred` = y_valid_pred)
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_valid)
       tempwyniki[1, "valid_Accuracy"] = cm_test$overall[1]
       tempwyniki[1, "valid_Sensitivity"] = cm_test$byClass[1]
@@ -498,7 +498,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
         mix$Podzial = c(rep("Training",nrow(train)),rep("Test",nrow(test)),rep("Validation",nrow(valid)))
         mix$Pred = y_mixx_pred[,2]
-        mix$PredClass = ifelse(mix$Pred >= wybrany_cutoff, "Cancer", "Control")
+        mix$PredClass = ifelse(mix$Pred >= wybrany_cutoff, "Case", "Control")
         fwrite(mix, paste0(temp_dir,"/models/keras",model_id,"/data_predictions.csv.gz")) } else {
           mix = rbind(train,test,valid)
           mixx = rbind(x_train_scale, x_test_scale, x_valid_scale)
@@ -507,7 +507,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
           mix2 = data.frame(
             `Podzial` = c(rep("Training",nrow(train)),rep("Test",nrow(test)),rep("Validation",nrow(valid))),
             `Pred` = y_mixx_pred[,2],
-            `PredClass` = ifelse(y_mixx_pred[,2] >= wybrany_cutoff, "Cancer", "Control")
+            `PredClass` = ifelse(y_mixx_pred[,2] >= wybrany_cutoff, "Case", "Control")
           )
 
           fwrite(mix2, paste0(temp_dir,"/models/keras",model_id,"/data_predictions.csv.gz"))
@@ -548,7 +548,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       y_train <- train %>%
         dplyr::select("Class") %>%
         as.matrix()
-      y_train[,1] = ifelse(y_train[,1] == "Cancer",1,0)
+      y_train[,1] = ifelse(y_train[,1] == "Case",1,0)
       #message("Checkpoint passed: chunk 22")
 
 
@@ -558,7 +558,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       y_test <- test %>%
         dplyr::select("Class") %>%
         as.matrix()
-      y_test[,1] = ifelse(y_test[,1] == "Cancer",1,0)
+      y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
       x_valid <- valid %>%
         { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
@@ -566,7 +566,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       y_valid <- valid %>%
         dplyr::select("Class") %>%
         as.matrix()
-      y_valid[,1] = ifelse(y_valid[,1] == "Cancer",1,0)
+      y_valid[,1] = ifelse(y_valid[,1] == "Case",1,0)
       #message("Checkpoint passed: chunk 23")
 
       if(hyperparameters[i, 17] == T) {
@@ -658,7 +658,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       # wybranie odciecia
       pred = data.frame(`Class` = train$Class, `Pred` = y_train_pred)
       library(cutpointr)
-      cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+      cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Case", metric = youden)
       print(summary(cutoff))
       ggplot2::ggsave(file = paste0(temp_dir,"/models/keras",model_id,"/cutoff.png"), plot(cutoff))
       wybrany_cutoff = cutoff$optimal_cutpoint
@@ -669,9 +669,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
       #message("Checkpoint passed: chunk 30")
 
       cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_train)
       #message("Checkpoint passed: chunk 31")
 
@@ -694,9 +694,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
       cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
       pred = data.frame(`Class` = test$Class, `Pred` = y_test_pred)
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_test)
       tempwyniki[1, "test_Accuracy"] = cm_test$overall[1]
       tempwyniki[1, "test_Sensitivity"] = cm_test$byClass[1]
@@ -709,9 +709,9 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
       cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
       pred = data.frame(`Class` = valid$Class, `Pred` = y_valid_pred)
-      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-      pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-      cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+      pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+      pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+      cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
       print(cm_valid)
       tempwyniki[1, "valid_Accuracy"] = cm_valid$overall[1]
       tempwyniki[1, "valid_Sensitivity"] = cm_valid$byClass[1]
@@ -729,7 +729,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
 
         mix$Podzial = c(rep("Training",nrow(train)),rep("Test",nrow(test)),rep("Validation",nrow(valid)))
         mix$Pred = y_mixx_pred[,2]
-        mix$PredClass = ifelse(mix$Pred >= wybrany_cutoff, "Cancer", "Control")
+        mix$PredClass = ifelse(mix$Pred >= wybrany_cutoff, "Case", "Control")
         fwrite(mix, paste0(temp_dir,"/models/keras",model_id,"/data_predictions.csv.gz")) } else {
           mix = rbind(train,test,valid)
           mixx = rbind(x_train_scale, x_test_scale, x_valid_scale)
@@ -738,7 +738,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
           mix2 = data.frame(
             `Podzial` = c(rep("Training",nrow(train)),rep("Test",nrow(test)),rep("Validation",nrow(valid))),
             `Pred` = y_mixx_pred[,2],
-            `PredClass` = ifelse(y_mixx_pred[,2] >= wybrany_cutoff, "Cancer", "Control")
+            `PredClass` = ifelse(y_mixx_pred[,2] >= wybrany_cutoff, "Case", "Control")
           )
 
           fwrite(mix2, paste0(temp_dir,"/models/keras",model_id,"/data_predictions.csv.gz"))
@@ -841,7 +841,7 @@ x_train <- train %>%
 y_train <- train %>%
   dplyr::select("Class") %>%
   as.matrix()
-y_train[,1] = ifelse(y_train[,1] == "Cancer",1,0)
+y_train[,1] = ifelse(y_train[,1] == "Case",1,0)
 
 
 x_test <- test %>%
@@ -850,7 +850,7 @@ x_test <- test %>%
 y_test <- test %>%
   dplyr::select("Class") %>%
   as.matrix()
-y_test[,1] = ifelse(y_test[,1] == "Cancer",1,0)
+y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
 x_valid <- valid %>%
   { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
@@ -858,7 +858,7 @@ x_valid <- valid %>%
 y_valid <- valid %>%
   dplyr::select("Class") %>%
   as.matrix()
-y_valid[,1] = ifelse(y_valid[,1] == "Cancer",1,0)
+y_valid[,1] = ifelse(y_valid[,1] == "Case",1,0)
 
 
 
@@ -933,9 +933,9 @@ library(pROC)
 
 
 # wybranie odciecia
-pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Cancer","Control")), `Pred` = predict(init_model, x_train_scale))
+pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Case","Control")), `Pred` = predict(init_model, x_train_scale))
 library(cutpointr)
-cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Case", metric = youden)
 print(summary(cutoff))
 ggplot2::ggsave(file = paste0("cutoff.png"), plot(cutoff))
 wybrany_cutoff = cutoff$optimal_cutpoint
@@ -953,9 +953,9 @@ tempwyniki[1, "new_cutoff"] = wybrany_cutoff
 #message("Checkpoint passed: chunk 30")
 
 cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_train)
 #message("Checkpoint passed: chunk 31")
 
@@ -978,9 +978,9 @@ saveRDS(cm_train, paste0("init_cm_train.RDS"))
 
 cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
 pred = data.frame(`Class` = as.factor(test$Class), `Pred` = y_test_pred)
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_test)
 tempwyniki[1, "new_test_Accuracy"] = cm_test$overall[1]
 tempwyniki[1, "new_test_Sensitivity"] = cm_test$byClass[1]
@@ -993,9 +993,9 @@ saveRDS(cm_test, paste0("init_cm_test.RDS"))
 
 cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
 pred = data.frame(`Class` = as.factor(valid$Class), `Pred` = y_valid_pred)
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_valid)
 tempwyniki[1, "new_valid_Accuracy"] = cm_valid$overall[1]
 tempwyniki[1, "new_valid_Sensitivity"] = cm_valid$byClass[1]
@@ -1060,9 +1060,9 @@ library(pROC)
 
 
 # wybranie odciecia
-pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Cancer","Control")), `Pred` = predict(trans_model, x_train_scale))
+pred = data.frame(`Class` = as.factor(ifelse(y_train==1,"Case","Control")), `Pred` = predict(trans_model, x_train_scale))
 library(cutpointr)
-cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Cancer", metric = youden)
+cutoff = cutpointr(pred, Pred.2, Class, pos_class = "Case", metric = youden)
 print(summary(cutoff))
 ggplot2::ggsave(file = paste0("trans_cutoff.png"), plot(cutoff))
 wybrany_cutoff = cutoff$optimal_cutpoint
@@ -1080,9 +1080,9 @@ tempwyniki[scenario_i, "new_cutoff"] = wybrany_cutoff
 #message("Checkpoint passed: chunk 30")
 
 cat(paste0("\n\n---- TRAINING PERFORMANCE ----\n\n"))
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_train = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_train)
 #message("Checkpoint passed: chunk 31")
 
@@ -1105,9 +1105,9 @@ saveRDS(cm_train, paste0("trans_cm_train.RDS"))
 
 cat(paste0("\n\n---- TESTING PERFORMANCE ----\n\n"))
 pred = data.frame(`Class` = as.factor(test$Class), `Pred` = y_test_pred)
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_test = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_test)
 tempwyniki[scenario_i, "new_test_Accuracy"] = cm_test$overall[1]
 tempwyniki[scenario_i, "new_test_Sensitivity"] = cm_test$byClass[1]
@@ -1120,9 +1120,9 @@ saveRDS(cm_test, paste0("trans_cm_test.RDS"))
 
 cat(paste0("\n\n---- VALIDATION PERFORMANCE ----\n\n"))
 pred = data.frame(`Class` = as.factor(valid$Class), `Pred` = y_valid_pred)
-pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Cancer", "Control")
-pred$PredClass = factor(pred$PredClass, levels = c("Control","Cancer"))
-cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Cancer")
+pred$PredClass = ifelse(pred$Pred.2 >= wybrany_cutoff, "Case", "Control")
+pred$PredClass = factor(pred$PredClass, levels = c("Control","Case"))
+cm_valid = caret::confusionMatrix(pred$PredClass, pred$Class, positive = "Case")
 print(cm_valid)
 tempwyniki[scenario_i, "new_valid_Accuracy"] = cm_valid$overall[1]
 tempwyniki[scenario_i, "new_valid_Sensitivity"] = cm_valid$byClass[1]
@@ -1207,8 +1207,8 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
     new_y <- new_dataset %>%
       dplyr::select("Class") %>%
       as.matrix()
-    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0)
-    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Cancer")) }
+    new_y[,1] = ifelse(new_y[,1] == "Case",1,0)
+    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Case")) }
 
 
 
@@ -1271,17 +1271,17 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
   if(blinded){
     predictions = predict(init_model, new_x)
     pred = data.frame(`Pred` = predictions[,2])
-    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Case", "Control")
     confusion_matrix = NA
     roc = NA
     roc_auc = NA
 
   } else {
     predictions = predict(init_model, new_x)
-    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Cancer","Control"), levels = c("Control","Cancer")), `Pred` = predictions[,2])
-    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Case","Control"), levels = c("Control","Case")), `Pred` = predictions[,2])
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Case", "Control")
     pred$Correctness = ifelse(pred$Prediction == pred$Class, "Correct", "Incorrect")
-    confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Cancer")
+    confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Case")
     roc = pROC::roc(pred$Class ~ pred$Pred)
     roc_auc = pROC::ci.auc(roc(pred$Class ~ pred$Pred))
   }
@@ -1346,8 +1346,8 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
     new_y <- new_dataset %>%
       dplyr::select("Class") %>%
       as.matrix()
-    new_y[,1] = ifelse(new_y[,1] == "Cancer",1,0)
-    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Cancer")) }
+    new_y[,1] = ifelse(new_y[,1] == "Case",1,0)
+    new_dataset$Class = factor(new_dataset$Class, levels = c("Control","Case")) }
   
   
   
@@ -1410,17 +1410,17 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
   if(blinded){
     predictions = predict(init_model, new_x)
     pred = data.frame(`Pred` = predictions[,2])
-    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Case", "Control")
     confusion_matrix = NA
     roc = NA
     roc_auc = NA
     
   } else {
     predictions = predict(init_model, new_x)
-    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Cancer","Control"), levels = c("Control","Cancer")), `Pred` = predictions[,2])
-    pred$Prediction = ifelse(pred$Pred >= cutoff, "Cancer", "Control")
+    pred = data.frame(`Class` = factor(ifelse(new_y==1,"Case","Control"), levels = c("Control","Case")), `Pred` = predictions[,2])
+    pred$Prediction = ifelse(pred$Pred >= cutoff, "Case", "Control")
     pred$Correctness = ifelse(pred$Prediction == pred$Class, "Correct", "Incorrect")
-    confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Cancer")
+    confusion_matrix = caret::confusionMatrix(as.factor(pred$Prediction), as.factor(pred$Class), positive = "Case")
     roc = pROC::roc(pred$Class ~ pred$Pred)
     roc_auc = pROC::ci.auc(roc(pred$Class ~ pred$Pred))
   }

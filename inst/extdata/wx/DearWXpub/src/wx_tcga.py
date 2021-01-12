@@ -148,7 +148,7 @@ def preprocess_TCGA_assembler(data_path, feature_set_ratio):
 
     cPickle.dump(feature_df, open(FEATURE_SET_DF_FILE_NAME,'wb'),protocol=-1)  
     cPickle.dump(train_df, open(TRAIN_SET_DF_FILE_NAME,'wb'),protocol=-1)
-    print('Saving TCGA Cancer 12 type Dataframe done...')
+    print('Saving TCGA Case 12 type Dataframe done...')
 
 def load_norm_feature_set(df, validation_ratio, RANDOM_STATE):
     df_cancer = df[df.Tumor == True]

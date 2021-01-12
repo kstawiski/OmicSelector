@@ -1,7 +1,7 @@
 # DearWXpub
 ## wx keras version for everyone
 ## Web tool : https://wx.deargendev.me/
-## We show the feature selection and Cancer/Normal classification result on TCGA dataset
+## We show the feature selection and Case/Normal classification result on TCGA dataset
 
 A Keras implementation of Wx in preprint, :   
 **[Wx: a neural network-based feature selection algorithm for next-generation sequencing data Sungsoo Park, Bonggun Shin, Yoonjung Choi, Kilsoo Kang, and Keunsoo Kang]**
@@ -122,7 +122,7 @@ with WX ranking
 `['LCN1'(3847),'UMOD'(7),'AQP2'(106),'PATE4'(5878),'SLC12A1'(165),'OTOP2'(7785),'ACTN3'(4939),'KRT36'(9441),
 'ATP2A1'(14193),'PRH2'(2155),'AGER'(934),'PYGM'(13688),'PRR4'(2151),'ESRRB'(9630)]`
 
-#### Cancer Classifiation Accuracy
+#### Case Classifiation Accuracy
 TCGA data( Downloaded at Dec. 26th. 2017 ), Half of data for feature selection / Half of data for validation
 
 **Accuracy of 14 Biomarker**
@@ -207,7 +207,7 @@ $ python src/wx_gse_multi_class.py
 ***GSE72056***
 
 ```
-Cancer type : melanoma
+Case type : melanoma
 
 Sample size
 malignant : 1257
@@ -225,7 +225,7 @@ Peng14 : 70.22%
 ***GSE40419***
 
 ```
-Cancer type : luad(lung)
+Case type : luad(lung)
 
 Sample size
 malignant : 87
@@ -243,7 +243,7 @@ Peng14 : 56.87%
 ***GSE103322***
 
 ```
-Cancer type : Head and Neck(sinle cell)
+Case type : Head and Neck(sinle cell)
 
 Sample size
 malignant : 2215

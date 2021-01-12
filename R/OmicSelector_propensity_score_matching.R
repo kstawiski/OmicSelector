@@ -15,7 +15,7 @@ OmicSelector_propensity_score_matching = function(dataset, match_by = c("age_at_
 
   #tempdane = dataset
   tempdane = dplyr::select(dataset, match_by)
-  tempdane$Class = ifelse(dataset$Class == "Cancer", TRUE, FALSE)
+  tempdane$Class = ifelse(dataset$Class == "Case", TRUE, FALSE)
   suppressMessages(library(mice))
   temp1 = mice(tempdane, m=1)
   temp2 = temp1$data

@@ -11,7 +11,7 @@ OmicSelector_prepare_split(
 )
 }
 \arguments{
-\item{metadane}{Metadata of cases. Must contain `Class` variable with `Cancer` and `Control` values.}
+\item{metadane}{Metadata of cases. Must contain `Class` variable with `Case` and `Control` values.}
 
 \item{ttpm}{Normalized counts used (primary data for the rest of the analysis).}
 
@@ -24,5 +24,5 @@ The mixed dataset is return. In working directory mixed_train.csv, mixed_test.cs
 Create split required for `OmicSelector_OmicSelector()` and all the following functions. It is obligatory to use it.
 The function devides the dataset into training, testing and validation set. Be default (as `train_proc=0.6`) 60 perc. of cases will be assigned to trainining datset.
 The rest is devided into testing and validation dataset in half, ending in 60 perc. of cases in training dataset, 20 perc. of cases in testing dataset and 20 perc. of cases in validation dataset.
-Metadata have to have `Class` variable, with `Cancer` and `Control` values.
+Metadata have to have `Class` variable, with `Case` and `Control` values.
 }

@@ -139,7 +139,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Preparing for SMOTE...")
   #train_sig_smoted = DMwR::SMOTE(Class ~ ., data = train_sig, perc.over = 10000,perc.under=100, k=10)
   train_sig_smoted = dplyr::select(train_smoted, as.character(istotne$miR), Class)
-  train_sig_smoted$Class = factor(train_sig_smoted$Class, levels = c("Control","Cancer"))
+  train_sig_smoted$Class = factor(train_sig_smoted$Class, levels = c("Control","Case"))
   trainx_sig_smoted = dplyr::select(train_sig_smoted, starts_with("hsa"))
 
   wyniki_smoted = OmicSelector_differential_expression_ttest(trainx_smoted, train_smoted$Class, mode = type)

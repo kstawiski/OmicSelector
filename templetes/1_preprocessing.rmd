@@ -156,7 +156,7 @@ kable(table(dataset$Class), col.names = c("Class","Number of cases")) %>%
 Check if dataset is balanced using binominal test (vs. p=0.5):
 
 ```{r binominal-test}
-cancer_cases = sum(dataset$Class == "Cancer")
+cancer_cases = sum(dataset$Class == "Case")
 all_cases = length(dataset$Class)
 binom.test(n = all_cases, x = cancer_cases, p = 0.5, alternative = "two.sided")
 ```

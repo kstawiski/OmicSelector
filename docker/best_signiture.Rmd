@@ -338,9 +338,9 @@ Metrics on training set:
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 model_file = paste0("models/",model_results[which(model_results$Metaindex == max(model_results$Metaindex))[1],"ID"],".RDS")
 bestmodel = readRDS(model_file)
-predtrain_y = predict(bestmodel, train, type="prob")[,"Cancer"]
+predtrain_y = predict(bestmodel, train, type="prob")[,"Case"]
 predtrain = predict(bestmodel, train)
-caret::confusionMatrix(predtrain, train$Class, positive = "Cancer")
+caret::confusionMatrix(predtrain, train$Class, positive = "Case")
 
 trainroc = pROC::roc(train$Class ~ predtrain_y)
 print(trainroc)
@@ -351,17 +351,17 @@ plot(trainroc)
 Metrics on testing set:
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, test, type="prob")[,"Cancer"]
+pred_y = predict(bestmodel, test, type="prob")[,"Case"]
 pred = predict(bestmodel, test)
-caret::confusionMatrix(pred, test$Class, positive = "Cancer")
+caret::confusionMatrix(pred, test$Class, positive = "Case")
 ```
 
 Metrics on validation set:
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, valid, type="prob")[,"Cancer"]
+pred_y = predict(bestmodel, valid, type="prob")[,"Case"]
 pred = predict(bestmodel, valid)
-caret::confusionMatrix(pred, valid$Class, positive = "Cancer")
+caret::confusionMatrix(pred, valid$Class, positive = "Case")
 ```
 
 #### Best classifier for metaindex2:
@@ -371,9 +371,9 @@ Metrics on training set:
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 model_file = paste0("models/",model_results[which(model_results$Metaindex2 == max(model_results$Metaindex2))[1],"ID"],".RDS")
 bestmodel = readRDS(model_file)
-predtrain_y = predict(bestmodel, train, type="prob")[,"Cancer"]
+predtrain_y = predict(bestmodel, train, type="prob")[,"Case"]
 predtrain = predict(bestmodel, train)
-caret::confusionMatrix(predtrain, train$Class, positive = "Cancer")
+caret::confusionMatrix(predtrain, train$Class, positive = "Case")
 
 trainroc = pROC::roc(train$Class ~ predtrain_y)
 print(trainroc)
@@ -384,15 +384,15 @@ plot(trainroc)
 Metrics on testing set:
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, test, type="prob")[,"Cancer"]
+pred_y = predict(bestmodel, test, type="prob")[,"Case"]
 pred = predict(bestmodel, test)
-caret::confusionMatrix(pred, test$Class, positive = "Cancer")
+caret::confusionMatrix(pred, test$Class, positive = "Case")
 ```
 
 Metrics on validation set:
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, valid, type="prob")[,"Cancer"]
+pred_y = predict(bestmodel, valid, type="prob")[,"Case"]
 pred = predict(bestmodel, valid)
-caret::confusionMatrix(pred, valid$Class, positive = "Cancer")
+caret::confusionMatrix(pred, valid$Class, positive = "Case")
 ```

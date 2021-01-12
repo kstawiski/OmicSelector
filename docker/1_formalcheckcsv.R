@@ -12,10 +12,22 @@ error = FALSE
 if("Class" %in% colnames(dane)) { cat("✓ The file contains Class variable. ") } else 
 { writeLines(as.character("FAIL"), "var_initcheck.txt", sep=""); stop("☒ The file contains DOES NOT Class variable. ") }
 
-dane$Class = factor(dane$Class, levels = c("Control","Cancer"))
+
+klasy = unique(dane$Class)
+ref = c("Case","Control")
+if(!dplyr::setequal(ref, klasy)) {
+    class_interest = readLines("var_class_interest.txt", warn = F)
+    dane$ClassOrginal = dane$Class
+    dane$Class = ifelse(dane$Class == class_interest, "Case", "Control")
+    cat("\n✓ The Class variable was converted successfully. The orginial values are saved in ClassOrginal variable.")
+} else {
+    cat("\n✓ The Class variable has only case and control cases.")
+}
+
+dane$Class = factor(dane$Class, levels = c("Control","Case"))
 if(table(dane$Class)[1] == 0) { writeLines(as.character("FAIL"), "var_initcheck.txt", sep=""); stop("☒ There are no control cases.") }
-if(table(dane$Class)[2] == 0) { writeLines(as.character("FAIL"), "var_initcheck.txt", sep=""); stop("☒ There are no cancer cases.") }
-cat(paste0("\n✓ The data contains ", table(dane$Class)[1], " `Control` cases and ", table(dane$Class)[2], " `Cancer` cases."))
+if(table(dane$Class)[2] == 0) { writeLines(as.character("FAIL"), "var_initcheck.txt", sep=""); stop("☒ There are no cases of interest.") }
+cat(paste0("\n✓ The data contains ", table(dane$Class)[1], " `Control` cases and ", table(dane$Class)[2], " `Case` cases (cases of interest)."))
 
 temp = dplyr::select(dane, starts_with("hsa"))
 if(ncol(temp)==0) { writeLines(as.character("FAIL"), "var_initcheck.txt", sep=""); stop("☒ The data does not contain any features (e.g. miRNAs) for feautre selection. Remember that feature names should start from hsa...") }

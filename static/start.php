@@ -123,7 +123,7 @@
                     <ul>
                         <li>All variables which (column) name starts with <code>hsa</code> will be considered features of interest. Features of interest must be numeric and have no missing values.</li>
                         <li>All variables which name doesn't start with <code>hsa</code> will be considered as metadata.</li>
-                        <li>The dataset has to have the variable named <code>Class</code> with no missing data and with values expicitly encoded as <code>Cancer</code> or <code>Control</code> cases. If your problem does not involve cancer detecton, please temporary change your encoding and interpret the results accordingly.</li>
+                        <li>The dataset has to have the variable named <code>Class</code> with no missing data and with values expicitly encoded as <code>Case</code> or <code>Control</code> cases. If your problem does not involve cancer detecton, please temporary change your encoding and interpret the results accordingly.</li>
                         <li>The pipeline will perform random data spltting in ratio 60% (training set) : 20% (testing set) : 20% (validation set). If you wish to enforce your way of spltting, the submitted file should have the variable named <code>mix</code> with values <code>train</code>, <code>test</code> and <code>valid</code>.</li>
                     </ul>
                     </p>
@@ -135,6 +135,10 @@
                         <div class="form-group">
                         <p>Analysis ID <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>:
                          <input type="text" class="form-control" id="analysisid" name="analysisid" value="<?php echo uniqid(); ?>">
+                        </p>
+
+                        <p>Value of the class of interest <i>(by default "Cancer" vs. "Control", note that all other values will be converted to "Control")</i>:
+                         <input type="text" class="form-control" id="class_interest" name="class_interest" value="Cancer">
                         </p>
 
                         <p>Split the dataset <i>(splitting allows for overfitting-resilient analysis, but sometimes your sample is just too small)</i>:

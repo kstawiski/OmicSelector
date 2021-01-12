@@ -137,6 +137,7 @@ switch($_GET['type'])
         exec("mkdir " . $target_dir);
         file_put_contents($target_dir . '/var_split.txt', $_POST['split']);
         file_put_contents($target_dir . '/var_type.txt', $_POST['type']);
+        file_put_contents($target_dir . '/var_class_interest.txt', $_POST['class_interest']);
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         $msg = "The file `". basename( $_FILES["fileToUpload"]["name"]). "` has been uploaded. It was saved in the main project directory. You can continue with formal checking of file and starting the pipeline.";
        

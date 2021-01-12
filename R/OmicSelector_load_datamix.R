@@ -12,11 +12,12 @@
 #' @param smote_easy Easy SMOTE (just SMOTE minority cases in the amount of the difference between minority and majority classes). If set to TRUE smote_over has no meaning. Please not that no undersampling of majority class is performed in this method, so we consider it the best for small datasets.
 #' @param replace_smote For some analyses we may want to replace imbalanced train dataset with balanced dataset. This saved coding time in some functions.
 #' @param selected_miRNAs If null - take all features staring with "hsa", if set - vector of feature names to be selected.
+#' @param class_interest Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".
 #'
 #' @return The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)
 #'
 #' @export
-OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 200, use_smote_not_rose = T, replace_smote = F, selected_miRNAs = NULL) {
+OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 200, use_smote_not_rose = T, replace_smote = F, selected_miRNAs = NULL, class_interest = "Case") {
   suppressMessages(library(plyr))
   suppressMessages(library(dplyr))
   suppressMessages(library(edgeR))
@@ -50,12 +51,27 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
       valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), temp, Class)
     }
   
-  train$Class = factor(train$Class, levels = c("Control","Cancer"))
-  test$Class = factor(test$Class, levels = c("Control","Cancer"))
-  valid$Class = factor(valid$Class, levels = c("Control","Cancer"))
+
+
+  klasy = unique(c(train$Class, test$Class, valid$Class))
+  ref = c("Case","Control")
+  if(!dplyr::setequal(ref, klasy)) {
+    train$ClassOrginal = train$Class
+    test$ClassOrginal = test$Class
+    valid$ClassOrginal = valid$Class
+
+    train$Class = ifelse(train$Class == class_interest, "Case", "Control")
+    test$Class = ifelse(test$Class == class_interest, "Case", "Control")
+    valid$Class = ifelse(valid$Class == class_interest, "Case", "Control")
+  }
+
+    train$Class = factor(train$Class, levels = c("Control","Case"))
+    test$Class = factor(test$Class, levels = c("Control","Case"))
+    valid$Class = factor(valid$Class, levels = c("Control","Case"))
+  
   
   # Wywalamy miRy z zerowa wariancja (nie musimy bo robi to poprzednia funkcja)
-  #temp = train %>% dplyr::filter(Class == "Cancer")
+  #temp = train %>% dplyr::filter(Class == "Case")
   #temp2 = as.numeric(which(apply(temp, 2, var) == 0))
   #temp = train %>% dplyr::filter(Class == "Control")
   #temp3 = as.numeric(which(apply(temp, 2, var) == 0))
@@ -79,10 +95,10 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
         trainx = dplyr::select(train, starts_with("hsa"))
         t = table(train$Class)
         # print(t)
-        roznica = abs(as.numeric(t["Cancer"]) - as.numeric(t["Control"]))
+        roznica = abs(as.numeric(t["Case"]) - as.numeric(t["Control"]))
         minor = NULL; maj = NULL
-        if(as.numeric(t["Cancer"]) > as.numeric(t["Control"])) { minor = "Control"; maj = "Cancer" }
-        if(as.numeric(t["Cancer"]) < as.numeric(t["Control"])) { minor = "Cancer"; maj = "Control" }
+        if(as.numeric(t["Case"]) > as.numeric(t["Control"])) { minor = "Control"; maj = "Case" }
+        if(as.numeric(t["Case"]) < as.numeric(t["Control"])) { minor = "Case"; maj = "Control" }
         if(is.null(minor)) { cat("\nThere is no need to balance datasets.") } else {
           
           train$Class = as.factor(train$Class)
@@ -95,6 +111,7 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
           ile_maj = nrow(trainx_maj)
           nowy = ile_min
           perc = 1
+          balanced = trainx2
           while (nowy < roznica) {
             try({ balanced = DMwR::SMOTE(Class ~ ., trainx2, perc.over = perc)
             b = table(balanced$Class)
@@ -114,13 +131,13 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
           data.table::fwrite(train_smoted, "mixed_train_balanced.csv") }
       } else {
         train_smoted = DMwR::SMOTE(Class ~ ., data = train, perc.over = smote_over,perc.under=100, k=5)
-        train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
+        train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Case"))
         train_smoted = train_smoted[complete.cases(train_smoted), ]
         data.table::fwrite(train_smoted, "mixed_train_balanced.csv") }
     } else {
       rosed = ROSE(Class ~ ., data = train, N = nrow(train)*10, seed = 1)
       train_smoted = rosed[["data"]]
-      train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
+      train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Case"))
       train_smoted = train_smoted[complete.cases(train_smoted), ]
       data.table::fwrite(train_smoted, "mixed_train_balanced.csv")
     }
@@ -152,11 +169,11 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
     data.table::fwrite(merged_init, "merged.csv")
   } else { merged_init = data.table::fread("merged.csv") }
   
-  train$Class = factor(train$Class, levels = c("Control","Cancer"))
-  test$Class = factor(test$Class, levels = c("Control","Cancer"))
-  valid$Class = factor(valid$Class, levels = c("Control","Cancer"))
-  train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Cancer"))
-  merged_init$Class = factor(merged_init$Class, levels = c("Control","Cancer"))
+  train$Class = factor(train$Class, levels = c("Control","Case"))
+  test$Class = factor(test$Class, levels = c("Control","Case"))
+  valid$Class = factor(valid$Class, levels = c("Control","Case"))
+  train_smoted$Class = factor(train_smoted$Class, levels = c("Control","Case"))
+  merged_init$Class = factor(merged_init$Class, levels = c("Control","Case"))
   
   setwd(oldwd)
   return(list(`train` = train, `test` = test, `valid` = valid, `train_smoted` = train_smoted, `trainx` = trainx, `trainx_smoted` = trainx_smoted, `merged` = merged_init))

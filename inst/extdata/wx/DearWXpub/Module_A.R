@@ -1769,20 +1769,20 @@ CheckParam <- function(vCancer,
 	names(vSampleTypeIdAll) <-
 		c("TP",   # 01, 'Primary Tumor'
 			"TR",   # 02, 'Recurrent Tumor'
-			"TB",   # 03, 'Primary Blood Derived Cancer - Peripheral Blood'
-			"TRBM", # 04, 'Recurrent Blood Derived Cancer - Bone Marrow'
+			"TB",   # 03, 'Primary Blood Derived Case - Peripheral Blood'
+			"TRBM", # 04, 'Recurrent Blood Derived Case - Bone Marrow'
 			"TAP",  # 05, 'Additional - New Primary'
 			"TM",   # 06, 'Metastatic'
 			"TAM",  # 07, 'Additional Metastatic'
 			"THOC", # 08, 'Human Tumor Original Cells'
-			"TBM",  # 09, 'Primary Blood Derived Cancer - Bone Marrow'
+			"TBM",  # 09, 'Primary Blood Derived Case - Bone Marrow'
 			"NB",   # 10, 'Blood Derived Normal'
 			"NT",   # 11, 'Solid Tissue Normal'
 			"NBC",  # 12, 'Buccal Cell Normal'
 			"NEBV", # 13, 'EBV Immortalized Normal'
 			"NBM",  # 14, 'Bone Marrow Normal'
 			"CELLC",# 20, 'Control Analyte'
-			"TRB",  # 40, 'Recurrent Blood Derived Cancer - Peripheral Blood'
+			"TRB",  # 40, 'Recurrent Blood Derived Case - Peripheral Blood'
 			"CELL", # 50, 'Cell Lines'
 			"XP",   # 60, 'Primary Xenograft Tissue'
 			"XCL")  # 61, 'Cell Line Derived Xenograft Tissue'
@@ -1836,20 +1836,20 @@ CheckParam <- function(vCancer,
 								paste(vSampleTypeIdAll, collapse = ","),
 								"01) TP = 'Primary Tumor';",
 								"02) TR = 'Recurrent Tumor';",
-								"03) TB = 'Primary Blood Derived Cancer - Peripheral Blood';",
-								"04) TRBM = 'Recurrent Blood Derived Cancer - Bone Marrow';",
+								"03) TB = 'Primary Blood Derived Case - Peripheral Blood';",
+								"04) TRBM = 'Recurrent Blood Derived Case - Bone Marrow';",
 								"05) TAP = 'Additional - New Primary';",
 								"06) TM = 'Metastatic';",
 								"07) TAM = 'Additional Metastatic';",
 								"08) THOC = 'Human Tumor Original Cells';",
-								"09) TBM = 'Primary Blood Derived Cancer - Bone Marrow';",
+								"09) TBM = 'Primary Blood Derived Case - Bone Marrow';",
 								"10) NB = 'Blood Derived Normal';",
 								"11) NT = 'Solid Tissue Normal';",
 								"12) NBC = 'Buccal Cell Normal';",
 								"13) NEBV = 'EBV Immortalized Normal';",
 								"14) NBM = 'Bone Marrow Normal';",
 								"20) CELLC = 'Control Analyte';",
-								"40) TRB = 'Recurrent Blood Derived Cancer - Peripheral Blood';",
+								"40) TRB = 'Recurrent Blood Derived Case - Peripheral Blood';",
 								"50) CELL = 'Cell Lines';",
 								"60) XP = 'Primary Xenograft Tissue';",
 								"61) XCL = 'Cell Line Derived Xenograft Tissue'.",

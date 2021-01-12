@@ -35,7 +35,7 @@ cancer_cases = filter(orginal_TCGA_data, primary_site == "Pancreas" & sample_typ
 control_cases = filter(orginal_TCGA_data, sample_type == "SolidTissueNormal")
 
 ## -----------------------------------------------------------------------------
-cancer_cases$Class = "Cancer"
+cancer_cases$Class = "Case"
 control_cases$Class = "Control"
 
 dataset = rbind(cancer_cases, control_cases)
@@ -53,7 +53,7 @@ old_dataset = dataset # backup
 dataset = dataset[grepl("Adenocarcinomas", dataset$disease_type),]
 match_by = c("age_at_diagnosis","gender.x")
 tempdane = dplyr::select(dataset, match_by)
-tempdane$Class = ifelse(dataset$Class == "Cancer", TRUE, FALSE)
+tempdane$Class = ifelse(dataset$Class == "Case", TRUE, FALSE)
 suppressMessages(library(mice))
 suppressMessages(library(MatchIt))
 temp1 = mice(tempdane, m=1)
@@ -78,7 +78,7 @@ OmicSelector_tutorial_balanced_dataset = dataset # can be used by data("OmicSele
 dataset = OmicSelector_correct_miRNA_names(dataset) # Correct miRNA names based on the aliases. Useful when analyzing old datasets - to keep the results coherent with current knowledge.
 danex = dplyr::select(dataset, starts_with("hsa")) # Create data.frame or matrix with miRNA counts with miRNAs in columns and cases in rows.
 metadane = dplyr::select(dataset, -starts_with("hsa")) # Metadata with 'Class' variables.
-OmicSelector_table(table(metadane$Class)) # Let's be sure that 'Class' variable is correct and contains only 'Cancer' and 'Control' cases.
+OmicSelector_table(table(metadane$Class)) # Let's be sure that 'Class' variable is correct and contains only 'Case' and 'Control' cases.
 ttpm = OmicSelector_counts_to_log10tpm(danex, metadane, ids = metadane$sample,
                                  filtr = T, filtr_minimalcounts = 100, filtr_howmany = 1/3) # We will leave only the miRNAs which apeared with at least 100 counts in 1/3 of cases.
 

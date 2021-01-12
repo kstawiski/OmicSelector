@@ -245,17 +245,17 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
       wyniki[i,paste0(algorytm,"_train_ROCAUC_lower95CI")] = as.character(ci(t1_roc))[1]
       wyniki[i,paste0(algorytm,"_train_ROCAUC_upper95CI")] = as.character(ci(t1_roc))[3]
 
-      t1 = caret::confusionMatrix(predict(model1, newdata = temptrainold), as.factor(temptrainold$Class), positive = "Cancer")
+      t1 = caret::confusionMatrix(predict(model1, newdata = temptrainold), as.factor(temptrainold$Class), positive = "Case")
       wyniki[i,paste0(algorytm,"_train_Accuracy")] = t1$overall["Accuracy"]
       wyniki[i,paste0(algorytm,"_train_Sensitivity")] = t1$byClass["Sensitivity"]
       wyniki[i,paste0(algorytm,"_train_Specificity")] = t1$byClass["Specificity"]
 
-      v1 = caret::confusionMatrix(predict(model1, newdata = test), as.factor(test$Class), positive = "Cancer")
+      v1 = caret::confusionMatrix(predict(model1, newdata = test), as.factor(test$Class), positive = "Case")
       wyniki[i,paste0(algorytm,"_test_Accuracy")]  = v1$overall["Accuracy"]
       wyniki[i,paste0(algorytm,"_test_Sensitivity")]  = v1$byClass["Sensitivity"]
       wyniki[i,paste0(algorytm,"_test_Specificity")]  = v1$byClass["Specificity"]
 
-      v1 = caret::confusionMatrix(predict(model1, newdata = valid), as.factor(valid$Class), positive = "Cancer")
+      v1 = caret::confusionMatrix(predict(model1, newdata = valid), as.factor(valid$Class), positive = "Case")
       wyniki[i,paste0(algorytm,"_valid_Accuracy")]  = v1$overall["Accuracy"]
       wyniki[i,paste0(algorytm,"_valid_Sensitivity")]= v1$byClass["Sensitivity"]
       wyniki[i,paste0(algorytm,"_valid_Specificity")] = v1$byClass["Specificity"]

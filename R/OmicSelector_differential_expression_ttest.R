@@ -2,11 +2,11 @@
 #'
 #' The variable performes standard differential expression analysis using unpaired t-test with BH and Bonferonni correction.
 #' It requires `ttpm_features` object, which is e.g. a matrix of log-transformed TPM-normalized miRNAs counts with miRNAs placed in `ttpm` design (i.e. columns and cases placed as rows).
-#' Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only "Cancer" or "Control" labels!!
+#' Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only "Case" or "Control" labels!!
 #' The function returns the miRNAs sorted by BH-corrected p-value.
 #'
 #' @param ttpm_features matrix of log-transformed TPM-normalized miRNAs counts or other feature matrix with miRNAs/features placed in `ttpm` design (i.e. columns and cases placed as rows)
-#' @param classes vector describing label for each case. It should contain only "Cancer" and "Control" labeles!!!!
+#' @param classes vector describing label for each case. It should contain only "Case" and "Control" labeles!!!!
 #' @param mode use 'logtpm' for log(TPM) data or 'deltact' for qPCR deltaCt values. This parameters sets how the fold-change is calculated. Setting it to "auto" will try to read settings from var_type.txt (used in docker).
 #'
 #'
@@ -62,17 +62,17 @@ OmicSelector_differential_expression_ttest = function(ttpm_features, classes, mo
     wyniki[i,paste0("median ",mode)] = median(ttpm_features[,i])
     wyniki[i,paste0("SD ",mode)] = sd(ttpm_features[,i])
 
-    # Cancer
-    tempx = ttpm_features[classes == "Cancer",]
-    wyniki[i,"cancer mean"] = mean(tempx[,i])
-    wyniki[i,"cancer median"] = median(tempx[,i])
-    wyniki[i,"cancer SD"] = sd(tempx[,i])
+    # Case
+    tempx = ttpm_features[classes == "Case",]
+    wyniki[i,"Case mean"] = mean(tempx[,i])
+    wyniki[i,"Case median"] = median(tempx[,i])
+    wyniki[i,"Case SD"] = sd(tempx[,i])
 
-    # Cancer
-    tempx = ttpm_features[classes != "Cancer",]
-    wyniki[i,"control mean"] = mean(tempx[,i])
-    wyniki[i,"control median"] = median(tempx[,i])
-    wyniki[i,"control SD"] = sd(tempx[,i])
+    # Case
+    tempx = ttpm_features[classes != "Case",]
+    wyniki[i,"Control mean"] = mean(tempx[,i])
+    wyniki[i,"Control median"] = median(tempx[,i])
+    wyniki[i,"Control SD"] = sd(tempx[,i])
 
     # DE
     temp = t.test(ttpm_features[,i] ~ as.factor(classes))
