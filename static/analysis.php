@@ -1111,6 +1111,7 @@ function konsta_readcsv_formulas($filename, $header = true)
 
         </div>
     </div>
+</div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>

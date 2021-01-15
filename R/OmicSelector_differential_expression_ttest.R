@@ -79,7 +79,7 @@ OmicSelector_differential_expression_ttest = function(ttpm_features, classes, mo
     if(mode == "logtpm") {
     fc = (temp$estimate[1] - temp$estimate[2])
     wyniki[i,"log10FC (subtr estim)"] = fc
-    wyniki[i,"log10FC"] = wyniki[i,"cancer mean"] - wyniki[i,"control mean"]
+    wyniki[i,"log10FC"] = wyniki[i,"Case mean"] - wyniki[i,"Control mean"]
     wyniki[i,"log2FC"] = wyniki[i,"log10FC"] / log10(2)
 
     revfc = (temp$estimate[2] - temp$estimate[1])
