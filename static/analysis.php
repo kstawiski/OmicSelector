@@ -1085,7 +1085,6 @@ function konsta_readcsv_formulas($filename, $header = true)
 
 
         <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
-            <p>&emsp;</p>
             <div class="panel panel-danger">
                 <div class="panel-heading clickable">
                     <h3 class="panel-title">
