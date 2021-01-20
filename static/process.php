@@ -224,6 +224,19 @@ switch($_GET['type'])
         header("Location: /analysis.php?id=" . $analysis_id); die();
     break;
 
+    case "reconfigure_deep_learning":
+        // Sanity check
+        $analysis_id = $_GET['analysisid'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        rename($target_dir . "deeplearning.csv", $target_dir . "deeplearning" . uniqid() . ".csv");
+        unlink($target_dir . "var_deeplearning_selected.txt");
+
+        // Redirect to analysis
+        header("Location: /analysis.php?id=" . $analysis_id); die();
+    break;
+
     case "delete_fs2":
         // Sanity check
         $analysis_id = $_GET['analysisid'];
@@ -409,6 +422,40 @@ switch($_GET['type'])
         exit;
     break;
     
+    case "merge_deeplearning":
+        // Sanity check
+        $analysis_id = $_GET['id'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+        
+        // Add vars
+        $filename = $target_dir . "merged_deeplearning.csv";
+
+        // $skrypt = 'library(OmicSelector); miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", method = "' . $method . '"); library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
+        $skrypt = 'library(OmicSelector); fwrite(dane2, "'. $filename .'");';
+        exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
+        
+        //Get file type and set it as Content Type
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        header('Content-Type: ' . finfo_file($finfo, $filename));
+        finfo_close($finfo);
+
+        //Use Content-Disposition: attachment to specify the filename
+        header('Content-Disposition: attachment; filename='.basename($filename));
+
+        //No cache
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+
+        //Define file size
+        header('Content-Length: ' . filesize($filename));
+
+        ob_clean();
+        flush();
+        readfile($filename);
+        exit;
+    break;
 
     case "best_signiture_render":
         // Sanity check

@@ -1039,36 +1039,37 @@ function konsta_readcsv_formulas($filename, $header = true)
                 <form action="process.php?type=init_deeplearning" method="post" enctype="multipart/form-data"><input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
                     <div class="form-group">
                         <?php if (!file_exists($target_dir . "var_deeplearning_selected.txt")) { ?>
-                        <p>Choose feature set the networks should be trained on <i>(note: only "all" features are avaiable if you do not run feature selection)</i>:
-                            <select class="form-control" name="selected" id="selected">
-                                <option value="all">All features (without feature selection)</option>
-                                <?php
-                                if (file_exists($target_dir . "featureselection_formulas_final.csv")) {
-                                    $types = array_map('str_getcsv', file($target_dir . "featureselection_formulas_final.csv"));
-                                    $i = 1;
-                                    foreach ($types as $row) {
-                                        if ($i > 1) {
-                                            echo  '<option value="' .  $row[0] . '">' .  $row[0] . ": " . $row[1] . '</option>';
+                            <p>Choose feature set the networks should be trained on <i>(note: only "all" features are avaiable if you do not run feature selection)</i>:
+                                <select class="form-control" name="selected" id="selected">
+                                    <option value="all">All features (without feature selection)</option>
+                                    <?php
+                                    if (file_exists($target_dir . "featureselection_formulas_final.csv")) {
+                                        $types = array_map('str_getcsv', file($target_dir . "featureselection_formulas_final.csv"));
+                                        $i = 1;
+                                        foreach ($types as $row) {
+                                            if ($i > 1) {
+                                                echo  '<option value="' .  $row[0] . '">' .  $row[0] . ": " . $row[1] . '</option>';
+                                            }
+                                            $i = $i + 1;
                                         }
-                                        $i = $i + 1;
-                                    }
-                                } ?>
-                            </select>
-                        </p>
-                        <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
-                            <select class="form-control" name="autoencoders" id="autoencoders">
-                                <option value="FALSE">Train grid search without autoencoders (97848 hyperparameter combinations)</option>
-                                <option value="TRUE">Train grid search with autoencoders (293544 hyperparameter combinations)</option>
-                            </select>
-                        </p>
-                        <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used)</i>:
-                            <select class="form-control" name="balanced" id="balanced">
-                                <option value="FALSE">No. Use original dataset.</option>
-                                <option value="TRUE">Yes. Use balanced dataset.</option>
-                            </select>
-                        </p>
+                                    } ?>
+                                </select>
+                            </p>
+                            <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
+                                <select class="form-control" name="autoencoders" id="autoencoders">
+                                    <option value="FALSE">Train grid search without autoencoders (97848 hyperparameter combinations)</option>
+                                    <option value="TRUE">Train grid search with autoencoders (293544 hyperparameter combinations)</option>
+                                </select>
+                            </p>
+                            <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used)</i>:
+                                <select class="form-control" name="balanced" id="balanced">
+                                    <option value="FALSE">No. Use original dataset.</option>
+                                    <option value="TRUE">Yes. Use balanced dataset.</option>
+                                </select>
+                            </p>
                         <?php } else { ?>
                             <p>You have already configured the deep learning training. If you wish to configure new initial settings click the button below. This is one-way step (i.e. you will not be able to resume training of new models in this set), but the results (models and settings) will be saved for the analysis.</p>
+                            <p><a href="process.php?type=recover_fs&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-people-arrows"></i> Save results and start new configuration</a></p>
                         <?php } ?>
                         <p>Number of parallel training processes <i>(this is highly dependent on your CPU/GPU and RAM, maximum should be picked based on trial and error, or just use e.g. 2 threads)</i>:
                             <input class="form-control" name="keras_threads" id="keras_threads" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="2" />
@@ -1077,52 +1078,57 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Setting up your enviorment...');">
                             <i class="fas fa-diagnoses"></i>&emsp;Start/resume deep learning
                         </button>
-                </form>
+                        </div></form>
 
             </div>
-            </div>
+        </div>
 
 
-            <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
-                <div class="panel panel-danger">
-                    <div class="panel-heading clickable">
-                        <h3 class="panel-title">
-                            <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Deep neural networks - results.
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table">
+        <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
+            <p>&emsp;</p>
+            <div class="panel panel-danger">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">
+                        <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Deep neural networks - results.
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
 
-                            <tbody>
-                                <p>Files with results:</p>
-                                <tr>
-                                    <td>Hyperparameters:</td>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Performance of models (main results):</td>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
-                                </tr>
+                        <tbody>
+                            <p>Files with results:</p>
+                            <tr>
+                                <td>Hyperparameters:</td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr>
+                                <td>Performance of models (last configuration, main results):</td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr>
+                                <td>Merge:</td>
+                                <td><a href="process.php?type=merge_deeplearning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a></td>
+                            </tr>
 
-                            </tbody>
-                        </table>
-
-                    </div>
-
-
+                        </tbody>
+                    </table>
 
                 </div>
-            <?php } ?>
 
-        </div>
+
+
+            </div>
+        <?php } ?>
+
     </div>
+</div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
         <div class="panel-body"><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Jupyter</a>&emsp;
             <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;R Studio</a>&emsp;
-            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>Radiant</a>&emsp;
-            <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>VS Code</a>&emsp;
+            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Radiant</a>
+            <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;VS Code</a>
             <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
             <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
         </div>
@@ -1138,7 +1144,7 @@ function konsta_readcsv_formulas($filename, $header = true)
         </div>
     </footer>
     <!-- /.container -->
-</div>
+    </div>
 </body>
 
 </html>
