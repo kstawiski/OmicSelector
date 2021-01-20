@@ -1038,6 +1038,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                 <p>Welcome to <b>deep learning</b> model training induction. This section will run deep learning extension and perform a grid search find the most optimal (deep) neural network for your datasets.</p>
                 <form action="process.php?type=init_deeplearning" method="post" enctype="multipart/form-data"><input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
                     <div class="form-group">
+                        <?php if (!file_exists($target_dir . "var_deeplearning_selected.txt")) { ?>
                         <p>Choose feature set the networks should be trained on <i>(note: only "all" features are avaiable if you do not run feature selection)</i>:
                             <select class="form-control" name="selected" id="selected">
                                 <option value="all">All features (without feature selection)</option>
@@ -1066,12 +1067,15 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <option value="TRUE">Yes. Use balanced dataset.</option>
                             </select>
                         </p>
+                        <?php } else { ?>
+                            <p>You have already configured the deep learning training. If you wish to configure new initial settings click the button below. This is one-way step (i.e. you will not be able to resume training of new models in this set), but the results (models and settings) will be saved for the analysis.</p>
+                        <?php } ?>
                         <p>Number of parallel training processes <i>(this is highly dependent on your CPU/GPU and RAM, maximum should be picked based on trial and error, or just use e.g. 2 threads)</i>:
                             <input class="form-control" name="keras_threads" id="keras_threads" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="2" />
                         </p>
 
                         <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Setting up your enviorment...');">
-                            <i class="fas fa-diagnoses"></i>&emsp;Start/re-run deep learning
+                            <i class="fas fa-diagnoses"></i>&emsp;Start/resume deep learning
                         </button>
                 </form>
 
@@ -1112,7 +1116,6 @@ function konsta_readcsv_formulas($filename, $header = true)
 
         </div>
     </div>
-</div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
