@@ -1001,7 +1001,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                     <td>
                                         <p><a href="viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/benchmark.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a>
                                             &emsp;
-                                            <a href="viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-warning"><i class="fas fa-download"></i>Simplified</a>
+                                            <a href="viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-warning"><i class="fas fa-download"></i> Simplified</a>
                                             &emsp;<a href="/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="/e/tree/<?php echo $_GET['id']; ?>/models" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>/models','popup','width=1150,height=800'); return false;"><i class="fas fa-list"></i> Browse models</a></p>
                                     </td>
                                 </tr>
@@ -1028,7 +1028,7 @@ function konsta_readcsv_formulas($filename, $header = true)
 <div class="panel panel-warning">
     <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Post-analysis extensions</div>
     <div class="panel-body">
-        <div class="panel panel-success autocollapse">
+        <div class="panel panel-success">
             <div class="panel-heading clickable">
                 <h3 class="panel-title">
                     <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Training deep neural networks with grid search of hyperparameters.
@@ -1076,10 +1076,11 @@ function konsta_readcsv_formulas($filename, $header = true)
                 </form>
 
             </div>
+            </div>
 
 
             <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
-                <div class="panel panel-danger autocollapse">
+                <div class="panel panel-danger">
                     <div class="panel-heading clickable">
                         <h3 class="panel-title">
                             <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Deep neural networks - results.
@@ -1089,14 +1090,14 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <table class="table">
 
                             <tbody>
-
+                                <p>Files with results:</p>
                                 <tr>
                                     <td>Hyperparameters:</td>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
                                 </tr>
                                 <tr>
                                     <td>Performance of models (main results):</td>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/mixed_train.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
                                 </tr>
 
                             </tbody>
@@ -1117,8 +1118,8 @@ function konsta_readcsv_formulas($filename, $header = true)
         <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
         <div class="panel-body"><a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Jupyter</a>&emsp;
             <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;R Studio</a>&emsp;
-            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant</a>&emsp;
-            <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;">Radiant</a>&emsp;
+            <a href="/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=radiant&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>Radiant</a>&emsp;
+            <a href="/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup" onclick="window.open('/process.php?type=vscode&analysisid=<?php echo $_GET['id']; ?>','popup3','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>VS Code</a>&emsp;
             <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-success"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
             <br><br><i>Login credentials to R Studio: username: <code><b><?php echo $_GET['id']; ?></b></code>, password: <code><b>OmicSelector</b></code></i>
         </div>
