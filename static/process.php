@@ -432,7 +432,7 @@ switch($_GET['type'])
         $filename = $target_dir . "merged_deeplearning.csv";
 
         // $skrypt = 'library(OmicSelector); miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", method = "' . $method . '"); library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
-        $skrypt = 'library(OmicSelector); fwrite(dane2, "'. $filename .'");';
+        $skrypt = 'library(OmicSelector); lista_plikow = list.files(".", pattern = "^deeplearning.*.csv$"); library(plyr); wyniki = data.frame(); for(i in 1:length(lista_plikow)) { temp = data.table::fread(lista_plikow[i]); wyniki = rbind.fill(wyniki, temp); }; data.table::fwrite(wyniki, "'. $filename .'");';
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
         //Get file type and set it as Content Type
