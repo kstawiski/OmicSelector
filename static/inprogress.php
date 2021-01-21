@@ -139,16 +139,17 @@ else {
     <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-file-medical-alt"></i>&emsp;&emsp;Task details</div>
                 <div class="panel-body">
-    <p><b>Task progress (log file):</b> (this is updated in the real-time)</p>
+    <p><b>Task progress (log file, last 1000 lines):</b> (this is updated in the real-time)</p>
     <p></p><pre id="log"></pre></p>
     <hr>
     <p>Process details:</p>
     <p><pre><?php echo $task_process; ?></pre></p>
+    <p><a href="/e/files/<?php echo $_GET['id']; ?>/task.log" class="btn btn-primary"><i class="fas fa-file-download"></i>&emsp;Download whole log file (text file)</a></p>
     </div></div>
     <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
                 <div class="panel-body"><button type="button" class="btn btn-info" data-toggle="modal"
-                        data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalYT2"><i class="fas fa-terminal"></i>&emsp;Shell</button>&emsp;
+                        data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;
                         <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>&emsp;<a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
                         onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (Jupyter)</a>&emsp;
                         <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
