@@ -141,10 +141,10 @@ else {
                 <div class="panel-body">
     <p><b>Task progress (log file, last 1000 lines):</b> (this is updated in the real-time)</p>
     <p></p><pre id="log"></pre></p>
+    <p><a href="/e/files/<?php echo $_GET['id']; ?>/task.log" class="btn btn-primary"><i class="fas fa-file-download"></i>&emsp;Download whole log file (text file)</a></p>
     <hr>
     <p>Process details:</p>
     <p><pre><?php echo $task_process; ?></pre></p>
-    <p><a href="/e/files/<?php echo $_GET['id']; ?>/task.log" class="btn btn-primary"><i class="fas fa-file-download"></i>&emsp;Download whole log file (text file)</a></p>
     </div></div>
     <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>

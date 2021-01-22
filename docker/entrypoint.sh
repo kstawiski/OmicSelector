@@ -19,7 +19,7 @@ mkdir -p /run/php/
 php-fpm7.3 -R -F &
 
 # vscode
-code-server --auth none &
+screen -dmS vscode code-server --auth none
 
 # Rstudio server
 rstudio-server start
