@@ -17,10 +17,12 @@ $_SESSION["analysis_id"] = $_GET['id'];
 
 
 // Czy jest task in progress?
+if($_GET['override'] != 1) {
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-" . $_GET['id'] . " | awk '{print $2}'");
 if ($pid != "") {
     header("Location: /inprogress.php?id=" . $_GET['id']);
     die();
+}
 }
 
 // Funkcje specyficzne
