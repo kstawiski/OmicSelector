@@ -432,8 +432,10 @@ switch($_GET['type'])
         $filename = $target_dir . "merged_deeplearning.csv";
 
         // $skrypt = 'library(OmicSelector); miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", method = "' . $method . '"); library(dplyr); library(data.table); dane = fread("mixed.csv"); dane2 = dplyr::select(dane, -starts_with("hsa"), miRNAs); fwrite(dane2, "'. $filename .'");';
-        $skrypt = 'library(OmicSelector); lista_plikow = list.files(".", pattern = "^deeplearning.*.csv$"); library(plyr); wyniki = data.frame();\nfor(i in 1:length(lista_plikow)) { temp = data.table::fread(lista_plikow[i]); wyniki = rbind.fill(wyniki, temp); }\ndata.table::fwrite(wyniki, "'. $filename .'");';
-        exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
+        //$skrypt = 'library(OmicSelector); lista_plikow = list.files(".", pattern = "^deeplearning.*.csv$"); library(plyr); wyniki = data.frame();\nfor(i in 1:length(lista_plikow)) { temp = data.table::fread(lista_plikow[i]); wyniki = rbind.fill(wyniki, temp); }\ndata.table::fwrite(wyniki, "'. $filename .'");';
+        copy("/OmicSelector/OmicSelector/docker/merge_deeplearning.R",$target_dir . "merge_deeplearning.R");
+        exec("cd " . $target_dir . " && Rscript merge_deeplearning.R");
+        unlink($target_dir . "merge_deeplearning.R");
         
         //Get file type and set it as Content Type
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
