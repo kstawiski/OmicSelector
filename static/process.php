@@ -284,6 +284,13 @@ switch($_GET['type'])
 
     // Setup R studio for user:
     case "rstudio":
+        // Loading
+        if(!isset($_GET['loaded'])) {
+            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            header('Location: /redirect.php?url='. urlencode($actual_link));
+            die();
+        }
+        
         // Sanity check
         $analysis_id = $_GET['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
@@ -302,6 +309,13 @@ switch($_GET['type'])
     break;
 
     case "radiant":
+        // Loading
+        if(!isset($_GET['loaded'])) {
+            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            header('Location: /redirect.php?url='. urlencode($actual_link));
+            die();
+        }
+        
         // Sanity check
         $analysis_id = $_GET['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
@@ -316,6 +330,13 @@ switch($_GET['type'])
     break;
 
     case "vscode":
+        // Loading
+        if(!isset($_GET['loaded'])) {
+            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            header('Location: /redirect.php?url='. urlencode($actual_link));
+            die();
+        }
+        
         // Sanity check
         $analysis_id = $_GET['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";

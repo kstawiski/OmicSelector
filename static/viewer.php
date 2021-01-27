@@ -2,6 +2,14 @@
 $fileName = "/OmicSelector/" . $_GET['f'];
 if(!file_exists($fileName)) { die("File does not exists."); }
 
+
+// Loading
+if(!isset($_GET['loaded'])) {
+  $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  header('Location: /redirect.php?url='. urlencode($actual_link));
+  die();
+}
+
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
