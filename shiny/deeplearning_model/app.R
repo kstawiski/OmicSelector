@@ -1,11 +1,18 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# Prereq
+reticulate::use_python('/opt/conda/bin/python')
+require(tensorflow)
+require(reticulate)
+require(keras)
+
+is_keras_available()
+system('which python')
+Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
+use_python('/opt/conda/bin/python')
+
+py_discover_config('tensorflow')
+py_discover_config('keras')
+is_keras_available()
+
 
 library(shiny)
 library(OmicSelector)
