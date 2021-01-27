@@ -2,7 +2,7 @@
 balanced = F
 if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
 autoencoders = F
-if(file.exists("var_deeplearning_autoencoders.txt")) { autoencoders = as.logical(readLines("var_deeplearning_autoencoders.txt", warn = F)) }
+if(file.exists("var_deeplearning_autoencoders.txt")) { autoencoders = as.numeric(readLines("var_deeplearning_autoencoders.txt", warn = F)) }
 keras_threads = 30
 if(file.exists("var_deeplearning_keras_threads.txt")) { keras_threads = as.numeric(readLines("var_deeplearning_keras_threads.txt", warn = F)) }
 if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
@@ -48,7 +48,7 @@ if(balanced == F) {
 
 
 # autoencoder ma softmax na deep feature
-if(autoencoders) { hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+if(autoencoders == 1) { hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
                                     layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
@@ -75,6 +75,16 @@ hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3
                                     optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
                                     stringsAsFactors = F)
 hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) }
+
+# if quick scan
+if(autoencoders == 2) } {
+  hyperparameters = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+                                    activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
+                                    dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
+                                    layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    stringsAsFactors = F)
+}
 
 # head(hyperparameters)
 
@@ -109,6 +119,21 @@ for (i in 1:ile_batchy) {
   
   batch_start = batch_end + 1
 }
+
+# Merge:
+lista_plikow = list.files(".", pattern = "^deeplearning.*.csv$")
+library(plyr)
+wyniki = data.frame()
+for(i in 1:length(lista_plikow)) { temp = data.table::fread(lista_plikow[i]); wyniki = rbind.fill(wyniki, temp); }
+data.table::fwrite(wyniki, "merged_deeplearning.csv")
+
+wyniki$metaindex = (wyniki$training_Accuracy + wyniki$test_Accuracy + wyniki$valid_Accuracy) / 3
+wyniki$metaindex2 = (wyniki$test_Accuracy + wyniki$valid_Accuracy) / 2
+library(dplyr)
+wynikitop = wyniki %>% arrange(desc(metaindex))
+if(nrow(wynikitop)<1000) { max_top = nrow(wynikitop) } else { max_top = 1000}
+wynikitop = wynikitop[1:max_top,]
+data.table::fwrite(wynikitop, "merged_deeplearning_top.csv")
 
 cat("[OmicSelector: TASK COMPLETED]")
 sink() 

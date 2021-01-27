@@ -1059,11 +1059,12 @@ function konsta_readcsv_formulas($filename, $header = true)
                             </p>
                             <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
                                 <select class="form-control" name="autoencoders" id="autoencoders">
-                                    <option value="FALSE">Train grid search without autoencoders (97848 hyperparameter combinations)</option>
-                                    <option value="TRUE">Train grid search with autoencoders (293544 hyperparameter combinations)</option>
+                                    <option value="0">Full scan: neural networks up to 3 hideen layers without autoencoders (97848 hyperparameter combinations)</option>
+                                    <option value="1">Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
+                                    <option value="2">Quick scan: neuraural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
                                 </select>
                             </p>
-                            <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used)</i>:
+                            <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used; the same balanced dataset as above is used)</i>:
                                 <select class="form-control" name="balanced" id="balanced">
                                     <option value="FALSE">No. Use original dataset.</option>
                                     <option value="TRUE">Yes. Use balanced dataset.</option>
@@ -1100,15 +1101,16 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>Files with results:</p>
                             <tr>
                                 <td>Hyperparameters:</td>
-                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/hyperparameters_deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a><br /><font size="1">Note: viewer may require significant amount of time to view it online. Downloading the file is recommended.</font></td>
                             </tr>
                             <tr>
                                 <td>Performance of models (last configuration, main results):</td>
-                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/deeplearning.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/deeplearning.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a><br /><font size="1">Note: viewer may require significant amount of time to view it online. Downloading the file is recommended.</font></td>
                             </tr>
                             <tr>
                                 <td>Merge:</td>
-                                <td><a href="process.php?type=merge_deeplearning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a></td>
+                                <td><a href="process.php?type=merge_deeplearning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a>
+                                <br /><font size="1">Note: Merging is require for networks analysis and exporting.</font></td>
                             </tr>
 
                         </tbody>

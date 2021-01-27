@@ -33,7 +33,7 @@ if("mnormt" %in% rownames(installed.packages()) == FALSE) { remotes::install_git
 if("testextra" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("RDocTaskForce/testextra", upgrade = "never") } 
 if("purrrogress" %in% rownames(installed.packages()) == FALSE) {  remotes::install_github("halpo/purrrogress", upgrade = "never") } 
 if("feseR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("enriquea/feseR", upgrade = "never") }
-
+if("autokeras" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("jcrodriguez1989/autokeras", upgrade = "never") }
 
 # tryCatch(
 #         {
