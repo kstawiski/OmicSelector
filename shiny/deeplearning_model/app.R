@@ -29,8 +29,8 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            textInput("analysisid", "Analysis ID:", "doktorat1"),
-            textInput("modelid", "Model name:", "deeplearning_38600-SMOTE-1611219066"),
+            textInput("analysisid", "Analysis ID:", ""),
+            textInput("modelid", "Model name:", ""),
             hr(),
             p("Case inputs:"),
             uiOutput("caseinputs"),
