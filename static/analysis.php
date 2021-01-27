@@ -1032,7 +1032,7 @@ function konsta_readcsv_formulas($filename, $header = true)
     <div class="panel-body">
         <div class="panel panel-success">
             <div class="panel-heading clickable">
-                <h3 class="panel-title">
+                <h3 class="panel-title" id="deep_learning">
                     <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Training deep neural networks with grid search of hyperparameters.
                 </h3>
             </div>
@@ -1090,7 +1090,7 @@ function konsta_readcsv_formulas($filename, $header = true)
         <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
             <div class="panel panel-danger">
                 <div class="panel-heading clickable">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title" id="deep_learning_results">
                         <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Deep neural networks - results.
                     </h3>
                 </div>
@@ -1112,6 +1112,42 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <td><a href="process.php?type=merge_deeplearning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a>
                                 <br /><font size="1">Note: Merging is require for networks analysis and exporting.</font></td>
                             </tr>
+                            <?php if (file_exists($target_dir . "merged_deeplearning.csv")) { ?>
+                                <tr>
+                                <td>Top 1000 networks (after merging):</td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/merged_deeplearning_top.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/merged_deeplearning_top.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/merged_deeplearning_top.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a>
+                                <br /><font size="1">Note: Metaindex = mean of training, testing and validation accruacy. Metaindex2 = mean of testing and validaiton accuracy.</font></td>
+                                </tr>
+                                <tr>
+                                <td>Choose best network:<br />
+                                
+                                </td>
+                                <td>
+                                    <p><font size=1">Choose network for further analysis:</font>
+                                    <form action="process.php?type=init_deeplearning" method="post" enctype="multipart/form-data"><input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
+                                <div class="form-group">
+                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                                <script>$(document).ready(function () { $('#selected_network').select2(); }); </script>
+                                <select class="form-control" name="selected_network" id="selected_network">
+                                    <?php
+                                    if (file_exists($target_dir . "merged_deeplearning_top.csv")) {
+                                        $types = array_map('str_getcsv', file($target_dir . "merged_deeplearning_names.csv"));
+                                        $i = 1;
+                                        foreach ($types as $row) {
+                                            if ($i > 1) {
+                                                echo  '<option value="' .  $row[0] . '">' .  $row[0] . '</option>';
+                                            }
+                                            $i = $i + 1;
+                                        }
+                                    } ?>
+                                </select>
+                            </div></form></p>
+                                </td>
+                                </tr>
+
+
+                            <?php } ?>
 
                         </tbody>
                     </table>

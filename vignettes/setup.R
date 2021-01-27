@@ -30,6 +30,7 @@ library(remotes)
 if("bounceR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("STATWORX/bounceR", upgrade = "never") }
 if("ggbiplot" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("vqv/ggbiplot", upgrade = "never") }
 if("mnormt" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("cran/mnormt", upgrade = "never") }
+if("parsetools" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("RDocTaskForce/parsetools", upgrade = "never") } 
 if("testextra" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("RDocTaskForce/testextra", upgrade = "never") } 
 if("purrrogress" %in% rownames(installed.packages()) == FALSE) {  remotes::install_github("halpo/purrrogress", upgrade = "never") } 
 if("feseR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("enriquea/feseR", upgrade = "never") }
