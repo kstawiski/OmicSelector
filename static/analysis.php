@@ -1129,13 +1129,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
                                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
                                 <script>$(document).ready(function () { $('#selected_network').select2(); }); </script>
-                                <form action="/deeplearning_model/" method="get" onsubmit="target_popup(this)"></form>
-                                <script>
-                                    function target_popup(form) {
-                                        window.open('', 'formpopup', 'width=800,height=800,resizeable,scrollbars');
-                                        form.target = 'formpopup';
-                                    }
-                                </script>
+                                <form action="/deeplearning_model/" method="get" target="_blank">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
                                 <select class="form-control" name="modelid" id="modelid">
                                     <?php
@@ -1150,7 +1144,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                         }
                                     } ?>
                                 </select>
-                                <button type="submit" class="btn btn-success" value="Show neural network details and prediction tool" name="submit">
+                                <button type="submit" class="btn btn-success" value="submit" name="submit"><i class="fas fa-external-link-alt"></i>&emsp;Show neural network details and prediction tool</button>
 
                             </div></form></p>
                                 </td>
