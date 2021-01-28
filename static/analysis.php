@@ -102,6 +102,7 @@ function konsta_readcsv_formulas($filename, $header = true)
     <meta name="description" content="OmicSelector - a tool for selecting great miRNA biomarkers." />
     <meta name="author" content="Konrad Stawiski (konrad@konsta.com.pl)" />
     <link rel="stylesheet" href="css/starter-template.css" />
+    <style>.clickable { cursor: pointer; }</style>
     <style>
         /* The switch - the box around the slider */
         .switch {

@@ -1,3 +1,18 @@
+# Prereq
+reticulate::use_python('/opt/conda/bin/python')
+require(tensorflow)
+require(reticulate)
+require(keras)
+
+is_keras_available()
+system('which python')
+Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
+use_python('/opt/conda/bin/python')
+
+py_discover_config('tensorflow')
+py_discover_config('keras')
+is_keras_available()
+
 library(shiny)
 library(OmicSelector)
 library(magick)
@@ -6,10 +21,10 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+    
     # Application title
     titlePanel("OmicSelector: Deep learning model viewer."),
-
+    
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
@@ -21,7 +36,7 @@ ui <- fluidPage(
             uiOutput("caseinputs"),
             
         ),
-
+        
         # Show a plot of the generated distribution
         mainPanel(
             tabsetPanel(type = "tabs",
@@ -36,7 +51,7 @@ ui <- fluidPage(
                                  p("Training and testing induction curve:"),
                                  plotOutput("trainingcurve", height = "500"),
                                  downloadButton("downloadModel", "Download model file"),
-                            p(" ")),
+                                 p(" ")),
                         tabPanel("Predict (single case)", p("Provided predictors:"),
                                  tableOutput("singlecasepredictors"),
                                  p("Prediction:"),
@@ -44,7 +59,7 @@ ui <- fluidPage(
                                  p("Prediction details:"),
                                  verbatimTextOutput("singlecaseprediction"),
                                  
-                                 ),
+                        ),
                         tabPanel("Predict (csv file)", 
                                  
                                  fileInput("file1", "Choose CSV File",
@@ -59,7 +74,7 @@ ui <- fluidPage(
                                  downloadButton("downloadDataWithPredictions", "Download new data with predictions"),
                                  p("Performance and details:"),
                                  verbatimTextOutput("bulkpredictions"),
-                                 )
+                        )
             )
         )
     )
@@ -88,7 +103,7 @@ server <- function(input, output, session) {
         
         # file_path = "/OmicSelector/doktorat1/models/deeplearning/deeplearning_189-1611103892.zip"
         
-        if(file.exists(file_path) || manual == T) {
+        if(file.exists(file_path) == T || manual == T) {
             
             # Load model log
             file_in_zip = dplyr::filter(unzip(file_path, list = T), grepl("training.log",Name))[1,"Name"]
@@ -177,21 +192,21 @@ server <- function(input, output, session) {
             } else {
                 # jesli nie ma elementow z sieci
                 for(i in 1:length(miRNAs_rev))
-            {
-                if(i == 1)
                 {
-                    insertUI(
-                        selector = paste0("#caseinputs"),
-                        where = "afterEnd",
-                        ui = textInput(miRNAs_rev[i], miRNAs_rev[i], "0"))
-                } else {
-                    insertUI(
-                        selector = paste0("#caseinputs"),
-                        where = "afterEnd",
-                        ui = textInput(miRNAs_rev[i], miRNAs_rev[i], "0"))
+                    if(i == 1)
+                    {
+                        insertUI(
+                            selector = paste0("#caseinputs"),
+                            where = "afterEnd",
+                            ui = textInput(miRNAs_rev[i], miRNAs_rev[i], "0"))
+                    } else {
+                        insertUI(
+                            selector = paste0("#caseinputs"),
+                            where = "afterEnd",
+                            ui = textInput(miRNAs_rev[i], miRNAs_rev[i], "0"))
+                    }
+                    
                 }
-                
-            }
             }
             
             
@@ -204,21 +219,21 @@ server <- function(input, output, session) {
                     blinded = F } else { blinded = T }
                 
                 if(all(miRNAs %in% colnames(new_data))) {
-                bulk_prediction = OmicSelector_deep_learning_predict(model_path = file_path, new_dataset = new_data, blinded = blinded, new_scaling = F)
-                with_predictions = cbind(bulk_prediction$predictions, new_data)
-                # output$newdata = renderDataTable({ with_predictions })
-                output$bulkpredictions = renderPrint({ bulk_prediction })
-                output$downloadDataWithPredictions <- downloadHandler(
-                    filename = function() {
-                        paste("predictions.csv", sep = "")
-                    },
-                    content = function(file) {
-                        data.table::fwrite(with_predictions, file)
+                    bulk_prediction = OmicSelector_deep_learning_predict(model_path = file_path, new_dataset = new_data, blinded = blinded, new_scaling = F)
+                    with_predictions = cbind(bulk_prediction$predictions, new_data)
+                    # output$newdata = renderDataTable({ with_predictions })
+                    output$bulkpredictions = renderPrint({ bulk_prediction })
+                    output$downloadDataWithPredictions <- downloadHandler(
+                        filename = function() {
+                            paste("predictions.csv", sep = "")
+                        },
+                        content = function(file) {
+                            data.table::fwrite(with_predictions, file)
+                        }
+                    )} else {
+                        output$bulkpredictions = renderPrint({ "Not all predictiors are present in the data." })
                     }
-                )} else {
-                    output$bulkpredictions = renderPrint({ "Not all predictiors are present in the data." })
-                }
-            
+                
                 
             }
             
@@ -231,7 +246,7 @@ server <- function(input, output, session) {
             
             
             
-
+            
             # OmicSelector_deep_learning_predict(model_path = file_path,)
             
         } else {
