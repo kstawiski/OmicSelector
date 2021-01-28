@@ -1,19 +1,3 @@
-# Prereq
-reticulate::use_python('/opt/conda/bin/python')
-require(tensorflow)
-require(reticulate)
-require(keras)
-
-is_keras_available()
-system('which python')
-Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
-use_python('/opt/conda/bin/python')
-
-py_discover_config('tensorflow')
-py_discover_config('keras')
-is_keras_available()
-
-
 library(shiny)
 library(OmicSelector)
 library(magick)
@@ -31,6 +15,7 @@ ui <- fluidPage(
         sidebarPanel(
             textInput("analysisid", "Analysis ID:", ""),
             textInput("modelid", "Model name:", ""),
+            fileInput("file2", "or Upload model file (*.zip):",accept = c("application/zip",".zip")),
             hr(),
             p("Case inputs:"),
             uiOutput("caseinputs"),
@@ -94,6 +79,14 @@ server <- function(input, output, session) {
         
         
         file_path = paste0("/OmicSelector/", input$analysisid, "/models/deeplearning/", input$modelid, ".zip")
+        # if(file.exists(file_path)) { toggle("file2") }
+        inFile2 <- input$file2
+        if (!is.null(inFile2)) { 
+            file_path = inFile2$datapath
+            # toggle("analysisid")
+            # toggle("modelid")
+            }
+        
         # file_path = "/OmicSelector/doktorat1/models/deeplearning/deeplearning_189-1611103892.zip"
         
         if(file.exists(file_path)) {

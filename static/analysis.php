@@ -1124,12 +1124,20 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 </td>
                                 <td>
                                     <p><font size=1">Choose network for further analysis:</font>
-                                    <form action="process.php?type=init_deeplearning" method="post" enctype="multipart/form-data"><input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
+                                   
                                 <div class="form-group">
                                 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
                                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
                                 <script>$(document).ready(function () { $('#selected_network').select2(); }); </script>
-                                <select class="form-control" name="selected_network" id="selected_network">
+                                <form action="/deeplearning_model/" method="get" onsubmit="target_popup(this)"></form>
+                                <script>
+                                    function target_popup(form) {
+                                        window.open('', 'formpopup', 'width=800,height=800,resizeable,scrollbars');
+                                        form.target = 'formpopup';
+                                    }
+                                </script>
+                                <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
+                                <select class="form-control" name="modelid" id="modelid">
                                     <?php
                                     if (file_exists($target_dir . "merged_deeplearning_top.csv")) {
                                         $types = array_map('str_getcsv', file($target_dir . "merged_deeplearning_names.csv"));
@@ -1142,6 +1150,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                                         }
                                     } ?>
                                 </select>
+                                <button type="submit" class="btn btn-success" value="Show neural network details and prediction tool" name="submit">
+
                             </div></form></p>
                                 </td>
                                 </tr>

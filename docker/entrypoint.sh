@@ -23,11 +23,15 @@ screen -dmS vscode code-server --auth none
 
 # Rstudio server
 rstudio-server start
-screen -dmS shiny shiny-server
 
+
+# Apps:
 Rscript -e 'if(!dir.exists("/radiant-data")) { dir.create("/radiant-data") }'
 cd /radiant-data/
 screen -dmS radiant Rscript -e "radiant::radiant_url(port = 3839)"
+# Shiny apps:
+# screen -dmS shiny shiny-server
+screen -dmS app-deeplearning_model R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/deeplearning_model', port = 20001)"
 
 cd /OmicSelector/
 # Jupyter
