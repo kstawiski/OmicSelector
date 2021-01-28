@@ -80,16 +80,15 @@ server <- function(input, output, session) {
         
         file_path = paste0("/OmicSelector/", input$analysisid, "/models/deeplearning/", input$modelid, ".zip")
         # if(file.exists(file_path)) { toggle("file2") }
+        manual = F
         inFile2 <- input$file2
         if (!is.null(inFile2)) { 
             file_path = inFile2$datapath
-            # toggle("analysisid")
-            # toggle("modelid")
-            }
+            manual = T }
         
         # file_path = "/OmicSelector/doktorat1/models/deeplearning/deeplearning_189-1611103892.zip"
         
-        if(file.exists(file_path)) {
+        if(file.exists(file_path) || manual == T) {
             
             # Load model log
             file_in_zip = dplyr::filter(unzip(file_path, list = T), grepl("training.log",Name))[1,"Name"]
