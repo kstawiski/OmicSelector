@@ -76,3 +76,5 @@ body {
     transform: rotate(360deg) scale(1);
   }
 }
+
+.clickable { cursor: pointer; }
