@@ -150,6 +150,7 @@ $(document).ready(function(e){
 
 
     </script>
+    <style>.clickable { cursor: pointer; }</style>
 </head>
 
 <body>
@@ -229,7 +230,7 @@ $(document).ready(function(e){
             <div class="panel panel-warning">
                 <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Preprocessing and postprocessing extensions</div>
                 <div class="panel-body">
-                    <div class="panel autocollapse">
+                    <div class="panel panel-default autocollapse">
                         <div class="panel-heading clickable">
                             <h3 class="panel-title" id="deep_learning">
                             <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Predict with developed deep learning model.
