@@ -1131,7 +1131,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <script>$(document).ready(function () { $('#selected_network').select2(); }); </script>
                                 <form action="/deeplearning_model/" method="get" target="_blank">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
-                                <select class="form-control" name="modelid" id="modelid">
+                                <p><select class="form-control" name="modelid" id="modelid">
                                     <?php
                                     if (file_exists($target_dir . "merged_deeplearning_top.csv")) {
                                         $types = array_map('str_getcsv', file($target_dir . "merged_deeplearning_names.csv"));
@@ -1143,8 +1143,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                                             $i = $i + 1;
                                         }
                                     } ?>
-                                </select>
-                                <button type="submit" class="btn btn-success" value="submit" name="submit"><i class="fas fa-external-link-alt"></i>&emsp;Show neural network details and prediction tool</button>
+                                </select></p>
+                                <p><button type="submit" class="btn btn-success" value="submit" name="submit"><i class="fas fa-external-link-alt"></i>&emsp;Show neural network details and prediction tool</button></p>
 
                             </div></form></p>
                                 </td>

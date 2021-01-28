@@ -229,8 +229,8 @@ $(document).ready(function(e){
             <div class="panel panel-warning">
                 <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Preprocessing and postprocessing extensions</div>
                 <div class="panel-body">
-                    <div class="panel panel-success">
-                        <div class="panel-heading clickable autocollapse">
+                    <div class="panel autocollapse">
+                        <div class="panel-heading clickable">
                             <h3 class="panel-title" id="deep_learning">
                             <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Predict with developed deep learning model.
                             </h3>
