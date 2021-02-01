@@ -46,6 +46,30 @@ server {
       proxy_buffering off;
     }
 
+    rewrite ^/tool_batch$ $scheme://$http_host/tool_batch/ permanent;
+    location /tool_batch/ {
+      rewrite ^/tool_batch/(.*)$ /$1 break;
+      proxy_pass http://localhost:20002;
+      proxy_redirect / $scheme://$http_host/tool_batch/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+    }
+
+    rewrite ^/tool_heatmap$ $scheme://$http_host/tool_heatmap/ permanent;
+    location /tool_heatmap/ {
+      rewrite ^/tool_heatmap/(.*)$ /$1 break;
+      proxy_pass http://localhost:20003;
+      proxy_redirect / $scheme://$http_host/tool_heatmap/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+    }
+
     rewrite ^/radiant$ $scheme://$http_host/radiant/ permanent;
     location /radiant/ {
       rewrite ^/radiant/(.*)$ /$1 break;

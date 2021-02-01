@@ -230,6 +230,32 @@ $(document).ready(function(e){
             <div class="panel panel-warning">
                 <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Preprocessing and postprocessing extensions</div>
                 <div class="panel-body">
+                <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Correct batch effect using ComBat.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This app allows you to correct batch effect using ComBat. The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_batch/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_batch/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Generate heatmap for exploratory analysis.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_heatmap/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_heatmap/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                            
+                        </div>
+                    </div>
+
+
                     <div class="panel panel-default autocollapse">
                         <div class="panel-heading clickable">
                             <h3 class="panel-title" id="deep_learning">
