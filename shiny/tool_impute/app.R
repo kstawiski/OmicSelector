@@ -41,7 +41,7 @@ ui <- fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-      p("Input data preview (max 8 columns):"),
+      p("Input data preview (max 100 cases and 8 columns):"),
       dataTableOutput("inputprev"),
       hr(),
       p("Missing values in dataset: (plots are resizeable)"),
@@ -52,7 +52,7 @@ ui <- fluidPage(
       jqui_resizable(plotOutput("misspca1")),
       plotlyOutput("misspca1_3d"),
       hr(),
-      p("Imputed dataset (without missing values, preview up to 8 columns):"),
+      p("Imputed dataset (without missing values, preview up to 100 cases and 8 columns):"),
       dataTableOutput("completedprev"),
       downloadButton("downloadData","Download imputed dataset (without missing values) for futher analysis"),
       hr(),
@@ -89,7 +89,9 @@ server <- function(input, output, session) {
       }
       max_col = 8
       if(ncol(dane) < 8) { max_col = ncol(dane) }
-      output$inputprev = renderDataTable(dane[,1:max_col])
+      max_row = 100
+      if(nrow(dane) < 100) { max_row = nrow(dane) }
+      output$inputprev = renderDataTable(dane[1:max_row,1:max_col])
       danex = dplyr::select(dane, starts_with("hsa"))
       metadane = dplyr::select(dane, -starts_with("hsa"))
       
@@ -125,7 +127,7 @@ server <- function(input, output, session) {
       completedx = dplyr::select(completed, starts_with("hsa"))
       metadane2 = dplyr::select(metadane, -Class)
       completed_with_metadata = cbind(completed, metadane2)
-      output$completedprev = renderDataTable(completed[,1:max_col])
+      output$completedprev = renderDataTable(completed[1:max_row,1:max_col])
       output$downloadData <- downloadHandler(
         filename = function() {
           paste("data-", Sys.Date(), ".csv", sep="")

@@ -70,6 +70,18 @@ server {
       proxy_buffering off;
     }
 
+    rewrite ^/tool_impute$ $scheme://$http_host/tool_impute/ permanent;
+    location /tool_impute/ {
+      rewrite ^/tool_impute/(.*)$ /$1 break;
+      proxy_pass http://localhost:20004;
+      proxy_redirect / $scheme://$http_host/tool_impute/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+    }
+
     rewrite ^/radiant$ $scheme://$http_host/radiant/ permanent;
     location /radiant/ {
       rewrite ^/radiant/(.*)$ /$1 break;

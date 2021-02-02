@@ -35,6 +35,7 @@ screen -dmS radiant Rscript -e "radiant::radiant_url(port = 3839)"
 screen -dmS app-deeplearning_model R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/deeplearning_model', port = 20001)"
 screen -dmS app-tool_batch R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_batch', port = 20002)"
 screen -dmS app-tool_heatmap R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_heatmap', port = 20003)"
+screen -dmS app-tool_impute R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_impute', port = 20004)"
 
 cd /OmicSelector/
 # Jupyter
