@@ -1262,6 +1262,24 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
       }}
   } # koniec jesli scaled
 
+  model_autoencoder = NULL
+  if (pre_conf[1,"autoencoder"] != "0") {
+      model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("autoencoder.hdf5",Name))[1,"Name"]
+      unzip(model_path, model_path_in_zip, exdir = tempdir())
+      model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
+
+      if(!file.exists(model_path_unzipped)) { stop("Autoencoder model file does not exist in provided file. Is it the correct one?") }
+
+      model_autoencoder = keras::load_model_hdf5(model_path_unzipped)
+      print(model_autoencoder)
+
+      new_x_old = new_x
+      new_x <- model_autoencoder %>%
+        predict(new_x) %>%
+        as.matrix()
+  }
+
+
   # Przewidywanie
   library(pROC)
   cutoff = as.numeric(pre_conf[1,"cutoff"])
@@ -1298,7 +1316,9 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
                       `col_sd_train` = col_sd_train,
                       `confusion_matrix` = confusion_matrix,
                       `roc` = roc,
-                      `roc_auc` = roc_auc)
+                      `roc_auc` = roc_auc,
+                      `model` = model,
+                      `autoencoder` = model_autoencoder)
   final_return
 }
 
@@ -1400,6 +1420,23 @@ OmicSelector_deep_learning_predict_transfered = function(model_path = "our_model
         print(attr(new_x, "scaled:scale"))
       }}
   } # koniec jesli scaled
+
+    model_autoencoder = NULL
+    if (pre_conf[1,"autoencoder"] != "0") {
+      model_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("autoencoder.hdf5",Name))[1,"Name"]
+      unzip(model_path, model_path_in_zip, exdir = tempdir())
+      model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
+
+      if(!file.exists(model_path_unzipped)) { stop("Autoencoder model file does not exist in provided file. Is it the correct one?") }
+
+      model_autoencoder = keras::load_model_hdf5(model_path_unzipped)
+      print(model_autoencoder)
+
+      new_x_old = new_x
+      new_x <- model_autoencoder %>%
+        predict(new_x) %>%
+        as.matrix()
+    }
   
   # Przewidywanie
   library(pROC)
