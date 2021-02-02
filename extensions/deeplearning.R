@@ -1317,7 +1317,7 @@ OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zi
                       `confusion_matrix` = confusion_matrix,
                       `roc` = roc,
                       `roc_auc` = roc_auc,
-                      `model` = model,
+                      `model` = init_model,
                       `autoencoder` = model_autoencoder)
   final_return
 }
