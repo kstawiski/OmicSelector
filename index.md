@@ -37,9 +37,6 @@ docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicS
 
 As docker image updates itself, it may take few minutes for the app to be operational. You can check logs using `docker logs OmicSelector`. The GUI (web-based user interface) is accessable via `http://your-host-ip:28888/`. If you use command above, your working directory will be binded as `/OmicSelector/host/`.
 
-3. Lite dev CPU-based version, used in CI and debuging, does not contain `mxnet` library: [kstawiski/omicselector-ci](https://hub.docker.com/r/kstawiski/omicselector-ci)
-
-If you do not know how docker works go to [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/).
 
 Pearls:
 
@@ -77,8 +74,6 @@ install_keras()
 library(OmicSelector)
 OmicSelector_setup()
 ```
-
-Please note that application of `mxnet` requires the `mxnet` R package which is not installed automatically. You can search for `mxnet R package` in Google to find the tutorial on package installation or just use our docker container.
 
 ## Tutorials
 

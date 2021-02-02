@@ -12,8 +12,6 @@
 #' @param holdout Best set of hyperparameters can be selected using: (1) if TURE - using hold-out validation on test set, (2) if FALSE - using 10-fold cross-validation repeated 5 times.
 #' @param stamp Character vector or timestamp to make the benchmark unique.
 #' @param cores Number of cores using in parallel processing.
-#' @param mxnet Whether to use mxnet. Default: F
-#' @param search_iters_mxnet Number of iterations in mxnet-based neural network creation. Default: 5000
 #' @param gpu Wheter to use GPU in mxnet and keras processing. Default: F
 #' @param search_iters The number of random hyperparameters tested in the process of model induction.
 #' @param keras_epochs Number of epochs used in keras-based methods, if keras methods are used. (e.g. "mlpKerasDropout", "mlpKerasDecay")
@@ -25,7 +23,7 @@
 #' @export
 OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epochs = 5000, keras_threads = floor(parallel::detectCores()/2), search_iters_mxnet = 5000,
                         cores = detectCores()-1, input_formulas = readRDS("featureselection_formulas_final.RDS"),
-                        output_file = "benchmark.csv", mxnet = F, gpu = F,
+                        output_file = "benchmark.csv",
                         #algorithms = c("nnet","svmRadial", "svmLinear","rf","C5.0","mlp", "mlpML","xgbTree"),
                         algorithms = c("mlp", "mlpML", "svmRadial", "svmLinear","rf","C5.0", "rpart", "rpart2", "ctree"),
                         holdout = T, stamp = as.character(as.numeric(Sys.time())), OmicSelector_docker = F) {
@@ -113,22 +111,22 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
   wyniki$SMOTE = ifelse(grepl("SMOTE", names(formulas)),"Yes","No")
 
 
-  if(mxnet == T) {
-    suppressMessages(library(mxnet))
-    #gpu = system("nvidia-smi", intern = T)
-    if (gpu == T) {
-      mxctx = mx.gpu()
-      print("MXNET is using GPU not CPU :)")
-    } else {
-      mxctx = mx.cpu()
-      print("MXNET is using CPU not GPU :(")
-    }
+  # # if(mxnet == T) {
+  # #   suppressMessages(library(mxnet))
+  # #   #gpu = system("nvidia-smi", intern = T)
+  # #   if (gpu == T) {
+  # #     mxctx = mx.gpu()
+  # #     print("MXNET is using GPU not CPU :)")
+  # #   } else {
+  # #     mxctx = mx.cpu()
+  # #     print("MXNET is using CPU not GPU :(")
+  # #   }
 
 
-    algorytmy = c("glm", "mxnetAdam", algorithms)
-  } else {
+  # #   algorytmy = c("glm", "mxnetAdam", algorithms)
+  # # } else {
     algorytmy = c("glm",algorithms)
-  }
+  # }
 
 
 
@@ -179,37 +177,38 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
 
 
       # wyniki2 = tryCatch({
-      if(algorytm == "mxnet") {
-        hyperparameters = expand.grid(layer1 = unique(ceiling(seq(2, ncol(trainx)/2, length.out = 10))), layer2 = unique(ceiling(seq(0, ncol(trainx)/4, length.out = 5))), layer3 =unique(ceiling(seq(0, ncol(trainx)/8, length.out = 5))), activation = c('relu', 'sigmoid'),
-                                      dropout = c(0,0.05),learning.rate= c(0.00001, 0.01), momentum = c(0, 0.8, 0.99))
-        train_control <- trainControl(method="cv", repeats=5, number = 10, classProbs = TRUE,verboseIter = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE)
-        if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
-                                                         classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
-        model1 = caret::train(as.formula(formulas[[i]]), ctx = mxctx, optimizer = 'sgd',
-                              #optimizer_params=(('learning_rate',0.1),('lr_scheduler',lr_sch)),
-                              preProc = c("center", "scale"),
-                              #epoch.end.callback = mx.callback.early.stop(5,10,NULL, maximize=TRUE, verbose=TRUE),
-                              #eval.data = list(data=dplyr::select(test, starts_with("hsa")),label=dplyr::select(test, Class)),
-                              epoch.end.callback=mx.callback.early.stop(30, 30),
-                              #preProc = c("center", "scale"),
-                              num.round = search_iters_mxnet, data=temptrain, trControl=train_control, method=algorytm, tuneGrid = hyperparameters)
-        print(model1$finalModel)
-      } else if(algorytm == "mxnetAdam") {
-        hyperparameters = expand.grid(layer1 = unique(ceiling(seq(2, ncol(trainx)/2, length.out = 10))), layer2 = unique(ceiling(seq(0, ncol(trainx)/4, length.out = 5))), layer3 =unique(ceiling(seq(0, ncol(trainx)/8, length.out = 5))), activation = c('relu', 'sigmoid'),
-                                      dropout = c(0,0.05), beta1=0.9, beta2=0.999, learningrate= c(0.001))
-        train_control <- trainControl(method="cv", repeats=5, number = 10, classProbs = TRUE,verboseIter = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE)
-        if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
-                                                         classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
-        model1 = caret::train(as.formula(formulas[[i]]), ctx = mxctx,
-                              #optimizer_params=(('learning_rate',0.1),('lr_scheduler',lr_sch)),
-                              preProc = c("center", "scale"),
-                              #epoch.end.callback = mx.callback.early.stop(5,10,NULL, maximize=TRUE, verbose=TRUE),
-                              #eval.data = list(data=dplyr::select(test, starts_with("hsa")),label=dplyr::select(test, Class)),
-                              epoch.end.callback=mx.callback.early.stop(30, 30),
-                              #preProc = c("center", "scale"),
-                              num.round = search_iters_mxnet, data=temptrain, trControl=train_control, method=algorytm, tuneGrid = hyperparameters)
-        print(model1$finalModel)
-      } else if(grepl("Keras",algorytm)) {
+      # if(algorytm == "mxnet") {
+      #   hyperparameters = expand.grid(layer1 = unique(ceiling(seq(2, ncol(trainx)/2, length.out = 10))), layer2 = unique(ceiling(seq(0, ncol(trainx)/4, length.out = 5))), layer3 =unique(ceiling(seq(0, ncol(trainx)/8, length.out = 5))), activation = c('relu', 'sigmoid'),
+      #                                 dropout = c(0,0.05),learning.rate= c(0.00001, 0.01), momentum = c(0, 0.8, 0.99))
+      #   train_control <- trainControl(method="cv", repeats=5, number = 10, classProbs = TRUE,verboseIter = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE)
+      #   if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
+      #                                                    classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
+      #   model1 = caret::train(as.formula(formulas[[i]]), ctx = mxctx, optimizer = 'sgd',
+      #                         #optimizer_params=(('learning_rate',0.1),('lr_scheduler',lr_sch)),
+      #                         preProc = c("center", "scale"),
+      #                         #epoch.end.callback = mx.callback.early.stop(5,10,NULL, maximize=TRUE, verbose=TRUE),
+      #                         #eval.data = list(data=dplyr::select(test, starts_with("hsa")),label=dplyr::select(test, Class)),
+      #                         epoch.end.callback=mx.callback.early.stop(30, 30),
+      #                         #preProc = c("center", "scale"),
+      #                         num.round = search_iters_mxnet, data=temptrain, trControl=train_control, method=algorytm, tuneGrid = hyperparameters)
+      #   print(model1$finalModel)
+      # } else if(algorytm == "mxnetAdam") {
+      #   hyperparameters = expand.grid(layer1 = unique(ceiling(seq(2, ncol(trainx)/2, length.out = 10))), layer2 = unique(ceiling(seq(0, ncol(trainx)/4, length.out = 5))), layer3 =unique(ceiling(seq(0, ncol(trainx)/8, length.out = 5))), activation = c('relu', 'sigmoid'),
+      #                                 dropout = c(0,0.05), beta1=0.9, beta2=0.999, learningrate= c(0.001))
+      #   train_control <- trainControl(method="cv", repeats=5, number = 10, classProbs = TRUE,verboseIter = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE)
+      #   if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,
+      #                                                    classProbs = TRUE, summaryFunction = twoClassSummary, savePredictions = TRUE) }
+      #   model1 = caret::train(as.formula(formulas[[i]]), ctx = mxctx,
+      #                         #optimizer_params=(('learning_rate',0.1),('lr_scheduler',lr_sch)),
+      #                         preProc = c("center", "scale"),
+      #                         #epoch.end.callback = mx.callback.early.stop(5,10,NULL, maximize=TRUE, verbose=TRUE),
+      #                         #eval.data = list(data=dplyr::select(test, starts_with("hsa")),label=dplyr::select(test, Class)),
+      #                         epoch.end.callback=mx.callback.early.stop(30, 30),
+      #                         #preProc = c("center", "scale"),
+      #                         num.round = search_iters_mxnet, data=temptrain, trControl=train_control, method=algorytm, tuneGrid = hyperparameters)
+      #   print(model1$finalModel)
+      # } else 
+      if(grepl("Keras",algorytm)) {
         train_control <- trainControl(method="cv", number = 5, search="random", classProbs = TRUE, verboseIter = TRUE,
                                       summaryFunction = twoClassSummary, savePredictions = TRUE, indexFinal = fit_on[[1]])
         #if(holdout == T) { train_control <- trainControl(method="cv", index= fit_on, indexOut = pred_on, indexFinal = fit_on[[1]], verboseIter = TRUE,

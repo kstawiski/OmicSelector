@@ -38,7 +38,7 @@ jobs:
       - uses: mr-smithers-excellent/docker-build-push@v3
         name: Build & push Docker image
         with:
-          image: kstawiski/omicselector-ci
+          image: kstawiski/omicselector
           tag: latest
           registry: docker.io
           dockerfile: Dockerfile.ci

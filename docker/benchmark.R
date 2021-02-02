@@ -18,9 +18,9 @@ while(current > 0.8) {
 cat("Loading benchmark settings...\n")
 mm = read.csv("selected_benchmark.csv")
 m = as.character(mm$m) # which methods to check?
-mxnet = ifelse(readLines("var_mxnet.txt", warn = F) == "TRUE", TRUE, FALSE)
-if (length(mxnet) == 0) { mxnet = FALSE }
-search_iters_mxnet = as.numeric(readLines("var_search_iters_mxnet.txt", warn = F))
+# mxnet = ifelse(readLines("var_mxnet.txt", warn = F) == "TRUE", TRUE, FALSE)
+# if (length(mxnet) == 0) { mxnet = FALSE }
+# search_iters_mxnet = as.numeric(readLines("var_search_iters_mxnet.txt", warn = F))
 search_iters = as.numeric(readLines("var_search_iters.txt", warn = F))
 holdout = ifelse(readLines("var_holdout.txt", warn = F) == "TRUE", TRUE, FALSE)
 # gpu = tensorflow::tf$test$is_gpu_available()
@@ -36,8 +36,8 @@ OmicSelector_benchmark(
   cores = detectCores() - 1,
   input_formulas = readRDS("featureselection_formulas_final.RDS"),
   output_file = "benchmark.csv",
-  mxnet = mxnet,
-  gpu = gpu,
+  # mxnet = mxnet,
+  # gpu = gpu,
   algorithms = m,
   holdout = holdout,
   stamp = "OmicSelector", OmicSelector_docker = T
