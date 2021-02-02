@@ -339,6 +339,76 @@ function konsta_readcsv_formulas($filename, $header = true)
                 </div>
             </div>
 
+            <div class="panel panel-warning">
+                <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Preprocessing and postprocessing extensions</div>
+                <div class="panel-body">
+
+                <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Differential expression analysis using corrected t-test.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This app allows you to conduct DE analysis. The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_de/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_de/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                        </div>
+                    </div>
+                
+                    <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Imputation of missing data.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This app allows you to impute missing data using predictive mean matching or mean. The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_impute/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_impute/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                        </div>
+                    </div>
+
+                
+                    <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Correct batch effect using ComBat.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This app allows you to correct batch effect using ComBat. The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_batch/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_batch/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;Generate heatmap for exploratory analysis.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>The file should be prepared in the same as for the OmicSelector analysis.</p>
+                            <a href="/tool_heatmap/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/tool_heatmap/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default autocollapse">
+                        <div class="panel-heading clickable">
+                            <h3 class="panel-title" id="deep_learning">
+                            <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Predict with developed deep learning model.
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This step requires the model zip file.</p>
+                            <a href="/deeplearning_model/" role="button" class="btn btn-primary" target="popup" onclick="window.open('/deeplearning_model/','popup3','width=1150,height=800'); return false;"><i class="fas fa-external-link-alt"></i>&emsp;Open tool</a>&emsp;
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="panel panel-primary">
                 <div class="panel-heading"><i class="fas fa-chart-bar"></i>&emsp;&emsp;Exploratory analysis</div>
                 <div class="panel-body">
