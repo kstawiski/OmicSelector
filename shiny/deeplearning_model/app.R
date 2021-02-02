@@ -19,11 +19,18 @@ library(magick)
 OmicSelector::OmicSelector_load_extension("deeplearning")
 options(shiny.maxRequestSize = 30*1024^2)
 
+library(waiter)
+waiting_screen <- tagList(
+  spin_3(),
+  h4("OmicSelector is working...")
+) 
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     
     # Application title
     titlePanel("OmicSelector: Deep learning model viewer."),
+    use_waiter(),
     
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
@@ -90,7 +97,7 @@ server <- function(input, output, session) {
         if (!is.null(query[['modelid']])) {
             updateTextInput(session, "modelid", value = query[['modelid']])
         }
-        
+        waiter_show(html = waiting_screen, color = "black")
         
         
         file_path = paste0("/OmicSelector/", input$analysisid, "/models/deeplearning/", input$modelid, ".zip")
@@ -253,7 +260,7 @@ server <- function(input, output, session) {
             output$summary = renderText({ paste0("Model file located at ", file_path, " does not exist. Choose correct model name and analysis id.") })
         }
         
-        
+        waiter_hide()
     })
     
     

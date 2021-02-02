@@ -7,11 +7,18 @@ library(plotly)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
+library(waiter)
+waiting_screen <- tagList(
+  spin_3(),
+  h4("OmicSelector is working...")
+) 
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
   
   # Application title
   titlePanel("OmicSelector: Batch-effect correction."),
+  use_waiter(),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
@@ -55,13 +62,12 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   observe({
-    hideTab("tabs", "Input data")
-    hideTab("tabs", "Results (output)")
+    waiter_show(html = waiting_screen, color = "black")
+
     
     inFile2 <- input$file2
     if (!is.null(inFile2)) { 
-      showTab("tabs", "Input data")
-      showTab("tabs", "Results (output)")
+
       file_path = inFile2$datapath
       # output$filepath = renderPrint(file_path)
       if(file_ext(file_path) == "xlsx") {
@@ -108,6 +114,7 @@ server <- function(input, output, session) {
       
       
     }
+    waiter_hide()
 })}
 
 # Run the application 

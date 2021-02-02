@@ -35,6 +35,8 @@ if("testextra" %in% rownames(installed.packages()) == FALSE) { remotes::install_
 if("purrrogress" %in% rownames(installed.packages()) == FALSE) {  remotes::install_github("halpo/purrrogress", upgrade = "never") } 
 if("feseR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("enriquea/feseR", upgrade = "never") }
 if("autokeras" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("jcrodriguez1989/autokeras", upgrade = "never") }
+if("waiter" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("JohnCoene/waiter", upgrade = "never") }
+if("shinyjqui" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("Yang-Tang/shinyjqui", upgrade = "never") }
 
 # tryCatch(
 #         {
