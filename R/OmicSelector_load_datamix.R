@@ -99,7 +99,15 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
         minor = NULL; maj = NULL
         if(as.numeric(t["Case"]) > as.numeric(t["Control"])) { minor = "Control"; maj = "Case" }
         if(as.numeric(t["Case"]) < as.numeric(t["Control"])) { minor = "Case"; maj = "Control" }
-        if(is.null(minor)) { cat("\nThere is no need to balance datasets.") } else {
+        if(is.null(minor)) { 
+          cat("\nThere is no need to balance datasets.")
+          data.table::fwrite(train, "mixed_train_balanced.csv")
+          train_smoted = train
+          balanced = NULL
+
+
+
+        } else {
           
           train$Class = as.factor(train$Class)
           trainx2 = cbind(trainx, `Class` = train$Class)
