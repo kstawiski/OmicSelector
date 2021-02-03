@@ -69,9 +69,9 @@ OmicSelector_benchmark = function(wd = getwd(), search_iters = 2000, keras_epoch
   suppressMessages(library(tidyverse))
 
 
-  if("mxnet" %in% rownames(installed.packages()) == FALSE && mxnet == T) {
-    stop("Mxnet R package is not installed. Please set mxnet to FALSE or build and install mxnet R package. If you don't know how, just use our docker-based enviorment.")
-  }
+  # if("mxnet" %in% rownames(installed.packages()) == FALSE && mxnet == T) {
+  #   stop("Mxnet R package is not installed. Please set mxnet to FALSE or build and install mxnet R package. If you don't know how, just use our docker-based enviorment.")
+  # }
 
   if(!dir.exists("temp")) { dir.create("temp") }
 

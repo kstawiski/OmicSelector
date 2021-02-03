@@ -934,6 +934,8 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
       setwd(wd)
     }
   )
+  # Salvage results if SMOTE fails
+  saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))
 
   dane = OmicSelector_load_datamix(replace_smote = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
 
