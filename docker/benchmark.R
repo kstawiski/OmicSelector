@@ -47,5 +47,6 @@ rmarkdown::render("best_signiture.Rmd")
 
 
 cat("[OmicSelector: TASK COMPLETED]")
+OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log")
 sink() 
 sink(type = "message")

@@ -53,5 +53,7 @@ try(OmicSelector_OmicSelector(m = i, max_iterations = max_iterations, stamp = "f
 selected_sets_of_miRNAs = OmicSelector_merge_formulas(max_miRNAs = prefer_no_features)
 
 cat("[OmicSelector: TASK COMPLETED]")
+OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log")
 sink() 
 sink(type = "message")
+cat("[OmicSelector: TASK COMPLETED]")

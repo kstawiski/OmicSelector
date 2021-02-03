@@ -396,3 +396,7 @@ pred_y = predict(bestmodel, valid, type="prob")[,"Case"]
 pred = predict(bestmodel, valid)
 caret::confusionMatrix(pred, valid$Class, positive = "Case")
 ```
+
+```{r echo = FALSE}
+OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log")
+```

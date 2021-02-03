@@ -46,5 +46,6 @@ cat("Recovered from temporary files:\n\n")
 print(selected_sets_of_miRNAs)
 
 cat("[OmicSelector: TASK COMPLETED]")
+OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log")
 sink() 
 sink(type = "message")

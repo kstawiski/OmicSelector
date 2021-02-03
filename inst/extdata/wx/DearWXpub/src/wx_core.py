@@ -34,7 +34,7 @@ def cw_ann_model(x_train, y_train, x_val, y_val, hyper_param=wx_hyperparam, hidd
     inputs = Input((input_dim,))
     hidden = Dense(hidden_layer_size)(inputs)
     fc_out = Dense(num_cls,  activation='softmax')(hidden)
-    model = Model(input=inputs, output=fc_out)
+    model = Model(inputs, fc_out)
     # model.summary()
 
     #build a optimizer
@@ -91,7 +91,7 @@ def naive_SLP_model(x_train, y_train, x_val, y_val, hyper_param=wx_hyperparam, n
     inputs = Input((input_dim,))
     #fc_out = Dense(2,  kernel_initializer='zeros', bias_initializer='zeros', activation='softmax')(inputs)
     fc_out = Dense(num_cls,  activation='softmax')(inputs)
-    model = Model(input=inputs, output=fc_out)
+    model = Model(inputs, fc_out)
     # model.summary()
 
     #build a optimizer
@@ -261,7 +261,7 @@ def wx_mlp(x_train, y_train, x_val, y_val, n_selection=100, hyper_param=wx_hyper
     hidden_1 = Dense(units=num_h_unit)(inputs)
     hidden_2 = Dense(units=int(num_h_unit/2))(hidden_1)    
     fc_out = Dense(num_cls,  kernel_initializer='zeros', bias_initializer='zeros', activation='softmax')(hidden_2)
-    model = Model(input=inputs, output=fc_out)
+    model = Model(inputs, fc_out)
 
     #build a optimizer
     sgd = optimizers.SGD(lr=hyper_param.learning_ratio, decay=hyper_param.weight_decay, momentum=hyper_param.momentum, nesterov=True)
