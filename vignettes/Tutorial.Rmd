@@ -545,13 +545,13 @@ OmicSelector_vulcano_plot(selected_miRNAs = de$miR, DE = de, only_label = select
 Let's draw a heatmap for selected miRNAs in the whole dataset (training, testing and validation set).
 
 ```{r}
-OmicSelector_heatmap(x = dplyr::select(mixed, gsub("\\.", "-", selected_miRNAs)),
+OmicSelector_heatmap(x = dplyr::select(mixed, selected_miRNAs),
            rlab = data.frame(Class = mixed$Class, Mix = mixed$mix),
            zscore = F, margins = c(10,10))
 ```
 
 ```{r}
-OmicSelector_heatmap(x = dplyr::select(mixed, gsub("\\.", "-", selected_miRNAs)),
+OmicSelector_heatmap(x = dplyr::select(mixed, selected_miRNAs),
            rlab = data.frame(Class = mixed$Class, Mix = mixed$mix),
            zscore = T, margins = c(10,10))
 ```
