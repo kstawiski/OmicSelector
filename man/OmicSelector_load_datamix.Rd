@@ -6,14 +6,18 @@
 \usage{
 OmicSelector_load_datamix(
   wd = getwd(),
-  smote_over = 10000,
+  smote_easy = T,
+  smote_over = 200,
   use_smote_not_rose = T,
   replace_smote = F,
-  selected_miRNAs = NULL
+  selected_miRNAs = NULL,
+  class_interest = "Case"
 )
 }
 \arguments{
 \item{wd}{Working directory with files for the loading.}
+
+\item{smote_easy}{Easy SMOTE (just SMOTE minority cases in the amount of the difference between minority and majority classes). If set to TRUE smote_over has no meaning. Please not that no undersampling of majority class is performed in this method, so we consider it the best for small datasets.}
 
 \item{smote_over}{Oversampling of minority class in SMOTE function (deterimes the number of cases in final dataset). See `perc.over` in `DMwR::SMOTE()`` function.}
 
@@ -22,6 +26,8 @@ OmicSelector_load_datamix(
 \item{replace_smote}{For some analyses we may want to replace imbalanced train dataset with balanced dataset. This saved coding time in some functions.}
 
 \item{selected_miRNAs}{If null - take all features staring with "hsa", if set - vector of feature names to be selected.}
+
+\item{class_interest}{Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".}
 }
 \value{
 The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)

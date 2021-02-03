@@ -33,18 +33,16 @@ library(OmicSelector)
 
 # Setup script
 
-The package OmicSelector has a lot of requirements that are nessesary to run all the experiments. The script below will allow to install most of them. It is highly recommended to install those packages using the code below.
+The package OmicSelector has a lot of requirements that are necessary to run all the experiments. The script below will allow installing most of them. It is highly recommended to install those packages using the code below.
 
-If you are using our docker enviorment to learn this package you should not run this again. It would be a waste of time. [However, if you wish, you can play with the code in the notebook. Click here.]([If you are using our enviorment to learn this package you can tweak this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/setup.R)
+If you are using our docker environment to learn this package, you should not run this again. It would be a waste of time. [However, if you wish, you can play with the code in the notebook. Click here.]([If you are using our environment to learn this package, you can tweak this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/setup.R)
 
 Setup script:
 
 ```{r}
 readLines("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R") %>% paste0(collapse="\n") %>% cat
 ```
-This code does not cover the installation of mxnet, which can be used for benchmarking of the selected miRNA sets. The mxnet is however built and installed in our docker enviorment.
-
-As the `OmicSelector` package is installed we can load it easly.
+As the `OmicSelector` package is installed, we can load it easily.
 
 ```{r setup}
 library(OmicSelector)
@@ -52,16 +50,17 @@ library(OmicSelector)
 
 # Getting the data
 
-To present the package functionality, we will use the pan-cancer data from TCGA (https://portal.gdc.cancer.gov/repository). These two commands below will download and store all the necessary data in your working directory. 
-Please note, that this process may take some time (depending on your network connection), but has to be performed only once. 
+To present the package functionality, we will use the pan-cancer data from TCGA (https://portal.gdc.cancer.gov/repository). These two commands below will download and store all the data required in your working directory. 
+Please note that this process may take some time (depending on your network connection), but has to be performed only once. 
 
 ```{r, eval = F}
+# DO NOT RUN!!! THIS WILL WASTE TIME, just use data("orginal_TCGA_data")
 # OmicSelector_download_tissue_miRNA_data_from_TCGA() # do not run it if you do not need to... You can use already downloaded files via data("orginal_TCGA_data") provided with the package.
 # OmicSelector_process_tissue_miRNA_TCGA(remove_miRNAs_with_null_var = T)
 ```
 
-Both of those function produce 2 files: `tissue_miRNA_counts.csv` and `tissue_miRNA_logtpm.csv`.
-First of those files contains metadata and raw counts as declared in TCGA. The second is are log-transformed transcripts-per-million (TPM) counts.
+Both of those functions produce two files: `tissue_miRNA_counts.csv` and `tissue_miRNA_logtpm.csv`.
+The first file contains metadata and raw counts as declared in TCGA. The second has log-transformed transcripts-per-million (TPM) counts.
 Let's load counts files and see its summary.
 
 ```{r}
@@ -71,9 +70,9 @@ data("orginal_TCGA_data")
 OmicSelector_table(table(orginal_TCGA_data$primary_site, orginal_TCGA_data$sample_type))
 ```
 
-Let's consider a following exemplary problem..
+Let's consider the following exemplary problem.
 
-We want to find the set of miRNAs the most specific to pancreatic cancer. We see that there are 178 cases of pancreatic cancer miRNA-seq results and only 4 solid tissue normal cases. However, we have multiple normal tissue miRNA-seq results from other projects that could be incorporated in the analysis. Let's filter and label the samples of interest.
+We want to find the set of miRNAs most specific to pancreatic cancer. We see 178 cases of pancreatic cancer miRNA-seq results and only four solid tissue normal cases in ur TCGA dataset. However, we have multiple normal tissue miRNA-seq results from other projects that we could incorporate in the analysis. Let's filter and label the samples of interest.
 
 ```{r}
 suppressWarnings(suppressMessages(library(dplyr)))
@@ -94,8 +93,6 @@ dataset = rbind(cancer_cases, control_cases)
 OmicSelector_table(table(dataset$Class), col.names = c("Class","Number of cases"))
 ```
 
-
-
 ```{r}
 boxplot(dataset$age_at_diagnosis ~ dataset$Class)
 t.test(dataset$age_at_diagnosis ~ dataset$Class)
@@ -103,7 +100,7 @@ OmicSelector_table(table(dataset$gender.x, dataset$Class))
 chisq.test(dataset$gender.x, dataset$Class)
 ```
 
-There is a stistically significant difference in age between classess. The gender was not associated with class. In order to increase feature selection performance, we will try to balance the sets by performing propensity score matching.
+There is a statistically significant difference in age between classes. Gender was not associated with the class. To increase feature selection performance, we will try to balance the sets by performing **propensity score matching**.
 
 ```{r}
 old_dataset = dataset # backup
@@ -124,7 +121,7 @@ dataset = dataset[as.numeric(rownames(newdata)),]
 
 ```
 
-Let's check if there is any imbalance in the new, transformed dataset.
+Let's check if there is an imbalance in the new, transformed dataset.
 
 ```{r}
 boxplot(dataset$age_at_diagnosis ~ dataset$Class)
@@ -135,9 +132,9 @@ fwrite(dataset, "balanced_dataset.csv.gz")
 OmicSelector_tutorial_balanced_dataset = dataset # can be used by data("OmicSelector_tutorial_balanced_dataset")
 ```
 
-There are no significant differences in age or gender composition between classes now. We can proceed to standard filtering, log-transormation and TPM-normalization.
+There are no significant differences in age or gender composition between classes now. We can proceed to standard filtering, log-transformation, and TPM-normalization.
 
-However, first, in order to stay consistent between different datasets, we need to standardise microRNA names.
+However, first, to stay consistent between different datasets, we need to standardize microRNA names.
 `OmicSelector_correct_miRNA_names()` unify the miRNA names between different versions of miRbase.
 
 
@@ -146,22 +143,21 @@ dataset = OmicSelector_correct_miRNA_names(dataset) # Correct miRNA names based 
 danex = dplyr::select(dataset, starts_with("hsa")) # Create data.frame or matrix with miRNA counts with miRNAs in columns and cases in rows.
 metadane = dplyr::select(dataset, -starts_with("hsa")) # Metadata with 'Class' variables.
 OmicSelector_table(table(metadane$Class)) # Let's be sure that 'Class' variable is correct and contains only 'Case' and 'Control' cases.
-ttpm = OmicSelector_counts_to_log10tpm(danex, metadane, ids = metadane$sample,
-                                 filtr = T, filtr_minimalcounts = 100, filtr_howmany = 1/3) # We will leave only the miRNAs which apeared with at least 100 counts in 1/3 of cases.
+ttpm = OmicSelector_counts_to_log10tpm(danex, metadane, ids = metadane$sample, filtr = T, filtr_minimalcounts = 100, filtr_howmany = 1/3) # We will leave only the miRNAs which apeared with at least 100 counts in 1/3 of cases.
 ```
 
-You might have noticed, that we have filtered out microRNAs not having at least 100 counts in 1/3 of samples. It was done to ensure that microRNAs selected as features for classifier (possibly used in clinic) would be detectable in other, cheaper methods, such as qPCR. 
-After filtering there are 166 miRNAs left.
+You might have noticed that we have filtered out microRNAs not having at least 100 counts in 1/3 of the samples. We did ensure that microRNAs selected as features for the classifier (possibly useful in the clinic) would be detectable in other, cheaper methods, such as qPCR. 
+After filtering, there are 166 miRNAs left.
 
-In the next step we will devide the dataset into training, testing and validation datasets. We strongly belive that hold-out validation is the most redundant validation method and although OmicSelector supports cross-validation, the hold-out validation is set by default in most cases. Thus, the rest of the analysis is dependent on existance of 3 seperate datasets:
+In the next step, we will divide the dataset into training, testing, and validation datasets. We strongly believe that hold-out validation is the most redundant validation method, and although OmicSelector supports cross-validation, the hold-out confirmation is set by default in most cases. Thus, the rest of the analysis is dependent on the existence of 3 separate datasets:
 
 - Training dataset (`mixed_train.csv`): By default 60%, used for differential expression, feature selection and model training.
-- Testing dataset (`mixed_test.csv`): By default 20%, used for hyperparameter selection (in `holdout=T` mode)and for performance assessment.
+- Testing dataset (`mixed_test.csv`): By default 20%, used for hyperparameter selection (in `holdout=T` mode) and for performance assessment.
 - Validation dataset (`mixed_valid.csv`): By default 20%, used only for performance assessment.
 
-The best signiture (best set of miRNAs for diagnostic test) can be selected based on all 3 datasets, 2 datasets or only validation set. The process of best signiture selection will be discussed below.
+The best signature (best set of miRNAs for the diagnostic test) can be selected based on all three datasets, two datasets, or only a validation set. We will discuss the process of the best signature selection below.
 
-The split can be prepared manually by user (the pipeline expects to find `mixed_*.csv` files in working directory) or in a convinient way using `OmicSelector_prepare_split()`. Let's do it now.
+The split can be prepared manually by the user (the pipeline expects to find `mixed_*.csv` files in the working directory) or in a convenient way using `OmicSelector_prepare_split()`. Let's do it now.
 
 ```{r}
 mixed = OmicSelector_prepare_split(metadane = metadane, ttpm = ttpm, train_proc = 0.6)
@@ -176,11 +172,11 @@ OmicSelector_table(table(mixed$Class, mixed$mix))
 OmicSelector_table(cbind(mixed[1:10,c(100:105)], Class = mixed[1:10,"Class"]))
 ```
 
-We can see that the dataset was devided in balanced way. Now we are ready to move to the analysis...
+We can see that the dataset was divided in a balanced way. Now we are ready to move to the analysis...
 
 # Basic exploratory analysis
 
-In biomarker studies we relay on validation. We perform hold-out validation, so the signature selection has to be  based on training dataset only. Including testing and validation dataset in the exploratory analysis could lead to bias ('data leakage'). In the following section we show how to use our package to perform quick exploratory analysis of miRNA-seq data.
+In biomarker studies, we rely on validation. We perform hold-out verification, so the signature selection has to be based on the training dataset only. Including testing and validation dataset in the exploratory analysis could lead to bias ('data leakage'). In the following section, we show how to use our package to perform quick exploratory analysis of miRNA-seq data.
 
 
 ```{r warning=FALSE}
@@ -188,20 +184,20 @@ dane = OmicSelector_load_datamix(use_smote_not_rose = T) # load mixed_*.csv file
 train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]] # get the objects from list to make the code more readable.
 ```
 
-`ks_load_datamix()` function loads the data created in preparation phase. It requires the output constructed by `OmicSelector_prepare_split()` function to be placed in working directory ('wd'), thus files 'mixed_train.csv', 'mixed_test.csv' and 'mixed_valid.csv' have to exist in the directory. 
-If you have split the data manually, there may be some imbalance of classes in train, test or validation datasets. If so, `OmicSelector_prepare_split()` perform balancing using: 
+`OmicSelector_load_datamix()` function loads the data created in preparation phase. It requires the output constructed by `OmicSelector_prepare_split()` function to be placed in working directory ('wd'), thus files 'mixed_train.csv', 'mixed_test.csv' and 'mixed_valid.csv' have to exist in the directory. 
+If you have split the data manually, there may be some imbalance of classes in train, test, or validation datasets. If so, `OmicSelector_prepare_split()` perform balancing using: 
 
-1. ROSE (default): https://journal.r-project.org/archive/2014/RJ-2014-008/RJ-2014-008.pdf - by default we generate 10 * number of cases in orginal dataset. 
-2. SMOTE: https://arxiv.org/abs/1106.1813 - by defult we use 'perc.under=100' and 'k=10'.
+1. ROSE: https://journal.r-project.org/archive/2014/RJ-2014-008/RJ-2014-008.pdf - by default, we generate 10 * number of cases in the original dataset. 
+2. SMOTE (default): https://arxiv.org/abs/1106.1813 - by default, we use our modification of SMOTE, i.e. we add SMOTEd cases only to the minority class (we do not down-/sample majority class). The minimal amount of added rows is calculated to compensate for the imbalance problem. See details in the code of `OmicSelector_load_datamix()`.
 
-At the beging of the analysis we usually perform **principal component analysis** (PCA) to assess for any batch effect, possible outliers and get a general understanding of miRNA profile. The package can construct 2-dimentional biplot and 3-dimentional interactive scatterplot based on the computed components.
+At the beginning of the analysis, we usually perform **principal component analysis** (PCA) to assess any batch effect and possible outliers; hence understand the miRNA profile. The package can construct a 2-dimensional biplot and a 3-dimensional interactive scatterplot based on the computed components.
 
 ```{r}
 pca = OmicSelector_PCA(trainx, train$Class)
 pca
 ```
 
-3D PCA plot may not be shown correctly in Jupyter notebook, but you can check in e.g. R Studio that it worOmicSelector_
+3D PCA plot may not be shown correctly in Jupyter notebook, but you can check it in, e.g., R Studio.
 
 ```{r}
 if(is.null(sessionInfo()$loadedOnly$IRdisplay)) { # if not in the Jupyter, if you run OmicSelector_PCA_3D in learning/editing Jupyter enviorment it may cause: *** caught segfault *** address 0x1, cause 'memory not mapped'
@@ -209,9 +205,9 @@ pca3d = OmicSelector_PCA_3D(trainx, train$Class)
 pca3d }
 ```
 
-Now we can also correct the batch effect, if there is any. For example, you can use `OmicSelector_combat()` to do so. However, detailed demonstration is out of scope of this tutorial.
+Now we can also correct the batch effect if there is any. For example, you can use `OmicSelector_combat()` to do so. However, the detailed demonstration is out of the scope of this tutorial.
 
-Usually, the next step in the exploratory analysis is to perform the differential expression analysis. Differential expression in our package is biomarker-discovery oriented, thus it uses t-test with the correction for multiple comparisons. The following table shows signifiantly differently expressed miRNAs after Benjamini-Hochberg correction.
+Usually, the next step in the exploratory analysis is to perform the differential expression analysis. Differential expression in our package is biomarker-discovery oriented. Thus it uses a t-test with the correction for multiple comparisons. The following table shows significantly differently expressed miRNAs after Benjamini-Hochberg correction.
 
 ```{r}
 de = OmicSelector_differential_expression_ttest(trainx, train$Class)
@@ -219,7 +215,7 @@ sig_de = de %>% dplyr::filter(`p-value BH` <= 0.05) %>% dplyr::arrange(`p-value 
 OmicSelector_table(sig_de) 
 ```
 
-Let's visualize the results of differential expression using heatmap and vulcano plot.
+Let's visualize the results of differential expression using heatmap and volcano plot.
 
 ```{r}
 OmicSelector_heatmap(x = dplyr::select(trainx, sig_de$miR),
@@ -253,25 +249,25 @@ OmicSelector_correlation_plot(de_test$log2FC, de_valid$log2FC, "log2FC on test s
 
 # miRNA selection
 
-The main feature of this package is the shotgun-like feature selection evaluation of possible miRNA signatures of biological processes. The function can be applied in a straightforward way, e.g.:
+This package's main feature is the shotgun-like feature selection evaluation of possible miRNA signatures of biological processes. We can straightforwardly apply the function, e.g.:
 
 ```{r}
 library(OmicSelector)
 selected_features = OmicSelector_OmicSelector(wd = getwd(), m = c(1:3,51), max_iterations = 1, stamp = "tutorial") # For the sake of this tutorial and vignette building we will use only few fastest methods. The m parameter defines what methods will be tested. See more details below.
 ```
 
-But, for largers projects we suggest using the following wrapper wich will perform the feature selection in parallel, significantly reducing computational time. We do not recommend using more than 5 threads, beacuse some of the methods inhereditly use multicore processing:
+But, for larger projects, we suggest using the following wrapper, which will perform the feature selection in parallel, significantly reducing computational time. We do not recommend using more than five threads, because some of the methods inherently use multicore processing:
 
 ```{r}
 readLines("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/Tutorial_OmicSelector.R") %>% paste0(collapse="\n") %>% cat
 ```
 
-[If you are using our enviorment to learn this package you can tweak and run this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/Tutorial_OmicSelector.R)
+[If you are using our environment to learn this package, you can tweak and run this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/Tutorial_OmicSelector.R)
 
-A few notes about what is does:
+A few notes about what it does:
 
-- This function iterates though available methods which are described by `m` parameter. The aim of this function is to perform feature selection using multiple methods and to create formulas for benchmarking.
-- It loads the data from working directory. The output is mainly put in files in the working directory. Log and temporary files are placed in a created `temp` subfolder.
+- This function iterates through available methods, which are described by `m` parameter. This function aims to perform feature selection using multiple approaches and create formulas for benchmarking.
+- It loads the data from the working directory. The output is mainly put in files in the working directory. Log and temporary files are placed in a created `temp` subfolder.
 
 Files created for each method (e.g. for `stamp=tutorial` and `m=1`): 
 
@@ -285,7 +281,7 @@ Pearls about the methods:
 - `Sig` = miRNAs with p-value <0.05 after BH correction (DE using t-test)
 - `Fcsig` = `sig` + absolute log2FC filter (included if abs. log2FC>1)
 - `Cfs` = Correlation-based Feature Selection for Machine Learning (more: https://www.cs.waikato.ac.nz/~mhall/thesis.pdf)
-- `Classloop` = Classification using different classification algorithms (classifiers) with the embedded feature selection and using the different schemes for the performance validation (more: https://rdrr.io/cran/Biocomb/man/classifier.loop.html)
+- `Classloop` = Classification using different classification algorithms (classifiers) with the embedded feature selection and using the various schemes for the performance validation (more: https://rdrr.io/cran/Biocomb/man/classifier.loop.html)
 - `Fcfs` = CFS algorithm with forward search (https://rdrr.io/cran/Biocomb/man/select.forward.Corr.html)
 - `MDL` methods = minimal description length (MDL) discretization algorithm with different a method of feature ranking or feature selection (AUC, SU, CorrSF) (more: https://rdrr.io/cran/Biocomb/man/select.process.html)
 - `bounceR` = genetic algorithm with componentwise boosting (more: https://www.statworx.com/ch/blog/automated-feature-selection-using-bouncer/)
@@ -294,7 +290,7 @@ Pearls about the methods:
 - `SimulatedAnnealing` =  makes small random changes (i.e. perturbations) to an initial candidate solution (more: https://topepo.github.io/caret/feature-selection-using-simulated-annealing.html)
 - `Boruta` (more: https://www.jstatsoft.org/article/view/v036i11/v36i11.pdf)
 - `spFSR` = simultaneous perturbation stochastic approximation (SPSA-FSR) (more: https://arxiv.org/abs/1804.05589)
-- `varSelRF` = using the out-of-bag error as minimization criterion, carry out variable elimination from random forest, by successively eliminating the least important variables (with importance as returned from random forest). (more: https://www.ncbi.nlm.nih.gov/pubmed/16398926)
+- `varSelRF` = using the out-of-bag error as minimization criterion, carry out variable elimination from the random forest by successfully eliminating the least important variables (with importance as returned from the random forest). (more: https://www.ncbi.nlm.nih.gov/pubmed/16398926)
 - `WxNet` = a neural network-based feature selection algorithm for transcriptomic data (more: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6642261/)
 - `Step` = backward stepwise method of feature selection based on logistic regression (GLM, family = binomial) using AIC criteria (stepAIC) and functions from My.stepwise package (https://cran.r-project.org/web/packages/My.stepwise/index.html)
 
@@ -314,8 +310,8 @@ selected_sets_of_miRNAs_with_own = OmicSelector_merge_formulas(max_miRNAs = 11,
 
 Note that:
 
-- Two files are created in working directory: (1) `featureselection_formulas_all.RDS` - contains the formulas for all selection methods, (2) `featureselection_formulas_final.RDS` - contains methods that selected smaller or equal number of microRNAs than specified in `max_miRNA` parameter, as well as `fcsig` and `cfs_sig`.
-- The results of `fcsig` and `cfs_sig` methods are always retained in the final `formulas` set (ignoring `max_miRNA` parameter) - they are commonly used as benchmark comparator for the final set of miRNAs. Those sets can be manually removed (if needed) from final selection.
+- Two files are created in the working directory: (1) `featureselection_formulas_all.RDS` - contains the formulas for all selection methods, (2) `featureselection_formulas_final.RDS` - contains methods that selected a smaller or equal number of microRNAs than specified in `max_miRNA` parameter, as well as `fcsig` and `cfs_sig`.
+- The results of `fcsig` and `cfs_sig` methods are always retained in the final `formulas` set (ignoring `max_miRNA` parameter) - they are commonly used as benchmark comparator for the final set of miRNAs. Those sets can be manually removed (if needed) from the final selection.
 - Readable tables are written in corresponding `*.csv` files.
 
 Let's analyze the process of feature selection:
@@ -329,9 +325,9 @@ featureselection_formulas_final = fread("featureselection_formulas_final.csv")
 OmicSelector_table(featureselection_formulas_final) # show information about selected formulas
 ```
 
-Note that `my_own_signture` has `0` miRNAs according to the table. This trick is done to make sure that signatures added manually will not be filtered out based on `max_miRNA` parameter.
+Note that `my_own_signture` has `0` miRNAs according to the table. This trick ensures that we will not filter out signatures added manually based on the `max_miRNA` parameter.
 
-Now, we will summarize number of microRNAs selected by methods implemented in `OmicSelector_OmicSelector` by creating histogram and calculating some descriptive statistics.
+We will summarize the number of microRNAs selected by methods implemented in `OmicSelector_OmicSelector` by creating a histogram and calculating some descriptive statistics.
 
 ```{r}
 hist(featureselection_formulas_final$ile_miRNA[-which(featureselection_formulas_final$ile_miRNA == 0)], 
@@ -344,15 +340,15 @@ psych::describe(featureselection_formulas_final$ile_miRNA[-which(featureselectio
 
 # Benchmarking
 
-In the next step of looking for the best microRNA signature, we perform benchmarking. This tests all the signatures using different classifier architectures. Here is the example of benchmark with default parameters:
+In the next step of looking for the best microRNA signature, we perform benchmarking. This tests all the signatures using different classifier architectures. Here is the example of a benchmark with default parameters:
 
 ```{r, eval=F}
 readLines("Tutorial_benchmark.R") %>% paste0(collapse="\n") %>% cat
 ```
 
-[If you are using our enviorment to learn this package you can tweak and run this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/Tutorial_benchmark.R)
+[If you are using our environment to learn this package, you can tweak and run this code in the interactive notebook. Click here.](/e/notebooks/OmicSelector/vignettes/Tutorial_benchmark.R)
 
-Just for rendering this tutorial we will use a very simple benchmark using only logistic regression and conditional trees.
+Just for rendering this tutorial, we will use a straightforward benchmark using only logistic regression and conditional trees.
 
 ```{r}
 library(OmicSelector)
@@ -362,7 +358,7 @@ OmicSelector_tutorial_balanced_benchmark = OmicSelector_benchmark(search_iters =
 # exemplary benchmark data can be loaded using data('OmicSelector_tutorial_balanced_benchmark')
 ```
 
-As benchmarking is done, the main result file is saved in file specified in `output_file` parameter. It contains the performance metrics of signatures satisfying initial criteria (e.g. `max_miRNA`) across different methods of modelling. Let's take a quick look:
+As benchmarking is done, the main result file is saved in the file specified in `output_file` parameter. It contains the performance metrics of signatures satisfying initial criteria (e.g. `max_miRNA`) across different methods of modeling. Let's take a quick look:
 
 ```{r}
 OmicSelector_table(fread("benchmark.csv"))
@@ -371,17 +367,17 @@ OmicSelector_table(fread("benchmark.csv"))
 Description of columns:
 
 - `method` - accronym for method
-- `SMOTE` - if balancing using SMOTE or ROSE was used in training dataset.
+- `SMOTE` - if balancing using SMOTE or ROSE was used in the training dataset.
 - `miRy` - formula used (miRNAs selected).
-- `*_modelname` - the name of `.RDS` file placed in `models/` directory, containing the `caret` final model that can be used for prediction of new cases. This allows reproducibility of the results. For example `glm_` prefix is set according to the method, `glm` = logistic regression.
-- `*_train_ROCAUC` - area under the ROC curve (AUC ROC) on training dataset, indicating general potential of the model.
+- `*_modelname` - the name of `.RDS` file placed in `models/` directory, containing the `caret` final model that can be used for the prediction of new cases. This allows the reproducibility of the results. For example `glm_` prefix is set according to the method, `glm` = logistic regression.
+- `*_train_ROCAUC` - area under the ROC curve (AUC ROC) on the training dataset, indicating the general potential of the model.
 - `*_train_ROCAUC_lower95CI` - lower boundery of 95% confidence interval for AUC ROC.
 - `*_train_ROCAUC_upper95CI` - upper boundery of 95% confidence interval for AUC ROC.
-- `*_train_Accuracy` - accuracy on training set.
+- `*_train_Accuracy` - accuracy on the training set.
 - `*_train_Sensitivity` - sensitivity on training set.
-- `*_train_Specificity` - sensitivity on training set.
+- `*_train_Specificity` - sensitivity on the training set.
 
-By this logic every parameter is also calculated from testing (`_test_`) and validation (`_valid_`) set. If the method generated a probability, a default cutoff is used for all of the predictions.
+By this logic, every parameter is also calculated from the testing (`_test_`) and validation (`_valid_`) set. If the method generated a probability, a default cutoff is used for all of the predictions.
 
 Let's see the general performance (accuracy) of methods in the benchmark:
 
@@ -401,31 +397,31 @@ par(mfrow = c(1,1))
 
 With `OmicSelector` package, the final optimal feature signature can be selected in 3 ways:
 
-**1. Picking the signture which achived the best accuracy in training, testing and validation:** (metaindex = mean of all 3 accuracy metrics)
+**1. Picking the signature which achieved the best accuracy in training, testing and validation:** (metaindex = mean of all 3 accuracy metrics)
 
 ```{r}
-acc1 = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = F) # generates the benchmark sorted by metaindex
+acc1 = OmicSelector_best_signature_proposals(benchmark_csv = "benchmark.csv", without_train = F) # generates the benchmark sorted by metaindex
 best_signatures = acc1[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 ```
 
-**2. Picking the signture which achived the best accuracy in testing and validation:** (metaindex = mean of 2 accuracy metrics)
+**2. Picking the signature which achieved the best accuracy in testing and validation:** (metaindex = mean of 2 accuracy metrics)
 
 ```{r}
-acc1 = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = T) # generates the benchmark sorted by metaindex
+acc1 = OmicSelector_best_signature_proposals(benchmark_csv = "benchmark.csv", without_train = T) # generates the benchmark sorted by metaindex
 best_signatures = acc1[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 ```
 
-**3. The signture which achived the best sensitivity and specificity in validation:** (metaindex = mean of sensivitiy and specificity in validation dataset)
+**3. The signature which achieved the best sensitivity and specificity in validation:** (metaindex = mean of sensitivity and specificity in validation dataset)
 
 ```{r}
-acc = OmicSelector_best_signiture_proposals_meta11(benchmark_csv = "benchmark.csv") # generates the benchmark sorted by metaindex
+acc = OmicSelector_best_signature_proposals_meta11(benchmark_csv = "benchmark.csv") # generates the benchmark sorted by metaindex
 best_signatures = acc[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 ```
 
-It is a good practice to assess learning performance for considered signatures across different classification methods. Here, we  visualize the over/underfitting of selected methods by comparing accuracy score between testing and validation sets for 3 top scoring signatures across selection of model architectures. 
+It is a good practice to assess learning performance for considered signatures across different classification methods. Here, we visualize the over/underfitting of selected methods by comparing the accuracy score between testing and validation sets for 3 top scoring signatures across a selection of model architectures. 
 
 ```{r fig.height=9, fig.width=16}
 for(i in 1:length(metody))
@@ -469,25 +465,25 @@ grid.arrange(arrangeGrob(plot5, ncol=1, nrow = 1))
 
 
 
-# Best signture analysis
+# Best signature analysis
 
-Suppose we decide to use sensitivity and specificity in validation set (e.g. in the model architectures we plan to use in our research) as decisive scoring metric for feature signature. The three best signatures may be:
+Suppose we decide to use sensitivity and specificity in the validation set (e.g., in the model architectures we plan to use in our research) as a decisive scoring metric for feature signature. The three best signatures may be:
 
 ```{r}
 OmicSelector_table(best_signatures[1:3,2:4])
 ```
 
-To get the miRNAs from formula you can use `OmicSelector_get_features_from_benchmark`.
+To get the miRNAs from the formula you can use: `OmicSelector_get_features_from_benchmark`.
 
 ```{r}
-selected_miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", best_signatures$method[1]) # for the best performing signiture
+selected_miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", best_signatures$method[1]) # for the best performing signature
 gsub("\\.", "-", selected_miRNAs) # R doesn't like hyphens, but we can introduce them easly
 ```
 
 As a double check, we can inspect the differential expression of miRNAs constituating selected signature:
 
 ```{r}
-best_de = OmicSelector_best_signiture_de(selected_miRNAs)
+best_de = OmicSelector_best_signature_de(selected_miRNAs)
 OmicSelector_table(best_de)
 ```
 
@@ -497,7 +493,7 @@ Let's visualize the performance of those methods using barplots:
 for(i in 1:3){
   cat(paste0("\n\n## ", acc$method[i],"\n\n"))
   par(mfrow = c(1,2))
-  acc = OmicSelector_best_signiture_proposals_meta11("benchmark.csv")
+  acc = OmicSelector_best_signature_proposals_meta11("benchmark.csv")
   metody = OmicSelector_get_benchmark_methods("benchmark.csv")
   ktory_set = match(acc$method[i], OmicSelector_get_benchmark("benchmark.csv")$method)
   #do_ktorej_kolumny = which(colnames(acc) == "metaindex")
@@ -528,7 +524,7 @@ for(i in 1:3){
 Finally, we can assess the overlap of top 3 feature selection methods:
 
 ```{r}
-overlap = OmicSelector_signiture_overlap(acc$method[1:3], "benchmark.csv")
+overlap = OmicSelector_signature_overlap(acc$method[1:3], "benchmark.csv")
 ```
 
 Which miRNAs are common for between feature selection methods?
@@ -543,7 +539,7 @@ Let's draw vulcano plot and mark the miRNAs selected in best signature:
 OmicSelector_vulcano_plot(selected_miRNAs = de$miR, DE = de, only_label = selected_miRNAs)
 ```
 
-Let's draw heatmap for selected miRNAs in whole dataset (training, testing and validation set).
+Let's draw a heatmap for selected miRNAs in the whole dataset (training, testing and validation set).
 
 ```{r}
 OmicSelector_heatmap(x = dplyr::select(mixed, gsub("\\.", "-", selected_miRNAs)),
@@ -557,7 +553,7 @@ OmicSelector_heatmap(x = dplyr::select(mixed, gsub("\\.", "-", selected_miRNAs))
            zscore = T, margins = c(10,10))
 ```
 
-Based on everything we have done so far, we suggest using the following signiture in further validation of biomarker study.
+Based on everything we have done so far, we suggest using the following signature to validate the biomarker study further.
 
 ```{r}
 cat(paste0(gsub("\\.", "-", selected_miRNAs), collapse = ", "))
@@ -586,7 +582,7 @@ Packages installed in our docker enviorment:
 OmicSelector_table(as.data.frame(installed.packages()))
 ```
 
-Clean the temporary and model files (as the results of this tutorial are simplified and we do not need them).
+Clean the temporary and model files (as the tutorial results are simplified, and we do not need them).
 
 ```{r}
 unlink("temp", recursive=TRUE)

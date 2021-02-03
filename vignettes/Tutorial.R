@@ -186,17 +186,17 @@ for(i in 1:length(metody)){
 par(mfrow = c(1,1))
 
 ## -----------------------------------------------------------------------------
-acc1 = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = F) # generates the benchmark sorted by metaindex
+acc1 = OmicSelector_best_signature_proposals(benchmark_csv = "benchmark.csv", without_train = F) # generates the benchmark sorted by metaindex
 best_signatures = acc1[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 
 ## -----------------------------------------------------------------------------
-acc1 = OmicSelector_best_signiture_proposals(benchmark_csv = "benchmark.csv", without_train = T) # generates the benchmark sorted by metaindex
+acc1 = OmicSelector_best_signature_proposals(benchmark_csv = "benchmark.csv", without_train = T) # generates the benchmark sorted by metaindex
 best_signatures = acc1[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 
 ## -----------------------------------------------------------------------------
-acc = OmicSelector_best_signiture_proposals_meta11(benchmark_csv = "benchmark.csv") # generates the benchmark sorted by metaindex
+acc = OmicSelector_best_signature_proposals_meta11(benchmark_csv = "benchmark.csv") # generates the benchmark sorted by metaindex
 best_signatures = acc[1:3,] # get top 3 methods
 OmicSelector_table(best_signatures[,c("metaindex","method","miRy")])
 
@@ -240,18 +240,18 @@ grid.arrange(arrangeGrob(plot5, ncol=1, nrow = 1))
 OmicSelector_table(best_signatures[1:3,2:4])
 
 ## -----------------------------------------------------------------------------
-selected_miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", best_signatures$method[1]) # for the best performing signiture
+selected_miRNAs = OmicSelector_get_features_from_benchmark(benchmark_csv = "benchmark.csv", best_signatures$method[1]) # for the best performing signature
 gsub("\\.", "-", selected_miRNAs) # R doesn't like hyphens, but we can introduce them easly
 
 ## -----------------------------------------------------------------------------
-best_de = OmicSelector_best_signiture_de(selected_miRNAs)
+best_de = OmicSelector_best_signature_de(selected_miRNAs)
 OmicSelector_table(best_de)
 
 ## ----fig.height=9, fig.width=16-----------------------------------------------
 for(i in 1:3){
   cat(paste0("\n\n## ", acc$method[i],"\n\n"))
   par(mfrow = c(1,2))
-  acc = OmicSelector_best_signiture_proposals_meta11("benchmark.csv")
+  acc = OmicSelector_best_signature_proposals_meta11("benchmark.csv")
   metody = OmicSelector_get_benchmark_methods("benchmark.csv")
   ktory_set = match(acc$method[i], OmicSelector_get_benchmark("benchmark.csv")$method)
   #do_ktorej_kolumny = which(colnames(acc) == "metaindex")
@@ -279,7 +279,7 @@ for(i in 1:3){
 }
 
 ## -----------------------------------------------------------------------------
-overlap = OmicSelector_signiture_overlap(acc$method[1:3], "benchmark.csv")
+overlap = OmicSelector_signature_overlap(acc$method[1:3], "benchmark.csv")
 
 ## -----------------------------------------------------------------------------
 attr(overlap,"intersections")

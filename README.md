@@ -4,7 +4,9 @@
 
 ![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg) ![R package](https://github.com/kstawiski/OmicSelector/workflows/R%20package/badge.svg)
 
-Environment, docker-based application and R package for biomarker signiture selection (feature selection) from high-throughput high-throughput omics experiments and other multidimensional datasets. Initially developed for miRNA-seq, RNA-seq and qPCR.
+OmicSelector is an environment, Docker-based web application, and R package for biomarker signature selection (feature selection) from high-throughput experiments and others. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the previous name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool you can for example select the miRNAs with the greatest diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments).
+
+The main purpose of OmicSelector is to provide you with the set of candidate features (biomarkers) for further validation of biomarker study from e.g. high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called “benchmarking”. In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the average performance of sets in cross-validation or holdout-validation (testing on the test set and/or validation set) we can suggest which of the signatures (set of features) has the greatest potential in further validation.
 
 Go to https://kstawiski.github.io/OmicSelector/ for more details.
 
@@ -26,6 +28,18 @@ docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicS
 ```
 
 As docker image updates itself, it may take few minutes for the app to be operational. You can check logs using `docker logs OmicSelector`. The GUI is accessable via `http://your-host-ip:28888/`. If you use command above, your working directory will be binded as `/OmicSelector/host/`.
+
+Video tutorial is available here:
+
+[![OmicSelector - feature selection and deep learnining with GUI - tutorial](https://yt-embed.herokuapp.com/embed?v=dKUdINEcOjk)](https://www.youtube.com/watch?v=dKUdINEcOjk "OmicSelector - feature selection and deep learnining with GUI - tutorial.")
+
+This tutorial shows how OmicSelector' GUI works and how to perform (without programming knowledge):
+
+- Feature selection
+- Benchmarking (selecting best set of variables based on the performance of data-mining models)
+- Deep learning model development (feedforward neural network up to 3 hidden layers and with/without autoencoders; grid search of hyperparameters)
+- Exploratory analysis (differential expression using t-test, imputation of missing data using predictive mean matching, correcting the batch effect using ComBat, generating heatmaps and volcano plots).
+
 
 ### R package:
 
@@ -79,6 +93,9 @@ Authors:
 
 - [Konrad Stawiski, M.D. (konrad@konsta.com.pl)](https://konsta.com.pl)
 - Marcin Kaszkowiak.
+- Damian Mikulski, M.D.
+
+Supervised by: prof. Wojciech Fendler, M.D., Ph.D. 
 
 For any troubleshooting use [https://github.com/kstawiski/OmicSelector/issues](https://github.com/kstawiski/OmicSelector/issues).
 

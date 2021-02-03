@@ -273,7 +273,7 @@ switch($_GET['type'])
 
         // Starting fs
         exec("cp /OmicSelector/OmicSelector/docker/recover_fs.R " . $target_dir . "recover_fs.R");
-        exec("cp /OmicSelector/OmicSelector/docker/best_signiture.Rmd " . $target_dir . "best_signiture.Rmd");
+        exec("cp /OmicSelector/OmicSelector/docker/best_signature.Rmd " . $target_dir . "best_signature.Rmd");
         exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." Rscript recover_fs.R");
         sleep(3); // Wait to start writing log.
 
@@ -399,7 +399,7 @@ switch($_GET['type'])
 
         // Starting benchmark
         exec("cp /OmicSelector/OmicSelector/docker/benchmark.R " . $target_dir . "benchmark.R");
-        exec("cp /OmicSelector/OmicSelector/docker/best_signiture.Rmd " . $target_dir . "best_signiture.Rmd");
+        exec("cp /OmicSelector/OmicSelector/docker/best_signature.Rmd " . $target_dir . "best_signature.Rmd");
         exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." Rscript benchmark.R");
         sleep(3); // Wait to start writing log.
 
@@ -480,13 +480,13 @@ switch($_GET['type'])
         exit;
     break;
 
-    case "best_signiture_render":
+    case "best_signature_render":
         // Sanity check
         $analysis_id = $_GET['id'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
         if (!file_exists($target_dir)) { die('Analysis not found.'); }
 
-        $skrypt = 'rmarkdown::render("best_signiture.Rmd")';
+        $skrypt = 'rmarkdown::render("best_signature.Rmd")';
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
         header("Location: /analysis.php?id=" . $analysis_id); die();

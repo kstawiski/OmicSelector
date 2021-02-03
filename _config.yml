@@ -1,6 +1,6 @@
 theme: jekyll-theme-minimal
 title: OmicSelector
-description: Environment, docker-based application and R package for biomarker signiture selection from high-throughput experiments. Initially developed for miRNA-seq.
+description: Environment, docker-based application and R package for biomarker signature selection from high-throughput experiments. Initially developed for miRNA-seq.
 logo: vignettes/logo.png
 show_downloads: "true"
 google_analytics: UA-53584749-8

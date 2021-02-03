@@ -13,8 +13,6 @@ OmicSelector_benchmark(
   cores = detectCores() - 1,
   input_formulas = readRDS("featureselection_formulas_final.RDS"),
   output_file = "benchmark.csv",
-  mxnet = F,
-  gpu = F,
   algorithms = c("mlp", "mlpML", "svmRadial", "svmLinear", "rf", "C5.0", "rpart",
     "rpart2", "ctree"),
   holdout = T,
@@ -29,15 +27,9 @@ OmicSelector_benchmark(
 
 \item{keras_epochs}{Number of epochs used in keras-based methods, if keras methods are used. (e.g. "mlpKerasDropout", "mlpKerasDecay")}
 
-\item{search_iters_mxnet}{Number of iterations in mxnet-based neural network creation. Default: 5000}
-
 \item{cores}{Number of cores using in parallel processing.}
 
 \item{output_file}{Out csv file for the benchmark.}
-
-\item{mxnet}{Whether to use mxnet. Default: F}
-
-\item{gpu}{Wheter to use GPU in mxnet and keras processing. Default: F}
 
 \item{algorithms}{Caret methods that will be checked in benchmark processing. By default the logistic regression is always included.}
 
@@ -48,6 +40,8 @@ OmicSelector_benchmark(
 \item{OmicSelector_docker}{Adding features used by OmicSelector GUI. Almost always you should set it to FALSE (default).}
 
 \item{input_fomulas}{List of formulas as created by `OmicSelector_OmicSelector` or `OmicSelector_merge_formulas`. Those formulas will be check in benchmark.}
+
+\item{gpu}{Wheter to use GPU in mxnet and keras processing. Default: F}
 
 \item{keras_threds}{This package supports training of keras networks in parallel. Here you can set the number of threads used. (e.g. "mlpKerasDropout", "mlpKerasDecay")}
 }

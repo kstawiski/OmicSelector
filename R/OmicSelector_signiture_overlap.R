@@ -1,4 +1,4 @@
-#' OmicSelector_signiture_overlap
+#' OmicSelector_signature_overlap
 #'
 #' A function to generate venn diagram and check the overlap between formulas.
 #'
@@ -8,7 +8,7 @@
 #' @return Object of `venn()` function which can be used for plotting venn diagram and check the overlap.
 #'
 #' @export
-OmicSelector_signiture_overlap = function(which_formulas = c("sig","cfs"), benchmark_csv = "benchmark.csv")
+OmicSelector_signature_overlap = function(which_formulas = c("sig","cfs"), benchmark_csv = "benchmark.csv")
 {
   suppressMessages(library(plyr))
   suppressMessages(library(dplyr))

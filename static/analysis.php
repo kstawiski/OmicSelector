@@ -1067,7 +1067,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <div class="panel-heading"><i class="fas fa-award"></i>&emsp;&emsp;Best signature</div>
                         <div class="panel-body">
 
-                            <?php echo file_get_contents($target_dir . "best_signiture.html"); ?>
+                            <?php echo file_get_contents($target_dir . "best_signature.html"); ?>
                             <table class="table">
                                 <tr>
                                     <td>Benchmark results:</td>
@@ -1082,7 +1082,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <tr>
                                     <td>Customize this automatic analysis:</td>
                                     <td>
-                                        <p><a href="/e/notebooks/<?php echo $_GET['id']; ?>/best_signiture.Rmd" class="btn btn-danger" role="button" target="popup" onclick="window.open('/e/notebooks/<?php echo $_GET['id']; ?>/best_signiture.Rmd','popup','width=1150,height=800'); return false;"><i class="fas fa-edit"></i> Edit & run</a>&emsp;<a href="process.php?type=best_signiture_render&id=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button" onclick="waitingDialog.show('Rendering again.. this may take a while...');"><i class="fas fa-redo"></i> Refresh best signiture analysis</a></p>
+                                        <p><a href="/e/notebooks/<?php echo $_GET['id']; ?>/best_signature.Rmd" class="btn btn-danger" role="button" target="popup" onclick="window.open('/e/notebooks/<?php echo $_GET['id']; ?>/best_signature.Rmd','popup','width=1150,height=800'); return false;"><i class="fas fa-edit"></i> Edit & run</a>&emsp;<a href="process.php?type=best_signature_render&id=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button" onclick="waitingDialog.show('Rendering again.. this may take a while...');"><i class="fas fa-redo"></i> Refresh best signature analysis</a></p>
                                         <p><a href="process.php?type=delete_benchmark&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure? This will delete all the data regarding your benchmarking.')"><i class="fas fa-trash"></i> Re-run benchmarking (delete previous, model files will be intact)</a></p>
                                     </td>
                                 </tr>

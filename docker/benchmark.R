@@ -43,7 +43,7 @@ OmicSelector_benchmark(
   stamp = "OmicSelector", OmicSelector_docker = T
 )
 cat("\n\nBenchmarking done. Moving to the analysis of best signature...\n\n")
-rmarkdown::render("best_signiture.Rmd")
+rmarkdown::render("best_signature.Rmd")
 
 
 cat("[OmicSelector: TASK COMPLETED]")

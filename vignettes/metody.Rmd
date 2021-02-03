@@ -30,7 +30,7 @@ options(knitr.table.format = "html")
 library(OmicSelector)
 ```
 
-The main purpose of OmicSelector is to give you the set of candidate features for further validation of biomarker study. The package performs feature selection first. In the next step the sets of features are tested in the process called "benchmarking". In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the avarage performance of sets in cross-validation or holdout-validation (testing on test set and/or validation set) we can sugesst which of the signitures (set of features) is have the greatest potential in further validation.
+The main purpose of OmicSelector is to give you the set of candidate features for further validation of biomarker study. The package performs feature selection first. In the next step the sets of features are tested in the process called "benchmarking". In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the avarage performance of sets in cross-validation or holdout-validation (testing on test set and/or validation set) we can sugesst which of the signatures (set of features) is have the greatest potential in further validation.
 
 Please note that presented methods below are those avaiable in GUI (via web browser). Those can be further extended with ease by users with intermediate R knowledge. Please refer to our extension manuals (comming soon).
 
