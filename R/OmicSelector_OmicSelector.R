@@ -126,9 +126,9 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Standard DE...")
   
   wyniki = OmicSelector_differential_expression_ttest(trainx, train$Class, mode = type)
-  istotne = filter(wyniki, `p-value BH` <= 0.05) %>% arrange(`p-value BH`)
-  if(length(istotne$miR) == 0) { istotne = wyniki %>% arrange(`p-value BH`) } # what to do if none significant
-  istotne_top = wyniki %>% arrange(`p-value BH`) %>% head(prefer_no_features)
+  istotne = filter(wyniki, `p-value` <= 0.05) %>% arrange(`p-value`)
+  if(length(istotne$miR) == 0) { istotne = wyniki %>% arrange(`p-value`) } # what to do if none significant
+  istotne_top = wyniki %>% arrange(`p-value`) %>% head(prefer_no_features)
   istotne_topBonf = wyniki %>% arrange(`p-value Bonferroni`) %>% head(prefer_no_features)
   istotne_topHolm = wyniki %>% arrange(`p-value Holm`) %>% head(prefer_no_features)
   istotne_topFC = wyniki %>% arrange(desc(abs(`log2FC`))) %>% head(prefer_no_features)

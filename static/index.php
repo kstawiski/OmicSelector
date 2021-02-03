@@ -3,7 +3,7 @@ exec("chown -R OmicSelector /OmicSelector");
 require_once 'class.formr.php';
 if (!file_exists('/OmicSelector/var_status.txt')) { file_put_contents('/OmicSelector/var_status.txt', "[0] INITIAL (UNCONFIGURED)"); } // Wyjściowy status.
 $status = file_get_contents('/OmicSelector/var_status.txt');
-$version = file_get_contents('/version.txt');
+if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-task | awk '{print $2}'");
 if($pid != "") { header("Location: /inprogress.php"); }
 
