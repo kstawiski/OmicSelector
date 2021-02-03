@@ -77,7 +77,7 @@ hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3
 hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) }
 
 # if quick scan
-if(autoencoders == 2) } {
+if(autoencoders == 2) {
   hyperparameters = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
