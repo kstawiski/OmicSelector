@@ -2,7 +2,7 @@ home:
   links:
   - text: Konrad Stawiski M.D.
     href: https://konsta.com.pl
-  
+
   - text: Department of Biostatistics and Translational Research (UMED LODZ)
     href: https://biostat.umed.pl
 
@@ -11,3 +11,35 @@ template:
     bootswatch: cosmo
     ganalytics: UA-53584749-8
     package: OmicSelector
+
+navbar:
+  structure:
+    left:  [news]
+    right: [home, intro, reference, methods, articles, github]
+  components:
+    home:
+      icon: fa-home
+      text: Introduction
+      href: index.html
+    intro:
+      icon: fa-graduation-cap
+      text: Video tutorial (GUI)
+      href: https://www.youtube.com/watch?v=dKUdINEcOjk
+    reference:
+      icon: fa-file-code-o
+      text: "Functions (Reference)"
+      href: reference/index.html
+    methods:
+      icon: fa-tools
+      text: "Methods"
+      href: articles/metody.html
+    articles:
+      icon: "fas fa-book"
+      text: Tutorials
+      menu:
+      - icon: fa-user-graduate
+        text: Basic analysis tutorial
+        href: articles/Tutorial.html
+      - icon: fa-code-branch
+        text: Deep learning tutorial
+        href: articles/DeepLearning.html

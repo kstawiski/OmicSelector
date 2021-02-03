@@ -98,18 +98,18 @@ You can download our Windows-based R environment from here: https://studumedlodz
 
 After unpacking, if you wish to use our enviorment, please consider setting our R version in your [R Studio](https://rstudio.com/products/rstudio/download/) installation:
 
-![](vignettes/win1.png)
+![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win1.png)
 
-![](vignettes/win2.png)
+![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win2.png)
 
-![](vignettes/win3.png)
+![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win3.png)
 
 
 ## Tutorials
 
 ### Video tutorial
 
-![OmicSelector - feature selection and deep learning with GUI - tutorial](https://yt-embed.herokuapp.com/embed?v=dKUdINEcOjk)](https://www.youtube.com/watch?v=dKUdINEcOjk "OmicSelector - feature selection and deep learning with GUI - tutorial.")
+![](https://yt-embed.herokuapp.com/embed?v=dKUdINEcOjk)](https://www.youtube.com/watch?v=dKUdINEcOjk)
 
 This tutorial shows how OmicSelector' GUI works and how to perform (without programming knowledge):
 
