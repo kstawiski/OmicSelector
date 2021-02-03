@@ -106,7 +106,7 @@ There is a statistically significant difference in age between classes. Gender w
 old_dataset = dataset # backup
 dataset = dataset[grepl("Adenocarcinomas", dataset$disease_type),]
 match_by = c("age_at_diagnosis","gender.x")
-tempdane = dplyr::select(dataset, match_by)
+tempdane = dplyr::select(dataset, all_of(match_by))
 tempdane$Class = ifelse(dataset$Class == "Case", TRUE, FALSE)
 suppressMessages(library(mice))
 suppressMessages(library(MatchIt))
@@ -139,7 +139,10 @@ However, first, to stay consistent between different datasets, we need to standa
 
 
 ```{r}
-dataset = OmicSelector_correct_miRNA_names(dataset) # Correct miRNA names based on the aliases. Useful when analyzing old datasets - to keep the results coherent with current knowledge.
+# In real file use: (we won't run this in this tutorial)
+# dataset = OmicSelector_correct_miRNA_names(dataset) 
+# This will correct miRNA names based on the aliases. Useful when analyzing old datasets - to keep the results coherent with current knowledge.
+
 danex = dplyr::select(dataset, starts_with("hsa")) # Create data.frame or matrix with miRNA counts with miRNAs in columns and cases in rows.
 metadane = dplyr::select(dataset, -starts_with("hsa")) # Metadata with 'Class' variables.
 OmicSelector_table(table(metadane$Class)) # Let's be sure that 'Class' variable is correct and contains only 'Case' and 'Control' cases.
@@ -180,7 +183,7 @@ In biomarker studies, we rely on validation. We perform hold-out verification, s
 
 
 ```{r warning=FALSE}
-dane = OmicSelector_load_datamix(use_smote_not_rose = T) # load mixed_*.csv files
+dane = OmicSelector_load_datamix() # load mixed_*.csv files
 train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]] # get the objects from list to make the code more readable.
 ```
 
