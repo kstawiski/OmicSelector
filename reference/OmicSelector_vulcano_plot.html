@@ -89,12 +89,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -104,6 +98,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -142,12 +139,12 @@
     <p>Draw vulcano plot of selected miRNAs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_vulcano_plot</span>(
-  <span class='no'>selected_miRNAs</span>,
-  <span class='kw'>DE</span> <span class='kw'>=</span> <span class='fu'><a href='OmicSelector_differential_expression_ttest.html'>OmicSelector_differential_expression_ttest</a></span>(),
-  <span class='kw'>only_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>take_adjusted_p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_vulcano_plot</span><span class='op'>(</span>
+  <span class='va'>selected_miRNAs</span>,
+  DE <span class='op'>=</span> <span class='fu'><a href='OmicSelector_differential_expression_ttest.html'>OmicSelector_differential_expression_ttest</a></span><span class='op'>(</span><span class='op'>)</span>,
+  only_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  take_adjusted_p <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

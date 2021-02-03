@@ -42,7 +42,7 @@
 <meta property="og:title" content="OmicSelector_differential_expression_ttest — OmicSelector_differential_expression_ttest" />
 <meta property="og:description" content="The variable performes standard differential expression analysis using unpaired t-test with BH and Bonferonni correction.
 It requires `ttpm_features` object, which is e.g. a matrix of log-transformed TPM-normalized miRNAs counts with miRNAs placed in `ttpm` design (i.e. columns and cases placed as rows).
-Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only &quot;Cancer&quot; or &quot;Control&quot; labels!!
+Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only &quot;Case&quot; or &quot;Control&quot; labels!!
 The function returns the miRNAs sorted by BH-corrected p-value." />
 
 
@@ -92,12 +92,6 @@ The function returns the miRNAs sorted by BH-corrected p-value." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -107,6 +101,9 @@ The function returns the miRNAs sorted by BH-corrected p-value." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -144,15 +141,15 @@ The function returns the miRNAs sorted by BH-corrected p-value." />
     <div class="ref-description">
     <p>The variable performes standard differential expression analysis using unpaired t-test with BH and Bonferonni correction.
 It requires `ttpm_features` object, which is e.g. a matrix of log-transformed TPM-normalized miRNAs counts with miRNAs placed in `ttpm` design (i.e. columns and cases placed as rows).
-Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only "Cancer" or "Control" labels!!
+Classess should be passed as `classes` and this should be a vector of length equal to number of rows in `ttpm_polfiltrze` and contain only "Case" or "Control" labels!!
 The function returns the miRNAs sorted by BH-corrected p-value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_differential_expression_ttest</span>(
-  <span class='no'>ttpm_features</span>,
-  <span class='no'>classes</span>,
-  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"auto"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_differential_expression_ttest</span><span class='op'>(</span>
+  <span class='va'>ttpm_features</span>,
+  <span class='va'>classes</span>,
+  mode <span class='op'>=</span> <span class='st'>"auto"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,7 +160,7 @@ The function returns the miRNAs sorted by BH-corrected p-value.</p>
     </tr>
     <tr>
       <th>classes</th>
-      <td><p>vector describing label for each case. It should contain only "Cancer" and "Control" labeles!!!!</p></td>
+      <td><p>vector describing label for each case. It should contain only "Case" and "Control" labeles!!!!</p></td>
     </tr>
     <tr>
       <th>mode</th>
@@ -190,7 +187,7 @@ The function returns the miRNAs sorted by BH-corrected p-value.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

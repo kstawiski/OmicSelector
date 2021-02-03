@@ -89,12 +89,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -104,6 +98,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -142,19 +139,19 @@
     <p>Draw a heatmap of selected miRNAs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_heatmap</span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>trainx</span>[, <span class='fl'>1</span>:<span class='fl'>10</span>],
-  <span class='kw'>rlab</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>Batch</span> <span class='kw'>=</span> <span class='no'>dane</span>$<span class='no'>Batch</span>, <span class='kw'>Class</span> <span class='kw'>=</span> <span class='no'>dane</span>$<span class='no'>Class</span>),
-  <span class='kw'>zscore</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>10</span>),
-  <span class='kw'>expression_name</span> <span class='kw'>=</span> <span class='st'>"log10(TPM)"</span>,
-  <span class='kw'>trim_min</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trim_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>centered_on</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>legend_pos</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
-  <span class='kw'>legend_cex</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_heatmap</span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='va'>trainx</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>,
+  rlab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Batch <span class='op'>=</span> <span class='va'>dane</span><span class='op'>$</span><span class='va'>Batch</span>, Class <span class='op'>=</span> <span class='va'>dane</span><span class='op'>$</span><span class='va'>Class</span><span class='op'>)</span>,
+  zscore <span class='op'>=</span> <span class='cn'>F</span>,
+  margins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>10</span><span class='op'>)</span>,
+  expression_name <span class='op'>=</span> <span class='st'>"log10(TPM)"</span>,
+  trim_min <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trim_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  centered_on <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend_pos <span class='op'>=</span> <span class='st'>"topright"</span>,
+  legend_cex <span class='op'>=</span> <span class='fl'>0.8</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,7 +213,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

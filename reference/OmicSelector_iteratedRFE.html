@@ -90,12 +90,6 @@ Very longs.. needs optimizing." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -105,6 +99,9 @@ Very longs.. needs optimizing." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -144,17 +141,17 @@ Very longs.. needs optimizing." />
 Very longs.. needs optimizing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_iteratedRFE</span>(
-  <span class='no'>trainSet</span>,
-  <span class='kw'>testSet</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initFeatures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>trainSet</span>),
-  <span class='no'>classLab</span>,
-  <span class='kw'>checkNFeatures</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>votingIterations</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>useCV</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>initRandomState</span> <span class='kw'>=</span> <span class='fl'>42</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_iteratedRFE</span><span class='op'>(</span>
+  <span class='va'>trainSet</span>,
+  testSet <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initFeatures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>trainSet</span><span class='op'>)</span>,
+  <span class='va'>classLab</span>,
+  checkNFeatures <span class='op'>=</span> <span class='fl'>25</span>,
+  votingIterations <span class='op'>=</span> <span class='fl'>1000</span>,
+  useCV <span class='op'>=</span> <span class='cn'>F</span>,
+  nfolds <span class='op'>=</span> <span class='fl'>10</span>,
+  initRandomState <span class='op'>=</span> <span class='fl'>42</span>
+<span class='op'>)</span></pre>
 
 
 
@@ -173,7 +170,7 @@ Very longs.. needs optimizing.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

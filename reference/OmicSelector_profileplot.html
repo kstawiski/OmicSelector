@@ -89,12 +89,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -104,6 +98,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -142,14 +139,14 @@
     <p>Modified function of profileR::profileplot to correct "Method".</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_profileplot</span>(
-  <span class='no'>form</span>,
-  <span class='no'>Method.id</span>,
-  <span class='kw'>standardize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>by.pattern</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>original.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_profileplot</span><span class='op'>(</span>
+  <span class='va'>form</span>,
+  <span class='va'>Method.id</span>,
+  standardize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  interval <span class='op'>=</span> <span class='fl'>10</span>,
+  by.pattern <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  original.names <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
 
 
@@ -168,7 +165,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

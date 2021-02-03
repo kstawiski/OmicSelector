@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OmicSelector_download_tissue_miRNA_data_from_TCGA — OmicSelector_download_tissue_miRNA_data_from_TCGA • OmicSelector</title>
+<title>OmicSelector_best_signature_proposals_meta11 — OmicSelector_best_signature_proposals_meta11 • OmicSelector</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="OmicSelector_download_tissue_miRNA_data_from_TCGA — OmicSelector_download_tissue_miRNA_data_from_TCGA" />
-<meta property="og:description" content="Function allowing to dowload all miRNA-seq data from TCGA." />
+<meta property="og:title" content="OmicSelector_best_signature_proposals_meta11 — OmicSelector_best_signature_proposals_meta11" />
+<meta property="og:description" content="Propose the best signture based on benchamrk methods.
+This function calculated the `metaIndex11` value which is the Youden-like score on validation set (the only one that was never used in any section of the pipeline).
+Formula: `metaIndex11 = validation sensitivitiy + validation specificity - 1`
+In the next step, it sorts the miRNA sets based on `metaIndex11` score. The first row in resulting data frame is the winner miRNA set." />
 
 
 
@@ -130,26 +133,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>OmicSelector_download_tissue_miRNA_data_from_TCGA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_download_tissue_miRNA_data_from_TCGA.R'><code>R/OmicSelector_download_tissue_miRNA_data_from_TCGA.R</code></a></small>
-    <div class="hidden name"><code>OmicSelector_download_tissue_miRNA_data_from_TCGA.Rd</code></div>
+    <h1>OmicSelector_best_signature_proposals_meta11</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_best_signature_proposals_meta11.R'><code>R/OmicSelector_best_signature_proposals_meta11.R</code></a></small>
+    <div class="hidden name"><code>OmicSelector_best_signature_proposals_meta11.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function allowing to dowload all miRNA-seq data from TCGA.</p>
+    <p>Propose the best signture based on benchamrk methods.
+This function calculated the `metaIndex11` value which is the Youden-like score on validation set (the only one that was never used in any section of the pipeline).
+Formula: `metaIndex11 = validation sensitivitiy + validation specificity - 1`
+In the next step, it sorts the miRNA sets based on `metaIndex11` score. The first row in resulting data frame is the winner miRNA set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_download_tissue_miRNA_data_from_TCGA</span><span class='op'>(</span>data_folder <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>OmicSelector_best_signature_proposals_meta11</span><span class='op'>(</span>
+  benchmark_csv <span class='op'>=</span> <span class='st'>"benchmark1578929876.21765.csv"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data_folder</th>
-      <td><p>Path. Where to dowload the data?</p></td>
+      <th>benchmark_csv</th>
+      <td><p>Path to benchmark csv.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The benchmark sorted by metaIndex. First row is the best performing miRNA set.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

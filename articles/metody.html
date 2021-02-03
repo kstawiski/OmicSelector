@@ -44,12 +44,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -60,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
+    <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
     <li>
@@ -103,7 +100,7 @@
 
     
     
-<p>The main purpose of OmicSelector is to give you the set of candidate features for further validation of biomarker study. The package performs feature selection first. In the next step the sets of features are tested in the process called “benchmarking”. In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the avarage performance of sets in cross-validation or holdout-validation (testing on test set and/or validation set) we can sugesst which of the signitures (set of features) is have the greatest potential in further validation.</p>
+<p>The main purpose of OmicSelector is to give you the set of candidate features for further validation of biomarker study. The package performs feature selection first. In the next step the sets of features are tested in the process called “benchmarking”. In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the avarage performance of sets in cross-validation or holdout-validation (testing on test set and/or validation set) we can sugesst which of the signatures (set of features) is have the greatest potential in further validation.</p>
 <p>Please note that presented methods below are those avaiable in GUI (via web browser). Those can be further extended with ease by users with intermediate R knowledge. Please refer to our extension manuals (comming soon).</p>
 <div id="feature-selection-methods" class="section level1">
 <h1 class="hasAnchor">
@@ -470,14 +467,14 @@
 <td><code>ctree<code></code></code></td>
                                           <td>Conditional inference trees. Details: <a href="https://github.com/topepo/caret/blob/master/models/files/ctree.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/party" target="_blank">package</a>.</td>
                                             </tr>
-<tr>
-<td><code>mxnet<code></code></code></td>
+<!-- <tr>
+
+                                              <td><code>mxnet<code></td>
                                               <td>MXNET-based deep neural networks up to 2 hidden layers, with multiple activation functions tested. Note that predefined grid search is used in hyperparameter optimization for this method (not random search). Details: <a href="https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_benchmark.R#L173" target="_blank">code</a>, <a href="https://mxnet.apache.org/" target="_blank">package</a>.
                                               <br>
                                                 It uses early stopping with set by user maximum number of epochs.
                                                   </td>
-                                                  </tr>
-<tr>
+                                                  </tr> --><tr>
 <td><code>xgbTree<code></code></code></td>
                                                     <td>eXtreme gradient boosting. (note: this is a time-consuming method). Details: <a href="https://github.com/topepo/caret/blob/master/models/files/xgbTree.R" target="_blank">code</a>, <a href="https://www.rdocumentation.org/packages/xgboost" target="_blank">package</a>.</td>
                                                       </tr>
@@ -503,7 +500,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

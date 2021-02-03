@@ -43,7 +43,7 @@
 <meta property="og:description" content="Create split required for `OmicSelector_OmicSelector()` and all the following functions. It is obligatory to use it.
 The function devides the dataset into training, testing and validation set. Be default (as `train_proc=0.6`) 60 perc. of cases will be assigned to trainining datset.
 The rest is devided into testing and validation dataset in half, ending in 60 perc. of cases in training dataset, 20 perc. of cases in testing dataset and 20 perc. of cases in validation dataset.
-Metadata have to have `Class` variable, with `Cancer` and `Control` values." />
+Metadata have to have `Class` variable, with `Case` and `Control` values." />
 
 
 
@@ -92,12 +92,6 @@ Metadata have to have `Class` variable, with `Cancer` and `Control` values." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -107,6 +101,9 @@ Metadata have to have `Class` variable, with `Cancer` and `Control` values." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -145,21 +142,21 @@ Metadata have to have `Class` variable, with `Cancer` and `Control` values." />
     <p>Create split required for `OmicSelector_OmicSelector()` and all the following functions. It is obligatory to use it.
 The function devides the dataset into training, testing and validation set. Be default (as `train_proc=0.6`) 60 perc. of cases will be assigned to trainining datset.
 The rest is devided into testing and validation dataset in half, ending in 60 perc. of cases in training dataset, 20 perc. of cases in testing dataset and 20 perc. of cases in validation dataset.
-Metadata have to have `Class` variable, with `Cancer` and `Control` values.</p>
+Metadata have to have `Class` variable, with `Case` and `Control` values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_prepare_split</span>(
-  <span class='kw'>metadane</span> <span class='kw'>=</span> <span class='no'>metadane</span>,
-  <span class='kw'>ttpm</span> <span class='kw'>=</span> <span class='no'>ttpm_features</span>,
-  <span class='kw'>train_proc</span> <span class='kw'>=</span> <span class='fl'>0.6</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_prepare_split</span><span class='op'>(</span>
+  metadane <span class='op'>=</span> <span class='va'>metadane</span>,
+  ttpm <span class='op'>=</span> <span class='va'>ttpm_features</span>,
+  train_proc <span class='op'>=</span> <span class='fl'>0.6</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>metadane</th>
-      <td><p>Metadata of cases. Must contain `Class` variable with `Cancer` and `Control` values.</p></td>
+      <td><p>Metadata of cases. Must contain `Class` variable with `Case` and `Control` values.</p></td>
     </tr>
     <tr>
       <th>ttpm</th>
@@ -190,7 +187,7 @@ Metadata have to have `Class` variable, with `Cancer` and `Control` values.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

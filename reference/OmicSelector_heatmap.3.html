@@ -89,12 +89,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -104,6 +98,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -142,63 +139,63 @@
     <p>Helper function. No description needed. See `OmicSelector_heatmap` for heatmap creation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_heatmap.3</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>Rowv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>Colv</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='no'>symm</span>) <span class='st'>"Rowv"</span> <span class='kw'>else</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>distfun</span> <span class='kw'>=</span> <span class='no'>dist</span>,
-  <span class='kw'>hclustfun</span> <span class='kw'>=</span> <span class='no'>hclust</span>,
-  <span class='kw'>dendrogram</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"row"</span>, <span class='st'>"column"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>symm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"row"</span>, <span class='st'>"column"</span>),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>revC</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='no'>Colv</span>, <span class='st'>"Rowv"</span>),
-  <span class='no'>add.expr</span>,
-  <span class='no'>breaks</span>,
-  <span class='kw'>symbreaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>||</span> <span class='no'>scale</span> <span class='kw'>!=</span> <span class='st'>"none"</span>,
-  <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"heat.colors"</span>,
-  <span class='no'>colsep</span>,
-  <span class='no'>rowsep</span>,
-  <span class='kw'>sepcolor</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
-  <span class='kw'>sepwidth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.05</span>),
-  <span class='no'>cellnote</span>,
-  <span class='kw'>notecex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>notecol</span> <span class='kw'>=</span> <span class='st'>"cyan"</span>,
-  <span class='kw'>na.color</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bg"</span>),
-  <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"column"</span>, <span class='st'>"row"</span>, <span class='st'>"both"</span>),
-  <span class='kw'>tracecol</span> <span class='kw'>=</span> <span class='st'>"cyan"</span>,
-  <span class='kw'>hline</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='no'>breaks</span>),
-  <span class='kw'>vline</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='no'>breaks</span>),
-  <span class='kw'>linecol</span> <span class='kw'>=</span> <span class='no'>tracecol</span>,
-  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>5</span>),
-  <span class='no'>ColSideColors</span>,
-  <span class='no'>RowSideColors</span>,
-  <span class='kw'>side.height.fraction</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
-  <span class='kw'>cexRow</span> <span class='kw'>=</span> <span class='fl'>0.2</span> + <span class='fl'>1</span>/<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>nr</span>),
-  <span class='kw'>cexCol</span> <span class='kw'>=</span> <span class='fl'>0.2</span> + <span class='fl'>1</span>/<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>nc</span>),
-  <span class='kw'>labRow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>labCol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>key</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>keysize</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-  <span class='kw'>density.info</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"histogram"</span>, <span class='st'>"density"</span>),
-  <span class='kw'>denscol</span> <span class='kw'>=</span> <span class='no'>tracecol</span>,
-  <span class='kw'>symkey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>||</span> <span class='no'>symbreaks</span>,
-  <span class='kw'>densadj</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lmat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lhei</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lwid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ColSideColorsSize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>RowSideColorsSize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>KeyValueName</span> <span class='kw'>=</span> <span class='st'>"Value"</span>,
-  <span class='kw'>assigcode</span> <span class='kw'>=</span> <span class='no'>assigcode</span>,
-  <span class='kw'>assigcolor</span> <span class='kw'>=</span> <span class='no'>assigcolor</span>,
-  <span class='kw'>legend_pos</span> <span class='kw'>=</span> <span class='no'>legend_pos</span>,
-  <span class='kw'>legend_cex</span> <span class='kw'>=</span> <span class='no'>legend_cex</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_heatmap.3</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  Rowv <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  Colv <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>(</span><span class='va'>symm</span><span class='op'>)</span> <span class='st'>"Rowv"</span> <span class='kw'>else</span> <span class='cn'>TRUE</span>,
+  distfun <span class='op'>=</span> <span class='va'>dist</span>,
+  hclustfun <span class='op'>=</span> <span class='va'>hclust</span>,
+  dendrogram <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"both"</span>, <span class='st'>"row"</span>, <span class='st'>"column"</span>, <span class='st'>"none"</span><span class='op'>)</span>,
+  symm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  scale <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"row"</span>, <span class='st'>"column"</span><span class='op'>)</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  revC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>Colv</span>, <span class='st'>"Rowv"</span><span class='op'>)</span>,
+  <span class='va'>add.expr</span>,
+  <span class='va'>breaks</span>,
+  symbreaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>||</span> <span class='va'>scale</span> <span class='op'>!=</span> <span class='st'>"none"</span>,
+  col <span class='op'>=</span> <span class='st'>"heat.colors"</span>,
+  <span class='va'>colsep</span>,
+  <span class='va'>rowsep</span>,
+  sepcolor <span class='op'>=</span> <span class='st'>"white"</span>,
+  sepwidth <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.05</span><span class='op'>)</span>,
+  <span class='va'>cellnote</span>,
+  notecex <span class='op'>=</span> <span class='fl'>1</span>,
+  notecol <span class='op'>=</span> <span class='st'>"cyan"</span>,
+  na.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='st'>"bg"</span><span class='op'>)</span>,
+  trace <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"column"</span>, <span class='st'>"row"</span>, <span class='st'>"both"</span><span class='op'>)</span>,
+  tracecol <span class='op'>=</span> <span class='st'>"cyan"</span>,
+  hline <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>breaks</span><span class='op'>)</span>,
+  vline <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>breaks</span><span class='op'>)</span>,
+  linecol <span class='op'>=</span> <span class='va'>tracecol</span>,
+  margins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>,
+  <span class='va'>ColSideColors</span>,
+  <span class='va'>RowSideColors</span>,
+  side.height.fraction <span class='op'>=</span> <span class='fl'>0.3</span>,
+  cexRow <span class='op'>=</span> <span class='fl'>0.2</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>nr</span><span class='op'>)</span>,
+  cexCol <span class='op'>=</span> <span class='fl'>0.2</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>nc</span><span class='op'>)</span>,
+  labRow <span class='op'>=</span> <span class='cn'>NULL</span>,
+  labCol <span class='op'>=</span> <span class='cn'>NULL</span>,
+  key <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  keysize <span class='op'>=</span> <span class='fl'>1.5</span>,
+  density.info <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"histogram"</span>, <span class='st'>"density"</span><span class='op'>)</span>,
+  denscol <span class='op'>=</span> <span class='va'>tracecol</span>,
+  symkey <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>||</span> <span class='va'>symbreaks</span>,
+  densadj <span class='op'>=</span> <span class='fl'>0.25</span>,
+  main <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xlab <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ylab <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lmat <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lhei <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lwid <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ColSideColorsSize <span class='op'>=</span> <span class='fl'>1</span>,
+  RowSideColorsSize <span class='op'>=</span> <span class='fl'>1</span>,
+  KeyValueName <span class='op'>=</span> <span class='st'>"Value"</span>,
+  assigcode <span class='op'>=</span> <span class='va'>assigcode</span>,
+  assigcolor <span class='op'>=</span> <span class='va'>assigcolor</span>,
+  legend_pos <span class='op'>=</span> <span class='va'>legend_pos</span>,
+  legend_cex <span class='op'>=</span> <span class='va'>legend_cex</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
 
 
@@ -217,7 +214,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

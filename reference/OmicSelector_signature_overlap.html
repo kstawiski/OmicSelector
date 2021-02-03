@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OmicSelector_download_tissue_miRNA_data_from_TCGA — OmicSelector_download_tissue_miRNA_data_from_TCGA • OmicSelector</title>
+<title>OmicSelector_signature_overlap — OmicSelector_signature_overlap • OmicSelector</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="OmicSelector_download_tissue_miRNA_data_from_TCGA — OmicSelector_download_tissue_miRNA_data_from_TCGA" />
-<meta property="og:description" content="Function allowing to dowload all miRNA-seq data from TCGA." />
+<meta property="og:title" content="OmicSelector_signature_overlap — OmicSelector_signature_overlap" />
+<meta property="og:description" content="A function to generate venn diagram and check the overlap between formulas." />
 
 
 
@@ -130,26 +130,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>OmicSelector_download_tissue_miRNA_data_from_TCGA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_download_tissue_miRNA_data_from_TCGA.R'><code>R/OmicSelector_download_tissue_miRNA_data_from_TCGA.R</code></a></small>
-    <div class="hidden name"><code>OmicSelector_download_tissue_miRNA_data_from_TCGA.Rd</code></div>
+    <h1>OmicSelector_signature_overlap</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kstawiski/OmicSelector/blob/master/R/OmicSelector_signiture_overlap.R'><code>R/OmicSelector_signiture_overlap.R</code></a></small>
+    <div class="hidden name"><code>OmicSelector_signature_overlap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function allowing to dowload all miRNA-seq data from TCGA.</p>
+    <p>A function to generate venn diagram and check the overlap between formulas.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_download_tissue_miRNA_data_from_TCGA</span><span class='op'>(</span>data_folder <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>OmicSelector_signature_overlap</span><span class='op'>(</span>
+  which_formulas <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sig"</span>, <span class='st'>"cfs"</span><span class='op'>)</span>,
+  benchmark_csv <span class='op'>=</span> <span class='st'>"benchmark.csv"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data_folder</th>
-      <td><p>Path. Where to dowload the data?</p></td>
+      <th>which_formulas</th>
+      <td><p>Which formulas to check?</p></td>
+    </tr>
+    <tr>
+      <th>benchmark_csv</th>
+      <td><p>Which benchmark to use?</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Object of `venn()` function which can be used for plotting venn diagram and check the overlap.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

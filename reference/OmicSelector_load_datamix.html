@@ -93,12 +93,6 @@ For imbalanced data, the fuction can perform balancing using:
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -108,6 +102,9 @@ For imbalanced data, the fuction can perform balancing using:
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/DeepLearning.html">OmicSelector: Deep learning tutorial.</a>
+    </li>
     <li>
       <a href="../articles/Tutorial.html">OmicSelector: Basic Functionality Tutorial.</a>
     </li>
@@ -150,13 +147,15 @@ For imbalanced data, the fuction can perform balancing using:
 2. SMOTE (default): https://arxiv.org/abs/1106.1813 - by defult we use `perc.under=100` and `k=10`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>OmicSelector_load_datamix</span>(
-  <span class='kw'>wd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
-  <span class='kw'>smote_over</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>use_smote_not_rose</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>replace_smote</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>selected_miRNAs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>OmicSelector_load_datamix</span><span class='op'>(</span>
+  wd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>,
+  smote_easy <span class='op'>=</span> <span class='cn'>T</span>,
+  smote_over <span class='op'>=</span> <span class='fl'>200</span>,
+  use_smote_not_rose <span class='op'>=</span> <span class='cn'>T</span>,
+  replace_smote <span class='op'>=</span> <span class='cn'>F</span>,
+  selected_miRNAs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  class_interest <span class='op'>=</span> <span class='st'>"Case"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +163,10 @@ For imbalanced data, the fuction can perform balancing using:
     <tr>
       <th>wd</th>
       <td><p>Working directory with files for the loading.</p></td>
+    </tr>
+    <tr>
+      <th>smote_easy</th>
+      <td><p>Easy SMOTE (just SMOTE minority cases in the amount of the difference between minority and majority classes). If set to TRUE smote_over has no meaning. Please not that no undersampling of majority class is performed in this method, so we consider it the best for small datasets.</p></td>
     </tr>
     <tr>
       <th>smote_over</th>
@@ -181,11 +184,15 @@ For imbalanced data, the fuction can perform balancing using:
       <th>selected_miRNAs</th>
       <td><p>If null - take all features staring with "hsa", if set - vector of feature names to be selected.</p></td>
     </tr>
+    <tr>
+      <th>class_interest</th>
+      <td><p>Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted. (trainx contains only the miRNA data without metadata)</p>
+    <p>The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -202,7 +209,7 @@ For imbalanced data, the fuction can perform balancing using:
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
