@@ -336,6 +336,12 @@ switch($_GET['type'])
             header('Location: /redirect.php?url='. urlencode($actual_link));
             die();
         }
+
+        // Czy public?
+        if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
+        echo '<p><b>VS Code is blocked in public version.</b></p>';
+        die();
+        }
         
         // Sanity check
         $analysis_id = $_GET['analysisid'];

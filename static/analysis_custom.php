@@ -7,12 +7,6 @@ if(!file_exists($target_dir . "initial_check.txt")) {
 session_start();
 $_SESSION["analysis_id"]=$_GET['id'];
 
-// Czy public?
-if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
-    echo '<p><b>Custom analysis is blocked in public version, as R Studio is blocked.</b></p>';
-    die();
-}
-
 // Czy jest task in progress?
 $pid = shell_exec("ps -ef | grep -v grep | grep OmicSelector-" . $_GET['id'] ." | awk '{print $2}'");
 if ($pid != "") { header("Location: /inprogress.php?id=" . $_GET['id']); die(); }
