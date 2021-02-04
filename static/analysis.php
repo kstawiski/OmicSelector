@@ -100,7 +100,7 @@ function konsta_readcsv_formulas($filename, $header = true)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="OmicSelector - a tool for selecting great miRNA biomarkers." />
-    <meta name="author" content="Konrad Stawiski (konrad@konsta.com.pl)" />
+    <meta name="author" content="Konrad Stawiski (konrad.stawiski@umed.lodz.pl)" />
     <link rel="stylesheet" href="css/starter-template.css" />
     <style>.clickable { cursor: pointer; }</style>
     <style>
@@ -472,7 +472,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                 </table>
             </div>
             <?php if ($var_initcheck != "OK") {
-                die("There is an error in your data. See the log above. Fix this error, go back and try again with a new file. In case of any questions write to konrad@konsta.com.pl");
+                die("There is an error in your data. See the log above. Fix this error, go back and try again with a new file. In case of any questions write to konrad.stawiski@umed.lodz.pl");
             }  ?>
             <?php if (!file_exists($target_dir . "featureselection_formulas_all.csv")) { ?>
                 <div class="panel panel-primary">
@@ -903,7 +903,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <p>
                             <h3>Final set of feature sets selected for further evaluation:</h3>
                             <br />
-                            <font size="1">Notes: This table presents final formulas. <a href="https://kstawiski.github.io/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
+                            <font size="1">Notes: This table presents final formulas. <a href="https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <p>
@@ -1252,8 +1252,8 @@ function konsta_readcsv_formulas($filename, $header = true)
     <hr />
     <footer class="footer">
         <div class="container">
-            <span class="text-muted">OmicSelector by Konrad Stawiski and Marcin Kaszkowiak&emsp;&emsp;&emsp;&emsp;<i class="fas fa-envelope"></i> konrad@konsta.com.pl&emsp;&emsp;&emsp;<i class="fas fa-globe-europe"></i>
-                <a href="https://biostat.umed.pl" taret="_blank">https://biostat.umed.pl</a>&emsp;&emsp;&emsp;<i class="fab fa-github"></i> <a href="https://kstawiski.github.io/OmicSelector/" target="_blank">https://kstawiski.github.io/OmicSelector/</a></span>
+            <span class="text-muted">OmicSelector by Konrad Stawiski and Marcin Kaszkowiak&emsp;&emsp;&emsp;&emsp;<i class="fas fa-envelope"></i> konrad.stawiski@umed.lodz.pl&emsp;&emsp;&emsp;<i class="fas fa-globe-europe"></i>
+                 <a href="https://biostat.umed.pl/OmicSelector/" target="_blank">https://biostat.umed.pl/OmicSelector/</a></span>
             <p>&emsp;</p>
         </div>
     </footer>

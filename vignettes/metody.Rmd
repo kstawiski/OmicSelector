@@ -3,7 +3,7 @@ title: "OmicSelector: Available methods of feature selection and benchmarking."
 author:
 - name: Konrad Stawiski
   affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
-  email: konrad@konsta.com.pl
+  email: konrad.stawiski@umed.lodz.pl
 - name: Marcin Kaszkowiak
   affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
 package: OmicSelector

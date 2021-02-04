@@ -15,16 +15,20 @@ template:
 navbar:
   structure:
     left:  [news]
-    right: [home, intro, reference, methods, articles, github]
+    right: [home, intro, demo, reference, methods, articles, github]
   components:
     home:
       icon: fa-home
       text: Introduction
       href: index.html
     intro:
-      icon: fa-graduation-cap
+      icon: fa-video
       text: Video tutorial (GUI)
       href: https://www.youtube.com/watch?v=dKUdINEcOjk
+    demo:
+      icon: fa-cubes
+      text: Demo (Limited Public Version)
+      href: http://212.191.32.168:20019/
     reference:
       icon: fa-file-code-o
       text: "Functions (Reference)"

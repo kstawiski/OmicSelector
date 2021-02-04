@@ -85,7 +85,7 @@ function konsta_readcsv($filename, $header=false) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="OmicSelector - a tool for selecting great miRNA biomarkers." />
-    <meta name="author" content="Konrad Stawiski (konrad@konsta.com.pl)" />
+    <meta name="author" content="Konrad Stawiski (konrad.stawiski@umed.lodz.pl)" />
     <link rel="stylesheet" href="css/starter-template.css" />
     <style>
 /* The switch - the box around the slider */
@@ -388,11 +388,10 @@ input:checked + .slider:before {
         <footer class="footer">
         <div class="container">
             <span class="text-muted">OmicSelector by Konrad Stawiski and Marcin Kaszkowiak&emsp;&emsp;&emsp;&emsp;<i
-                    class="fas fa-envelope"></i> konrad@konsta.com.pl&emsp;&emsp;&emsp;<i
+                    class="fas fa-envelope"></i> konrad.stawiski@umed.lodz.pl&emsp;&emsp;&emsp;<i
                     class="fas fa-globe-europe"></i>
-                <a href="https://biostat.umed.pl" taret="_blank">https://biostat.umed.pl</a>&emsp;&emsp;&emsp;<i
-                    class="fab fa-github"></i> <a href="https://kstawiski.github.io/OmicSelector/"
-                    target="_blank">https://kstawiski.github.io/OmicSelector/</a></span>
+                 <a href="https://biostat.umed.pl/OmicSelector/"
+                    target="_blank">https://biostat.umed.pl/OmicSelector/</a></span>
                     <p>&emsp;</p>
         </div>
         </footer>

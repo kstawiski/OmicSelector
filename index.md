@@ -131,7 +131,7 @@ Exemplary files for the analysis:
 ![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg)     ![R package](https://github.com/kstawiski/OmicSelector/workflows/R%20package/badge.svg)
 
 - Bugs and issues: [https://github.com/kstawiski/OmicSelector/issues](https://github.com/kstawiski/OmicSelector/issues)
-- Contact with developers: [Konrad Stawiski M.D. (konrad@konsta.com.pl, https://konsta.com.pl)](https://konsta.com.pl)
+- Contact with developers: [Konrad Stawiski M.D. (konrad.stawiski@umed.lodz.pl, https://konsta.com.pl)](https://konsta.com.pl)
 
 ## Footnote
 
@@ -141,7 +141,7 @@ Citation:
 
 Authors:
 
-- [Konrad Stawiski, M.D. (konrad@konsta.com.pl)](https://konsta.com.pl)
+- [Konrad Stawiski, M.D. (konrad.stawiski@umed.lodz.pl)](https://konsta.com.pl)
 - Marcin Kaszkowiak.
 - Damian Mikulski, M.D.
 

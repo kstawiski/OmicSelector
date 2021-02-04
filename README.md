@@ -8,7 +8,7 @@ OmicSelector is an environment, Docker-based web application, and R package for 
 
 The main purpose of OmicSelector is to provide you with the set of candidate features (biomarkers) for further validation of biomarker study from e.g. high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called “benchmarking”. In benchmarking we test all of those sets of features (biomarkers) using various data-mining (machine learning) methods. Based on the average performance of sets in cross-validation or holdout-validation (testing on the test set and/or validation set) we can suggest which of the signatures (set of features) has the greatest potential in further validation.
 
-Go to https://kstawiski.github.io/OmicSelector/ for more details.
+Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
 ## Quick start
 
@@ -91,7 +91,7 @@ Citation:
 
 Authors:
 
-- [Konrad Stawiski, M.D. (konrad@konsta.com.pl)](https://konsta.com.pl)
+- [Konrad Stawiski, M.D. (konrad.stawiski@umed.lodz.pl)](https://konsta.com.pl)
 - Marcin Kaszkowiak.
 - Damian Mikulski, M.D.
 
