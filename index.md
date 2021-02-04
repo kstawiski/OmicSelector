@@ -109,7 +109,7 @@ After unpacking, if you wish to use our enviorment, please consider setting our 
 
 ### Video tutorial
 
-![](https://yt-embed.herokuapp.com/embed?v=dKUdINEcOjk)](https://www.youtube.com/watch?v=dKUdINEcOjk)
+**Video tutorial: https://www.youtube.com/watch?v=dKUdINEcOjk**
 
 This tutorial shows how OmicSelector' GUI works and how to perform (without programming knowledge):
 
