@@ -177,7 +177,7 @@ $(document).ready(function(e){
         <p>Your current version of software: <code>OmicSelector v1.0.<?php echo $version; ?></code></p>
         <?php
             if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
-                echo '<p><b>This is a public (demo) version of software. Some hacking options are restricted.</b></p>';
+                echo '<p><b>This is a public (demo) version of software. Some hacking options are restricted. The public version cleans data and restarts every Monday (at night).</b></p>';
             }
         ?>
         </div>
