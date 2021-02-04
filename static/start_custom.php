@@ -1,8 +1,8 @@
 <?php
-if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
-    echo '<p><b>Custom analysis is blocked in public version, as R Studio is blocked.</b></p>';
-                die();
-            }
+// if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
+//    echo '<p><b>Custom analysis is blocked in public version, as R Studio is blocked.</b></p>';
+//                die();
+//            }
 ?>
 <html>
 
