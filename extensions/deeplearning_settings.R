@@ -29,14 +29,34 @@ library(data.table)
 
 # Load check
 current = 1
-while(current > 0.8) { 
+while(current > 0.5) { 
   load = strsplit(system("cat /proc/loadavg", intern = T)," ")
   max = parallel::detectCores()
   current = as.numeric(load[[1]][1])/max
-  if(current > 0.8) {
-    cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 80%. The job waiting for resources to start...\n")); Sys.sleep(15);
+  if(current > 0.5) {
+    cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n")); Sys.sleep(15);
   } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
 
+gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T)
+if(grepl("NVIDIA", gpu)) {
+gpu_util = 100
+gpu_mem = 1
+gpu_memu = 1
+
+while(gpu_util > 50 && (gpu_memu/gpu_mem) > 0.5) {
+
+  try({
+  gpu_util = as.numeric(system("nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits", intern = T))
+  gpu_mem = as.numeric(system("nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits", intern = T))
+  gpu_memu = as.numeric(system("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits", intern = T))
+  cat(paste0("\nGPU | Util: ", gpu_util, "% | Memory: ", round(gpu_memu/gpu_mem, 4)*100, "%"))
+  })
+  
+  cat(paste0("\nWaiting for resources to start the task..."))
+  Sys.sleep(10)
+}
+cat(paste0("\nTask is starting..."))
+}
 
 # Data
 dane = OmicSelector_load_datamix()

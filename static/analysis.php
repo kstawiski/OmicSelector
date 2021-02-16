@@ -1144,10 +1144,12 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <?php } else { ?>
                             <p>You have already configured the deep learning training. If you wish to configure new initial settings click the button below. This is one-way step (i.e. you will not be able to resume training of new models in this set), but the results (models and settings) will be saved for the analysis.</p>
                             <p><a href="process.php?type=reconfigure_deep_learning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-people-arrows"></i> Save results and start new configuration</a></p>
-                        <?php } ?>
+                        <?php } 
+                        if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") { ?>
                         <p>Number of parallel training processes <i>(this is highly dependent on your CPU/GPU and RAM, maximum should be picked based on trial and error, or just use e.g. 2 threads)</i>:
                             <input class="form-control" name="keras_threads" id="keras_threads" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="2" />
                         </p>
+                        <?php } ?>
 
                         <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Setting up your enviorment...');">
                             <i class="fas fa-diagnoses"></i>&emsp;Start/resume deep learning
@@ -1199,7 +1201,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <div class="form-group">
                                 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
                                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-                                <script>$(document).ready(function () { $('#selected_network').select2(); }); </script>
+                                <script>$(document).ready(function () { $('#modelid').select2(); }); </script>
                                 <form action="/deeplearning_model/" method="get" target="_blank">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
                                 <p><select class="form-control" name="modelid" id="modelid">
