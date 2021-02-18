@@ -8,18 +8,16 @@ The primary purpose of OmicSelector is to provide you with the set of **candidat
 
 ## Public implementation
 
-For testing purposes, we offer a publically available version of our software at [https://biostat.umed.pl/OmicSelector/demo/](https://biostat.umed.pl/OmicSelector/demo/). However, please note that we restrict this instance to 12 CPU cores and 32 GB of RAM; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.
+For testing purposes, we offer a publically available version of our software at [https://biostat.umed.pl/OmicSelector/demo/](https://biostat.umed.pl/OmicSelector/demo/). However, please note that we restrict this instance to 12 CPU cores, 32 GB of RAM and limited GPU usage; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.
 **Please also note that the public docker container restarts itself once a week (on Mondays). Restart purges all project files, so if you do not download your files, they will be deleted!**
 
 We run the public implementation using following docker run command:
 
 ```
-docker run --name omicselector-public --cpus="12" --memory="32g" --memory-swap="32g" --env PUBLIC=1 -d -p 28888:80 kstawiski/omicselector-public
+docker run --name omicselector-public --gpus all --cpus="12" --memory="32g" --memory-swap="32g" --env PUBLIC=1 -d -p 28888:80 kstawiski/omicselector-public
 ```
 
 ## Installation with GUI
-
-### [OPTION 1] Docker version (recommended):
 
 Tailor the docker container image for your environment:
 
@@ -45,25 +43,12 @@ Pearls:
 - Contains Jupyter-notebook-based tutorial for learning and easy execution of R package.
 - For the Docker-based version, we assure the correct functionality. Docker container is based on configured ubuntu.
 
-### [OPTION 2] Installation in your local R enviorment:
-
-There are two ways for installing OmicSelector without using docker. However, please note that the **web-based GUI (user interface) is available only in docker version**.
-
-**1. Use anaconda.** (recommended)
-
-Use, e.g., `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your environment. 
-
-```
-conda update --all 
-conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
-echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes"));'
-Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
-```
-
 If you have a compatible GPU you can consider changing `tensorflow` to `tensorflow-gpu` in `conda install` command.
+## Installation without GUI (just package)
 
-**2. [Alternative] Setup the package in your own R enviroment.**
+### Universal
+
+Setup the package in your own R enviroment. You need to have your system prepared (prerequirements installed).
 
 ```
 library("devtools") # if not installed, install via install.packages('devtools')
@@ -74,8 +59,6 @@ install_keras()
 library(OmicSelector)
 OmicSelector_setup()
 ```
-
-## Installation without GUI (just package)
 
 ### Linux/macOS using conda
 

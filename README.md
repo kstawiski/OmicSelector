@@ -12,8 +12,7 @@ Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
 ## Quick start
 
-### Docker 
-
+### Docker (with GUI):
 
 1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
 
@@ -40,8 +39,7 @@ This tutorial shows how OmicSelector' GUI works and how to perform (without prog
 - Deep learning model development (feedforward neural network up to 3 hidden layers and with/without autoencoders; grid search of hyperparameters)
 - Exploratory analysis (differential expression using t-test, imputation of missing data using predictive mean matching, correcting the batch effect using ComBat, generating heatmaps and volcano plots).
 
-
-### R package:
+### R package (without GUI):
 
 #### Own enviorment:
 

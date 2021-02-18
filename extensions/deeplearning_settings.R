@@ -37,7 +37,8 @@ while(current > 0.5) {
     cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n")); Sys.sleep(15);
   } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
 
-gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T)
+gpu = "none"
+try({ gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T) })
 if(grepl("NVIDIA", gpu)) {
 gpu_util = 100
 gpu_mem = 1
