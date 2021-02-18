@@ -19,6 +19,11 @@ mkdir -p /run/php/
 php-fpm7.3 -R -F &
 
 # vscode
+code-server --install-extension ms-python.python --force
+code-server --install-extension ikuyadeu.r --force
+code-server --install-extension formulahendry.code-runner --force
+code-server --install-extension grapecity.gc-excelviewer --force
+code-server --install-extension daghostman.vs-treeview --force
 screen -dmS vscode code-server --auth none
 
 # Rstudio server

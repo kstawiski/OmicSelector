@@ -34,7 +34,8 @@ while(current > 0.5) {
   max = parallel::detectCores()
   current = as.numeric(load[[1]][1])/max
   if(current > 0.5) {
-    cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n")); Sys.sleep(15);
+    try({ OmicSelector_log(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n"),"task.log") })
+    Sys.sleep(15);
   } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
 
 gpu = "none"
@@ -50,13 +51,13 @@ while(gpu_util > 50 && (gpu_memu/gpu_mem) > 0.5) {
   gpu_util = as.numeric(system("nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits", intern = T))
   gpu_mem = as.numeric(system("nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits", intern = T))
   gpu_memu = as.numeric(system("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits", intern = T))
-  cat(paste0("\nGPU | Util: ", gpu_util, "% | Memory: ", round(gpu_memu/gpu_mem, 4)*100, "%"))
+  try({ OmicSelector_log(paste0("\nGPU | Util: ", gpu_util, "% | Memory: ", round(gpu_memu/gpu_mem, 4)*100, "%"),"task.log") })
   })
   
-  cat(paste0("\nWaiting for resources to start the task..."))
+  try({ OmicSelector_log(paste0("\nWaiting for resources to start the task..."),"task.log") })
   Sys.sleep(10)
 }
-cat(paste0("\nTask is starting..."))
+try({ OmicSelector_log(paste0("\nTask is starting..."),"task.log") })
 }
 
 # Data
@@ -132,8 +133,8 @@ cat(paste0("\nHow many in batch: ", ile_w_batchu))
 for (i in 1:ile_batchy) {
   batch_end = batch_start + (ile_w_batchu-1)
   if (batch_end > ile) { batch_end = ile }
-  cat(paste0("\n\nProcessing batch no ", i , " of ", ile_batchy, " (", batch_start, "-", batch_end, ")"))
-  
+  try({ OmicSelector_log(paste0("\n\nProcessing batch no ", i , " of ", ile_batchy, " (", batch_start, "-", batch_end, ")"),"task.log") })
+
   OmicSelector_deep_learning(selected_miRNAs = selected_miRNAs, wd = getwd(), save_threshold_trainacc = 0.7, save_threshold_testacc = 0.5, hyperparameters = hyperparameters,
                              SMOTE = balanced, start = batch_start, end = batch_end, output_file = nazwa_konfiguracji, keras_threads = 30,
                              keras_epoch = 2000, keras_patience = 100, automatic_weight = F)
@@ -160,3 +161,4 @@ data.table::fwrite(as.data.frame(wynikitop$name), "merged_deeplearning_names.csv
 cat("[OmicSelector: TASK COMPLETED]")
 sink() 
 sink(type = "message")
+try({ OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log") })

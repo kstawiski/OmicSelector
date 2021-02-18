@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.29)  18 FEB 2021 16:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.29)  18 FEB 2021 18:30
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -513,41 +513,185 @@ Package pdftex.def Info: images/figure1.png  used on input line 94.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Package natbib Warning: Citation `McCullagh+Nelder:1989' on page 2 undefined on
- input line 116.
+Underfull \vbox (badness 3547) has occurred while \output is active []
 
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 119
-.
-(/usr/share/texmf/tex/latex/lm/ot1lmss.fd
-File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/lmr/m/n/10.95 2 []
  []
 
 [2]
-
-Package natbib Warning: Citation `Chambers+Hastie:1992' on page 3 undefined on 
-input line 136.
-
-
-Package natbib Warning: Citation `Chambers+Hastie:1992' on page 3 undefined on 
-input line 145.
-
-
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 3
  []
 
 [3 <./images/figure1.png>]
-Underfull \hbox (badness 1342) in paragraph at lines 173--175
-[]\T1/lmr/m/n/10.95 Poisson re-gres-sion: clas-si-cal GLM, es-ti-
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+[]\T1/lmr/m/n/10.95 sig [2]sig-top [2]sig-top-Bonf[
  []
 
 
-Underfull \hbox (badness 2617) in paragraph at lines 175--181
-[]\T1/lmr/m/n/10.95 ``Quasi-Poisson re-gres-sion'': same mean
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/lmr/m/n/10.95 2]sig-topHolm [2]topFC
  []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/lmr/m/n/10.95 [2]sig_SMOTE [2]sig-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/lmr/m/n/10.95 top_SMOTE [2]sig-top-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/lmr/m/n/10.95 Bonf_SMOTE [2]sig-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
+\T1/lmr/m/n/10.95 topHolm_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--160
+\T1/lmr/m/n/10.95 AUC_MDL_SMOTE_sig
+ []
+
+
+Underfull \hbox (badness 1377) in paragraph at lines 160--160
+\T1/lmr/m/n/10.95 scrip-tion length (MDL) dis-cretiza-tion al-go-rithm doc-u-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+\T1/lmr/m/n/10.95 CorrSF_MDL_SMOTE_sig
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
+\T1/lmr/m/n/10.95 bounceR-full_SMOTE_sig
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
+\T1/lmr/m/n/10.95 bounceR-stability_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
+\T1/lmr/m/n/10.95 bounceR-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 164--164
+\T1/lmr/m/n/10.95 RandomForestRFE_SMOTE
+ []
+
+
+Overfull \hbox (17.12451pt too wide) in paragraph at lines 164--164
+\T1/lmr/m/n/10.95 RandomForestRFE_SMOTE_sig
+ []
+
+
+Overfull \hbox (4.45583pt too wide) in paragraph at lines 165--165
+\T1/lmr/m/n/10.95 GeneticAlgorithmRF_SMOTE
+ []
+
+
+Overfull \hbox (25.50417pt too wide) in paragraph at lines 165--165
+\T1/lmr/m/n/10.95 GeneticAlgorithmRF_SMOTE_sig
+ []
+
+
+Overfull \hbox (14.9949pt too wide) in paragraph at lines 166--166
+\T1/lmr/m/n/10.95 SimulatedAnnealingRF_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--166
+\T1/lmr/m/n/10.95 SimulatedAnnealingRF_sig
+ []
+
+
+Overfull \hbox (36.04324pt too wide) in paragraph at lines 166--166
+\T1/lmr/m/n/10.95 SimulatedAnnealingRF_SMOTE_sig
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--169
+[]\T1/lmr/m/n/10.95 varSelRF
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--171
+[]\T1/lmr/m/n/10.95 Mystepwise_glm_binomial
+ []
+
+
+Overfull \hbox (7.117pt too wide) in paragraph at lines 171--171
+\T1/lmr/m/n/10.95 Mystepwise_glm_binomial_sig
+ []
+
+
+Overfull \hbox (34.27925pt too wide) in paragraph at lines 171--171
+\T1/lmr/m/n/10.95 Mystepwise_glm_binomial_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--171
+\T1/lmr/m/n/10.95 Mystepwise_
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--171
+\T1/lmr/m/n/10.95 glm_binomial_SMOTE_sig
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--174
+\T1/lmr/m/n/10.95 it-er-at-e-dR-FETest_SMOTE
+ []
+
+
+Underfull \hbox (badness 1189) in paragraph at lines 175--175
+[]\T1/lmr/m/n/10.95 LASSO [57]LASSO_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--176
+[]\T1/lmr/m/n/10.95 ElasticNet [58]Elas-tic-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--178
+\T1/lmr/m/n/10.95 feseR_filter.corr_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--178
+\T1/lmr/m/n/10.95 feseR_matrix.corr_SMOTE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--178
+\T1/lmr/m/n/10.95 feseR_combineFS_RF [60]
+ []
+
+
+Overfull \hbox (13.23114pt too wide) in paragraph at lines 178--178
+\T1/lmr/m/n/10.95 feseR_combineFS_RF_SMOTE
+ []
+
+
+Overfull \hbox (34.19257pt too wide) in paragraph at lines 151--180
+[][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
@@ -555,113 +699,119 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [4]
-<article-visualization.pdf, id=117, 505.89pt x 375.4025pt>
-File: article-visualization.pdf Graphic file (type pdf)
-<use article-visualization.pdf>
-Package pdftex.def Info: article-visualization.pdf  used on input line 248.
-(pdftex.def)             Requested size: 354.12434pt x 262.78568pt.
+Overfull \vbox (1313.90001pt too high) has occurred while \output is active []
+
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 5
  []
 
-[5 <./article-visualization.pdf>]
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 324
+[5]
+<article-visualization.pdf, id=108, 505.89pt x 375.4025pt>
+File: article-visualization.pdf Graphic file (type pdf)
+<use article-visualization.pdf>
+Package pdftex.def Info: article-visualization.pdf  used on input line 230.
+(pdftex.def)             Requested size: 354.12434pt x 262.78568pt.
+
+Overfull \hbox (5.47499pt too wide) has occurred while \output is active
+\T1/lmr/m/n/10.95 6 []
+ []
+
+[6 <./article-visualization.pdf>]
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 306
 .
  (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 6 []
- []
-
-[6] (./article.bbl
-Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/lmr/m/n/10.95 7
  []
 
-[7]
+[7] (./article.bbl
+Overfull \hbox (5.47499pt too wide) has occurred while \output is active
+\T1/lmr/m/n/10.95 8 []
+ []
+
+[8]
 Underfull \hbox (badness 1527) in paragraph at lines 108--116
 \T1/lmr/m/it/10.95 gets and Ther-apy\T1/lmr/m/n/10.95 , \T1/lmr/bx/n/10.95 12\T
 1/lmr/m/n/10.95 , 6665--6684.  ISSN 11786930.  [][]\T1/lmtt/m/n/10.95 doi:$10 .
  2147 / OTT . S207963$[][]\T1/lmr/m/n/10.95 .
  []
 
-)
+
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 8 []
+[] \T1/lmr/m/n/10.95 9
  []
 
-[8]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 413.
+[9])
+Overfull \hbox (10.94998pt too wide) has occurred while \output is active
+\T1/lmr/m/n/10.95 10 []
+ []
+
+[10]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 395.
 
  (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
-(Font)              using `T1/lmr/bx/n' instead on input line 423.
-
-
-Package natbib Warning: There were undefined citations.
+(Font)              using `T1/lmr/bx/n' instead on input line 405.
 
 LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <13> not available
-(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 453.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 453.
+(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 435.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 435.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (5.47499pt too wide) has occurred while \output is active
-[] \T1/lmr/m/n/10.95 9
- []
-
-[9]
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/lmr/m/n/10.95 10 []
+[] \T1/lmr/m/n/10.95 11
  []
 
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 453.
+[11]
+Overfull \hbox (10.94998pt too wide) has occurred while \output is active
+\T1/lmr/m/n/10.95 12 []
+ []
+
+[12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 435.
  (./article.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 453.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 453.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 435.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 435.
 Package rerunfilecheck Info: File `article.out' has not changed.
-(rerunfilecheck)             Checksum: 67BA32EE2B219FE3CFFE0EBD8783AE5A;427.
+(rerunfilecheck)             Checksum: C86AB3489B2F8F03CB1BB8542FB9A4DF;417.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 453.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 435.
  ) 
 Here is how much of TeX's memory you used:
- 7121 strings out of 492982
- 105550 string characters out of 6134895
- 188020 words of memory out of 5000000
- 10516 multiletter control sequences out of 15000+600000
- 101140 words of font info for 66 fonts, out of 8000000 for 9000
+ 7089 strings out of 492982
+ 104917 string characters out of 6134895
+ 202713 words of memory out of 5000000
+ 10489 multiletter control sequences out of 15000+600000
+ 92980 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,10n,34p,1378b,469s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,12n,34p,1378b,471s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
-ips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/shar
-e/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
-thit.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share
-/texmf/fonts/type1/public/lm/lmb10.pfb></usr/share/texmf/fonts/type1/public/lm/
-lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf
-/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmcs
-c10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fo
-nts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb
-></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1
-/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmro10.pfb></usr/
-share/texmf/fonts/type1/public/lm/lmss10.pfb></usr/share/texmf/fonts/type1/publ
-ic/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/sha
-re/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/l
-m/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtto10.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on article.pdf (10 pages, 465986 bytes).
+ips/lm/lm-ts1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</
+usr/share/texmf/fonts/type1/public/lm/lmb10.pfb></usr/share/texmf/fonts/type1/p
+ublic/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/sh
+are/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/publi
+c/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+ri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmro10.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmss10.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx1
+0.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/font
+s/type1/public/lm/lmtto10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/za
+pfchan/uzcmi8a.pfb>
+Output written on article.pdf (12 pages, 460714 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
- 231 compressed objects within 3 object streams
+ 251 PDF objects out of 1000 (max. 8388607)
+ 215 compressed objects within 3 object streams
  37 named destinations out of 1000 (max. 500000)
  64 words of extra memory for PDF output out of 10000 (max. 10000000)
 
