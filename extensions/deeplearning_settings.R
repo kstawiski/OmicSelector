@@ -38,8 +38,9 @@ while(current > 0.5) {
     Sys.sleep(15);
   } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
 
+try({
 gpu = "none"
-try({ gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T) })
+gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T) 
 if(grepl("NVIDIA", gpu)) {
 gpu_util = 100
 gpu_mem = 1
@@ -58,7 +59,7 @@ while(gpu_util > 50 && (gpu_memu/gpu_mem) > 0.5) {
   Sys.sleep(10)
 }
 try({ OmicSelector_log(paste0("\nTask is starting..."),"task.log") })
-}
+}})
 
 # Data
 dane = OmicSelector_load_datamix()
