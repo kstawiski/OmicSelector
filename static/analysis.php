@@ -1130,9 +1130,9 @@ function konsta_readcsv_formulas($filename, $header = true)
                             </p>
                             <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
                                 <select class="form-control" name="autoencoders" id="autoencoders">
-                                    <option value="0">Full scan: neural networks up to 3 hideen layers without autoencoders (97848 hyperparameter combinations)</option>
-                                    <option value="1">Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
-                                    <option value="2">Quick scan: neuraural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
+                                    <option value="0" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") { echo "disabled"; } ?>>Full scan: neural networks up to 3 hideen layers without autoencoders (97848 hyperparameter combinations)</option>
+                                    <option value="1" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") { echo "disabled"; } ?>>Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
+                                    <option value="2">Quick scan: neural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
                                 </select>
                             </p>
                             <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used; the same balanced dataset as above is used)</i>:

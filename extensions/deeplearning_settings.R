@@ -19,9 +19,9 @@ if(selected_miRNAs != "all")
 nazwa_konfiguracji = "deeplearning.csv"
 options(warn = -1)
 if(file.exists("task.log")) { file.remove("task.log") }
-con <- file("task.log")
-sink(con, append=TRUE)
-sink(con, append=TRUE, type = "message")
+# con <- file("task.log")
+# sink(con, append=TRUE)
+# sink(con, append=TRUE, type = "message")
 library(OmicSelector); set.seed(1);
 if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
 OmicSelector_load_extension("deeplearning")
@@ -36,7 +36,7 @@ while(current > 0.5) {
   if(current > 0.5) {
     try({ OmicSelector_log(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n"),"task.log") })
     Sys.sleep(15);
-  } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
+  } else { OmicSelector_log(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n"),"task.log"); }}
 
 try({
 gpu = "none"
@@ -113,7 +113,7 @@ if(autoencoders == 2) {
 
 ile = nrow(hyperparameters)
 ile_w_batchu = 250
-cat(paste0("\nHow many to check: ", ile))
+OmicSelector_log(paste0("\nHow many to check: ", ile),"task.log")
 
 
 if(!file.exists(nazwa_konfiguracji)) {
@@ -121,14 +121,16 @@ if(!file.exists(nazwa_konfiguracji)) {
 } else {
   tempres = data.table::fread(nazwa_konfiguracji)
   last = as.numeric(str_split(tempres$model_id, "-")[[nrow(tempres)]][1])
-  if(last >= ile) { stop(paste0(last, " - Task already finished.")) }
+  if(last >= ile) { 
+    OmicSelector_log("\n[OmicSelector: TASK COMPLETED]","task.log")
+    stop(paste0(last, " - Task already finished.")) }
   batch_start = as.numeric(last)+1
 }
 
 ile_batchy = ceiling(nrow(hyperparameters)/ile_w_batchu - batch_start/ile_w_batchu)
 
-cat(paste0("\nBatch start: ", batch_start))
-cat(paste0("\nHow many in batch: ", ile_w_batchu))
+OmicSelector_log((paste0("\nBatch start: ", batch_start),"task.log")
+OmicSelector_log((paste0("\nHow many in batch: ", ile_w_batchu),"task.log")
 
 
 for (i in 1:ile_batchy) {
@@ -159,7 +161,7 @@ wynikitop = wynikitop[1:max_top,]
 data.table::fwrite(wynikitop, "merged_deeplearning_top.csv")
 data.table::fwrite(as.data.frame(wynikitop$name), "merged_deeplearning_names.csv")
 
-cat("[OmicSelector: TASK COMPLETED]")
-sink() 
-sink(type = "message")
+#cat("[OmicSelector: TASK COMPLETED]")
+#sink() 
+#sink(type = "message")
 try({ OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log") })
