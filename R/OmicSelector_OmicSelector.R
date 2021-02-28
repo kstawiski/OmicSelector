@@ -155,7 +155,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Getting cluster ready for parallel computations...")
     if(is.null(clx)) {
       suppressMessages(library(doParallel))
-      cl <- makePSOCKcluster(useXDR = TRUE, detectCores() - 1)
+      cl <- makePSOCKcluster(useXDR = TRUE, detectCores())
        registerDoParallel(cl)
       # on.exit(stopCluster(cl))
       }
@@ -763,7 +763,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     measure = perf.measure ,
     num.features.selected = prefer_no_features,
     iters.max = max_iterations,
-    num.cores = detectCores() - 1)
+    num.cores = detectCores())
   formulas[["spFSR"]] = OmicSelector_create_formula(spsaMod$features)
 
   end_time <- Sys.time(); saveRDS(end_time - start_time, paste0("temp/time",n,"-",run_id,".RDS")); saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))
@@ -780,7 +780,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     measure = perf.measure ,
     num.features.selected = prefer_no_features,
     iters.max = max_iterations,
-    num.cores = detectCores() - 1)
+    num.cores = detectCores())
   formulas[["spFSRSMOTE"]] = OmicSelector_create_formula(spsaMod$features)
 
   end_time <- Sys.time(); saveRDS(end_time - start_time, paste0("temp/time",n,"-",run_id,".RDS")); saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))

@@ -9,9 +9,10 @@ library(OmicSelector)
 
 try({
   current = 1
+  max = parallel::detectCores()
+  if(max < 3) { current = 0 }
   while(current > 0.5) { 
   load = strsplit(system("cat /proc/loadavg", intern = T)," ")
-  max = parallel::detectCores()
   current = as.numeric(load[[1]][1])/max
   if(current > 0.5) {
     cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n")); Sys.sleep(15);

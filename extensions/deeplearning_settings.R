@@ -19,9 +19,7 @@ if(selected_miRNAs != "all")
 nazwa_konfiguracji = "deeplearning.csv"
 options(warn = -1)
 if(file.exists("task.log")) { file.remove("task.log") }
-# con <- file("task.log")
-# sink(con, append=TRUE)
-# sink(con, append=TRUE, type = "message")
+
 library(OmicSelector); set.seed(1);
 if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
 OmicSelector_load_extension("deeplearning")
@@ -133,19 +131,32 @@ OmicSelector_log((paste0("\nBatch start: ", batch_start),"task.log")
 OmicSelector_log((paste0("\nHow many in batch: ", ile_w_batchu),"task.log")
 
 
+# Main loop:
+con <- file("task.log")
+sink(con, append=TRUE)
+sink(con, append=TRUE, type = "message")
 for (i in 1:ile_batchy) {
   batch_end = batch_start + (ile_w_batchu-1)
   if (batch_end > ile) { batch_end = ile }
   try({ OmicSelector_log(paste0("\n\nProcessing batch no ", i , " of ", ile_batchy, " (", batch_start, "-", batch_end, ")"),"task.log") })
 
+
+
   OmicSelector_deep_learning(selected_miRNAs = selected_miRNAs, wd = getwd(), save_threshold_trainacc = 0.7, save_threshold_testacc = 0.5, hyperparameters = hyperparameters,
                              SMOTE = balanced, start = batch_start, end = batch_end, output_file = nazwa_konfiguracji, keras_threads = 30,
                              keras_epoch = 2000, keras_patience = 100, automatic_weight = F)
+
+
   
   batch_start = batch_end + 1
 }
+sink() 
+sink(type = "message")
+
+
 
 # Merge:
+try({ OmicSelector_log("Merging all deep learning runs...","task.log") })
 lista_plikow = list.files(".", pattern = "^deeplearning.*.csv$")
 library(plyr)
 wyniki = data.frame()
@@ -162,6 +173,5 @@ data.table::fwrite(wynikitop, "merged_deeplearning_top.csv")
 data.table::fwrite(as.data.frame(wynikitop$name), "merged_deeplearning_names.csv")
 
 #cat("[OmicSelector: TASK COMPLETED]")
-#sink() 
-#sink(type = "message")
+
 try({ OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log") })

@@ -6,14 +6,17 @@ sink(con, append=TRUE)
 sink(con, append=TRUE, type = "message")
 library(OmicSelector)
 
-current = 1
-while(current > 0.8) { 
-  load = strsplit(system("cat /proc/loadavg", intern = T)," ")
+try({
+  current = 1
   max = parallel::detectCores()
+  if(max < 3) { current = 0 }
+  while(current > 0.5) { 
+  load = strsplit(system("cat /proc/loadavg", intern = T)," ")
   current = as.numeric(load[[1]][1])/max
-  if(current > 0.8) {
-    cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 80%. The job waiting for resources to start...\n")); Sys.sleep(15);
+  if(current > 0.5) {
+    cat(paste0("Current server load: ", round(current*100,2), "% exceeds the threshold of 50%. The job waiting for resources to start...\n")); Sys.sleep(15);
   } else { cat(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n")); }}
+})
 
 cat("Loading benchmark settings...\n")
 mm = read.csv("selected_benchmark.csv")
@@ -33,7 +36,7 @@ OmicSelector_benchmark(
   keras_epochs = 5000,
   keras_threads = floor(parallel::detectCores()/2),
   search_iters_mxnet = search_iters_mxnet,
-  cores = detectCores() - 1,
+  cores = detectCores(),
   input_formulas = readRDS("featureselection_formulas_final.RDS"),
   output_file = "benchmark.csv",
   # mxnet = mxnet,
