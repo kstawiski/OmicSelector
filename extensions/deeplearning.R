@@ -88,12 +88,13 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
   oldwd = getwd()
   setwd = setwd(wd)
   set.seed(1)
-  if(dir.exists("/OmicSelector")) {
-    if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
-    temp_dir = "/OmicSelector/temp/"
-  } else {
-    temp_dir = tempdir()
-  }
+  # if(dir.exists("/OmicSelector")) {
+  #  if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
+  #  temp_dir = "/OmicSelector/temp/"
+  # } else {
+  #   temp_dir = tempdir()
+  # }
+  temp_dir = tempdir()
   if(!dir.exists("temp")) { dir.create("temp") }
   if(!dir.exists("models")) { dir.create("models") }
   options(bitmapType = 'cairo', device = 'png')
@@ -790,7 +791,7 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
   if(nrow(final) == 0) { stop("Networks are not being trained. Something is wrong.") }
 
   saveRDS(final, paste0(output_file,".RDS"))
-  cat("\nAll done!! Ending..\n")
+  try({ OmicSelector_log("All done!! Ending batch..", "task.log") })
   if (file.exists(output_file)) {
     tempfi = data.table::fread(output_file)
     final = rbind(tempfi, final) }
@@ -799,9 +800,12 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
   #options(warn=0)
   # sprztanie
   if(clean_temp_files) {
-    keras::k_clear_session()
+    K <- backend()
+    K$clear_session()
     unlink(paste0(normalizePath(temp_dir), "/", dir(temp_dir)), recursive = TRUE)
   }
+
+  return(final)
 }
 
 #' OmicSelector_transfer_learning_neural_network()

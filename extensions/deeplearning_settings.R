@@ -110,7 +110,7 @@ if(autoencoders == 2) {
 # head(hyperparameters)
 
 ile = nrow(hyperparameters)
-ile_w_batchu = 250
+ile_w_batchu = 5
 OmicSelector_log(paste0("\nHow many to check: ", ile),"task.log")
 
 
@@ -132,26 +132,16 @@ OmicSelector_log(paste0("\nHow many in batch: ", ile_w_batchu),"task.log")
 
 
 # Main loop:
-con <- file("task.log")
-sink(con, append=TRUE)
-sink(con, append=TRUE, type = "message")
 for (i in 1:ile_batchy) {
   batch_end = batch_start + (ile_w_batchu-1)
   if (batch_end > ile) { batch_end = ile }
-  try({ OmicSelector_log(paste0("\n\nProcessing batch no ", i , " of ", ile_batchy, " (", batch_start, "-", batch_end, ")"),"task.log") })
-
-
-
-  OmicSelector_deep_learning(selected_miRNAs = selected_miRNAs, wd = getwd(), save_threshold_trainacc = 0.7, save_threshold_testacc = 0.5, hyperparameters = hyperparameters,
-                             SMOTE = balanced, start = batch_start, end = batch_end, output_file = nazwa_konfiguracji, keras_threads = 30,
-                             keras_epoch = 2000, keras_patience = 100, automatic_weight = F)
-
-
-  
+  try({ 
+  OmicSelector_log(paste0("\n\nProcessing batch no ", i , " of ", ile_batchy, " (", batch_start, "-", batch_end, ")"),"task.log")
+  OmicSelector_log(OmicSelector_deep_learning(selected_miRNAs = selected_miRNAs, wd = getwd(), save_threshold_trainacc = 0.7, save_threshold_testacc = 0.5, hyperparameters = hyperparameters,
+                             SMOTE = balanced, start = batch_start, end = batch_end, output_file = nazwa_konfiguracji, keras_threads = keras_threads,
+                             keras_epoch = 2000, keras_patience = 100, automatic_weight = F), "task.log")  })
   batch_start = batch_end + 1
 }
-sink() 
-sink(type = "message")
 
 
 
