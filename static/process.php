@@ -378,8 +378,16 @@ switch($_GET['type'])
         exec("cp /OmicSelector/OmicSelector/extensions/deeplearning.R " . $target_dir . "deeplearning.R"); // Copy of ext to speed up
         exec("chmod +x " . $target_dir . "deeplearning.sh");
 
+        //User setup
+        exec('useradd -s /bin/bash -d '.$target_dir.' -M "' . $analysis_id  . '"');
+        exec('echo "options(repos=structure(c(CRAN=\"http://cran.r-project.org\")))" > /root/'.$analysis_id.'/.Rprofile');
+        //exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
+        exec('echo "'.$analysis_id.':OmicSelector"|chpasswd');
+        exec('sudo -H -u '.$analysis_id.' bash -c "conda init bash"');
+        exec('sudo -H -u '.$analysis_id.' bash -c "config --set auto_activate_base true"');
+
         // Start
-        exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." ./deeplearning.sh");
+        exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ."sudo -H -u ".$analysis_id." bash -c './deeplearning.sh'");
         sleep(10); // Wait to start writing log.
 
         // Redirect to analysis
