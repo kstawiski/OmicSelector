@@ -62,14 +62,20 @@ function matematyczny_input($ma) {
     } else {  return $ma; }
 }
 
+function validate_analysisid_chars($analysis_id){
+    $aValid = array('-', '_');
+    $analysis_id = str_replace($aValid, '', $analysis_id);
+    return ctype_alnum($analysis_id);
+}
+
+
 switch($_GET['type'])
 {
     case "new_custom_analysis":
         $analysis_id = $_POST['analysisid'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
 
-
-        if(ctype_alnum($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
+        if(validate_analysisid_chars($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
              echo "Yes, It's an alphanumeric string/text";
         } else {
             $msg = $msg . "The analysis ID is too long, not an alphanumeric text or the analysis with the same ID already exists. ";
@@ -88,7 +94,7 @@ switch($_GET['type'])
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
 
 
-        if(ctype_alnum($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
+        if(validate_analysisid_chars($analysis_id) && strlen($analysis_id) < 17 && !file_exists($target_dir) && !is_dir($target_dir)){
              echo "Yes, It's an alphanumeric string/text";
         } else {
             $msg = $msg . "The analysis ID is too long, not an alphanumeric text or the analysis with the same ID already exists. ";

@@ -88,13 +88,12 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
   oldwd = getwd()
   setwd = setwd(wd)
   set.seed(1)
-  # if(dir.exists("/OmicSelector")) {
-  #  if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
-  #  temp_dir = "/OmicSelector/temp/"
-  # } else {
-  #   temp_dir = tempdir()
-  # }
-  temp_dir = tempdir()
+if(dir.exists("/OmicSelector")) {
+  if(!dir.exists(paste0(getwd(), "/temp"))) { dir.create(paste0(getwd(), "/temp")) }
+    temp_dir = paste0(getwd(), "/temp")
+   } else {
+     temp_dir = tempdir()
+   }
   if(!dir.exists("temp")) { dir.create("temp") }
   if(!dir.exists("models")) { dir.create("models") }
   options(bitmapType = 'cairo', device = 'png')
