@@ -380,7 +380,7 @@ switch($_GET['type'])
 
         // Start
         exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." ./deeplearning.sh");
-        sleep(3); // Wait to start writing log.
+        sleep(10); // Wait to start writing log.
 
         // Redirect to analysis
         header("Location: /analysis.php?id=" . $analysis_id); die();
