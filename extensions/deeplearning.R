@@ -89,8 +89,8 @@ OmicSelector_deep_learning = function(selected_miRNAs = ".", wd = getwd(),
   setwd = setwd(wd)
   set.seed(1)
 if(dir.exists("/OmicSelector")) {
-  if(!dir.exists(paste0(getwd(), "/temp"))) { dir.create(paste0(getwd(), "/temp")) }
-    temp_dir = paste0(getwd(), "/temp")
+  if(!dir.exists(paste0(getwd(), "/temp-deeplearning"))) { dir.create(paste0(getwd(), "/temp-deeplearning")) }
+    temp_dir = paste0(getwd(), "/temp-deeplearning")
    } else {
      temp_dir = tempdir()
    }
@@ -800,6 +800,7 @@ if(dir.exists("/OmicSelector")) {
   #options(warn=0)
   # sprztanie
   if(clean_temp_files) {
+    try({ OmicSelector_log(paste("Cleaning temp files... Here is cluster log for reference:") ,"task.log") })
     try({ OmicSelector_log(paste(readLines(clusterlogfile), collapse="\n") ,"task.log") })
     K <- backend()
     K$clear_session()
