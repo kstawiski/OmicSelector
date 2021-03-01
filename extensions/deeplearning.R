@@ -114,7 +114,8 @@ if(dir.exists("/OmicSelector")) {
   cat(paste0("\nTemp dir: ", temp_dir, "\n"))
   cat("\nStarting preparing cluster..\n")
   #cl <- makePSOCKcluster(keras_threads) #not to overload your computer
-  cl = makeCluster(keras_threads, outfile=paste0("temp/", ceiling(as.numeric(Sys.time())), "deeplearning_cluster.log"))
+  clusterlogfile = paste0("temp/", ceiling(as.numeric(Sys.time())), "deeplearning_cluster.log")
+  cl = makeCluster(keras_threads, outfile=clusterlogfile)
   registerDoParallel(cl)
   on.exit(stopCluster(cl))
   cat("\nCluster prepared..\n")
@@ -799,6 +800,7 @@ if(dir.exists("/OmicSelector")) {
   #options(warn=0)
   # sprztanie
   if(clean_temp_files) {
+    try({ OmicSelector_log(paste(readLines(clusterlogfile), collapse="\n") ,"task.log") })
     K <- backend()
     K$clear_session()
     unlink(paste0(normalizePath(temp_dir), "/", dir(temp_dir)), recursive = TRUE)
