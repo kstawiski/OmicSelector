@@ -387,7 +387,8 @@ switch($_GET['type'])
         exec('sudo -H -u '.$analysis_id.' bash -c "config --set auto_activate_base true"');
 
         // Start
-        exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ."sudo -H -u ".$analysis_id." bash -c './deeplearning.sh'");
+        //exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." sudo -H -u ".$analysis_id." bash -c './deeplearning.sh'");
+        exec("screen -dmS OmicSelector-". $analysis_id . " sudo -u ".$analysis_id." bash -c 'cd ".$target_dir." && ./deeplearning.sh'");
         sleep(10); // Wait to start writing log.
 
         // Redirect to analysis
