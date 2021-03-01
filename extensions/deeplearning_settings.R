@@ -127,8 +127,8 @@ if(!file.exists(nazwa_konfiguracji)) {
 
 ile_batchy = ceiling(nrow(hyperparameters)/ile_w_batchu - batch_start/ile_w_batchu)
 
-OmicSelector_log((paste0("\nBatch start: ", batch_start),"task.log")
-OmicSelector_log((paste0("\nHow many in batch: ", ile_w_batchu),"task.log")
+OmicSelector_log(paste0("\nBatch start: ", batch_start),"task.log")
+OmicSelector_log(paste0("\nHow many in batch: ", ile_w_batchu),"task.log")
 
 
 # Main loop:
