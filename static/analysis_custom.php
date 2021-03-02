@@ -304,7 +304,7 @@ input:checked + .slider:before {
                 <div class="panel-heading"><i class="fas fa-cog"></i>&emsp;&emsp;Additional tools</div>
                 <div class="panel-body"><button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalYT2"><i class="fas fa-terminal"></i>&emsp;Shell</button>&emsp;
-                        <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>&emsp;
+                        
                         <a href="/" onclick="waitingDialog.show('Going back...');" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i>&emsp;Exit</a>
                     </div>
             </div>

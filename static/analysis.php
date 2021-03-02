@@ -449,6 +449,11 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </tr>
 
                         <tr>
+                            <td>Merged data (training, testing, validation and balanced training):</td>
+                            <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/merged.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/merged.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/merged.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                        </tr>
+
+                        <tr>
                             <td>Differential expression analysis (training set only):</td>
                             <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/DE_train.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/DE_train.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/DE_train.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
                         </tr>

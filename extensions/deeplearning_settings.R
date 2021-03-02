@@ -8,6 +8,7 @@ require(tensorflow)
 require(reticulate)
 require(keras)
 
+OmicSelector_log(paste0("Configuring the enviornment..."),"task.log");
 Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
 use_python('/opt/conda/bin/python')
 use_condaenv("base")

@@ -146,11 +146,122 @@ else {
     <p>Process details:</p>
     <p><pre><?php echo $task_process; ?></pre></p>
     </div></div>
+
+    <script type="text/javascript" src="monitor/gauge/jquery-asPieProgress.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // Example with grater loading time - loads longer
+                $('.pie_progress_temperature,.pie_progress_cpu, .pie_progress_mem, .pie_progress_disk').asPieProgress({});
+		getTemp();
+                getCpu();
+                getMem();
+                getDisk();
+            });
+
+            function getTemp() {
+                $.ajax({
+                    url: 'monitor/temperature.json.php',
+                    success: function (response) {
+                        update('temperature', response);
+                        setTimeout(function () {
+                            getTemp();
+                        }, 1000);
+                    }
+                });
+            }
+
+
+            function getCpu() {
+                $.ajax({
+                    url: 'monitor/cpu.json.php',
+                    success: function (response) {
+                        update('cpu', response);
+                        setTimeout(function () {
+                            getCpu();
+                        }, 1000);
+                    }
+                });
+            }
+
+            function getMem() {
+                $.ajax({
+                    url: 'monitor/memory.json.php',
+                    success: function (response) {
+                        update('mem', response);
+
+                        setTimeout(function () {
+                            getMem();
+                        }, 1000);
+                    }
+                });
+            }
+
+            function getDisk() {
+                $.ajax({
+                    url: 'monitor/disk.json.php',
+                    success: function (response) {
+                        update('disk', response);
+                        setTimeout(function () {
+                            getDisk();
+                        }, 1000);
+                    }
+                });
+            }
+
+            function update(name, response) {
+                $('.pie_progress_' + name).asPieProgress('go', response.percent);
+                $("#" + name + "Div div.title").text(response.title);
+                //$("#" + name + "Div pre").text(response.output.join('\n'));
+            }
+        </script>
+        <link rel="stylesheet" href="monitor/gauge/css/asPieProgress.css">
+        <p></p>
+        <div class="panel panel-default">
+                <div class="panel-heading"><i class="fas fa-heartbeat"></i>&emsp;&emsp;Resources (monitor)</div>
+                <div class="panel-body">
+                <div class="col-xs-3 col-sm-3 col-lg-3" id="cpuDiv">                        
+                <div class="pie_progress_cpu" role="progressbar" data-goal="33">
+                    <div class="pie_progress__number">0%</div>
+                    <div class="pie_progress__label">CPU</div>
+                </div>
+  
+                <div class='title'></div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-lg-3" id="memDiv">
+                <div class="pie_progress_mem" role="progressbar" data-goal="33">
+                    <div class="pie_progress__number">0%</div>
+                    <div class="pie_progress__label">Memory</div>
+                </div>
+  
+                <div class='title'></div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-lg-3" id="diskDiv">
+                <div class="pie_progress_disk" role="progressbar" data-goal="33">
+                    <div class="pie_progress__number">0%</div>
+                    <div class="pie_progress__label">Disk</div>
+                </div>
+
+                <div class='title'></div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-lg-3" id="temperatureDiv">
+                <div class="pie_progress_temperature" role="progressbar" data-goal="33">
+                    <div class="pie_progress__number">0°</div>
+                    <div class="pie_progress__label">Temperature</div>
+                </div>
+                <div class='title' style="display:none;"></div>
+            </div>
+
+
+
+                </div>
+        </div>
+
+
     <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
                 <div class="panel-body"><button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;
-                        <a href="monitor/" target="_blank" role="button" class="btn btn-info"><i class="fas fa-server"></i>&emsp;Hardware</a>&emsp;<a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
+                        <a href="e/tree/<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
                         onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (Jupyter)</a>&emsp;
                         <a href="/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>" role="button" class="btn btn-primary" target="popup"
                         onclick="window.open('/process.php?type=rstudio&analysisid=<?php echo $_GET['id']; ?>','popup','width=1150,height=800'); return false;"><i class="fas fa-lock-open"></i>&emsp;Advanced features (R Studio)</a>&emsp;
