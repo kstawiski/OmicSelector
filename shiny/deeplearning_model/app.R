@@ -1,4 +1,6 @@
 # Prereq
+Sys.setenv(CUDA_VISIBLE_DEVICES = "-1") # do not waste GPU memory for scoring networks
+
 reticulate::use_python('/opt/conda/bin/python')
 require(tensorflow)
 require(reticulate)
