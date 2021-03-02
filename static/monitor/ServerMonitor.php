@@ -1,7 +1,5 @@
 <?php
-if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
-    die('Not allowed in public (demo) version.');
-}
+
 class ServerMonitor {
 
 
@@ -84,8 +82,13 @@ class ServerMonitor {
 
     static function getDisk() {
         $obj = new stdClass();
-        $cmd = "df -h";
+        $cmd = "df -h | grep OmicSelector";
         exec($cmd . "  2>&1", $output, $return_val);
+        if($output == "")
+        {
+            $cmd = "df -h";
+            exec($cmd . "  2>&1", $output, $return_val);
+        }
         if ($return_val !== 0) {
             $obj->error = "Get Disk ERROR** " . print_r($output, true);
             $obj->command = $cmd;
