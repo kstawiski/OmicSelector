@@ -1,4 +1,5 @@
 # Parameters:
+OmicSelector_log(paste0("Working directory: ", getwd()),"task.log");
 balanced = F
 if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
 autoencoders = F

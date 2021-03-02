@@ -381,7 +381,7 @@ switch($_GET['type'])
         //User setup
         exec('useradd -s /bin/bash -d '.$target_dir.' -M "' . $analysis_id  . '"');
         exec('echo "options(repos=structure(c(CRAN=\"http://cran.r-project.org\")))" > /root/'.$analysis_id.'/.Rprofile');
-        //exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
+        exec('chown -R '.$analysis_id.' '. $target_dir . ' &');
         exec('echo "'.$analysis_id.':OmicSelector"|chpasswd');
         exec('sudo -H -u '.$analysis_id.' bash -c "conda init bash"');
         exec('sudo -H -u '.$analysis_id.' bash -c "config --set auto_activate_base true"');
@@ -389,7 +389,7 @@ switch($_GET['type'])
         // Start
         //exec("cd " . $target_dir . " && screen -dmS OmicSelector-". $analysis_id ." sudo -H -u ".$analysis_id." bash -c './deeplearning.sh'");
         exec("screen -dmS OmicSelector-". $analysis_id . " sudo -u ".$analysis_id." bash -c 'cd ".$target_dir." && ./deeplearning.sh'");
-        sleep(10); // Wait to start writing log.
+        sleep(5); // Wait to start writing log.
 
         // Redirect to analysis
         header("Location: /analysis.php?id=" . $analysis_id); die();
