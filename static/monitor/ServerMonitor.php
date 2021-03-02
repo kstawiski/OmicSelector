@@ -8,10 +8,10 @@ class ServerMonitor {
         $cmd = "cat /sys/class/thermal/thermal_zone0/temp";
         exec($cmd . "  2>&1", $output, $return_val);
         if ($return_val !== 0) {
-            $obj->error = "Get t°  ERROR** " . print_r($output, true);
+            $obj->error = "Get °C ERROR** " . print_r($output, true);
             $obj->command = $cmd;
         } else {
-            $obj->title = "t° Raspberry";
+            $obj->title = "°C";
             $obj->success = 1;
             $obj->output = $output;
             $obj->command = $cmd;
@@ -82,13 +82,9 @@ class ServerMonitor {
 
     static function getDisk() {
         $obj = new stdClass();
-        $cmd = "df -h | grep OmicSelector";
+        $cmd = "df -h";
         exec($cmd . "  2>&1", $output, $return_val);
-        if($output == "")
-        {
-            $cmd = "df -h";
-            exec($cmd . "  2>&1", $output, $return_val);
-        }
+    
         if ($return_val !== 0) {
             $obj->error = "Get Disk ERROR** " . print_r($output, true);
             $obj->command = $cmd;
