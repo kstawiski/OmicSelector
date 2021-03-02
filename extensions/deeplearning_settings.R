@@ -1,5 +1,4 @@
 # Parameters:
-OmicSelector_log(paste0("Working directory: ", getwd()),"task.log");
 balanced = F
 if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
 autoencoders = F
@@ -22,6 +21,7 @@ options(warn = -1)
 if(file.exists("task.log")) { file.remove("task.log") }
 
 library(OmicSelector); set.seed(1);
+OmicSelector_log(paste0("Working directory: ", getwd()),"task.log");
 if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
 OmicSelector_load_extension("deeplearning")
 library(data.table)
