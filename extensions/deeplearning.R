@@ -534,6 +534,8 @@ if(dir.exists("/OmicSelector")) {
         if(!dir.exists(paste0("models/",codename,"/"))) { dir.create(paste0("models/",codename,"/")) }
         if(dir.exists("/OmicSelector")) {
           system(paste0("/bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"))
+          # Debug:
+          OmicSelector_log(paste0("Running: /bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"), "task.log")
         } else {
           zip(paste0(oldwd,"models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
         # file.copy(list.files(paste0(temp_dir,"/models/keras",model_id), pattern = "_wyniki.csv$", full.names = T, recursive = T, include.dirs = T),paste0("temp/",codename,"_",model_id,"_deeplearningresults.csv"))
@@ -766,6 +768,8 @@ if(dir.exists("/OmicSelector")) {
         #message("Checkpoint passed: chunk 37c")
         if(dir.exists("/OmicSelector")) {
           system(paste0("/bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"))
+          # Debug:
+          OmicSelector_log(paste0("Running: /bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"), "task.log")
         } else {
           zip(paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
         #message("Checkpoint passed: chunk 37b")
