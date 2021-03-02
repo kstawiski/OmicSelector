@@ -1,3 +1,21 @@
+# Log setup:
+if(file.exists("task.log")) { file.remove("task.log") }
+library(OmicSelector); set.seed(1);
+OmicSelector_log(paste0("Working directory: ", getwd()),"task.log");
+
+# Keras config:
+require(tensorflow)
+require(reticulate)
+require(keras)
+
+Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
+use_python('/opt/conda/bin/python')
+use_condaenv("base")
+
+OmicSelector_log(paste0("Tensorflow config: ", py_discover_config('tensorflow')),"task.log");
+OmicSelector_log(paste0("Keras config: ", py_discover_config('keras')),"task.log");
+OmicSelector_log(paste0("Is Keras working? ==> ", is_keras_available()),"task.log"); 
+
 # Parameters:
 balanced = F
 if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
@@ -18,10 +36,6 @@ if(selected_miRNAs != "all")
 # Code:
 nazwa_konfiguracji = "deeplearning.csv"
 options(warn = -1)
-if(file.exists("task.log")) { file.remove("task.log") }
-
-library(OmicSelector); set.seed(1);
-OmicSelector_log(paste0("Working directory: ", getwd()),"task.log");
 if(!dir.exists("/OmicSelector/temp")) { dir.create("/OmicSelector/temp") }
 OmicSelector_load_extension("deeplearning")
 library(data.table)
