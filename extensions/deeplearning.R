@@ -535,7 +535,7 @@ if(dir.exists("/OmicSelector")) {
         if(dir.exists("/OmicSelector")) {
           system(paste0("/bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"))
         } else {
-          zip(paste0("models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
+          zip(paste0(oldwd,"models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
         # file.copy(list.files(paste0(temp_dir,"/models/keras",model_id), pattern = "_wyniki.csv$", full.names = T, recursive = T, include.dirs = T),paste0("temp/",codename,"_",model_id,"_deeplearningresults.csv"))
         if (!dir.exists(paste0("temp/",codename,"/"))) { dir.create(paste0("temp/",codename,"/")) }
         file.copy(list.files(paste0(temp_dir,"/models/keras",model_id), pattern = "_wyniki.csv$", full.names = T, recursive = T, include.dirs = T),paste0("temp/",codename,"/",model_id,"_deeplearningresults.csv"))
@@ -765,9 +765,9 @@ if(dir.exists("/OmicSelector")) {
         if(!dir.exists(paste0("models/",codename,"/"))) { dir.create(paste0("models/",codename,"/")) }
         #message("Checkpoint passed: chunk 37c")
         if(dir.exists("/OmicSelector")) {
-          system(paste0("/bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0("models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"))
+          system(paste0("/bin/bash -c 'screen -dmS save_network zip -9 -r ", paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip") ," ", paste0(temp_dir,"models/keras",model_id), "/'"))
         } else {
-          zip(paste0("models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
+          zip(paste0(oldwd,"/models/",codename,"/",codename, "_", model_id,".zip"),list.files(paste0(temp_dir,"models/keras",model_id), full.names = T, recursive = T, include.dirs = T)) }
         #message("Checkpoint passed: chunk 37b")
         if (!dir.exists(paste0("temp/",codename,"/"))) { dir.create(paste0("temp/",codename,"/")) }
         #message("Checkpoint passed: chunk 37a")
