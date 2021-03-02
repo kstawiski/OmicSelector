@@ -365,13 +365,13 @@ switch($_GET['type'])
         if (!file_exists($target_dir)) { die('Analysis not found.'); }
 
         // Setup config
-        file_put_contents($target_dir . '/var_deeplearning_balanced.txt', $_POST['balanced']);
-        file_put_contents($target_dir . '/var_deeplearning_autoencoders.txt', $_POST['autoencoders']);
-        file_put_contents($target_dir . '/var_deeplearning_selected.txt', $_POST['selected']);
+        if (!empty($_POST["balanced"])) { file_put_contents($target_dir . '/var_deeplearning_balanced.txt', $_POST['balanced']); }
+        if (!empty($_POST["autoencoders"])) { file_put_contents($target_dir . '/var_deeplearning_autoencoders.txt', $_POST['autoencoders']); }
+        if (!empty($_POST["selected"])) { file_put_contents($target_dir . '/var_deeplearning_selected.txt', $_POST['selected']); }
         
+        file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', "2");
         if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
-        file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', $_POST['keras_threads']); }
-        else { file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', "2"); }
+            if (!empty($_POST["keras_threads"])) { file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', $_POST['keras_threads']); } }
         // Setup files
         exec("cp /OmicSelector/OmicSelector/extensions/deeplearning_settings.R " . $target_dir . "deeplearning_settings.R");
         exec("cp /OmicSelector/OmicSelector/extensions/deeplearning.sh " . $target_dir . "deeplearning.sh");
