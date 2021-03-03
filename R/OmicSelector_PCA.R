@@ -41,7 +41,7 @@ OmicSelector_PCA = function(ttpm_features, meta) {
     stop("Please provide a single categorical vector")
   }
 
-  dane.pca <- prcomp(ttpm_features, scale. = TRUE)
+  dane.pca <- prcomp(ttpm_features, na.action=na.omit, scale. = TRUE)
   suppressMessages(library(ggbiplot))
   ggbiplot(dane.pca,var.axes = FALSE,ellipse=TRUE,circle=TRUE, groups=as.factor(meta))
 }

@@ -121,10 +121,13 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
           perc = 1
           balanced = trainx2
           while (nowy < roznica) {
-            try({ balanced = DMwR::SMOTE(Class ~ ., trainx2, perc.over = perc)
-            b = table(balanced$Class)
-            nowy = b[minor] 
-            cat(paste0("\nPerc: ", perc, " --> Minority cases: ", b[minor])) })
+            try({ 
+              balanced = DMwR::SMOTE(Class ~ ., trainx2, perc.over = perc)
+              balanced = balanced[complete.cases(balanced),]
+              b = table(balanced$Class)
+              nowy = b[minor] 
+            # Debug: cat(paste0("\nPerc: ", perc, " --> Minority cases: ", b[minor])) 
+            })
             perc = perc + 1
           }
           # print(perc)
