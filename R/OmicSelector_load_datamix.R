@@ -13,11 +13,12 @@
 #' @param replace_smote For some analyses we may want to replace imbalanced train dataset with balanced dataset. This saved coding time in some functions.
 #' @param selected_miRNAs If null - take all features staring with "hsa", if set - vector of feature names to be selected.
 #' @param class_interest Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".
+#' @param remove_zero_var Remove features with zero variance.
 #'
 #' @return The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)
 #'
 #' @export
-OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 200, use_smote_not_rose = T, replace_smote = F, selected_miRNAs = NULL, class_interest = "Case") {
+OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 200, use_smote_not_rose = T, replace_smote = F, selected_miRNAs = NULL, class_interest = "Case", remove_zero_var = T) {
   suppressMessages(library(plyr))
   suppressMessages(library(dplyr))
   suppressMessages(library(edgeR))
@@ -46,10 +47,22 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
     test = dplyr::select(read.csv("mixed_test.csv", stringsAsFactors = F), starts_with("hsa"), Class)
     valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), starts_with("hsa"), Class) } else {
       temp = c(selected_miRNAs, "Class")
-      train = dplyr::select(read.csv("mixed_train.csv", stringsAsFactors = F), temp)
-      test = dplyr::select(read.csv("mixed_test.csv", stringsAsFactors = F), temp)
-      valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), temp, Class)
+      train = dplyr::select(read.csv("mixed_train.csv", stringsAsFactors = F), all_of(temp))
+      test = dplyr::select(read.csv("mixed_test.csv", stringsAsFactors = F), all_of(temp)
+      valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), all_of(temp))
     }
+
+  if(remove_zero_var){
+    train_zero_var = which(apply(train, 2, var) == 0)
+    test_zero_var = which(apply(test, 2, var) == 0)
+    valid_zero_var = which(apply(valid, 2, var) == 0)
+    zero_var = unique(c(train_zero_var, test_zero_var,valid_zero_var))
+    if(length(zero_var)>0){
+      train = train[,-zero_var]
+      test = test[,-zero_var]
+      valid = valid[,-zero_var]
+    }
+  }
   
 
 

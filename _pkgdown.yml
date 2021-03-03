@@ -46,4 +46,4 @@ navbar:
         href: articles/Tutorial.html
       - icon: fa-code-branch
         text: Deep learning tutorial
-        href: articles/DeepLearning.html
+        href: articles/DeepLearningTutorial.html
