@@ -23,23 +23,23 @@ navbar:
       href: index.html
     intro:
       icon: fa-video
-      text: Video tutorial (GUI)
+      text: Tutorial (GUI)
       href: https://www.youtube.com/watch?v=dKUdINEcOjk
     demo:
       icon: fa-cubes
-      text: Demo (Limited Public Version)
+      text: Demo
       href: http://212.191.32.168:20019/
     reference:
       icon: fa-file-code-o
-      text: "Functions (Reference)"
+      text: Functions
       href: reference/index.html
     methods:
       icon: fa-tools
-      text: "Methods"
+      text: Methods
       href: articles/metody.html
     articles:
       icon: "fas fa-book"
-      text: Tutorials
+      text: Tutorials (Code)
       menu:
       - icon: fa-user-graduate
         text: Basic analysis tutorial

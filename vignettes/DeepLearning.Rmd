@@ -319,7 +319,7 @@ DT::datatable(deep_learning_results,
 ```
 
 ```{r echo = FALSE}
-deep_learning_results = data.table::fread("deeplearning_results.csv")
+deep_learning_results = data.table::fread("deeplearning_results.cs")
 DT::datatable(deep_learning_results, 
           extensions = c('FixedColumns',"FixedHeader"),
            options = list(scrollX = TRUE, 
