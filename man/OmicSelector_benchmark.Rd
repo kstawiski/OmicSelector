@@ -10,7 +10,7 @@ OmicSelector_benchmark(
   keras_epochs = 5000,
   keras_threads = floor(parallel::detectCores()/2),
   search_iters_mxnet = 5000,
-  cores = detectCores(),
+  cores = detectCores() - 1,
   input_formulas = readRDS("featureselection_formulas_final.RDS"),
   output_file = "benchmark.csv",
   algorithms = c("mlp", "mlpML", "svmRadial", "svmLinear", "rf", "C5.0", "rpart",

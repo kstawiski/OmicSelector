@@ -134,7 +134,7 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
           
           train_smoted = rbind(trainx2, balanced[balanced$Class == minor,])
           table(train_smoted$Class)
-          OmicSelector_PCA(dplyr::select(train_smoted, starts_with("hsa")), train_smoted$Class)
+          # OmicSelector_PCA(dplyr::select(train_smoted, starts_with("hsa")), train_smoted$Class)
           cat("\nBalanced dataset was prepared.")
           data.table::fwrite(train_smoted, "mixed_train_balanced.csv") }
       } else {
