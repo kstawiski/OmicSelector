@@ -48,7 +48,7 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
     valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), starts_with("hsa"), Class) } else {
       temp = c(selected_miRNAs, "Class")
       train = dplyr::select(read.csv("mixed_train.csv", stringsAsFactors = F), all_of(temp))
-      test = dplyr::select(read.csv("mixed_test.csv", stringsAsFactors = F), all_of(temp)
+      test = dplyr::select(read.csv("mixed_test.csv", stringsAsFactors = F), all_of(temp))
       valid = dplyr::select(read.csv("mixed_valid.csv", stringsAsFactors = F), all_of(temp))
     }
 

@@ -293,16 +293,22 @@ control_cases$Class = "Control"
 dataset = rbind(cancer_cases, control_cases)
 ttpm = OmicSelector_counts_to_log10tpm(danex = dplyr::select(dataset, starts_with("hsa")),
                                 metadane = dplyr::select(dataset, -starts_with("hsa")),
-                                ids = dataset$sample, filtr = T,
-                                filtr_minimalcounts = 10,
-                                filtr_howmany = 0.1)
+                                ids = dataset$sample, filtr = F,
+                                filtr_minimalcounts = 1,
+                                filtr_howmany = 0.01)
 ttpm = as.data.frame(ttpm)
+zero_var = which(apply(ttpm, 2, var) == 0) #which have no variance
+ttpm = ttpm[,-zero_var]
 # Not run:
 # DE = OmicSelector_differential_expression_ttest(ttpm_features = dplyr::select(dataset, starts_with("hsa")), classes = dataset$Class, mode = "logtpm")
 # significant = DE$miR[DE$`p-value Bonferroni`<0.05]
 selected_miRNAs = make.names(c('hsa-miR-192-5p', 'hsa-let-7g-5p', 'hsa-let-7a-5p', 'hsa-miR-194-5p', 'hsa-miR-122-5p', 'hsa-miR-340-5p', 'hsa-miR-26b-5p')) # some selected miRNAs
+match(selected_miRNAs, colnames(ttpm))
 #dataset = dataset[sample(1:nrow(dataset),200),] # sample 100 random cases to make it quicker
 OmicSelector_table(table(dataset$Class), col.names = c("Class", "Number of cases"))
+# For full analysis:
+# merged = OmicSelector_prepare_split(metadane = dplyr::select(dataset, -starts_with("hsa")), ttpm = ttpm)
+
 merged = OmicSelector_prepare_split(metadane = dplyr::select(dataset, -starts_with("hsa")), ttpm = dplyr::select(ttpm, selected_miRNAs))
 knitr::kable(table(merged$Class, merged$mix))
 ```
