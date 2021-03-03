@@ -55,21 +55,21 @@
   <a href="https://www.youtube.com/watch?v=dKUdINEcOjk">
     <span class="fas fa-video"></span>
      
-    Video tutorial (GUI)
+    Tutorial (GUI)
   </a>
 </li>
 <li>
   <a href="http://212.191.32.168:20019/">
     <span class="fas fa-cubes"></span>
      
-    Demo (Limited Public Version)
+    Demo
   </a>
 </li>
 <li>
   <a href="reference/index.html">
     <span class="fas fa-file-code-o"></span>
      
-    Functions (Reference)
+    Functions
   </a>
 </li>
 <li>
@@ -83,7 +83,7 @@
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa-book"></span>
      
-    Tutorials
+    Tutorials (Code)
      
     <span class="caret"></span>
   </a>
@@ -96,7 +96,7 @@
       </a>
     </li>
     <li>
-      <a href="articles/DeepLearning.html">
+      <a href="articles/DeepLearningTutorial.html">
         <span class="fas fa-code-branch"></span>
          
         Deep learning tutorial
@@ -131,16 +131,13 @@
 <div id="public-implementation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#public-implementation" class="anchor"></a>Public implementation</h2>
-<p>For testing purposes, we offer a publically available version of our software at <a href="https://biostat.umed.pl/OmicSelector/demo/">https://biostat.umed.pl/OmicSelector/demo/</a>. However, please note that we restrict this instance to 12 CPU cores and 32 GB of RAM; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. <strong>Please also note that the public docker container restarts itself once a week (on Mondays). Restart purges all project files, so if you do not download your files, they will be deleted!</strong></p>
+<p>For testing purposes, we offer a publically available version of our software at <a href="https://biostat.umed.pl/OmicSelector/demo/">https://biostat.umed.pl/OmicSelector/demo/</a>. However, please note that we restrict this instance to 12 CPU cores, 32 GB of RAM and limited GPU usage; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. <strong>Please also note that the public docker container restarts itself once a week (on Mondays). Restart purges all project files, so if you do not download your files, they will be deleted!</strong></p>
 <p>We run the public implementation using following docker run command:</p>
-<pre><code>docker run --name omicselector-public --cpus="12" --memory="32g" --memory-swap="32g" --env PUBLIC=1 -d -p 28888:80 kstawiski/omicselector-public</code></pre>
+<pre><code>docker run --name omicselector-public --gpus all --cpus="12" --memory="32g" --memory-swap="32g" --env PUBLIC=1 -d -p 28888:80 kstawiski/omicselector-public</code></pre>
 </div>
 <div id="installation-with-gui" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-with-gui" class="anchor"></a>Installation with GUI</h2>
-<div id="option-1-docker-version-recommended" class="section level3">
-<h3 class="hasAnchor">
-<a href="#option-1-docker-version-recommended" class="anchor"></a>[OPTION 1] Docker version (recommended):</h3>
 <p>Tailor the docker container image for your environment:</p>
 <ol>
 <li>GPU-based, using Nvidia CUDA: <a href="https://hub.docker.com/r/kstawiski/omicselector-gpu">kstawiski/omicselector-gpu</a>
@@ -160,20 +157,15 @@
 <li>Contains Jupyter-notebook-based tutorial for learning and easy execution of R package.</li>
 <li>For the Docker-based version, we assure the correct functionality. Docker container is based on configured ubuntu.</li>
 </ul>
-</div>
-<div id="option-2-installation-in-your-local-r-enviorment" class="section level3">
-<h3 class="hasAnchor">
-<a href="#option-2-installation-in-your-local-r-enviorment" class="anchor"></a>[OPTION 2] Installation in your local R enviorment:</h3>
-<p>There are two ways for installing OmicSelector without using docker. However, please note that the <strong>web-based GUI (user interface) is available only in docker version</strong>.</p>
-<p><strong>1. Use anaconda.</strong> (recommended)</p>
-<p>Use, e.g., <code>conda create -n OmicSelector</code> and <code>conda activate OmicSelector</code> to set up your environment.</p>
-<pre><code>conda update --all 
-conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
-echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" &gt;&gt; ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes"));'
-Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'</code></pre>
 <p>If you have a compatible GPU you can consider changing <code>tensorflow</code> to <code>tensorflow-gpu</code> in <code>conda install</code> command.</p>
-<p><strong>2. [Alternative] Setup the package in your own R enviroment.</strong></p>
+</div>
+<div id="installation-without-gui-just-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation-without-gui-just-package" class="anchor"></a>Installation without GUI (just package)</h2>
+<div id="universal" class="section level3">
+<h3 class="hasAnchor">
+<a href="#universal" class="anchor"></a>Universal</h3>
+<p>Setup the package in your own R enviroment. You need to have your system prepared (prerequirements installed).</p>
 <pre><code><a href="https://devtools.r-lib.org/">library("devtools") # if not installed, install via install.packages('devtools')
 source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")
 install_github("kstawiski/OmicSelector", force = T)
@@ -182,10 +174,6 @@ install_keras()
 library(OmicSelector)
 OmicSelector_setup()</a></code></pre>
 </div>
-</div>
-<div id="installation-without-gui-just-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-without-gui-just-package" class="anchor"></a>Installation without GUI (just package)</h2>
 <div id="linuxmacos-using-conda" class="section level3">
 <h3 class="hasAnchor">
 <a href="#linuxmacos-using-conda" class="anchor"></a>Linux/macOS using conda</h3>

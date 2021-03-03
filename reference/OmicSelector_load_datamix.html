@@ -106,21 +106,21 @@ For imbalanced data, the fuction can perform balancing using:
   <a href="https://www.youtube.com/watch?v=dKUdINEcOjk">
     <span class="fas fa-video"></span>
      
-    Video tutorial (GUI)
+    Tutorial (GUI)
   </a>
 </li>
 <li>
   <a href="http://212.191.32.168:20019/">
     <span class="fas fa-cubes"></span>
      
-    Demo (Limited Public Version)
+    Demo
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
     <span class="fas fa-file-code-o"></span>
      
-    Functions (Reference)
+    Functions
   </a>
 </li>
 <li>
@@ -134,7 +134,7 @@ For imbalanced data, the fuction can perform balancing using:
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa-book"></span>
      
-    Tutorials
+    Tutorials (Code)
      
     <span class="caret"></span>
   </a>
@@ -147,7 +147,7 @@ For imbalanced data, the fuction can perform balancing using:
       </a>
     </li>
     <li>
-      <a href="../articles/DeepLearning.html">
+      <a href="../articles/DeepLearningTutorial.html">
         <span class="fas fa-code-branch"></span>
          
         Deep learning tutorial
@@ -194,7 +194,8 @@ For imbalanced data, the fuction can perform balancing using:
   use_smote_not_rose <span class='op'>=</span> <span class='cn'>T</span>,
   replace_smote <span class='op'>=</span> <span class='cn'>F</span>,
   selected_miRNAs <span class='op'>=</span> <span class='cn'>NULL</span>,
-  class_interest <span class='op'>=</span> <span class='st'>"Case"</span>
+  class_interest <span class='op'>=</span> <span class='st'>"Case"</span>,
+  remove_zero_var <span class='op'>=</span> <span class='cn'>T</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -227,6 +228,10 @@ For imbalanced data, the fuction can perform balancing using:
     <tr>
       <th>class_interest</th>
       <td><p>Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".</p></td>
+    </tr>
+    <tr>
+      <th>remove_zero_var</th>
+      <td><p>Remove features with zero variance.</p></td>
     </tr>
     </table>
 

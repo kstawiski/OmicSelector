@@ -2,8 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  DeepLearning: DeepLearning.html
+  DeepLearningTutorial: DeepLearningTutorial.html
   Tutorial: Tutorial.html
   metody: metody.html
-last_built: 2021-02-04T19:25Z
+last_built: 2021-03-03T13:32Z
 
