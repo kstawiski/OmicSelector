@@ -3,14 +3,16 @@ title: "OmicSelector: Deep learning tutorial."
 author:
 - name: Konrad Stawiski
   affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
-  email: konrad.stawiski@umed.lodz.pl
+  email: konrad@konsta.com.pl
 package: OmicSelector
 output: 
   BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Tutorial}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -28,5 +30,373 @@ options(knitr.table.format = "html")
 library(OmicSelector)
 ```
 
-# Deep learning extension
+# Outline
 
+One of the most important functionalities of OmicSelector is the ability to develop deep learning models. As OmicSelector focuses on biomarker feature selection and model development, it is one of the few solutions for developing **deep feedforward neural networks (up to 3 hidden layers) with and without (sparse) autoencoder**. OmicSelector provides both the framework and graphical interface to develop the best artificial neural network for molecular, laboratory, and clinical data. Please note, however, that OmicSelector was not designed to handle images or DICOM files. Multiple alternatives exist which handle imaging data.
+
+Our solution's primary purpose is to develop the best classification tool when a limited number of samples are available (e.g., expression data; due to cost). The researcher would like to create a classifier resilient to overfitting. 
+
+This extensions provides a unified **pipeline** which utilizes [TensorFlow](https://www.tensorflow.org/) though [Keras](https://keras.io/) to create feedforward neural networks. OmicSelector, however, doesn't require any knowledge of those technologies.
+
+The extension needs to be loaded using:
+
+```{r}
+OmicSelector::OmicSelector_load_extension("deeplearning")
+```
+
+This function loads the latest version of the extension from GitHub: https://github.com/kstawiski/OmicSelector/blob/master/extensions/deeplearning.R
+
+# OmicSelector_deep_learning function
+
+This extension requires three datasets: training, testing, and validation datasets, as in *Benchmarking* (in standard OmicSelector pipeline). Those can be prepared using `OmicSelector_prepare_split()` or designed manually. The primary function for the training of neural networks is called `OmicSelector_deep_learning()`. This function aims to train several neural networks, test their performance, save models, and provide a general overview of the whole modeling.
+
+`OmicSelector_deep_learning()` is defined with following parameters:
+
+```{r eval=F}
+OmicSelector_deep_learning = function(selected_miRNAs = ".",
+                                      wd = getwd(),
+                                      SMOTE = F,
+                                      keras_batch_size = 64,
+                                      clean_temp_files = T,
+                                      save_threshold_trainacc = 0.85,
+                                      save_threshold_testacc = 0.8,
+                                      keras_epochae = 5000,
+                                      keras_epoch = 2000,
+                                      keras_patience = 50,
+                                      hyperparameters = expand.grid(
+                                        layer1 = seq(3, 11, by = 2),
+                                        layer2 = c(0, seq(3, 11, by = 2)),
+                                        layer3 c(0, seq(3, 11, by = 2)),
+                                        activation_function_layer1 = c("relu", "sigmoid"),
+                                        activation_function_layer2 = c("relu", "sigmoid"),
+                                        activation_function_layer3 = c("relu", "sigmoid"),
+                                        dropout_layer1 = c(0, 0.1),
+                                        dropout_layer2 = c(0, 0.1),
+                                        dropout_layer3 = c(0),
+                                        layer1_regularizer = c(T, F),
+                                        layer2_regularizer = c(T, F),
+                                        layer3_regularizer = c(T, F),
+                                        optimizer = c("adam", "rmsprop", "sgd"),
+                                        autoencoder = c(0, 7, -7),
+                                        balanced = SMOTE,
+                                        formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+                                        scaled = c(T, F),
+                                        stringsAsFactors = F
+                                      ),
+                                      add_features_to_predictions = F,
+                                      keras_threads = ceiling(parallel::detectCores() /
+                                                                2),
+                                      start = 1,
+                                      end = nrow(hyperparameters),
+                                      output_file = "deeplearning_results.csv",
+                                      save_all_vars = F)
+OmicSelector_load_datamix()
+```
+
+**General setup parameters:**
+
+- `selected_miRNAs` - a character vector of features of interest (selected features). The function will subset and train the networks only on those features.
+- `wd` - working directory where data files are to be found. In the working directory the function expects:  `mixed_train.csv` (training set), `mixed_test.csv` (testing set), `mixed_valid.csv` (validation set). All files should contain binary `Class` variables (with values `Case` and `Control`) and features of interest (starting with prefix `hsa`).
+- `SMOTE` - logical parameter defining if the balanced training set should be used in the analysis. If set to `FALSE`, the function will use `mixed_train.csv` as a training set without any modification. If set to `TRUE` a balanced dataset will be used. Balancing is based on `OmicSelector_load_datamix()` function.
+- `clean_temp_files` - logical parameter defining if the temporary files (from directory `temp-deeplearning`) should be deleted after the function finishes. As best neural networks are saved in separate `models` directory, we advise keeping this `TRUE`. Setting it to `FALSE` may be useful in debugging.
+
+**Saving options:**
+
+- `save_threshold_trainacc` - the threshold of training accuracy required for the model to be considered worth saving. Suppose set to 0.85, all models with training accuracy < 0.85 will be regarded as worthless and disregarded.
+- `save_threshold_testacc` - the threshold of testing accuracy required for the model to be considered as worth saving. Suppose set to 0.85, all models with testing accuracy < 0.85 will be regarded as worthless and disregarded. 
+- `add_features_to_predictions` - logical parameter if the features should be added to predictions in model files. After the network is trained, the function checks the performance using the network for predictions in all 3 (training, testing, and validation) datasets. This may be useful for further analysis, but it will increase the final model zip files' size. If you care about storage space, you should set it to `FALSE`.
+- `output_file` - the name of csv file used to save the results (hyperparameters and performance) of the training process. Without the extension (i.e. `.csv`) it also defines the name of the configuration.
+
+*Both training accuracy > `save_threshold_trainacc` and testing accuracy > `save_threshold_testacc` are required to consider the model useful. We did it to save storage space and do not save not working models. Please note, however, that the metrics of the models will be saved in `output_file` for further analysis.*
+
+**Training control parameters:**
+
+- `keras_batch_size` - Batch size is the number of training examples in one pass. The higher the batch size, the more memory space you'll need.
+- `keras_epochae` - Maximum number of epoch (one forward pass and one backward pass of all the training examples) in the process of autoencoder training.
+- `keras_epoch` - Maximum number of epoch (one forward pass and one backward pass of all the training examples) in the process of final feedforward network training.
+- `keras_patience` - After how many epochs with no improvement in _validation loss_ (loss on **testing** set) training should be stopped? See [keras::callback_early_stopping()](https://keras.rstudio.com/reference/callback_early_stopping.html) for more details.
+- `keras_threads` - This function allows you to make the training process parallel for different sets of hyperparameters. Depending on your hardware (CPU/GPU, memory, HDD/SDD speed etc.) and dataset size, you have to choose it individually. The value `2` is always safe, but it will mean that only two networks will be trained at the same time and for some presets, it may take an eternity to finish the process.
+
+OmicSelector trains a defined number of epochs (assuming that early stopping criteria are not met), but the final network is the one with the lowest validation loss.
+
+**Hyperparameters (grid search):**
+
+Hyperparameters data frame contains the information about hyperparameter sets we want to check in grid search for the best model. You can play with the following hyperparameters:
+
+- `layer1` - number of neurons in first hidden layer
+- `layer2` - number of neurons in second hidden layer. If set to `0` = none.
+- `layer3` - number of neurons in third hidden layer. If set to `0` = none.
+- `activation_function_layer1` - activation function used in first hidden layer. Use names from: https://keras.io/api/layers/activations/
+- `activation_function_layer2` - activation function used in second hidden layer. Use names from: https://keras.io/api/layers/activations/
+- `activation_function_layer3` - activation function used in third hidden layer. Use names from: https://keras.io/api/layers/activations/
+- `dropout_layer1` - dropout rate in first hidden layer. [Dropout layer randomly sets input units to 0 with a frequency of rate at each step during training time, which helps prevent overfitting.](https://keras.io/api/layers/regularization_layers/dropout/)
+- `dropout_layer2` - dropout rate in second hidden layer.
+- `dropout_layer3` - dropout rate in third hidden layer.
+- `layer1_regularizer` - if regularization should be used in the first hidden layer. We use L1 regularization and L1 regularization penalty of 0.001. [Regularizers allow you to apply penalties on layer parameters or layer activity during optimization.](https://keras.io/api/layers/regularizers/)
+- `layer2_regularizer` - if regularization should be used in the second hidden layer. 
+- `layer3_regularizer` - if regularization should be used in the third hidden layer.
+- `optimizer` - use one of available optimizers (https://keras.io/api/optimizers/). We recommend `adam`.
+- `autoencoder` - if and with how many neurons the autoencoder should be used in structure network. If set to `0` - no autoencoder will be used, meaning that training features will go to the input layer directly. If set to >0, e.g. `4`, the 5-layer autoencoder is created and deep features from autoencoder are used in the training of feedforward neural networks. In this scenario, the second hidden layer has a maximum of 7 neurons. The following bottleneck layer (deep features) has the number of neurons equal to the `autoencoder` parameter (`4` in this example). If set to <0, e.g. `-4` the similar autoencoder is created but L1 regulization (L1 regularization penalty of 0.001) is used in all hidden layers - creating sparse autoencoder. Autoencoders inherit other training parameters (e.g., optimizer; from the first layer of hyperparameter set). 
+- `balanced` - if balanced training set should be used.
+- `formula` - formulas. We advise to create it using `as.character(OmicSelector_create_formula(selected_miRNAs))[3]`. 
+- `scaled` - if z-score should be applied to all datasets before modeling. Scaling can speed up and improve the process of training. Scaling parameters are calculated on the training set and reapplied on testing and validation sets. 
+
+If you do not want to check all hyperparameter sets (all rows in `hyperparameters` dataset):
+
+- `start` - from which row of `hyperparameters` data frame should we start?
+- `end` - at which row of `hyperparameters` data frame should we end?
+
+*You can use default values if you don't know what to do. OmicSelector's GUI uses default values set by us.*
+
+In OmicSelector's GUI we use 3 presets of hyperparameters:
+
+- **Quick scan** (only the simple neural networks = with 1 hidden layer and without autoencoders; **1994 networks**):
+
+```{r eval=T}
+balanced = F # not balanced
+selected_miRNAs = c("hsa.a","hsa.b","hsa.c") # selected features
+hyperparameters = expand.grid(
+  layer1 = seq(2, 10, by = 1),
+  layer2 = c(0),
+  layer3 = c(0),
+  activation_function_layer1 = c("relu", "sigmoid", "selu"),
+  activation_function_layer2 = c("relu"),
+  activation_function_layer3 = c("relu"),
+  dropout_layer1 = c(0, 0.1),
+  dropout_layer2 = c(0),
+  dropout_layer3 = c(0),
+  layer1_regularizer = c(T, F),
+  layer2_regularizer = c(F),
+  layer3_regularizer = c(F),
+  optimizer = c("adam", "rmsprop", "sgd"),
+  autoencoder = c(0, -7, 7),
+  balanced = balanced,
+  formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+  scaled = c(T, F),
+  stringsAsFactors = F
+)
+# DT::datatable(hyperparameters, 
+#          extensions = c('FixedColumns',"FixedHeader"),
+#           options = list(scrollX = TRUE, 
+#                          paging=FALSE,
+#                          fixedHeader=TRUE))
+```
+
+- **Full scan** (feedforward neural networks up to 3 hidden layers, without autoencoders; **97848 networks**):
+
+```{r eval=F}
+hyperparameters_part1 = expand.grid(
+  layer1 = seq(2, 10, by = 1),
+  layer2 = c(0),
+  layer3 = c(0),
+  activation_function_layer1 = c("relu", "sigmoid", "selu"),
+  activation_function_layer2 = c("relu"),
+  activation_function_layer3 = c("relu"),
+  dropout_layer1 = c(0, 0.1),
+  dropout_layer2 = c(0),
+  dropout_layer3 = c(0),
+  layer1_regularizer = c(T, F),
+  layer2_regularizer = c(F),
+  layer3_regularizer = c(F),
+  optimizer = c("adam", "rmsprop", "sgd"),
+  autoencoder = c(0),
+  balanced = balanced,
+  formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+  scaled = c(T, F),
+  stringsAsFactors = F
+)
+hyperparameters_part2 = expand.grid(
+  layer1 = seq(3, 11, by = 2),
+  layer2 = c(seq(3, 11, by = 2)),
+  layer3 = c(seq(0, 11, by = 2)),
+  activation_function_layer1 = c("relu", "sigmoid", "selu"),
+  activation_function_layer2 = c("relu", "sigmoid", "selu"),
+  activation_function_layer3 = c("relu", "sigmoid", "selu"),
+  dropout_layer1 = c(0, 0.1),
+  dropout_layer2 = c(0),
+  dropout_layer3 = c(0),
+  layer1_regularizer = c(T, F),
+  layer2_regularizer = c(F),
+  layer3_regularizer = c(F),
+  optimizer = c("adam", "rmsprop", "sgd"),
+  autoencoder = c(0),
+  balanced = balanced,
+  formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+  scaled = c(T, F),
+  stringsAsFactors = F
+)
+hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2)
+```
+
+- **Extended scan** (feedforward neural networks up to 3 hidden layers, without autoencoders, with autoencoders and sparse autoencoders; **293544 networks**)
+
+```{r eval=F}
+hyperparameters_part1 = expand.grid(
+  layer1 = seq(2, 10, by = 1),
+  layer2 = c(0),
+  layer3 = c(0),
+  activation_function_layer1 = c("relu", "sigmoid", "selu"),
+  activation_function_layer2 = c("relu"),
+  activation_function_layer3 = c("relu"),
+  dropout_layer1 = c(0, 0.1),
+  dropout_layer2 = c(0),
+  dropout_layer3 = c(0),
+  layer1_regularizer = c(T, F),
+  layer2_regularizer = c(F),
+  layer3_regularizer = c(F),
+  optimizer = c("adam", "rmsprop", "sgd"),
+  autoencoder = c(0, -7, 7),
+  balanced = balanced,
+  formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+  scaled = c(T, F),
+  stringsAsFactors = F
+)
+hyperparameters_part2 = expand.grid(
+  layer1 = seq(3, 11, by = 2),
+  layer2 = c(seq(3, 11, by = 2)),
+  layer3 = c(seq(0, 11, by = 2)),
+  activation_function_layer1 = c("relu", "sigmoid", "selu"),
+  activation_function_layer2 = c("relu", "sigmoid", "selu"),
+  activation_function_layer3 = c("relu", "sigmoid", "selu"),
+  dropout_layer1 = c(0, 0.1),
+  dropout_layer2 = c(0),
+  dropout_layer3 = c(0),
+  layer1_regularizer = c(T, F),
+  layer2_regularizer = c(F),
+  layer3_regularizer = c(F),
+  optimizer = c("adam", "rmsprop", "sgd"),
+  autoencoder = c(0, -7, 7),
+  balanced = balanced,
+  formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3],
+  scaled = c(T, F),
+  stringsAsFactors = F
+)
+hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) 
+```
+
+
+# Training with grid search
+
+The network's standard training is regulated by the structure (defined by current `hyperparameters`). The data frame `hyperparameters` defines which hyperparameter sets are to be checked in the training process. This is a grid search, so every set of hyperparameters will be fit in this process. 
+
+The function starts with looking for the current working directory data (defined as `wd`). It expects the files to be named as `mixed_train.csv` (training set), `mixed_test.csv` (testing set), `mixed_valid.csv` (validation set). The file should contain binary `Class` variable (with values `Case` and `Control`) and features of interest (starting with prefix `hsa`). Neural networks are trained with early stopping. As the neural network is trained based on ROC analysis, the `cutoff` is being chosen. We use the [cutoff with the maximum value of Youden index (Youden's J statistic = sensitivity + specificity - 1)](https://cran.r-project.org/web/packages/cutpointr/vignettes/cutpointr.html). If the predicted probability is greater or equal to the cutoff, the case is predicted as `Case`. Otherwise, it is considered to be a `Control`.
+
+Let's create those files from TCGA data.
+
+```{r}
+data("orginal_TCGA_data")
+suppressWarnings(suppressMessages(library(dplyr)))
+cancer_cases = filter(orginal_TCGA_data, primary_site == "Pancreas" & sample_type == "PrimaryTumor")
+control_cases = filter(orginal_TCGA_data, sample_type == "SolidTissueNormal")
+cancer_cases$Class = "Case"
+control_cases$Class = "Control"
+dataset = rbind(cancer_cases, control_cases)
+# Not run:
+# DE = OmicSelector_differential_expression_ttest(ttpm_features = dplyr::select(dataset, starts_with("hsa")), classes = dataset$Class, mode = "logtpm")
+# significant = DE$miR[DE$`p-value Bonferroni`<0.05]
+selected_miRNAs = make.names(c('hsa-miR-192-5p', 'hsa-let-7g-5p', 'hsa-let-7a-5p', 'hsa-miR-194-5p', 'hsa-miR-122-5p', 'hsa-miR-340-5p', 'hsa-miR-26b-5p')) # some selected miRNAs
+dataset = dataset[sample(1:nrow(dataset),200),] # sample 100 random cases to make it quicker
+OmicSelector_table(table(dataset$Class), col.names = c("Class", "Number of cases"))
+merged = OmicSelector_prepare_split(metadane = dplyr::select(dataset, -starts_with("hsa")), ttpm = dplyr::select(dataset, selected_miRNAs))
+knitr::kable(table(merged$Class, merged$mix))
+```
+
+Let's train just 5 neural networks with 1 hidden layer (for the sake of this quick tutorial):
+
+```{r include = FALSE}
+OmicSelector_load_datamix()
+```
+
+
+```{r eval=FALSE}
+SMOTE = F # use unbalanced set
+deep_learning_results = OmicSelector_deep_learning(selected_miRNAs = selected_miRNAs, start = 5, end = 10) # use default set of hyperparameters and options
+DT::datatable(deep_learning_results, 
+          extensions = c('FixedColumns',"FixedHeader"),
+           options = list(scrollX = TRUE, 
+                          paging=FALSE,
+                          fixedHeader=TRUE))
+```
+
+```{r echo = FALSE}
+deep_learning_results = data.table::fread("deeplearning_results.csv")
+DT::datatable(deep_learning_results, 
+          extensions = c('FixedColumns',"FixedHeader"),
+           options = list(scrollX = TRUE, 
+                          paging=FALSE,
+                          fixedHeader=TRUE))
+```
+
+
+Deep learning results were also saved as `deeplearning_results.csv`. This file contains the following variables:
+
+- Hyperparameters (defined as descibed above): layer1, layer2, layer3, activation_function_layer1, activation_function_layer2, activation_function_layer3, dropout_layer1, dropout_layer2, dropout_layer3, layer1_regularizer, layer2_regularizer, layer3_regularizer, optimizer, autoencoder, balanced, formula, scaled
+- model_id - model ID for reference
+- training_AUC - area under the ROC curve in the training process.
+- cutoff - the threshold of predicted probability for predicting the `Case` (vs. `Control`). If predicted probability >= cutoff, then it is a `Case`.
+- training_AUC2 - same are training_AUC, but calculated using different package (for sanity check).
+- training_AUC_lower95CI - lower 95%CI of AUC ROC
+- training_AUC_upper95CI - upper 95%CI of AUC ROC
+- training_Accuracy - accuracy on the training set
+- training_Sensitivity - [sensitivity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity) on training set (`Case` as class of interest)
+- training_Specificity - [specificity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity) on training set
+- training_PPV - [positive predictive value](https://en.wikipedia.org/wiki/Positive_and_negative_predictive_values) on training set
+- training_NPV - [negative predicitve value](https://en.wikipedia.org/wiki/Positive_and_negative_predictive_values) on training set
+- training_F1 - [F1-measure](https://en.wikipedia.org/wiki/F-score) on training set
+- test_Accuracy - accuracy on testing set
+- test_Sensitivity - sensitivity on testing set
+- test_Specificity - specificity on testing set
+- test_PPV - PPV on testing set
+- test_NPV - NPV on testing set
+- test_F1 - F1-measure on testing set
+- valid_Accuracy - accuracy on validation set
+- valid_Sensitivity - sensitivity on validation set
+- valid_Specificity - specificity on validation set
+- valid_PPV - PPV on validation set
+- valid_NPV - NPV on validation set
+- valid_F1 - F1-measure on validation set
+- name - name of the model (including configuration name), if you add `.zip` suffix this will represent the model filename in `models/` directory.
+- worth_saving - if it was worth_saving (i.e. is saved in `models/` directory) or the performance was to low and was disregarded
+- training_time - training time of the model in seconds. *[Please note that in parallel training this may be incorrect.]*
+
+We prefer to choose the best model based on the highest `metaindex` value. Metaindex is the average of all accuracy metrics (on training, testing, and validation sets), but the final decision is arbitrary.
+
+# Utilizing the networks for predictions
+
+Deep neural networks created using OmicSelector can be used for prediction on new datasets using:
+
+```{r eval=F}
+OmicSelector_deep_learning_predict = function(model_path = "our_models/model5.zip",
+                                              new_dataset = data.table::fread("Data/ks_data.csv"),
+                                              new_scaling = F,
+                                              old_train_csv_to_restore_scaling = NULL,
+                                              override_cutoff = NULL,
+                                              blinded = F)
+```
+
+Input parameters:
+
+- `model_path` - path to the zip file with the networking created using OmicSelector
+- `new_dataset` - data frame with new data, must contain variables with the same names as predictors
+- `new_scaling` - if the network is scaled using z-score (in preprocessing), the function can restore scaling parameters from the training process (recommended) or create new scaling (useful when dealing with e.g. batch effect)
+- `old_train_csv_to_restore_scaling` - default to NULL; scaling parameters are saved in the model, but sometimes you may want to modify them. If you want to calculate scaling parameters based on some other dataset, please provide a path to the csv file.
+- `override_cutoff` - be default the predictions will be made based on predicted probability and cutoff (with highest Youden index in the training process; it remains constant between sets); if you do not want that, you can give your cutoff here
+- `blinded` - if your dataset contains the `Class` variable, you can set it to `TRUE`, and performance will be automatically calculated
+
+Output (list):
+
+- `predictions` - data frame with predicted probabilites and classes
+- `network_config` - data frame with network configuration
+- `new_dataset` - data frame with new dataset for predictions (before preprocessing)
+- `new_dataset_x`  - data frame with new dataset for predictions after preprocessing (scaling, deep features etc.)
+- `network_features` - features (variables, predictiors) in the network
+- `cutoff` - cutoff of predicted probability used in prediction
+- `col_mean_train` - if scaled network, mean values for every variable
+- `col_sd_train` - if scaled network, standard deviation values for every variable
+- `confusion_matrix` - confusion matrix (performance assessment)
+- `roc` - ROC curve (`pROC` object; can be used for plotting)
+- `roc_auc` - AUC ROC
+- `model` - model object (`keras` object)
+- `autoencoder` - autoencoder model object (`keras` object)
+
+You can see the function working in the scoring tool inside OmicSelector's GUI. If you are interested in code, look [here](https://github.com/kstawiski/OmicSelector/blob/master/shiny/deeplearning_model/app.R).
