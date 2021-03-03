@@ -175,11 +175,10 @@ hyperparameters = expand.grid(
   scaled = c(T, F),
   stringsAsFactors = F
 )
-# DT::datatable(hyperparameters, 
-#          extensions = c('FixedColumns',"FixedHeader"),
-#           options = list(scrollX = TRUE, 
-#                          paging=FALSE,
-#                          fixedHeader=TRUE))
+DT::datatable(hyperparameters,
+         extensions = c('FixedColumns',"FixedHeader"),
+          options = list(scrollX = TRUE,
+                         paging=TRUE))
 ```
 
 - **Full scan** (feedforward neural networks up to 3 hidden layers, without autoencoders; **97848 networks**):
@@ -335,8 +334,8 @@ deep_learning_results = data.table::fread("deeplearning_results.cs")
 DT::datatable(deep_learning_results, 
           extensions = c('FixedColumns',"FixedHeader"),
            options = list(scrollX = TRUE, 
-                          paging=FALSE,
-                          fixedHeader=TRUE))
+                          paging=TRUE
+                          ))
 ```
 
 

@@ -11,7 +11,8 @@ OmicSelector_load_datamix(
   use_smote_not_rose = T,
   replace_smote = F,
   selected_miRNAs = NULL,
-  class_interest = "Case"
+  class_interest = "Case",
+  remove_zero_var = T
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ OmicSelector_load_datamix(
 \item{selected_miRNAs}{If null - take all features staring with "hsa", if set - vector of feature names to be selected.}
 
 \item{class_interest}{Value of variable "Class" used in the cases of interest. Default: "Case". Other values in variable Class will be used as controls and encoded as "Control".}
+
+\item{remove_zero_var}{Remove features with zero variance.}
 }
 \value{
 The list of objects in the following order: train, test, valid, train_smoted, trainx, trainx_smoted, merged. (trainx contains only the miRNA data without metadata)
