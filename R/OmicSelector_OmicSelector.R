@@ -755,7 +755,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting spFSR")
   suppressMessages(library(spFSR))
 
-  stopCluster(cl)
+
 
   knnWrapper    <- makeLearner("classif.knn", k = 5)
   classifTask   <- makeClassifTask(data = train, target = "Class")
@@ -769,9 +769,6 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     num.cores = detectCores())
   formulas[["spFSR"]] = OmicSelector_create_formula(spsaMod$features)
 
-  suppressMessages(library(doParallel))
-      cl <- makePSOCKcluster(useXDR = TRUE, detectCores())
-       registerDoParallel(cl)
 
   end_time <- Sys.time(); saveRDS(end_time - start_time, paste0("temp/time",n,"-",run_id,".RDS")); saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))
   if(debug) { save(list = ls(), file = paste0("temp/all",n,"-",run_id,".rdata")); print(formulas) }
@@ -782,7 +779,6 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Starting spFSR")
   suppressMessages(library(spFSR))
 
-  stopCluster(cl)
 
   
   classifTask   <- makeClassifTask(data = train_smoted, target = "Class")
@@ -795,10 +791,6 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     iters.max = max_iterations,
     num.cores = detectCores())
   formulas[["spFSRSMOTE"]] = OmicSelector_create_formula(spsaMod$features)
-
-  suppressMessages(library(doParallel))
-      cl <- makePSOCKcluster(useXDR = TRUE, detectCores())
-       registerDoParallel(cl)
 
   end_time <- Sys.time(); saveRDS(end_time - start_time, paste0("temp/time",n,"-",run_id,".RDS")); saveRDS(formulas, paste0("temp/formulas",run_id,"-",n,".RDS"))
   if(debug) { save(list = ls(), file = paste0("temp/all",n,"-",run_id,".rdata")); print(formulas) }
