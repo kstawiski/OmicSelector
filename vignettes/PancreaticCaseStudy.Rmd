@@ -1,0 +1,67 @@
+---
+title: "OmicSelector: Pancreatic cancer - case study."
+author:
+  - name: Konrad Stawiski
+affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
+email: konrad.stawiski@umed.lodz.pl
+- name: Marcin Kaszkowiak
+affiliation: Department of Biostatistics and Translational Research, Medical University of Lodz, Lodz, Poland (https://biostat.umed.pl)
+package: OmicSelector
+output:
+  BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{Tutorial}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, message=FALSE, warning=FALSE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(fig.width=12, fig.height=8)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=150),tidy=TRUE)
+options(rgl.useNULL = TRUE)
+options(warn=-1)
+suppressMessages(library(dplyr))
+set.seed(1)
+options(knitr.table.format = "html")
+library(OmicSelector)
+```
+
+# Data preparation
+
+The following code was used to prepare data for case study in original OmicSelector publication:
+
+```{r}
+data("orginal_TCGA_data")
+suppressWarnings(suppressMessages(library(dplyr)))
+cancer_cases = filter(orginal_TCGA_data, primary_site == "Pancreas" & sample_type == "PrimaryTumor")
+control_cases = filter(orginal_TCGA_data, sample_type == "SolidTissueNormal")
+cancer_cases$Class = "Case"
+control_cases$Class = "Control"
+dataset = rbind(cancer_cases, control_cases)
+ttpm = OmicSelector_counts_to_log10tpm(danex = dplyr::select(dataset, starts_with("hsa")),
+                                metadane = dplyr::select(dataset, -starts_with("hsa")),
+                                ids = dataset$sample, filtr = F,
+                                filtr_minimalcounts = 100,
+                                filtr_howmany = 0.1)
+ttpm = as.data.frame(ttpm)
+zero_var = which(apply(ttpm, 2, var) == 0) #which have no variance
+ttpm = ttpm[,-zero_var]
+
+# Which miRNAs are detectable in serum?
+data("detectable_in_serum")
+common_miRNAs = intersect(colnames(ttpm), detectable_in_serum$miRNAs) # which miRNAs are expressed in tissues and are detectable in serum
+
+# Ony run once to create the split:
+merged = OmicSelector_prepare_split(metadane = dplyr::select(dataset, -starts_with("hsa")), ttpm = dplyr::select(ttpm, common_miRNAs))
+kable(table(merged$mix, merged$Class))
+
+
+# Sanity check from the ending part
+selected_miRNAs = make.names(c('hsa-miR-192-5p', 'hsa-let-7g-5p', 'hsa-let-7a-5p', 'hsa-miR-194-5p', 'hsa-miR-122-5p', 'hsa-miR-340-5p', 'hsa-miR-26b-5p'))
+match(selected_miRNAs, colnames(ttpm))
+```
+
