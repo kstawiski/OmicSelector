@@ -148,7 +148,7 @@ while (nowy < ile_maj) {
           # table(balanced$Class)
           
           
-          train_smoted = rbind(trainx2[trainx2$Class == major,], balanced[balanced$Class == minor,])
+          train_smoted = rbind(trainx2[trainx2$Class == maj,], balanced[balanced$Class == minor,])
           table(train_smoted$Class)
           # OmicSelector_PCA(dplyr::select(train_smoted, starts_with("hsa")), train_smoted$Class)
           cat("\nBalanced dataset was prepared.")
