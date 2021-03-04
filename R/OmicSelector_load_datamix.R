@@ -126,23 +126,23 @@ OmicSelector_load_datamix = function(wd = getwd(), smote_easy = T, smote_over = 
           trainx2 = cbind(trainx, `Class` = train$Class)
           trainx2$Class = as.factor(trainx2$Class)
           
-          trainx_minority =  trainx[train$Class == minor,]
-          ile_min = nrow(trainx_minority)
-          trainx_maj =  trainx[train$Class == maj,]
-          ile_maj = nrow(trainx_maj)
-          nowy = ile_min
-          perc = 1
-          balanced = trainx2
-          while (nowy < roznica) {
-            try({ 
-              balanced = DMwR::SMOTE(Class ~ ., trainx2, perc.over = perc)
-              balanced = balanced[complete.cases(balanced),]
-              b = table(balanced$Class)
-              nowy = b[minor] 
-              cat(paste0("\nPerc: ", perc, " --> Minority cases generated: ", b[minor], " < Minority cases needed: ", roznica)) 
-            })
-            perc = perc + 1
-          }
+trainx_minority =  trainx[train$Class == minor,]
+ile_min = nrow(trainx_minority)
+trainx_maj =  trainx[train$Class == maj,]
+ile_maj = nrow(trainx_maj)
+nowy = 0
+perc = 1
+balanced = trainx2
+while (nowy < ile_maj) {
+  try({ 
+    balanced = DMwR::SMOTE(Class ~ ., trainx2, perc.over = perc)
+    balanced = balanced[complete.cases(balanced),]
+    b = table(balanced$Class)
+    nowy = b[minor] 
+    cat(paste0("\nBALANCING WITH SMOTE: ", perc, " --> Minority cases generated: ", b[minor], " < Minority cases needed: ", ile_maj)) 
+  })
+  perc = perc + 1
+}
           # print(perc)
           # print(nowy)
           # table(balanced$Class)
