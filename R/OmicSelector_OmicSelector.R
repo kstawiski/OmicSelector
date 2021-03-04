@@ -151,12 +151,13 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
   istotne_topFC_smoted = wyniki_smoted %>% arrange(desc(abs(`log2FC`))) %>% head(prefer_no_features)
 
   # Caret prep
+  suppressMessages(library(doParallel))
+  registerDoSEQ()
   if (register_parallel) {
     OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Getting cluster ready for parallel computations...")
     if(is.null(clx)) {
-      suppressMessages(library(doParallel))
       cl <- makePSOCKcluster(useXDR = TRUE, detectCores())
-       registerDoParallel(cl)
+       egisterDoParallel(cl)
       on.exit(stopCluster(cl))
       }
     else { registerDoParallel(clx)
