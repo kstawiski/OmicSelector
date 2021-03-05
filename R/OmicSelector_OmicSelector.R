@@ -157,11 +157,11 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     OmicSelector_log(logfile = "temp/featureselection.log",  message_to_log = "Getting cluster ready for parallel computations...")
     if(is.null(clx)) {
       cl <- makePSOCKcluster(useXDR = TRUE, detectCores())
-       registerDoParallel(cl)
-      on.exit(stopCluster(cl))
+      registerDoParallel(cl)
+      #on.exit(stopCluster(cl))
       }
     else { registerDoParallel(clx)
-    on.exit(stopCluster(clx))
+    #on.exit(stopCluster(clx))
       }
   }
 
