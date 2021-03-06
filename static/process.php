@@ -540,6 +540,7 @@ switch($_GET['type'])
         $i = 0;
         foreach ($_POST['features'] as $selectedOption) {
             if($i == 0) { $featurevector .= '"'. $selectedOption .'"'; } else { $featurevector .= ',"'. $selectedOption .'"'; }
+            $i = $i + 1;
         }
         $featurevector .= ');';
 
