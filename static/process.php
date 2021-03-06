@@ -515,6 +515,19 @@ switch($_GET['type'])
         
         header("Location: /analysis.php?id=" . $analysis_id); die();
     break;
+
+    case "delete_set_from_final":
+        // Sanity check
+        $analysis_id = $_GET['id'];
+        $name = $_GET['name'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas = formulas[-which(names(formulas) == "'.$name.'")]; saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); formulascsv = formulascsv[-which(formulascsv == "'.$name.'"),]; data.table::fwrite(formulascsv, "featureselection_formulas_final.csv")';
+        exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
+        
+        header("Location: /analysis.php?id=" . $analysis_id); die();
+    break;
     
     case "delete_benchmark":
         // Sanity check

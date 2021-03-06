@@ -72,7 +72,7 @@ function konsta_readcsv_formulas($filename, $header = true)
         foreach ($csvcontents as $column) {
             if ($i == 1) {
                 echo "<td><code>$column</code></td>";
-                echo '<td><a href="/process.php?type=select_in_dataset&id=' . $_GET['id'] . '&method=' . $column . '"  class="btn btn-warning" ><i class="fas fa-download"></i></a></td>';
+                echo '<td><a href="/process.php?type=select_in_dataset&id=' . $_GET['id'] . '&method=' . $column . '"  class="btn btn-warning" ><i class="fas fa-download"></i></a>&emsp;<a href="/process.php?type=delete_set_from_final&id=' . $_GET['id'] . '&name=' . $column . '"  class="btn btn-danger" ><i class="fas fa-trash" onclick="return confirm(\'Are you sure that you want to delete this feature set from benchmarking?\')"></i></a></td>';
                 $i++;
             } else {
                 echo "<td><code>$column</code></td>";
