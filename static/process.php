@@ -528,6 +528,26 @@ switch($_GET['type'])
         
         header("Location: /analysis.php?id=" . $analysis_id); die();
     break;
+
+    case "add_own_feature_set":
+        // Sanity check
+        $analysis_id = $_GET['id'];
+        $name = $_GET['name'];
+        $target_dir = "/OmicSelector/" . $analysis_id . "/";
+        if (!file_exists($target_dir)) { die('Analysis not found.'); }
+
+        $featurevector = 'featurevector = c(';
+        $i = 0;
+        foreach ($_GET['features'] as $selectedOption) {
+            if($i == 0) { $featurevector .= '". $selectedOption ."'; } else { $featurevector .= ',". $selectedOption ."'; }
+        }
+        $featurevector .= ');';
+
+        $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas[["'.$name.'"]] = paste0("Class ~ ", paste0('.$featurevector.',collapse = " + ")); saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); new_row = data.frame(`name` = "'.$name.'", `formula` = paste0('.$featurevector.',collapse = " + "), `ile_miRNA` = "0"); formulascsv = rbind(formulascsv, new_row); data.table::fwrite(formulascsv, "featureselection_formulas_final.csv")';
+        exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
+        
+        header("Location: /analysis.php?id=" . $analysis_id); die();
+    break;
     
     case "delete_benchmark":
         // Sanity check

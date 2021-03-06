@@ -912,6 +912,33 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <p>
+                            <h4>Add own feature set:</h4>
+                            <form action="process.php?type=add_own_feature_set" method="get">
+                            <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
+                            <p>Analysis ID <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>:
+                                <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
+                            </p>
+                            <script>$(document).ready(function () { $('#features').select2(); }); </script>
+                            <select class="form-control" id="features" name="features[]" multiple="multiple">
+                            <?php
+                                    if (file_exists($target_dir . "DE_train.csv")) {
+                                        $types = array_map('str_getcsv', file($target_dir . "DE_train.csv"));
+                                        $i = 1;
+                                        foreach ($types as $row) {
+                                            if ($i > 1) {
+                                                $vals = explode(",", $row[0]);
+                                                echo  '<option value="' .  $vals[0] . '">' .  $vals[0] . '</option>';
+                                            }
+                                            $i = $i + 1;
+                                        }
+                                    } ?>
+                            </select>
+                            <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Adding feature set...');">
+                            <i class="fas fa-folder-plus"></i>&emsp;Add feature set
+                            </button>
+                        </p>
+                        
+                        <p>
                             <h4>Details:</h4>
 
                             <table class="table">
