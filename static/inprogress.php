@@ -141,7 +141,9 @@ else {
                 <div class="panel-body">
     <p><b>Task progress (log file, last 1000 lines):</b> (this is updated in the real-time)</p>
     <p></p><pre id="log"></pre></p>
-    <p><a href="/e/files/<?php echo $_GET['id']; ?>/task.log" class="btn btn-primary"><i class="fas fa-file-download"></i>&emsp;Download whole log file (text file)</a></p>
+    <p><a href="/e/files/<?php echo $_GET['id']; ?>/task.log" class="btn btn-primary"><i class="fas fa-file-download"></i>&emsp;Download whole log file (text file)</a>&emsp;
+<?php if($skonczone == 1) { ?><a href="/analysis.php?id=<?php echo $analysis_id; ?>" onclick="waitingDialog.show('Loading...');" class="btn btn-success"><i class="fas fa-chart-line"></i>&emsp;Go forward</a><?php } ?>
+    </p>
     <hr>
     <p>Process details:</p>
     <p><pre><?php echo $task_process; ?></pre></p>
