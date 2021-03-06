@@ -830,7 +830,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
 
   # conda_list()
-  try({ conda_create("wxnet", c("tensorflow-gpu","keras")) })
+  try({ conda_create("wxnet", c("tensorflow-gpu","keras","numpy","pandas", "xgboost", "scikit-learn", "tqdm", "pickle5")) })
   use_condaenv("wxnet", required = T)
   py_config()
 
