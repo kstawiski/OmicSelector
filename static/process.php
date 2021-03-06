@@ -531,14 +531,14 @@ switch($_GET['type'])
 
     case "add_own_feature_set":
         // Sanity check
-        $analysis_id = $_GET['id'];
-        $name = $_GET['name'];
+        $analysis_id = $_POST['id'];
+        $name = $_POST['name'];
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
         if (!file_exists($target_dir)) { die('Analysis not found.'); }
 
         $featurevector = 'featurevector = c(';
         $i = 0;
-        foreach ($_GET['features'] as $selectedOption) {
+        foreach ($_POST['features'] as $selectedOption) {
             if($i == 0) { $featurevector .= '". $selectedOption ."'; } else { $featurevector .= ',". $selectedOption ."'; }
         }
         $featurevector .= ');';

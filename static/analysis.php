@@ -912,13 +912,16 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <p>
-                            <h4>Add own feature set:</h4>
-                            <form action="process.php?type=add_own_feature_set" method="get">
+                            <h5>Add own feature set:</h5>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                            <script>$(document).ready(function () { $('#features').select2(); }); </script>
+                            <form action="process.php?type=add_own_feature_set" method="post">
                             <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
                             <p>Name of feature set:<i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>:
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
                             </p>
-                            <select class="form-control" id="features" name="features[]" multiple="multiple">
+                            <p><select class="form-control" id="features" name="features[]" multiple="multiple">
                             <?php
                                     if (file_exists($target_dir . "DE_train.csv")) {
                                         $types = array_map('str_getcsv', file($target_dir . "DE_train.csv"));
@@ -931,13 +934,11 @@ function konsta_readcsv_formulas($filename, $header = true)
                                             $i = $i + 1;
                                         }
                                     } ?>
-                            </select>
-                            <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Adding feature set...');">
+                            </select></p>
+                            <p><button type="submit" class="btn btn-success" name="submit" onclick="waitingDialog.show('Adding feature set...');">
                             <i class="fas fa-folder-plus"></i>&emsp;Add feature set
-                            </button>
-                                </form>
-                        </p>
-                        
+                            </button></p>
+                        </form>
                         <p>
                             <h4>Details:</h4>
 
@@ -1233,10 +1234,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <div class="form-group">
                                 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
                                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-                                <script>$(document).ready(function () { $('#modelid').select2();
-                                                                    if ($('#features').exists()) {
-                                        $('#features').select2();
-                                    } }); </script>
+                                <script>$(document).ready(function () { $('#modelid').select2(); }); </script>
                                 <form action="/deeplearning_model/" method="get" target="_blank">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
                                 <p><select class="form-control" name="modelid" id="modelid">
