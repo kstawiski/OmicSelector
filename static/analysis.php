@@ -490,7 +490,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <p>
                             <font size="1">Notes: <i>By the defult all the methods are selected, but you can turn some of them off.</i></font>
                         </p>
-                        <button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard-check"></i>&emsp;Deselect all</button>
+                        <p style="text-align:right;"><button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard"></i>&emsp;Deselect all</button></p>
                         <table class="table">
                             <form action="process.php?type=new_fs" method="post">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
@@ -996,7 +996,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>
                                 <font size="1">Notes: <i>By the defult all the methods are selected, but you can turn some of them off.</i></font>
                             </p>
-                            <button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard-check"></i>&emsp;Deselect all</button>
+                            <p style="text-align:right;"><button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard"></i>&emsp;Deselect all</button></p>
                             <table class="table">
                                 <form action="process.php?type=new_benchmark" method="post">
                                     <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
