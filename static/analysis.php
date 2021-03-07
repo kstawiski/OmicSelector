@@ -490,6 +490,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <p>
                             <font size="1">Notes: <i>By the defult all the methods are selected, but you can turn some of them off.</i></font>
                         </p>
+                        <button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard-check"></i>&emsp;Deselect all</button>
                         <table class="table">
                             <form action="process.php?type=new_fs" method="post">
                                 <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
@@ -931,7 +932,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 </script>
                                 <form action="process.php?type=add_own_feature_set" method="post">
                                     <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
-                                    <p>Name of feature set: <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>
+                                    <p>Name of feature set: <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric; if you want use balanced set for this feature set - do not remember to add <code>SMOTE</code> to the name)</i>
                                         <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
                                     </p>
                                     <p>Features in this set: <i>(please select)</i></p>
@@ -995,6 +996,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>
                                 <font size="1">Notes: <i>By the defult all the methods are selected, but you can turn some of them off.</i></font>
                             </p>
+                            <button class="btn btn-light" onclick="$('input[type=checkbox]:not(:checked)').click();"><i class="fas fa-clipboard-check"></i>&emsp;Select all</button>&emsp;<button class="btn btn-light" onclick="$('input[type=checkbox]:checked').click();"><i class="fas fa-clipboard-check"></i>&emsp;Deselect all</button>
                             <table class="table">
                                 <form action="process.php?type=new_benchmark" method="post">
                                     <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
