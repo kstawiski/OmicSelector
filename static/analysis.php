@@ -912,8 +912,14 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <p>
-                            <h5>Add own feature set:</h5>
-                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                        <div class="panel panel-success">
+            <div class="panel-heading clickable">
+                <h3 class="panel-title" id="deep_learning">
+                    <i class="fas fa-plus"></i>&emsp;Add own feature set
+                </h3>
+            </div>
+            <div class="panel-body">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
                             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
                             <script>$(document).ready(function () { $('#features').select2(); }); </script>
                             <form action="process.php?type=add_own_feature_set" method="post">
@@ -939,6 +945,10 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <i class="fas fa-folder-plus"></i>&emsp;Add feature set
                             </button></p>
                         </form>
+            </div>
+        </div>
+
+                                </p>
                         <p>
                             <h4>Details:</h4>
 

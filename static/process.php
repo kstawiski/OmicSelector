@@ -544,7 +544,8 @@ switch($_GET['type'])
         }
         $featurevector .= ');';
 
-        $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas[["'.$name.'"]] = paste0("Class ~ ", paste0('.$featurevector.',collapse = " + ")); saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); new_row = data.frame(`name` = "'.$name.'", `formula` = paste0('.$featurevector.',collapse = " + "), `ile_miRNA` = "0"); formulascsv = rbind(formulascsv, new_row); data.table::fwrite(formulascsv, "featureselection_formulas_final.csv")';
+        $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas[["'.$name.'"]] = paste0("Class ~ ", paste0('.$featurevector.',collapse = " + ")); saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); new_row = data.frame(`name` = "'.$name.'", `formula` = paste0('.$featurevector.',collapse = " + "), `ile_miRNA` = "0"); formulascsv = rbind(formulascsv, new_row); data.table::fwrite(formulascsv, "featureselection_formulas_final.csv");';
+        error_log($skrypt);
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
         header("Location: /analysis.php?id=" . $analysis_id); die();
