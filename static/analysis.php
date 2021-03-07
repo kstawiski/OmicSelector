@@ -911,7 +911,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <font size="1">Notes: This table presents final formulas. <a href="https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
-                        <p>
+                        <<select>
                         <div class="panel panel-default autocollapse">
             <div class="panel-heading clickable">
                 <h3 class="panel-title" id="deep_learning">
@@ -927,7 +927,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>Name of feature set:<i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
                             </p>
-                            <p>Features in this set: <i>(please select)</i><select class="form-control" id="features" name="features[]" multiple="multiple">
+                            <p>Features in this set: <i>(please select)</i></p>
+                            <p><select class="form-control" id="features" name="features[]" multiple="multiple">
                             <?php
                                     if (file_exists($target_dir . "DE_train.csv")) {
                                         $types = array_map('str_getcsv', file($target_dir . "DE_train.csv"));
