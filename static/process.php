@@ -536,6 +536,13 @@ switch($_GET['type'])
         $target_dir = "/OmicSelector/" . $analysis_id . "/";
         if (!file_exists($target_dir)) { die('Analysis not found.'); }
 
+        if(validate_analysisid_chars($name) && strlen($name) < 17){
+            // echo "Yes, It's an alphanumeric string/text";
+       } else {
+           $msg = $msg . "The analysis ID is too long, not an alphanumeric text or the analysis with the same ID already exists. ";
+           die($msg);
+       }
+
         $featurevector = 'featurevector = c(';
         $i = 0;
         foreach ($_POST['features'] as $selectedOption) {

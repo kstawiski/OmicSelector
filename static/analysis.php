@@ -931,11 +931,11 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 </script>
                                 <form action="process.php?type=add_own_feature_set" method="post">
                                     <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
-                                    <p>Name of feature set:<i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>
+                                    <p>Name of feature set: <i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>
                                         <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
                                     </p>
                                     <p>Features in this set: <i>(please select)</i></p>
-                                    <select class="form-control" id="features" name="features[]" multiple="multiple">
+                                    <p><select style="width:100%;" class="form-control" id="features" name="features[]" multiple="multiple">
                                             <?php
                                             if (file_exists($target_dir . "DE_train.csv")) {
                                                 $types = array_map('str_getcsv', file($target_dir . "DE_train.csv"));
@@ -948,7 +948,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                                     $i = $i + 1;
                                                 }
                                             } ?>
-                                    </select>
+                                    </select></p>
                                     <p><button type="submit" class="btn btn-success" name="submit" onclick="waitingDialog.show('Adding feature set...');">
                                             <i class="fas fa-folder-plus"></i>&emsp;Add feature set
                                         </button></p>
@@ -956,7 +956,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             </div>
                         </div>
 
-                        </<select>
+                        </p<select>
                         <hr>
                         <p>
                             <h4>Details:</h4>
