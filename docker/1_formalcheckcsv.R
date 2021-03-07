@@ -89,6 +89,14 @@ if("mix" %in% colnames(dane)) {
     mixed = rbind(train,test,valid)
     fwrite(mixed, "data_start.csv")
     fwrite(mixed, "mixed.csv")
+
+    if(sum(which(dane$mix == 'train_balanced')) > 0) {
+        train_balanced = dplyr::filter(dane, mix == "train_balanced")
+        fwrite(train_balanced, "mixed_train_balanced.csv")
+        cat(paste0("\n✓ Balanced training set file was retored.")));
+    } 
+    merged = rbind(train,test,valid, train_balanced)
+    fwrite(merged, "merged.csv")
 } else {
     cat("\n✓ The data is not splitted, i.e. doesn't have 'train', 'test' and 'valid' in 'mix' variable. We will perform data splitting (60% train, 20% test, 20% valid). ");
     metadane = dplyr::select(dane, -starts_with("hsa"))
@@ -110,6 +118,9 @@ if("mix" %in% colnames(dane)) {
     mixed = rbind(train,test,valid)
     fwrite(mixed, "mixed.csv")
 }
+
+
+
 
 dane = OmicSelector_load_datamix(use_smote_not_rose = T)  # load mixed_*.csv files
 train = dane[[1]]
