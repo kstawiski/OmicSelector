@@ -93,7 +93,7 @@ if("mix" %in% colnames(dane)) {
     if(sum(which(dane$mix == 'train_balanced')) > 0) {
         train_balanced = dplyr::filter(dane, mix == "train_balanced")
         fwrite(train_balanced, "mixed_train_balanced.csv")
-        cat(paste0("\n✓ Balanced training set file was retored.")));
+        cat(paste0("\n✓ Balanced training set file was retored."))
     } 
     merged = rbind(train,test,valid, train_balanced)
     fwrite(merged, "merged.csv")
