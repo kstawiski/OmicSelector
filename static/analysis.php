@@ -912,7 +912,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <p>
-                        <div class="panel panel-success">
+                        <div class="panel panel-default autocollapse">
             <div class="panel-heading clickable">
                 <h3 class="panel-title" id="deep_learning">
                     <i class="fas fa-plus"></i>&emsp;Add own feature set
@@ -949,7 +949,7 @@ function konsta_readcsv_formulas($filename, $header = true)
         </div>
 
                                 </p>
-                        <p>
+                        <hr><p>
                             <h4>Details:</h4>
 
                             <table class="table">

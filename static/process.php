@@ -542,7 +542,7 @@ switch($_GET['type'])
             if($i == 0) { $featurevector .= '"'. $selectedOption .'"'; } else { $featurevector .= ',"'. $selectedOption .'"'; }
             $i = $i + 1;
         }
-        $featurevector .= ');';
+        $featurevector .= ')';
 
         $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas[["'.$name.'"]] = paste0("Class ~ ", paste0('.$featurevector.',collapse = " + ")); saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); new_row = data.frame(`name` = "'.$name.'", `formula` = paste0('.$featurevector.',collapse = " + "), `ile_miRNA` = "0"); formulascsv = rbind(formulascsv, new_row); data.table::fwrite(formulascsv, "featureselection_formulas_final.csv");';
         error_log($skrypt);
