@@ -927,7 +927,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>Name of feature set:<i>(you can set your custom analysis name up to 16 characters, it has to be alphanumeric)</i>:
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo uniqid(); ?>">
                             </p>
-                            <p><select class="form-control" id="features" name="features[]" multiple="multiple">
+                            <p>Features in this set: <i>(please select)</i><select class="form-control" id="features" name="features[]" multiple="multiple">
                             <?php
                                     if (file_exists($target_dir . "DE_train.csv")) {
                                         $types = array_map('str_getcsv', file($target_dir . "DE_train.csv"));
