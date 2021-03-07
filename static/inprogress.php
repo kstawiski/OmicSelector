@@ -132,6 +132,7 @@ else {
         if(feedback.includes(substring)) { location.reload(); }
 
         $('#log').html(feedback);
+        $('#log').animate({scrollTop:document.getElementById("log").scrollHeight}, 'slow');
     }
 });</script>
 	<?php } ?>
