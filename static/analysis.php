@@ -419,7 +419,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                 </div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-success">
                 <div class="panel-heading"><i class="fas fa-chart-bar"></i>&emsp;&emsp;Exploratory analysis</div>
                 <div class="panel-body">
                     <?php
@@ -1161,7 +1161,7 @@ function konsta_readcsv_formulas($filename, $header = true)
 <div class="panel panel-warning">
     <div class="panel-heading"><i class="fas fa-puzzle-piece"></i>&emsp;&emsp;Post-analysis extensions</div>
     <div class="panel-body">
-        <div class="panel panel-success">
+        <div class="panel panel-primary">
             <div class="panel-heading clickable">
                 <h3 class="panel-title" id="deep_learning">
                     <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Training deep neural networks with grid search of hyperparameters.
@@ -1226,7 +1226,7 @@ function konsta_readcsv_formulas($filename, $header = true)
 
 
         <?php if (file_exists($target_dir . "deeplearning.csv")) { ?>
-            <div class="panel panel-danger">
+            <div class="panel panel-success">
                 <div class="panel-heading clickable">
                     <h3 class="panel-title" id="deep_learning_results">
                         <i class="fas fa-code-branch"></i>&emsp;<b>[DEEP LEARNING]</b> Deep neural networks - results.
