@@ -910,14 +910,14 @@ function konsta_readcsv_formulas($filename, $header = true)
                     <div class="panel-heading"><i class="fas fa-microscope"></i>&emsp;&emsp;Feature selection</div>
                     <div class="panel-body">
                         <p>
-                            <h3>Final set of feature sets selected for further evaluation:</h3>
+                            <h3 id="feature_selection">Final set of feature sets selected for further evaluation:</h3>
                             <br />
                             <font size="1">Notes: This table presents final formulas. <a href="https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <div class="panel panel-default autocollapse">
                             <div class="panel-heading clickable">
-                                <h3 class="panel-title" id="deep_learning">
+                                <h3 class="panel-title" id="add_own_feature_set">
                                     <i class="fas fa-plus"></i>&emsp;Add own feature set
                                 </h3>
                             </div>

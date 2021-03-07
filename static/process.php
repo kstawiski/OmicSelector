@@ -526,7 +526,7 @@ switch($_GET['type'])
         $skrypt = 'formulas = readRDS("featureselection_formulas_final.RDS"); formulas = formulas[-which(names(formulas) == "'.$name.'")]; saveRDS(formulas, "featureselection_formulas_final.RDS"); formulascsv = data.table::fread("featureselection_formulas_final.csv"); formulascsv = formulascsv[-which(formulascsv == "'.$name.'"),]; data.table::fwrite(formulascsv, "featureselection_formulas_final.csv")';
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
-        header("Location: /analysis.php?id=" . $analysis_id); die();
+        header("Location: /analysis.php?id=" . $analysis_id . "#feature_selection"); die();
     break;
 
     case "add_own_feature_set":
@@ -555,7 +555,7 @@ switch($_GET['type'])
         error_log($skrypt);
         exec("cd " . $target_dir . " && Rscript -e '" . $skrypt . "'");
         
-        header("Location: /analysis.php?id=" . $analysis_id); die();
+        header("Location: /analysis.php?id=" . $analysis_id . "#feature_selection"); die();
     break;
     
     case "delete_benchmark":
