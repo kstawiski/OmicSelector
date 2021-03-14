@@ -90,15 +90,26 @@ if("mix" %in% colnames(dane)) {
     mixed = rbind(train,test,valid)
     fwrite(mixed, "data_start.csv")
     fwrite(mixed, "mixed.csv")
-    merged = rbind(train,test,valid)
 
     if(sum(which(dane$mix == 'train_balanced')) > 0) {
         train_balanced = dplyr::filter(dane, mix == "train_balanced")
         fwrite(train_balanced, "mixed_train_balanced.csv")
         OmicSelector_log(paste0("\n✓ Balanced training set file was retored."))
-        merged = rbind(train,test,valid, train_balanced)
+        
     } 
+    
+    dane = OmicSelector_load_datamix(use_smote_not_rose = T)  # load mixed_*.csv files
+    train = dane[[1]]
+    test = dane[[2]]
+    valid = dane[[3]]
+    train_smoted = dane[[4]]
+    train$mix = "train"
+    test$mix = "test"
+    valid$mix = "valid"
+    train_smoted$mix = "train_balanced"
+    merged = rbind(train,test,valid, train_smoted)
     fwrite(merged, "merged.csv")
+
 } else {
     OmicSelector_log("\n✓ The data is not splitted, i.e. doesn't have 'train', 'test' and 'valid' in 'mix' variable. We will perform data splitting (60% train, 20% test, 20% valid). ");
     metadane = dplyr::select(dane, -starts_with("hsa"))
@@ -131,7 +142,7 @@ valid = dane[[3]]
 train_smoted = dane[[4]]
 trainx = dane[[5]]
 trainx_smoted = dane[[6]]  # get the objects from list to make the code more readable.
-OmicSelector_log("\n✓ All datasets can be loaded. SMOTE-based balancing can be performed. ");
+OmicSelector_log("\n✓ All datasets can be loaded. SMOTE-based balanced dataset can be loaded. ");
 
 OmicSelector_log("Performing DE analysis...");
 type = readLines("var_type.txt", warn = F)
