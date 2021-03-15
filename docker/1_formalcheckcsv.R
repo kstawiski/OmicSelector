@@ -1,7 +1,10 @@
-OmicSelector_log("Welcome! Loading OmicSelector...");
-options(warn=-1)
+if(file.exists("task.log")) { file.remove("task.log") }
 suppressMessages(suppressMessages(library(data.table)))
 suppressMessages(suppressMessages(library(dplyr)))
+library(OmicSelector)
+OmicSelector_log("Welcome! OmicSelector id loaded.");
+options(warn=-1)
+
 writeLines("ERROR", "var_initcheck.txt", sep="")
 if(file.exists("data.csv")) { dane = fread("data.csv") } else {
     if(file.exists("data.xlsx")) { dane = xlsx::read.xlsx("data.xlsx",sheetIndex=1) }
