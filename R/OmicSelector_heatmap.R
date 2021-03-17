@@ -44,7 +44,7 @@ OmicSelector_heatmap = function(x = trainx[,1:10], rlab = data.frame(Batch = dan
     rlab[,i] = as.factor(rlab[,i])
     o_ile = as.numeric(length(unique(rlab[,i])))
     #assigcode = c(assigcode, as.character(unique(rlab[,i]))) -> bug
-    assigcode = c(assigcode, as.character(rev(levels(rlab[, i]))))
+    assigcode = c(assigcode, as.character(levels(rlab[, i])))
     assigcolor = c(assigcolor, kolory[kolor_i:(kolor_i+o_ile-1)])
     #levels(rlab[,i]) = topo.colors(length(unique(rlab[,i])))
     levels(rlab[,i]) = kolory[kolor_i:(kolor_i+o_ile-1)]

@@ -1,7 +1,7 @@
 if(file.exists("task.log")) { file.remove("task.log") }
 suppressMessages(suppressMessages(library(data.table)))
 suppressMessages(suppressMessages(library(dplyr)))
-library(OmicSelector)
+suppressMessages(suppressMessages(library(OmicSelector)))
 OmicSelector_log("Welcome! OmicSelector id loaded.");
 options(warn=-1)
 
