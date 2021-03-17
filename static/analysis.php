@@ -1251,7 +1251,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             </tr>
                             <tr>
                                 <td>Merge:</td>
-                                <td><a href="process.php?type=merge_deeplearning&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a>
+                                <td><a href="process.php?type=merge_deeplearning&id=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-download"></i> Merge all deep learning runs and download results</a>
                                     <br />
                                     <font size="1">Note: Merging is require for networks analysis and exporting.</font>
                                 </td>
