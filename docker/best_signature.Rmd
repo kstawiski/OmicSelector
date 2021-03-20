@@ -320,10 +320,10 @@ for (i in 1:length(methods))
     temp_testAcc = benchmark_results[ii, paste0(current_method,"_test_Accuracy")]
     temp_validAcc = benchmark_results[ii, paste0(current_method,"_valid_Accuracy")]
     temp_metaindex = psych::harmonic.mean(c(temp_trainAcc, temp_testAcc, temp_validAcc))
-    model_results = rbind(model_results, c(temp_name, temp_id, temp_fsmethod, temp_method, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex, temp_metaindex2))
+    model_results = rbind(model_results, c(temp_name, temp_id, temp_fsmethod, temp_method, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex))
   }
 }
-colnames(model_results) = c("Name", "ID", "Modelling Method","Selection Method","Train ROC AUC", "Train Acc", "Test Acc", "Valid Acc", "Metaindex", "Metaindex2")
+colnames(model_results) = c("Name", "ID", "Modelling Method","Selection Method","Train ROC AUC", "Train Acc", "Test Acc", "Valid Acc", "Metaindex")
 model_results = model_results[rev(order(model_results$Metaindex)),]
 model_results = model_results[complete.cases(model_results),]
 data.table::fwrite(model_results, "model_results.csv")
@@ -366,40 +366,7 @@ pred = predict(bestmodel, valid)
 caret::confusionMatrix(pred, valid$Class, positive = "Case")
 ```
 
-#### Best classifier for metaindex2:
-
-Metrics on training set:
-
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-model_file = paste0("models/",model_results[which(model_results$Metaindex2 == max(model_results$Metaindex2))[1],"ID"],".RDS")
-bestmodel = readRDS(model_file)
-predtrain_y = predict(bestmodel, train, type="prob")[,"Case"]
-predtrain = predict(bestmodel, train)
-caret::confusionMatrix(predtrain, train$Class, positive = "Case")
-
-trainroc = pROC::roc(train$Class ~ predtrain_y)
-cat(paste0("Model file: ", model_file))
-print(trainroc)
-pROC::ci(trainroc)
-plot(trainroc)
-```
-
-Metrics on testing set:
-
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, test, type="prob")[,"Case"]
-pred = predict(bestmodel, test)
-caret::confusionMatrix(pred, test$Class, positive = "Case")
-```
-
-Metrics on validation set:
-
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-pred_y = predict(bestmodel, valid, type="prob")[,"Case"]
-pred = predict(bestmodel, valid)
-caret::confusionMatrix(pred, valid$Class, positive = "Case")
-```
-
+This is the end. 
 Timestamp of the analysis:
 
 ```{r echo = FALSE}
