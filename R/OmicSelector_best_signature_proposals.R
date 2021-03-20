@@ -55,6 +55,7 @@ OmicSelector_best_signature_proposals = function(benchmark_csv = "benchmark15789
    }
   acc$method = rownames(benchmark)
   acc$miRy = benchmark$miRy
+  acc = cbind(acc, benchmark)
   rownames(acc) = make.names(benchmark$method, unique = T)
   acc = acc %>% arrange(desc(metaindex))
   return(acc)
