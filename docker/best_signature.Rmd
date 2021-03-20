@@ -14,6 +14,8 @@ output:
   html_document:
     theme: null
     highlight: null
+    toc: true
+    toc_depth: 2
 ---
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
@@ -55,7 +57,7 @@ par(mfrow = c(1, 1))
 
 #### Top 3 sets which achived the best accuracy in training, testing and validation:
 
-(metaindex = mean of all 3 accuracy metrics)
+(metaindex = harmonic mean of all 3 accuracy metrics)
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 acc = OmicSelector_best_signature_proposals(benchmark_csv = "benchmark.csv", without_train = F)  # generates the benchmark sorted by metaindex
@@ -317,8 +319,7 @@ for (i in 1:length(methods))
     temp_trainAcc = benchmark_results[ii, paste0(current_method,"_train_Accuracy")]
     temp_testAcc = benchmark_results[ii, paste0(current_method,"_test_Accuracy")]
     temp_validAcc = benchmark_results[ii, paste0(current_method,"_valid_Accuracy")]
-    temp_metaindex = mean(c(temp_trainAcc, temp_testAcc, temp_validAcc))
-    temp_metaindex2 = mean(c(temp_testAcc, temp_validAcc))
+    temp_metaindex = psych::harmonic.mean(c(temp_trainAcc, temp_testAcc, temp_validAcc))
     model_results = rbind(model_results, c(temp_name, temp_id, temp_fsmethod, temp_method, temp_AUC, temp_trainAcc, temp_testAcc, temp_validAcc, temp_metaindex, temp_metaindex2))
   }
 }
@@ -343,6 +344,7 @@ predtrain = predict(bestmodel, train)
 caret::confusionMatrix(predtrain, train$Class, positive = "Case")
 
 trainroc = pROC::roc(train$Class ~ predtrain_y)
+cat(paste0("Model file: ", model_file))
 print(trainroc)
 pROC::ci(trainroc)
 plot(trainroc)
@@ -376,6 +378,7 @@ predtrain = predict(bestmodel, train)
 caret::confusionMatrix(predtrain, train$Class, positive = "Case")
 
 trainroc = pROC::roc(train$Class ~ predtrain_y)
+cat(paste0("Model file: ", model_file))
 print(trainroc)
 pROC::ci(trainroc)
 plot(trainroc)
@@ -396,6 +399,8 @@ pred_y = predict(bestmodel, valid, type="prob")[,"Case"]
 pred = predict(bestmodel, valid)
 caret::confusionMatrix(pred, valid$Class, positive = "Case")
 ```
+
+Timestamp of the analysis:
 
 ```{r echo = FALSE}
 OmicSelector_log("[OmicSelector: TASK COMPLETED]","task.log")
