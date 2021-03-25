@@ -10,13 +10,14 @@
 #' @param filtr If expression filter should be used.
 #' @param filtr_minimalcounts How many counts?
 #' @param filtr_howmany In how many samples? (Please provide a percentage or proportion, e.g. 1/2 or 1/3).
+#' @param increment Increment added to TPM values before log-transformation (usually: 0.001, so -3 will be equalt to lack of expression).
 #'
 #' @return Normalized counts in `ttpm` format. Please note, that the function also saves `TPM_DGEList_filtered.rds` to working directory, which is a DGEList object that can be used in packages like edgeR.
 #'
 #' @export
 
 OmicSelector_counts_to_log10tpm = function(danex, metadane = metadane, ids = metadane$ID, filtr = T,
-                                 filtr_minimalcounts = 10, filtr_howmany = 1/2) {
+                                 filtr_minimalcounts = 10, filtr_howmany = 1/2, increment = 0.001) {
   suppressMessages(library(plyr))
   suppressMessages(library(dplyr))
   suppressMessages(library(edgeR))
@@ -62,7 +63,7 @@ OmicSelector_counts_to_log10tpm = function(danex, metadane = metadane, ids = met
   # Normalizacja do TPM
   dane3 = DGEList(counts=dane_counts, genes=data.frame(miR = rownames(dane_counts)), samples = metadane)
   tpm = cpm(dane3, normalized.lib.sizes=F, log = F, prior.count = 0.001)
-  tpm = tpm + 0.001
+  tpm = tpm + increment
   tpm = log10(tpm)
   ttpm = t(tpm)
   saveRDS(dane3,"TPM_DGEList.rds")
