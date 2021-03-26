@@ -32,4 +32,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Rpackage
-          path: ../OmicSelector_1.0.0.tar.gz
+          path: OmicSelector_1.0.0.tar.gz
