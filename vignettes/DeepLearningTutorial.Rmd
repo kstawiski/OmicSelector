@@ -8,7 +8,7 @@ package: OmicSelector
 output: 
   BiocStyle::html_document
 vignette: >
-  %\VignetteIndexEntry{Tutorial}
+  %\VignetteIndexEntry{DeepLearningTutorial}
   %\VignetteEncoding{UTF-8}  
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

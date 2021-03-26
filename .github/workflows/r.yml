@@ -24,3 +24,12 @@ jobs:
       - name: Check loading
         run: |
           Rscript -e 'library(OmicSelector); sessionInfo();'
+
+      - name: Build package
+        run: | 
+          cd .. && pwd && R CMD build OmicSelector
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Rpackage
+          path: ../OmicSelector_1.0.0.tar.gz
