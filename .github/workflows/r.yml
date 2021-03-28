@@ -28,9 +28,9 @@ jobs:
 
       - name: Build package
         run: | 
-          cd .. && pwd && R CMD build --no-build-vignettes OmicSelector
+          R CMD build --no-build-vignettes .
 
       - uses: actions/upload-artifact@v2
         with:
           name: Rpackage
-          path: OmicSelector_*.tar.gz
+          path: OmicSelector_1.0.0.tar.gz
