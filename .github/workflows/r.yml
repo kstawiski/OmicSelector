@@ -37,9 +37,29 @@ jobs:
           name: Rpackage
           path: OmicSelector_1.0.0.tar.gz
           
+      # Removes the latest release, so that we can create a new one in its place
+      - name: Delete latest release
+        uses: ame-yu/action-delete-latest-release@v2
+        continue-on-error: true # in case there's no existing release
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # (optional) Removes the tag associated with the latest release
+      - name: Delete release tag
+        run: |
+          git tag -d release
+          git push origin :release
+        continue-on-error: true # in case there's no existing release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: OmicSelector_1.0.0.tar.gz
+          body: "OmicSelector - latest version"
+          name: Latest
+          tag_name: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
