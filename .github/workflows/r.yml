@@ -30,7 +30,15 @@ jobs:
         run: | 
           R CMD build --no-build-vignettes .
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
           name: Rpackage
           path: OmicSelector_1.0.0.tar.gz
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: OmicSelector_1.0.0.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
