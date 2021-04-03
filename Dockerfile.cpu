@@ -1,11 +1,11 @@
-FROM nvidia/cuda:11.1.1-devel-ubuntu20.04
-
+FROM ubuntu
 ENV PUBLIC=0
+
 # Basic build setup
 ENV DEBIAN_FRONTEND noninteractive
 ENV CRAN_URL https://cloud.r-project.org/
 ENV TZ=Europe/Warsaw
-RUN chsh -s /bin/bash root && echo 'SHELL=/bin/bash' >> /etc/environment && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && apt update && apt dist-upgrade -y && apt-get install -y pciutils libkmod-dev libv8-dev mc libglu1-mesa-dev libgit2-dev gdebi uuid apt-transport-https screen libfontconfig1-dev build-essential libxml2-dev xorg ca-certificates cmake curl git libatlas-base-dev libcurl4-openssl-dev libjemalloc-dev liblapack-dev libopenblas-dev libopencv-dev libzmq3-dev software-properties-common sudo unzip wget && add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update && apt install -y build-essential libmagick++-dev libbz2-dev libpcre2-16-0 libpcre2-32-0 libpcre2-8-0 libpcre2-dev fort77 xorg-dev liblzma-dev  libblas-dev gfortran gcc-multilib gobjc++ libreadline-dev && apt install -y pandoc texinfo texlive-fonts-extra texlive libcairo2-dev freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev libopenblas-dev liblapack-dev libopencv-dev build-essential git gcc cmake libcairo2-dev libxml2-dev texlive-full texlive-xetex ttf-mscorefonts-installer build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+RUN chsh -s /bin/bash root && echo 'SHELL=/bin/bash' >> /etc/environment && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && apt update && apt dist-upgrade -y && apt-get install -y pciutils libkmod-dev libv8-dev mc gdebi libgit2-dev uuid libglu1-mesa-dev apt-transport-https screen build-essential libxml2-dev xorg ca-certificates cmake curl git libatlas-base-dev libcurl4-openssl-dev libjemalloc-dev liblapack-dev libopenblas-dev libopencv-dev libzmq3-dev software-properties-common sudo unzip wget && add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update && apt install -y build-essential libmagick++-dev libbz2-dev libpcre2-16-0 libpcre2-32-0 libpcre2-8-0 libpcre2-dev fort77 xorg-dev liblzma-dev  libblas-dev gfortran gcc-multilib gobjc++ libreadline-dev && apt install -y pandoc texinfo texlive-fonts-extra texlive libcairo2-dev freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev libopenblas-dev liblapack-dev libopencv-dev build-essential git gcc cmake libcairo2-dev libxml2-dev texlive-full texlive-xetex ttf-mscorefonts-installer build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 # Install Anaconda
@@ -21,21 +21,21 @@ RUN rm Miniconda3-latest-Linux-x86_64.sh &&\
 ENV TENSORFLOW_PYTHON /opt/conda/bin/python
 ENV RETICULATE_PYTHON /opt/conda/bin/python
 
+
 # Keras, tensorflow, jupyter
-ENV OPENGL_gl_LIBRARY /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
-ENV OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so.1
 RUN apt-get update --fix-missing && \
     apt-get install -y apt-utils libxml2-dev sshfs cifs-utils libffi-dev libx11-dev mesa-common-dev libfreetype6-dev libglu1-mesa-dev libssl-dev wget bzip2 ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libxext6 libsm6 libxrender1 gfortran-7 gcc-7 libglu1-mesa-dev freeglut3-dev mesa-common-dev && apt-get clean && \
-    conda update --all && conda install mamba -c conda-forge && mamba install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow-gpu keras jupyter jupytext numpy pandas opencv && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+    conda update --all && conda install mamba -c conda-forge && mamba install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas opencv && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
 
 # R:
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -sc)-cran40/" && apt update && apt -y dist-upgrade && apt install -y r-base-dev texlive-full texlive-xetex ttf-mscorefonts-installer r-recommended build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && Rscript -e "install.packages(c('remotes','devtools','BiocManager','keras','rgl','rJava'))"
 
-
 # Speed up compliation in R:
-# RUN mkdir $HOME/.ccache && mkdir $HOME/.R && echo -e 'CXX_STD = CXX14\n\nVER=\nCCACHE=ccache\nCC=$(CCACHE) gcc$(VER) -std=gnu99\nCXX=$(CCACHE) g++$(VER)\nC11=$(CCACHE) g++$(VER)\nC14=$(CCACHE) g++$(VER)\nFC=$(CCACHE) gfortran$(VER)\nF77=$(CCACHE) gfortran$(VER)' > $HOME/.R/Makevars && echo -e 'max_size = 5.0G\nsloppiness = include_file_ctime\nhash_dir=false' > $HOME/.ccache/ccache.conf
+#RUN mkdir $HOME/.ccache && mkdir $HOME/.R && echo -e 'CXX_STD = CXX14\n\nVER=\nCCACHE=ccache\nCC=$(CCACHE) gcc$(VER) -std=gnu99\nCXX=$(CCACHE) g++$(VER)\nC11=$(CCACHE) g++$(VER)\nC14=$(CCACHE) g++$(VER)\nFC=$(CCACHE) gfortran$(VER)\nF77=$(CCACHE) gfortran$(VER)' > $HOME/.R/Makevars && echo -e 'max_size = 5.0G\nsloppiness = include_file_ctime\nhash_dir=false' > $HOME/.ccache/ccache.conf
 
 
+# R:
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -sc)-cran40/" && apt update && apt -y dist-upgrade && apt install -y r-base-dev texlive-full texlive-xetex ttf-mscorefonts-installer r-recommended build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && Rscript -e "install.packages(c('remotes','devtools','BiocManager','keras'))"
 
 # Setup R env
 COPY vignettes/setup.R /
@@ -68,8 +68,7 @@ RUN pip install nbzip && jupyter serverextension enable --py nbzip --sys-prefix 
 RUN apt-get install -y libclang-dev && wget https://www.rstudio.org/download/latest/stable/server/bionic/rstudio-server-latest-amd64.deb && dpkg -i rstudio-server-latest-amd64.deb && apt -f -y install && cd / && rm rstudio-server-latest-amd64.deb 
 
 # MXNET:
-# RUN wget https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh && chmod +x install-opencv.sh && ./install-opencv.sh
-# RUN apt-get install -y libopencv-dev && Rscript -e "install.packages('opencv')" && pip install --upgrade cmake && cd / && git clone --recursive https://github.com/apache/incubator-mxnet.git -b v1.x && cd /incubator-mxnet && mkdir build && cd build && cmake -DUSE_CUDA=ON -DUSE_MKL_IF_AVAILABLE=ON -DUSE_MKLDNN=OFF -DUSE_OPENMP=ON -DUSE_OPENCV=OFF .. && make -j $(nproc) USE_OPENCV=0 USE_BLAS=openblas && make install && cp -a . .. && cp -a . ../lib && cd /incubator-mxnet/ && make -f R-package/Makefile rpkg
+# RUN apt-get install -y libopencv-dev && Rscript -e "install.packages('opencv')" && pip install --upgrade cmake && cd / && git clone --recursive https://github.com/apache/incubator-mxnet.git -b v1.x && cd /incubator-mxnet && mkdir build && cd build && cmake -DUSE_CUDA=OFF -DUSE_MKL_IF_AVAILABLE=ON -DUSE_MKLDNN=OFF -DUSE_OPENMP=ON -DUSE_OPENCV=ON .. && make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas && make install && cp -a . .. && cp -a . ../lib && cd /incubator-mxnet/ && make -f R-package/Makefile rpkg
 
 # Shiny server:
 RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION -O "version.txt" && VERSION=$(cat version.txt)  && wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && gdebi -n ss-latest.deb && rm -f version.txt ss-latest.deb

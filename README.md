@@ -14,6 +14,9 @@ Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
 ### Docker (with GUI):
 
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
+
+
 1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
 
 ```

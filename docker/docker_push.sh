@@ -7,12 +7,12 @@
 docker builder prune
 docker image prune -a
 
-docker build --rm --force-rm -f ../Dockerfile.gpu -t omicselector-gpu ../
+docker build --rm --force-rm -f ../Dockerfile -t omicselector-gpu ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../
 docker tag omicselector-gpu:latest kstawiski/omicselector-gpu:latest
 docker push kstawiski/omicselector-gpu
 
-docker build --rm --force-rm -t omicselector ../
+docker build --rm --force-rm -f ../Dockerfile.cpu -t omicselector ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../ 
 docker tag omicselector:latest kstawiski/omicselector:latest
 docker push kstawiski/omicselector
@@ -28,7 +28,7 @@ docker push kstawiski/omicselector-public
 docker pull kstawiski/omicselector
 
 
-docker run --name OmicSelector --rm -d -p 28888:80 -v /boot/temp/:/tmp/ -v /home/konrad/:/OmicSelector/host/ kstawiski/omicselector
+docker run --gpus all --name OmicSelector --rm -d -p 28888:80 -v /OmicSelectorData/:/OmicSelector/ kstawiski/omicselector-gpu
 
 
 # RAMDISK:
