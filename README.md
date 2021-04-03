@@ -10,12 +10,15 @@ The main purpose of OmicSelector is to provide you with the set of candidate fea
 
 Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
-## Quick start
-
-### Docker (with GUI):
+## Try it out
 
 [![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
 
+You can fork the repo if you want your own copy.
+
+## Quick start
+
+### Docker (with GUI):
 
 1. GPU-based, using Nvidia CUDA: [kstawiski/omicselector-gpu](https://hub.docker.com/r/kstawiski/omicselector-gpu)
 
