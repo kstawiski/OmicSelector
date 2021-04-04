@@ -9,7 +9,6 @@
 #' @export
 OmicSelector_log = function(message_to_log = "Working...", logfile = "temp.log") {
   try({
-  hostname = as.character(R.utils::GString$getBuiltinHostname())
   timestamp = as.character(Sys.time())
   pid = as.character(R.utils::getBuiltinPid.GString())
   to_write = paste0("\n[",timestamp," | pid:", pid,"] ", message_to_log)
