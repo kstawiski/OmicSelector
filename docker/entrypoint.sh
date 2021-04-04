@@ -24,7 +24,7 @@ code-server --install-extension ikuyadeu.r --force
 code-server --install-extension formulahendry.code-runner --force
 code-server --install-extension grapecity.gc-excelviewer --force
 code-server --install-extension daghostman.vs-treeview --force
-screen -dmS vscode code-server --auth none
+screen -dmS vscode code-server --auth none --port 8080
 
 # Rstudio server
 rstudio-server start
