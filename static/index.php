@@ -302,7 +302,8 @@ $(document).ready(function(e){
         <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-bars"></i>&emsp;&emsp;Additional tools</div>
                 <div class="panel-body"><button type="button" class="btn btn-info" data-toggle="modal"
-                        data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;System monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalYT2"><i class="fas fa-terminal"></i>&emsp;Shell</button>&emsp;
+                        data-target="#modalYT"><i class="fas fa-tv"></i>&emsp;CPU Monitor</button>&emsp;<button type="button" class="btn btn-info" data-toggle="modal"
+                        data-target="#modalYT2"><i class="fas fa-microchip"></i>&emsp;GPU Monitor</button>&emsp;
                         <a href="process.php?type=init_update" role="button" onclick="waitingDialog.show('Starting update...');" class="btn btn-primary"><i class="fas fa-arrow-up"></i></i>&emsp;Update</a>
                     &emsp;<a href="e/notebooks/OmicSelector/vignettes/Tutorial.Rmd" role="button" class="btn btn-primary" target="_blank"><i class="fas fa-graduation-cap"></i>&emsp;Learn R package</a>
                     <?php
@@ -470,14 +471,14 @@ $(document).ready(function(e){
                 <div class="modal-body mb-0 p-0">
 
                     <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-                        <iframe class="embed-responsive-item" src="shell.php" allowfullscreen></iframe>
+                        <iframe class="embed-responsive-item" src="gpu.php" allowfullscreen></iframe>
                     </div>
 
                 </div>
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                    <span class="mr-4">More advanced terminal features are available via Jupyter-based advanced features.</span>
+                    <span class="mr-4">Monitoring GPU via <code>nvidia-smi</code> every 5 seconds.</span>
 
                     <button type="button" class="btn btn-outline-primary btn-rounded btn-md ml-4"
                         data-dismiss="modal">Close</button>
