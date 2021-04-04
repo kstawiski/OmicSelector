@@ -7,7 +7,7 @@
 docker builder prune
 docker image prune -a
 
-docker build --rm --force-rm -f ../Dockerfile -t omicselector-gpu ../
+docker build --rm --force-rm -f ../Dockerfile.gpu -t omicselector-gpu ../
 # if low memory machine: docker build --rm --force-rm -f ../Dockerfile.workflow -t OmicSelector ../
 docker tag omicselector-gpu:latest kstawiski/omicselector-gpu:latest
 docker push kstawiski/omicselector-gpu
