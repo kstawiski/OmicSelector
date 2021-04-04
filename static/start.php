@@ -143,7 +143,7 @@
 
                         <p>Split the dataset <i>(splitting allows for overfitting-resilient analysis, but sometimes your sample is just too small)</i>:
                         <select class="form-control" name="split" id="split">
-                            <option value="yes">Yes. Use 'mix' columen or split to training (60%), testing (20%) and validation sets (20%).</option>
+                            <option value="yes">Yes. Use 'mix' variable or split to training (60%), testing (20%) and validation sets (20%).</option>
                             <option value="no">No. Oversample training set to create testing and validation sets.</option>
                         </select>
                         </p>
