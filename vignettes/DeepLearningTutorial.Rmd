@@ -411,3 +411,35 @@ Output (list):
 - `autoencoder` - autoencoder model object (`keras` object)
 
 You can see the function working in the scoring tool inside OmicSelector's GUI. If you are interested in code, look [here](https://github.com/kstawiski/OmicSelector/blob/master/shiny/deeplearning_model/app.R).
+
+# Sesssion
+
+```{r}
+sessionInfo()
+```
+
+```{r}
+packageDescription("OmicSelector")
+```
+
+
+To render this tutorial we used:
+
+```{r, eval = FALSE}
+render("DeepLearningTutorial.Rmd", output_file = "DeepLearningTutorial.html", output_dir = "../inst/doc/")
+```
+
+Packages installed in our docker enviorment:
+
+```{r}
+OmicSelector_table(as.data.frame(installed.packages()))
+```
+
+Clean the temporary and model files (as the tutorial results are simplified, and we do not need them).
+
+```{r}
+unlink("temp", recursive=TRUE)
+unlink("models", recursive=TRUE)
+unlink("task.log")
+unlink("mixed*.csv")
+```

@@ -565,7 +565,7 @@ cat(paste0(gsub("\\.", "-", selected_miRNAs), collapse = ", "))
 # Sesssion
 
 ```{r}
-session_info()
+sessionInfo()
 ```
 
 ```{r}
@@ -591,6 +591,7 @@ Clean the temporary and model files (as the tutorial results are simplified, and
 unlink("temp", recursive=TRUE)
 unlink("models", recursive=TRUE)
 unlink("task.log")
+unlink("mixed*.csv")
 ```
 
 
