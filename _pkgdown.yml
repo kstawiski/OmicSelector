@@ -28,9 +28,9 @@ navbar:
     demo:
       icon: fa-cubes
       text: Demo
-      href: http://212.191.32.168:20019/
+      href: https://master-omic-selector-kstawiski.endpoint.ainize.ai/
     reference:
-      icon: fa-file-code-o
+      icon: fa-file-code
       text: Functions
       href: reference/index.html
     methods:

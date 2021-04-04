@@ -6,16 +6,13 @@ OmicSelector is an environment, Docker-based web application, and R package for 
 
 The primary purpose of OmicSelector is to provide you with the set of **candidate features (biomarkers) for further validation of biomarker study** from, e.g., high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called "benchmarking". In benchmarking, **we try all of those biomarkers' sets using various data-mining (machine learning) methods**. Based on the average performance of groups in cross-validation or holdout-validation (testing on the test set and/or validation set), we can suggest which of the signatures (set of features) have the tremendous potential for further validation.
 
-## Public implementation
+## Try it out
 
-For testing purposes, we offer a publically available version of our software at [https://biostat.umed.pl/OmicSelector/demo/](https://biostat.umed.pl/OmicSelector/demo/). However, please note that we restrict this instance to 12 CPU cores, 32 GB of RAM and limited GPU usage; thus, more advanced and complex analyses may take a significant amount of time or throw an out-of-the-memory error. Moreover, we cannot guarantee the safe storage of uploaded data. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.
-**Please also note that the public docker container restarts itself once a week (on Mondays). Restart purges all project files, so if you do not download your files, they will be deleted!**
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
 
-We run the public implementation using following docker run command:
+Link: [https://master-omic-selector-kstawiski.endpoint.ainize.ai/](https://master-omic-selector-kstawiski.endpoint.ainize.ai/)
 
-```
-docker run --name omicselector-public --gpus all --cpus="12" --memory="32g" --memory-swap="32g" --env PUBLIC=1 -d -p 28888:80 kstawiski/omicselector-public
-```
+Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.  You can fork the repo if you want your own free tesing copy using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector).
 
 ## Installation with GUI
 

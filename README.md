@@ -14,7 +14,9 @@ Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
 [![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
 
-You can fork the repo if you want your own copy.
+Link: [https://master-omic-selector-kstawiski.endpoint.ainize.ai/](https://master-omic-selector-kstawiski.endpoint.ainize.ai/)
+
+Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone. You can fork the repo if you want your own free tesing copy using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector).
 
 ## Quick start
 
