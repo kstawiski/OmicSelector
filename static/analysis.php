@@ -1,4 +1,18 @@
 <?php
+if($_GET['id'] == "") {
+    $msg .= "This analysis does not exist. Please check if your analysis id is correct.";
+    $msg = urlencode($msg);
+    header("Location: /index.php?msg=" . $msg);
+    die();
+}
+
+if(!isset($_GET['id'])) {
+    $msg .= "This analysis does not exist. Please check if your analysis id is correct.";
+    $msg = urlencode($msg);
+    header("Location: /index.php?msg=" . $msg);
+    die();
+}
+
 $target_dir = "/OmicSelector/" . $_GET['id'] . "/";
 if (!file_exists($target_dir . "initial_check.txt")) {
     // Czy to jest custom analysis?
@@ -1192,7 +1206,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <select class="form-control" name="autoencoders" id="autoencoders">
                                     <option value="0" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
                                                             echo "disabled";
-                                                        } ?>>Full scan: neural networks up to 3 hideen layers without autoencoders (97848 hyperparameter combinations)</option>
+                                                        } ?>>Full scan: neural networks up to 3 hidden layers without autoencoders (97848 hyperparameter combinations)</option>
                                     <option value="1" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
                                                             echo "disabled";
                                                         } ?>>Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
