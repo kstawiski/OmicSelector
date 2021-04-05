@@ -2,7 +2,7 @@ on:
   push:
     branches: master
 
-name: R package
+name: R package (Linux)
 
 jobs:
   Rpackage:
