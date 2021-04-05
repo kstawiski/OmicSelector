@@ -163,6 +163,21 @@ a = OmicSelector_PCA(trainx, train$Class)
 a
 ggsave("exploratory_pca.png", a)
 suppressMessages(graphics.off()) })
+try({ png("exploratory_pca_all_batch.png", width = 1170, height = 658)
+a = OmicSelector_PCA(dplyr::select(mixed, starts_with('hsa')), mixed$Batch)
+a
+ggsave("exploratory_pca_all_batch.png", a)
+suppressMessages(graphics.off()) })
+try({ png("exploratory_pca_all_mix.png", width = 1170, height = 658)
+a = OmicSelector_PCA(dplyr::select(mixed, starts_with('hsa')), mixed$mix)
+a
+ggsave("exploratory_pca_all_mix.png", a)
+suppressMessages(graphics.off()) })
+try({ png("exploratory_pca_all_class.png", width = 1170, height = 658)
+a = OmicSelector_PCA(dplyr::select(mixed, starts_with('hsa')), mixed$ClassOrginal)
+a
+ggsave("exploratory_pca_all_class.png", a)
+suppressMessages(graphics.off()) })
 try({ png("exploratory_vulcano.png", width = 1170, height = 658)
 a = OmicSelector_vulcano_plot(DE_train$miR, DE = DE_train, only_label = DE_train$miR[DE_train$`p-value` < 0.05])
 a
