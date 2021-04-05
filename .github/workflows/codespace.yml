@@ -41,6 +41,6 @@ jobs:
           image: kstawiski/codespace
           tag: latest
           registry: docker.io
-          dockerfile: Dockerfile.
+          dockerfile: Dockerfile.codespace
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
