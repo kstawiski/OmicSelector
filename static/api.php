@@ -89,8 +89,8 @@ switch ($_GET['typ']) {
         passthru('/usr/bin/top -b -n 1');
         break;
     case "gpu":
-        passthru('/usr/bin/nvidia-smi');
-        passthru('/usr/local/nvidia/bin/nvidia-smi');
+        // passthru('/usr/bin/nvidia-smi');
+        passthru('/bin/bash -c \'source ~/.bashrc && nvidia-smi\'');
         break;
 
 }
