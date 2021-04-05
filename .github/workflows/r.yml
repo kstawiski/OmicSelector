@@ -59,7 +59,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: OOmicSelector_conda_pack.tar.gz.part*
+          files: OmicSelector_conda_pack.tar.gz.part*
           body: "OmicSelector - latest version (conda env)"
           name: Latest
           tag_name: release
