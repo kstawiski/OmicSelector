@@ -30,7 +30,7 @@
     }
     
     get_log();
-    setInterval(get_log, 2000);
+    setInterval(get_log, 5000);
     
     });
 </script>
