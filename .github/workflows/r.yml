@@ -78,4 +78,4 @@ jobs:
           server: konsta.com.pl
           username: deploy
           password: ${{ secrets.PASSWORD }}
-          server-dir: ./OmicSelector/
+          server-dir: ./Deploy/OmicSelector/
