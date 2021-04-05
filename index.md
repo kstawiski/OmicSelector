@@ -76,6 +76,8 @@ source OmicSelectorEnv/bin/activate
 conda-unpack
 ```
 
+Alternatively, you can download already merged file from: https://deploy.konsta.com.pl/OmicSelector/release/OmicSelector_conda_pack.tar.gz 
+
 ### Linux/macOS using conda (own build)
 
 1. Installing the package in your own Anaconda environment:
