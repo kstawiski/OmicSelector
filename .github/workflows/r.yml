@@ -67,7 +67,7 @@ jobs:
             release/OmicSelector_conda_pack.tar.gz.partac
             release/OmicSelector_conda_pack.tar.gz.partad
           body: "OmicSelector - latest version packed as [conda-pack](https://conda.github.io/conda-pack/) and source code. Due to Github limits, the archive is splitted into multiple parts. Use: `cat OmicSelector_conda_pack.tar.gz.part* > OmicSelector_conda_pack.tar.gz` to merge it again."
-          name: Latest
+          name: Latest conda-pack (Linux)
           tag_name: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
