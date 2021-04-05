@@ -1,6 +1,7 @@
 if(file.exists("task.log")) { file.remove("task.log") }
 suppressMessages(suppressMessages(library(data.table)))
 suppressMessages(suppressMessages(library(dplyr)))
+suppressMessages(suppressMessages(library(ggplot2)))
 suppressMessages(suppressMessages(library(OmicSelector)))
 OmicSelector_log("Welcome! OmicSelector id loaded.");
 options(warn=-1)
@@ -57,8 +58,8 @@ x = dplyr::select(dane, starts_with("hsa"))
 like_counts = sapply(x, function(x2) (sum(unlist(na.omit(x2))%%1 == 0) + sum(unlist(na.omit(x2)) >= 0))/(2*length(unlist(na.omit(x2)))) == 1)
 positive = F
 if(sum(like_counts)/ncol(x)) { OmicSelector_log("\n✓ Feature values are positive integers. The file could represent read counts. Please note that the feature selection pipeline requires normalized data. You can use OmicSelector to convert counts to tpm, but not via GUI. Please refer to package manual."); positive = T; } else {
-    OmicSelector_log("\n✓ Feature values are not positive integers. This is ok if your input data is normalized (e.g. deltaCt values or tpm-normalized counts).");
-    
+    OmicSelector_log("\n✓ Feature values are not positive integers. This is ok if your input data is normalized (e.g. deltaCt values or tpm-normalized counts). Features not looking like counts: ");
+    OmicSelector_log(paste0(colnames(x)[which(like_counts == FALSE)], collapse = ", "))
 }
 writeLines(as.character(positive), "var_seemslikecounts.txt", sep="")
 
@@ -158,10 +159,19 @@ OmicSelector_log("\n✓ DE was performed for whole dataset (mixed) and for train
 
 OmicSelector_log("Drawing exploratory plots...");
 try({ png("exploratory_pca.png", width = 1170, height = 658)
-OmicSelector_PCA(trainx, train$Class)
+a = OmicSelector_PCA(trainx, train$Class)
+a
+ggsave("exploratory_pca.png", a)
 suppressMessages(graphics.off()) })
 try({ png("exploratory_vulcano.png", width = 1170, height = 658)
-OmicSelector_vulcano_plot(DE_train$miR, DE = DE_train, only_label = DE_train$miR[DE_train$`p-value` < 0.05])
+a = OmicSelector_vulcano_plot(DE_train$miR, DE = DE_train, only_label = DE_train$miR[DE_train$`p-value` < 0.05])
+a
+ggsave("exploratory_vulcano.png", a)
+suppressMessages(graphics.off()) })
+try({ png("exploratory_vulcano2.png", width = 1170, height = 658)
+a = OmicSelector_vulcano_plot(DE_train$miR, DE = DE_train, only_label = DE_train$miR[1:10]) # top 10
+a
+ggsave("exploratory_vulcano2.png", a)
 suppressMessages(graphics.off()) })
 try({ png("exploratory_heatmap.png", width = 1170, height = 658)
 OmicSelector_heatmap(x = trainx, rlab = data.frame(Class = train$Class), expression_name = "Expression")
