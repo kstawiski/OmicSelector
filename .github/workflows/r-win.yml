@@ -37,6 +37,25 @@ jobs:
         shell: bash -l {0}
         run: | 
           conda pack -n OmicSelector -o OmicSelector_conda_pack_win.tar.gz
+
+      - name: Delete prev Win release
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true # default: false
+          tag_name: release-win
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            OmicSelector_conda_pack_win.tar.gz
+          body: "OmicSelector for Windows - latest version packed as [conda-pack](https://conda.github.io/conda-pack/) and source code."
+          name: Latest
+          tag_name: release-win
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📂 Upload to deploy.konsta.com.pl
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
