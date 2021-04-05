@@ -178,7 +178,7 @@ $(document).ready(function(e){
         ?>
             <p>
             <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; float:right;text-align:right;">
+            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; text-align:right;">
             <p style="font-size: x-small;">Host: <code><?php echo gethostbyaddr($ip_adress); ?></code><br>
             Container: <code><?php echo gethostname(); ?></code><br>
             Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }; echo $version; ?></code></p>
