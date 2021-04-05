@@ -2,9 +2,11 @@
 
 ![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/logo.png)
 
-OmicSelector is an environment, Docker-based web application, and R package for biomarker signature selection (feature selection) from high-throughput experiments and others. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool, you can choose features, like miRNAs, with the most significant diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments).
+OmicSelector is the environment, docker-based application and R package for biomarker signiture selection (feature selection) & deep learning diagnostic tool development from high-throughput high-throughput omics experiments and other multidimensional datasets. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the previous name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool, you can choose features, like miRNAs, with the most significant diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments). It can also develop the best deep learning model for your signature, as well as be an IDE for your more complex data mining project (contains R Studio, Jupyter notebooks and VS Code.. all integrated in one!).
 
 The primary purpose of OmicSelector is to provide you with the set of **candidate features (biomarkers) for further validation of biomarker study** from, e.g., high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called "benchmarking". In benchmarking, **we try all of those biomarkers' sets using various data-mining (machine learning) methods**. Based on the average performance of groups in cross-validation or holdout-validation (testing on the test set and/or validation set), we can suggest which of the signatures (set of features) have the tremendous potential for further validation.
+
+As the feautres are selected, OmicSelector can perform advanced modeling of deep feedforward neural networks with and without autoencoders. The best network is developed using comperhensive grid search of optimal hyperparameters. This section works with Tensorflow (via Keras), so the computations can be GPU-accelerated! The best network can be easily implemented in clinical practice using our interactive application.
 
 ## Try it out
 
@@ -12,7 +14,7 @@ The primary purpose of OmicSelector is to provide you with the set of **candidat
 
 Link: [https://master-omic-selector-kstawiski.endpoint.ainize.ai/](https://master-omic-selector-kstawiski.endpoint.ainize.ai/)
 
-Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone. The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.  You can fork the repo if you want your own free tesing copy using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector).
+Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. If you wish to go deeper, i.e. messing with files as *root*, you should fork the repo. You can get your own free and working OmicSelector using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector). [Note: if you wish to build your own docker change `FROM kstawiski/omicselector-gpu` in Dockerfile]
 
 ## Installation with GUI
 

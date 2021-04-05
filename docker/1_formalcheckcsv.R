@@ -57,8 +57,8 @@ x = dplyr::select(dane, starts_with("hsa"))
 like_counts = sapply(x, function(x2) (sum(unlist(na.omit(x2))%%1 == 0) + sum(unlist(na.omit(x2)) >= 0))/(2*length(unlist(na.omit(x2)))) == 1)
 positive = F
 if(sum(like_counts)/ncol(x)) { OmicSelector_log("\n✓ Feature values are positive integers. The file could represent read counts. Please note that the feature selection pipeline requires normalized data. You can use OmicSelector to convert counts to tpm, but not via GUI. Please refer to package manual."); positive = T; } else {
-    OmicSelector_log("\n✓ Feature values are not positive integers. This is ok if your input data is normalized (e.g. deltaCt values or tpm-normalized counts). Features not looking like counts: ");
-    OmicSelector_log(paste0(colnames(x)[which(like_counts == FALSE)], collapse = ", "))
+    OmicSelector_log("\n✓ Feature values are not positive integers. This is ok if your input data is normalized (e.g. deltaCt values or tpm-normalized counts).");
+    
 }
 writeLines(as.character(positive), "var_seemslikecounts.txt", sep="")
 
