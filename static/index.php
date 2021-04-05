@@ -176,7 +176,7 @@ $(document).ready(function(e){
             <div class="panel panel-default">
             <div class="panel-heading"><i class="fas fa-info"></i>&emsp;&emsp;Welcome to OmicSelector</div>
             <div class="panel-body"><p>Welcome to <b>OmicSelector</b> - the software intended to find the best biomarker signature based on NGS or other omic modalities (etc. miRNA-seq, RNA-seq). It allows for feature selection and development of the best deep learning model for your diagnostic or prognostic problem.</p>
-            <p>Documentation, manual and the video tutorial is available at <a href="https://biostat.umed.pl/OmicsSelector" target="_blank">https://biostat.umed.pl/OmicsSelector</a></p>
+            <p>Documentation, manual and the video tutorial is available at <a href="https://biostat.umed.pl/OmicSelector" target="_blank">https://biostat.umed.pl/OmicSelector</a></p>
         <p>Your current version of software: <code>OmicSelector v1.0.<?php echo $version; ?></code></p>
         <?php
             if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
