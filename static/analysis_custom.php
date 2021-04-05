@@ -260,10 +260,31 @@ input:checked + .slider:before {
 <body>
     <div class="container">
     <div class="starter-template">
+        <?php
+        class IpEr{
+            public function Get_Ip(){
+              if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+                $ip=$_SERVER['HTTP_CLIENT_IP'];
+              }
+              elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+                $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+              }
+              else{
+                $ip=$_SERVER['REMOTE_ADDR'];
+              }
+              return  $ip;
+            }
+          }
+          
+          $iper = new IpEr();
+          $ip_adress = $iper->Get_Ip();
+        ?>
             <p>
             <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; float:right;text-align:right;">
-            <p style="font-size: x-small;">Host: <code><?php echo gethostname() . " (" . $_SERVER['REMOTE_ADDR'] . ")"; ?></code><br>
+            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; text-align:right; vertical-align: bottom;">
+            <p style="font-size: x-small;">Hostname: <code><?php echo gethostbyaddr($ip_adress); ?></code><br>
+            Host IP: <code><?php echo $ip_adress; ?></code><br>
+            Container: <code><?php echo gethostname(); ?></code><br>
             Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }; echo $version; ?></code></p>
             </td></tr></table>
             </p>
