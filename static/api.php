@@ -86,10 +86,11 @@ switch ($_GET['typ']) {
         } else { echo "Incorrect request"; }
         break;
     case "cpu":
-        passthru('/bin/bash -c top -b -n 1');
+        passthru('/usr/bin/top -b -n 1');
         break;
     case "gpu":
-        passthru('/bin/bash -c nvidia-smi');
+        passthru('/usr/bin/nvidia-smi');
+        passthru('/usr/local/nvidia/bin/nvidia-smi');
         break;
 
 }
