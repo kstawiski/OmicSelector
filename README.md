@@ -2,7 +2,7 @@
 
 # OmicSelector
 
-![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg) ![R package](https://github.com/kstawiski/OmicSelector/workflows/R%20package/badge.svg)
+![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg) ![R package (Linux)](https://github.com/kstawiski/OmicSelector/workflows/R%20package/badge.svg) [![R package (Windows)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml/badge.svg)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml)
 
 OmicSelector is the environment, docker-based application and R package for biomarker signiture selection (feature selection) & deep learning diagnostic tool development from high-throughput high-throughput omics experiments and other multidimensional datasets. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the previous name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool, you can choose features, like miRNAs, with the most significant diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments). It can also develop the best deep learning model for your signature, as well as be an IDE for your more complex data mining project (contains R Studio, Jupyter notebooks and VS Code.. all integrated in one!).
 
