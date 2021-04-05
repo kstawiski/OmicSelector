@@ -85,6 +85,12 @@ switch ($_GET['typ']) {
         echo tailCustom($_GET['plik'], 1000);
         } else { echo "Incorrect request"; }
         break;
+    case "cpu":
+        passthru('/usr/bin/top -b -n 1');
+        break;
+    case "gpu":
+        passthru('nvidia-smi');
+        break;
 
 }
 
