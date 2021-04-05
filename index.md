@@ -56,10 +56,27 @@ install_github("kstawiski/OmicSelector", force = T)
 library(keras)
 install_keras()
 library(OmicSelector)
-OmicSelector_setup()
 ```
 
-### Linux/macOS using conda
+### Linux/macOS using conda-pack
+
+This approach uses [conda-pack](https://conda.github.io/conda-pack/) to install the [conda](https://www.anaconda.com/products/individual) enviornment developed using Github workflows. [Conda should be installed to use this approach.](https://www.anaconda.com/products/individual)
+
+```
+conda install conda-pack # install conda-pack
+wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partaa
+wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partab
+wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partac
+cat OmicSelector_conda_pack.tar.gz.part* > OmicSelector_conda_pack.tar.gz
+rm OmicSelector_conda_pack.tar.gz.part*
+mkdir -p OmicSelectorEnv
+tar -xvzf OmicSelector_conda_pack.tar.gz -C OmicSelectorEnv
+rm OmicSelector_conda_pack.tar.gz
+source OmicSelectorEnv/bin/activate
+conda-unpack
+```
+
+### Linux/macOS using conda (own build)
 
 1. Installing the package in your own Anaconda environment:
 
