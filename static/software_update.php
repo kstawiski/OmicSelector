@@ -105,11 +105,14 @@ if(file_exists("/update.log")) {
 </head>
 <body>
     <div class="container">
-    <div class="starter-template">
+	<div class="starter-template">
             <p>
-                <center><img src="logo.png" width="70%" />
+            <table border="0" cellspacing="0" cellpadding="0">
+            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; float:right;text-align:right;">
+            <p style="font-size: x-small;">Host: <code><?php echo gethostname() . " (" . $_SERVER['REMOTE_ADDR'] . ")"; ?></code><br>
+            Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }; echo $version; ?></code></p>
+            </td></tr></table>
             </p>
-            <p><br></p>
         </div>
     <p>Update log:
     <pre><?php echo $zawartosc_logu; ?></pre></p>
