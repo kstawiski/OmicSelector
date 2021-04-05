@@ -159,8 +159,8 @@ $(document).ready(function(e){
         <div class="starter-template">
             <p>
             <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td><a href="/"><center><img src="logo.png" width="50%" /></center></a></td><td>
-            <p>Host: <code><?php echo gethostname() . " (" . $_SERVER['SERVER_NAME'] . ")"; ?></code></p>
+            <tr><td style="width: 50%;"><a href="/"><center><img src="logo.png" width="50%" /></center></a></td><td style="width: 50%;">
+            <p>Host: <code><?php echo gethostname() . " (" . $_SERVER['REMOTE_ADDR'] . ")"; ?></code></p>
             <p>Reference: <a href="https://biostat.umed.pl/OmicSelector" target="_blank">https://biostat.umed.pl/OmicSelector</a></p>
             <p>Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }; echo $version; ?></code></p>
             </td></tr></table>
