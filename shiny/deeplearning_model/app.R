@@ -1,5 +1,6 @@
 # Prereq
 Sys.setenv(CUDA_VISIBLE_DEVICES = "-1") # do not waste GPU memory for scoring networks
+Sys.setenv(TF_FORCE_GPU_ALLOW_GROWTH = 'true') # do not waste so much memory
 
 reticulate::use_python('/opt/conda/bin/python')
 require(tensorflow)
@@ -92,6 +93,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
     observe({
+        Sys.setenv(CUDA_VISIBLE_DEVICES = "-1") # do not waste GPU memory for scoring networks
+        Sys.setenv(TF_FORCE_GPU_ALLOW_GROWTH = 'true') # do not waste so much memory
+        
         query <- parseQueryString(session$clientData$url_search)
         if (!is.null(query[['analysisid']])) {
             updateTextInput(session, "analysisid", value = query[['analysisid']])
