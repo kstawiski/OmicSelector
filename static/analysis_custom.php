@@ -278,6 +278,10 @@ input:checked + .slider:before {
           
           $iper = new IpEr();
           $ip_adress = $iper->Get_Ip();
+
+          if(!file_exists("/extip.txt")){
+              $extip = exec("");
+          }
         ?>
             <p>
             <table border="0" cellspacing="0" cellpadding="0">

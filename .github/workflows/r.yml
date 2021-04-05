@@ -37,7 +37,9 @@ jobs:
         shell: bash -l {0}
         run: | 
           conda pack -n OmicSelector -o OmicSelector_conda_pack.tar.gz
-          split -b 2000M OmicSelector_conda_pack.tar.gz "OmicSelector_conda_pack.tar.gz.part"
+          mkdir release
+          mv OmicSelector_conda_pack.tar.gz release/
+          split -b 1500M release/OmicSelector_conda_pack.tar.gz "release/OmicSelector_conda_pack.tar.gz.part"
           
       # Removes the latest release, so that we can create a new one in its place
       - name: Delete latest release
@@ -59,16 +61,21 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: OmicSelector_conda_pack.tar.gz.part*
+          files: |
+            release/OmicSelector_conda_pack.tar.gz.partaa
+            release/OmicSelector_conda_pack.tar.gz.partab
+            release/OmicSelector_conda_pack.tar.gz.partac
+            release/OmicSelector_conda_pack.tar.gz.partad
           body: "OmicSelector - latest version (conda env)"
           name: Latest
           tag_name: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release binary
-        uses: skx/github-action-publish-binaries@release-1.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📂 Upload to deploy.konsta.com.pl
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          args: 'OmicSelector_conda_pack.tar.gz'
+          server: konsta.com.pl
+          username: deploy
+          password: ${{ secrets.PASSWORD }}
+          server-dir: ./OmicSelector/
