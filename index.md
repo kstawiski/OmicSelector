@@ -140,7 +140,7 @@ Exemplary files for the analysis:
 
 ## Development
 
-![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg)     ![R package (Linux)](https://github.com/kstawiski/OmicSelector/workflows/R%20package/badge.svg)  [![R package (Windows)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml/badge.svg)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml)
+![Docker](https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg)    [![R package (Linux)](https://github.com/kstawiski/OmicSelector/actions/workflows/r.yml/badge.svg)](https://github.com/kstawiski/OmicSelector/actions/workflows/r.yml)    [![R package (Windows)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml/badge.svg)](https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml)
 
 - Bugs and issues: [https://github.com/kstawiski/OmicSelector/issues](https://github.com/kstawiski/OmicSelector/issues)
 - Contact with developers: [Konrad Stawiski M.D. (konrad.stawiski@umed.lodz.pl, https://konsta.com.pl)](https://konsta.com.pl)
