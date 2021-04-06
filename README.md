@@ -82,7 +82,7 @@ Alternatively, you can download already merged file from: https://deploy.konsta.
 
 #### Windows using conda-pack
 
-Windows conda-pack is available for download here: https://github.com/kstawiski/OmicSelector/releases/download/release-win/OmicSelector_conda_pack_win.tar.gz 
+Windows conda-pack is available for download here: https://deploy.konsta.com.pl/OmicSelector-win/OmicSelector_conda_pack_win.tar.gz
 
 Copy the `OmicSelector_conda_pack_win.tar.gz` from the source environment to the target environment. Unpack the `tar.gz` environment file to where you want. On Windows, you can do this with 7-zip. It'll take one step to decompress the `gzip` and another step to unpack the `tar`. Be sure you're using standard Command Prompt (`cmd.exe`) on Windows, **not** Anaconda Prompt or PowerShell; those shells don't correctly add the right files to PATH. In the next step run following commands in the unpacked directory:
 
