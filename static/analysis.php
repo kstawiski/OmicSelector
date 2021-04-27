@@ -1227,15 +1227,52 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 </select>
                             </p>
                             <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
-                                <select class="form-control" name="autoencoders" id="autoencoders">
+                                <select class="form-control" name="autoencoders" id="autoencoders" onchange="changeFunc();">
+                                <option value="2">Quick scan: neural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
                                     <option value="0" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
                                                             echo "disabled";
                                                         } ?>>Full scan: neural networks up to 3 hidden layers without autoencoders (97848 hyperparameter combinations)</option>
                                     <option value="1" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
                                                             echo "disabled";
                                                         } ?>>Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
-                                    <option value="2">Quick scan: neural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
+                                    <option value="-1">Custom: use R code to define your own set</option>
                                 </select>
+                                <div id="custom_hyperparams" style="display:none;">
+                                <link rel="stylesheet" href="lib/codemirror.css">
+                                <script src="lib/codemirror.js"></script>
+                                <script>
+                                var editor = CodeMirror.fromTextArea(custom_hyperparameters, {
+                                    lineNumbers: true
+                                });
+
+                                function changeFunc() {
+                                    var selectBox = document.getElementById("autoencoders");
+                                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                                    var x = document.getElementById("custom_hyperparams");
+                                    
+                                    if(selectedValue == "-1") { x.style.display = "block"; } else { x.style.display = "none"; }
+                                }
+                                </script>
+                                <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50">
+hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+                                    activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
+                                    dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
+                                    layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    stringsAsFactors = F)
+hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3,11, by = 2)), layer3 = c(seq(0,11, by = 2)),
+                                    activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu","sigmoid","selu"), activation_function_layer3 = c("relu","sigmoid","selu"),
+                                    dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
+                                    layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    stringsAsFactors = F)
+hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) 
+data.table::fwrite(hyperparameters, "custom_hyperparameters.csv") # DO NOT CHANGE
+                                </textarea>
+                                <a href="https://kstawiski.github.io/OmicSelector/articles/DeepLearningTutorial.html#omicselector_deep_learning-function" target="_blank">Please see the documentation for the description of hyperparameters.</a>
+                                </div>
+                                
+
                             </p>
                             <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used; the same balanced dataset as above is used)</i>:
                                 <select class="form-control" name="balanced" id="balanced">

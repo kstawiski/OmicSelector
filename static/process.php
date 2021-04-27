@@ -369,6 +369,11 @@ switch($_GET['type'])
         if (!empty($_POST["autoencoders"])) { file_put_contents($target_dir . '/var_deeplearning_autoencoders.txt', $_POST['autoencoders']); }
         if (!empty($_POST["selected"])) { file_put_contents($target_dir . '/var_deeplearning_selected.txt', $_POST['selected']); }
         
+        if($_POST["autoencoders"] == "-1"){
+            if (!empty($_POST["custom_hyperparameters"])) { file_put_contents($target_dir . '/var_deeplearning_custom_hyperparameters.R', $_POST['custom_hyperparameters']); }
+            exec("cd " . $target_dir . " && Rscript var_deeplearning_custom_hyperparameters.R");
+        }
+        
         file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', "2");
         if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] != "1") {
             if (!empty($_POST["keras_threads"])) { file_put_contents($target_dir . '/var_deeplearning_keras_threads.txt', $_POST['keras_threads']); } }
