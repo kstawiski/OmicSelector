@@ -1294,7 +1294,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                                 autoFormatOnUncomment: true,
 
                                                 // Define the language specific mode 'htmlmixed' for html including (css, xml, javascript), 'application/x-httpd-php' for php mode including html, or 'text/javascript' for using java script only
-                                                mode: 'text/x-rsrc',
+                                                mode: 'r',
 
                                                 // Whether or not to show Trailing Spaces
                                                 showTrailingSpace: true,
@@ -1312,7 +1312,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                     }
                                 </script>
                                 <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50" style=" -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
-# DO NOT CHANGE:
+                                # DO NOT CHANGE:
 if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
 if(selected_miRNAs != "all")
 {
@@ -1321,19 +1321,21 @@ if(selected_miRNAs != "all")
   miRNAs = all.vars(as.formula(input_formulas[[selected_miRNAs]]))[-1];
   if(length(miRNAs)>0) { selected_miRNAs = miRNAs }
 } else { selected_miRNAs = colnames(data.table::fread("mixed_train.csv"))[startsWith(colnames(data.table::fread("mixed_train.csv")),"hsa")] }
+if(file.exists("var_deeplearning_balanced.txt")) { balanced = as.logical(readLines("var_deeplearning_balanced.txt", warn = F)) }
+library(OmicSelector)
 
 # HERE SET UP YOUR OWN HYPERPARAMETERS:
-hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
+hyperparameters_part1 = expand.grid(layer1 = seq(2,12, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
                                     layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
-                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-5,5), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
                                     stringsAsFactors = F)
-hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3,11, by = 2)), layer3 = c(seq(0,11, by = 2)),
+hyperparameters_part2 = expand.grid(layer1 = seq(2,12, by = 1), layer2 = c(seq(2,12, by = 1)), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu","sigmoid","selu"), activation_function_layer3 = c("relu","sigmoid","selu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
                                     layer1_regularizer = c(T,F), layer2_regularizer = c(F), layer3_regularizer = c(F),
-                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
+                                    optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
                                     stringsAsFactors = F)
 hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) 
 
