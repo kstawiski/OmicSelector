@@ -1253,6 +1253,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <div id="custom_hyperparams" style="display:none;">
                                 <link rel="stylesheet" href="lib/codemirror.css">
                                 <script src="lib/codemirror.js"></script>
+                                <script src="mode/r/r.js"></script>
                                 <script>
                                     function changeFunc() {
                                         var selectBox = document.getElementById("autoencoders");
@@ -1312,7 +1313,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                     }
                                 </script>
                                 <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50" style=" -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
-                                # DO NOT CHANGE:
+# DO NOT CHANGE:
 if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
 if(selected_miRNAs != "all")
 {

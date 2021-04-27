@@ -124,11 +124,11 @@ if(autoencoders == 2) {
 }
 
 # if custom
-if(autoencoders == 2) { 
+if(autoencoders == -1) { 
   hyperparameters = data.table::fread("custom_hyperparameters.csv")
 }
 OmicSelector_log(paste0("\nHyperparameters:"),"task.log")
-OmicSelector_log(str(hyperparameters),"task.log")
+OmicSelector_log(paste0(print(str(hyperparameters))),"task.log")
 
 # head(hyperparameters)
 
