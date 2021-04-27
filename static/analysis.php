@@ -1312,6 +1312,17 @@ function konsta_readcsv_formulas($filename, $header = true)
                                     }
                                 </script>
                                 <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50" style=" -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
+# DO NOT CHANGE:
+if(file.exists("var_deeplearning_selected.txt")) { selected_miRNAs = readLines("var_deeplearning_selected.txt", warn = F) }
+if(selected_miRNAs != "all")
+{
+  library(OmicSelector)
+  input_formulas = readRDS("featureselection_formulas_final.RDS")
+  miRNAs = all.vars(as.formula(input_formulas[[selected_miRNAs]]))[-1];
+  if(length(miRNAs)>0) { selected_miRNAs = miRNAs }
+} else { selected_miRNAs = colnames(data.table::fread("mixed_train.csv"))[startsWith(colnames(data.table::fread("mixed_train.csv")),"hsa")] }
+
+# HERE SET UP YOUR OWN HYPERPARAMETERS:
 hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
@@ -1325,7 +1336,9 @@ hyperparameters_part2 = expand.grid(layer1 = seq(3,11, by = 2), layer2 = c(seq(3
                                     optimizer = c("adam","rmsprop","sgd"), autoencoder = c(0,-7,7), balanced = balanced, formula = as.character(OmicSelector_create_formula(selected_miRNAs))[3], scaled = c(T,F),
                                     stringsAsFactors = F)
 hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2) 
-data.table::fwrite(hyperparameters, "custom_hyperparameters.csv") # DO NOT CHANGE
+
+# DO NOT CHANGE:
+data.table::fwrite(hyperparameters, "custom_hyperparameters.csv") 
                                 </textarea>
                                 <a href="https://kstawiski.github.io/OmicSelector/articles/DeepLearningTutorial.html#omicselector_deep_learning-function" target="_blank">Please see the documentation for the description of hyperparameters.</a>
                             </div>
