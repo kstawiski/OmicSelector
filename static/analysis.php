@@ -1241,19 +1241,22 @@ function konsta_readcsv_formulas($filename, $header = true)
                                 <link rel="stylesheet" href="lib/codemirror.css">
                                 <script src="lib/codemirror.js"></script>
                                 <script>
-                                var editor = CodeMirror.fromTextArea(custom_hyperparameters, {
-                                    lineNumbers: true
-                                });
+                                
 
                                 function changeFunc() {
                                     var selectBox = document.getElementById("autoencoders");
                                     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
                                     var x = document.getElementById("custom_hyperparams");
                                     
-                                    if(selectedValue == "-1") { x.style.display = "block"; } else { x.style.display = "none"; }
+                                    if(selectedValue == "-1") { x.style.display = "block"; 
+                                        var editor = CodeMirror.fromTextArea(custom_hyperparameters, {
+                                    lineNumbers: true
+                                });
+                                    
+                                    } else { x.style.display = "none"; }
                                 }
                                 </script>
-                                <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50">
+                                <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50" style=" -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
 hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
                                     activation_function_layer1 = c("relu","sigmoid","selu"), activation_function_layer2 = c("relu"), activation_function_layer3 = c("relu"),
                                     dropout_layer1 = c(0, 0.1), dropout_layer2 = c(0), dropout_layer3 = c(0),
