@@ -1,12 +1,12 @@
 <?php
-if($_GET['id'] == "") {
+if ($_GET['id'] == "") {
     $msg .= "This analysis does not exist. Please check if your analysis id is correct.";
     $msg = urlencode($msg);
     header("Location: /index.php?msg=" . $msg);
     die();
 }
 
-if(!isset($_GET['id'])) {
+if (!isset($_GET['id'])) {
     $msg .= "This analysis does not exist. Please check if your analysis id is correct.";
     $msg = urlencode($msg);
     header("Location: /index.php?msg=" . $msg);
@@ -246,16 +246,16 @@ function konsta_readcsv_formulas($filename, $header = true)
 
         $(document).ready(function(e) {
             $([document.documentElement, document.body]).animate({
-        scrollTop: $(".panel-success").last().offset().top
-        }, 'slow');
-            
-            
+                scrollTop: $(".panel-success").last().offset().top
+            }, 'slow');
+
+
             var $classy = '.panel.autocollapse';
 
             var $found = $($classy);
             $found.find('.panel-body').hide();
             $found.removeClass($classy);
-            
+
         });
 
         var waitingDialog = waitingDialog || (function($) {
@@ -324,34 +324,43 @@ function konsta_readcsv_formulas($filename, $header = true)
 
 <body>
     <div class="container">
-    <div class="starter-template">
-        <?php
-        class IpEr{
-            public function Get_Ip(){
-              if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-                $ip=$_SERVER['HTTP_CLIENT_IP'];
-              }
-              elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-                $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-              }
-              else{
-                $ip=$_SERVER['REMOTE_ADDR'];
-              }
-              return  $ip;
+        <div class="starter-template">
+            <?php
+            class IpEr
+            {
+                public function Get_Ip()
+                {
+                    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                        $ip = $_SERVER['HTTP_CLIENT_IP'];
+                    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    } else {
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                    }
+                    return  $ip;
+                }
             }
-          }
-          
-          $iper = new IpEr();
-          $ip_adress = $iper->Get_Ip();
-        ?>
+
+            $iper = new IpEr();
+            $ip_adress = $iper->Get_Ip();
+            ?>
             <p>
             <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td><td style="width: 50%; text-align:right; vertical-align: bottom;">
-            <p style="font-size: x-small;">Host: <code><?php echo $_SERVER['SERVER_ADDR']; ?></code><br>
-            Client: <code><?php echo gethostbyaddr($ip_adress); ?></code><br>
-            Container: <code><?php echo gethostname(); ?></code><br>
-            Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) { $version = file_get_contents('/version.txt'); } else { $version = "init"; }; echo $version; ?></code></p>
-            </td></tr></table>
+                <tr>
+                    <td style="width: 50%;"><a href="/"><img src="logo.png" width="70%" /></a></td>
+                    <td style="width: 50%; text-align:right; vertical-align: bottom;">
+                        <p style="font-size: x-small;">Host: <code><?php echo $_SERVER['SERVER_ADDR']; ?></code><br>
+                            Client: <code><?php echo gethostbyaddr($ip_adress); ?></code><br>
+                            Container: <code><?php echo gethostname(); ?></code><br>
+                            Version: <code>OmicSelector v1.0.<?php if (file_exists('/version.txt')) {
+                                                                    $version = file_get_contents('/version.txt');
+                                                                } else {
+                                                                    $version = "init";
+                                                                };
+                                                                echo $version; ?></code></p>
+                    </td>
+                </tr>
+            </table>
             </p>
         </div>
         <div class="panel-group">
@@ -376,7 +385,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                 <div class="panel-heading"><i class="fas fa-table"></i>&emsp;&emsp;Data</div>
                 <div class="panel-body">
                     <p>Initial check status:
-                        <pre style="white-space: pre-wrap;"><?php echo file_get_contents($target_dir . "initial_check.txt"); ?></pre>
+                    <pre style="white-space: pre-wrap;"><?php echo file_get_contents($target_dir . "initial_check.txt"); ?></pre>
                     </p>
                     <p>Initial check status:
                         <code><b><?php $var_initcheck = file_get_contents($target_dir . 'var_initcheck.txt');
@@ -554,7 +563,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                                         <td><label class="switch"><input type="checkbox" name="method[]" value="2" checked><span class="slider round"></span></label></td>
                                         <td>No: 2<br /><code>sig, sigtop, sigtopBonf, sigtopHolm, topFC, sigSMOTE, sigtopSMOTE, sigtopBonfSMOTE, sigtopHolmSMOTE, topFCSMOTE</code></td>
                                         <td>Selects features significantly differently expressed between classes by performing unpaired t-test with and without correction for multiple testing. We get: <code>sig</code> - all significant (adjusted p-value less or equal to 0.05) miRNAs with comparison using unpaired t-test and after the Benjamini-Hochberg procedure (BH, false discovery rate); <code>sigtop</code> - <code>sig</code> but limited only to the your prefered number of features (most significant features sorted by p-value), <code>sigtopBonf</code> - uses Bonferroni instead of BH correction, <code>sigtopHolm</code> - uses Holm–Bonferroni instead of BH correction, <code>topFC</code> - selects prefered number of features based on decreasing absolute value of fold change in differential analysis.
-                                            <br />All the methods are also checked on dataset balanced with SMOTE (<a href="https://arxiv.org/pdf/1106.1813.pdf" target="_blank">Synthetic Minority Oversampling TEchnique</a>) - those formulas which names are appended with <code>SMOTE</code>.</td>
+                                            <br />All the methods are also checked on dataset balanced with SMOTE (<a href="https://arxiv.org/pdf/1106.1813.pdf" target="_blank">Synthetic Minority Oversampling TEchnique</a>) - those formulas which names are appended with <code>SMOTE</code>.
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -946,7 +956,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                         <p>
                             <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Starting the analysis...');">
                                 <i class="fas fa-clipboard-check"></i>&emsp;Start feature selection
-                            </button>&emsp;<a href="process.php?type=recover_fs&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-trash-restore"></i> Recover interrupted selection</a></p>
+                            </button>&emsp;<a href="process.php?type=recover_fs&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-primary" role="button"><i class="fas fa-trash-restore"></i> Recover interrupted selection</a>
+                        </p>
                         </form>
                     </div>
                 </div>
@@ -955,9 +966,9 @@ function konsta_readcsv_formulas($filename, $header = true)
                     <div class="panel-heading"><i class="fas fa-microscope"></i>&emsp;&emsp;Feature selection</div>
                     <div class="panel-body">
                         <p>
-                            <h3 id="feature_selection">Final set of feature sets selected for further evaluation:</h3>
-                            <br />
-                            <font size="1">Notes: This table presents final formulas. <a href="https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
+                        <h3 id="feature_selection">Final set of feature sets selected for further evaluation:</h3>
+                        <br />
+                        <font size="1">Notes: This table presents final formulas. <a href="https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html" target="_blank">The formulas with features more than the prefered number of features of features were trimmed (according to documentation).</a> Using the download button you can download filtered set.</font><br>
                         </p>
                         <p><?php konsta_readcsv_formulas($target_dir . "featureselection_formulas_final.csv"); ?></p>
                         <div class="panel panel-default autocollapse">
@@ -993,7 +1004,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                                                     $i = $i + 1;
                                                 }
                                             } ?>
-                                    </select></p>
+                                        </select></p>
                                     <p><button type="submit" class="btn btn-success" name="submit" onclick="waitingDialog.show('Adding feature set...');">
                                             <i class="fas fa-folder-plus"></i>&emsp;Add feature set
                                         </button></p>
@@ -1004,29 +1015,29 @@ function konsta_readcsv_formulas($filename, $header = true)
                         </p<select>
                         <hr>
                         <p>
-                            <h4>Details:</h4>
+                        <h4>Details:</h4>
 
-                            <table class="table">
-                                <tr>
-                                    <td>All formulas selected by the methods:</td>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Final set of formulas selected by the methods:<br />
-                                        <font size="1"><i>(formulas with more than prefered number of features were removed, classical selection methods are intact)</i></font>
-                                    <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Options:</td>
-                                    <td>
-                                        <p><a href="/e/edit/<?php echo $_GET['id']; ?>/temp/featureselection.log" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/featureselection.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="process.php?type=delete_fs2&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-success" role="button"><i class="fas fa-plus"></i> Add or re-run some methods</a></p>
-                                        <p><a href="process.php?type=delete_fs&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure? This will delete all the data regarding your feature selection')"><i class="fas fa-trash"></i> Re-run selection (delete previous)</a></p>
+                        <table class="table">
+                            <tr>
+                                <td>All formulas selected by the methods:</td>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/featureselection_formulas_all.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr>
+                                <td>Final set of formulas selected by the methods:<br />
+                                    <font size="1"><i>(formulas with more than prefered number of features were removed, classical selection methods are intact)</i></font>
+                                <td><a href="viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/featureselection_formulas_final.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr>
+                                <td>Options:</td>
+                                <td>
+                                    <p><a href="/e/edit/<?php echo $_GET['id']; ?>/temp/featureselection.log" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/featureselection.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="process.php?type=delete_fs2&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-success" role="button"><i class="fas fa-plus"></i> Add or re-run some methods</a></p>
+                                    <p><a href="process.php?type=delete_fs&analysisid=<?php echo $_GET['id']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure? This will delete all the data regarding your feature selection')"><i class="fas fa-trash"></i> Re-run selection (delete previous)</a></p>
 
 
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
 
-                            </table>
+                        </table>
                         </p>
 
                     </div>
@@ -1152,7 +1163,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                             <p>
                                 <button type="submit" class="btn btn-success" value="Upload" name="submit" onclick="waitingDialog.show('Starting the analysis...');">
                                     <i class="fas fa-clipboard-check"></i>&emsp;Start benchmarking feature sets
-                                </button>&emsp;</p>
+                                </button>&emsp;
+                            </p>
                             </form>
                         </div>
                     </div>
@@ -1173,7 +1185,8 @@ function konsta_readcsv_formulas($filename, $header = true)
                                         <p><a href="viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/benchmark.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/benchmark.csv" class="btn btn-warning"><i class="fas fa-download"></i> Download</a>
                                             &emsp;
                                             <a href="viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-info" role="button" target="popup" onclick="window.open('viewer.php?f=<?php echo $_GET['id']; ?>/model_results.csv','popup','width=1150,height=800'); return false;"><i class="fas fa-search-plus"></i> View</a>&emsp;<a href="/e/files/<?php echo $_GET['id']; ?>/model_results.csv" class="btn btn-warning"><i class="fas fa-download"></i> Simplified</a>
-                                            &emsp;<a href="/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="/e/tree/<?php echo $_GET['id']; ?>/models" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>/models','popup','width=1150,height=800'); return false;"><i class="fas fa-list"></i> Browse models</a></p>
+                                            &emsp;<a href="/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/edit/<?php echo $_GET['id']; ?>/temp/benchmarkOmicSelector.log','popup','width=1150,height=800'); return false;"><i class="fas fa-history"></i> View log</a>&emsp;<a href="/e/tree/<?php echo $_GET['id']; ?>/models" class="btn btn-primary" role="button" target="popup" onclick="window.open('/e/tree/<?php echo $_GET['id']; ?>/models','popup','width=1150,height=800'); return false;"><i class="fas fa-list"></i> Browse models</a>
+                                        </p>
                                     </td>
                                 </tr>
 
@@ -1228,7 +1241,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                             </p>
                             <p>Initial configuration of grid search <i>(note: autoencoders are expiermental)</i>:
                                 <select class="form-control" name="autoencoders" id="autoencoders" onchange="changeFunc();">
-                                <option value="2">Quick scan: neural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
+                                    <option value="2">Quick scan: neural networks with 1 hidden layers and without autoencoders (1994 hyperparameter combinations)</option>
                                     <option value="0" <?php if (file('/PUBLIC', FILE_IGNORE_NEW_LINES)[0] == "1") {
                                                             echo "disabled";
                                                         } ?>>Full scan: neural networks up to 3 hidden layers without autoencoders (97848 hyperparameter combinations)</option>
@@ -1237,24 +1250,66 @@ function konsta_readcsv_formulas($filename, $header = true)
                                                         } ?>>Extendend scan: neural networks up to 3 hideen layers with and without autoencoders (293544 hyperparameter combinations)</option>
                                     <option value="-1">Custom: use R code to define your own set</option>
                                 </select>
-                                <div id="custom_hyperparams" style="display:none;">
+                            <div id="custom_hyperparams" style="display:none;">
                                 <link rel="stylesheet" href="lib/codemirror.css">
                                 <script src="lib/codemirror.js"></script>
                                 <script>
-                                
+                                    function changeFunc() {
+                                        var selectBox = document.getElementById("autoencoders");
+                                        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                                        var x = document.getElementById("custom_hyperparams");
 
-                                function changeFunc() {
-                                    var selectBox = document.getElementById("autoencoders");
-                                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                                    var x = document.getElementById("custom_hyperparams");
-                                    
-                                    if(selectedValue == "-1") { x.style.display = "block"; 
-                                        var editor = CodeMirror.fromTextArea(custom_hyperparameters, {
-                                    lineNumbers: true
-                                });
-                                    
-                                    } else { x.style.display = "none"; }
-                                }
+                                        if (selectedValue == "-1") {
+                                            x.style.display = "block";
+                                            var editor = CodeMirror.fromTextArea(custom_hyperparameters, {
+                                                lineNumbers: true,
+                                                // Whether or not you want to use line wrapping
+                                                lineWrapping: true,
+
+                                                // Whether or not you want to highlight matching braces
+                                                matchBrackets: true,
+
+                                                // Whether or not you want tags to automatically close themselves
+                                                autoCloseTags: true,
+
+                                                // Whether or not you want Brackets to automatically close themselves
+                                                autoCloseBrackets: true,
+
+                                                // Whether or not to enable search tools, CTRL+F (Find), CTRL+SHIFT+F (Replace), CTRL+SHIFT+R (Replace All), CTRL+G (Find Next), CTRL+SHIFT+G (Find Previous)
+                                                enableSearchTools: true,
+
+                                                // Whether or not you wish to enable code folding (requires 'lineNumbers' to be set to 'true')
+                                                enableCodeFolding: true,
+
+                                                // Whether or not to enable code formatting
+                                                enableCodeFormatting: true,
+
+                                                // Whether or not to automatically format code should be done when the editor is loaded
+                                                autoFormatOnStart: true,
+
+                                                // Whether or not to automatically format code should be done every time the source view is opened
+                                                autoFormatOnModeChange: true,
+
+                                                // Whether or not to automatically format code which has just been uncommented
+                                                autoFormatOnUncomment: true,
+
+                                                // Define the language specific mode 'htmlmixed' for html including (css, xml, javascript), 'application/x-httpd-php' for php mode including html, or 'text/javascript' for using java script only
+                                                mode: 'text/x-rsrc',
+
+                                                // Whether or not to show Trailing Spaces
+                                                showTrailingSpace: true,
+
+                                                // Whether or not to highlight all matches of current word/selection
+                                                highlightMatches: true,
+
+                                                // Whether or not to show the showAutoCompleteButton button on the toolbar
+                                                showAutoCompleteButton: true,
+                                            });
+
+                                        } else {
+                                            x.style.display = "none";
+                                        }
+                                    }
                                 </script>
                                 <textarea id="custom_hyperparameters" name="custom_hyperparameters" rows="4" cols="50" style=" -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
 hyperparameters_part1 = expand.grid(layer1 = seq(2,10, by = 1), layer2 = c(0), layer3 = c(0),
@@ -1273,8 +1328,8 @@ hyperparameters = rbind(hyperparameters_part1, hyperparameters_part2)
 data.table::fwrite(hyperparameters, "custom_hyperparameters.csv") # DO NOT CHANGE
                                 </textarea>
                                 <a href="https://kstawiski.github.io/OmicSelector/articles/DeepLearningTutorial.html#omicselector_deep_learning-function" target="_blank">Please see the documentation for the description of hyperparameters.</a>
-                                </div>
-                                
+                            </div>
+
 
                             </p>
                             <p>Use balanced training dataset <i>(if 'yes' the dataset balanced with SMOTE or ROSE will be used; the same balanced dataset as above is used)</i>:
@@ -1350,33 +1405,33 @@ data.table::fwrite(hyperparameters, "custom_hyperparameters.csv") # DO NOT CHANG
                                         <p>
                                             <font size=1">Choose network for further analysis:</font>
 
-                                            <div class="form-group">
-                                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-                                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        $('#modelid').select2();
-                                                    });
-                                                </script>
-                                                <form action="/deeplearning_model/" method="get" target="_blank">
-                                                    <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
-                                                    <p><select class="form-control" name="modelid" id="modelid">
-                                                            <?php
-                                                            if (file_exists($target_dir . "merged_deeplearning_top.csv")) {
-                                                                $types = array_map('str_getcsv', file($target_dir . "merged_deeplearning_names.csv"));
-                                                                $i = 1;
-                                                                foreach ($types as $row) {
-                                                                    if ($i > 1) {
-                                                                        echo  '<option value="' .  $row[0] . '">' .  $row[0] . '</option>';
-                                                                    }
-                                                                    $i = $i + 1;
+                                        <div class="form-group">
+                                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('#modelid').select2();
+                                                });
+                                            </script>
+                                            <form action="/deeplearning_model/" method="get" target="_blank">
+                                                <input type="hidden" id="analysisid" name="analysisid" value="<?php echo $_GET['id']; ?>">
+                                                <p><select class="form-control" name="modelid" id="modelid">
+                                                        <?php
+                                                        if (file_exists($target_dir . "merged_deeplearning_top.csv")) {
+                                                            $types = array_map('str_getcsv', file($target_dir . "merged_deeplearning_names.csv"));
+                                                            $i = 1;
+                                                            foreach ($types as $row) {
+                                                                if ($i > 1) {
+                                                                    echo  '<option value="' .  $row[0] . '">' .  $row[0] . '</option>';
                                                                 }
-                                                            } ?>
-                                                        </select></p>
-                                                    <p><button type="submit" class="btn btn-success" value="submit" name="submit"><i class="fas fa-external-link-alt"></i>&emsp;Show neural network details and prediction tool</button></p>
+                                                                $i = $i + 1;
+                                                            }
+                                                        } ?>
+                                                    </select></p>
+                                                <p><button type="submit" class="btn btn-success" value="submit" name="submit"><i class="fas fa-external-link-alt"></i>&emsp;Show neural network details and prediction tool</button></p>
 
-                                            </div>
-                                            </form>
+                                        </div>
+                                        </form>
                                         </p>
                                     </td>
                                 </tr>
