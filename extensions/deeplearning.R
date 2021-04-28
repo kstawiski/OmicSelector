@@ -267,30 +267,30 @@ if(dir.exists("/OmicSelector")) {
       if (hyperparameters[i,14]>0) {
         encoder <-
           input_layer %>%
-          layer_dense(units = n2, activation = hyperparameters[i,6])    %>%
+          layer_dense(units = n2, activation = as.character(hyperparameters[i,6]))    %>%
           layer_dense(units = n1, activation = "softmax")  # dimensions of final encoding layer
 
         decoder <- encoder %>%
-          layer_dense(units = n2, activation = hyperparameters[i,6]) %>%
-          layer_dense(units = n3, hyperparameters[i,6])  # dimension of original variable
+          layer_dense(units = n2, activation = as.character(hyperparameters[i,6])) %>%
+          layer_dense(units = n3, as.character(hyperparameters[i,6]))  # dimension of original variable
       }
       else {
         n1 = -n1 # korekta dla ujemnej wartosci w hiperparametrach
         encoder <-
           input_layer %>%
-          layer_dense(units = n2, activation = hyperparameters[i,6], kernel_regularizer = regularizer_l1(l = 0.01))    %>%
+          layer_dense(units = n2, activation = as.character(hyperparameters[i,6]), kernel_regularizer = regularizer_l1(l = 0.01))    %>%
           layer_dense(units = n1, activation = "softmax", kernel_regularizer = regularizer_l1(l = 0.01))  # dimensions of final encoding layer
 
         decoder <- encoder %>%
-          layer_dense(units = n2, activation = hyperparameters[i,6], kernel_regularizer = regularizer_l1(l = 0.01))    %>%
-          layer_dense(units = n3, hyperparameters[i,6])  # dimension of original variable
+          layer_dense(units = n2, activation = as.character(hyperparameters[i,6]), kernel_regularizer = regularizer_l1(l = 0.01))    %>%
+          layer_dense(units = n3, as.character(hyperparameters[i,6]))  # dimension of original variable
       }
       ae_model <- keras_model(inputs = input_layer, outputs = decoder)
       ae_model
 
       ae_model %>%
         keras::compile(loss = "mean_absolute_error",
-                       optimizer = hyperparameters[i,13],
+                       optimizer = as.character(hyperparameters[i,13]),
                        metrics = c("mean_squared_error"))
 
       summary(ae_model)
