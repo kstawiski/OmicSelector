@@ -38,6 +38,7 @@ if("feseR" %in% rownames(installed.packages()) == FALSE) { remotes::install_gith
 if("autokeras" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("jcrodriguez1989/autokeras", upgrade = "never") }
 if("waiter" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("JohnCoene/waiter", upgrade = "never") }
 if("shinyjqui" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("Yang-Tang/shinyjqui", upgrade = "never") }
+if("RSQLite" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("r-dbi/RSQLite", upgrade = "never") }
 
 # tryCatch(
 #         {
