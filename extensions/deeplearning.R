@@ -40,28 +40,28 @@ OmicSelector_keras_create_model <- function(i, hyperparameters, how_many_feature
   #   layer_dense(units = 1, activation = 'sigmoid')
   library(keras)
   tempmodel <- keras_model_sequential()
-  if(hyperparameters[i,10]==T) { layer_dense(tempmodel , units = hyperparameters[i,1], kernel_regularizer = regularizer_l1(l = 0.001),
-                                             activation = hyperparameters[i,4], input_shape = c(how_many_features)) } else
-                                             { layer_dense(tempmodel , units = hyperparameters[i,1], activation = hyperparameters[i,4],
+  if(hyperparameters[i,10]==T) { layer_dense(tempmodel , units = as.character(hyperparameters[i,1]), kernel_regularizer = regularizer_l1(l = 0.001),
+                                             activation = as.character(hyperparameters[i,4]), input_shape = c(how_many_features)) } else
+                                             { layer_dense(tempmodel , units = as.character(hyperparameters[i,1]), activation = as.character(hyperparameters[i,4]),
                                                            input_shape = c(how_many_features)) }
-  if(hyperparameters[i,7]>0) { layer_dropout(tempmodel , rate = hyperparameters[i,7]) }
+  if(hyperparameters[i,7]>0) { layer_dropout(tempmodel , rate = as.character(hyperparameters[i,7])) }
   if(hyperparameters[i,2]>0) {
-    if(hyperparameters[i,11]==T) { layer_dense(tempmodel , units = hyperparameters[i,2], activation = hyperparameters[i,5],
+    if(hyperparameters[i,11]==T) { layer_dense(tempmodel , units = as.character(hyperparameters[i,2]), activation = as.character(hyperparameters[i,5]),
                                                kernel_regularizer = regularizer_l1(l = 0.001)) } else
-                                               {layer_dense(tempmodel, units = hyperparameters[i,2], activation = hyperparameters[i,5]) } }
+                                               {layer_dense(tempmodel, units = as.character(hyperparameters[i,2]), activation = as.character(hyperparameters[i,5])) } }
 
   if(hyperparameters[i,2]>0 & hyperparameters[i,8]>0) { layer_dropout(tempmodel, rate = hyperparameters[i,8]) }
   if(hyperparameters[i,3]>0) {
-    if(hyperparameters[i,12]==T) { layer_dense(tempmodel, units = hyperparameters[i,3], activation = hyperparameters[i,6],
+    if(hyperparameters[i,12]==T) { layer_dense(tempmodel, units = as.character(hyperparameters[i,3]), activation = as.character(hyperparameters[i,6]),
                                                kernel_regularizer = regularizer_l1(l = 0.001)) } else
-                                               { layer_dense(tempmodel, units = hyperparameters[i,3], activation = hyperparameters[i,6])} }
-  if(hyperparameters[i,3]>0 & hyperparameters[i,9]>0) { layer_dropout(rate = hyperparameters[i,9]) }
+                                               { layer_dense(tempmodel, units = as.character(hyperparameters[i,3]), activation = as.character(hyperparameters[i,6]))} }
+  if(hyperparameters[i,3]>0 & hyperparameters[i,9]>0) { layer_dropout(rate = as.character(hyperparameters[i,9])) }
   layer_dense(tempmodel, units = 2, activation = 'softmax')
 
   print(tempmodel)
 
 
-  dnn_class_model = keras::compile(tempmodel, optimizer = hyperparameters[i,13],
+  dnn_class_model = keras::compile(tempmodel, optimizer = as.character(hyperparameters[i,13]),
                                    loss = 'binary_crossentropy',
                                    metrics = 'accuracy')
 
