@@ -50,7 +50,7 @@ OmicSelector_keras_create_model <- function(i, hyperparameters, how_many_feature
                                                kernel_regularizer = regularizer_l1(l = 0.001)) } else
                                                {layer_dense(tempmodel, units = as.character(hyperparameters[i,2]), activation = as.character(hyperparameters[i,5])) } }
 
-  if(hyperparameters[i,2]>0 & hyperparameters[i,8]>0) { layer_dropout(tempmodel, rate = hyperparameters[i,8]) }
+  if(hyperparameters[i,2]>0 & hyperparameters[i,8]>0) { layer_dropout(tempmodel, rate = as.character(hyperparameters[i,8])) }
   if(hyperparameters[i,3]>0) {
     if(hyperparameters[i,12]==T) { layer_dense(tempmodel, units = as.character(hyperparameters[i,3]), activation = as.character(hyperparameters[i,6]),
                                                kernel_regularizer = regularizer_l1(l = 0.001)) } else
