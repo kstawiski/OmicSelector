@@ -518,7 +518,7 @@ if(dir.exists("/OmicSelector")) {
       fwrite(cbind(hyperparameters[i,], tempwyniki), paste0(temp_dir,"/models/keras",model_id,"/wyniki.csv"))
       #message("Checkpoint passed: chunk 19")
 
-      wagi = get_weights(dnn_class_model)
+      wagi = keras::get_weights(dnn_class_model)
       saveRDS(wagi, paste0(temp_dir,"/models/keras",model_id,"/finalmodel_weights.RDS"))
       save_model_weights_hdf5(dnn_class_model, paste0(temp_dir,"/models/keras",model_id,"/finalmodel_weights.hdf5"))
       saveRDS(dnn_class_model, paste0(temp_dir,"/models/keras",model_id,"/finalmodel.RDS"))
@@ -750,7 +750,7 @@ if(dir.exists("/OmicSelector")) {
         }
       fwrite(cbind(hyperparameters[i,], tempwyniki), paste0(temp_dir,"/models/keras",model_id,"/wyniki.csv"))
 
-      wagi = get_weights(dnn_class_model)
+      wagi = keras::get_weights(dnn_class_model)
       saveRDS(wagi, paste0(temp_dir,"/models/keras",model_id,"/finalmodel_weights.RDS"))
       save_model_weights_hdf5(dnn_class_model, paste0(temp_dir,"/models/keras",model_id,"/finalmodel_weights.hdf5"))
       saveRDS(dnn_class_model, paste0(temp_dir,"/models/keras",model_id,"/finalmodel.RDS"))
@@ -881,7 +881,7 @@ unzip(model_path, model_path_in_zip, exdir = tempdir())
 model_path_unzipped = paste0(tempdir(), "/", model_path_in_zip)
 init_model = keras::load_model_hdf5(model_path_unzipped)
 init_model
-wagi_wyjsciowe = get_weights(init_model)
+wagi_wyjsciowe = keras::get_weights(init_model)
 
 wyniki_path_in_zip = dplyr::filter(unzip(model_path, list = T), grepl("wyniki.csv",Name))[1,"Name"]
 unzip(model_path, wyniki_path_in_zip, exdir = tempdir())
@@ -1039,7 +1039,7 @@ keras_batch_size = 64
 compile(trans_model, loss = 'binary_crossentropy',
         metrics = 'accuracy', optimizer = pre_conf$optimizer)
 
-set_weights(trans_model, get_weights(init_model))
+keras::set_weights(trans_model, keras::get_weights(init_model))
 if(freeze_from>0) {
 freeze_weights(trans_model, from = freeze_from, to = freeze_to)
 compile(trans_model, loss = 'binary_crossentropy',
@@ -1060,8 +1060,8 @@ history <-  fit(trans_model, x = x_train_scale,
                 batch_size = keras_batch_size, shuffle = T)
 history
 
-get_weights(init_model)
-get_weights(trans_model)
+keras::get_weights(init_model)
+keras::get_weights(trans_model)
 
 trans_model %>% save_model_hdf5("trans_model.hdf5")
 
