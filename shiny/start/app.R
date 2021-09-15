@@ -387,8 +387,10 @@ server <- function(input,output,session){
     } else {
       showNotification(paste0("Please wait... Creating analysis framework for ID: ", input$analysis_id))
       dir.create(paste0("/OmicSelector/",input$analysis_id))
-      file.copy(getwd(), paste0("/OmicSelector/",input$analysis_id), recursive = T)
-      updateQueryString(paste0("/analysis.php?id=",input$analysis_id))
+      file.copy(list.files("."), paste0("/OmicSelector/",input$analysis_id), recursive = T)
+      updateQueryString(paste0("/analysis.php?id=",input$analysis_id), mode = c("replace","push"),
+                    session = getDefaultReactiveDomain())
+      shinyjs::runjs(paste0('window.location.href = "/analysis.php?id=', input$analysis_id ,'";'))
     }
   })
   
