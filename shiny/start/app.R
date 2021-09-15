@@ -386,6 +386,7 @@ server <- function(input,output,session){
       showNotification("Cannot proceed due to file validation errors. Please correct the file and start over.", type = "error")
     } else {
       showNotification(paste0("Please wait... Creating analysis framework for ID: ", input$analysis_id))
+      file.rename("temp.log","initial_check.txt")
       dir.create(paste0("/OmicSelector/",input$analysis_id))
       file.copy(list.files("."), paste0("/OmicSelector/",input$analysis_id), recursive = T)
       updateQueryString(paste0("/analysis.php?id=",input$analysis_id), mode = c("replace","push"),
