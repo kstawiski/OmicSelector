@@ -213,7 +213,7 @@ $(document).ready(function(e){
                 <table class="table">
                     <tr><td width="50%">
                     <h4>Start new analysis:</h4>
-                    <p><a href="/start.php" role="button" class="btn btn-primary"><i class="fas fa-plus"></i>&emsp;New OmicSelector analysis</a></p>
+                    <p><a href="/app_start" role="button" class="btn btn-primary"><i class="fas fa-plus"></i>&emsp;New OmicSelector analysis</a></p>
                     <p><a href="/start_custom.php" role="button" class="btn btn-warning"><i class="fas fa-plus"></i>&emsp;New custom analysis</a></p>
                     </td>
                     <td width="50%">

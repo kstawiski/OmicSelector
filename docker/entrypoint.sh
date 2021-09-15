@@ -42,6 +42,7 @@ screen -dmS app-tool_batch R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny
 screen -dmS app-tool_heatmap R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_heatmap', port = 20003)"
 screen -dmS app-tool_impute R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_impute', port = 20004)"
 screen -dmS app-tool_de R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_de', port = 20005)"
+screen -dmS app-start R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/start', port = 20006)"
 
 cd /OmicSelector/
 # Jupyter
