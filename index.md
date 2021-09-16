@@ -1,8 +1,10 @@
-# OmicSelector - environment, Docker-based web application, and R package for biomarker signature selection (feature selection) from high-throughput experiments.
+# OmicSelector - automatic feature selection and deep learning modelling for omic experiments.
 
 ![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/logo.png)
 
 OmicSelector is the environment, docker-based application and R package for biomarker signiture selection (feature selection) & deep learning diagnostic tool development from high-throughput high-throughput omics experiments and other multidimensional datasets. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the previous name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool, you can choose features, like miRNAs, with the most significant diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments). It can also develop the best deep learning model for your signature, as well as be an IDE for your more complex data mining project (contains R Studio, Jupyter notebooks and VS Code.. all integrated in one!).
+
+![](https://github.com/kstawiski/OmicSelector/raw/master/vignettes/Figure1.png)
 
 The primary purpose of OmicSelector is to provide you with the set of **candidate features (biomarkers) for further validation of biomarker study** from, e.g., high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called "benchmarking". In benchmarking, **we try all of those biomarkers' sets using various data-mining (machine learning) methods**. Based on the average performance of groups in cross-validation or holdout-validation (testing on the test set and/or validation set), we can suggest which of the signatures (set of features) have the tremendous potential for further validation.
 
