@@ -47,6 +47,7 @@ ui <- fluidPage(
 ##### SERVER
 server <- function(input,output,session){
     observeEvent(input$button_startover, {
+        shinyjs::enable("button_start_analysis")
         shinyjs::toggle(id= "panelA")
         shinyjs::toggle(id= "panelB")
     })
@@ -65,7 +66,7 @@ server <- function(input,output,session){
   
     
   observeEvent(input$button_start_analysis, {
-
+        shinyjs::disable("button_start_analysis")
         # VALIDATION:
         walidacja = ""
         if(dir.exists(paste0("/OmicSelector/",input$analysis_id)) == TRUE) { walidacja = "The analysis with the same analysis ID already exists. Choose a unique one."; updateTextInput(session, "analysis_id", value = stringi::stri_rand_strings(1, 15)); }
@@ -78,9 +79,10 @@ server <- function(input,output,session){
         if(is.null(dane)) { walidacja = "You have to provide valid xlsx or csv file for the analysis." }
         
         if(walidacja != "") { showNotification(walidacja, duration = 10, type = "error") }
+        shinyjs::enable("button_start_analysis")
         validate(need(walidacja == "", "Form validation error", "button_start_analysis"))
         
-        
+       shinyjs::disable("button_start_analysis")
         # Create a Progress object
         progress <- shiny::Progress$new()
         # Make sure it closes when we exit this reactive, even if there's an error
