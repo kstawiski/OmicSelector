@@ -473,7 +473,7 @@ function konsta_readcsv_formulas($filename, $header = true)
                     $images = glob($target_dir . "exploratory_*.png");
                     foreach ($images as $image) {
                         $image3 = str_replace("/OmicSelector", "/e/files", $image);
-                        $image2 = str_replace("/OmicSelector", "/e/view", $image);
+                        $image2 = str_replace("/OmicSelector", "/e/files", $image);
                         echo '<a href="' . $image2 . '" target="_blank" onclick="window.open(\'' . $image2 . '\',\'popup\',\'width=600,height=600\'); return false;"><img src="' . $image3 . '" width="49%" /></a>';
                     }
                     ?>

@@ -14,12 +14,21 @@ Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
 ## Try it out
 
+### Biostat.umed.pl demo
+
+Link: [https://biostat.umed.pl/OmicSelector/demo/](https://biostat.umed.pl/OmicSelector/demo/)
+
+Please note that this intance will reset and restart every Monday. All projects are purged every Monday!
+
+Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.
+
+### Ainize demo
+
 [![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
 
 Link: [https://master-omic-selector-kstawiski.endpoint.ainize.ai/](https://master-omic-selector-kstawiski.endpoint.ainize.ai/)
 
-Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone. You can fork the repo if you want your own free tesing copy using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector).
-
+Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. If you wish to go deeper, i.e. messing with files as *root*, you should fork the repo. You can get your own free and working OmicSelector using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector). [Note: if you wish to build your own docker change `FROM kstawiski/omicselector-gpu` in Dockerfile]
 ## Quick start
 
 ### Docker (with GUI):
@@ -122,6 +131,10 @@ After unpacking, if you wish to use our enviorment please consider setting the o
 
 ![](vignettes/win3.png)
 
+
+## Build with OmicSelector
+
+**OmicApp** is the framework utilizing OmicSelector to build complex Shiny applications. Please see https://github.com/kstawiski/OmicApp for more details.
 
 ## Footnote
 

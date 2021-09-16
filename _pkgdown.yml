@@ -28,7 +28,7 @@ navbar:
     demo:
       icon: fa-cubes
       text: Demo
-      href: https://master-omic-selector-kstawiski.endpoint.ainize.ai/
+      href: https://biostat.umed.pl/OmicSelector/demo/
     reference:
       icon: fa-file-code
       text: Functions

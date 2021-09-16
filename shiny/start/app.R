@@ -68,7 +68,7 @@ server <- function(input,output,session){
 
         # VALIDATION:
         walidacja = ""
-        if(dir.exists(paste0("/OmicSelector/",input$analysis_id)) == TRUE) { walidacja = "The analysis with the same analysis ID already exists. Choose a unique one." }
+        if(dir.exists(paste0("/OmicSelector/",input$analysis_id)) == TRUE) { walidacja = "The analysis with the same analysis ID already exists. Choose a unique one."; updateTextInput(session, "analysis_id", value = stringi::stri_rand_strings(1, 15)); }
         if(is.null(input$file2)) { walidacja = "You have to provide xlsx or csv file for the analysis." }
         try({ 
           plik = input$file2$datapath
