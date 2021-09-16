@@ -24,9 +24,15 @@ jobs:
           echo 'options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/latest"));' >> ~/.Rprofile
           Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes"));'
           Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install package
         shell: bash -l {0}
         run: R CMD INSTALL .
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check loading
         shell: bash -l {0}
