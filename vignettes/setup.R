@@ -1,14 +1,27 @@
 ## Default repo
 # Ubuntu: apt install default-jre default-jdk libmagick++-dev zlib1g-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev r-cran-rgl
-r = getOption("repos")
-r["CRAN"] = "https://cran.r-project.org"
-options(repos = r)
+#r = getOption("repos")
+#r["CRAN"] = "https://cran.r-project.org"
+#options(repos = r)
+
+options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/latest"))
+if(Sys.info()["sysname"] == "Linux") {
+  cat("This is Linux.")
+  if(system("awk -F= '/^NAME/{print $2}' /etc/os-release", intern = T) == "\"Ubuntu\"") {
+    cat(" Distro: UBUNTU ")
+    codename = system("cat /etc/os-release | grep UBUNTU_CODENAME | cut -d = -f 2", intern = T)
+    cat(codename)
+    options(repos = c(CRAN = paste0("https://packagemanager.rstudio.com/cran/__linux__/",codename,"/latest")))
+  }
+  
+}
 
 
 tylko_cran = c("BiocManager","devtools","reticulate","remotes","keras","parallel")
 if (length(setdiff(tylko_cran, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(tylko_cran, rownames(installed.packages())), ask = F)  }
 options(Ncpus = parallel::detectCores())
+options(BioC_mirror = "https://packagemanager.rstudio.com/bioconductor")
 
 packages = c("remotes","devtools","parallel","rlang","ps","roxygen2", "plotly", "rJava", "mice","BiocManager", "MatchIt","curl",
                        "reticulate", "kableExtra","plyr","dplyr","edgeR","epiDisplay","rsq","MASS","Biocomb","caret","dplyr",
