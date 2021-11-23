@@ -32,7 +32,7 @@ packages = c("remotes","devtools","parallel","rlang","ps","roxygen2", "plotly", 
                        "rpart", "party", "mgcv", "GDCRNATools", "rJava", "cutpointr", "HTqPCR", "nondetects",
                        "imputeMissings", "visdat", "naniar", "stringr", "R.utils", "TCGAbiolinks", "GDCRNATools",
                        "kableExtra", "VIM", "mice", "MatchIt", "XML", "rmarkdown", "xtable", "ComplexHeatmap","circlize", "hash","RANN",
-                       "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs")
+                       "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs","rms","Rfast","RcppGSL")
 
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   BiocManager::install(setdiff(packages, rownames(installed.packages())), ask = F)  }
@@ -52,6 +52,18 @@ if("autokeras" %in% rownames(installed.packages()) == FALSE) { remotes::install_
 if("waiter" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("JohnCoene/waiter", upgrade = "never") }
 if("shinyjqui" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("Yang-Tang/shinyjqui", upgrade = "never") }
 if("RSQLite" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("r-dbi/RSQLite", upgrade = "never") }
+
+# Base dependencies
+if(!'arules' %in% installed.packages()) install.packages('arules')
+if(!'bit64' %in% installed.packages()) install.packages('bit64')
+if(!'data.table' %in% installed.packages()) install.packages('data.table')
+if(!'doParallel' %in% installed.packages()) install.packages('doParallel')
+if(!'foreach' %in% installed.packages()) install.packages('foreach')
+if(!'lubridate' %in% installed.packages()) install.packages('lubridate')
+if(!'timeDate' %in% installed.packages()) install.packages('timeDate')
+
+# RemixAutoML
+devtools::install_github('AdrianAntico/RemixAutoML', upgrade = FALSE, dependencies = FALSE, force = TRUE)
 
 # tryCatch(
 #         {
