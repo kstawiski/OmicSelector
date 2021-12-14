@@ -168,8 +168,8 @@ Citation:
 
 Authors:
 
-- [Konrad Stawiski, M.D. (konrad.stawiski@umed.lodz.pl)](https://konsta.com.pl)
-- Marcin Kaszkowiak.
+- [Dr. Konrad Stawiski, M.D., Ph.D. (konrad.stawiski@umed.lodz.pl)](https://konsta.com.pl)
+- Marcin Kaszkowiak, M.D.
 - Damian Mikulski, M.D.
 
 Supervised by: prof. Wojciech Fendler, M.D., Ph.D. 
