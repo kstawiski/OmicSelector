@@ -14,6 +14,14 @@ if(isset($_SESSION["analysis_id"]))
     $prev_analysis = $_SESSION["analysis_id"];
 }
 
+// Be sure all modules are working.
+exec("screen -dmS app-deeplearning_model R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/deeplearning_model', port = 20001)\"");
+exec("screen -dmS app-tool_batch R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_batch', port = 20002)\"");
+exec("screen -dmS app-tool_heatmap R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_heatmap', port = 20003)\"");
+exec("screen -dmS app-tool_impute R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_impute', port = 20004)\"");
+exec("screen -dmS app-tool_de R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/tool_de', port = 20005)\"");
+exec("screen -dmS app-start R -e \"shiny::runApp('/OmicSelector/OmicSelector/shiny/start', port = 20006)\"");
+
 
 ?>
 

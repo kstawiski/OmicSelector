@@ -47,4 +47,4 @@ screen -dmS app-start R -e "shiny::runApp('/OmicSelector/OmicSelector/shiny/star
 cd /OmicSelector/
 # Jupyter
 jupyter serverextension enable jupytext
-jupyter notebook --no-browser
+jupyter notebook --no-browser --NotebookApp.terminals_enabled=False
