@@ -32,7 +32,7 @@ packages = c("remotes","devtools","parallel","rlang","ps","roxygen2", "plotly", 
                        "rpart", "party", "mgcv", "GDCRNATools", "rJava", "cutpointr", "HTqPCR", "nondetects",
                        "imputeMissings", "visdat", "naniar", "stringr", "R.utils", "TCGAbiolinks", "GDCRNATools",
                        "kableExtra", "VIM", "mice", "MatchIt", "XML", "rmarkdown", "xtable", "ComplexHeatmap","circlize", "hash","RANN",
-                       "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs","rms","Rfast","RcppGSL","gtsummary","tableone")
+                       "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs","rms","Rfast","RcppGSL","gtsummary","tableone","readr")
 
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   BiocManager::install(setdiff(packages, rownames(installed.packages())), ask = F)  }
@@ -63,7 +63,7 @@ if(!'lubridate' %in% installed.packages()) install.packages('lubridate')
 if(!'timeDate' %in% installed.packages()) install.packages('timeDate')
 
 # RemixAutoML
-devtools::install_github('AdrianAntico/RemixAutoML', upgrade = FALSE, dependencies = FALSE, force = TRUE)
+# devtools::install_github('AdrianAntico/RemixAutoML', upgrade = FALSE, dependencies = FALSE, force = TRUE)
 
 # tryCatch(
 #         {
