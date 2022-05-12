@@ -17,13 +17,13 @@
 #' @return Xgboost model
 #'
 #' @export
-OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_datamix(use_smote_not_rose = T)[[1]], test = OmicSelector_load_datamix(use_smote_not_rose = T)[[2]], valid = OmicSelector_load_datamix(use_smote_not_rose = T)[[2]], valid = OmicSelector_load_datamix(use_smote_not_rose = T)[[3]],
+OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_datamix(use_smote_not_rose = T)[[1]], test = OmicSelector_load_datamix(use_smote_not_rose = T)[[2]], valid = OmicSelector_load_datamix(use_smote_not_rose = T)[[2]],
                                 eta = c(0, 1),
                     gamma =c(0, 100),
                     max_depth = c(2L, 10L), # L means integers
                     min_child_weight = c(1, 25),
                     subsample = c(0.25, 1),
-                    nfold = c(3L, 10L), initPoints = 7, iters.n=10,){
+                    nfold = c(3L, 10L), initPoints = 8, iters.n=10){
     library(xgboost)
     library(ParBayesianOptimization)
     library(mlbench) 
@@ -63,8 +63,12 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
     #y <- ifelse(train$Class == "Case", 1, 0)
     x <- model.matrix(eq, data = train)
     y <- ifelse(train$Class == "Case", 1, 0)
+    assign("x", x, envir = .GlobalEnv)
+    assign("y", y, envir = .GlobalEnv)
 
-    scale_pos = sum(train$Class == "Control") / sum(train$Class == "Case") # fight dataset imbalance
+    if(sum(train$Class == "Control") / sum(train$Class == "Case")>1) {
+    scale_pos_weight = c(0,sum(train$Class == "Control") / sum(train$Class == "Case")) }
+    else { scale_pos_weight = c(sum(train$Class == "Control") / sum(train$Class == "Case"),5) }
 
     # Make matrices for testing data
     xvals <- model.matrix(eq, data = test)
@@ -88,7 +92,8 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
                     max_depth =max_depth, # L means integers
                     min_child_weight = min_child_weight,
                     subsample = subsample,
-                    nfold = nfold
+                    nfold = nfold,
+                    scale_pos_weight = scale_pos_weight
                     )
     
     set.seed(2021)
@@ -100,6 +105,60 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
     clusterExport(cl, c('x','y')) # import objects outside
     clusterEvalQ(cl,expr= { # launch library to be used in FUN
     library(xgboost)
+    library(OmicSelector)
+        
+    OmicSelector_xgboost_scoring_function <- function(eta, gamma, max_depth, min_child_weight, subsample, nfold) {
+
+    library(xgboost)
+    library(ParBayesianOptimization)
+    library(mlbench) 
+    library(dplyr)
+    library(recipes)
+    library(resample)
+    library(ROCR)
+    library(ggplot2)
+  dtrain <- xgb.DMatrix(x, label = y, missing = NA)
+
+  pars <- list(
+    eta = eta,
+    gamma = gamma,
+    max_depth = max_depth,
+    min_child_weight = min_child_weight,
+    subsample = subsample,
+    scale_pos_weight = scale_pos_weight,
+
+    booster = "gbtree",
+    objective = "binary:logistic",
+    eval_metric = "auc",
+    verbosity = 0
+  )
+  
+  xgbcv <- xgb.cv(
+    params = pars,
+    data = dtrain,
+    
+    nfold = nfold,
+    # scale_pos_weight = scale_pos,
+    nrounds = 1000,
+    prediction = TRUE,
+    showsd = TRUE,
+    early_stopping_rounds = 50,
+    maximize = TRUE,
+    stratified = TRUE
+  )
+  
+  # required by the package, the output must be a list
+  # with at least one element of "Score", the measure to optimize
+  # Score must start with capital S
+  # For this case, we also report the best num of iteration
+  return(
+    list(
+      Score = max(xgbcv$evaluation_log$test_auc_mean),
+      nrounds = xgbcv$best_iteration
+    )
+  )
+}
+    
     })
 
     time_withparallel <- system.time(
@@ -122,7 +181,7 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
                 subsample = getBestPars(opt_obj)[5],
                 nfold = getBestPars(opt_obj)[6],
                 objective = "binary:logistic",
-                scale_pos_weight = scale_pos)
+                scale_pos_weight = getBestPars(opt_obj)[7])
 
     # the numrounds which gives the max Score (auc)
     numrounds <- opt_obj$scoreSummary$nrounds[
@@ -204,16 +263,8 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
 }
 
 
-OmicSelector_xgboost_scoring_function <- function(eta, gamma, max_depth, min_child_weight, subsample, nfold) {
+OmicSelector_xgboost_scoring_function <- function(eta, gamma, max_depth, min_child_weight, subsample, nfold, scale_pos_weight) {
 
-    library(xgboost)
-    library(ParBayesianOptimization)
-    library(mlbench) 
-    library(dplyr)
-    library(recipes)
-    library(resample)
-    library(ROCR)
-    library(ggplot2)
   dtrain <- xgb.DMatrix(x, label = y, missing = NA)
 
   pars <- list(
@@ -222,7 +273,7 @@ OmicSelector_xgboost_scoring_function <- function(eta, gamma, max_depth, min_chi
     max_depth = max_depth,
     min_child_weight = min_child_weight,
     subsample = subsample,
-    scale_pos_weight = scale_pos,
+    scale_pos_weight = scale_pos_weight,
 
     booster = "gbtree",
     objective = "binary:logistic",
