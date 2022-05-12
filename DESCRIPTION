@@ -92,7 +92,11 @@ Imports:
     sva,
     devtools,
     nnet,
-    klaR
+    klaR,
+    ParBayesianOptimization,
+    recipes,
+    resample,
+    mlbench
 RoxygenNote: 7.1.1
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
