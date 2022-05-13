@@ -67,8 +67,8 @@ OmicSelector_xgboost = function(features = "all", train = OmicSelector_load_data
     assign("y", y, envir = .GlobalEnv)
 
     if(sum(train$Class == "Control") / sum(train$Class == "Case")>1) {
-    scale_pos_weight = c(0,sum(train$Class == "Control") / sum(train$Class == "Case")) }
-    else { scale_pos_weight = c(sum(train$Class == "Control") / sum(train$Class == "Case"),5) }
+    scale_pos_weight = c(0,(sum(train$Class == "Control") / sum(train$Class == "Case"))*2) }
+    else { scale_pos_weight = c((sum(train$Class == "Control") / sum(train$Class == "Case"))*0.5,5) }
 
     # Make matrices for testing data
     xvals <- model.matrix(eq, data = test)
