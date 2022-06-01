@@ -7,15 +7,20 @@ home:
     href: https://biostat.umed.pl
 
 template:
+  package: tidytemplate
+  bootstrap: 5
+  bslib:
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "JetBrains Mono"}
   params:
-    bootswatch: cosmo
     ganalytics: UA-53584749-8
     package: OmicSelector
 
 navbar:
   structure:
     left:  [news]
-    right: [home, intro, demo, reference, methods, articles, github]
+    right: [home, intro, demo, reference, methods, articles, github, twitter]
   components:
     home:
       icon: fa-home
@@ -47,3 +52,7 @@ navbar:
       - icon: fa-code-branch
         text: Deep learning tutorial
         href: articles/DeepLearningTutorial.html
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/KonradStawiski
+      aria-label: Twitter
