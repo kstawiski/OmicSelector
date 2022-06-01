@@ -830,8 +830,8 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
 
 
   # conda_list()
-  try({ conda_create("wxnet", c("tensorflow-gpu","keras","numpy","pandas", "xgboost", "scikit-learn", "tqdm", "pickle5")) })
-  use_condaenv("wxnet", required = T)
+  # try({ conda_create("wxnet", c("tensorflow-gpu","keras","numpy","pandas", "xgboost", "scikit-learn", "tqdm", "pickle5")) })
+  use_condaenv("tensorflow", required = T)
   py_config()
 
   dane = OmicSelector_load_datamix(replace_smote = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]

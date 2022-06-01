@@ -97,7 +97,7 @@ Imports:
     recipes,
     resample,
     mlbench
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-6550-3384")
