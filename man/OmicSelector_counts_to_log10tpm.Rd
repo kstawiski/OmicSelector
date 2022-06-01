@@ -10,7 +10,8 @@ OmicSelector_counts_to_log10tpm(
   ids = metadane$ID,
   filtr = T,
   filtr_minimalcounts = 10,
-  filtr_howmany = 1/2
+  filtr_howmany = 1/2,
+  increment = 0.001
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ OmicSelector_counts_to_log10tpm(
 \item{filtr_minimalcounts}{How many counts?}
 
 \item{filtr_howmany}{In how many samples? (Please provide a percentage or proportion, e.g. 1/2 or 1/3).}
+
+\item{increment}{Increment added to TPM values before log-transformation (usually: 0.001, so -3 will be equalt to lack of expression).}
 }
 \value{
 Normalized counts in `ttpm` format. Please note, that the function also saves `TPM_DGEList_filtered.rds` to working directory, which is a DGEList object that can be used in packages like edgeR.

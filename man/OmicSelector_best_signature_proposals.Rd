@@ -19,6 +19,6 @@ The benchmark sorted by metaIndex. First row is the best performing miRNA set.
 }
 \description{
 Propose the best signture based on benchamrk methods.
-This function calculated the `metaIndex1` value which is the mean accuracy from train, test and validation dataset.
+This function calculated the `metaindex` value which is the harmonic mean of accuracy on train, test and validation dataset.
 In the next step, it sorts the miRNA sets based on `metaIndex1` score. The first row in resulting data frame is the winner miRNA set.
 }
