@@ -14,3 +14,4 @@ vignettes/*.csv
 vignettes/*.csv.gz
 docs
 vignettes/balanced_dataset.csv.gz
+docker/build.log
