@@ -1,5 +1,0 @@
-roxygen2::roxygenise()
-library(devtools)
-devtools::install()
-pkgdown::deploy_to_branch()
-devtools::check()

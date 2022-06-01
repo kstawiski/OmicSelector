@@ -1,3 +1,0 @@
-['hsa.miR.92a.3p','hsa.miR.125b.1.3p','hsa.miR.125b.2.3p','hsa.miR.25.3p',
- 'hsa.let.7i.5p','hsa.miR.3679.5p','hsa.miR.7.5p','hsa.miR.548av.3p',
- 'hsa.miR.138.2.3p','hsa.miR.378c']
