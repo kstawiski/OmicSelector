@@ -84,7 +84,6 @@ Imports:
     VIM,
     circlize,
     edgeR,
-    magick,
     mgcv,
     party,
     rmarkdown,
