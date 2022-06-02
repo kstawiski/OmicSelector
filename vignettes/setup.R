@@ -41,6 +41,7 @@ library(devtools)
 library(remotes)
 # Paczki z githuba
 if("DMwR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("cran/DMwR", upgrade = "never") }
+if("kerasformula" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("rdrr1990/kerasformula", upgrade = "never") }
 if("bounceR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("STATWORX/bounceR", upgrade = "never") }
 if("ggbiplot" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("vqv/ggbiplot", upgrade = "never") }
 if("mnormt" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("cran/mnormt", upgrade = "never") }

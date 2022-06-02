@@ -33,7 +33,9 @@ jobs:
           LC_ALL: C.UTF-8
       - name: Install package
         shell: bash -l {0}
-        run: R CMD INSTALL .
+        run: |
+        sudo chmod 777 -R /usr/local/lib/R/site-library/
+        sudo R CMD INSTALL .
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
