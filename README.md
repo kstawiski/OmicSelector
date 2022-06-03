@@ -140,7 +140,7 @@ After unpacking, if you wish to use our enviorment please consider setting the o
 
 Citation:
 
-`In press.`
+`Stawiski K, Kaszkowiak M, Mikulski D, Hogendorf P, Durczynski A, Strzelczyk J, et al. OmicSelector: automatic feature selection and deep learning modeling for omic experiments. bioRxiv. 2022. p. 2022.06.01.494299. doi: https://doi.org/10.1101/2022.06.01.494299`
 
 Authors:
 

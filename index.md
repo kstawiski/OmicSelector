@@ -164,7 +164,9 @@ Exemplary files for the analysis:
 
 Citation:
 
-`In press.`
+`Stawiski K, Kaszkowiak M, Mikulski D, Hogendorf P, Durczynski A, Strzelczyk J, et al. OmicSelector: automatic feature selection and deep learning modeling for omic experiments. bioRxiv. 2022. p. 2022.06.01.494299. doi: https://doi.org/10.1101/2022.06.01.494299`
+
+[Available on bioRxiv as preprint.](http://biorxiv.org/content/early/2022/06/02/2022.06.01.494299.abstract)
 
 Authors:
 
