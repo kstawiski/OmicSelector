@@ -21,8 +21,7 @@ py_discover_config('tensorflow')
 py_discover_config('keras')
 is_keras_available()
 
-packages = c("kerasformula",
-             "kerasR",
+packages = c("kerasR",
              "ggplot2", 
              "dplyr",
              "magrittr",
