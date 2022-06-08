@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:bionic
 
 ENV PUBLIC=0
 # Basic build setup
@@ -51,7 +51,7 @@ RUN Rscript -e "chooseCRANmirror(ind=1);" && Rscript /setup.R && echo 'root:bios
 RUN Rscript /register_jupyter.R && jupyter notebook --generate-config && mkdir /OmicSelector/ 
 
 # Setup keras in R env
-RUN Rscript /keras.R && Rscript -e "library(OmicSelector);"
+RUN Rscript /keras.R
 
 # Build GUI
 COPY docker/jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
@@ -70,7 +70,7 @@ RUN conda install -c conda-forge jupyter_contrib_nbextensions nbresuse && jupyte
 RUN pip install nbzip && jupyter serverextension enable --py nbzip --sys-prefix && jupyter nbextension install --py nbzip && jupyter nbextension enable --py nbzip
 
 # RStudio server:
-RUN apt-get install -y libclang-dev && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.2-485-amd64.deb && dpkg -i rstudio-server-2022.02.2-485-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.2-485-amd64.deb
+RUN apt-get install -y libclang-dev libssl-dev gdebi-core && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.3-492-amd64.deb && gdebi-core rstudio-server-2022.02.3-492-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.3-492-amd64.deb
 
 # MXNET:
 # RUN wget https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh && chmod +x install-opencv.sh && ./install-opencv.sh
@@ -80,6 +80,9 @@ RUN apt-get install -y libclang-dev && wget https://download2.rstudio.org/server
 RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION -O "version.txt" && VERSION=$(cat version.txt)  && wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && gdebi -n ss-latest.deb && rm -f version.txt ss-latest.deb
 COPY docker/shiny-server.conf /etc/shiny-server/shiny-server.conf 
 RUN Rscript -e 'install.packages(c("shiny","rmarkdown"))' && Rscript -e 'devtools::install_github("radiant-rstats/radiant")' && echo "options(radiant.init.data = list.files(path = '/radiant-data', full.names = TRUE))" >> /root/.Rprofile
+
+# Ensure OmicSelector is installed
+RUN Rscript -e 'devtools::install_github("kstawiski/OmicSelector")'
 
 # VSCODE:
 RUN curl -fsSL https://code-server.dev/install.sh | sh
