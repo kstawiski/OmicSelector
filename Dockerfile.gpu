@@ -27,7 +27,7 @@ RUN pip install jupytext
 ENV OPENGL_gl_LIBRARY /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
 ENV OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so.1
 RUN apt-get update --fix-missing && \
-    apt-get install -y apt-utils libxml2-dev sshfs cifs-utils libffi-dev libx11-dev mesa-common-dev libfreetype6-dev libglu1-mesa-dev libssl-dev wget bzip2 ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libxext6 libsm6 libxrender1 gfortran gcc libglu1-mesa-dev freeglut3-dev mesa-common-dev && apt-get clean && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+    apt-get install -y apt-utils libxml2-dev sshfs cifs-utils libffi-dev libx11-dev mesa-common-dev libfreetype6-dev libglu1-mesa-dev libssl-dev wget bzip2 ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libxext6 libsm6 libxrender1 gfortran gfortran-7 gcc libglu1-mesa-dev freeglut3-dev mesa-common-dev && apt-get clean && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
 
 # Seperate tensorflow env
 RUN conda create -c anaconda -c conda-forge -n tensorflow tensorflow-gpu keras numpy pandas xgboost scikit-learn tqdm pickle5
@@ -69,7 +69,7 @@ RUN conda install -c conda-forge jupyter_contrib_nbextensions nbresuse && jupyte
 RUN pip install nbzip && jupyter serverextension enable --py nbzip --sys-prefix && jupyter nbextension install --py nbzip && jupyter nbextension enable --py nbzip
 
 # RStudio server:
-RUN apt install -y libclang-dev libssl-dev gdebi-core && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.3-492-amd64.deb && gdebi-core rstudio-server-2022.02.3-492-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.3-492-amd64.deb
+RUN apt install -y libclang-dev libssl-dev gdebi-core && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.3-492-amd64.deb && gdebi rstudio-server-2022.02.3-492-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.3-492-amd64.deb
 
 # MXNET:
 # RUN wget https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh && chmod +x install-opencv.sh && ./install-opencv.sh
@@ -82,6 +82,7 @@ RUN Rscript -e 'install.packages(c("shiny","rmarkdown"))' && Rscript -e 'devtool
 
 # Ensure OmicSelector is installed
 RUN Rscript -e 'devtools::install_github("kstawiski/OmicSelector")'
+RUN Rscript -e 'library(OmicSelector)'
 
 # VSCODE:
 RUN curl -fsSL https://code-server.dev/install.sh | sh

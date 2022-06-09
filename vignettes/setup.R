@@ -94,4 +94,6 @@ if(grepl("64", Sys.info()[["machine"]], fixed = TRUE) && !keras::is_keras_availa
 
 # OmicSelector
 if("OmicSelector" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("kstawiski/OmicSelector", upgrade = "never") }
+
+library(OmicSelector)
 message("OK! OmicSelector is installed correctly!")
