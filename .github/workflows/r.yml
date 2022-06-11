@@ -35,8 +35,8 @@ jobs:
       - name: Install package
         shell: bash -l {0}
         run: |
-        sudo chmod 777 -R /usr/local/lib/R/site-library/
-        sudo R CMD INSTALL .
+          sudo chmod 777 -R /usr/local/lib/R/site-library/
+          sudo R CMD INSTALL .
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
