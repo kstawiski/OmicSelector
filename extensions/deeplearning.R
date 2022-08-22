@@ -107,7 +107,11 @@ if(dir.exists("/OmicSelector")) {
   library(data.table)
   fwrite(hyperparameters, paste0("hyperparameters_",output_file))
 
-  dane = OmicSelector_load_datamix(wd = wd, replace_smote = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
+  dane = OmicSelector_load_datamix(wd = wd, replace_smote = F, remove_zero_var = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
+  
+  #train = data.table::fread("mixed_train.csv") %>% dplyr::select(starts_with("hsa"), Class)
+  colnames(train)
+  
   if (SMOTE == T) { train = train_smoted }
   message("Checkpoint passed: load lib and data")
 
@@ -193,7 +197,7 @@ if(dir.exists("/OmicSelector")) {
     )
 
     x_train <- train %>%
-      { if (selected_miRNAs != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
+      { if (selected_miRNAs[1] != ".") { dplyr::select(train, selected_miRNAs) } else { dplyr::select(train, starts_with("hsa")) } } %>%
       as.matrix()
     y_train <- train %>%
       dplyr::select("Class") %>%
@@ -202,7 +206,7 @@ if(dir.exists("/OmicSelector")) {
 
 
     x_test <- test %>%
-      { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+      { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
       as.matrix()
     y_test <- test %>%
       dplyr::select("Class") %>%
@@ -210,7 +214,7 @@ if(dir.exists("/OmicSelector")) {
     y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
     x_valid <- valid %>%
-      { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+      { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
       as.matrix()
     y_valid <- valid %>%
       dplyr::select("Class") %>%
@@ -243,8 +247,7 @@ if(dir.exists("/OmicSelector")) {
       x_valid_scale <- x_valid %>%
         scale(center = col_mean_train,
               scale = col_sd_train)
-    }
-    else {
+    } else {
       x_train_scale = x_train
       x_test_scale <- x_test
       x_valid_scale <- x_valid
@@ -547,7 +550,7 @@ if(dir.exists("/OmicSelector")) {
       }
     } else {
       x_train <- train %>%
-        { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+        { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
         as.matrix()
       y_train <- train %>%
         dplyr::select("Class") %>%
@@ -557,7 +560,7 @@ if(dir.exists("/OmicSelector")) {
 
 
       x_test <- test %>%
-        { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+        { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
         as.matrix()
       y_test <- test %>%
         dplyr::select("Class") %>%
@@ -565,7 +568,7 @@ if(dir.exists("/OmicSelector")) {
       y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
       x_valid <- valid %>%
-        { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+        { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
         as.matrix()
       y_valid <- valid %>%
         dplyr::select("Class") %>%
@@ -847,7 +850,7 @@ library(data.table)
 
 
 x_train <- train %>%
-  { if (selected_miRNAs != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
+  { if (selected_miRNAs[1] != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
   as.matrix()
 y_train <- train %>%
   dplyr::select("Class") %>%
@@ -856,7 +859,7 @@ y_train[,1] = ifelse(y_train[,1] == "Case",1,0)
 
 
 x_test <- test %>%
-  { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+  { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
   as.matrix()
 y_test <- test %>%
   dplyr::select("Class") %>%
@@ -864,7 +867,7 @@ y_test <- test %>%
 y_test[,1] = ifelse(y_test[,1] == "Case",1,0)
 
 x_valid <- valid %>%
-  { if (selected_miRNAs != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
+  { if (selected_miRNAs[1] != ".") { dplyr::select(.,selected_miRNAs) } else { dplyr::select(.,starts_with("hsa")) } } %>%
   as.matrix()
 y_valid <- valid %>%
   dplyr::select("Class") %>%
@@ -911,7 +914,7 @@ if(as.logical(pre_conf[1,"scaled"])) {
   } else {
     tcga_train = fread(old_train_csv_to_restore_scaling)
     tcga_train <- tcga_train %>%
-      { if (selected_miRNAs != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
+      { if (selected_miRNAs[1] != ".") { dplyr::select(., selected_miRNAs) } else { dplyr::select(., starts_with("hsa")) } } %>%
       as.matrix() %>% scale()
     col_mean_train <- attr(tcga_train, "scaled:center")
     col_sd_train <- attr(tcga_train, "scaled:scale")

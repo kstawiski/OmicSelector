@@ -11,7 +11,7 @@ require(keras)
 OmicSelector_log(paste0("Configuring the enviornment..."),"task.log");
 Sys.setenv(TENSORFLOW_PYTHON='/opt/conda/bin/python')
 use_python('/opt/conda/bin/python')
-use_condaenv("base")
+use_condaenv("tensorflow")
 
 OmicSelector_log(paste0("Tensorflow config: ", py_discover_config('tensorflow')),"task.log");
 OmicSelector_log(paste0("Keras config: ", py_discover_config('keras')),"task.log");
@@ -53,9 +53,6 @@ while(current > 0.5) {
   } else { OmicSelector_log(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n"),"task.log"); }}
 
 try({
-gpu = "none"
-gpu = system("lspci -vnnn | perl -lne 'print if /^\\d+\\:.+(\\[\\S+\\:\\S+\\])/' | grep VGA", intern = T) 
-if(grepl("NVIDIA", gpu)) {
 gpu_util = 100
 gpu_mem = 1
 gpu_memu = 1
@@ -73,7 +70,7 @@ while(gpu_util > 50 && (gpu_memu/gpu_mem) > 0.5) {
   Sys.sleep(10)
 }
 try({ OmicSelector_log(paste0("\nTask is starting..."),"task.log") })
-}})
+})
 
 # Data
 dane = OmicSelector_load_datamix()
