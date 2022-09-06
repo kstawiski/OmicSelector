@@ -52,25 +52,8 @@ while(current > 0.5) {
     Sys.sleep(15);
   } else { OmicSelector_log(paste0("Current server load: ", round(current*100,2), "%. The job is starting...\n"),"task.log"); }}
 
-try({
-gpu_util = 100
-gpu_mem = 1
-gpu_memu = 1
-
-while(gpu_util > 50 && (gpu_memu/gpu_mem) > 0.5) {
-
-  try({
-  gpu_util = as.numeric(system("nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits", intern = T))
-  gpu_mem = as.numeric(system("nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits", intern = T))
-  gpu_memu = as.numeric(system("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits", intern = T))
-  try({ OmicSelector_log(paste0("\nGPU | Util: ", gpu_util, "% | Memory: ", round(gpu_memu/gpu_mem, 4)*100, "%"),"task.log") })
-  })
-  
-  try({ OmicSelector_log(paste0("\nWaiting for resources to start the task..."),"task.log") })
-  Sys.sleep(10)
-}
 try({ OmicSelector_log(paste0("\nTask is starting..."),"task.log") })
-})
+
 
 # Data
 dane = OmicSelector_load_datamix()
