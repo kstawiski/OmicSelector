@@ -12,22 +12,9 @@ As the feautres are selected, OmicSelector can perform advanced modeling of deep
 
 ## Try it out
 
-### Biostat.umed.pl demo
+[Public demo version of OmicSelector is available here.](https://s3-apps.kstawiski.net/modules/omicselector-request/) 
 
-Link: [https://biostat.umed.pl/OmicSelector/demo/](https://biostat.umed.pl/OmicSelector/demo/)
-
-Please note that this intance will reset and restart every Monday. All projects are purged every Monday!
-
-Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.
-
-### Ainize demo
-
-[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector)
-
-Link: [https://master-omic-selector-kstawiski.endpoint.ainize.ai/](https://master-omic-selector-kstawiski.endpoint.ainize.ai/)
-
-Please note that uploading real data to this instance is not safe. You're data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. If you wish to go deeper, i.e. messing with files as *root*, you should fork the repo. You can get your own free and working OmicSelector using [Ainize](https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector). [Note: if you wish to build your own docker change `FROM kstawiski/omicselector-gpu` in Dockerfile]
-
+Please note that this intance will reset and restart every Monday. All projects are purged every Monday! As this instance is shared with multiple users we also suggest not to upload sensitvie information to the demo platform.
 ## Installation with GUI
 
 Tailor the docker container image for your environment:
@@ -70,55 +57,9 @@ install_keras()
 library(OmicSelector)
 ```
 
-### Linux/macOS using conda-pack
-
-This approach uses [conda-pack](https://conda.github.io/conda-pack/) to install the [conda](https://www.anaconda.com/products/individual) enviornment developed using Github workflows. [Conda should be installed to use this approach.](https://www.anaconda.com/products/individual)
-
-```
-conda install conda-pack # install conda-pack
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partaa
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partab
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partac
-cat OmicSelector_conda_pack.tar.gz.part* > OmicSelector_conda_pack.tar.gz
-rm OmicSelector_conda_pack.tar.gz.part*
-mkdir -p OmicSelectorEnv
-tar -xvzf OmicSelector_conda_pack.tar.gz -C OmicSelectorEnv
-rm OmicSelector_conda_pack.tar.gz
-source OmicSelectorEnv/bin/activate
-conda-unpack
-```
-
-Alternatively, you can download already merged file from: https://deploy.konsta.com.pl/OmicSelector/release/OmicSelector_conda_pack.tar.gz 
-
-### Windows using conda-pack
-
-Windows conda-pack is available for download here: https://deploy.konsta.com.pl/OmicSelector-win/OmicSelector_conda_pack_win.tar.gz
-
-Copy the `OmicSelector_conda_pack_win.tar.gz` from the source environment to the target environment. Unpack the `tar.gz` environment file to where you want. On Windows, you can do this with 7-zip. It'll take one step to decompress the `gzip` and another step to unpack the `tar`. Be sure you're using standard Command Prompt (`cmd.exe`) on Windows, **not** Anaconda Prompt or PowerShell; those shells don't correctly add the right files to PATH. In the next step run following commands in the unpacked directory:
-
-```
-.\Scripts\activate.bat
-.\Scripts\conda-unpack.exe
-```
-
-### Linux/macOS using conda (own build)
-
-1. Installing the package in your own Anaconda environment:
-
-Use, e.g., `conda create -n OmicSelector` and `conda activate OmicSelector` to set up your environment.  Please note the this will work only when running on **Linux (Ubuntu)** OS or macOS.
-
-```
-conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
-echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes")); remotes::install_cran("pkgdown");'
-Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'
-```
-
-If you have a compatible GPU, you can consider changing `tensorflow` to `tensorflow-gpu` in `conda install` command.
-
 ### Windows OS
 
-You can download our Windows-based R environment from here: https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu 
+The recommended way of installing OmicSelector is presented above (Universal way). However, if you expirance difficulties, you can download our Windows-based R environment from here: https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu 
 
 After unpacking, if you wish to use our enviorment, please consider setting our R version in your [R Studio](https://rstudio.com/products/rstudio/download/) installation:
 

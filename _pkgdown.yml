@@ -33,7 +33,7 @@ navbar:
     demo:
       icon: fa-cubes
       text: Demo
-      href: https://biostat.umed.pl/OmicSelector/demo/
+      href: https://s3-apps.kstawiski.net/modules/omicselector-request/
     reference:
       icon: fa-file-code
       text: Functions
