@@ -40,6 +40,8 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 library(devtools)
 library(remotes)
 # Paczki z githuba
+
+if("lhs" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("bertcarnell/lhs", upgrade = "never") }
 if("DMwR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("cran/DMwR", upgrade = "never") }
 if("kerasformula" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("rdrr1990/kerasformula", upgrade = "never") }
 if("bounceR" %in% rownames(installed.packages()) == FALSE) { remotes::install_github("STATWORX/bounceR", upgrade = "never") }
