@@ -1219,7 +1219,7 @@ OmicSelector_OmicSelector = function(wd = getwd(), m = c(1:70),
     dane = OmicSelector_load_datamix(replace_smote = F); train = dane[[1]]; test = dane[[2]]; valid = dane[[3]]; train_smoted = dane[[4]]; trainx = dane[[5]]; trainx_smoted = dane[[6]]
 
     selectedMirsCV <- OmicSelector_iteratedRFE(trainSet = train, useCV = T, classLab = 'Class', checkNFeatures = prefer_no_features)$topFeaturesPerN[[prefer_no_features]]
-    selectedMirsTest <- mk.iteratedRFE(trainSet = train, testSet = test, classLab = 'Class', checkNFeatures = prefer_no_features)$topFeaturesPerN[[prefer_no_features]]
+    selectedMirsTest <- OmicSelector_iteratedRFE(trainSet = train, testSet = test, classLab = 'Class', checkNFeatures = prefer_no_features)$topFeaturesPerN[[prefer_no_features]]
 
     formulas[["iteratedRFECV"]] = OmicSelector_create_formula(selectedMirsCV$topFeaturesPerN[[prefer_no_features]])
     formulas[["iteratedRFETest"]] = OmicSelector_create_formula(selectedMirsTest$topFeaturesPerN[[prefer_no_features]])
