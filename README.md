@@ -12,7 +12,7 @@ The main purpose of OmicSelector is to provide you with the set of candidate fea
 
 Go to https://biostat.umed.pl/OmicSelector/ for more details.
 
-## Try it out
+### Try it out:
 
 [Public demo version of OmicSelector is available here.](https://s3-apps.kstawiski.net/modules/omicselector-request/) 
 
@@ -47,8 +47,6 @@ This tutorial shows how OmicSelector' GUI works and how to perform (without prog
 
 ### R package (without GUI):
 
-#### Own enviorment (regardless of OS):
-
 ```
 library("devtools") # if not installed, install via install.packages('devtools')
 source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")
@@ -57,17 +55,7 @@ library(keras)
 install_keras()
 library(OmicSelector)
 ```
-#### Windows OS
 
-For Windows OS users, how expirance difficulties with apporach presented above we prepared our Windows-based R enviroment from here: https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu 
-
-After unpacking, if you wish to use our enviorment please consider setting the our R version in your [R Studio](https://rstudio.com/products/rstudio/download/) installation:
-
-![](vignettes/win1.png)
-
-![](vignettes/win2.png)
-
-![](vignettes/win3.png)
 
 
 ## Build with OmicSelector
