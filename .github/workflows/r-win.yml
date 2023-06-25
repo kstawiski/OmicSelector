@@ -44,7 +44,7 @@ jobs:
           conda pack -n OmicSelector -o OmicSelector_conda_pack_win.tar.gz
 
       - name: Delete prev Win release
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v1.0
         with:
           delete_release: true # default: false
           tag_name: release-win
