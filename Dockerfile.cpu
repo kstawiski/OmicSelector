@@ -5,7 +5,7 @@ ENV PUBLIC=0
 ENV DEBIAN_FRONTEND noninteractive
 ENV CRAN_URL https://cloud.r-project.org/
 ENV TZ=Europe/Warsaw
-RUN chsh -s /bin/bash root && echo 'SHELL=/bin/bash' >> /etc/environment && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && apt update && apt dist-upgrade -y && apt-get install -y libharfbuzz-dev libfribidi-dev gfortran-7 pciutils libkmod-dev libgsl-dev libv8-dev mc libglu1-mesa-dev libgit2-dev gdebi uuid apt-transport-https screen libfontconfig1-dev build-essential libxml2-dev xorg ca-certificates cmake curl git libatlas-base-dev libcurl4-openssl-dev libjemalloc-dev liblapack-dev libopenblas-dev libopencv-dev libzmq3-dev software-properties-common sudo unzip wget && add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update && apt install -y build-essential libmagick++-dev libbz2-dev libpcre2-16-0 libpcre2-32-0 libpcre2-8-0 libpcre2-dev fort77 xorg-dev liblzma-dev  libblas-dev gfortran gcc-multilib gobjc++ libreadline-dev && apt install -y pandoc texinfo texlive-fonts-extra texlive libcairo2-dev freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev libopenblas-dev liblapack-dev libopencv-dev build-essential git gcc cmake libcairo2-dev libxml2-dev texlive-full texlive-xetex ttf-mscorefonts-installer build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+RUN chsh -s /bin/bash root && echo 'SHELL=/bin/bash' >> /etc/environment && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && apt update && apt dist-upgrade -y && apt-get install -y pciutils libkmod-dev libgsl-dev libv8-dev mc libglu1-mesa-dev libharfbuzz-dev libfribidi-dev libgit2-dev gdebi uuid apt-transport-https screen libfontconfig1-dev build-essential libxml2-dev xorg ca-certificates cmake curl git libatlas-base-dev libcurl4-openssl-dev libjemalloc-dev liblapack-dev libopenblas-dev libopencv-dev libzmq3-dev software-properties-common sudo unzip wget && add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update && apt install -y build-essential libmagick++-dev libbz2-dev libpcre2-16-0 libpcre2-32-0 libpcre2-8-0 libpcre2-dev fort77 xorg-dev liblzma-dev  libblas-dev gfortran gcc-multilib gobjc++ libreadline-dev && apt install -y pandoc texinfo texlive-fonts-extra texlive libcairo2-dev freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev libopenblas-dev liblapack-dev libopencv-dev build-essential git gcc cmake libcairo2-dev libxml2-dev texlive-full texlive-xetex ttf-mscorefonts-installer build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 # Install Anaconda
@@ -14,24 +14,22 @@ ENV SHELL /bin/bash
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
 RUN rm Miniconda3-latest-Linux-x86_64.sh &&\
-    /opt/conda/bin/conda clean -tipsy && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 ENV TENSORFLOW_PYTHON /opt/conda/bin/python
 ENV RETICULATE_PYTHON /opt/conda/bin/python
-RUN conda install -c anaconda tensorflow-gpu keras jupyter numpy pandas opencv
-RUN pip install jupytext
+RUN conda install -c anaconda jupyter 
+RUN pip install jupytext tensorflow keras numpy pandas xgboost scikit-learn tqdm pickle5
 
 # Keras, tensorflow, jupyter
 ENV OPENGL_gl_LIBRARY /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
 ENV OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so.1
 RUN apt-get update --fix-missing && \
-    apt-get install -y apt-utils libxml2-dev sshfs cifs-utils libffi-dev libx11-dev mesa-common-dev libfreetype6-dev libglu1-mesa-dev libssl-dev wget bzip2 ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libxext6 libsm6 libxrender1 gfortran gcc libglu1-mesa-dev freeglut3-dev mesa-common-dev && apt-get clean && \
-    echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
+    apt-get install -y apt-utils libxml2-dev sshfs cifs-utils libffi-dev libx11-dev mesa-common-dev libfreetype6-dev libglu1-mesa-dev libssl-dev wget bzip2 ca-certificates build-essential cmake git unzip pkg-config libopenblas-dev liblapack-dev libhdf5-serial-dev libglib2.0-0 libxext6 libsm6 libxrender1 gfortran gfortran-7 gcc libglu1-mesa-dev freeglut3-dev mesa-common-dev && apt-get clean && echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" >> ~/.Rprofile
 
 # Seperate tensorflow env
-RUN conda create -c anaconda -n tensorflow tensorflow-gpu keras pandas
+# RUN conda create -c anaconda -c conda-forge -n tensorflow tensorflow keras numpy pandas xgboost scikit-learn tqdm pickle5
 
 # R:
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -sc)-cran40/" && apt update && apt -y dist-upgrade && apt install -y r-base-dev texlive-full texlive-xetex ttf-mscorefonts-installer r-recommended build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev default-jre default-jdk && Rscript -e "install.packages(c('remotes','devtools','BiocManager','keras','rgl','rJava'))"
@@ -70,7 +68,7 @@ RUN conda install -c conda-forge jupyter_contrib_nbextensions nbresuse && jupyte
 RUN pip install nbzip && jupyter serverextension enable --py nbzip --sys-prefix && jupyter nbextension install --py nbzip && jupyter nbextension enable --py nbzip
 
 # RStudio server:
-RUN apt-get install -y libclang-dev libssl-dev gdebi-core && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.3-492-amd64.deb && gdebi -n rstudio-server-2022.02.3-492-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.3-492-amd64.deb
+RUN apt install -y libclang-dev libssl-dev gdebi-core && wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.3-492-amd64.deb && gdebi -n rstudio-server-2022.02.3-492-amd64.deb && apt -f -y install && cd / && rm rstudio-server-2022.02.3-492-amd64.deb
 
 # MXNET:
 # RUN wget https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh && chmod +x install-opencv.sh && ./install-opencv.sh
@@ -87,6 +85,14 @@ RUN Rscript -e 'library(OmicSelector)'
 
 # VSCODE:
 RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+# Tailscale
+RUN echo 'net.ipv4.ip_forward = 1' | tee -a /etc/sysctl.d/99-tailscale.conf && echo 'net.ipv6.conf.all.forwarding = 1' | tee -a /etc/sysctl.d/99-tailscale.conf && sysctl -p /etc/sysctl.d/99-tailscale.conf && curl -fsSL https://tailscale.com/install.sh | sh
+
+# Squid
+RUN apt -y install squid && rm -f /etc/squid/squid.conf && wget --no-check-certificate -O /etc/squid/squid.conf https://gist.githubusercontent.com/radenvodka/d26f13fd2f7398d31635bcf17f9330b7/raw/432fbcee54c986248168851263720852a6b11005/squid.conf && iptables -I INPUT -p tcp --dport 3128 -j ACCEPT && iptables-save
+
+
 
 EXPOSE 8888
 EXPOSE 80
