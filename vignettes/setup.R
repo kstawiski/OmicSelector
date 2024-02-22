@@ -4,19 +4,6 @@
 #r["CRAN"] = "https://cran.r-project.org"
 #options(repos = r)
 
-options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/latest"))
-if(Sys.info()["sysname"] == "Linux") {
-  cat("This is Linux.")
-  if(system("awk -F= '/^NAME/{print $2}' /etc/os-release", intern = T) == "\"Ubuntu\"") {
-    cat(" Distro: UBUNTU ")
-    codename = system("cat /etc/os-release | grep UBUNTU_CODENAME | cut -d = -f 2", intern = T)
-    cat(codename)
-    options(repos = c(CRAN = paste0("https://packagemanager.rstudio.com/cran/__linux__/",codename,"/latest")))
-  }
-  
-}
-
-
 tylko_cran = c("BiocManager","devtools","reticulate","remotes","keras","parallel")
 if (length(setdiff(tylko_cran, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(tylko_cran, rownames(installed.packages())), ask = F)  }
