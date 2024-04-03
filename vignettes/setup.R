@@ -1,3 +1,7 @@
+remotes::install_github("cran4linux/rspm")
+system("sudo apt install -y apt-file")
+rspm::install_sysreqs()
+rspm::enable()
 ## Default repo
 # Ubuntu: apt install default-jre default-jdk libmagick++-dev zlib1g-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev r-cran-rgl
 #r = getOption("repos")
@@ -11,15 +15,15 @@ options(Ncpus = parallel::detectCores())
 #options(BioC_mirror = "https://packagemanager.rstudio.com/bioconductor")
 
 packages = c("remotes","devtools","parallel","rlang","ps","roxygen2", "plotly", "rJava", "mice","BiocManager", "MatchIt","curl",
-                       "reticulate", "kableExtra","plyr","dplyr","edgeR","epiDisplay","rsq","MASS","Biocomb","caret","dplyr",
-                       "pROC","ggplot2", "doParallel", "Boruta", "spFSR", "varSelRF", "stringr", "psych", "C50", "randomForest", "doParallel",
-                       "foreach","data.table", "ROSE", "deepnet", "gridExtra", "stargazer","gplots","My.stepwise","snow", "sva", "Biobase",
-                       "calibrate", "ggrepel", "networkD3", "VennDiagram","RSNNS", "kernlab", "car", "PairedData",
-                       "profileR","classInt","kernlab","xgboost", "keras", "tidyverse", "cutpointr","tibble","tidyr",
-                       "rpart", "party", "mgcv", "GDCRNATools", "rJava", "cutpointr", "HTqPCR", "nondetects",
-                       "imputeMissings", "visdat", "naniar", "stringr", "R.utils", "TCGAbiolinks", "GDCRNATools",
-                       "kableExtra", "VIM", "mice", "MatchIt", "XML", "rmarkdown", "xtable", "ComplexHeatmap","circlize", "hash","RANN",
-                       "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs","rms","Rfast","RcppGSL","gtsummary","tableone","readr")
+             "reticulate", "kableExtra","plyr","dplyr","edgeR","epiDisplay","rsq","MASS","Biocomb","caret","dplyr",
+             "pROC","ggplot2", "doParallel", "Boruta", "spFSR", "varSelRF", "stringr", "psych", "C50", "randomForest", "doParallel",
+             "foreach","data.table", "ROSE", "deepnet", "gridExtra", "stargazer","gplots","My.stepwise","snow", "sva", "Biobase",
+             "calibrate", "ggrepel", "networkD3", "VennDiagram","RSNNS", "kernlab", "car", "PairedData",
+             "profileR","classInt","kernlab","xgboost", "keras", "tidyverse", "cutpointr","tibble","tidyr",
+             "rpart", "party", "mgcv", "GDCRNATools", "rJava", "cutpointr", "HTqPCR", "nondetects",
+             "imputeMissings", "visdat", "naniar", "stringr", "R.utils", "TCGAbiolinks", "GDCRNATools",
+             "kableExtra", "VIM", "mice", "MatchIt", "XML", "rmarkdown", "xtable", "ComplexHeatmap","circlize", "hash","RANN",
+             "BiocStyle","magick", "BiocCheck","cluster","tidyselect","ellipsis","funModeling", "mnormt","xlsx","klaR","glmnet","summarytools","shinyfullscreen","rhandsontable","shinyjs","rms","Rfast","RcppGSL","gtsummary","tableone","readr")
 
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   BiocManager::install(setdiff(packages, rownames(installed.packages())), ask = F)  }
@@ -51,6 +55,8 @@ if(!'doParallel' %in% installed.packages()) install.packages('doParallel')
 if(!'foreach' %in% installed.packages()) install.packages('foreach')
 if(!'lubridate' %in% installed.packages()) install.packages('lubridate')
 if(!'timeDate' %in% installed.packages()) install.packages('timeDate')
+
+remotes::install_github("cran/imputeMissings", upgrade = "never")
 
 # RemixAutoML
 # devtools::install_github('AdrianAntico/RemixAutoML', upgrade = FALSE, dependencies = FALSE, force = TRUE)
