@@ -1,109 +1,105 @@
 Package: OmicSelector
 Type: Package
-Title: OmicSelector - a package for biomarker selection based on high-throughput experiments. 
-Version: 1.0.0
-Author: Konrad Stawiski
-Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
-Description: OmicSelector is package is the environment, docker-based application and R package for biomarker signature selection from high-throughput experiments. Initially developed for miRNA-seq. The package introduces automatic and structured feature selection with further benchmarking using multiple data mining methods, thus allow to find the most overfitting resiliant signature (set of featrues) that can be used in biomarker validation studies. E.g. this package can be used to find the set of miRNAs with the greatest biomarker potential based on miRNAs-seq. This set can be further validated in cheaper qPCR studies.
-License: License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-StagedInstall: yes
-Imports: 
-    dplyr,
-    snow,
-    remotes,
-    devtools,
-    ellipsis,
-    BiocManager,
-    plyr,
-    tibble,
-    tidyr,
-    XML,
-    epiDisplay,
-    rsq,
-    MASS,
-    caret,
-    tidyverse,
-    xtable,
-    pROC,
-    ggplot2,
-    DMwR,
-    ROSE,
-    gridExtra,
-    gplots,
-    stringr,
-    data.table,
-    doParallel,
-    Boruta,
-    spFSR,
-    varSelRF,
-    My.stepwise,
-    psych,
-    C50,
-    randomForest,
-    nnet,
-    reticulate,
-    stargazer,
-    ggrepel,
-    classInt,
-    plotly,
-    keras,
-    cutpointr,
-    naniar,
-    visdat,
-    imputeMissings,
-    foreach,
-    deepnet,
-    calibrate,
-    networkD3,
-    VennDiagram,
-    RSNNS,
-    kernlab,
-    car,
-    PairedData,
-    profileR,
-    xgboost,
-    kableExtra,
-    curl,
-    tidyselect,
-    rJava,
-    mice,
-    MatchIt,
-    cluster,
-    Biobase,
-    Biocomb,
-    ComplexHeatmap,
-    GDCRNATools,
-    R.utils,
-    TCGAbiolinks,
-    VIM,
-    circlize,
-    edgeR,
-    mgcv,
-    party,
-    rmarkdown,
-    rpart,
-    sva,
-    devtools,
-    nnet,
-    klaR,
-    ParBayesianOptimization,
-    recipes,
-    resample,
-    mlbench
-RoxygenNote: 7.2.0
+Title: Biomarker Signature Selection from High-Throughput Omics Experiments
+Version: 2.1.0
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
-      comment = c(ORCID = "0000-0002-6550-3384")
-    ),
-    person("Marcin", "Kaszkowiak", role = "aut"))
+           comment = c(ORCID = "0000-0002-6550-3384")),
+    person("Marcin", "Kaszkowiak", role = "aut"),
+    person("Damian", "Mikulski", role = "ctb"))
+Description: OmicSelector is a comprehensive environment and R package for biomarker 
+    signature selection from high-throughput omics experiments. Originally developed for 
+    miRNA-seq, but applicable to RNA-seq, proteomics, and other multi-dimensional datasets.
+    The package provides automatic and structured feature selection using 70+ methods,
+    followed by benchmarking with multiple machine learning approaches to identify the
+    most robust signatures for biomarker validation studies. Includes deep learning
+    capabilities with Keras/TensorFlow integration, modern tidymodels workflows, and 
+    comprehensive visualization tools. Features include parallel processing, automated 
+    hyperparameter tuning, and extensive diagnostic plots.
+License: MIT + file LICENSE
+URL: https://biostat.umed.pl/OmicSelector/, https://github.com/kstawiski/OmicSelector
 BugReports: https://github.com/kstawiski/OmicSelector/issues
-URL: https://biostat.umed.pl/OmicSelector/ 
-biocViews: Software
+Encoding: UTF-8
+LazyData: true
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
+Imports:
+    methods,
+    stats,
+    utils,
+    cli (>= 3.0.0),
+    dplyr (>= 1.1.0),
+    tibble (>= 3.1.0),
+    tidyr (>= 1.2.0),
+    ggplot2 (>= 3.4.0),
+    data.table (>= 1.14.0),
+    stringr (>= 1.5.0),
+    purrr (>= 1.0.0),
+    readr (>= 2.1.0),
+    caret (>= 6.0.0),
+    randomForest (>= 4.7.0),
+    pROC (>= 1.18.0),
+    Boruta (>= 8.0.0),
+    MASS (>= 7.3.0),
+    parallel,
+    foreach (>= 1.5.0),
+    doParallel (>= 1.0.0),
+    future (>= 1.30.0),
+    furrr (>= 0.3.0),
+    logger (>= 0.2.0),
+    config (>= 0.3.0),
+    plotly (>= 4.10.0),
+    ggrepel (>= 0.9.0),
+    gridExtra (>= 2.3),
+    gplots (>= 3.1.0),
+    VennDiagram (>= 1.7.0),
+    xtable (>= 1.8.0),
+    kableExtra (>= 1.3.0),
+    DT (>= 0.25),
+    psych (>= 2.2.0),
+    corrplot (>= 0.92),
+    pheatmap (>= 1.0.0),
+    viridis (>= 0.6.0),
+    RColorBrewer (>= 1.1.0)
+Suggests:
+    testthat (>= 3.1.0),
+    knitr (>= 1.40),
+    rmarkdown (>= 2.20),
+    pkgdown (>= 2.0.0),
+    devtools (>= 2.4.0),
+    BiocManager (>= 1.30.0),
+    reticulate (>= 1.25.0),
+    keras (>= 2.9.0),
+    tensorflow (>= 2.9.0),
+    spFSR (>= 1.0.0),
+    varSelRF (>= 0.7.0),
+    C50 (>= 0.1.0),
+    nnet (>= 7.3.0),
+    xgboost (>= 1.6.0),
+    mice (>= 3.15.0),
+    VIM (>= 6.2.0),
+    sva (>= 3.45.0),
+    edgeR (>= 3.40.0),
+    limma (>= 3.50.0),
+    ComplexHeatmap (>= 2.12.0),
+    circlize (>= 0.4.0),
+    TCGAbiolinks (>= 2.25.0),
+    GDCRNATools (>= 1.15.0),
+    Biobase (>= 2.55.0),
+    mlbench (>= 2.1.0),
+    recipes (>= 1.0.0),
+    tidymodels (>= 1.0.0),
+    workflows (>= 1.1.0),
+    tune (>= 1.1.0),
+    yardstick (>= 1.1.0),
+    parsnip (>= 1.1.0),
+    dials (>= 1.2.0),
+    workflowsets (>= 1.0.0)
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2
+biocViews: Software, FeatureExtraction, Classification, Regression, 
+    GeneExpression, RNASeq, Microarray, Proteomics, BiomedicalInformatics,
+    MachineLearning, DeepLearning
+Config/testthat/edition: 3
+Config/testthat/parallel: true
+SystemRequirements: Python (>= 3.8) for deep learning features

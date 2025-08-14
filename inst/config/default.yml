@@ -1,0 +1,53 @@
+# Default configuration for OmicSelector
+default:
+  # Core processing settings
+  max_iterations: 10
+  timeout_sec: 172800  # 48 hours
+  prefer_no_features: 11
+  cores: !expr parallel::detectCores() - 1
+  
+  # Logging settings
+  log_level: "INFO"
+  log_to_file: true
+  
+  # Feature selection methods (default subset)
+  default_methods:
+    - 1   # Sig
+    - 2   # Fcsig  
+    - 3   # Cfs
+    - 11  # RandomForestRFE
+    - 17  # Boruta
+    - 20  # varSelRF
+  
+  # Machine learning settings
+  search_iters: 2000
+  keras_epochs: 5000
+  holdout_validation: true
+  
+  # Parallel processing
+  register_parallel: true
+  use_future: true
+  
+  # Visualization
+  plot_theme: "minimal"
+  save_plots: true
+  plot_format: "png"
+  plot_dpi: 300
+
+# Development/testing configuration  
+development:
+  max_iterations: 2
+  timeout_sec: 300  # 5 minutes
+  cores: 1
+  search_iters: 10
+  keras_epochs: 10
+  log_level: "DEBUG"
+  
+# High-performance configuration
+hpc:
+  max_iterations: 50
+  timeout_sec: 604800  # 1 week
+  cores: !expr parallel::detectCores()
+  search_iters: 10000
+  keras_epochs: 10000
+  use_gpu: true
