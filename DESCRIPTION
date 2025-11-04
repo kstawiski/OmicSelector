@@ -8,12 +8,23 @@ Description: OmicSelector is package is the environment, docker-based applicatio
 License: License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: 
+Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0),
+    mixOmics (>= 6.26.0),
+    survival (>= 3.5.0),
+    censored (>= 0.2.0),
+    DALEX (>= 2.4.0),
+    GEOquery (>= 2.70.0),
+    mlr3 (>= 0.16.0),
+    mlr3proba (>= 0.5.0),
+    h2o (>= 3.42.0),
+    targets (>= 1.3.0),
+    quarto
 VignetteBuilder: knitr
 StagedInstall: yes
-Imports: 
+Imports:
     dplyr,
     snow,
     remotes,
@@ -28,7 +39,7 @@ Imports:
     rsq,
     MASS,
     caret,
-    tidyverse,
+    tidyverse (>= 2.0.0),
     xtable,
     pROC,
     ggplot2,
@@ -95,7 +106,16 @@ Imports:
     ParBayesianOptimization,
     recipes,
     resample,
-    mlbench
+    mlbench,
+    tidymodels (>= 1.1.0),
+    rsample (>= 1.1.0),
+    parsnip (>= 1.0.0),
+    workflows (>= 1.1.0),
+    tune (>= 1.1.0),
+    yardstick (>= 1.1.0),
+    dials (>= 1.1.0),
+    jsonlite (>= 1.8.0),
+    utils
 RoxygenNote: 7.2.0
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),

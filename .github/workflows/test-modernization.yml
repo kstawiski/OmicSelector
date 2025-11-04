@@ -1,0 +1,121 @@
+name: Test Modernization Features
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test-modern-features:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (R-${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release'}
+          - {os: windows-latest, r: 'release'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::rcmdcheck
+            any::testthat
+            any::tidymodels
+            any::recipes
+            any::parsnip
+            any::rsample
+            any::tune
+            any::yardstick
+            any::dials
+            any::workflows
+            any::jsonlite
+          needs: check
+
+      - name: Test modern framework
+        run: |
+          testthat::test_file("tests/testthat/test-nested_cv.R")
+          testthat::test_file("tests/testthat/test-compliance.R")
+        shell: Rscript {0}
+
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          error-on: '"warning"'
+
+  test-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::covr
+            any::tidymodels
+          needs: coverage
+
+      - name: Test coverage for modern features
+        run: |
+          covr::package_coverage(
+            type = "tests",
+            line_exclusions = list(
+              "R/zzz.R"
+            )
+          )
+        shell: Rscript {0}
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::lintr
+          needs: check
+
+      - name: Lint modern R files
+        run: |
+          lintr::lint_package(
+            linters = lintr::linters_with_defaults(
+              line_length_linter = lintr::line_length_linter(120),
+              object_name_linter = NULL
+            )
+          )
+        shell: Rscript {0}

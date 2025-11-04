@@ -1,0 +1,647 @@
+---
+title: "Modern OmicSelector Workflow: Tidymodels and TRIPOD+AI Compliance"
+author: "OmicSelector Development Team"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{Modern OmicSelector Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  eval = FALSE  # Set to TRUE when ready to build
+)
+```
+
+## Introduction
+
+This vignette demonstrates the modern OmicSelector workflow, which includes:
+
+1. **Tidymodels integration** for modern machine learning
+2. **Nested cross-validation** to prevent data leakage
+3. **TRIPOD+AI compliance** for transparent reporting
+4. **PROBAST+AI assessment** for risk of bias evaluation
+5. **Clinical utility metrics** for practical applicability
+
+The modernized OmicSelector maintains backward compatibility with existing caret-based workflows while providing access to state-of-the-art methods.
+
+## Why Modern OmicSelector?
+
+### Problems with Traditional Approaches
+
+Traditional biomarker discovery often suffers from:
+
+- **Data leakage**: Preprocessing on full dataset before cross-validation
+- **Optimistic bias**: Feature selection outside of resampling loops
+- **Poor reporting**: Missing key details for reproducibility
+- **Lack of clinical utility assessment**: Focus on AUC without calibration or decision curves
+
+### OmicSelector 2.0 Solutions
+
+The modernized OmicSelector addresses these issues through:
+
+- **Rigorous nested CV**: All preprocessing inside resampling folds
+- **Automated compliance**: TRIPOD+AI and PROBAST+AI reporting
+- **Clinical metrics**: Calibration, decision curves, net benefit
+- **Modern ML framework**: Tidymodels with extensive algorithm support
+
+## Installation
+
+```{r install, eval=FALSE}
+# Install development version from GitHub
+remotes::install_github("kstawiski/OmicSelector")
+
+# Load required packages
+library(OmicSelector)
+library(tidymodels)
+library(tidyverse)
+```
+
+## Basic Workflow
+
+### 1. Load and Prepare Data
+
+```{r data}
+library(OmicSelector)
+
+# For this example, we'll create synthetic biomarker data
+# In practice, you would load your own omics data
+set.seed(2024)
+
+n_samples <- 150
+n_features <- 100
+
+# Simulate gene expression data
+expression_data <- matrix(
+  rnorm(n_samples * n_features, mean = 8, sd = 2),
+  nrow = n_samples,
+  ncol = n_features
+)
+colnames(expression_data) <- paste0("gene_", 1:n_features)
+
+# Add some truly predictive features
+expression_data[1:75, 1:5] <- expression_data[1:75, 1:5] + 2
+expression_data[76:150, 1:5] <- expression_data[76:150, 1:5] - 2
+
+# Create outcome
+outcome <- factor(c(rep("case", 75), rep("control", 75)))
+
+# Combine into data frame
+data <- as.data.frame(expression_data)
+data$diagnosis <- outcome
+
+# View data structure
+dim(data)
+table(data$diagnosis)
+```
+
+### 2. Define Preprocessing Recipe
+
+One of the key advantages of tidymodels is the `recipes` framework for preprocessing:
+
+```{r recipe}
+library(recipes)
+
+# Define preprocessing steps
+# CRITICAL: This will be applied INSIDE each CV fold
+preprocessing_recipe <- recipe(diagnosis ~ ., data = data) %>%
+  # Normalize all numeric predictors
+  step_normalize(all_numeric_predictors()) %>%
+  # Remove zero-variance features
+  step_zv(all_predictors()) %>%
+  # Remove highly correlated features (optional)
+  step_corr(all_numeric_predictors(), threshold = 0.9)
+
+# Preview the recipe (not yet trained)
+preprocessing_recipe
+```
+
+### 3. Define Model Specifications
+
+Specify multiple models to compare:
+
+```{r models}
+library(parsnip)
+
+# Random Forest
+rf_spec <- rand_forest(
+  mtry = tune(),
+  trees = 1000,
+  min_n = tune()
+) %>%
+  set_engine("ranger", importance = "impurity") %>%
+  set_mode("classification")
+
+# XGBoost
+xgb_spec <- boost_tree(
+  mtry = tune(),
+  trees = tune(),
+  min_n = tune(),
+  tree_depth = tune(),
+  learn_rate = tune()
+) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+# Elastic Net (for comparison - simpler model)
+glmnet_spec <- logistic_reg(
+  penalty = tune(),
+  mixture = tune()
+) %>%
+  set_engine("glmnet")
+
+# Combine into list
+models <- list(
+  random_forest = rf_spec,
+  xgboost = xgb_spec,
+  elastic_net = glmnet_spec
+)
+```
+
+### 4. Run Nested Cross-Validation
+
+This is the core of the modern OmicSelector approach:
+
+```{r nested_cv}
+# Run nested CV with proper validation
+result <- OmicSelector_nested_cv(
+  data = data,
+  outcome = "diagnosis",
+  outer_folds = 5,
+  inner_folds = 5,
+  preprocessing_recipe = preprocessing_recipe,
+  feature_selection_method = "stability_selection",
+  feature_selection_params = list(
+    n_iterations = 100,
+    selection_threshold = 0.6
+  ),
+  models = models,
+  calibrate = TRUE,
+  seed = 2024
+)
+
+# View results
+print(result)
+summary(result)
+```
+
+The nested CV procedure ensures:
+
+1. **Outer loop** (5 folds): Provides unbiased performance estimates
+2. **Inner loop** (5 folds): Used for hyperparameter tuning
+3. **Preprocessing** happens independently in each fold
+4. **Feature selection** happens independently in each fold
+5. **No data leakage** between train and test sets
+
+### 5. Examine Results
+
+```{r examine}
+# View performance across models
+result$aggregated_results
+
+# View selected features (may vary by fold)
+result$selected_features
+
+# View calibration results
+result$calibration
+
+# Get best model
+best_model_name <- names(which.max(
+  sapply(result$aggregated_results, function(x) x$mean_performance$roc_auc)
+))
+print(paste("Best model:", best_model_name))
+```
+
+## TRIPOD+AI Compliance
+
+Generate a comprehensive TRIPOD+AI report:
+
+```{r tripod}
+# Define study information
+study_info <- list(
+  title = "Discovery of Gene Expression Biomarkers for Disease X",
+  authors = c("Smith J", "Jones A", "Brown B"),
+  study_design = "cross-sectional",
+  data_source = "Gene Expression Omnibus (GSE12345)",
+  inclusion_criteria = "Patients diagnosed with disease X between 2020-2023",
+  exclusion_criteria = "Patients with confounding conditions",
+  outcome_definition = "Binary disease status confirmed by clinical diagnosis",
+  candidate_predictors = "Genome-wide gene expression (RNA-seq)",
+  sample_size_justification = "Based on pilot study power analysis (n=150)",
+  intended_use = "To identify a gene signature for risk stratification"
+)
+
+# Generate TRIPOD+AI report
+tripod_report <- OmicSelector_tripod_report(
+  model_result = result,
+  study_info = study_info,
+  output_format = "html",
+  output_file = "tripod_report.html",
+  include_checklist = TRUE,
+  include_recommendations = TRUE
+)
+
+# View report
+print(tripod_report)
+
+# Check completeness
+tripod_report$completeness_score
+```
+
+The TRIPOD+AI report includes all 27 items required for transparent reporting:
+
+- Title and abstract
+- Introduction (rationale, objectives)
+- Methods (data sources, participants, outcomes, predictors, analysis)
+- Results (performance, calibration, model specification)
+- Discussion (interpretation, limitations)
+
+## PROBAST+AI Risk of Bias Assessment
+
+Assess potential sources of bias:
+
+```{r probast}
+# Generate PROBAST assessment
+probast <- OmicSelector_probast(
+  model_result = result,
+  assessment = list(
+    # You can provide manual assessments for domains
+    # that can't be automatically determined
+    participants = list(
+      risk = "Low",
+      note = "Representative sample from tertiary care center"
+    ),
+    predictors = list(
+      risk = "Low",
+      note = "RNA-seq performed using standard protocols"
+    ),
+    outcome = list(
+      risk = "Low",
+      note = "Outcome determined by expert clinicians"
+    )
+    # Analysis domain will be automatically assessed as "Low"
+    # because nested CV was used
+  ),
+  output_format = "html",
+  output_file = "probast_assessment.html"
+)
+
+# View assessment
+print(probast)
+
+# Overall risk
+probast$overall_risk
+
+# Domain-specific risks
+probast$domain_assessments
+
+# Recommendations
+probast$recommendations
+```
+
+## Advanced Features
+
+### Feature Stability Analysis
+
+Examine which features are consistently selected across folds:
+
+```{r stability}
+# Extract selected features from all folds
+all_features <- unlist(result$selected_features)
+
+# Calculate selection frequency
+feature_freq <- sort(table(all_features), decreasing = TRUE)
+
+# Plot top 20 most stable features
+library(ggplot2)
+
+feature_stability <- data.frame(
+  feature = names(head(feature_freq, 20)),
+  frequency = as.numeric(head(feature_freq, 20)) / result$metadata$outer_folds
+)
+
+ggplot(feature_stability, aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Feature Selection Stability",
+    x = "Feature",
+    y = "Selection Frequency (across folds)"
+  ) +
+  theme_minimal()
+```
+
+### Model Calibration
+
+Assess whether predicted probabilities match observed frequencies:
+
+```{r calibration}
+# Calibration is automatically assessed if calibrate = TRUE
+# View calibration metrics
+result$calibration
+
+# You can also use the dedicated calibration function
+# for more detailed analysis
+predictions <- result$predictions  # Out-of-fold predictions
+
+OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = data$diagnosis,
+  method = "isotonic",
+  plot = TRUE
+)
+```
+
+### Decision Curve Analysis
+
+Assess clinical utility across decision thresholds:
+
+```{r decision_curve}
+# Decision curve analysis
+OmicSelector_decision_curve(
+  model = result,
+  data = data,
+  outcome = "diagnosis",
+  thresholds = seq(0.01, 0.99, by = 0.01),
+  plot = TRUE
+)
+
+# Clinical impact curve
+OmicSelector_clinical_impact(
+  model = result,
+  data = data,
+  outcome = "diagnosis",
+  population_size = 1000
+)
+```
+
+## Simple Fit (Non-Nested)
+
+For quick model fitting (e.g., during exploration), use `OmicSelector_fit`:
+
+```{r simple_fit}
+# Quick fit with automatic framework selection
+simple_result <- OmicSelector_fit(
+  data = data,
+  outcome = "diagnosis",
+  method = "auto",
+  algorithm = "ranger",
+  preprocessing = list(
+    normalize = TRUE,
+    remove_zero_variance = TRUE
+  ),
+  resampling = list(method = "cv", folds = 5),
+  seed = 2024
+)
+
+# View results
+print(simple_result)
+```
+
+**Note**: `OmicSelector_fit` is faster but provides less rigorous validation than nested CV. Use it for exploration, but always use nested CV for final results.
+
+## Backward Compatibility
+
+### Using Caret
+
+The modern framework maintains compatibility with caret:
+
+```{r caret}
+# Force caret backend
+caret_result <- OmicSelector_fit(
+  data = data,
+  outcome = "diagnosis",
+  method = "caret",  # Explicitly use caret
+  algorithm = "rf",
+  resampling = list(method = "cv", folds = 5),
+  seed = 2024
+)
+
+print(caret_result)
+```
+
+### Migrating Old Code
+
+Use the migration helper to convert old code:
+
+```{r migrate, eval=FALSE}
+# Not yet implemented - coming soon
+old_code <- '
+train_control <- trainControl(method = "cv", number = 5)
+model <- train(diagnosis ~ ., data = data, method = "rf", trControl = train_control)
+'
+
+# Convert to tidymodels
+new_code <- OmicSelector_migrate(old_code)
+```
+
+## Model Card and Documentation
+
+Create a comprehensive model card for sharing:
+
+```{r model_card}
+model_card <- OmicSelector_model_card(
+  model_result = result,
+  model_details = list(
+    name = "Disease X Gene Expression Classifier",
+    version = "1.0",
+    date = Sys.Date(),
+    authors = "Research Team",
+    license = "CC-BY-4.0"
+  ),
+  intended_use = "
+    This model is intended for research purposes to identify patients at high
+    risk of disease X based on gene expression profiles. It should be used in
+    conjunction with clinical judgment and is not approved for clinical use.
+  ",
+  limitations = "
+    - Developed on samples from a single center
+    - Limited to adult patients
+    - Requires fresh RNA samples
+    - Performance may vary in different populations
+  ",
+  ethical_considerations = "
+    Patient consent was obtained for all samples. Data privacy was maintained
+    throughout the study. The model should not be used to deny care or discriminate.
+  ",
+  output_file = "model_card.json"
+)
+
+print(model_card)
+```
+
+## Best Practices
+
+### 1. Always Use Nested CV for Final Results
+
+```{r best_practice_1}
+# ✓ GOOD: Nested CV for unbiased estimates
+result_good <- OmicSelector_nested_cv(
+  data = data,
+  outcome = "diagnosis",
+  outer_folds = 5,
+  inner_folds = 5,
+  models = models
+)
+
+# ✗ BAD: Single CV can be optimistically biased
+# (okay for exploration, not for final reporting)
+result_exploratory <- OmicSelector_fit(
+  data = data,
+  outcome = "diagnosis",
+  method = "tidymodels",
+  resampling = list(method = "cv", folds = 5)
+)
+```
+
+### 2. Preprocess Inside Resampling Folds
+
+```{r best_practice_2}
+# ✓ GOOD: Recipe applied inside CV folds
+recipe <- recipe(diagnosis ~ ., data = data) %>%
+  step_normalize(all_numeric_predictors())
+
+result <- OmicSelector_nested_cv(
+  data = data,
+  outcome = "diagnosis",
+  preprocessing_recipe = recipe,
+  models = models
+)
+
+# ✗ BAD: Preprocessing before CV causes leakage
+# data_normalized <- scale(data[, -ncol(data)])  # Don't do this!
+# result <- OmicSelector_nested_cv(data = data_normalized, ...)
+```
+
+### 3. Report Complete TRIPOD+AI
+
+```{r best_practice_3}
+# Always generate and include TRIPOD+AI report
+tripod <- OmicSelector_tripod_report(
+  model_result = result,
+  study_info = complete_study_info,  # Provide all details
+  output_file = "supplementary_tripod.html"
+)
+
+# Aim for >90% completeness
+stopifnot(tripod$completeness_score$percentage >= 90)
+```
+
+### 4. Assess Calibration
+
+```{r best_practice_4}
+# Always check calibration, not just discrimination (AUC)
+result <- OmicSelector_nested_cv(
+  data = data,
+  outcome = "diagnosis",
+  models = models,
+  calibrate = TRUE  # Enable calibration assessment
+)
+
+# Review calibration metrics
+result$calibration
+```
+
+## Troubleshooting
+
+### Memory Issues
+
+```{r troubleshooting_memory}
+# For large datasets, consider:
+
+# 1. Reduce number of outer folds
+result <- OmicSelector_nested_cv(
+  data = large_data,
+  outcome = "diagnosis",
+  outer_folds = 3,  # Instead of 5
+  inner_folds = 3,
+  models = models,
+  save_predictions = FALSE  # Don't store all predictions
+)
+
+# 2. Use simpler models
+simple_models <- list(
+  elastic_net = glmnet_spec  # Faster than random forest
+)
+
+# 3. Reduce feature set first
+top_features <- OmicSelector_feature_selection(
+  data = large_data,
+  outcome = "diagnosis",
+  method = "variance",
+  n_features = 500  # Keep top 500
+)
+```
+
+### Parallel Processing
+
+```{r troubleshooting_parallel}
+# Enable parallel processing for faster computation
+library(doParallel)
+
+# Set up parallel backend
+cl <- makeCluster(detectCores() - 1)
+registerDoParallel(cl)
+
+# Run nested CV with parallel processing
+result <- OmicSelector_nested_cv(
+  data = data,
+  outcome = "diagnosis",
+  models = models,
+  parallel = TRUE
+)
+
+# Clean up
+stopCluster(cl)
+```
+
+## Next Steps
+
+### Multi-omics Integration
+
+See the multi-omics vignette for DIABLO and MOFA integration:
+
+```{r next_multiomics, eval=FALSE}
+vignette("multiomics_integration", package = "OmicSelector")
+```
+
+### Survival Analysis
+
+For time-to-event outcomes:
+
+```{r next_survival, eval=FALSE}
+vignette("survival_analysis", package = "OmicSelector")
+```
+
+### Advanced Feature Selection
+
+For stability selection and Model-X knockoffs:
+
+```{r next_features, eval=FALSE}
+vignette("advanced_feature_selection", package = "OmicSelector")
+```
+
+## References
+
+1. Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. BMJ 2024;385:e078378.
+
+2. Wolff RF, Moons KGM, Riley RD, et al. PROBAST: A Tool to Assess the Risk of Bias and Applicability of Prediction Model Studies. Ann Intern Med. 2019;170(1):51-58.
+
+3. Kuhn M, Silge J. Tidy Modeling with R. https://www.tmwr.org/
+
+4. Nogueira S, Sechidis K, Brown G. On the Stability of Feature Selection Algorithms. Journal of Machine Learning Research. 2017;18(174):1-54.
+
+## Session Info
+
+```{r session_info}
+sessionInfo()
+```
