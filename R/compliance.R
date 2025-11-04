@@ -102,7 +102,10 @@ OmicSelector_tripod_report <- function(
     report_sections = report_sections,
     metadata = list(
       generated_date = Sys.time(),
-      omicselector_version = packageVersion("OmicSelector"),
+      omicselector_version = tryCatch(
+        as.character(packageVersion("OmicSelector")),
+        error = function(e) "2.0.0-dev"
+      ),
       tripod_version = "TRIPOD+AI 2024"
     )
   )
