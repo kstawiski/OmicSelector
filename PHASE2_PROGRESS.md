@@ -1,8 +1,9 @@
 # Phase 2: Advanced Feature Selection - Progress Report
 
 **Started**: 2025-11-04
-**Status**: 🚧 IN PROGRESS (30% complete)
+**Status**: 🚧 IN PROGRESS (85% complete)
 **Branch**: `claude/omicselector-modernization-phase1-011CUoP6wrbzCCxVtgHHC8B9`
+**Last Updated**: 2025-11-04
 
 ---
 
@@ -115,13 +116,13 @@ Top 10 stable features:
 
 ---
 
-## 🔄 In Progress (Task 2.2 - 0%)
+## ✅ Completed (Task 2.2 - 100%)
 
-### Feature Clustering for Biomarker Replaceability
+### `R/feature_clustering.R` (695 lines)
+
+**Function**: `OmicSelector_cluster_features()`
 
 **Objective**: Group highly correlated features to identify alternatives
-
-**Planned Function**: `OmicSelector_cluster_features()`
 
 ```r
 OmicSelector_cluster_features(
@@ -139,20 +140,84 @@ OmicSelector_cluster_features(
 3. Identify co-regulated gene/miRNA groups
 4. Platform-independent biomarker discovery
 
+**Validation**:
+- ✅ Tested with real TCGA miRNA data (2,566 features → 50 representatives)
+- ✅ 98.1% dimensionality reduction achieved
+- ✅ All 4 clustering methods validated
+- ✅ Replacement maps working correctly
+- ✅ S3 methods (print, summary, plot) working
+
+---
+
+## ✅ Completed (Task 2.3 - 100%)
+
+### `R/feature_importance.R` (681 lines)
+
+**Function**: `OmicSelector_importance()`
+
+**Objective**: Calculate feature importance using model-agnostic methods that handle correlations
+
+**Key Parameters**:
+```r
+OmicSelector_importance(
+  model,
+  data,
+  outcome,
+  method = c("permutation", "conditional", "both"),
+  metric = NULL,  # Auto-detected
+  n_repeats = 10,
+  normalize = TRUE,
+  conditional_grid = 5,
+  parallel = TRUE
+)
+```
+
+**Methods Implemented**:
+
+1. **permutation** (Breiman 2001)
+   - Model-agnostic approach
+   - Permute each feature and measure performance drop
+   - Repeated multiple times for confidence intervals
+   - Works with any trained model
+
+2. **conditional** (Strobl et al. 2008)
+   - Handles correlated features correctly
+   - Conditional permutation within correlation groups
+   - Prevents inflated importance for correlated features
+   - More reliable than standard permutation
+
+3. **both**
+   - Calculates both methods for comparison
+   - Highlights where correlations affect importance
+   - Publication-ready comparison tables
+
+**Key Features**:
+- Auto-detects classification vs regression
+- Provides standard errors and confidence intervals
+- Z-scores for significance testing
+- Multiple metrics: accuracy, AUC, RMSE, MAE
+- S3 methods: print(), summary(), plot()
+- Parallel processing support
+
+**Validation**:
+- ✅ Tested with mock data (17 features)
+- ✅ Correctly identifies important features
+- ✅ All S3 methods working
+- ✅ Input validation working
+
 ---
 
 ## 📋 Remaining Tasks
 
-### Task 2.3: Enhanced Feature Importance (0%)
-- [ ] Permutation importance
-- [ ] Conditional importance
-- [ ] Integration with Phase 8 (SHAP)
-
-### Task 2.4: Testing (0%)
-- [ ] Unit tests for stability functions
-- [ ] Test with real TCGA data
+### Task 2.4: Testing (15% complete)
+- [x] Basic tests for stability selection
+- [x] Basic tests for feature clustering
+- [x] Basic tests for feature importance
+- [ ] Comprehensive unit tests with testthat
+- [ ] Test with real TCGA data for all methods
 - [ ] Benchmark against existing methods
-- [ ] Validate Nogueira metrics
+- [ ] Validate Nogueira metrics thoroughly
+- [ ] Create `test-feature_selection_modern.R`
 
 ### Task 2.5: Documentation (0%)
 - [ ] Update vignettes
@@ -168,18 +233,23 @@ OmicSelector_cluster_features(
 
 | File | Lines | Status |
 |------|-------|--------|
-| feature_selection_modern.R | 666 | ✅ 70% complete |
+| feature_selection_modern.R | 666 | ✅ Complete |
+| feature_clustering.R | 695 | ✅ Complete |
+| feature_importance.R | 681 | ✅ Complete |
+| test_clustering_real_data.R | 273 | ✅ Complete |
+| test_importance.R | 129 | ✅ Complete |
 | TODO.md | Updated | ✅ Complete |
+| PHASE2_PROGRESS.md | Updated | ✅ Complete |
 
-### Phase 1 + Phase 2
+### Phase 1 + Phase 2 Combined
 
 | Metric | Value |
 |--------|-------|
-| Total lines added | ~6,836 |
-| R source files | 4 |
-| Test files | 3 |
-| Documentation files | 5 |
-| Commits | 5 |
+| Total lines added | ~9,280 |
+| R source files | 7 |
+| Test files | 6 |
+| Documentation files | 6 |
+| Commits | 8 |
 
 ---
 
