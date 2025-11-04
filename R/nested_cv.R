@@ -647,7 +647,11 @@ print.OmicSelector_nested_cv <- function(x, ...) {
   cat(paste0("  Features: ", x$metadata$n_features, "\n"))
 
   cat("\nOverall Performance (Outer Loop):\n")
-  print(x$overall_metrics, n = 10)
+  if (!is.null(x$overall_metrics)) {
+    print(as.data.frame(x$overall_metrics), row.names = FALSE)
+  } else {
+    cat("  (No metrics available)\n")
+  }
 
   if (!is.null(x$feature_stability)) {
     cat("\nFeature Stability:\n")
