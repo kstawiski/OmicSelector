@@ -1,0 +1,438 @@
+---
+title: "Modern OmicSelector Workflow with Tidymodels"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modern OmicSelector Workflow with Tidymodels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE  # Set to TRUE once we have example data
+)
+```
+
+# Introduction
+
+OmicSelector 2.0 introduces a modern workflow based on the tidymodels framework, with rigorous nested cross-validation to prevent data leakage and TRIPOD+AI compliance for clinical prediction models.
+
+This vignette demonstrates the key features of the modernized package.
+
+## Installation
+
+```{r setup}
+library(OmicSelector)
+library(tidymodels)
+library(dplyr)
+library(ggplot2)
+```
+
+# Problem: Data Leakage in Traditional Workflows
+
+Data leakage occurs when information from the test set "leaks" into the training process, leading to optimistically biased performance estimates.
+
+## Common Leakage Sources
+
+1. **Preprocessing before splitting**: Normalizing or scaling the entire dataset
+2. **Feature selection on full data**: Selecting features before train/test split
+3. **Hyperparameter tuning with test data**: Using test set for any decisions
+
+## OmicSelector 2.0 Solution
+
+All preprocessing, feature selection, and hyperparameter tuning happen **inside** resampling folds.
+
+# Basic Workflow: Nested Cross-Validation
+
+## Step 1: Load Your Data
+
+```{r}
+# Example with built-in data
+data(miR_Asakura)  # Replace with your data
+
+# Check data structure
+str(miR_Asakura)
+```
+
+## Step 2: Define Preprocessing Recipe
+
+```{r}
+# Create a recipe for preprocessing
+# This will be applied INSIDE each fold
+library(recipes)
+
+preprocessing_recipe <- recipe(Class ~ ., data = miR_Asakura) %>%
+  # Remove zero-variance features
+  step_zv(all_predictors()) %>%
+  # Normalize numeric predictors
+  step_normalize(all_numeric_predictors()) %>%
+  # Handle missing values if needed
+  step_impute_median(all_numeric_predictors())
+
+# Preview the recipe (but don't prep yet!)
+preprocessing_recipe
+```
+
+## Step 3: Define Models to Compare
+
+```{r}
+library(parsnip)
+
+# Define multiple models with hyperparameters to tune
+models <- list(
+  # Random Forest
+  ranger = rand_forest(
+    mtry = tune(),           # Number of variables to try at each split
+    min_n = tune(),          # Minimum node size
+    trees = 1000
+  ) %>%
+    set_engine("ranger", importance = "impurity") %>%
+    set_mode("classification"),
+
+  # XGBoost
+  xgboost = boost_tree(
+    mtry = tune(),
+    trees = tune(),
+    min_n = tune(),
+    tree_depth = tune(),
+    learn_rate = tune()
+  ) %>%
+    set_engine("xgboost") %>%
+    set_mode("classification"),
+
+  # Elastic Net (LASSO + Ridge)
+  glmnet = logistic_reg(
+    penalty = tune(),
+    mixture = tune()
+  ) %>%
+    set_engine("glmnet") %>%
+    set_mode("classification")
+)
+```
+
+## Step 4: Run Nested Cross-Validation
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Run nested CV with feature selection
+result <- OmicSelector_nested_cv(
+  data = miR_Asakura,
+  outcome = "Class",
+
+  # Cross-validation strategy
+  outer_folds = 5,    # For performance estimation
+  inner_folds = 5,    # For hyperparameter tuning
+
+  # Preprocessing (applied inside folds)
+  preprocessing_recipe = preprocessing_recipe,
+
+  # Feature selection (applied inside folds)
+  feature_selection_method = "boruta",
+  max_features = 20,
+
+  # Models to compare
+  models = models,
+
+  # Number of hyperparameter combinations to try
+  tune_grid = 10,
+
+  # Assess calibration
+  calibrate = TRUE,
+
+  # Use parallel processing
+  parallel = TRUE,
+  cores = 4
+)
+```
+
+## Step 5: View Results
+
+```{r}
+# Print summary
+print(result)
+
+# Detailed summary
+summary(result)
+
+# Visualize results
+plot(result)
+```
+
+## Step 6: Examine Feature Stability
+
+```{r}
+# Which features were selected consistently?
+result$feature_stability
+
+# Most stable features
+head(result$feature_stability$stable_features, 20)
+
+# Jaccard similarity between folds
+result$feature_stability$mean_jaccard_similarity
+```
+
+# TRIPOD+AI Compliance Reporting
+
+Clinical prediction models should follow TRIPOD+AI guidelines for transparent reporting.
+
+## Generate TRIPOD+AI Report
+
+```{r}
+# Define study information
+study_info <- list(
+  title = "MicroRNA-Based Diagnostic Model for Cancer Detection",
+  authors = c("Smith J", "Jones A", "Brown B"),
+  objective = "To develop and internally validate a diagnostic model for cancer detection using microRNA expression profiles",
+  data_source = "RNA-seq data from tumor and matched normal tissues collected at Academic Medical Center between 2018-2022",
+  eligibility_criteria = "Adult patients (≥18 years) with histologically confirmed diagnosis; excluded if prior cancer treatment within 6 months",
+  outcome_definition = "Pathologically confirmed cancer status determined by independent review board",
+  sample_size_justification = "Based on events per variable rule (EPV ≥10) and anticipated AUC of 0.80, required minimum 150 cases",
+  missing_data_handling = "Multiple imputation using predictive mean matching (5 imputations)",
+  background = "MicroRNAs are promising biomarkers but existing signatures lack validation",
+  funding = "National Cancer Institute Grant R01-CA123456"
+)
+
+# Generate comprehensive report
+report <- OmicSelector_tripod_report(
+  model_result = result,
+  study_info = study_info,
+  output_format = "html",
+  output_file = "tripod_compliance_report.html",
+  include_plots = TRUE
+)
+
+# View checklist
+print(report$checklist)
+```
+
+# PROBAST+AI Risk of Bias Assessment
+
+## Run PROBAST Assessment
+
+```{r}
+# Provide assessment information
+assessment_inputs <- list(
+  participant_selection = "Consecutive enrollment of eligible patients",
+  predictor_assessment = "RNA-seq performed using standardized protocol, blinded to outcome",
+  outcome_assessment = "Independent pathological review blinded to biomarker results",
+  sample_selection = "Hospital-based sample, representative of target population"
+)
+
+# Run assessment
+assessment <- OmicSelector_probast(
+  model_result = result,
+  assessment_inputs = assessment_inputs
+)
+
+# View results
+print(assessment)
+
+# Check recommendations
+assessment$recommendations
+```
+
+# Advanced: Custom Feature Selection
+
+## Stability Selection
+
+```{r}
+# Use stability selection for more robust feature selection
+result_stable <- OmicSelector_nested_cv(
+  data = miR_Asakura,
+  outcome = "Class",
+  outer_folds = 5,
+  inner_folds = 5,
+  preprocessing_recipe = preprocessing_recipe,
+  feature_selection_method = "stability_selection",
+  max_features = 15,
+  models = models
+)
+
+# Compare feature stability
+result_stable$feature_stability$stable_features
+```
+
+## LASSO-based Selection
+
+```{r}
+# Use LASSO for feature selection
+result_lasso <- OmicSelector_nested_cv(
+  data = miR_Asakura,
+  outcome = "Class",
+  outer_folds = 5,
+  inner_folds = 5,
+  preprocessing_recipe = preprocessing_recipe,
+  feature_selection_method = "lasso",
+  models = models
+)
+```
+
+# Comparison with Traditional Approach
+
+## ❌ Old Way (Potential Leakage)
+
+```{r}
+# DON'T DO THIS - Shows what NOT to do
+library(caret)
+
+# 1. Normalize entire dataset (LEAKAGE!)
+normalized_data <- preProcess(miR_Asakura, method = c("center", "scale"))
+
+# 2. Select features on entire dataset (LEAKAGE!)
+feature_selected <- Boruta(Class ~ ., data = normalized_data)
+
+# 3. Split into train/test
+train_indices <- createDataPartition(normalized_data$Class, p = 0.8)
+
+# Performance will be optimistically biased!
+```
+
+## ✅ New Way (No Leakage)
+
+```{r}
+# OmicSelector 2.0 ensures all steps happen inside folds
+result <- OmicSelector_nested_cv(
+  data = miR_Asakura,  # Raw data
+  outcome = "Class",
+  preprocessing_recipe = preprocessing_recipe,  # Applied inside folds
+  feature_selection_method = "boruta",          # Applied inside folds
+  outer_folds = 5,
+  inner_folds = 5
+)
+
+# Performance is unbiased!
+```
+
+# Single Model Training (Simpler Workflow)
+
+If you don't need nested CV and want to train a single model:
+
+```{r}
+# Simple model training with automatic framework detection
+simple_result <- OmicSelector_fit(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "tidymodels",  # or "caret" for backward compatibility
+  algorithm = "ranger",
+  preprocessing = list(
+    normalize = TRUE,
+    remove_zero_variance = TRUE,
+    impute = TRUE
+  ),
+  resampling = list(
+    method = "cv",
+    outer_folds = 10
+  ),
+  parallel = TRUE
+)
+
+# View results
+print(simple_result)
+summary(simple_result)
+```
+
+# Exporting Results
+
+## Save Model Object
+
+```{r}
+# Save complete results
+saveRDS(result, "nested_cv_results.rds")
+
+# Load later
+loaded_result <- readRDS("nested_cv_results.rds")
+```
+
+## Export Predictions
+
+```{r}
+# Extract predictions
+predictions <- result$final_predictions
+
+# Save as CSV
+write.csv(predictions, "predictions.csv", row.names = FALSE)
+```
+
+## Export Selected Features
+
+```{r}
+# Get features from all folds
+all_features <- result$selected_features
+
+# Most stable features
+stable_features <- result$feature_stability$stable_features
+
+# Save
+write.csv(
+  data.frame(Feature = stable_features),
+  "stable_features.csv",
+  row.names = FALSE
+)
+```
+
+# Best Practices
+
+1. **Always use nested CV** for unbiased performance estimates
+2. **Never preprocess before splitting** - use recipes inside folds
+3. **Check feature stability** - prefer features selected consistently
+4. **Generate TRIPOD+AI reports** for clinical models
+5. **Assess risk of bias** using PROBAST+AI
+6. **Set random seeds** for reproducibility
+7. **Use parallel processing** for faster computation
+8. **Validate externally** when possible
+
+# Troubleshooting
+
+## Common Issues
+
+### Issue: Out of Memory
+
+```{r}
+# Solution: Reduce parallel processing or grid size
+result <- OmicSelector_nested_cv(
+  ...,
+  parallel = TRUE,
+  cores = 2,  # Use fewer cores
+  tune_grid = 5  # Try fewer hyperparameter combinations
+)
+```
+
+### Issue: Taking Too Long
+
+```{r}
+# Solution: Use fewer folds or smaller grid
+result <- OmicSelector_nested_cv(
+  ...,
+  outer_folds = 3,  # Reduce from 5
+  inner_folds = 3,  # Reduce from 5
+  tune_grid = 5     # Reduce from 10
+)
+```
+
+### Issue: Feature Selection Finds Nothing
+
+```{r}
+# Solution: Relax selection criteria
+result <- OmicSelector_nested_cv(
+  ...,
+  feature_selection_method = "lasso",  # Try different method
+  max_features = 50  # Allow more features
+)
+```
+
+# Next Steps
+
+- Read the full documentation: `?OmicSelector_nested_cv`
+- Explore Phase 2 features: Multi-omics integration
+- Check out survival analysis capabilities (Phase 5)
+- Try AutoML features (Phase 7)
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
