@@ -467,6 +467,67 @@ OmicSelector_nested_cv <- function(
 
 
 #' @keywords internal
+.create_model_spec <- function(algorithm, outcome_type, tune = FALSE) {
+  # Create parsnip model specification
+
+  if (algorithm == "ranger" || algorithm == "rf") {
+    if (tune) {
+      spec <- parsnip::rand_forest(
+        mtry = tune::tune(),
+        trees = 1000,
+        min_n = tune::tune()
+      )
+    } else {
+      spec <- parsnip::rand_forest(trees = 1000)
+    }
+    spec <- spec %>%
+      parsnip::set_engine("ranger", importance = "impurity") %>%
+      parsnip::set_mode(outcome_type)
+
+  } else if (algorithm == "xgboost" || algorithm == "xgb") {
+    if (tune) {
+      spec <- parsnip::boost_tree(
+        mtry = tune::tune(),
+        trees = tune::tune(),
+        min_n = tune::tune(),
+        tree_depth = tune::tune(),
+        learn_rate = tune::tune()
+      )
+    } else {
+      spec <- parsnip::boost_tree(trees = 100)
+    }
+    spec <- spec %>%
+      parsnip::set_engine("xgboost") %>%
+      parsnip::set_mode(outcome_type)
+
+  } else if (algorithm == "glmnet" || algorithm == "elasticnet") {
+    if (tune) {
+      spec <- parsnip::logistic_reg(
+        penalty = tune::tune(),
+        mixture = tune::tune()
+      )
+    } else {
+      spec <- parsnip::logistic_reg()
+    }
+    spec <- spec %>%
+      parsnip::set_engine("glmnet")
+
+  } else if (algorithm == "glm") {
+    spec <- parsnip::logistic_reg() %>%
+      parsnip::set_engine("glm")
+
+  } else {
+    # Default to random forest
+    spec <- parsnip::rand_forest(trees = 500) %>%
+      parsnip::set_engine("ranger") %>%
+      parsnip::set_mode(outcome_type)
+  }
+
+  return(spec)
+}
+
+
+#' @keywords internal
 .fit_tidymodels <- function(
   data,
   outcome,
@@ -479,16 +540,131 @@ OmicSelector_nested_cv <- function(
   seed,
   ...
 ) {
-  # This is a placeholder for tidymodels implementation
-  # Will be fully implemented with proper tidymodels workflow
+
+  if (!requireNamespace("tidymodels", quietly = TRUE)) {
+    stop("tidymodels package required. Install with: install.packages('tidymodels')")
+  }
 
   message("Fitting model with tidymodels framework...")
 
+  # Determine if classification or regression
+  outcome_type <- if (is.factor(data[[outcome]]) || is.character(data[[outcome]])) {
+    "classification"
+  } else {
+    "regression"
+  }
+
+  # Set default metrics if not provided
+  if (is.null(metrics)) {
+    if (outcome_type == "classification") {
+      metrics <- yardstick::metric_set(
+        yardstick::roc_auc,
+        yardstick::accuracy,
+        yardstick::sensitivity,
+        yardstick::specificity
+      )
+    } else {
+      metrics <- yardstick::metric_set(
+        yardstick::rmse,
+        yardstick::mae,
+        yardstick::rsq
+      )
+    }
+  }
+
+  # Create preprocessing recipe if needed
+  if (is.list(preprocessing) && !inherits(preprocessing, "recipe")) {
+    rec <- recipes::recipe(stats::as.formula(paste(outcome, "~ .")), data = data)
+
+    if (isTRUE(preprocessing$normalize)) {
+      rec <- rec %>% recipes::step_normalize(recipes::all_numeric_predictors())
+    }
+    if (isTRUE(preprocessing$remove_zero_variance)) {
+      rec <- rec %>% recipes::step_zv(recipes::all_predictors())
+    }
+    if (isTRUE(preprocessing$remove_correlated)) {
+      threshold <- preprocessing$correlation_threshold %||% 0.9
+      rec <- rec %>% recipes::step_corr(recipes::all_numeric_predictors(), threshold = threshold)
+    }
+  } else if (inherits(preprocessing, "recipe")) {
+    rec <- preprocessing
+  } else {
+    rec <- recipes::recipe(stats::as.formula(paste(outcome, "~ .")), data = data)
+  }
+
+  # Create model specification
+  model_spec <- .create_model_spec(algorithm, outcome_type, tune_grid > 1)
+
+  # Create workflow
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(rec) %>%
+    workflows::add_model(model_spec)
+
+  # Create resampling object
+  if (resampling$method == "cv") {
+    folds <- resampling$folds %||% 5
+    splits <- rsample::vfold_cv(data, v = folds, strata = outcome)
+  } else if (resampling$method == "boot") {
+    times <- resampling$times %||% 25
+    splits <- rsample::bootstraps(data, times = times, strata = outcome)
+  } else {
+    # Default to 5-fold CV
+    splits <- rsample::vfold_cv(data, v = 5, strata = outcome)
+  }
+
+  # Fit model
+  set.seed(seed)
+
+  if (tune_grid > 1 && any(grepl("tune", as.character(model_spec$args)))) {
+    message("  Tuning hyperparameters...")
+    # Tuning required
+    tune_results <- tune::tune_grid(
+      wflow,
+      resamples = splits,
+      grid = tune_grid,
+      metrics = metrics,
+      control = tune::control_grid(save_pred = TRUE, verbose = FALSE)
+    )
+
+    # Select best model
+    best_params <- tune::select_best(tune_results, metric = names(metrics)[1])
+    final_wflow <- tune::finalize_workflow(wflow, best_params)
+    final_fit <- parsnip::fit(final_wflow, data = data)
+
+    # Get CV performance
+    cv_metrics <- tune::collect_metrics(tune_results) %>%
+      dplyr::filter(.config == best_params$.config)
+
+  } else {
+    message("  Fitting model without tuning...")
+    # No tuning
+    fit_results <- tune::fit_resamples(
+      wflow,
+      resamples = splits,
+      metrics = metrics,
+      control = tune::control_resamples(save_pred = TRUE, verbose = FALSE)
+    )
+
+    # Fit final model on full data
+    final_fit <- parsnip::fit(wflow, data = data)
+
+    # Get CV performance
+    cv_metrics <- tune::collect_metrics(fit_results)
+  }
+
+  # Extract performance metrics
+  performance <- list(
+    cv_metrics = cv_metrics,
+    resampling_method = resampling$method,
+    n_folds = if (resampling$method == "cv") folds else times
+  )
+
   result <- list(
-    model = NULL,
-    preprocessing = preprocessing,
-    performance = list(),
-    message = "tidymodels implementation in progress"
+    model = final_fit,
+    workflow = wflow,
+    preprocessing = rec,
+    performance = performance,
+    algorithm = algorithm
   )
 
   return(result)
@@ -524,15 +700,132 @@ OmicSelector_nested_cv <- function(
 
 #' @keywords internal
 .perform_feature_selection <- function(data, outcome, method, params) {
-  # Placeholder for feature selection implementation
-  # Will support: stability_selection, boruta, model_x_knockoffs, etc.
+  # Feature selection implementation
 
   features <- setdiff(colnames(data), outcome)
+  n_features <- length(features)
+
+  if (is.null(method) || method == "none") {
+    # No feature selection
+    result <- list(
+      features = features,
+      scores = NULL,
+      method = "none"
+    )
+    return(result)
+  }
+
+  if (method == "variance") {
+    # Variance-based filtering
+    threshold <- params$threshold %||% 0.1
+    feature_vars <- apply(data[, features, drop = FALSE], 2, stats::var, na.rm = TRUE)
+    selected <- names(feature_vars)[feature_vars > threshold]
+
+  } else if (method == "correlation") {
+    # Correlation-based filtering
+    threshold <- params$threshold %||% 0.3
+    outcome_numeric <- if (is.factor(data[[outcome]])) {
+      as.numeric(data[[outcome]])
+    } else {
+      data[[outcome]]
+    }
+
+    cors <- abs(sapply(features, function(f) {
+      stats::cor(data[[f]], outcome_numeric, use = "complete.obs")
+    }))
+
+    selected <- names(cors)[cors > threshold]
+
+  } else if (method == "top_n") {
+    # Select top N features by correlation
+    n <- params$n %||% min(20, n_features)
+    outcome_numeric <- if (is.factor(data[[outcome]])) {
+      as.numeric(data[[outcome]])
+    } else {
+      data[[outcome]]
+    }
+
+    cors <- abs(sapply(features, function(f) {
+      stats::cor(data[[f]], outcome_numeric, use = "complete.obs")
+    }))
+
+    selected <- names(sort(cors, decreasing = TRUE))[1:min(n, length(cors))]
+
+  } else if (method == "boruta") {
+    # Boruta feature selection
+    if (!requireNamespace("Boruta", quietly = TRUE)) {
+      warning("Boruta package not available. Using all features.")
+      selected <- features
+    } else {
+      formula <- stats::as.formula(paste(outcome, "~ ."))
+      bor <- Boruta::Boruta(formula, data = data, maxRuns = params$max_runs %||% 100)
+      selected <- names(Boruta::getSelectedAttributes(bor, withTentative = FALSE))
+    }
+
+  } else if (method == "stability_selection") {
+    # Simple stability selection using bootstrap
+    n_iterations <- params$n_iterations %||% 50
+    threshold <- params$selection_threshold %||% 0.5
+
+    selection_freq <- rep(0, length(features))
+    names(selection_freq) <- features
+
+    for (i in 1:n_iterations) {
+      # Bootstrap sample
+      boot_idx <- sample(nrow(data), replace = TRUE)
+      boot_data <- data[boot_idx, ]
+
+      # Simple feature selection (correlation-based)
+      outcome_numeric <- if (is.factor(boot_data[[outcome]])) {
+        as.numeric(boot_data[[outcome]])
+      } else {
+        boot_data[[outcome]]
+      }
+
+      cors <- abs(sapply(features, function(f) {
+        stats::cor(boot_data[[f]], outcome_numeric, use = "complete.obs")
+      }))
+
+      # Select top 50% features
+      n_select <- max(5, round(length(features) * 0.5))
+      selected_in_iter <- names(sort(cors, decreasing = TRUE))[1:n_select]
+
+      # Update frequencies
+      selection_freq[selected_in_iter] <- selection_freq[selected_in_iter] + 1
+    }
+
+    # Select features above threshold
+    selection_freq <- selection_freq / n_iterations
+    selected <- names(selection_freq)[selection_freq >= threshold]
+
+  } else {
+    # Default: use all features
+    warning(paste("Unknown feature selection method:", method, ". Using all features."))
+    selected <- features
+  }
+
+  # Ensure at least some features are selected
+  if (length(selected) == 0) {
+    warning("No features selected. Using top 5 features by correlation.")
+    outcome_numeric <- if (is.factor(data[[outcome]])) {
+      as.numeric(data[[outcome]])
+    } else {
+      data[[outcome]]
+    }
+
+    cors <- abs(sapply(features, function(f) {
+      stats::cor(data[[f]], outcome_numeric, use = "complete.obs")
+    }))
+
+    selected <- names(sort(cors, decreasing = TRUE))[1:min(5, length(cors))]
+  }
 
   result <- list(
-    features = features,
+    features = selected,
     scores = NULL,
-    method = method
+    method = method,
+    n_original = n_features,
+    n_selected = length(selected)
   )
 
   return(result)
@@ -541,11 +834,46 @@ OmicSelector_nested_cv <- function(
 
 #' @keywords internal
 .tune_model_inner_cv <- function(model_spec, data, outcome, resamples, metrics) {
-  # Placeholder for inner CV tuning
+  # Inner CV tuning
+
+  # Check if tuning is needed
+  needs_tune <- any(grepl("tune", as.character(model_spec$args)))
+
+  if (!needs_tune) {
+    # No tuning needed
+    return(list(
+      best_params = list(),
+      performance = list()
+    ))
+  }
+
+  # Create basic recipe
+  rec <- recipes::recipe(stats::as.formula(paste(outcome, "~ .")), data = data)
+
+  # Create workflow
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(rec) %>%
+    workflows::add_model(model_spec)
+
+  # Tune grid
+  tune_results <- tune::tune_grid(
+    wflow,
+    resamples = resamples,
+    grid = 10,
+    metrics = metrics,
+    control = tune::control_grid(save_pred = FALSE, verbose = FALSE)
+  )
+
+  # Get best parameters
+  best_params <- tune::select_best(tune_results, metric = names(metrics)[1])
+
+  # Get performance
+  performance <- tune::collect_metrics(tune_results) %>%
+    dplyr::filter(.config == best_params$.config)
 
   result <- list(
-    best_params = list(),
-    performance = list()
+    best_params = best_params,
+    performance = performance
   )
 
   return(result)
@@ -554,18 +882,68 @@ OmicSelector_nested_cv <- function(
 
 #' @keywords internal
 .fit_final_model <- function(model_spec, params, data, outcome) {
-  # Placeholder for final model fitting
+  # Fit final model with best parameters
 
-  return(NULL)
+  # Create recipe
+  rec <- recipes::recipe(stats::as.formula(paste(outcome, "~ .")), data = data)
+
+  # Finalize model spec with best params
+  if (nrow(params) > 0 && ncol(params) > 1) {
+    final_spec <- tune::finalize_model(model_spec, params)
+  } else {
+    final_spec <- model_spec
+  }
+
+  # Create workflow and fit
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(rec) %>%
+    workflows::add_model(final_spec)
+
+  final_fit <- parsnip::fit(wflow, data = data)
+
+  return(final_fit)
 }
 
 
 #' @keywords internal
 .evaluate_predictions <- function(predictions, truth, metrics) {
-  # Placeholder for prediction evaluation
+  # Evaluate predictions
+
+  # Create data frame for metrics
+  pred_df <- data.frame(
+    truth = truth,
+    .pred_class = predictions$.pred_class
+  )
+
+  # Add probability columns if they exist
+  prob_cols <- grep("^\\.pred_", colnames(predictions), value = TRUE)
+  prob_cols <- setdiff(prob_cols, ".pred_class")
+  if (length(prob_cols) > 0) {
+    pred_df <- cbind(pred_df, predictions[, prob_cols, drop = FALSE])
+  }
+
+  # Calculate metrics
+  if (!is.null(metrics)) {
+    metric_results <- metrics(pred_df, truth = truth, estimate = .pred_class)
+
+    # Add probability-based metrics if available
+    if (length(prob_cols) > 0) {
+      # Assuming binary classification with first class as positive
+      first_level <- levels(truth)[1]
+      prob_col <- paste0(".pred_", first_level)
+
+      if (prob_col %in% colnames(pred_df)) {
+        roc_result <- yardstick::roc_auc(pred_df, truth = truth, prob_col)
+        metric_results <- dplyr::bind_rows(metric_results, roc_result)
+      }
+    }
+  } else {
+    metric_results <- NULL
+  }
 
   result <- list(
-    metrics = list()
+    metrics = metric_results,
+    predictions = pred_df
   )
 
   return(result)
@@ -579,10 +957,43 @@ OmicSelector_nested_cv <- function(
   aggregated <- list()
 
   for (model_name in model_names) {
-    aggregated[[model_name]] <- list(
-      mean_performance = list(),
-      sd_performance = list()
-    )
+    # Extract metrics for this model across all folds
+    fold_metrics <- lapply(outer_results, function(fold) {
+      if (model_name %in% names(fold)) {
+        fold[[model_name]]$metrics
+      } else {
+        NULL
+      }
+    })
+
+    # Remove NULL entries
+    fold_metrics <- fold_metrics[!sapply(fold_metrics, is.null)]
+
+    if (length(fold_metrics) > 0 && !is.null(fold_metrics[[1]])) {
+      # Combine all metrics
+      all_metrics <- dplyr::bind_rows(fold_metrics)
+
+      # Calculate mean and SD for each metric
+      summary_metrics <- all_metrics %>%
+        dplyr::group_by(.metric) %>%
+        dplyr::summarise(
+          mean = mean(.estimate, na.rm = TRUE),
+          sd = stats::sd(.estimate, na.rm = TRUE),
+          min = min(.estimate, na.rm = TRUE),
+          max = max(.estimate, na.rm = TRUE),
+          .groups = "drop"
+        )
+
+      aggregated[[model_name]] <- list(
+        summary = summary_metrics,
+        by_fold = fold_metrics
+      )
+    } else {
+      aggregated[[model_name]] <- list(
+        summary = NULL,
+        by_fold = NULL
+      )
+    }
   }
 
   return(aggregated)
