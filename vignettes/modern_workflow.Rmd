@@ -271,6 +271,390 @@ result_lasso <- OmicSelector_nested_cv(
 )
 ```
 
+# Phase 2: Advanced Feature Selection with Stability Metrics
+
+Phase 2 introduces stability-aware feature selection methods that address the reproducibility crisis in biomarker discovery.
+
+## Problem: Unstable Feature Selection
+
+Traditional feature selection methods often produce different features on slightly different data:
+
+```{r}
+# Traditional approach (unstable)
+# Run 1: Features A, B, C, D, E
+# Run 2: Features A, F, G, H, E
+# Run 3: Features A, B, I, J, K
+# Only feature A is consistent!
+```
+
+## Solution: Stability Selection
+
+OmicSelector 2.0 includes stability-aware methods that only select features consistently chosen across multiple iterations:
+
+### Basic Stability Selection
+
+```{r}
+# Stability selection with subsampling
+stable_result <- OmicSelector_stable_features(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "stability_selection",
+  n_iterations = 100,            # Run 100 times
+  selection_threshold = 0.7,     # Keep features selected ≥70% of time
+  subsample_rate = 0.8,          # Use 80% of data each iteration
+  parallel = TRUE,
+  seed = 123
+)
+
+# View results
+print(stable_result)
+
+# Top stable features
+head(stable_result$selected_features, 20)
+
+# Stability scores for each feature
+head(stable_result$stability_scores, 20)
+```
+
+### Nogueira Stability Metrics
+
+The package implements comprehensive stability metrics from Nogueira & Brown (2016):
+
+```{r}
+# View stability metrics
+stable_result$nogueira_metrics
+
+# Kuncheva Index (higher is better, >0.8 is excellent)
+# Values range from -1 to 1
+stable_result$nogueira_metrics$kuncheva_index
+
+# Mean Jaccard Similarity (0 to 1)
+stable_result$nogueira_metrics$mean_jaccard
+
+# Variance in number of features selected
+stable_result$nogueira_metrics$variance_n_features
+```
+
+**Interpretation:**
+
+- **Kuncheva Index > 0.8**: Very stable selection
+- **Kuncheva Index 0.5-0.8**: Moderately stable
+- **Kuncheva Index < 0.5**: Unstable (problematic!)
+
+### Visualize Stability
+
+```{r}
+# Plot stability scores
+plot(stable_result)
+
+# This creates a bar plot showing:
+# - Top features by stability score
+# - Selection threshold line
+# - Color-coded by selection status
+```
+
+### Different Stability Methods
+
+```{r}
+# Boruta with stability assessment
+boruta_stable <- OmicSelector_stable_features(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "boruta_stable",
+  n_iterations = 50,
+  selection_threshold = 0.6
+)
+
+# LASSO with stability
+lasso_stable <- OmicSelector_stable_features(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "lasso_stable",
+  n_iterations = 100,
+  selection_threshold = 0.7
+)
+
+# RFE with stability
+rfe_stable <- OmicSelector_stable_features(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "rfe_stable",
+  n_iterations = 50,
+  selection_threshold = 0.6
+)
+
+# Compare stability across methods
+comparison <- data.frame(
+  Method = c("Stability Selection", "Boruta Stable", "LASSO Stable", "RFE Stable"),
+  Kuncheva = c(
+    stable_result$nogueira_metrics$kuncheva_index,
+    boruta_stable$nogueira_metrics$kuncheva_index,
+    lasso_stable$nogueira_metrics$kuncheva_index,
+    rfe_stable$nogueira_metrics$kuncheva_index
+  ),
+  N_Features = c(
+    length(stable_result$selected_features),
+    length(boruta_stable$selected_features),
+    length(lasso_stable$selected_features),
+    length(rfe_stable$selected_features)
+  )
+)
+
+print(comparison)
+```
+
+## Feature Clustering for Biomarker Replaceability
+
+What happens when your selected biomarker can't be measured on a new platform? Feature clustering identifies alternative biomarkers.
+
+### Correlation-Based Clustering
+
+```{r}
+# Cluster highly correlated features
+cluster_result <- OmicSelector_cluster_features(
+  data = miR_Asakura[, -which(names(miR_Asakura) == "Class")],  # Remove outcome
+  method = "correlation",
+  min_correlation = 0.7,      # Group features with r ≥ 0.7
+  verbose = TRUE
+)
+
+# View results
+print(cluster_result)
+
+# See representative features from each cluster
+cluster_result$representatives
+
+# See all cluster assignments
+head(cluster_result$cluster_assignments, 20)
+```
+
+### Find Alternative Biomarkers
+
+```{r}
+# Suppose you can't measure hsa-miR-21-5p on your new platform
+# Find alternatives from the same cluster
+
+# Get cluster ID for this feature
+feature_of_interest <- "hsa-miR-21-5p"
+cluster_id <- cluster_result$cluster_assignments[feature_of_interest]
+
+# Get all features in the same cluster
+same_cluster <- names(cluster_result$cluster_assignments)[
+  cluster_result$cluster_assignments == cluster_id
+]
+
+# These are your alternative biomarkers
+alternatives <- setdiff(same_cluster, feature_of_interest)
+print(alternatives)
+
+# Check their correlation
+cor(miR_Asakura[, c(feature_of_interest, alternatives)])
+```
+
+### Different Clustering Methods
+
+```{r}
+# Hierarchical clustering
+cluster_hier <- OmicSelector_cluster_features(
+  data = miR_Asakura[, -which(names(miR_Asakura) == "Class")],
+  method = "hierarchical",
+  n_clusters = 50,  # Specify number of clusters
+  distance_metric = "pearson"
+)
+
+# Expression pattern clustering
+cluster_pattern <- OmicSelector_cluster_features(
+  data = miR_Asakura[, -which(names(miR_Asakura) == "Class")],
+  method = "expression_pattern",
+  n_clusters = NULL  # Auto-detect optimal number
+)
+
+# K-medoids clustering
+cluster_kmed <- OmicSelector_cluster_features(
+  data = miR_Asakura[, -which(names(miR_Asakura) == "Class")],
+  method = "kmedoids",
+  n_clusters = 40
+)
+```
+
+### Dimensionality Reduction with Clustering
+
+```{r}
+# Reduce from 2,000+ features to ~50 representatives
+cluster_result <- OmicSelector_cluster_features(
+  data = miR_Asakura[, -which(names(miR_Asakura) == "Class")],
+  method = "correlation",
+  min_correlation = 0.75
+)
+
+# Original features
+n_original <- ncol(miR_Asakura) - 1
+
+# Representative features
+n_representatives <- length(cluster_result$representatives)
+
+# Reduction percentage
+reduction_pct <- (1 - n_representatives / n_original) * 100
+cat("Reduced features by", round(reduction_pct, 1), "%\n")
+
+# Use representatives in downstream analysis
+representative_data <- miR_Asakura[, c(cluster_result$representatives, "Class")]
+
+# Train model on reduced data
+model_reduced <- randomForest::randomForest(
+  Class ~ .,
+  data = representative_data
+)
+```
+
+### Visualize Clustering
+
+```{r}
+# Plot clustering results
+plot(cluster_result)
+
+# This creates multiple visualizations:
+# 1. Heatmap of correlation matrix with clusters
+# 2. Dendrogram showing hierarchical relationships
+# 3. Network plot of highly correlated features
+```
+
+## Feature Importance with Confidence Intervals
+
+Phase 2 includes model-agnostic feature importance with proper handling of correlated features.
+
+### Permutation Importance
+
+```{r}
+# First, train a model
+library(randomForest)
+model <- randomForest(Class ~ ., data = miR_Asakura)
+
+# Calculate permutation importance with confidence intervals
+importance_result <- OmicSelector_importance(
+  model = model,
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "permutation",
+  n_repeats = 20,              # Repeat 20 times for CI
+  normalize = TRUE,            # Normalize to [0,1]
+  parallel = TRUE
+)
+
+# View results
+print(importance_result)
+
+# Top 20 important features with confidence intervals
+head(importance_result$importance, 20)
+
+# Plot importance
+plot(importance_result)
+```
+
+### Conditional Importance (Handles Correlations)
+
+When features are correlated, standard permutation importance can be misleading. Conditional importance fixes this:
+
+```{r}
+# Calculate conditional importance
+importance_cond <- OmicSelector_importance(
+  model = model,
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "conditional",
+  n_repeats = 10,
+  conditional_grid = 5,        # Conditioning grid size
+  parallel = TRUE
+)
+
+# Compare permutation vs conditional
+importance_both <- OmicSelector_importance(
+  model = model,
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "both",             # Calculate both methods
+  n_repeats = 10
+)
+
+# See where they differ (indicates correlation effects)
+comparison <- merge(
+  importance_result$importance[, c("feature", "importance")],
+  importance_cond$importance[, c("feature", "importance")],
+  by = "feature",
+  suffixes = c("_permutation", "_conditional")
+)
+
+# Features where conditional importance is much lower suggests
+# they're important mainly due to correlation with other features
+comparison$difference <- comparison$importance_permutation -
+                         comparison$importance_conditional
+
+# Biggest differences
+head(comparison[order(-abs(comparison$difference)), ], 10)
+```
+
+### Integration: Stability + Clustering + Importance
+
+Combine all Phase 2 methods for robust biomarker discovery:
+
+```{r}
+# Step 1: Stable feature selection
+stable_features <- OmicSelector_stable_features(
+  data = miR_Asakura,
+  outcome = "Class",
+  method = "stability_selection",
+  n_iterations = 100,
+  selection_threshold = 0.7
+)
+
+# Step 2: Cluster the stable features
+stable_data <- miR_Asakura[, c(stable_features$selected_features, "Class")]
+cluster_stable <- OmicSelector_cluster_features(
+  data = stable_data[, -ncol(stable_data)],
+  method = "correlation",
+  min_correlation = 0.7
+)
+
+# Step 3: Train model on cluster representatives
+representative_data <- stable_data[, c(cluster_stable$representatives, "Class")]
+final_model <- randomForest(Class ~ ., data = representative_data)
+
+# Step 4: Calculate importance
+final_importance <- OmicSelector_importance(
+  model = final_model,
+  data = representative_data,
+  outcome = "Class",
+  method = "conditional",
+  n_repeats = 20
+)
+
+# Final signature: Top features that are:
+# 1. Stable (selected consistently)
+# 2. Non-redundant (cluster representatives)
+# 3. Important (high conditional importance)
+final_signature <- head(final_importance$importance$feature, 10)
+
+cat("Final robust signature (", length(final_signature), " features):\n")
+print(final_signature)
+```
+
+### Summary Statistics
+
+```{r}
+# Create comprehensive summary
+summary_stats <- list(
+  original_features = ncol(miR_Asakura) - 1,
+  stable_features = length(stable_features$selected_features),
+  stability_kuncheva = stable_features$nogueira_metrics$kuncheva_index,
+  clusters = length(unique(cluster_stable$cluster_assignments)),
+  representatives = length(cluster_stable$representatives),
+  final_signature = length(final_signature),
+  reduction_pct = (1 - length(final_signature) / (ncol(miR_Asakura) - 1)) * 100
+)
+
+print(summary_stats)
+```
+
 # Comparison with Traditional Approach
 
 ## ❌ Old Way (Potential Leakage)
