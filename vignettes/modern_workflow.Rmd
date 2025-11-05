@@ -655,6 +655,489 @@ summary_stats <- list(
 print(summary_stats)
 ```
 
+# Phase 4: Clinical Utility Metrics
+
+Phase 4 transforms statistical model performance into clinical usefulness. A model might have excellent AUC but still be poorly calibrated or clinically useless.
+
+## Problem: Statistical Performance ≠ Clinical Utility
+
+**Example scenario:**
+- Model A: AUC = 0.85, but predicts everyone has 50% risk
+- Model B: AUC = 0.80, but well-calibrated with useful risk thresholds
+
+Model B is more clinically useful despite lower AUC!
+
+## Model Calibration
+
+Calibration assesses whether predicted probabilities match reality. If your model predicts 100 patients have 70% risk, approximately 70 should have the event.
+
+### Basic Calibration Assessment
+
+```{r}
+# Suppose we have a trained model and predictions
+library(randomForest)
+set.seed(123)
+
+# Train a model
+model <- randomForest(Class ~ ., data = miR_Asakura)
+
+# Get predictions on test set (use proper train/test split in practice!)
+test_indices <- sample(1:nrow(miR_Asakura), size = 50)
+test_data <- miR_Asakura[test_indices, ]
+predictions <- predict(model, test_data, type = "prob")[, 2]
+outcomes <- test_data$Class
+
+# Assess calibration
+calib_result <- OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = outcomes,
+  method = "assessment_only",
+  n_bins = 5,  # Fewer bins for small sample
+  plot = TRUE
+)
+
+# View calibration metrics
+print(calib_result)
+
+# View calibration plot
+calib_result$plot
+```
+
+### Interpreting Calibration Metrics
+
+```{r}
+# Key metrics to check:
+metrics <- calib_result$metrics
+
+# 1. Brier Score (lower is better)
+#    < 0.10: Excellent
+#    < 0.25: Acceptable
+#    > 0.25: Poor
+metrics$brier_score
+
+# 2. Calibration Slope (should be ~1.0)
+#    < 1.0: Model is overconfident (overfitting)
+#    > 1.0: Model is underconfident
+#    Close to 1: Good calibration
+metrics$calibration_slope
+
+# 3. Calibration Intercept (should be ~0)
+#    Measures "calibration-in-the-large"
+metrics$calibration_intercept
+
+# 4. Hosmer-Lemeshow p-value (should be > 0.05)
+#    > 0.05: Good fit
+#    < 0.05: Poor calibration
+metrics$hosmer_lemeshow_p
+
+# 5. E-statistics (calibration errors)
+#    ICI: Integrated Calibration Index
+#    E50: Median absolute error
+#    E90: 90th percentile error
+#    Emax: Maximum error
+c(ICI = metrics$ICI, E50 = metrics$E50, E90 = metrics$E90, Emax = metrics$Emax)
+```
+
+### Calibrating Poorly Calibrated Models
+
+If your model is poorly calibrated, fix it:
+
+```{r}
+# Method 1: Platt Scaling (most common)
+calib_platt <- OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = outcomes,
+  method = "platt",  # Logistic calibration
+  plot = TRUE
+)
+
+# Use calibrated predictions
+calibrated_predictions <- calib_platt$calibrated_predictions
+
+# Method 2: Isotonic Regression (non-parametric)
+calib_iso <- OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = outcomes,
+  method = "isotonic",
+  plot = TRUE
+)
+
+# Method 3: Beta Calibration (for already decent models)
+calib_beta <- OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = outcomes,
+  method = "beta",
+  plot = TRUE
+)
+
+# Compare before and after
+cat("Before calibration:\n")
+print(calib_result$metrics$brier_score)
+cat("\nAfter Platt scaling:\n")
+
+# Re-assess calibrated predictions
+calib_check <- OmicSelector_calibrate(
+  predictions = calib_platt$calibrated_predictions,
+  outcomes = outcomes,
+  method = "assessment_only"
+)
+print(calib_check$metrics$brier_score)
+```
+
+## Decision Curve Analysis (DCA)
+
+DCA answers: "Does using this model to make decisions provide more benefit than simply treating everyone or no one?"
+
+### Basic DCA
+
+```{r}
+# Perform decision curve analysis
+dca_result <- OmicSelector_decision_curve(
+  predictions = calibrated_predictions,
+  outcomes = outcomes,
+  thresholds = seq(0.01, 0.99, by = 0.01),
+  plot = TRUE
+)
+
+# View results
+print(dca_result)
+
+# View decision curve
+dca_result$plot
+
+# Find optimal threshold
+dca_result$optimal_threshold
+dca_result$optimal_net_benefit
+```
+
+### Interpreting Decision Curves
+
+```{r}
+# Key interpretation points:
+
+# 1. If model curve is above both "Treat All" and "Treat None":
+#    → Model has clinical utility in that range
+
+# 2. Range of useful thresholds
+nb_df <- dca_result$net_benefit
+useful <- nb_df$model > nb_df$treat_all & nb_df$model > nb_df$treat_none
+useful_thresholds <- dca_result$thresholds[useful]
+
+if (length(useful_thresholds) > 0) {
+  cat("Model useful for risk thresholds:",
+      round(min(useful_thresholds), 2), "to",
+      round(max(useful_thresholds), 2), "\n")
+} else {
+  cat("WARNING: Model has no clinical utility at any threshold!\n")
+}
+
+# 3. Clinical decision making
+#    Use the decision curve to choose threshold based on:
+#    - Clinical consequences of false positives vs false negatives
+#    - Resource availability
+#    - Patient preferences
+```
+
+### DCA with Treatment Harm
+
+If the intervention has side effects or risks:
+
+```{r}
+# Include harm adjustment
+# harm = relative harm of intervention
+# E.g., if FP causes 5% as much harm as missing TP
+dca_with_harm <- OmicSelector_decision_curve(
+  predictions = calibrated_predictions,
+  outcomes = outcomes,
+  thresholds = seq(0.01, 0.99, by = 0.01),
+  harm = 0.05,  # 5% harm
+  plot = TRUE
+)
+
+# Net benefit will be lower when accounting for harm
+dca_with_harm$plot
+```
+
+## Clinical Impact Curves
+
+Clinical impact curves translate model performance into practical terms: "How many patients will be classified as high risk, and how many will actually have the event?"
+
+### Basic Clinical Impact Analysis
+
+```{r}
+# Create clinical impact curve
+impact_result <- OmicSelector_clinical_impact(
+  predictions = calibrated_predictions,
+  outcomes = outcomes,
+  thresholds = seq(0.01, 0.99, by = 0.01),
+  population_size = 1000,  # Scale to hypothetical population
+  plot = TRUE
+)
+
+# View results
+print(impact_result)
+
+# View impact curve
+impact_result$plot
+```
+
+### Using Impact Curves for Planning
+
+```{r}
+# Get the full impact table
+impact_table <- impact_result$impact_table
+
+# Scenario: Choose threshold based on resource capacity
+# Can only screen 200 patients per month
+
+# Find thresholds that classify ≤200 as high risk
+feasible_thresholds <- impact_table[impact_table$n_high_risk <= 200, ]
+
+# Among feasible thresholds, which has best PPV?
+best_feasible <- feasible_thresholds[which.max(feasible_thresholds$ppv), ]
+
+cat("Recommended threshold:", round(best_feasible$threshold, 3), "\n")
+cat("Will screen:", best_feasible$n_high_risk, "patients\n")
+cat("Will catch:", best_feasible$n_true_positives, "true positives\n")
+cat("PPV:", round(best_feasible$ppv * 100, 1), "%\n")
+cat("Number needed to screen:", round(best_feasible$number_needed_to_test, 1), "\n")
+```
+
+### Comparing Multiple Thresholds
+
+```{r}
+# Compare a few clinically relevant thresholds
+thresholds_to_compare <- c(0.20, 0.30, 0.40, 0.50)
+
+comparison_table <- impact_table[impact_table$threshold %in% thresholds_to_compare,
+                                  c("threshold", "n_high_risk", "n_true_positives",
+                                    "n_false_positives", "ppv", "npv",
+                                    "number_needed_to_test")]
+
+print(comparison_table)
+
+# Visualize trade-offs
+library(ggplot2)
+ggplot(comparison_table, aes(x = threshold)) +
+  geom_line(aes(y = ppv, color = "PPV")) +
+  geom_line(aes(y = npv, color = "NPV")) +
+  geom_point(aes(y = ppv, color = "PPV"), size = 3) +
+  geom_point(aes(y = npv, color = "NPV"), size = 3) +
+  scale_color_manual(values = c("PPV" = "blue", "NPV" = "red")) +
+  labs(title = "PPV vs NPV at Different Thresholds",
+       x = "Risk Threshold",
+       y = "Value",
+       color = "Metric") +
+  theme_minimal()
+```
+
+## Complete Clinical Validation Workflow
+
+Combine all Phase 4 tools for comprehensive clinical validation:
+
+```{r}
+# Complete workflow for clinical model validation
+
+# Step 1: Get model predictions (from nested CV or external validation)
+# Using example data here
+set.seed(123)
+model <- randomForest(Class ~ ., data = miR_Asakura)
+test_idx <- sample(1:nrow(miR_Asakura), 80)
+predictions <- predict(model, miR_Asakura[test_idx, ], type = "prob")[, 2]
+outcomes <- miR_Asakura[test_idx, "Class"]
+
+# Step 2: Assess and correct calibration
+cat("=== STEP 1: CALIBRATION ===\n")
+calib <- OmicSelector_calibrate(
+  predictions = predictions,
+  outcomes = outcomes,
+  method = "platt",
+  plot = TRUE
+)
+print(calib)
+
+# Step 3: Decision curve analysis
+cat("\n=== STEP 2: DECISION CURVE ANALYSIS ===\n")
+dca <- OmicSelector_decision_curve(
+  predictions = calib$calibrated_predictions,
+  outcomes = outcomes,
+  plot = TRUE
+)
+print(dca)
+
+# Step 4: Clinical impact
+cat("\n=== STEP 3: CLINICAL IMPACT ===\n")
+impact <- OmicSelector_clinical_impact(
+  predictions = calib$calibrated_predictions,
+  outcomes = outcomes,
+  population_size = 1000,
+  plot = TRUE
+)
+print(impact)
+
+# Step 5: Create comprehensive report
+clinical_report <- list(
+  calibration = list(
+    brier_score = calib$metrics$brier_score,
+    calibration_slope = calib$metrics$calibration_slope,
+    ici = calib$metrics$ICI,
+    assessment = ifelse(calib$metrics$brier_score < 0.10, "Excellent",
+                       ifelse(calib$metrics$brier_score < 0.25, "Acceptable", "Poor"))
+  ),
+  decision_curve = list(
+    optimal_threshold = dca$optimal_threshold,
+    optimal_net_benefit = dca$optimal_net_benefit,
+    prevalence = dca$prevalence
+  ),
+  clinical_impact = list(
+    optimal_threshold = impact$optimal_threshold,
+    patients_to_screen = impact$impact_table$n_high_risk[which.min(abs(impact$impact_table$threshold - impact$optimal_threshold))],
+    expected_true_positives = impact$impact_table$n_true_positives[which.min(abs(impact$impact_table$threshold - impact$optimal_threshold))]
+  )
+)
+
+# Print summary
+cat("\n=== CLINICAL VALIDATION SUMMARY ===\n")
+cat("\nCalibration Assessment:", clinical_report$calibration$assessment, "\n")
+cat("  Brier Score:", round(clinical_report$calibration$brier_score, 4), "\n")
+cat("  Calibration Slope:", round(clinical_report$calibration$calibration_slope, 3), "\n")
+
+cat("\nOptimal Risk Threshold:", round(clinical_report$decision_curve$optimal_threshold, 3), "\n")
+cat("  Net Benefit:", round(clinical_report$decision_curve$optimal_net_benefit, 4), "\n")
+
+cat("\nClinical Impact (per 1000 patients):\n")
+cat("  Classified as High Risk:", clinical_report$clinical_impact$patients_to_screen, "\n")
+cat("  Expected True Positives:", clinical_report$clinical_impact$expected_true_positives, "\n")
+
+# Save plots
+ggsave("calibration_plot.png", plot = calib$plot, width = 6, height = 6)
+ggsave("decision_curve.png", plot = dca$plot, width = 8, height = 6)
+ggsave("clinical_impact.png", plot = impact$plot, width = 8, height = 6)
+```
+
+## Integration with TRIPOD+AI Reporting
+
+Phase 4 metrics should be included in TRIPOD+AI reports:
+
+```{r}
+# After completing nested CV and clinical validation
+# (assuming you have a result object from OmicSelector_nested_cv)
+
+# Generate TRIPOD+AI report with clinical utility metrics
+tripod_report <- OmicSelector_tripod_report(
+  model_result = result,  # From nested CV
+  study_info = list(
+    title = "MicroRNA-Based Cancer Diagnostic Model",
+    objective = "Develop and validate diagnostic model with clinical utility assessment",
+    # ... other study info
+  ),
+  clinical_utility = list(
+    calibration = calib,
+    decision_curve = dca,
+    clinical_impact = impact
+  ),
+  output_format = "html",
+  output_file = "tripod_report_with_clinical_utility.html"
+)
+
+# The report will automatically include:
+# - Calibration plots and metrics (TRIPOD item 10d)
+# - Decision curves (TRIPOD item 15)
+# - Clinical impact assessment (TRIPOD item 16)
+```
+
+## Best Practices for Clinical Utility Assessment
+
+### 1. Always Calibrate on External Data
+
+```{r}
+# DON'T calibrate on the same data used for training
+# DO use external validation set or nested CV
+
+# Good practice:
+# - Internal calibration: Use held-out fold from nested CV
+# - External calibration: Use completely independent cohort
+```
+
+### 2. Report Multiple Metrics
+
+```{r}
+# Report all of:
+# - Brier score and calibration slope
+# - Decision curve across clinically relevant threshold range
+# - Clinical impact at chosen operating point
+# - Number needed to test/screen
+```
+
+### 3. Involve Clinicians
+
+```{r}
+# When choosing thresholds:
+# - Consult with clinical team
+# - Consider resource constraints
+# - Account for patient preferences
+# - Balance sensitivity vs specificity based on clinical context
+```
+
+### 4. Validate in Target Population
+
+```{r}
+# Calibration can differ across populations
+# Always validate in your target clinical setting:
+# - Different hospital/region
+# - Different time period
+# - Different disease prevalence
+```
+
+### Summary Table
+
+```{r}
+# Create publication-ready summary table
+summary_table <- data.frame(
+  Metric = c(
+    "Brier Score",
+    "Calibration Slope",
+    "Calibration Intercept",
+    "Hosmer-Lemeshow p-value",
+    "ICI",
+    "Optimal Threshold",
+    "Net Benefit at Optimal",
+    "PPV at Optimal",
+    "NPV at Optimal",
+    "Number Needed to Test"
+  ),
+  Value = c(
+    round(calib$metrics$brier_score, 3),
+    round(calib$metrics$calibration_slope, 3),
+    round(calib$metrics$calibration_intercept, 3),
+    round(calib$metrics$hosmer_lemeshow_p, 3),
+    round(calib$metrics$ICI, 3),
+    round(dca$optimal_threshold, 3),
+    round(dca$optimal_net_benefit, 4),
+    round(impact$impact_table$ppv[which.min(abs(impact$impact_table$threshold - impact$optimal_threshold))], 3),
+    round(impact$impact_table$npv[which.min(abs(impact$impact_table$threshold - impact$optimal_threshold))], 3),
+    round(impact$impact_table$number_needed_to_test[which.min(abs(impact$impact_table$threshold - impact$optimal_threshold))], 1)
+  ),
+  Interpretation = c(
+    ifelse(calib$metrics$brier_score < 0.10, "Excellent", "Acceptable"),
+    ifelse(abs(calib$metrics$calibration_slope - 1) < 0.10, "Good", "Needs improvement"),
+    ifelse(abs(calib$metrics$calibration_intercept) < 0.10, "Good", "Needs improvement"),
+    ifelse(calib$metrics$hosmer_lemeshow_p > 0.05, "Good fit", "Poor fit"),
+    ifelse(calib$metrics$ICI < 0.05, "Excellent", "Acceptable"),
+    "Maximizes net benefit",
+    "Clinical utility vs alternatives",
+    "Precision at chosen threshold",
+    "Reassurance for negatives",
+    "Clinical efficiency"
+  )
+)
+
+print(summary_table)
+
+# Export for manuscript
+write.csv(summary_table, "clinical_utility_metrics.csv", row.names = FALSE)
+```
+
 # Comparison with Traditional Approach
 
 ## ❌ Old Way (Potential Leakage)
