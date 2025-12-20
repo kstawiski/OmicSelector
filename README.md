@@ -186,6 +186,39 @@ learner_svm <- pipeline$create_graph_learner(filter = "anova", model = "svm", n_
 learner_glmnet <- pipeline$create_graph_learner(filter = "anova", model = "glmnet", n_features = 15)
 ```
 
+### Using Any mlr3 Learner
+
+OmicSelector is built on the `mlr3` ecosystem. You can use **any** mlr3 learner directly with `BenchmarkService`:
+
+```r
+library(mlr3learners)
+
+# Get the task from the pipeline
+task <- pipeline$get_task()
+
+# Create any mlr3 learner with probability predictions
+xgboost_learner <- lrn("classif.xgboost", predict_type = "prob")
+nnet_learner <- lrn("classif.nnet", predict_type = "prob")
+
+# Wrap in a graph with feature selection (optional)
+library(mlr3pipelines)
+library(mlr3filters)
+
+xgb_graph <- po("filter", filter = flt("anova"), filter.nfeat = 20) %>>%
+  po("learner", xgboost_learner)
+
+# Convert to GraphLearner
+xgb_graph_learner <- as_learner(xgb_graph)
+xgb_graph_learner$id <- "xgboost_anova_20"
+
+# Use in benchmark
+benchmark <- BenchmarkService$new(task = pipeline, outer_folds = 5, seed = 42)
+benchmark$add_learner(xgb_graph_learner)
+result <- benchmark$run()
+```
+
+See the [mlr3learners documentation](https://mlr3learners.mlr-org.com/) for all available learners.
+
 ### Full Parameter Reference
 
 ```r
