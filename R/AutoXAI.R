@@ -69,7 +69,19 @@ xai_explainer_mlr3 <- function(learner,
 
   # Get target
   target_name <- task$target_names
+
+  # Get positive class with fallback for tasks without explicit positive
   positive_class <- task$positive
+  if (is.null(positive_class)) {
+    # Fallback: use last level of factor (mlr3 convention for positive class)
+    y_levels <- levels(data[[target_name]])
+    if (length(y_levels) == 2) {
+      positive_class <- y_levels[2]
+      warning(sprintf("task$positive not set, using '%s' as positive class", positive_class))
+    } else {
+      stop("Cannot determine positive class. Set task$positive explicitly.", call. = FALSE)
+    }
+  }
 
   # Extract features (use learner's feature names to ensure consistency)
   learner_features <- learner$state$feature_names

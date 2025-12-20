@@ -263,26 +263,20 @@ make_gnn_learner <- function(adjacency_matrix = NULL,
     stop("adjacency_matrix is required for GNN learner", call. = FALSE)
   }
 
-  # GNN implementation requires torch_geometric or custom implementation
-  # For now, return a learner wrapper that stores the adjacency
-
-  message("GNN learner requires custom implementation with torch_geometric")
-  message("Using MLP fallback with feature grouping based on adjacency")
-
-  # Create fallback MLP
-  learner <- make_mlp_learner(
-    n_hidden = n_hidden,
-    n_layers = n_layers,
-    dropout = dropout,
-    epochs = epochs
+  # GNN implementation requires torch_geometric which is not available in R
+  stop(
+    "GNN learner is not yet implemented.\n",
+    "Graph Neural Networks require torch_geometric, which is not available in R.\n\n",
+    "Available alternatives:\n",
+    "  - make_mlp_learner(): Standard MLP for tabular data\n",
+    "  - make_tabtransformer_learner(): Attention-based model (when available)\n",
+    "  - Use correlation adjacency to pre-select feature clusters, then use MLP\n\n",
+    "For pathway-aware analysis, consider:\n",
+    "  1. Pre-compute pathway scores using build_correlation_adjacency()\n",
+    "  2. Use these as additional features with make_mlp_learner()\n\n",
+    "GNN support will be added in a future release.",
+    call. = FALSE
   )
-
-  # Store adjacency as metadata
-  attr(learner, "adjacency_matrix") <- adjacency_matrix
-  attr(learner, "is_gnn_fallback") <- TRUE
-
-  learner$id <- "gnn_fallback"
-  learner
 }
 
 

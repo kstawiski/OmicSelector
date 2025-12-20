@@ -228,19 +228,18 @@ tabddpm_generate <- function(data,
     )
   }
 
-  message("TabDDPM implementation requires full torch setup.")
-  message("Using SMOTE fallback for synthetic data generation.")
+  # TabDDPM requires full torch_geometric/diffusion implementation
 
-  # Fallback to SMOTE-based generation
-  task <- mlr3::as_task_classif(data, target = target)
-  augmented_task <- smote_augment(task, ratio = n_synthetic / nrow(data))
-
-  # Extract synthetic samples only
-  augmented_data <- as.data.frame(augmented_task$data())
-  original_n <- nrow(data)
-  synthetic_data <- augmented_data[(original_n + 1):nrow(augmented_data), , drop = FALSE]
-
-  synthetic_data
+  # This is a placeholder - full implementation requires significant torch code
+  stop(
+    "TabDDPM is not yet fully implemented.\n",
+    "This function requires a complete diffusion model implementation.\n\n",
+    "Available alternatives:\n",
+    "  - smote_augment(): SMOTE-based synthetic data generation\n",
+    "  - noise_augment(): Gaussian noise augmentation\n\n",
+    "TabDDPM will be available in a future release.",
+    call. = FALSE
+  )
 }
 
 

@@ -230,20 +230,31 @@ StabilityEnsemble <- R6::R6Class(
 
       cumulative_features <- character(0)
 
+      tier_count <- 0
       for (i in seq_along(thresholds)) {
         thresh <- thresholds[i]
         tier_features <- names(freq[freq >= thresh])
 
         # Nested: include all features from previous tiers
         tier_features <- unique(c(cumulative_features, tier_features))
-        cumulative_features <- tier_features
 
-        tier_name <- sprintf("tier_%d", i)
+        # Skip empty tiers to prevent NaN weights
+        if (length(tier_features) == 0) {
+          if (self$verbose) {
+            message(sprintf("  Skipping tier %d: no features meet threshold %.3f", i, thresh))
+          }
+          next
+        }
+
+        cumulative_features <- tier_features
+        tier_count <- tier_count + 1
+
+        tier_name <- sprintf("tier_%d", tier_count)
         self$stable_features[[tier_name]] <- tier_features
 
         # Weight based on average stability of features in this tier
         tier_freq <- freq[tier_features]
-        tier_weight <- mean(tier_freq)
+        tier_weight <- mean(tier_freq, na.rm = TRUE)
         self$tier_weights <- c(self$tier_weights, tier_weight)
 
         if (self$verbose) {
@@ -252,10 +263,22 @@ StabilityEnsemble <- R6::R6Class(
         }
       }
 
+      # Check that we have at least one tier
+      if (length(self$stable_features) == 0) {
+        stop("No features meet any stability threshold. Try lowering thresholds.", call. = FALSE)
+      }
+
       names(self$tier_weights) <- names(self$stable_features)
 
-      # Normalize weights
-      self$tier_weights <- self$tier_weights / sum(self$tier_weights)
+      # Normalize weights (with protection against NaN)
+      weight_sum <- sum(self$tier_weights, na.rm = TRUE)
+      if (weight_sum > 0) {
+        self$tier_weights <- self$tier_weights / weight_sum
+      } else {
+        # Equal weights as fallback
+        self$tier_weights <- rep(1 / length(self$tier_weights), length(self$tier_weights))
+        names(self$tier_weights) <- names(self$stable_features)
+      }
 
       self$stable_features
     },

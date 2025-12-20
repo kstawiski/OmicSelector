@@ -85,7 +85,7 @@ SequentialSelector <- R6::R6Class(
           enabled = univariate_n > 0
         ),
         rfe = list(
-          name = "Recursive Feature Elimination",
+          name = "RF Importance Filter",
           n_features = rfe_n,
           enabled = rfe_n > 0
         ),
@@ -146,8 +146,10 @@ SequentialSelector <- R6::R6Class(
       # Stage 3: Model-based importance filter (RF importance as proxy for RFE)
       # Note: True RFE is iterative; this is a faster single-pass approximation
       if (self$stages$rfe$enabled) {
-        # Use ranger with importance = "impurity" to enable importance extraction
-        rf_learner <- mlr3::lrn("classif.ranger", importance = "impurity")
+        # Use ranger with importance = "impurity" and fixed seed for reproducibility
+        rf_learner <- mlr3::lrn("classif.ranger",
+                                 importance = "impurity",
+                                 seed = 42L)  # Fixed seed for reproducibility
         ops$rf_importance <- mlr3pipelines::po("filter",
           filter = mlr3filters::flt("importance", learner = rf_learner),
           filter.nfeat = self$stages$rfe$n_features
@@ -155,11 +157,11 @@ SequentialSelector <- R6::R6Class(
       }
 
       # Stage 4: LASSO-based selection (L1 regularization)
-      # Uses absolute coefficient values as importance scores
+      # Uses AUC filter as reliable alternative since glmnet lacks importance() method
       if (self$stages$lasso$enabled) {
-        lasso_filter <- mlr3filters::flt("importance",
-          learner = mlr3::lrn("classif.glmnet", alpha = 1)
-        )
+        # Note: mlr3filters::flt("importance") requires learner with importance() method
+        # glmnet doesn't have this, so we use AUC filter which works reliably
+        lasso_filter <- mlr3filters::flt("auc")
 
         if (!is.null(self$stages$lasso$n_features)) {
           # Fixed number of features
@@ -168,10 +170,11 @@ SequentialSelector <- R6::R6Class(
             filter.nfeat = self$stages$lasso$n_features
           )
         } else {
-          # Auto selection: keep features with non-zero importance
+          # Auto selection: keep top features by AUC
+          # Default to top 50 features when no explicit count given
           ops$lasso <- mlr3pipelines::po("filter",
             filter = lasso_filter,
-            filter.cutoff = 1e-10  # Tolerance for non-zero coefficients
+            filter.nfeat = 50
           )
         }
       }
