@@ -27,17 +27,27 @@ remotes::install_github("kstawiski/OmicSelector")
 library(OmicSelector)
 library(mlr3)
 
+# Load your data (features + target column)
+data <- read.csv("expression.csv")
+
 # Build pipeline with embedded feature selection
-pipeline <- OmicPipeline$new(task)
-pipeline$add_filter("variance", cutoff = 0.8)
-pipeline$add_learner("classif.ranger")
+pipeline <- OmicPipeline$new(data = data, target = "outcome")
+graph_learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "ranger",
+  n_features = 20
+)
 
 # Run nested cross-validation
-benchmark <- BenchmarkService$new(task, outer_folds = 5, inner_folds = 3)
-benchmark$add_learner(pipeline$create_graph_learner())
+benchmark <- BenchmarkService$new(
+  pipeline$task,
+  outer_folds = 5,
+  inner_folds = 3
+)
+benchmark$add_learner(graph_learner)
 result <- benchmark$run()
 
-# Select optimal signature
+# Select optimal signature balancing performance and stability
 best <- select_best_signature(result, mode = "weighted")
 ```
 

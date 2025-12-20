@@ -3,7 +3,7 @@
 
 # Data settings
 data:
-  file: "data/expression.csv"      # Path to data file (CSV, TSV, or RDS)
+  file: "data/expression.csv"      # Path to data file (CSV, TSV, or RDS), relative to working directory or absolute
   target: "outcome"                 # Target column name
   positive: "Case"                  # Positive class label (for binary classification)
   # patient_id: "patient"           # Optional: Column for patient grouping
