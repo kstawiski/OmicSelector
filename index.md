@@ -75,18 +75,34 @@ Your data should be a `data.frame` with:
 | Method | Code | Best For |
 |--------|------|----------|
 | ANOVA F-test | `"anova"` | Default, continuous features |
-| mRMR | `"mrmr"` | Reducing redundancy |
+| Kruskal-Wallis | `"kruskal"` | Non-normal distributions |
+| Chi-Squared | `"chi_squared"` | Categorical features |
 | Variance | `"variance"` | Pre-filtering |
 | Correlation | `"correlation"` | Quick univariate |
+| Information Gain | `"information_gain"` | Mixed feature types |
+| Gain Ratio | `"gain_ratio"` | Avoiding cardinality bias |
+| mRMR | `"mrmr"` | Reducing redundancy |
+| CMIM/JMIM/JMI | `"cmim"`, `"jmim"`, `"jmi"` | Feature interactions |
+| AUC | `"auc"` | Classification performance |
+| Relief | `"relief"` | Detecting interactions |
+| RF Importance | `"importance"` | Non-linear relationships |
+| Permutation | `"permutation"` | Model-agnostic |
 
 ### Classification Models
 
 | Model | Code | Strengths |
 |-------|------|-----------|
 | Random Forest | `"ranger"` | Handles interactions, robust |
+| XGBoost | `"xgboost"` | High performance, handles missing values |
+| LightGBM | `"lightgbm"` | Very fast, memory efficient |
 | Elastic Net | `"glmnet"` | Interpretable coefficients |
 | SVM | `"svm"` | High-dimensional data |
 | Logistic Regression | `"log_reg"` | Baseline, interpretable |
+| k-NN | `"kknn"` | Non-parametric |
+| Naive Bayes | `"naive_bayes"` | Fast, small data |
+| LDA/QDA | `"lda"`, `"qda"` | Dimensionality reduction |
+| Neural Net | `"nnet"` | Non-linear relationships |
+| Decision Tree | `"rpart"` | Interpretable |
 
 ## Key Modules
 

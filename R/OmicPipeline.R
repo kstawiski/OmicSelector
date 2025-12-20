@@ -426,11 +426,30 @@ OmicPipeline <- R6::R6Class(
     .create_filter_op = function(filter, n_features) {
       # Map filter names to mlr3filters
       filter_map <- list(
-        "anova" = "anova",
-        "variance" = "variance",
-        "correlation" = "correlation",
-        "information_gain" = "information_gain",
-        "mrmr" = "mrmr"
+        # Univariate statistical tests
+        "anova" = "anova",                       # ANOVA F-test (default)
+        "kruskal" = "kruskal_test",              # Non-parametric alternative to ANOVA
+        "chi_squared" = "chi_squared",           # Chi-squared test for discrete features
+
+        # Variance-based
+        "variance" = "variance",                 # Remove low-variance features
+
+        # Correlation-based
+        "correlation" = "correlation",           # Correlation with target
+
+        # Information-theoretic
+        "information_gain" = "information_gain", # Entropy-based importance
+        "gain_ratio" = "gain_ratio",             # Normalized information gain
+        "mrmr" = "mrmr",                         # Minimum Redundancy Maximum Relevance
+        "cmim" = "cmim",                         # Conditional Mutual Information Maximization
+        "jmim" = "jmim",                         # Joint Mutual Information Maximization
+        "jmi" = "jmi",                           # Joint Mutual Information
+
+        # Model-based importance
+        "auc" = "auc",                           # AUC of univariate models
+        "relief" = "relief",                     # Relief algorithm
+        "importance" = "importance",             # Random Forest importance
+        "permutation" = "permutation"            # Permutation importance
       )
 
       if (!filter %in% names(filter_map)) {
@@ -446,12 +465,31 @@ OmicPipeline <- R6::R6Class(
 
     # Create learner
     .create_learner = function(model) {
-      # Supported learners for Phase 1
+      # Supported learners - map shorthand names to mlr3 learner IDs
       learner_map <- list(
-        "ranger" = "classif.ranger",
-        "glmnet" = "classif.glmnet",
-        "svm" = "classif.svm",
-        "log_reg" = "classif.log_reg"
+        # Tree-based ensemble methods
+        "ranger" = "classif.ranger",           # Random Forest (fast implementation)
+        "xgboost" = "classif.xgboost",         # XGBoost gradient boosting
+        "lightgbm" = "classif.lightgbm",       # LightGBM gradient boosting
+        "rpart" = "classif.rpart",             # Single decision tree
+
+        # Linear models
+        "glmnet" = "classif.glmnet",           # Elastic net (L1/L2 regularization)
+        "log_reg" = "classif.log_reg",         # Logistic regression
+
+        # Distance-based methods
+        "svm" = "classif.svm",                 # Support Vector Machine (RBF kernel)
+        "kknn" = "classif.kknn",               # K-nearest neighbors
+
+        # Probabilistic classifiers
+        "naive_bayes" = "classif.naive_bayes", # Naive Bayes
+
+        # Discriminant analysis
+        "lda" = "classif.lda",                 # Linear Discriminant Analysis
+        "qda" = "classif.qda",                 # Quadratic Discriminant Analysis
+
+        # Neural networks
+        "nnet" = "classif.nnet"                # Single-layer neural network
       )
 
       if (!model %in% names(learner_map)) {

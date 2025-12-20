@@ -154,35 +154,98 @@ print(result)
 
 Use the `filter` parameter in `create_graph_learner()`:
 
+**Univariate Statistical Tests**
+
 | Method | Code | Description | Best For |
 |--------|------|-------------|----------|
 | ANOVA F-test | `"anova"` | Tests mean differences between classes | Default choice, continuous features |
-| Variance | `"variance"` | Removes low-variance features | Pre-filtering, noisy data |
+| Kruskal-Wallis | `"kruskal"` | Non-parametric rank-based test | Non-normal distributions |
+| Chi-Squared | `"chi_squared"` | Chi-squared test | Discrete/categorical features |
+
+**Variance-Based**
+
+| Method | Code | Description | Best For |
+|--------|------|-------------|----------|
+| Variance | `"variance"` | Removes low-variance features | Pre-filtering, removing constants |
+
+**Correlation-Based**
+
+| Method | Code | Description | Best For |
+|--------|------|-------------|----------|
 | Correlation | `"correlation"` | Correlation with target | Quick univariate filter |
+
+**Information-Theoretic**
+
+| Method | Code | Description | Best For |
+|--------|------|-------------|----------|
 | Information Gain | `"information_gain"` | Entropy-based importance | Mixed feature types |
-| mRMR | `"mrmr"` | Minimum Redundancy Maximum Relevance | Reducing feature redundancy |
+| Gain Ratio | `"gain_ratio"` | Normalized information gain | Avoiding bias toward high-cardinality |
+| mRMR | `"mrmr"` | Min Redundancy Max Relevance | Reducing feature redundancy |
+| CMIM | `"cmim"` | Conditional Mutual Info Max | Complex feature dependencies |
+| JMIM | `"jmim"` | Joint Mutual Info Max | Capturing feature interactions |
+| JMI | `"jmi"` | Joint Mutual Information | Similar to JMIM |
+
+**Model-Based Importance**
+
+| Method | Code | Description | Best For |
+|--------|------|-------------|----------|
+| AUC | `"auc"` | AUC of univariate models | Classification performance |
+| Relief | `"relief"` | Instance-based algorithm | Detecting interactions |
+| RF Importance | `"importance"` | Random Forest importance | Non-linear relationships |
+| Permutation | `"permutation"` | Permutation importance | Model-agnostic importance |
 
 ```r
 # Example: Try different filters
 learner_anova <- pipeline$create_graph_learner(filter = "anova", model = "ranger", n_features = 20)
 learner_mrmr <- pipeline$create_graph_learner(filter = "mrmr", model = "ranger", n_features = 20)
+learner_relief <- pipeline$create_graph_learner(filter = "relief", model = "xgboost", n_features = 15)
 ```
 
 ### Classification Models
 
 Use the `model` parameter in `create_graph_learner()`:
 
+**Tree-Based Ensembles**
+
 | Model | Code | Description | Strengths |
 |-------|------|-------------|-----------|
-| Random Forest | `"ranger"` | Fast RF implementation | Handles interactions, robust |
-| Elastic Net | `"glmnet"` | L1/L2 regularized regression | Interpretable coefficients |
-| SVM | `"svm"` | Support Vector Machine | High-dimensional data |
-| Logistic Regression | `"log_reg"` | Simple logistic regression | Baseline, interpretable |
+| Random Forest | `"ranger"` | Fast RF implementation | Handles interactions, robust, default choice |
+| XGBoost | `"xgboost"` | Gradient boosting | High performance, handles missing values |
+| LightGBM | `"lightgbm"` | Fast gradient boosting | Very fast, memory efficient |
+| Decision Tree | `"rpart"` | Single CART tree | Interpretable, fast |
+
+**Linear Models**
+
+| Model | Code | Description | Strengths |
+|-------|------|-------------|-----------|
+| Elastic Net | `"glmnet"` | L1/L2 regularized regression | Interpretable coefficients, feature selection |
+| Logistic Regression | `"log_reg"` | Simple logistic regression | Baseline, highly interpretable |
+
+**Distance-Based Methods**
+
+| Model | Code | Description | Strengths |
+|-------|------|-------------|-----------|
+| SVM | `"svm"` | Support Vector Machine (RBF) | High-dimensional data |
+| k-NN | `"kknn"` | K-Nearest Neighbors | Non-parametric, simple |
+
+**Probabilistic Classifiers**
+
+| Model | Code | Description | Strengths |
+|-------|------|-------------|-----------|
+| Naive Bayes | `"naive_bayes"` | Probabilistic classifier | Fast, works with small data |
+| LDA | `"lda"` | Linear Discriminant Analysis | Dimensionality reduction |
+| QDA | `"qda"` | Quadratic Discriminant Analysis | Non-linear decision boundaries |
+
+**Neural Networks**
+
+| Model | Code | Description | Strengths |
+|-------|------|-------------|-----------|
+| Neural Net | `"nnet"` | Single-layer neural network | Non-linear relationships |
 
 ```r
 # Example: Compare models
 learner_rf <- pipeline$create_graph_learner(filter = "anova", model = "ranger", n_features = 15)
-learner_svm <- pipeline$create_graph_learner(filter = "anova", model = "svm", n_features = 15)
+learner_xgb <- pipeline$create_graph_learner(filter = "anova", model = "xgboost", n_features = 15)
 learner_glmnet <- pipeline$create_graph_learner(filter = "anova", model = "glmnet", n_features = 15)
 ```
 
