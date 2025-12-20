@@ -34,6 +34,11 @@ navbar:
       menu:
       - text: Getting Started
         href: articles/getting-started.html
+      - text: TCGA Biomarker Discovery
+        href: articles/tcga-tutorial.html
+      - text: "---"
+      - text: "Phase 5: Advanced Features"
+        href: articles/phase5-advanced.html
     github:
       icon: fa-github
       href: https://github.com/kstawiski/OmicSelector
@@ -77,6 +82,59 @@ reference:
   contents:
   - InterpretabilityService
   - compute_shap_values
+
+- title: "Phase 5: GOF Filters"
+  desc: Goodness-of-fit filters for sparse/zero-inflated omics data
+  contents:
+  - FilterGOF_KS
+  - FilterHurdle
+  - FilterZeroProp
+  - make_gof_filter
+  - compare_gof_filters
+  - register_gof_filters
+
+- title: "Phase 5: Bayesian Tuning"
+  desc: Bayesian hyperparameter optimization with mlr3mbo
+  contents:
+  - make_autotuner_glmnet
+  - make_autotuner_xgboost
+  - make_autotuner_ranger
+  - make_autotuner_lightgbm
+  - get_optimal_params
+  - get_omics_search_space
+
+- title: "Phase 5: AutoXAI"
+  desc: DALEX-based interpretability with correlation warnings
+  contents:
+  - xai_pipeline
+  - plot_xai_importance
+  - compute_correlation_warnings
+  - create_explainer
+
+- title: "Phase 5: Stability Ensemble"
+  desc: Bootstrap-based feature selection stability
+  contents:
+  - create_stability_ensemble
+  - StabilityEnsemble
+  - SequentialSelector
+
+- title: "Phase 5: Synthetic Data"
+  desc: Data augmentation and synthetic data generation
+  contents:
+  - smote_augment
+  - noise_augment
+  - tabddpm_generate
+  - validate_synthetic
+  - balance_classes
+
+- title: "Phase 5: Deep Learning"
+  desc: Deep learning models for omics (requires torch)
+  contents:
+  - make_mlp_learner
+  - make_tabtransformer_learner
+  - make_gnn_learner
+  - build_correlation_adjacency
+  - run_dl_benchmark
 
 - title: Multi-Omics
   desc: Multi-omics late integration

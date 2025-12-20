@@ -208,9 +208,35 @@ High accuracy with unstable features = overfitting:
 
 # Next Steps
 
+- **Phase 5 Features**: Try GOF filters, AutoXAI, and stability ensembles
+  - See the [Phase 5 Advanced Features](phase5-advanced.html) vignette
 - **Advanced Usage**: Explore custom filter combinations
 - **External Validation**: Use frozen preprocessing for new data
 - **TRIPOD+AI Compliance**: Review generated reports for publication
+
+# Phase 5 Quick Preview
+
+```{r phase5-preview}
+# GOF filters for sparse/zero-inflated data
+learner <- pipeline$create_graph_learner(
+ filter = "gof_ks",    # Kolmogorov-Smirnov filter
+  model = "ranger",
+  n_features = 30
+)
+
+# AutoXAI with correlation warnings
+xai <- xai_pipeline(learner, task, cor_threshold = 0.7)
+plot_xai_importance(xai)
+
+# Bootstrap stability ensemble
+ensemble <- create_stability_ensemble(preset = "default", n_bootstrap = 100)
+ensemble$fit(task, seed = 42)
+stable_features <- ensemble$get_feature_importance(30)
+
+# Bayesian hyperparameter tuning
+autotuner <- make_autotuner_glmnet(task, n_evals = 20)
+autotuner$train(task)
+```
 
 # Getting Help
 
