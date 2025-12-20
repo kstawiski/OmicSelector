@@ -2,7 +2,7 @@
 
 ![](vignettes/logo.png)
 
-**Rigorous biomarker discovery from high-dimensional omics data.**
+**Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 
@@ -25,31 +25,68 @@ remotes::install_github("kstawiski/OmicSelector")
 
 ```r
 library(OmicSelector)
-library(mlr3)
 
-# Load your data (features + target column)
-data <- read.csv("expression.csv")
+# Create pipeline from your data
+pipeline <- OmicPipeline$new(
+  data = my_data,          # data.frame with features + target
+  target = "outcome",      # target column name
+  positive = "Case"        # positive class for AUC
+)
 
-# Build pipeline with embedded feature selection
-pipeline <- OmicPipeline$new(data = data, target = "outcome")
-graph_learner <- pipeline$create_graph_learner(
-  filter = "anova",
-  model = "ranger",
-  n_features = 20
+# Create learner with embedded feature selection
+learner <- pipeline$create_graph_learner(
+  filter = "anova",        # Feature selection: anova, mrmr, variance, correlation
+  model = "ranger",        # Model: ranger, glmnet, svm, log_reg
+  n_features = 20          # Number of features to select
 )
 
 # Run nested cross-validation
 benchmark <- BenchmarkService$new(
-  pipeline$task,
+  task = pipeline,
   outer_folds = 5,
-  inner_folds = 3
+  inner_folds = 3,
+  seed = 42
 )
-benchmark$add_learner(graph_learner)
+benchmark$add_learner(learner)
 result <- benchmark$run()
 
-# Select optimal signature balancing performance and stability
+# Analyze stability and select best signature
+stability <- compute_stability_from_resample(result$benchmark_result)
 best <- select_best_signature(result, mode = "weighted")
 ```
+
+## Data Format
+
+Your data should be a `data.frame` with:
+- **Feature columns**: Numeric values (gene expression, miRNA counts, etc.)
+- **Target column**: Factor/character (classification) or numeric (regression)
+
+```r
+# Example structure:
+#   gene_A  gene_B  gene_C  outcome
+# 1   2.34    1.56    3.21     Case
+# 2   1.12    2.89    0.45  Control
+```
+
+## Configuration Options
+
+### Feature Selection Methods
+
+| Method | Code | Best For |
+|--------|------|----------|
+| ANOVA F-test | `"anova"` | Default, continuous features |
+| mRMR | `"mrmr"` | Reducing redundancy |
+| Variance | `"variance"` | Pre-filtering |
+| Correlation | `"correlation"` | Quick univariate |
+
+### Classification Models
+
+| Model | Code | Strengths |
+|-------|------|-----------|
+| Random Forest | `"ranger"` | Handles interactions, robust |
+| Elastic Net | `"glmnet"` | Interpretable coefficients |
+| SVM | `"svm"` | High-dimensional data |
+| Logistic Regression | `"log_reg"` | Baseline, interpretable |
 
 ## Key Modules
 
@@ -58,29 +95,34 @@ best <- select_best_signature(result, mode = "weighted")
 | **OmicPipeline** | Build mlr3 graphs with preprocessing |
 | **BenchmarkService** | Nested CV with zero leakage |
 | **select_best_signature** | Multi-objective signature selection |
+| **compute_nogueira_stability** | Feature selection stability metrics |
 | **FrozenComBat** | Batch correction with frozen parameters |
-| **CalibrationService** | Probability calibration |
-| **InterpretabilityService** | SHAP values with correlation warnings |
+| **fit_platt_scaling** | Probability calibration |
 | **MultiOmicsStacker** | Late integration of multi-omics data |
 
 ## Docker
 
 ```bash
-docker build -f Dockerfile.core -t omicselector:core .
-docker run -it --rm -v $(pwd):/workspace omicselector:core R
+docker build -f Dockerfile.core -t omicselector:2.0 .
+docker run -it --rm -v $(pwd):/workspace omicselector:2.0 R
 ```
 
 ## Citation
 
-```
-Stawiski K, Kaszkowiak M, Mikulski D, et al. OmicSelector: automatic feature
-selection and deep learning modeling for omic experiments. bioRxiv. 2022.
-doi: https://doi.org/10.1101/2022.06.01.494299
+```bibtex
+@article{stawiski2022omicselector,
+  title={OmicSelector: automatic feature selection and deep learning
+         modeling for omic experiments},
+  author={Stawiski, Konrad and Kaszkowiak, Marcin and Mikulski, Damian and others},
+  journal={bioRxiv},
+  year={2022},
+  doi={10.1101/2022.06.01.494299}
+}
 ```
 
 ## Authors
 
-- [Konrad Stawiski, M.D., Ph.D.](https://konsta.com.pl)
+- [Konrad Stawiski, M.D., Ph.D.](https://konsta.com.pl) (konrad.stawiski@umed.lodz.pl)
 - Marcin Kaszkowiak, M.D.
 - Damian Mikulski, M.D.
 
@@ -88,4 +130,8 @@ Supervised by: Prof. Wojciech Fendler, M.D., Ph.D.
 
 Department of Biostatistics and Translational Medicine, Medical University of Lodz, Poland
 
-[Issues](https://github.com/kstawiski/OmicSelector/issues) | [Documentation](https://biostat.umed.pl/OmicSelector/)
+## Links
+
+- [Documentation](https://biostat.umed.pl/OmicSelector/)
+- [Issues & Bug Reports](https://github.com/kstawiski/OmicSelector/issues)
+- [Source Code](https://github.com/kstawiski/OmicSelector)
