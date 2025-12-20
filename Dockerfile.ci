@@ -1,0 +1,65 @@
+# OmicSelector 2.0 - CI/CD Docker Image
+#
+# Minimal image for running R CMD check and tests in CI pipelines.
+# Optimized for speed and cache efficiency.
+#
+# Usage:
+#   docker build -f Dockerfile.ci -t omicselector:ci .
+#   docker run --rm -v $(pwd):/pkg omicselector:ci R CMD check /pkg
+
+FROM rocker/r-ver:4.4.0
+
+LABEL maintainer="OmicSelector Team"
+LABEL org.opencontainers.image.title="OmicSelector CI"
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV TZ=UTC
+ENV _R_CHECK_FORCE_SUGGESTS_=FALSE
+
+# System dependencies (minimal set for R CMD check)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libfribidi-dev \
+    libharfbuzz-dev \
+    libtiff-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libz-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libpcre2-dev \
+    default-jdk \
+    git \
+    pandoc \
+    qpdf \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure Java
+RUN R CMD javareconf
+
+# Install minimal R dependencies for R CMD check
+RUN R -e "\
+    options(repos = c(CRAN = 'https://cloud.r-project.org/')); \
+    install.packages(c( \
+        'devtools', \
+        'testthat', \
+        'knitr', \
+        'rmarkdown', \
+        'roxygen2', \
+        'rcmdcheck', \
+        'MASS' \
+    )); \
+    "
+
+WORKDIR /pkg
+
+# Default: run R CMD check
+CMD ["sh", "-c", "R CMD build . && R CMD check --as-cran *.tar.gz"]

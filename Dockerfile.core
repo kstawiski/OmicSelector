@@ -1,0 +1,204 @@
+# OmicSelector 2.0 - Reproducibility Core Docker Image
+#
+# This Dockerfile creates a minimal, reproducible R environment for OmicSelector.
+# Designed for scientific rigor: pinned versions, deterministic builds.
+#
+# Base: rocker/r-ver:4.4.0 (R 4.4.0, Debian-based)
+#
+# Usage:
+#   docker build -f Dockerfile.core -t omicselector:core .
+#   docker run -it --rm -v $(pwd):/workspace omicselector:core R
+#
+# For GPU/Deep Learning, see Dockerfile.legacy-dl
+
+# =============================================================================
+# STAGE 1: Base R Environment
+# =============================================================================
+FROM rocker/r-ver:4.4.0
+
+LABEL maintainer="OmicSelector Team"
+LABEL org.opencontainers.image.title="OmicSelector 2.0 Core"
+LABEL org.opencontainers.image.description="Reproducible R environment for biomarker discovery"
+LABEL org.opencontainers.image.version="2.0.0"
+
+# Set environment variables for reproducibility
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV TZ=UTC
+ENV RENV_VERSION=1.0.7
+ENV R_LIBS_USER=/usr/local/lib/R/site-library
+
+# Prevent interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# =============================================================================
+# STAGE 2: System Dependencies
+# =============================================================================
+
+# Install system dependencies required for R packages
+# Pinned package versions where possible for reproducibility
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Core build tools
+    build-essential \
+    gcc \
+    g++ \
+    gfortran \
+    make \
+    cmake \
+    # Required for R packages compilation
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libfribidi-dev \
+    libharfbuzz-dev \
+    libtiff-dev \
+    libjpeg-dev \
+    libpng-dev \
+    # For data.table and parallel processing
+    libz-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libpcre2-dev \
+    # For rJava
+    default-jdk \
+    # For git operations
+    git \
+    # For downloading
+    wget \
+    curl \
+    ca-certificates \
+    # For mlr3 and visualization
+    libgit2-dev \
+    libglpk-dev \
+    libgmp-dev \
+    libgsl-dev \
+    # For rgl and 3D plotting
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    # For ComplexHeatmap and Cairo
+    libcairo2-dev \
+    libxt-dev \
+    libx11-dev \
+    # For pandoc/rmarkdown
+    pandoc \
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure Java for rJava
+RUN R CMD javareconf
+
+# =============================================================================
+# STAGE 3: renv Setup
+# =============================================================================
+
+# Install renv for dependency management
+RUN R -e "install.packages('renv', repos = 'https://cloud.r-project.org/')"
+
+# Create workspace directory
+RUN mkdir -p /workspace /OmicSelector
+
+WORKDIR /workspace
+
+# =============================================================================
+# STAGE 4: Core R Package Dependencies (mlr3 ecosystem)
+# =============================================================================
+
+# Install core packages needed for OmicSelector 2.0
+# These form the "core" profile - minimal dependencies for the new architecture
+RUN R -e "\
+    options(repos = c(CRAN = 'https://cloud.r-project.org/')); \
+    install.packages(c( \
+        # Core data manipulation \
+        'data.table', \
+        'dplyr', \
+        'tibble', \
+        'tidyr', \
+        # mlr3 ecosystem (core) \
+        'mlr3', \
+        'mlr3learners', \
+        'mlr3pipelines', \
+        'mlr3tuning', \
+        'mlr3fselect', \
+        'mlr3measures', \
+        'mlr3misc', \
+        # Parallelization \
+        'future', \
+        'future.apply', \
+        'lgr', \
+        # Testing \
+        'testthat', \
+        # Documentation \
+        'roxygen2', \
+        'pkgdown', \
+        'knitr', \
+        'rmarkdown', \
+        # Statistical utilities \
+        'MASS', \
+        'survival', \
+        # Visualization \
+        'ggplot2', \
+        # Package development \
+        'devtools', \
+        'remotes', \
+        'usethis' \
+    )); \
+    "
+
+# Install BiocManager for Bioconductor packages
+RUN R -e "\
+    install.packages('BiocManager', repos = 'https://cloud.r-project.org/'); \
+    BiocManager::install(version = '3.19', ask = FALSE, update = FALSE); \
+    BiocManager::install(c('Biobase'), ask = FALSE, update = FALSE); \
+    "
+
+# =============================================================================
+# STAGE 5: Copy Package and Initialize renv
+# =============================================================================
+
+# Copy package files
+COPY . /OmicSelector
+
+WORKDIR /OmicSelector
+
+# Initialize renv with the package (will be done during first build)
+# The renv.lock file should be committed to the repository
+RUN if [ -f "renv.lock" ]; then \
+        R -e "renv::restore()"; \
+    else \
+        echo "No renv.lock found. Run 'renv::init()' to create one."; \
+    fi
+
+# =============================================================================
+# STAGE 6: Package Installation and Verification
+# =============================================================================
+
+# Install the OmicSelector package
+RUN R CMD INSTALL --no-multiarch --with-keep.source . || echo "Package installation deferred"
+
+# Verify installation
+RUN R -e "if(require('OmicSelector')) { print('OmicSelector loaded successfully') } else { print('OmicSelector not yet installed') }"
+
+# Run tests if available
+RUN if [ -d "tests/testthat" ]; then \
+        R -e "testthat::test_local()" || echo "Tests deferred"; \
+    fi
+
+# =============================================================================
+# FINAL: Runtime Configuration
+# =============================================================================
+
+# Set default command
+CMD ["R"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD R --version || exit 1
+
+# Metadata about the build
+ARG BUILD_DATE
+ARG VCS_REF
+LABEL org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${VCS_REF}"

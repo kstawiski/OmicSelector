@@ -1,58 +1,94 @@
-home:
-  links:
-  - text: Konrad Stawiski M.D.
-    href: https://konsta.com.pl
+url: https://biostat.umed.pl/OmicSelector/
 
-  - text: Department of Biostatistics and Translational Research (UMED LODZ)
+home:
+  title: OmicSelector 2.0 - Rigorous Biomarker Discovery
+  links:
+  - text: Konrad Stawiski, M.D., Ph.D.
+    href: https://konsta.com.pl
+  - text: Department of Biostatistics and Translational Research
     href: https://biostat.umed.pl
 
 template:
-  package: tidytemplate
   bootstrap: 5
   bslib:
     base_font: {google: "Roboto"}
     heading_font: {google: "Roboto Slab"}
     code_font: {google: "JetBrains Mono"}
-  params:
-    ganalytics: UA-53584749-8
-    package: OmicSelector
 
 navbar:
   structure:
-    left:  [news]
-    right: [home, intro, demo, reference, methods, articles, github, twitter]
+    left:  [intro, reference, articles, news]
+    right: [github]
   components:
-    home:
-      icon: fa-home
-      text: Introduction
-      href: index.html
     intro:
-      icon: fa-video
-      text: Tutorial (GUI)
-      href: https://www.youtube.com/watch?v=dKUdINEcOjk
-    demo:
-      icon: fa-cubes
-      text: Demo
-      href: https://s3-apps.kstawiski.net/modules/omicselector-request/
+      icon: fa-home
+      text: Home
+      href: index.html
     reference:
       icon: fa-file-code
-      text: Functions
+      text: Reference
       href: reference/index.html
-    methods:
-      icon: fa-tools
-      text: Methods
-      href: articles/metody.html
     articles:
-      icon: "fas fa-book"
-      text: Tutorials (Code)
+      icon: fas fa-book
+      text: Articles
       menu:
-      - icon: fa-user-graduate
-        text: Basic analysis tutorial
-        href: articles/Tutorial.html
-      - icon: fa-code-branch
-        text: Deep learning tutorial
-        href: articles/DeepLearningTutorial.html
-    twitter:
-      icon: fa-twitter
-      href: http://twitter.com/KonradStawiski
-      aria-label: Twitter
+      - text: Getting Started
+        href: articles/getting-started.html
+    github:
+      icon: fa-github
+      href: https://github.com/kstawiski/OmicSelector
+
+reference:
+- title: Core Pipeline
+  desc: Main classes for building zero-leakage ML pipelines
+  contents:
+  - OmicPipeline
+  - BenchmarkService
+  - omic_benchmark
+
+- title: Signature Selection
+  desc: Multi-objective biomarker signature selection
+  contents:
+  - select_best_signature
+  - get_consensus_features
+
+- title: Stability Analysis
+  desc: Feature selection stability metrics
+  contents:
+  - compute_nogueira_index
+  - compute_stability_metrics
+
+- title: Batch Correction
+  desc: FrozenComBat for proper batch effect handling
+  contents:
+  - FrozenComBat
+  - fit_combat
+  - apply_combat
+
+- title: Calibration
+  desc: Probability calibration and diagnostics
+  contents:
+  - CalibrationService
+  - compute_calibration_metrics
+  - calibrate_model
+
+- title: Interpretability
+  desc: Model interpretation and feature importance
+  contents:
+  - InterpretabilityService
+  - compute_shap_values
+
+- title: Multi-Omics
+  desc: Multi-omics late integration
+  contents:
+  - MultiOmicsStacker
+
+- title: Model Export
+  desc: Model deployment utilities
+  contents:
+  - OmicModelExporter
+
+- title: Legacy Functions
+  desc: Functions from OmicSelector 1.x (use with caution)
+  contents:
+  - starts_with("OmicSelector_")
