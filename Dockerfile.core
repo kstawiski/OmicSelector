@@ -155,7 +155,7 @@ RUN R -e "\
     "
 
 # =============================================================================
-# STAGE 5: Copy Package and Initialize renv
+# STAGE 5: Copy Package and Install
 # =============================================================================
 
 # Copy package files
@@ -163,28 +163,14 @@ COPY . /OmicSelector
 
 WORKDIR /OmicSelector
 
-# Initialize renv with the package (will be done during first build)
-# The renv.lock file should be committed to the repository
-RUN if [ -f "renv.lock" ]; then \
-        R -e "renv::restore()"; \
-    else \
-        echo "No renv.lock found. Run 'renv::init()' to create one."; \
-    fi
-
-# =============================================================================
-# STAGE 6: Package Installation and Verification
-# =============================================================================
+# Install package dependencies from DESCRIPTION
+RUN R -e "remotes::install_deps(dependencies = TRUE)"
 
 # Install the OmicSelector package
-RUN R CMD INSTALL --no-multiarch --with-keep.source . || echo "Package installation deferred"
+RUN R CMD INSTALL --no-multiarch --with-keep.source .
 
 # Verify installation
-RUN R -e "if(require('OmicSelector')) { print('OmicSelector loaded successfully') } else { print('OmicSelector not yet installed') }"
-
-# Run tests if available
-RUN if [ -d "tests/testthat" ]; then \
-        R -e "testthat::test_local()" || echo "Tests deferred"; \
-    fi
+RUN R -e "library(OmicSelector); cat('OmicSelector', as.character(packageVersion('OmicSelector')), 'loaded successfully\n')"
 
 # =============================================================================
 # FINAL: Runtime Configuration
