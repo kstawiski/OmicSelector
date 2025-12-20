@@ -158,10 +158,16 @@ RUN R -e "\
 # STAGE 5: Copy Package and Install
 # =============================================================================
 
-# Copy package files
+# Disable renv auto-activation (we use system packages in Docker)
+ENV RENV_CONFIG_AUTOLOADER_ENABLED=false
+
+# Copy package files (note: .dockerignore excludes renv/, .Rprofile)
 COPY . /OmicSelector
 
 WORKDIR /OmicSelector
+
+# Remove any renv artifacts that might have been copied
+RUN rm -rf renv .Rprofile renv.lock 2>/dev/null || true
 
 # Install package dependencies from DESCRIPTION
 RUN R -e "remotes::install_deps(dependencies = TRUE)"

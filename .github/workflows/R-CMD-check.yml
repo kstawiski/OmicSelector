@@ -12,6 +12,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
 
+    env:
+      # Disable renv auto-activation to use system packages
+      RENV_CONFIG_AUTOLOADER_ENABLED: 'false'
+      # Prefer binary packages
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: 'true'
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -23,6 +30,19 @@ jobs:
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Query dependencies
+        run: |
+          install.packages('pkgdepends')
+          saveRDS(pkgdepends::new_pkg_deps('local::.', dependencies = TRUE)$resolve(), ".github/r-depends.rds")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ${{ runner.os }}-r-
 
       - name: Install system dependencies
         run: |
@@ -36,12 +56,13 @@ jobs:
             libfribidi-dev \
             libfreetype6-dev \
             libtiff-dev \
-            libpng-dev
+            libpng-dev \
+            libgit2-dev
 
-      - name: Install dependencies
+      - name: Install R dependencies
         run: |
           install.packages(c('remotes', 'rcmdcheck'))
-          remotes::install_deps(dependencies = TRUE)
+          remotes::install_deps(dependencies = TRUE, type = 'binary')
         shell: Rscript {0}
 
       - name: R CMD check
