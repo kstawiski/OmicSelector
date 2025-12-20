@@ -16,3 +16,25 @@ docs
 vignettes/balanced_dataset.csv.gz
 docker/build.log
 playground/*.*
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# Build artifacts
+*.tar.gz
+*.Rcheck/
+.github/depends.Rds
+.github/R-version
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

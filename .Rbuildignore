@@ -21,3 +21,13 @@ Rplots.pdf
 ^pythonenv3\.8$
 ^static$
 ^docker$
+^Dockerfile.*$
+^docker-compose\.yml$
+^\.devcontainer$
+^renv$
+^renv\.lock$
+^data-raw$
+^_config\.yml$
+^index\.md$
+^\.lintr$
+^\.pre-commit-config\.yaml$

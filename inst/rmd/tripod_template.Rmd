@@ -1,0 +1,241 @@
+---
+title: "OmicSelector 2.0 - TRIPOD+AI Analysis Report"
+date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    code_folding: hide
+params:
+  report_data: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+
+# Define null coalescing operator if not available
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
+# Access report data
+rd <- params$report_data
+```
+
+# Executive Summary
+
+This report documents a biomarker discovery analysis performed with **OmicSelector 2.0**, adhering to TRIPOD+AI (Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis - Artificial Intelligence) guidelines.
+
+**Analysis Timestamp:** `r if (!is.null(rd$meta$timestamp) && inherits(rd$meta$timestamp, c("POSIXct", "POSIXlt"))) format(rd$meta$timestamp, '%Y-%m-%d %H:%M:%S') else "N/A"`
+
+**Key Results:**
+
+| Metric | Value |
+|--------|-------|
+| Samples | `r rd$data$n_samples %||% "N/A"` |
+| Features | `r rd$data$n_features %||% "N/A"` |
+| AUC | `r sprintf("%.3f", rd$discrimination$auc %||% NA)` |
+| Brier Score | `r sprintf("%.3f", rd$discrimination$brier_score %||% NA)` |
+| Stability (Nogueira) | `r sprintf("%.3f", rd$stability$nogueira_index %||% NA)` |
+
+---
+
+# TRIPOD Checklist
+
+## Title and Abstract (Items 1-2)
+
+- **Study Type:** Prediction model development with internal validation
+- **Target Outcome:** `r rd$data$target_name %||% "Not specified"`
+- **Modeling Approach:** Machine learning pipeline with nested cross-validation
+
+## Methods
+
+### Source of Data (Item 4)
+
+```{r data-summary}
+data_info <- data.frame(
+  Characteristic = c("Total Samples", "Total Features", "Modalities", "Target Variable"),
+  Value = c(
+    rd$data$n_samples %||% "N/A",
+    rd$data$n_features %||% "N/A",
+    rd$data$n_modalities %||% "1",
+    rd$data$target_name %||% "N/A"
+  )
+)
+knitr::kable(data_info, caption = "Data Characteristics")
+```
+
+### Outcome (Item 6)
+
+**Class Distribution:**
+
+```{r class-dist, eval=!is.null(rd$data$class_distribution)}
+if (!is.null(rd$data$class_distribution)) {
+  class_df <- as.data.frame(rd$data$class_distribution)
+  names(class_df) <- c("Class", "Count")
+  knitr::kable(class_df, caption = "Outcome Class Distribution")
+}
+```
+
+### Predictors (Item 7)
+
+- **Feature Selection Method:** `r rd$model$filter_method %||% "Not specified"`
+- **Number of Features Selected:** `r rd$model$n_features_selected %||% "Variable"`
+- **Model Type:** `r rd$model$learner_type %||% "Not specified"`
+
+### Sample Size (Item 8)
+
+- **Total samples:** `r rd$data$n_samples %||% "N/A"`
+- **Events per variable (EPV):** Computed based on minority class and selected features
+
+### Missing Data (Item 9)
+
+```{r missing-data}
+if (!is.null(rd$data$missing_data)) {
+  cat(sprintf("Missing values: %d (%.1f%%)",
+              rd$data$missing_data$count,
+              rd$data$missing_data$percent))
+} else {
+  cat("Missing data handling: Median imputation within CV folds")
+}
+```
+
+### Model Development and Validation (Item 10)
+
+**Validation Strategy:**
+
+- Type: `r rd$validation$type %||% "Internal nested cross-validation"`
+- Outer Folds: `r rd$validation$outer_folds %||% "N/A"`
+- Inner Folds: `r rd$validation$inner_folds %||% "N/A"`
+- Stratified: `r ifelse(isTRUE(rd$validation$stratified), "Yes", "No")`
+
+**Zero-Leakage Guarantee:** All preprocessing, feature selection, and model training occur within CV folds via mlr3 GraphLearners.
+
+---
+
+# Results
+
+## Discrimination (Item 16)
+
+```{r discrimination-table}
+disc_metrics <- data.frame(
+  Metric = c("AUC (ROC)", "Brier Score", "Sensitivity", "Specificity", "PPV", "NPV"),
+  Value = c(
+    sprintf("%.3f", rd$discrimination$auc %||% NA),
+    sprintf("%.3f", rd$discrimination$brier_score %||% NA),
+    sprintf("%.3f", rd$discrimination$sensitivity %||% NA),
+    sprintf("%.3f", rd$discrimination$specificity %||% NA),
+    sprintf("%.3f", rd$discrimination$ppv %||% NA),
+    sprintf("%.3f", rd$discrimination$npv %||% NA)
+  )
+)
+disc_metrics <- disc_metrics[!is.na(disc_metrics$Value) & disc_metrics$Value != "NA", ]
+knitr::kable(disc_metrics, caption = "Discrimination Metrics")
+```
+
+## Calibration
+
+Calibration assesses how well predicted probabilities match observed outcomes.
+
+```{r calibration-metrics}
+if (!is.null(rd$calibration$slope)) {
+  cal_metrics <- data.frame(
+    Metric = c("Calibration Slope", "Calibration Intercept", "ECE"),
+    Value = c(
+      sprintf("%.3f", rd$calibration$slope),
+      sprintf("%.3f", rd$calibration$intercept %||% NA),
+      sprintf("%.3f", rd$calibration$ece %||% NA)
+    )
+  )
+  knitr::kable(cal_metrics, caption = "Calibration Metrics")
+} else {
+  cat("Calibration metrics not computed for this analysis.")
+}
+```
+
+## Feature Stability
+
+Feature stability measures how consistently features are selected across cross-validation folds. High stability indicates robust signal; low stability suggests potential overfitting.
+
+```{r stability-summary}
+if (!is.null(rd$stability$nogueira_index)) {
+  cat(sprintf("**Nogueira Stability Index:** %.4f\n\n", rd$stability$nogueira_index))
+  cat(sprintf("**Interpretation:** %s\n\n", rd$stability$interpretation %||% ""))
+  cat(sprintf("**Consensus Features (selected in all folds):** %d\n",
+              length(rd$stability$consensus_features %||% character(0))))
+} else {
+  cat("Stability analysis not available.")
+}
+```
+
+```{r stability-heatmap, eval=!is.null(rd$stability$selection_frequency), fig.height=6}
+if (!is.null(rd$stability$selection_frequency)) {
+  freq <- rd$stability$selection_frequency
+  top_features <- names(sort(freq, decreasing = TRUE))[1:min(20, length(freq))]
+
+  freq_df <- data.frame(
+    Feature = factor(top_features, levels = rev(top_features)),
+    Frequency = freq[top_features]
+  )
+
+  ggplot(freq_df, aes(x = Frequency, y = Feature)) +
+    geom_col(fill = "steelblue", alpha = 0.8) +
+    geom_vline(xintercept = 1.0, linetype = "dashed", color = "red") +
+    scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
+    labs(
+      title = "Top 20 Features by Selection Frequency",
+      x = "Selection Frequency Across Folds",
+      y = NULL,
+      caption = "Red line indicates 100% selection (consensus features)"
+    ) +
+    theme_minimal() +
+    theme(axis.text.y = element_text(size = 8))
+}
+```
+
+---
+
+# Reproducibility
+
+## Software Environment
+
+```{r session-info}
+cat(sprintf("OmicSelector Version: %s\n", rd$meta$omicselector_version %||% "N/A"))
+cat(sprintf("R Version: %s\n", rd$meta$r_version %||% "N/A"))
+if (!is.null(rd$reproducibility$seed)) {
+  cat(sprintf("Random Seed: %d\n", rd$reproducibility$seed))
+}
+```
+
+## Configuration
+
+```{r config, eval=!is.null(rd$meta$config)}
+if (!is.null(rd$meta$config)) {
+  cat("```yaml\n")
+  cat(yaml::as.yaml(rd$meta$config))
+  cat("```\n")
+}
+```
+
+---
+
+# TRIPOD+AI Compliance Checklist
+
+| Item | Description | Status |
+|------|-------------|--------|
+| 1 | Title identifies as prediction model study | ✓ |
+| 4 | Data source described | `r ifelse(!is.null(rd$data$n_samples), "✓", "○")` |
+| 5 | Validation approach described | ✓ Nested CV |
+| 6 | Outcome defined | `r ifelse(!is.null(rd$data$target_name), "✓", "○")` |
+| 7 | Predictors defined | `r ifelse(!is.null(rd$model$filter_method), "✓", "○")` |
+| 10 | Statistical analysis described | ✓ |
+| 15 | Model performance reported | `r ifelse(!is.null(rd$discrimination$auc), "✓", "○")` |
+| 16 | Calibration assessed | `r ifelse(!is.null(rd$calibration$slope), "✓", "○")` |
+
+**Legend:** ✓ = Addressed, ○ = Partially addressed or N/A
+
+---
+
+*Report generated by OmicSelector 2.0 - Zero-Leakage Biomarker Discovery*
+
+*"Optimization without validation is hallucination."*
