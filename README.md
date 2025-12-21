@@ -1,10 +1,34 @@
 # OmicSelector 2.0
 
-![](vignettes/logo.png)
-
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
+[![Validation](https://img.shields.io/badge/TCGA%20Validation-11%2F12%20Passed-brightgreen)](https://biostat.umed.pl/OmicSelector/articles/validation-report.html)
+
+---
+
+## Validation Status
+
+**All 11 core modules validated on TCGA pan-cancer miRNA data (10,366 samples, 2,566 features):**
+
+| Module | Status | Key Metrics |
+|--------|--------|-------------|
+| OmicPipeline | PASS | Quick validation AUC: 0.936 |
+| BenchmarkService | PASS | Nested CV AUC: 0.876 (honest estimate) |
+| GOF Filters | PASS | Discovered miR-139/183/145 family |
+| Bayesian Tuning | PASS | Training AUC: 0.984 |
+| AutoXAI | PASS | 9 correlation warnings flagged |
+| Stability Ensemble | PASS | 13 features at 100% stability |
+| Sequential Selector (HSFS) | PASS | AUC: 0.965 |
+| Synthetic Data (SMOTE) | PASS | Quality score validated |
+| Calibration | PASS | Platt scaling: 0-0.56 → 0.003-0.96 |
+| FrozenComBat | PASS | Batch correction validated |
+| Multi-Omics | PASS | Combined AUC: 0.827 |
+| Deep Learning | SKIPPED | torch not installed |
+
+**Top Biomarkers**: miR-183-5p, miR-145-5p, miR-182-5p are established cancer biomarkers with known oncogenic/tumor suppressor roles.
+
+---
 
 ## Overview
 
@@ -500,8 +524,8 @@ brier <- decompose_brier(probabilities, true_labels)
 calibrator <- fit_platt_scaling(probabilities, true_labels)
 # or: calibrator <- fit_isotonic_calibration(probabilities, true_labels)
 
-# Apply to new predictions
-calibrated_probs <- calibrator$calibrate(new_probabilities)
+# Apply to new predictions (calibrator is a function)
+calibrated_probs <- calibrator(new_probabilities)
 ```
 
 ### Batch Correction (FrozenComBat)
