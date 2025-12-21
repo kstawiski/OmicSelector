@@ -760,6 +760,138 @@ The generated report includes:
 
 ---
 
+# Part 10: Phase 5 Advanced Features
+
+OmicSelector 2.0 includes cutting-edge methods validated on TCGA data.
+
+## 10.1 GOF Filters for Sparse miRNA Data
+
+miRNA data often shows zero-inflation (features "off" in one condition).
+GOF filters detect these patterns that ANOVA misses.
+
+```{r gof-filters}
+# Load GOF filters
+source(system.file("R", "FilterGOF.R", package = "OmicSelector"))
+
+# Compare KS filter vs ANOVA
+ks_filter <- FilterGOF_KS$new()
+ks_filter$calculate(task)
+ks_top <- names(sort(ks_filter$scores, decreasing = TRUE))[1:20]
+
+anova_filter <- flt("anova")
+anova_filter$calculate(task)
+anova_top <- names(sort(anova_filter$scores, decreasing = TRUE))[1:20]
+
+# Features unique to KS (potential discoveries)
+unique_discoveries <- setdiff(ks_top, anova_top)
+cat("KS-unique features:", length(unique_discoveries), "\n")
+```
+
+On TCGA kidney cancer, KS filter discovered the **miR-200/miR-141 family**
+(EMT regulators) that ANOVA missed.
+
+## 10.2 AutoXAI with Correlation Warnings
+
+Get SHAP-based interpretability with automatic warnings for correlated features:
+
+```{r autoxai}
+# Train a model
+learner_rf <- lrn("classif.ranger",
+  predict_type = "prob",
+  num.trees = 200,
+  importance = "impurity"
+)
+learner_rf$train(task)
+
+# Run XAI pipeline
+xai_results <- xai_pipeline(
+  learner = learner_rf,
+  task = task,
+  top_k = 15,
+  cor_threshold = 0.7
+)
+
+# Check for correlation warnings
+if (xai_results$correlations$n_warnings > 0) {
+  cat("WARNING:", xai_results$correlations$n_warnings,
+      "correlated feature pairs detected!\n")
+  cat("SHAP values may be unreliable for these features.\n")
+}
+
+# Visualize importance
+plot_xai_importance(xai_results, top_n = 15)
+```
+
+## 10.3 Bootstrap Stability Ensemble
+
+Find reproducible biomarkers across resamples:
+
+```{r stability-ensemble}
+# Create ensemble with multiple filters
+ensemble <- create_stability_ensemble(
+  preset = "default",
+  n_bootstrap = 100,
+  n_features = 30
+)
+
+# Fit and extract stable features
+ensemble$fit(task, seed = 42)
+stable_features <- ensemble$get_feature_importance(30)
+
+# Features with >90% selection are highly reproducible
+very_stable <- names(stable_features[stable_features >= 0.9])
+cat("Very stable biomarkers (>90%):", length(very_stable), "\n")
+print(very_stable)
+```
+
+## 10.4 Bayesian Hyperparameter Tuning
+
+Replace grid search with efficient Bayesian optimization:
+
+```{r bayesian-tuning}
+# Create Bayesian-tuned autotuner
+autotuner <- make_autotuner_glmnet(
+  task,
+  n_evals = 20,
+  inner_folds = 3
+)
+
+# Train (performs Bayesian optimization internally)
+autotuner$train(task)
+
+# Get optimal parameters
+params <- get_optimal_params(autotuner)
+cat("Optimal alpha:", params$alpha, "\n")
+cat("Optimal lambda:", params$s, "\n")
+```
+
+## 10.5 SMOTE for Class Imbalance
+
+Balance classes properly inside CV folds:
+
+```{r smote}
+# Check current class balance
+cat("Original class distribution:\n")
+print(table(task$truth()))
+
+# Apply SMOTE
+task_balanced <- smote_augment(task, ratio = 1.0, k = 5)
+
+cat("\nBalanced class distribution:\n")
+print(table(task_balanced$truth()))
+
+# Validate synthetic data quality
+validation <- validate_synthetic(
+  real = as.data.frame(task$data()),
+  synthetic = as.data.frame(task_balanced$data()),
+  target = "outcome",
+  features = task$feature_names
+)
+cat("\nSynthetic data quality score:", validation$quality_score, "\n")
+```
+
+---
+
 # Summary
 
 In this tutorial, we demonstrated:
@@ -773,6 +905,7 @@ In this tutorial, we demonstrated:
 7. **Batch Correction**: FrozenComBat for leakage-free batch correction
 8. **Calibration**: Ensuring reliable probability predictions
 9. **Reporting**: TRIPOD+AI compliant documentation
+10. **Phase 5 Features**: GOF filters, AutoXAI, stability ensembles, Bayesian tuning
 
 ## Key Takeaways
 

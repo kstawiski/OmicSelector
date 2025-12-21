@@ -106,7 +106,8 @@ Create a GraphLearner with proper leakage prevention
   n_features = 20,
   impute_method = "median",
   scale = TRUE,
-  oversample = NULL
+  oversample = NULL,
+  batch_correct = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -124,6 +125,10 @@ Create a GraphLearner with proper leakage prevention
 \item{\code{scale}}{Logical, whether to scale features}
 
 \item{\code{oversample}}{Oversampling method (NULL, "smote", "rose")}
+
+\item{\code{batch_correct}}{Logical or character. If TRUE, adds FrozenComBat batch
+correction using the batch column specified in pipeline creation. If a
+character string, uses that as the batch column name. Default: FALSE.}
 }
 \if{html}{\out{</div>}}
 }

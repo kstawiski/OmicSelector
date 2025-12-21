@@ -116,6 +116,16 @@ Your data should be a `data.frame` with:
 | **fit_platt_scaling** | Probability calibration |
 | **MultiOmicsStacker** | Late integration of multi-omics data |
 
+## Phase 5: Advanced Features
+
+| Module | Description |
+|--------|-------------|
+| **FilterGOF_KS / FilterHurdle** | GOF filters for sparse/zero-inflated data |
+| **xai_pipeline** | DALEX-based interpretability with correlation warnings |
+| **create_stability_ensemble** | Bootstrap stability for reproducible biomarkers |
+| **make_autotuner_glmnet** | Bayesian hyperparameter optimization |
+| **smote_augment** | SMOTE for class imbalance (inside CV) |
+
 ## Docker
 
 ```bash

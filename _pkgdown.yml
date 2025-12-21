@@ -34,6 +34,14 @@ navbar:
       menu:
       - text: Getting Started
         href: articles/getting-started.html
+      - text: TCGA Biomarker Discovery
+        href: articles/tcga-tutorial.html
+      - text: "---"
+      - text: "Phase 5: Advanced Features"
+        href: articles/phase5-advanced.html
+      - text: "---"
+      - text: Validation Report
+        href: articles/validation-report.html
     github:
       icon: fa-github
       href: https://github.com/kstawiski/OmicSelector
@@ -43,6 +51,7 @@ reference:
   desc: Main classes for building zero-leakage ML pipelines
   contents:
   - OmicPipeline
+  - omic_pipeline
   - BenchmarkService
   - omic_benchmark
 
@@ -51,44 +60,135 @@ reference:
   contents:
   - select_best_signature
   - get_consensus_features
+  - get_selected_features_per_fold
 
 - title: Stability Analysis
   desc: Feature selection stability metrics
   contents:
-  - compute_nogueira_index
-  - compute_stability_metrics
+  - compute_nogueira_stability
+  - compute_stability_from_resample
+  - extract_features_from_resample
+  - extract_selected_features
 
 - title: Batch Correction
   desc: FrozenComBat for proper batch effect handling
   contents:
   - FrozenComBat
-  - fit_combat
-  - apply_combat
+  - frozen_combat_correct
+  - create_frozen_combat_pipeop
 
 - title: Calibration
   desc: Probability calibration and diagnostics
   contents:
-  - CalibrationService
-  - compute_calibration_metrics
-  - calibrate_model
+  - fit_platt_scaling
+  - fit_isotonic_calibration
+  - fit_temperature_scaling
+  - compute_ece
+  - decompose_brier
+  - calibration_summary
+  - reliability_diagram_data
 
 - title: Interpretability
   desc: Model interpretation and feature importance
   contents:
-  - InterpretabilityService
-  - compute_shap_values
+  - create_explainer
+  - shap_values
+  - feature_importance
+  - partial_dependence
+  - check_feature_correlations
+
+- title: "Phase 5: GOF Filters"
+  desc: Goodness-of-fit filters for sparse/zero-inflated omics data
+  contents:
+  - FilterGOF_KS
+  - FilterHurdle
+  - FilterZeroProp
+  - make_gof_filter
+  - compare_gof_filters
+  - register_gof_filters
+
+- title: "Phase 5: Bayesian Tuning"
+  desc: Bayesian hyperparameter optimization with mlr3mbo
+  contents:
+  - make_autotuner_glmnet
+  - make_autotuner_xgboost
+  - make_autotuner_ranger
+  - make_autotuner_lightgbm
+  - get_optimal_params
+  - run_bayesian_benchmark
+
+- title: "Phase 5: AutoXAI"
+  desc: DALEX-based interpretability with correlation warnings
+  contents:
+  - xai_pipeline
+  - xai_explainer_mlr3
+  - xai_importance
+  - xai_correlations
+  - xai_pdp
+  - xai_shap
+  - plot_xai_importance
+  - print_xai_summary
+
+- title: "Phase 5: Stability Ensemble"
+  desc: Bootstrap-based feature selection stability
+  contents:
+  - create_stability_ensemble
+  - StabilityEnsemble
+  - SequentialSelector
+
+- title: "Phase 5: Synthetic Data"
+  desc: Data augmentation and synthetic data generation
+  contents:
+  - smote_augment
+  - noise_augment
+  - validate_synthetic
+  - balance_classes
+  - tabddpm_generate
+
+- title: "Phase 5: Deep Learning"
+  desc: Deep learning models for omics (requires torch)
+  contents:
+  - create_mlp_learner
+  - make_mlp_learner
+  - make_tabtransformer_learner
+  - make_gnn_learner
+  - build_correlation_adjacency
+  - run_dl_benchmark
+  - check_dl_availability
 
 - title: Multi-Omics
   desc: Multi-omics late integration
   contents:
-  - MultiOmicsStacker
+  - merge_omics_data
+  - get_modality_info
+  - validate_omics_input
+  - stack_omics
 
-- title: Model Export
-  desc: Model deployment utilities
+- title: Model Export & Reporting
+  desc: Model deployment and TRIPOD reporting
   contents:
-  - OmicModelExporter
+  - generate_tripod_report
+  - create_report_data
+
+- title: Utilities
+  desc: Helper functions for parallel processing and caching
+  contents:
+  - setup_parallel
+  - with_parallel
+  - get_parallel_status
+  - reset_parallel
+  - create_omic_cache
+  - cached_filter
+  - cache_stats
+  - clear_cache
 
 - title: Legacy Functions
   desc: Functions from OmicSelector 1.x (use with caution)
   contents:
+  - list_deprecated_functions
   - starts_with("OmicSelector_")
+
+- title: Internal Functions
+  desc: Internal functions and helpers (exported for advanced use)
+  contents:
+  - matches(".*")

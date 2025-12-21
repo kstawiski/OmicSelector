@@ -79,6 +79,7 @@ and migration guidance.
 Authors:
 \itemize{
   \item Marcin Kaszkowiak
+  \item Damian Mikulski
 }
 
 }
