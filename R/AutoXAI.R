@@ -179,26 +179,23 @@ xai_correlations <- function(data,
   # Compute correlation matrix
   cor_matrix <- cor(data, use = "pairwise.complete.obs", method = method)
 
-  # Find high correlation pairs
-  high_cor_pairs <- data.frame(
-    feature1 = character(0),
-    feature2 = character(0),
-    correlation = numeric(0),
-    stringsAsFactors = FALSE
-  )
+  # Find high correlation pairs using vectorized approach
+  pairs <- which(abs(cor_matrix) >= threshold & upper.tri(cor_matrix), arr.ind = TRUE)
 
-  n <- ncol(cor_matrix)
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      if (abs(cor_matrix[i, j]) >= threshold) {
-        high_cor_pairs <- rbind(high_cor_pairs, data.frame(
-          feature1 = colnames(cor_matrix)[i],
-          feature2 = colnames(cor_matrix)[j],
-          correlation = cor_matrix[i, j],
-          stringsAsFactors = FALSE
-        ))
-      }
-    }
+  if (nrow(pairs) > 0) {
+    high_cor_pairs <- data.frame(
+      feature1 = rownames(cor_matrix)[pairs[, 1]],
+      feature2 = colnames(cor_matrix)[pairs[, 2]],
+      correlation = cor_matrix[pairs],
+      stringsAsFactors = FALSE
+    )
+  } else {
+    high_cor_pairs <- data.frame(
+      feature1 = character(0),
+      feature2 = character(0),
+      correlation = numeric(0),
+      stringsAsFactors = FALSE
+    )
   }
 
   # Sort by absolute correlation
@@ -689,4 +686,300 @@ plot_xai_importance <- function(xai_results,
   }
 
   p
+}
+
+
+#' @title Compute SHAP Values with Correlation Warnings
+#'
+#' @description
+#' Standalone function that computes SHAP values and flags features that have
+#' high correlations with other features, which can make SHAP interpretations
+#' unreliable. This is a more focused alternative to the full xai_pipeline()
+#' when only SHAP analysis is needed.
+#'
+#' @details
+#' High correlations between features can make SHAP values misleading because:
+#' 1. Importance can be arbitrarily split between correlated features
+#' 2. SHAP values may not reflect true causal relationships
+#' 3. Removing one correlated feature could dramatically change others' SHAP values
+#'
+#' @references
+#' Hooker et al. (2021). Unrestricted Permutation Forces Extrapolation.
+#' Lundberg & Lee (2017). SHAP: A Unified Approach to Interpreting Model Predictions.
+#'
+#' @param explainer A DALEX explainer (from xai_explainer_mlr3 or DALEX::explain)
+#' @param data Data.frame of features for SHAP computation (if NULL, uses explainer$data)
+#' @param n_samples Number of samples for SHAP approximation (default: 100)
+#' @param correlation_threshold Correlation threshold for warnings (default: 0.7)
+#' @param B Number of random orderings per SHAP computation (default: 25)
+#' @param verbose Print progress messages
+#'
+#' @return A list with:
+#'   - shap_values: Matrix of SHAP values (samples x features)
+#'   - feature_importance: Mean absolute SHAP per feature
+#'   - correlations: Correlation diagnostics from xai_correlations()
+#'   - warnings: Data.frame of correlated feature pairs with severity
+#'   - reliable_features: Features with no high correlations (safe to interpret)
+#'
+#' @examples
+#' \dontrun{
+#' explainer <- xai_explainer_mlr3(learner, task)
+#' result <- compute_shap_with_warnings(explainer)
+#' print(result$reliable_features)
+#' print_shap_warnings(result)
+#' }
+#'
+#' @export
+compute_shap_with_warnings <- function(explainer,
+                                        data = NULL,
+                                        n_samples = 100,
+                                        correlation_threshold = 0.7,
+                                        B = 25,
+                                        verbose = TRUE) {
+
+  if (!requireNamespace("DALEX", quietly = TRUE)) {
+    stop("Package 'DALEX' is required for SHAP computation. Install with: install.packages('DALEX')",
+         call. = FALSE)
+  }
+
+  # Use explainer data if none provided
+  if (is.null(data)) {
+    data <- as.data.frame(explainer$data)
+  }
+
+  stopifnot(
+    "data must be a data.frame" = is.data.frame(data),
+    "n_samples must be positive" = n_samples > 0
+  )
+
+  # Step 1: Compute feature correlations using existing xai_correlations
+  if (verbose) message("Computing feature correlations...")
+  cor_diagnostics <- xai_correlations(data, threshold = correlation_threshold)
+
+  # Step 2: Compute SHAP values for sampled observations
+  if (verbose) message(sprintf("Computing SHAP values (%d samples)...", n_samples))
+
+  sample_idx <- sample(nrow(data), min(n_samples, nrow(data)))
+  sample_data <- data[sample_idx, , drop = FALSE]
+
+  shap_results <- list()
+  for (i in seq_len(nrow(sample_data))) {
+    shap_results[[i]] <- tryCatch({
+      DALEX::predict_parts(
+        explainer,
+        new_observation = sample_data[i, , drop = FALSE],
+        type = "shap",
+        B = B
+      )
+    }, error = function(e) {
+      if (verbose) warning(sprintf("SHAP failed for observation %d: %s", sample_idx[i], e$message))
+      NULL
+    })
+  }
+
+  # Step 3: Aggregate SHAP values into matrix
+  shap_matrix <- .aggregate_shap_to_matrix(shap_results, colnames(data))
+
+  # Step 4: Compute feature importance (mean |SHAP|)
+  feature_importance <- colMeans(abs(shap_matrix), na.rm = TRUE)
+  feature_importance <- sort(feature_importance, decreasing = TRUE)
+
+  # Step 5: Generate correlation warnings with severity
+  high_cor_pairs <- cor_diagnostics$high_cor_pairs
+  warnings_df <- .generate_shap_warnings(high_cor_pairs, feature_importance, correlation_threshold)
+
+  # Step 6: Identify reliable features
+  correlated_features <- unique(c(high_cor_pairs$feature1, high_cor_pairs$feature2))
+  reliable_features <- setdiff(names(feature_importance), correlated_features)
+
+  if (verbose) {
+    message(sprintf("\nResults:"))
+    message(sprintf("  Total features: %d", ncol(data)))
+    message(sprintf("  Features with high correlations: %d", length(correlated_features)))
+    message(sprintf("  Reliable features (safe to interpret): %d", length(reliable_features)))
+
+    if (nrow(warnings_df) > 0) {
+      message(sprintf("\n  WARNING: %d feature pairs have correlation > %.2f",
+                      nrow(warnings_df), correlation_threshold))
+      message("  SHAP values for these features may be unreliable!")
+    }
+  }
+
+  structure(
+    list(
+      shap_values = shap_matrix,
+      feature_importance = feature_importance,
+      correlations = cor_diagnostics,
+      warnings = warnings_df,
+      reliable_features = reliable_features,
+      correlated_features = correlated_features,
+      threshold = correlation_threshold
+    ),
+    class = c("shap_warnings_result", "list")
+  )
+}
+
+
+#' @title Aggregate SHAP Results to Matrix
+#'
+#' @description Internal helper to convert SHAP results list to matrix.
+#'
+#' @param shap_results List of SHAP data.frames from DALEX
+#' @param feature_names Character vector of feature names
+#'
+#' @return Matrix of SHAP values (samples x features)
+#'
+#' @keywords internal
+.aggregate_shap_to_matrix <- function(shap_results, feature_names) {
+  n_samples <- length(shap_results)
+  n_features <- length(feature_names)
+
+  shap_matrix <- matrix(0, nrow = n_samples, ncol = n_features)
+  colnames(shap_matrix) <- feature_names
+
+  for (i in seq_len(n_samples)) {
+    shap_df <- shap_results[[i]]
+    if (is.null(shap_df)) next
+
+    shap_df <- as.data.frame(shap_df)
+    if ("variable" %in% names(shap_df) && "contribution" %in% names(shap_df)) {
+      for (j in seq_len(nrow(shap_df))) {
+        var_name <- as.character(shap_df$variable[j])
+        if (var_name %in% feature_names) {
+          shap_matrix[i, var_name] <- shap_df$contribution[j]
+        }
+      }
+    }
+  }
+
+  shap_matrix
+}
+
+
+#' @title Generate SHAP Correlation Warnings
+#'
+#' @description Internal helper to create warning messages with severity.
+#'
+#' @param high_cor_pairs Data.frame of correlated pairs
+#' @param feature_importance Named vector of feature importance
+#' @param threshold Correlation threshold
+#'
+#' @return Data.frame with warnings and severity levels
+#'
+#' @keywords internal
+.generate_shap_warnings <- function(high_cor_pairs, feature_importance, threshold) {
+  if (nrow(high_cor_pairs) == 0) {
+    return(data.frame(
+      feature1 = character(0),
+      feature2 = character(0),
+      correlation = numeric(0),
+      importance1 = numeric(0),
+      importance2 = numeric(0),
+      warning = character(0),
+      severity = character(0),
+      stringsAsFactors = FALSE
+    ))
+  }
+
+  # Add importance values
+  high_cor_pairs$importance1 <- feature_importance[high_cor_pairs$feature1]
+  high_cor_pairs$importance2 <- feature_importance[high_cor_pairs$feature2]
+
+  # Generate warning messages
+  high_cor_pairs$warning <- vapply(seq_len(nrow(high_cor_pairs)), function(i) {
+    sprintf(
+      "%s and %s have correlation %.2f. SHAP importance may be arbitrarily split.",
+      high_cor_pairs$feature1[i],
+      high_cor_pairs$feature2[i],
+      high_cor_pairs$correlation[i]
+    )
+  }, character(1))
+
+  # Assign severity based on correlation strength
+  high_cor_pairs$severity <- ifelse(
+    abs(high_cor_pairs$correlation) >= 0.9, "HIGH",
+    ifelse(abs(high_cor_pairs$correlation) >= 0.8, "MEDIUM", "LOW")
+  )
+
+  # Sort by severity and correlation
+  high_cor_pairs <- high_cor_pairs[order(
+    factor(high_cor_pairs$severity, levels = c("HIGH", "MEDIUM", "LOW")),
+    -abs(high_cor_pairs$correlation)
+  ), ]
+
+  high_cor_pairs
+}
+
+
+#' @title Print SHAP Warnings Report
+#'
+#' @description
+#' Prints a formatted report of SHAP interpretation warnings.
+#'
+#' @param shap_result Result from compute_shap_with_warnings()
+#'
+#' @export
+print_shap_warnings <- function(shap_result) {
+  cat("SHAP Interpretation Report\n")
+  cat("==========================\n\n")
+
+  cat(sprintf("Correlation Threshold: %.2f\n", shap_result$threshold))
+  cat(sprintf("Total Features: %d\n", ncol(shap_result$shap_values)))
+  cat(sprintf("Reliable Features: %d\n", length(shap_result$reliable_features)))
+  cat(sprintf("Correlated Features: %d\n\n", length(shap_result$correlated_features)))
+
+  if (nrow(shap_result$warnings) > 0) {
+    cat("CORRELATION WARNINGS:\n")
+    cat("---------------------\n")
+
+    for (i in seq_len(nrow(shap_result$warnings))) {
+      w <- shap_result$warnings[i, ]
+      severity_marker <- switch(w$severity,
+        "HIGH" = "[!!!]",
+        "MEDIUM" = "[!!]",
+        "LOW" = "[!]"
+      )
+      cat(sprintf("%s %s\n", severity_marker, w$warning))
+    }
+    cat("\n")
+  }
+
+  if (length(shap_result$reliable_features) > 0) {
+    cat("RELIABLE FEATURES (safe to interpret):\n")
+    cat("--------------------------------------\n")
+
+    reliable_importance <- shap_result$feature_importance[shap_result$reliable_features]
+    reliable_importance <- sort(reliable_importance, decreasing = TRUE)
+
+    top_n <- min(10, length(reliable_importance))
+    for (i in seq_len(top_n)) {
+      cat(sprintf("  %d. %s (importance: %.4f)\n",
+                  i, names(reliable_importance)[i], reliable_importance[i]))
+    }
+  }
+
+  invisible(shap_result)
+}
+
+
+#' @title Get Reliable SHAP Features
+#'
+#' @description
+#' Returns only the features whose SHAP values are reliable (no high correlations).
+#'
+#' @param shap_result Result from compute_shap_with_warnings()
+#' @param top_n Number of top features to return (default: all)
+#'
+#' @return Named vector of feature importance for reliable features only
+#'
+#' @export
+get_reliable_shap_features <- function(shap_result, top_n = NULL) {
+  reliable_importance <- shap_result$feature_importance[shap_result$reliable_features]
+  reliable_importance <- sort(reliable_importance, decreasing = TRUE)
+
+  if (!is.null(top_n) && top_n < length(reliable_importance)) {
+    reliable_importance <- reliable_importance[1:top_n]
+  }
+
+  reliable_importance
 }

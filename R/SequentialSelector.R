@@ -90,7 +90,7 @@ SequentialSelector <- R6::R6Class(
           enabled = rfe_n > 0
         ),
         lasso = list(
-          name = "LASSO Regularization",
+          name = "AUC-based Filter",
           n_features = lasso_n,
           enabled = TRUE
         )
@@ -156,8 +156,8 @@ SequentialSelector <- R6::R6Class(
         )
       }
 
-      # Stage 4: LASSO-based selection (L1 regularization)
-      # Uses AUC filter as reliable alternative since glmnet lacks importance() method
+      # Stage 4: AUC-based feature selection
+      # Uses AUC filter for reliable univariate feature ranking
       if (self$stages$lasso$enabled) {
         # Note: mlr3filters::flt("importance") requires learner with importance() method
         # glmnet doesn't have this, so we use AUC filter which works reliably

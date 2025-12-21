@@ -289,20 +289,32 @@ BenchmarkService <- R6::R6Class(
     },
 
     # Compute Nogueira Stability Index
-    .compute_stability = function(per_fold) {
-      # Extract selected features from each fold if available
-      # This works with GraphLearners that use filter PipeOps
+    # NOTE: This is a placeholder that returns NA. Automatic feature extraction
 
-      selected_per_fold <- list()
+    # from arbitrary GraphLearner configurations is complex and error-prone.
+    # For stability analysis, use compute_stability_from_resample() which
+    # provides proper feature extraction from benchmark results.
+    .compute_stability = function(per_fold) {
       all_features <- private$.task$feature_names
+
+      # Return NA with clear guidance - automatic extraction not implemented
+      # Users should use compute_stability_from_resample() for stability analysis
+      return(list(
+        nogueira_index = NA_real_,
+        message = paste(
+          "Automatic stability computation not available.",
+          "Use compute_stability_from_resample(benchmark_result) for",
+          "Nogueira Stability Index calculation with proper feature extraction."
+        ),
+        selected_features_per_fold = lapply(seq_along(per_fold), function(x) character(0))
+      ))
+
+      # The code below is retained for future implementation but currently unreachable
+      selected_per_fold <- list()
 
       # Try to extract features from stored models
       for (i in seq_along(per_fold)) {
         fold_info <- per_fold[[i]]
-
-        # Feature extraction is complex and depends on learner type
-        # For now, we provide the framework - full extraction requires
-        # inspecting GraphLearner state which varies by configuration
         selected_per_fold[[i]] <- character(0)
       }
 

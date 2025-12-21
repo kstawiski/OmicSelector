@@ -452,8 +452,23 @@ OmicPipeline <- R6::R6Class(
         "permutation" = "permutation"            # Permutation importance
       )
 
+      # GOF filters (custom R6 classes for sparse/zero-inflated data)
+      gof_filters <- c("gof_ks", "hurdle", "zero_prop")
+
+      if (filter %in% gof_filters) {
+        # Use custom GOF filter classes
+        gof_filter <- switch(filter,
+          "gof_ks" = FilterGOF_KS$new(),
+          "hurdle" = FilterHurdle$new(),
+          "zero_prop" = FilterZeroProp$new()
+        )
+        return(mlr3pipelines::po("filter",
+                                  filter = gof_filter,
+                                  filter.nfeat = n_features))
+      }
+
       if (!filter %in% names(filter_map)) {
-        available <- paste(names(filter_map), collapse = ", ")
+        available <- paste(c(names(filter_map), gof_filters), collapse = ", ")
         stop(sprintf("Unknown filter '%s'. Available: %s", filter, available))
       }
 

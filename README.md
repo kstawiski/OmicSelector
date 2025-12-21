@@ -108,13 +108,13 @@ names(rna_data) <- paste0("gene_", 1:1000)
 mirna_data <- data.frame(matrix(rnorm(100 * 200), nrow = 100))
 names(mirna_data) <- paste0("miR_", 1:200)
 
-# Target vector
-outcome <- factor(rep(c("Case", "Control"), each = 50))
+# Add outcome column to one modality
+mirna_data$outcome <- factor(rep(c("Case", "Control"), each = 50))
 
 # Create multi-omics pipeline
 pipeline <- OmicPipeline$new(
   data = list(rna = rna_data, mirna = mirna_data),
-  target = outcome,
+  target = "outcome",
   positive = "Case"
 )
 # Features are automatically namespaced: rna::gene_1, mirna::miR_1, etc.
@@ -445,7 +445,7 @@ Find reproducible biomarkers across resamples:
 ```r
 # Create stability ensemble with multiple filters
 ensemble <- create_stability_ensemble(
-  preset = "default",     # Uses mRMR, AUC, Information Gain
+  preset = "default",     # Uses "anova" filter by default
   n_bootstrap = 100,      # 100 bootstrap iterations
   n_features = 30
 )
