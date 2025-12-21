@@ -5,277 +5,398 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="OmicSelector is package is the environment, docker-based application and R package for biomarker signature selection from high-throughput experiments. Initially developed for miRNA-seq. The package introduces automatic and structured feature selection with further benchmarking using multiple data mining methods, thus allow to find the most overfitting resiliant signature (set of featrues) that can be used in biomarker validation studies. E.g. this package can be used to find the set of miRNAs with the greatest biomarker potential based on miRNAs-seq. This set can be further validated in cheaper qPCR studies.">
-<title>OmicSelector - a package for biomarker selection based on high-throughput experiments.  • OmicSelector</title>
+<title>OmicSelector 2.0 - Rigorous Biomarker Discovery • OmicSelector</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="deps/_Roboto-0.4.1/font.css" rel="stylesheet">
-<link href="deps/_JetBrains%20Mono-0.4.1/font.css" rel="stylesheet">
-<link href="deps/_Roboto%20Slab-0.4.1/font.css" rel="stylesheet">
-<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="OmicSelector - a package for biomarker selection based on high-throughput experiments. ">
-<meta property="og:description" content="OmicSelector is package is the environment, docker-based application and R package for biomarker signature selection from high-throughput experiments. Initially developed for miRNA-seq. The package introduces automatic and structured feature selection with further benchmarking using multiple data mining methods, thus allow to find the most overfitting resiliant signature (set of featrues) that can be used in biomarker validation studies. E.g. this package can be used to find the set of miRNAs with the greatest biomarker potential based on miRNAs-seq. This set can be further validated in cheaper qPCR studies.">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-53584749-8"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-53584749-8');
-</script>
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="OmicSelector 2.0 - Rigorous Biomarker Discovery">
+<meta name="description" content="A PhD-level toolkit for biomarker discovery from high-dimensional omics data. Enforces proper nested cross-validation with zero data leakage, computes feature stability metrics (Nogueira Stability Index), and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible and scalable machine learning pipelines. Supports multi-omics integration, batch effect correction (FrozenComBat), model calibration, and SHAP-based interpretability.">
+<meta property="og:description" content="A PhD-level toolkit for biomarker discovery from high-dimensional omics data. Enforces proper nested cross-validation with zero data leakage, computes feature stability metrics (Nogueira Stability Index), and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible and scalable machine learning pipelines. Supports multi-omics integration, batch effect correction (FrozenComBat), model calibration, and SHAP-based interpretability.">
 </head>
 <body>
-    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
-    
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"></ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="active nav-item">
-  <a class="nav-link" href="index.html">
-    <span class="fa fa-home"></span>
-     
-    Introduction
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://www.youtube.com/watch?v=dKUdINEcOjk">
-    <span class="fa fa-video"></span>
-     
-    Tutorial (GUI)
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://biostat.umed.pl/OmicSelector/demo/">
-    <span class="fa fa-cubes"></span>
-     
-    Demo
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">
-    <span class="fa fa-file-code"></span>
-     
-    Functions
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="articles/metody.html">
-    <span class="fa fa-tools"></span>
-     
-    Methods
-  </a>
-</li>
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item"><a class="nav-link" href="index.html"><span class="fa fa-home"></span> Home</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html"><span class="fa fa-file-code"></span> Reference</a></li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--tutorials-code-">
-    <span class="fas fa fas fa-book"></span>
-     
-    Tutorials (Code)
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--tutorials-code-">
-    <a class="dropdown-item" href="articles/Tutorial.html">
-      <span class="fa fa-user-graduate"></span>
-       
-      Basic analysis tutorial
-    </a>
-    <a class="dropdown-item" href="articles/DeepLearningTutorial.html">
-      <span class="fa fa-code-branch"></span>
-       
-      Deep learning tutorial
-    </a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/validation-report.html">Validation Report</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="http://twitter.com/KonradStawiski" aria-label="Twitter">
-    <span class="fa fa-twitter"></span>
-     
-  </a>
-</li>
+      </ul>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
-</nav><div class="container template-home" id="container">
+</nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="omicselector---automatic-feature-selection-and-deep-learning-modelling-for-omic-experiments">OmicSelector - automatic feature selection and deep learning modelling for omic experiments.<a class="anchor" aria-label="anchor" href="#omicselector---automatic-feature-selection-and-deep-learning-modelling-for-omic-experiments"></a>
+<div class="page-header"><h1 id="omicselector-20">OmicSelector 2.0<a class="anchor" aria-label="anchor" href="#omicselector-20"></a>
 </h1></div>
-<p><img src="https://github.com/kstawiski/OmicSelector/raw/master/vignettes/logo.png"></p>
-<p>OmicSelector is the environment, docker-based application and R package for biomarker signiture selection (feature selection) &amp; deep learning diagnostic tool development from high-throughput high-throughput omics experiments and other multidimensional datasets. It was initially developed for miRNA-seq (small RNA, smRNA-seq; hence the previous name was miRNAselector), RNA-seq and qPCR, but can be applied for every problem where numeric features should be selected to counteract overfitting of the models. Using our tool, you can choose features, like miRNAs, with the most significant diagnostic potential (based on the results of miRNA-seq, for validation in qPCR experiments). It can also develop the best deep learning model for your signature, as well as be an IDE for your more complex data mining project (contains R Studio, Jupyter notebooks and VS Code.. all integrated in one!).</p>
-<p><img src="https://github.com/kstawiski/OmicSelector/raw/master/vignettes/Figure1.png"></p>
-<p>The primary purpose of OmicSelector is to provide you with the set of <strong>candidate features (biomarkers) for further validation of biomarker study</strong> from, e.g., high-throughput experiments. The package performs feature selection first. In the next step, the sets of features are tested in the process called “benchmarking”. In benchmarking, <strong>we try all of those biomarkers’ sets using various data-mining (machine learning) methods</strong>. Based on the average performance of groups in cross-validation or holdout-validation (testing on the test set and/or validation set), we can suggest which of the signatures (set of features) have the tremendous potential for further validation.</p>
-<p>As the feautres are selected, OmicSelector can perform advanced modeling of deep feedforward neural networks with and without autoencoders. The best network is developed using comperhensive grid search of optimal hyperparameters. This section works with Tensorflow (via Keras), so the computations can be GPU-accelerated! The best network can be easily implemented in clinical practice using our interactive application.</p>
+<p><img src="articles/logo.png"></p>
+<p><strong>Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.</strong></p>
+<p><a href="https://github.com/kstawiski/OmicSelector/actions" class="external-link"><img src="https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></p>
 <div class="section level2">
-<h2 id="try-it-out">Try it out<a class="anchor" aria-label="anchor" href="#try-it-out"></a>
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<div class="section level3">
-<h3 id="biostatumedpl-demo">Biostat.umed.pl demo<a class="anchor" aria-label="anchor" href="#biostatumedpl-demo"></a>
-</h3>
-<p>Link: <a href="https://biostat.umed.pl/OmicSelector/demo/" class="external-link">https://biostat.umed.pl/OmicSelector/demo/</a></p>
-<p>Please note that this intance will reset and restart every Monday. All projects are purged every Monday!</p>
-<p>Please note that uploading real data to this instance is not safe. You’re data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects.</p>
-</div>
-<div class="section level3">
-<h3 id="ainize-demo">Ainize demo<a class="anchor" aria-label="anchor" href="#ainize-demo"></a>
-</h3>
-<p><a href="https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector" class="external-link"><img src="https://ainize.ai/images/run_on_ainize_button.svg" alt="Run on Ainize"></a></p>
-<p>Link: <a href="https://master-omic-selector-kstawiski.endpoint.ainize.ai/" class="external-link">https://master-omic-selector-kstawiski.endpoint.ainize.ai/</a></p>
-<p>Please note that uploading real data to this instance is not safe. You’re data and analysis files will be accessible by anyone (public). The great potential for customization and extension of the environment comes with some security flaws (e.g., access to files via shell or VS Code), so we highly discourage the users from using this instance for real-life projects. If you wish to go deeper, i.e. messing with files as <em>root</em>, you should fork the repo. You can get your own free and working OmicSelector using <a href="https://ainize.web.app/redirect?git_repo=https://github.com/kstawiski/OmicSelector" class="external-link">Ainize</a>. [Note: if you wish to build your own docker change <code>FROM kstawiski/omicselector-gpu</code> in Dockerfile]</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="installation-with-gui">Installation with GUI<a class="anchor" aria-label="anchor" href="#installation-with-gui"></a>
-</h2>
-<p>Tailor the docker container image for your environment:</p>
-<ol style="list-style-type: decimal"><li>GPU-based, using Nvidia CUDA: <a href="https://hub.docker.com/r/kstawiski/omicselector-gpu" class="external-link">kstawiski/omicselector-gpu</a>
-</li></ol>
-<pre><code>docker run --name OmicSelector --restart always -d -p 28888:80 --gpus all -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector-gpu</code></pre>
-<ol start="2" style="list-style-type: decimal"><li>CPU-based: <a href="https://hub.docker.com/r/kstawiski/omicselector" class="external-link">kstawiski/omicselector</a>
-</li></ol>
-<pre><code>docker run --name OmicSelector --restart always -d -p 28888:80 -v $(pwd)/:/OmicSelector/host/ kstawiski/omicselector</code></pre>
-<p>As the docker image updates itself, it may take few minutes for the app to be operational. You can check logs using <code>docker logs OmicSelector</code>. The GUI (web-based user interface) is accessible via <code>http://your-host-ip:28888/</code>. If you use the command above, Omicselector will bind your working directory as <code>/OmicSelector/host/</code>.</p>
-<p>Pearls:</p>
+<p>OmicSelector is an R package for biomarker discovery that enforces methodologically sound machine learning practices. Built on the <code>mlr3</code> ecosystem, it guarantees:</p>
 <ul>
-<li>Docker version contains a web-based GUI allowing for easy implementation of the pipeline.</li>
-<li>Advanced features allow running Jupyter-based notebooks, allowing for modification</li>
-<li>Contains Jupyter-notebook-based tutorial for learning and easy execution of R package.</li>
-<li>For the Docker-based version, we assure the correct functionality. Docker container is based on configured ubuntu.</li>
-</ul>
-<p>If you have a compatible GPU you can consider changing <code>tensorflow</code> to <code>tensorflow-gpu</code> in <code>conda install</code> command. ## Installation without GUI (just package)</p>
-<div class="section level3">
-<h3 id="universal">Universal<a class="anchor" aria-label="anchor" href="#universal"></a>
-</h3>
-<p>Setup the package in your own R enviroment. You need to have your system prepared (prerequirements installed).</p>
-<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span> <span class="co"># if not installed, install via install.packages('devtools')</span>
-<span class="fu"><a href="https://devtools.r-lib.org/reference/source_url.html" class="external-link">source_url</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R"</span><span class="op">)</span>
-<span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kstawiski/OmicSelector"</span>, force <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://keras.rstudio.com" class="external-link">keras</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/keras/man/install_keras.html" class="external-link">install_keras</a></span><span class="op">(</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biostat.umed.pl/OmicSelector/" class="external-link">OmicSelector</a></span><span class="op">)</span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="linuxmacos-using-conda-pack">Linux/macOS using conda-pack<a class="anchor" aria-label="anchor" href="#linuxmacos-using-conda-pack"></a>
-</h3>
-<p>This approach uses <a href="https://conda.github.io/conda-pack/" class="external-link">conda-pack</a> to install the <a href="https://www.anaconda.com/products/individual" class="external-link">conda</a> enviornment developed using Github workflows. <a href="https://www.anaconda.com/products/individual" class="external-link">Conda should be installed to use this approach.</a></p>
-<pre><code>conda install conda-pack # install conda-pack
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partaa
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partab
-wget https://github.com/kstawiski/OmicSelector/releases/download/release/OmicSelector_conda_pack.tar.gz.partac
-cat OmicSelector_conda_pack.tar.gz.part* &gt; OmicSelector_conda_pack.tar.gz
-rm OmicSelector_conda_pack.tar.gz.part*
-mkdir -p OmicSelectorEnv
-tar -xvzf OmicSelector_conda_pack.tar.gz -C OmicSelectorEnv
-rm OmicSelector_conda_pack.tar.gz
-source OmicSelectorEnv/bin/activate
-conda-unpack</code></pre>
-<p>Alternatively, you can download already merged file from: <a href="https://deploy.konsta.com.pl/OmicSelector/release/OmicSelector_conda_pack.tar.gz" class="external-link uri">https://deploy.konsta.com.pl/OmicSelector/release/OmicSelector_conda_pack.tar.gz</a></p>
-</div>
-<div class="section level3">
-<h3 id="windows-using-conda-pack">Windows using conda-pack<a class="anchor" aria-label="anchor" href="#windows-using-conda-pack"></a>
-</h3>
-<p>Windows conda-pack is available for download here: <a href="https://deploy.konsta.com.pl/OmicSelector-win/OmicSelector_conda_pack_win.tar.gz" class="external-link uri">https://deploy.konsta.com.pl/OmicSelector-win/OmicSelector_conda_pack_win.tar.gz</a></p>
-<p>Copy the <code>OmicSelector_conda_pack_win.tar.gz</code> from the source environment to the target environment. Unpack the <code>tar.gz</code> environment file to where you want. On Windows, you can do this with 7-zip. It’ll take one step to decompress the <code>gzip</code> and another step to unpack the <code>tar</code>. Be sure you’re using standard Command Prompt (<code>cmd.exe</code>) on Windows, <strong>not</strong> Anaconda Prompt or PowerShell; those shells don’t correctly add the right files to PATH. In the next step run following commands in the unpacked directory:</p>
-<pre><code>.\Scripts\activate.bat
-.\Scripts\conda-unpack.exe</code></pre>
-</div>
-<div class="section level3">
-<h3 id="linuxmacos-using-conda-own-build">Linux/macOS using conda (own build)<a class="anchor" aria-label="anchor" href="#linuxmacos-using-conda-own-build"></a>
-</h3>
-<ol style="list-style-type: decimal"><li>Installing the package in your own Anaconda environment:</li></ol>
-<p>Use, e.g., <code>conda create -n OmicSelector</code> and <code>conda activate OmicSelector</code> to set up your environment. Please note the this will work only when running on <strong>Linux (Ubuntu)</strong> OS or macOS.</p>
-<pre><code>conda install --channel "conda-forge" --channel "anaconda" --channel "r" tensorflow keras jupyter jupytext numpy pandas r r-devtools r-rgl r-rjava r-mnormt r-purrrogress r-xml gxx_linux-64 libxml2 pandoc r-rjava r-magick opencv pkgconfig gfortran_linux-64
-echo "options(repos=structure(c(CRAN='http://cran.r-project.org')))" &gt;&gt; ~/.Rprofile
-Rscript -e 'update.packages(ask = F); install.packages(c("devtools","remotes")); remotes::install_cran("pkgdown");'
-Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/OmicSelector/master/vignettes/setup.R")'</code></pre>
-<p>If you have a compatible GPU, you can consider changing <code>tensorflow</code> to <code>tensorflow-gpu</code> in <code>conda install</code> command.</p>
-</div>
-<div class="section level3">
-<h3 id="windows-os">Windows OS<a class="anchor" aria-label="anchor" href="#windows-os"></a>
-</h3>
-<p>You can download our Windows-based R environment from here: <a href="https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu" class="external-link uri">https://studumedlodz-my.sharepoint.com/:u:/g/personal/btm_office365_umed_pl/EQUihquz915JoVhsQQShcnoBZaukMkwd3MnC1LER0iORNw?e=W6KEyu</a></p>
-<p>After unpacking, if you wish to use our enviorment, please consider setting our R version in your <a href="https://rstudio.com/products/rstudio/download/" class="external-link">R Studio</a> installation:</p>
-<p><img src="https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win1.png"></p>
-<p><img src="https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win2.png"></p>
-<p><img src="https://github.com/kstawiski/OmicSelector/raw/master/vignettes/win3.png"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
-</h2>
-<div class="section level3">
-<h3 id="video-tutorial">Video tutorial<a class="anchor" aria-label="anchor" href="#video-tutorial"></a>
-</h3>
-<p><strong>Video tutorial: <a href="https://www.youtube.com/watch?v=dKUdINEcOjk" class="external-link uri">https://www.youtube.com/watch?v=dKUdINEcOjk</a></strong></p>
-<p>This tutorial shows how OmicSelector’ GUI works and how to perform (without programming knowledge):</p>
-<ul>
-<li>Feature selection</li>
-<li>Benchmarking (selecting best set of variables based on the performance of data-mining models)</li>
-<li>Deep learning model development (feedforward neural network up to 3 hidden layers and with/without autoencoders; grid search of hyperparameters)</li>
-<li>Exploratory analysis (differential expression using t-test, imputation of missing data using predictive mean matching, correcting the batch effect using ComBat, generating heatmaps and volcano plots).</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
-</h3>
-<ul><li><a href="articles/Tutorial.html">Get started with essential functions of the package in the local R environment.</a></li></ul>
-<p>Exemplary files for the analysis:</p>
-<ul><li>
-<a href="https://github.com/kstawiski/OmicSelector/blob/master/example/Elias2017.csv" class="external-link">miRNA-seq, serum, ovarian cancer vs. controls</a> (source: <a href="https://elifesciences.org/articles/28932" class="external-link">Elias et al. 2017</a>)</li></ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
-</h2>
-<p><img src="https://github.com/kstawiski/OmicSelector/workflows/Docker/badge.svg" alt="Docker"><a href="https://github.com/kstawiski/OmicSelector/actions/workflows/r.yml" class="external-link"><img src="https://github.com/kstawiski/OmicSelector/actions/workflows/r.yml/badge.svg" alt="R package (Linux)"></a> <a href="https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml" class="external-link"><img src="https://github.com/kstawiski/OmicSelector/actions/workflows/r-win.yml/badge.svg" alt="R package (Windows)"></a></p>
-<ul>
-<li>Bugs and issues: <a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">https://github.com/kstawiski/OmicSelector/issues</a>
-</li>
-<li>Contact with developers: <a href="https://konsta.com.pl" class="external-link">Konrad Stawiski M.D. (konrad.stawiski@umed.lodz.pl, https://konsta.com.pl)</a>
-</li>
+<li>
+<strong>Zero Data Leakage</strong>: Feature selection occurs strictly inside cross-validation folds</li>
+<li>
+<strong>Proper Nested CV</strong>: Separation of outer (evaluation) and inner (selection) loops</li>
+<li>
+<strong>Feature Stability</strong>: Nogueira Stability Index for reproducible biomarker sets</li>
+<li>
+<strong>Multi-Objective Selection</strong>: Balance performance, stability, and parsimony</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="build-with-omicselector">Build with OmicSelector<a class="anchor" aria-label="anchor" href="#build-with-omicselector"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><strong>OmicApp</strong> is the framework utilizing OmicSelector to build complex Shiny applications. Please see <a href="https://github.com/kstawiski/OmicApp" class="external-link uri">https://github.com/kstawiski/OmicApp</a> for more details. ## Footnote</p>
-<p>Citation:</p>
-<p><code>Stawiski K, Kaszkowiak M, Mikulski D, Hogendorf P, Durczynski A, Strzelczyk J, et al. OmicSelector: automatic feature selection and deep learning modeling for omic experiments. bioRxiv. 2022. p. 2022.06.01.494299. doi: https://doi.org/10.1101/2022.06.01.494299</code></p>
-<p><a href="http://biorxiv.org/content/early/2022/06/02/2022.06.01.494299.abstract" class="external-link">Available on bioRxiv as preprint.</a></p>
-<p>Authors:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kstawiski/OmicSelector"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biostat.umed.pl/OmicSelector/">OmicSelector</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create pipeline from your data</span></span>
+<span><span class="va">pipeline</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/OmicPipeline.html">OmicPipeline</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">my_data</span>,          <span class="co"># data.frame with features + target</span></span>
+<span>  target <span class="op">=</span> <span class="st">"outcome"</span>,      <span class="co"># target column name</span></span>
+<span>  positive <span class="op">=</span> <span class="st">"Case"</span>        <span class="co"># positive class for AUC</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create learner with embedded feature selection</span></span>
+<span><span class="va">learner</span> <span class="op">&lt;-</span> <span class="va">pipeline</span><span class="op">$</span><span class="fu">create_graph_learner</span><span class="op">(</span></span>
+<span>  filter <span class="op">=</span> <span class="st">"anova"</span>,        <span class="co"># Feature selection: anova, mrmr, variance, correlation</span></span>
+<span>  model <span class="op">=</span> <span class="st">"ranger"</span>,        <span class="co"># Model: ranger, glmnet, svm, log_reg</span></span>
+<span>  n_features <span class="op">=</span> <span class="fl">20</span>          <span class="co"># Number of features to select</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run nested cross-validation</span></span>
+<span><span class="va">benchmark</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/BenchmarkService.html">BenchmarkService</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>  task <span class="op">=</span> <span class="va">pipeline</span>,</span>
+<span>  outer_folds <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  inner_folds <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">42</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">benchmark</span><span class="op">$</span><span class="fu">add_learner</span><span class="op">(</span><span class="va">learner</span><span class="op">)</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="va">benchmark</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Analyze stability and select best signature</span></span>
+<span><span class="va">stability</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compute_stability_from_resample.html">compute_stability_from_resample</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">benchmark_result</span><span class="op">)</span></span>
+<span><span class="va">best</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/select_best_signature.html">select_best_signature</a></span><span class="op">(</span><span class="va">result</span>, mode <span class="op">=</span> <span class="st">"weighted"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="data-format">Data Format<a class="anchor" aria-label="anchor" href="#data-format"></a>
+</h2>
+<p>Your data should be a <code>data.frame</code> with: - <strong>Feature columns</strong>: Numeric values (gene expression, miRNA counts, etc.) - <strong>Target column</strong>: Factor/character (classification) or numeric (regression)</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example structure:</span></span>
+<span><span class="co">#   gene_A  gene_B  gene_C  outcome</span></span>
+<span><span class="co"># 1   2.34    1.56    3.21     Case</span></span>
+<span><span class="co"># 2   1.12    2.89    0.45  Control</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="configuration-options">Configuration Options<a class="anchor" aria-label="anchor" href="#configuration-options"></a>
+</h2>
+<div class="section level3">
+<h3 id="feature-selection-methods">Feature Selection Methods<a class="anchor" aria-label="anchor" href="#feature-selection-methods"></a>
+</h3>
+<table class="table">
+<thead><tr class="header">
+<th>Method</th>
+<th>Code</th>
+<th>Best For</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>ANOVA F-test</td>
+<td><code>"anova"</code></td>
+<td>Default, continuous features</td>
+</tr>
+<tr class="even">
+<td>Kruskal-Wallis</td>
+<td><code>"kruskal"</code></td>
+<td>Non-normal distributions</td>
+</tr>
+<tr class="odd">
+<td>Chi-Squared</td>
+<td><code>"chi_squared"</code></td>
+<td>Categorical features</td>
+</tr>
+<tr class="even">
+<td>Variance</td>
+<td><code>"variance"</code></td>
+<td>Pre-filtering</td>
+</tr>
+<tr class="odd">
+<td>Correlation</td>
+<td><code>"correlation"</code></td>
+<td>Quick univariate</td>
+</tr>
+<tr class="even">
+<td>Information Gain</td>
+<td><code>"information_gain"</code></td>
+<td>Mixed feature types</td>
+</tr>
+<tr class="odd">
+<td>Gain Ratio</td>
+<td><code>"gain_ratio"</code></td>
+<td>Avoiding cardinality bias</td>
+</tr>
+<tr class="even">
+<td>mRMR</td>
+<td><code>"mrmr"</code></td>
+<td>Reducing redundancy</td>
+</tr>
+<tr class="odd">
+<td>CMIM/JMIM/JMI</td>
+<td>
+<code>"cmim"</code>, <code>"jmim"</code>, <code>"jmi"</code>
+</td>
+<td>Feature interactions</td>
+</tr>
+<tr class="even">
+<td>AUC</td>
+<td><code>"auc"</code></td>
+<td>Classification performance</td>
+</tr>
+<tr class="odd">
+<td>Relief</td>
+<td><code>"relief"</code></td>
+<td>Detecting interactions</td>
+</tr>
+<tr class="even">
+<td>RF Importance</td>
+<td><code>"importance"</code></td>
+<td>Non-linear relationships</td>
+</tr>
+<tr class="odd">
+<td>Permutation</td>
+<td><code>"permutation"</code></td>
+<td>Model-agnostic</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="classification-models">Classification Models<a class="anchor" aria-label="anchor" href="#classification-models"></a>
+</h3>
+<table class="table">
+<thead><tr class="header">
+<th>Model</th>
+<th>Code</th>
+<th>Strengths</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Random Forest</td>
+<td><code>"ranger"</code></td>
+<td>Handles interactions, robust</td>
+</tr>
+<tr class="even">
+<td>XGBoost</td>
+<td><code>"xgboost"</code></td>
+<td>High performance, handles missing values</td>
+</tr>
+<tr class="odd">
+<td>LightGBM</td>
+<td><code>"lightgbm"</code></td>
+<td>Very fast, memory efficient</td>
+</tr>
+<tr class="even">
+<td>Elastic Net</td>
+<td><code>"glmnet"</code></td>
+<td>Interpretable coefficients</td>
+</tr>
+<tr class="odd">
+<td>SVM</td>
+<td><code>"svm"</code></td>
+<td>High-dimensional data</td>
+</tr>
+<tr class="even">
+<td>Logistic Regression</td>
+<td><code>"log_reg"</code></td>
+<td>Baseline, interpretable</td>
+</tr>
+<tr class="odd">
+<td>k-NN</td>
+<td><code>"kknn"</code></td>
+<td>Non-parametric</td>
+</tr>
+<tr class="even">
+<td>Naive Bayes</td>
+<td><code>"naive_bayes"</code></td>
+<td>Fast, small data</td>
+</tr>
+<tr class="odd">
+<td>LDA/QDA</td>
+<td>
+<code>"lda"</code>, <code>"qda"</code>
+</td>
+<td>Dimensionality reduction</td>
+</tr>
+<tr class="even">
+<td>Neural Net</td>
+<td><code>"nnet"</code></td>
+<td>Non-linear relationships</td>
+</tr>
+<tr class="odd">
+<td>Decision Tree</td>
+<td><code>"rpart"</code></td>
+<td>Interpretable</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
+<h2 id="key-modules">Key Modules<a class="anchor" aria-label="anchor" href="#key-modules"></a>
+</h2>
+<table class="table">
+<thead><tr class="header">
+<th>Module</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>OmicPipeline</strong></td>
+<td>Build mlr3 graphs with preprocessing</td>
+</tr>
+<tr class="even">
+<td><strong>BenchmarkService</strong></td>
+<td>Nested CV with zero leakage</td>
+</tr>
+<tr class="odd">
+<td><strong>select_best_signature</strong></td>
+<td>Multi-objective signature selection</td>
+</tr>
+<tr class="even">
+<td><strong>compute_nogueira_stability</strong></td>
+<td>Feature selection stability metrics</td>
+</tr>
+<tr class="odd">
+<td><strong>FrozenComBat</strong></td>
+<td>Batch correction with frozen parameters</td>
+</tr>
+<tr class="even">
+<td><strong>fit_platt_scaling</strong></td>
+<td>Probability calibration</td>
+</tr>
+<tr class="odd">
+<td><strong>MultiOmicsStacker</strong></td>
+<td>Late integration of multi-omics data</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="phase-5-advanced-features">Phase 5: Advanced Features<a class="anchor" aria-label="anchor" href="#phase-5-advanced-features"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="38%">
+<col width="61%">
+</colgroup>
+<thead><tr class="header">
+<th>Module</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>FilterGOF_KS / FilterHurdle</strong></td>
+<td>GOF filters for sparse/zero-inflated data</td>
+</tr>
+<tr class="even">
+<td><strong>xai_pipeline</strong></td>
+<td>DALEX-based interpretability with correlation warnings</td>
+</tr>
+<tr class="odd">
+<td><strong>create_stability_ensemble</strong></td>
+<td>Bootstrap stability for reproducible biomarkers</td>
+</tr>
+<tr class="even">
+<td><strong>make_autotuner_glmnet</strong></td>
+<td>Bayesian hyperparameter optimization</td>
+</tr>
+<tr class="odd">
+<td><strong>smote_augment</strong></td>
+<td>SMOTE for class imbalance (inside CV)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="docker">Docker<a class="anchor" aria-label="anchor" href="#docker"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile.core <span class="at">-t</span> omicselector:2.0 .</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/workspace omicselector:2.0 R</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">stawiski2022omicselector</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="dt">title</span>={OmicSelector: automatic feature selection and deep learning</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>         modeling for omic experiments},</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="dt">author</span>={Stawiski, Konrad and Kaszkowiak, Marcin and Mikulski, Damian and others},</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="dt">journal</span>={bioRxiv},</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="dt">year</span>={2022},</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="dt">doi</span>={10.1101/2022.06.01.494299}</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="authors">Authors<a class="anchor" aria-label="anchor" href="#authors"></a>
+</h2>
 <ul>
-<li><a href="https://konsta.com.pl" class="external-link">Dr. Konrad Stawiski, M.D., Ph.D. (konrad.stawiski@umed.lodz.pl)</a></li>
+<li>
+<a href="https://konsta.com.pl" class="external-link">Konrad Stawiski, M.D., Ph.D.</a> (<a href="mailto:konrad.stawiski@umed.lodz.pl" class="email">konrad.stawiski@umed.lodz.pl</a>)</li>
 <li>Marcin Kaszkowiak, M.D.</li>
 <li>Damian Mikulski, M.D.</li>
 </ul>
-<p>Supervised by: prof. Wojciech Fendler, M.D., Ph.D. </p>
-<p>For any troubleshooting use <a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">https://github.com/kstawiski/OmicSelector/issues</a>.</p>
-<p>Department of Biostatistics and Translational Medicine, Medical University of Lodz, Poland (<a href="https://biostat.umed.pl" class="external-link uri">https://biostat.umed.pl</a>)</p>
+<p>Supervised by: Prof. Wojciech Fendler, M.D., Ph.D.</p>
+<p>Department of Biostatistics and Translational Medicine, Medical University of Lodz, Poland</p>
+</div>
+<div class="section level2">
+<h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
+</h2>
+<ul>
+<li><a href="https://biostat.umed.pl/OmicSelector/">Documentation</a></li>
+<li><a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">Issues &amp; Bug Reports</a></li>
+<li><a href="https://github.com/kstawiski/OmicSelector" class="external-link">Source Code</a></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -283,15 +404,16 @@ Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/Om
 <ul class="list-unstyled">
 <li><a href="https://github.com/kstawiski/OmicSelector/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">Report a bug</a></li>
-<li><a href="https://konsta.com.pl" class="external-link">Konrad Stawiski M.D.</a></li>
-<li><a href="https://biostat.umed.pl" class="external-link">Department of Biostatistics and Translational Research (UMED LODZ)</a></li>
+<li><a href="https://konsta.com.pl" class="external-link">Konrad Stawiski, M.D., Ph.D.</a></li>
+<li><a href="https://biostat.umed.pl" class="external-link">Department of Biostatistics and Translational Research</a></li>
 </ul>
 </div>
 
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>License: <a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
@@ -307,8 +429,9 @@ Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/Om
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Konrad Stawiski <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6550-3384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Marcin Kaszkowiak <br><small class="roles"> Author </small>  </li>
+<li>Konrad Stawiski <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6550-3384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Marcin Kaszkowiak <br><small class="roles"> Author </small>   </li>
+<li>Damian Mikulski <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -318,18 +441,20 @@ Rscript -e 'devtools::source_url("https://raw.githubusercontent.com/kstawiski/Om
 </div>
 
 
-   </div>
-  <footer><div class="container">
-  <div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Konrad Stawiski, Marcin Kaszkowiak.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Konrad Stawiski, Marcin Kaszkowiak, Damian Mikulski.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
-  </div></footer>
-</body>
+    </footer>
+</div>
+
+
+
+
+
+  </body>
 </html>

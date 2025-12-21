@@ -1,0 +1,25 @@
+# Model Export for OmicSelector 2.0
+
+Provides model export functionality for deployment in non-R
+environments. Supports vetiver for R-based deployment/versioning and
+ONNX export for cross-language inference.
+
+## Details
+
+\## Export Strategy
+
+OmicSelector supports two complementary export paths:
+
+1\. \*\*vetiver (R deployment)\*\*: Full model including preprocessing
+pipeline. Best for R-based serving (Plumber, Shiny, RSConnect).
+
+2\. \*\*ONNX (cross-language)\*\*: Estimator-only export with
+preprocessing manifest. Best for Python/Java/etc deployment. Requires
+implementing preprocessing in target language.
+
+\## Supported Learners for ONNX
+
+\- \`classif.xgboost\` / \`regr.xgboost\`: Well supported via xgboost
+native export - \`classif.glmnet\` / \`regr.glmnet\`: Supported (linear
+coefficients export) - Other learners: Export preprocessing manifest
+only; use vetiver for deployment

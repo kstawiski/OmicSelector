@@ -1,0 +1,236 @@
+# Getting Started with OmicSelector 2.0
+
+## Introduction
+
+**OmicSelector 2.0** is a PhD-level toolkit for high-dimensional
+biomarker discovery that guarantees scientific validity through rigorous
+machine learning methodology.
+
+### Core Philosophy
+
+> “Optimization without validation is hallucination.”
+
+OmicSelector 2.0 prioritizes:
+
+1.  **Zero Data Leakage** - All preprocessing occurs within CV folds
+2.  **Feature Stability** - Nogueira Stability Index over raw accuracy
+3.  **Reproducibility** - renv lockfiles, Docker containers,
+    deterministic pipelines
+
+## Quick Start (5 minutes)
+
+### Installation
+
+``` r
+# From GitHub
+remotes::install_github("kstawiski/OmicSelector")
+
+# Load the package
+library(OmicSelector)
+```
+
+### Basic Workflow
+
+#### Step 1: Create Pipeline
+
+``` r
+# Load your data
+data <- read.csv("expression.csv")
+
+# Create pipeline
+pipeline <- OmicPipeline$new(
+  data = data,
+  target = "outcome",
+  positive = "Case"
+)
+```
+
+#### Step 2: Build Graph Learner
+
+The GraphLearner encapsulates all preprocessing within CV folds:
+
+``` r
+# Impute → Scale → Filter → Model (all inside CV)
+learner <- pipeline$create_graph_learner(
+  filter = "anova",       # Feature selection method
+  model = "ranger",       # Random Forest
+  n_features = 20,        # Select top 20 features
+  scale = TRUE            # Standardize features
+)
+```
+
+#### Step 3: Run Nested Cross-Validation
+
+``` r
+# Create benchmark service with nested CV
+service <- BenchmarkService$new(
+  task = pipeline,
+  outer_folds = 5,   # Evaluation folds
+  inner_folds = 3    # Feature selection folds
+)
+
+# Add learner and run
+service$add_learner(learner)
+result <- service$run()
+```
+
+#### Step 4: Check Stability
+
+``` r
+# Compute feature selection stability
+stability <- compute_stability_from_resample(
+  result$resample_result,
+  all_features = pipeline$get_feature_names()
+)
+
+print(stability)
+# Nogueira Stability Index: 0.78
+# Interpretation: Good - Reasonably stable feature selection
+```
+
+#### Step 5: Generate Report
+
+``` r
+# Create TRIPOD+AI compliant report
+generate_tripod_report(
+  results = result,
+  output_file = "my_analysis_report.html"
+)
+```
+
+## Multi-Omics Analysis
+
+OmicSelector 2.0 supports multi-omics data with automatic feature
+namespacing:
+
+``` r
+# Prepare multi-omics data as named list
+multi_data <- list(
+  rna = rna_expression,      # Gene expression
+  mirna = mirna_expression,  # miRNA expression
+  prot = protein_levels      # Proteomics
+)
+
+# Target column should be in ONE modality
+multi_data$rna$outcome <- clinical_outcome
+
+# Create pipeline - features are namespaced (rna::gene1, mirna::mir21)
+pipeline <- OmicPipeline$new(
+  data = multi_data,
+  target = "outcome",
+  positive = "Case"
+)
+
+# Check modalities
+pipeline$get_modality_info()
+#>   modality n_features n_samples has_target
+#> 1      rna       5000       200       TRUE
+#> 2    mirna        800       200      FALSE
+#> 3     prot       1500       200      FALSE
+```
+
+## Parallel Processing
+
+Enable parallelization for faster benchmarking:
+
+``` r
+# Setup parallel processing
+setup_parallel(workers = 4)
+
+# Run benchmark (uses all workers)
+result <- service$run(parallel = TRUE)
+
+# Reset to sequential
+reset_parallel()
+```
+
+## Command-Line Interface
+
+OmicSelector provides a CLI for batch processing:
+
+``` bash
+# Run benchmark from config file
+omicselector run --config=config.yaml --parallel=4 --seed=42
+
+# Generate report from results
+omicselector report --results=results/benchmark.rds --format=html
+
+# Validate data before analysis
+omicselector validate --data=expression.csv --target=outcome
+```
+
+## Key Concepts
+
+### Why Nested Cross-Validation?
+
+Standard CV leaks information when feature selection happens before the
+split:
+
+    WRONG (Leaky):
+    1. Select features on ALL data  ← Leakage!
+    2. Split into train/test
+    3. Train model
+    4. Evaluate (overly optimistic)
+
+    RIGHT (OmicSelector):
+    1. Split into outer folds
+       For each outer fold:
+       2. Split training into inner folds
+          For each inner fold:
+          3. Select features on inner training only
+          4. Train model
+       5. Aggregate best features
+       6. Final model on outer training
+       7. Evaluate on outer test (unbiased)
+
+### Why Stability Matters
+
+High accuracy with unstable features = overfitting:
+
+| Stability Index | Interpretation              |
+|-----------------|-----------------------------|
+| ≥ 0.9           | Excellent - Very stable     |
+| 0.7 - 0.9       | Good - Reasonably stable    |
+| 0.5 - 0.7       | Moderate - Some instability |
+| 0.3 - 0.5       | Poor - Likely overfitting   |
+| \< 0.3          | Very Poor - Random/overfit  |
+
+## Next Steps
+
+- **Phase 5 Features**: Try GOF filters, AutoXAI, and stability
+  ensembles
+  - See the [Phase 5 Advanced
+    Features](https://biostat.umed.pl/OmicSelector/articles/phase5-advanced.md)
+    vignette
+- **Advanced Usage**: Explore custom filter combinations
+- **External Validation**: Use frozen preprocessing for new data
+- **TRIPOD+AI Compliance**: Review generated reports for publication
+
+## Phase 5 Quick Preview
+
+``` r
+# GOF filters for sparse/zero-inflated data
+learner <- pipeline$create_graph_learner(
+ filter = "gof_ks",    # Kolmogorov-Smirnov filter
+  model = "ranger",
+  n_features = 30
+)
+
+# AutoXAI with correlation warnings
+xai <- xai_pipeline(learner, task, cor_threshold = 0.7)
+plot_xai_importance(xai)
+
+# Bootstrap stability ensemble
+ensemble <- create_stability_ensemble(preset = "default", n_bootstrap = 100)
+ensemble$fit(task, seed = 42)
+stable_features <- ensemble$get_feature_importance(30)
+
+# Bayesian hyperparameter tuning
+autotuner <- make_autotuner_glmnet(task, n_evals = 20)
+autotuner$train(task)
+```
+
+## Getting Help
+
+- GitHub Issues: <https://github.com/kstawiski/OmicSelector/issues>
+- Documentation: <https://biostat.umed.pl/OmicSelector/>

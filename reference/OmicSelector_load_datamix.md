@@ -1,0 +1,77 @@
+# OmicSelector_load_datamix
+
+This function loads the data created in preparation phase. It requires
+the output constructed by \`OmicSelector_prepare_split\` function to be
+placed in working directory (\`wd\`), thus files \`mixed_train.csv\`,
+\`mixed_test.csv\` and \`mixed_valid.csv\` have to exist in the
+directory. For imbalanced data, the fuction can perform balancing
+using: 1. ROSE:
+https://journal.r-project.org/archive/2014/RJ-2014-008/RJ-2014-008.pdf -
+by default we generate 10 \* number of cases in orginal dataset. 2.
+SMOTE (default): https://arxiv.org/abs/1106.1813 - by defult we use
+\`perc.under=100\` and \`k=10\`.
+
+## Usage
+
+``` r
+OmicSelector_load_datamix(
+  wd = getwd(),
+  smote_easy = T,
+  smote_over = 200,
+  use_smote_not_rose = T,
+  replace_smote = F,
+  selected_miRNAs = NULL,
+  class_interest = "Case",
+  remove_zero_var = T
+)
+```
+
+## Arguments
+
+- wd:
+
+  Working directory with files for the loading.
+
+- smote_easy:
+
+  Easy SMOTE (just SMOTE minority cases in the amount of the difference
+  between minority and majority classes). If set to TRUE smote_over has
+  no meaning. Please not that no undersampling of majority class is
+  performed in this method, so we consider it the best for small
+  datasets.
+
+- smote_over:
+
+  Oversampling of minority class in SMOTE function (deterimes the number
+  of cases in final dataset). See \`perc.over\` in \`DMwR::SMOTE()“
+  function.
+
+- use_smote_not_rose:
+
+  Set TRUE for SMOTE instead of ROSE.
+
+- replace_smote:
+
+  For some analyses we may want to replace imbalanced train dataset with
+  balanced dataset. This saved coding time in some functions.
+
+- selected_miRNAs:
+
+  If null - take all features staring with "hsa", if set - vector of
+  feature names to be selected.
+
+- class_interest:
+
+  Value of variable "Class" used in the cases of interest. Default:
+  "Case". Other values in variable Class will be used as controls and
+  encoded as "Control".
+
+- remove_zero_var:
+
+  Remove features with zero variance.
+
+## Value
+
+The list of objects in the following order: train, test, valid,
+train_smoted, trainx, trainx_smoted, merged. (trainx contains only the
+miRNA data without metadata)

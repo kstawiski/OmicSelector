@@ -1,147 +1,223 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/DeepLearningTutorial.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Tutorial.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/methods.html</loc>
-  </url>
-  <url>
-    <loc>/articles/metody.html</loc>
-  </url>
-  <url>
-    <loc>/articles/models.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_OmicSelector.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_PCA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_PCA_3D.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_benchmark.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_best_signature_de.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_best_signature_proposals.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_best_signature_proposals_meta11.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_combat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_correct_miRNA_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_correlation_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_counts_to_log10tpm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_create_formula.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_differential_expression_ttest.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_diverge_color.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_docker.update_progress.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_download_tissue_miRNA_data_from_TCGA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_get_benchmark.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_get_benchmark_methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_get_features_from_benchmark.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_heatmap.3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_iteratedRFE.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_load_datamix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_load_extension.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_log.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_merge_formulas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_myclust.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_mydist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_prepare_split.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_process_tissue_miRNA_TCGA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_profileplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_propensity_score_matching.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_setup.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_signature_overlap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_vulcano_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OmicSelector_xgboost.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://biostat.umed.pl/OmicSelector/404.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/LICENSE-text.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/articles/getting-started.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/articles/index.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/articles/phase5-advanced.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/articles/tcga-tutorial.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/articles/validation-report.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/authors.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/index.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/AutoXAI.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/BayesianTuner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/BenchmarkService.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/DeepLearners.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/FilterGOF.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/FilterGOF_KS.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/FilterHurdle.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/FilterZeroProp.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/FrozenComBat.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicModalitySpec.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicPipeline.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector-package.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_OmicSelector_wrapper.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_PCA.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_PCA_3D.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_best_signature_de.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_best_signature_proposals.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_best_signature_proposals_meta11.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_combat.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_correct_miRNA_names.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_correlation_plot.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_counts_to_log10tpm.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_create_formula.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_differential_expression_ttest.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_diverge_color.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_docker.update_progress.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_download_tissue_miRNA_data_from_TCGA.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_get_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_get_benchmark_methods.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_get_features_from_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_heatmap.3.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_heatmap.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_iteratedRFE.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_iteratedRFE_deprecated.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_load_datamix.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_load_extension.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_log.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_merge_formulas.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_myclust.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_mydist.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_prepare_split.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_process_tissue_miRNA_TCGA.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_profileplot.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_propensity_score_matching.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_setup.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_signature_overlap.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_table.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_vulcano_plot.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicSelector_xgboost.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicStackedEnsemble.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/OmicWeightedEnsemble.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/SequentialSelector.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/StabilityEnsemble.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/SyntheticData.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/aggregate_shap_values.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/apply_frozen_combat_cv.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/balance_classes.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/build_correlation_adjacency.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/cache.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/cache_stats.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/cached_filter.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/calibration.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/calibration_summary.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/check_batch_correction_leakage.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/check_dl_availability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/check_feature_correlations.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/check_mbo_packages.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/check_torch_packages.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/clear_cache.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/compare_gof_filters.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/compute_ece.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/compute_nogueira_stability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/compute_shap_with_warnings.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/compute_stability_from_resample.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_autotuner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_explainer.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_frozen_combat_pipeop.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_hsfs_selector.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_mlp_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_omic_cache.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_predict_function.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_report_data.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/create_stability_ensemble.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/decompose_brier.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/deprecated.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-apply_hard_constraints.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-check_leakage_risk.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-compute_auc.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-compute_batch_effect.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-compute_loss.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-compute_nogueira_index.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_custom_torch_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_export_metadata.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_export_readme.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_glmnet_fallback.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_mlr3torch_mlp.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-create_robust_fallback.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-deprecation_warning.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-export_glmnet.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-export_xgboost.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_candidate_summary.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_consensus_from_bmr.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_consensus_from_sf.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_estimator.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_features_from_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-extract_preprocessing_manifest.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-generate_plumber_api.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-generate_simple_report.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-minmax_normalize.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-onAttach.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-pareto_frontier_idx.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-populate_from_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-populate_from_pipeline.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-populate_from_stability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-prepare_modality.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-select_1se.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-select_pareto.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-select_weighted.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-shap_kernel_approximation.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-shap_via_iml.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-summarize_feature_counts.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/dot-try_extract_feature_counts.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/export_bundle.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/export_onnx.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/export_vetiver.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/extract_features_from_resample.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/extract_selected_features.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/feature_importance.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/find_high_correlations.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/fit_isotonic_calibration.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/fit_platt_scaling.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/fit_temperature_scaling.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/format_metric.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/frozen-combat.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/frozen_combat_correct.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/generate_cache_key.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/generate_correlation_warnings.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/generate_tripod_report.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_consensus_features.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_modality_info.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_optimal_params.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_parallel_status.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_reliable_shap_features.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/get_selected_features_per_fold.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/grapes-or-or-grapes.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/grapes-rep-grapes.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/identify_correlation_clusters.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/index.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/interpret_stability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/interpretability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/list_deprecated_functions.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/load_bundle.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_autotuner_glmnet.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_autotuner_lightgbm.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_autotuner_ranger.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_autotuner_xgboost.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_gnn_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_gof_filter.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_mlp_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/make_tabtransformer_learner.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/memoize_with_split.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/merge_omics_data.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/model-export.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/multi-omics.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/noise_augment.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/omic_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/omic_pipeline.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/parallel.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/parallel_lapply.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/partial_dependence.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/plot_signature_tradeoffs.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/plot_xai_importance.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.CalibrationResult.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.CorrelationCheck.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.FeatureImportance.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.LeakageValidation.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.NestedCVResult.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.NogueiraStability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.OmicBenchmarkResult.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.OmicsInput.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.ReportData.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print.SignatureSelectionResult.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print_shap_warnings.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/print_xai_summary.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/register_gof_filters.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/reliability_diagram_data.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/report.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/reset_parallel.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/run_bayesian_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/run_dl_benchmark.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/select_best_signature.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/setup_parallel.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/shap_values.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/shap_warnings.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/signature-selection.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/smote_augment.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/stability.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/stack_omics.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/tabddpm_generate.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/torch-learners.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/validate_no_leakage.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/validate_omics_input.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/validate_synthetic.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/with_parallel.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_correlations.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_explainer_mlr3.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_importance.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_pdp.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_pipeline.html</loc></url>
+<url><loc>https://biostat.umed.pl/OmicSelector/reference/xai_shap.html</loc></url>
 </urlset>
+
