@@ -206,21 +206,34 @@ cat("5-fold CV AUC with Bayesian-tuned XGBoost:", auc, "\n")
 
 ## 2.4 Custom Search Spaces
 
-For advanced users, create custom search spaces:
+For advanced users, the autotuners use pre-configured search spaces optimized
+for omics data. The default spaces balance exploration with computational cost:
 
 ```{r custom-search}
-# Get default search space for XGBoost
-space <- get_omics_search_space("xgboost")
-print(space)
+# The make_autotuner_* functions use sensible defaults for omics:
+# - XGBoost: max_depth 3-8, learning rate 0.01-0.3, nrounds 50-500
+# - glmnet: alpha 0-1 (ridge to lasso), lambda via CV
+# - Ranger: mtry sqrt(p) to p/3, min.node.size 1-20
 
-# Modify for your needs (e.g., larger trees)
-space$values$max_depth <- paradox::p_int(lower = 3, upper = 12)
+# To use custom settings, create your own AutoTuner:
+library(mlr3tuning)
+library(paradox)
 
-# Use in autotuner
-at_custom <- make_autotuner_xgboost(
-  task,
-  search_space = space,
-  n_evals = 25
+# Example: custom XGBoost search space
+custom_space <- ps(
+  nrounds = p_int(lower = 100, upper = 1000),
+  max_depth = p_int(lower = 3, upper = 12),
+  eta = p_dbl(lower = 0.01, upper = 0.3)
+)
+
+# Create autotuner with custom space
+at_custom <- auto_tuner(
+  tuner = tnr("mbo"),
+  learner = lrn("classif.xgboost", predict_type = "prob"),
+  resampling = rsmp("cv", folds = 3),
+  measure = msr("classif.auc"),
+  search_space = custom_space,
+  term_evals = 25
 )
 ```
 
