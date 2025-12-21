@@ -763,15 +763,21 @@ the same transformation to new data</p>
 <div class="section level3">
 <h3 id="verifying-no-batch-leakage">7.4 Verifying No Batch Leakage<a class="anchor" aria-label="anchor" href="#verifying-no-batch-leakage"></a>
 </h3>
+<p>FrozenComBat prevents batch correction leakage by fitting parameters
+only on training data and applying frozen transformations to test data.
+The pipeline handles this automatically when
+<code>batch_correct = TRUE</code>.</p>
+<p>To manually verify batch effect reduction, compare corrected vs
+original data:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># After running benchmark, check for batch effect reduction</span></span>
-<span><span class="co"># If reduction &gt; 95%, this may indicate leakage</span></span>
-<span><span class="va">check_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_batch_correction_leakage.html">check_batch_correction_leakage</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">analysis_data</span><span class="op">[</span>, <span class="va">mirna_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span><span class="op">]</span>,  <span class="co"># Sample of features</span></span>
-<span>  batch <span class="op">=</span> <span class="va">analysis_data</span><span class="op">$</span><span class="va">batch</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Manual verification of batch correction (after FrozenComBat)</span></span>
+<span><span class="co"># The correction should reduce batch-related variance while preserving</span></span>
+<span><span class="co"># biological signal. Check the mean shift between batches:</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">check_result</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Example: compute batch mean difference before/after correction</span></span>
+<span><span class="co"># If using frozen_combat_correct() directly:</span></span>
+<span><span class="co"># result &lt;- frozen_combat_correct(train_data, train_batch, test_data, test_batch)</span></span>
+<span><span class="co"># Then compare batch means in result$corrected vs original</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -861,8 +867,9 @@ probability-based models</p>
 <span><span class="va">calibrator_isotonic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_isotonic_calibration.html">fit_isotonic_calibration</a></span><span class="op">(</span><span class="va">prob_positive</span>, <span class="va">true_labels</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Apply calibration to the same data (for demonstration)</span></span>
-<span><span class="va">calibrated_platt</span> <span class="op">&lt;-</span> <span class="va">calibrator_platt</span><span class="op">$</span><span class="fu">calibrate</span><span class="op">(</span><span class="va">prob_positive</span><span class="op">)</span></span>
-<span><span class="va">calibrated_isotonic</span> <span class="op">&lt;-</span> <span class="va">calibrator_isotonic</span><span class="op">$</span><span class="fu">calibrate</span><span class="op">(</span><span class="va">prob_positive</span><span class="op">)</span></span>
+<span><span class="co"># Note: fit_platt_scaling and fit_isotonic_calibration return functions</span></span>
+<span><span class="va">calibrated_platt</span> <span class="op">&lt;-</span> <span class="fu">calibrator_platt</span><span class="op">(</span><span class="va">prob_positive</span><span class="op">)</span></span>
+<span><span class="va">calibrated_isotonic</span> <span class="op">&lt;-</span> <span class="fu">calibrator_isotonic</span><span class="op">(</span><span class="va">prob_positive</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compare calibration errors</span></span>
 <span><span class="va">ece_original</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compute_ece.html">compute_ece</a></span><span class="op">(</span><span class="va">prob_positive</span>, <span class="va">true_labels</span><span class="op">)</span></span>

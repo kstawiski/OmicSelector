@@ -592,15 +592,22 @@ print(learner_bc)
 
 ### 7.4 Verifying No Batch Leakage
 
-``` r
-# After running benchmark, check for batch effect reduction
-# If reduction > 95%, this may indicate leakage
-check_result <- check_batch_correction_leakage(
-  data = analysis_data[, mirna_cols[1:50]],  # Sample of features
-  batch = analysis_data$batch
-)
+FrozenComBat prevents batch correction leakage by fitting parameters
+only on training data and applying frozen transformations to test data.
+The pipeline handles this automatically when `batch_correct = TRUE`.
 
-print(check_result)
+To manually verify batch effect reduction, compare corrected vs original
+data:
+
+``` r
+# Manual verification of batch correction (after FrozenComBat)
+# The correction should reduce batch-related variance while preserving
+# biological signal. Check the mean shift between batches:
+
+# Example: compute batch mean difference before/after correction
+# If using frozen_combat_correct() directly:
+# result <- frozen_combat_correct(train_data, train_batch, test_data, test_batch)
+# Then compare batch means in result$corrected vs original
 ```
 
 ------------------------------------------------------------------------
@@ -690,8 +697,9 @@ calibrator_platt <- fit_platt_scaling(prob_positive, true_labels)
 calibrator_isotonic <- fit_isotonic_calibration(prob_positive, true_labels)
 
 # Apply calibration to the same data (for demonstration)
-calibrated_platt <- calibrator_platt$calibrate(prob_positive)
-calibrated_isotonic <- calibrator_isotonic$calibrate(prob_positive)
+# Note: fit_platt_scaling and fit_isotonic_calibration return functions
+calibrated_platt <- calibrator_platt(prob_positive)
+calibrated_isotonic <- calibrator_isotonic(prob_positive)
 
 # Compare calibration errors
 ece_original <- compute_ece(prob_positive, true_labels)

@@ -342,20 +342,34 @@ CV:</p>
 <div class="section level3">
 <h3 id="custom-search-spaces">2.4 Custom Search Spaces<a class="anchor" aria-label="anchor" href="#custom-search-spaces"></a>
 </h3>
-<p>For advanced users, create custom search spaces:</p>
+<p>For advanced users, the autotuners use pre-configured search spaces
+optimized for omics data. The default spaces balance exploration with
+computational cost:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Get default search space for XGBoost</span></span>
-<span><span class="va">space</span> <span class="op">&lt;-</span> <span class="fu">get_omics_search_space</span><span class="op">(</span><span class="st">"xgboost"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">space</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># The make_autotuner_* functions use sensible defaults for omics:</span></span>
+<span><span class="co"># - XGBoost: max_depth 3-8, learning rate 0.01-0.3, nrounds 50-500</span></span>
+<span><span class="co"># - glmnet: alpha 0-1 (ridge to lasso), lambda via CV</span></span>
+<span><span class="co"># - Ranger: mtry sqrt(p) to p/3, min.node.size 1-20</span></span>
 <span></span>
-<span><span class="co"># Modify for your needs (e.g., larger trees)</span></span>
-<span><span class="va">space</span><span class="op">$</span><span class="va">values</span><span class="op">$</span><span class="va">max_depth</span> <span class="op">&lt;-</span> <span class="fu">paradox</span><span class="fu">::</span><span class="fu"><a href="https://paradox.mlr-org.com/reference/Domain.html" class="external-link">p_int</a></span><span class="op">(</span>lower <span class="op">=</span> <span class="fl">3</span>, upper <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co"># To use custom settings, create your own AutoTuner:</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3tuning.mlr-org.com" class="external-link">mlr3tuning</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paradox.mlr-org.com" class="external-link">paradox</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Use in autotuner</span></span>
-<span><span class="va">at_custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_autotuner_xgboost.html">make_autotuner_xgboost</a></span><span class="op">(</span></span>
-<span>  <span class="va">task</span>,</span>
-<span>  search_space <span class="op">=</span> <span class="va">space</span>,</span>
-<span>  n_evals <span class="op">=</span> <span class="fl">25</span></span>
+<span><span class="co"># Example: custom XGBoost search space</span></span>
+<span><span class="va">custom_space</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paradox.mlr-org.com/reference/ps.html" class="external-link">ps</a></span><span class="op">(</span></span>
+<span>  nrounds <span class="op">=</span> <span class="fu"><a href="https://paradox.mlr-org.com/reference/Domain.html" class="external-link">p_int</a></span><span class="op">(</span>lower <span class="op">=</span> <span class="fl">100</span>, upper <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  max_depth <span class="op">=</span> <span class="fu"><a href="https://paradox.mlr-org.com/reference/Domain.html" class="external-link">p_int</a></span><span class="op">(</span>lower <span class="op">=</span> <span class="fl">3</span>, upper <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
+<span>  eta <span class="op">=</span> <span class="fu"><a href="https://paradox.mlr-org.com/reference/Domain.html" class="external-link">p_dbl</a></span><span class="op">(</span>lower <span class="op">=</span> <span class="fl">0.01</span>, upper <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create autotuner with custom space</span></span>
+<span><span class="va">at_custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mlr3tuning.mlr-org.com/reference/auto_tuner.html" class="external-link">auto_tuner</a></span><span class="op">(</span></span>
+<span>  tuner <span class="op">=</span> <span class="fu"><a href="https://mlr3tuning.mlr-org.com/reference/tnr.html" class="external-link">tnr</a></span><span class="op">(</span><span class="st">"mbo"</span><span class="op">)</span>,</span>
+<span>  learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"classif.xgboost"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span>,</span>
+<span>  resampling <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  measure <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"classif.auc"</span><span class="op">)</span>,</span>
+<span>  search_space <span class="op">=</span> <span class="va">custom_space</span>,</span>
+<span>  term_evals <span class="op">=</span> <span class="fl">25</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>

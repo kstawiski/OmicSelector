@@ -77,9 +77,9 @@ result <- service$run()
 #### Step 4: Check Stability
 
 ``` r
-# Compute feature selection stability
+# Compute feature selection stability from benchmark result
 stability <- compute_stability_from_resample(
-  result$resample_result,
+  result$benchmark_result,
   all_features = pipeline$get_feature_names()
 )
 
@@ -134,14 +134,14 @@ pipeline$get_modality_info()
 Enable parallelization for faster benchmarking:
 
 ``` r
-# Setup parallel processing
-setup_parallel(workers = 4)
+# Setup parallel processing with future
+future::plan("multisession", workers = 4)
 
 # Run benchmark (uses all workers)
 result <- service$run(parallel = TRUE)
 
 # Reset to sequential
-reset_parallel()
+future::plan("sequential")
 ```
 
 ## Command-Line Interface
