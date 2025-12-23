@@ -68,7 +68,7 @@ workflow_steps <- list(
 ui <- page_sidebar(
   title = div(
     class = "d-flex align-items-center",
-    bsicons::bs_icon("dna", size = "1.5em"),
+    bsicons::bs_icon("activity", size = "1.5em"),
     span("OmicSelector", class = "ms-2 fw-bold"),
     span(class = "badge bg-primary ms-2", "v2")
   ),

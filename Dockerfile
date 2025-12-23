@@ -1,6 +1,7 @@
 # OmicSelector 2.0 - Unified WebUI + RStudio Server
 #
 # Runs the Shiny WebUI and RStudio Server in a single container.
+# Optimized for Docker layer caching - R packages only reinstall when DESCRIPTION changes.
 
 FROM rocker/rstudio:4.4.0
 
@@ -19,6 +20,7 @@ ENV CRAN_REPO=https://packagemanager.posit.co/cran/__linux__/jammy/latest
 ENV MLR_REPO=https://mlr-org.r-universe.dev
 ENV TORCH_HOME=/usr/local/lib/torch
 
+# Layer 1: System dependencies (cached unless Dockerfile changes)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
@@ -48,6 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2-dev \
     libxt-dev \
     libx11-dev \
+    libwebp-dev \
     pandoc \
     git \
     wget \
@@ -56,25 +59,38 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Layer 2: Base R packages for Shiny WebUI (cached)
 RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('remotes','shiny','shinyjs','bslib','bsicons','shinyWidgets','sass','plotly','mice','readxl','ggplot2','ggrepel','digest'), dependencies = TRUE)"
 
-RUN mkdir -p /OmicSelector /OmicSelector/analyses
-RUN mkdir -p ${TORCH_HOME}
+# Layer 3: ML packages (cached)
+RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('mlr3learners','ranger','glmnet','xgboost','lightgbm','e1071','kknn','nnet','DALEX','iml','vetiver','pins','plumber','jsonlite','cachem','memoise'))"
 
-COPY . /OmicSelector
+# Layer 4: Torch packages (cached)
+RUN mkdir -p ${TORCH_HOME}
+RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('torch','mlr3torch'))"
+RUN R -e 'if (requireNamespace("torch", quietly = TRUE)) { sys <- tolower(Sys.info()[["sysname"]]); arch <- R.version$arch; if (sys == "linux" && arch %in% c("x86_64","amd64")) { torch::install_torch(type = "cpu") } else { message("Skipping torch::install_torch() for ", sys, "/", arch) } }'
+
+# Layer 5: Create directories
+RUN mkdir -p /OmicSelector /OmicSelector/analyses
 
 WORKDIR /OmicSelector
 
-RUN rm -rf renv renv.lock .Rprofile 2>/dev/null || true
+# Layer 6: Copy ONLY DESCRIPTION first for dependency caching
+# This layer only invalidates when DESCRIPTION changes
+COPY DESCRIPTION /OmicSelector/DESCRIPTION
 
-RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); remotes::install_deps(dependencies = NA)"
-RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('mlr3learners','ranger','glmnet','xgboost','lightgbm','e1071','kknn','nnet','DALEX','iml','vetiver','pins','plumber','jsonlite','cachem','memoise'))"
-RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('torch','mlr3torch'))"
-RUN R -e 'if (requireNamespace("torch", quietly = TRUE)) { sys <- tolower(Sys.info()[["sysname"]]); arch <- R.version$arch; if (sys == "linux" && arch %in% c("x86_64","amd64")) { torch::install_torch(type = "cpu") } else { message("Skipping torch::install_torch() for ", sys, "/", arch) } }'
+# Layer 7: Install OmicSelector dependencies from DESCRIPTION (cached unless DESCRIPTION changes)
+RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); remotes::install_deps('/OmicSelector', dependencies = NA)"
+
+# Layer 8: Copy rest of source code (invalidates frequently but package install is fast)
+COPY . /OmicSelector
+
+# Layer 9: Install OmicSelector package (fast - just local code compilation)
+RUN rm -rf renv renv.lock .Rprofile 2>/dev/null || true
 RUN R CMD INSTALL --no-multiarch --with-keep.source .
 
+# Layer 10: Set permissions and startup script
 RUN chown -R rstudio:rstudio /OmicSelector ${TORCH_HOME}
-
 COPY docker/start.sh /usr/local/bin/start-omicselector.sh
 RUN chmod +x /usr/local/bin/start-omicselector.sh
 

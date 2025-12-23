@@ -27,8 +27,8 @@ mod_results_ui <- function(id) {
     ),
 
     # Selection Mode and Trade-off Visualization
-    layout_column_wrap(
-      width = c(4, 8),
+    layout_columns(
+      col_widths = c(4, 8),
 
       # Selection Settings
       card(

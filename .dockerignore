@@ -19,7 +19,6 @@ check/
 
 # Exclude documentation build artifacts
 docs/
-man/
 
 # Exclude vignette outputs
 vignettes/*.html

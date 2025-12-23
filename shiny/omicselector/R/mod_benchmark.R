@@ -13,8 +13,8 @@ mod_benchmark_ui <- function(id) {
       p(class = "text-muted", "Run nested cross-validation for unbiased performance estimation")
     ),
 
-    layout_column_wrap(
-      width = c(4, 8),
+    layout_columns(
+      col_widths = c(4, 8),
 
       # Configuration Card
       card(

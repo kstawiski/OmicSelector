@@ -115,8 +115,8 @@ mod_qc_ui <- function(id) {
       nav_panel(
         "Differential Expression",
         icon = bsicons::bs_icon("sort-numeric-down"),
-        layout_column_wrap(
-          width = c(3, 9),
+        layout_columns(
+          col_widths = c(3, 9),
           card(
             card_header("DE Settings"),
             card_body(

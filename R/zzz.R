@@ -42,3 +42,4 @@ utils::globalVariables(
     "variable"
   )
 )
+
