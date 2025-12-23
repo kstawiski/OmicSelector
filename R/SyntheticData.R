@@ -47,6 +47,17 @@ smote_augment <- function(task, ratio = 1.0, k = 5L) {
     stop("Package 'mlr3pipelines' is required", call. = FALSE)
   }
 
+  # Data leakage warning - SMOTE must be applied WITHIN CV folds, not before
+
+  # Applying SMOTE to the full dataset before cross-validation causes leakage:
+  # synthetic samples may share information with test fold samples
+  message(
+    "Note: SMOTE should be applied WITHIN each CV fold, not before splitting.\n",
+    "Applying SMOTE to the full dataset before CV causes data leakage.\n",
+    "For proper usage, use mlr3pipelines::po('smote') in a GraphLearner pipeline.\n",
+    "See: https://mlr3book.mlr-org.com/chapters/chapter8/non-standard_learning_tasks.html"
+  )
+
   # Get class counts
   data <- as.data.frame(task$data())
   target <- task$target_names
@@ -73,6 +84,15 @@ smote_augment <- function(task, ratio = 1.0, k = 5L) {
   # Feature matrix for minority class
   X_minority <- as.matrix(minority_data[, features, drop = FALSE])
 
+  # Scale features for distance computation to avoid scale bias
+
+  # Features with larger variance would otherwise dominate k-NN distances
+  feature_means <- colMeans(X_minority)
+  feature_sds <- apply(X_minority, 2, sd)
+  # Avoid division by zero for constant features
+  feature_sds[feature_sds == 0] <- 1
+  X_minority_scaled <- scale(X_minority, center = feature_means, scale = feature_sds)
+
   # Generate synthetic samples
   synthetic_samples <- matrix(nrow = n_synthetic, ncol = length(features))
   colnames(synthetic_samples) <- features
@@ -80,10 +100,11 @@ smote_augment <- function(task, ratio = 1.0, k = 5L) {
   for (i in seq_len(n_synthetic)) {
     # Randomly select a minority sample
     idx <- sample(nrow(X_minority), 1)
-    sample_i <- X_minority[idx, ]
+    sample_i <- X_minority[idx, ]  # Original (unscaled) for interpolation
+    sample_i_scaled <- X_minority_scaled[idx, ]  # Scaled for distance
 
-    # Find k nearest neighbors (simple Euclidean distance)
-    dists <- apply(X_minority, 1, function(x) sqrt(sum((x - sample_i)^2)))
+    # Find k nearest neighbors using scaled features for fair distance computation
+    dists <- apply(X_minority_scaled, 1, function(x) sqrt(sum((x - sample_i_scaled)^2)))
     nn_indices <- order(dists)[2:min(k + 1, length(dists))]
 
     # Randomly select one neighbor

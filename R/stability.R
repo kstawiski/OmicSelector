@@ -232,6 +232,15 @@ print.NogueiraStability <- function(x, ...) {
 #' @export
 extract_selected_features <- function(learner, filter_id = "filter") {
 
+  # Handle AutoTuner by extracting the trained inner learner
+  if (inherits(learner, "AutoTuner")) {
+    if (is.null(learner$model) || is.null(learner$model$learner)) {
+      warning("AutoTuner is not trained. Cannot extract features.")
+      return(NULL)
+    }
+    return(extract_selected_features(learner$model$learner, filter_id))
+  }
+
   # Check if learner is trained
   if (is.null(learner$model)) {
     warning("Learner is not trained. Cannot extract features.")
@@ -243,35 +252,73 @@ extract_selected_features <- function(learner, filter_id = "filter") {
   if (inherits(learner, "GraphLearner")) {
     graph <- learner$graph
 
-    # Find the filter PipeOp by ID
-    if (!filter_id %in% graph$ids()) {
-      # Try common filter ID patterns
-      filter_ids <- grep("filter|select|flt", graph$ids(), value = TRUE, ignore.case = TRUE)
-      if (length(filter_ids) > 0) {
-        filter_id <- filter_ids[1]
-        message(sprintf("Using filter PipeOp: %s", filter_id))
-      } else {
-        warning("Could not find filter PipeOp in graph")
-        return(NULL)
+    # Find filter/select PipeOps
+    candidates <- list()
+    for (po in graph$pipeops) {
+      if (inherits(po, "PipeOpFilter") || inherits(po, "PipeOpSelect")) {
+        candidates[[po$id]] <- po
       }
     }
 
-    # Get the trained PipeOp
-    pipeop <- graph$pipeops[[filter_id]]
+    pipeop <- NULL
+    ordered_ids <- graph$ids()
+    candidate_ids <- ordered_ids[ordered_ids %in% names(candidates)]
 
-    # Extract features from state
-    if (!is.null(pipeop$state)) {
+    if (!is.null(filter_id) && filter_id %in% candidate_ids) {
+      pipeop <- candidates[[filter_id]]
+    } else if (length(candidate_ids) > 0) {
+      # Prefer non-screening filters if present
+      screen_ids <- c("screen", "screen_variance", "prefilter")
+      preferred_ids <- setdiff(candidate_ids, screen_ids)
+      chosen_id <- if (length(preferred_ids) > 0) {
+        tail(preferred_ids, 1)
+      } else {
+        tail(candidate_ids, 1)
+      }
+      pipeop <- candidates[[chosen_id]]
+    }
+
+    if (is.null(pipeop)) {
+      # Try common filter ID patterns as a fallback
+      filter_ids <- grep("filter|select|flt", graph$ids(), value = TRUE, ignore.case = TRUE)
+      if (length(filter_ids) > 0) {
+        pipeop <- graph$pipeops[[filter_ids[length(filter_ids)]]]
+        message(sprintf("Using filter PipeOp: %s", filter_ids[length(filter_ids)]))
+      }
+    }
+
+    if (is.null(pipeop)) {
+      warning("Could not find filter or select PipeOp in graph")
+      return(NULL)
+    }
+
+    # Extract features from trained state
+    # GraphLearner stores PipeOp models in learner$model (list keyed by PipeOp id)
+    state_obj <- NULL
+    if (!is.null(learner$model) && !is.null(learner$model[[pipeop$id]])) {
+      state_obj <- learner$model[[pipeop$id]]
+    } else if (!is.null(pipeop$state)) {
+      state_obj <- pipeop$state
+    }
+
+    if (!is.null(state_obj)) {
       # Different PipeOps store features differently
       # Try common patterns
-      if (!is.null(pipeop$state$features)) {
-        return(pipeop$state$features)
+      if (!is.null(state_obj$features)) {
+        return(state_obj$features)
       }
-      if (!is.null(pipeop$state$selected_features)) {
-        return(pipeop$state$selected_features)
+      if (!is.null(state_obj$selected_features)) {
+        return(state_obj$selected_features)
       }
-      if (!is.null(pipeop$state$outtasklayout)) {
+      if (!is.null(state_obj$selected_cols)) {
+        return(state_obj$selected_cols)
+      }
+      if (!is.null(state_obj$cols)) {
+        return(state_obj$cols)
+      }
+      if (!is.null(state_obj$outtasklayout)) {
         # For PipeOpFilter, features are in outtasklayout
-        return(pipeop$state$outtasklayout[[1]]$id)
+        return(state_obj$outtasklayout[[1]]$id)
       }
     }
 

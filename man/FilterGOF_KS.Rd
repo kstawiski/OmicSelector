@@ -29,7 +29,7 @@ mlr_filters$get("gof_ks")
 Kolmogorov, A. N. (1933). Sulla determinazione empirica di una legge di distribuzione.
 }
 \section{Super class}{
-\code{\link[mlr3filters:Filter]{mlr3filters::Filter}} -> \code{FilterGOF_KS}
+\code{mlr3filters::Filter} -> \code{FilterGOF_KS}
 }
 \section{Methods}{
 \subsection{Public methods}{

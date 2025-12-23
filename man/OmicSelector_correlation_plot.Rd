@@ -9,8 +9,8 @@ OmicSelector_correlation_plot(
   var2,
   labvar1,
   labvar2,
-  title,
-  yx = T,
+  title = NULL,
+  yx = TRUE,
   metoda = "pearson",
   gdzie_legenda = "topleft"
 )
@@ -24,10 +24,14 @@ OmicSelector_correlation_plot(
 
 \item{labvar2}{Label to be written on plot for second variable.}
 
+\item{title}{Optional plot title.}
+
 \item{yx}{Logical varable. TRUE if you want f(x)=x axis for reference (usefull for calibration plots).}
+
+\item{metoda}{Correlation method: "pearson" or "spearman".}
 
 \item{gdzie_legenda}{Where the legend should be placed?}
 }
 \description{
-Draw a correlation plot with reference f(x)=x axis and correlation metrics.
+Draw a correlation scatterplot with optional y = x reference and summary stats.
 }

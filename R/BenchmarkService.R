@@ -105,6 +105,9 @@ BenchmarkService <- R6::R6Class(
         id <- sprintf("learner_%d", length(private$.learners) + 1)
       }
 
+      # Ensure nested CV when inner_folds > 1
+      learner <- private$.ensure_nested_cv(learner)
+
       # Validate learner has no test data access
       private$.validate_learner(learner)
 
@@ -118,14 +121,33 @@ BenchmarkService <- R6::R6Class(
     #' Run the nested cross-validation benchmark
     #'
     #' @param measures List of performance measures (default: AUC, accuracy)
-    #' @param parallel Logical, whether to run in parallel
+    #' @param parallel Logical, whether to run in parallel (default: TRUE)
+    #' @param cache_dir Optional directory to cache benchmark results (RDS)
+    #' @param cache_key Optional cache key override (string)
+    #' @param threads Integer, number of threads for mlr3 learners (default: 1)
     #'
     #' @return A NestedCVResult object
-    run = function(measures = NULL, parallel = FALSE) {
+    run = function(measures = NULL, parallel = TRUE, cache_dir = NULL,
+                   cache_key = NULL, threads = 1) {
       private$.require_mlr3()
 
       if (length(private$.learners) == 0) {
         stop("No learners added. Use add_learner() first.")
+      }
+
+      # Reproducibility settings
+      set_reproducible(seed = private$.seed, threads = threads)
+
+      # Cache lookup
+      cache_path <- NULL
+      if (!is.null(cache_dir)) {
+        cache_path <- private$.cache_path(cache_dir, cache_key)
+        if (file.exists(cache_path)) {
+          message(sprintf("Loading cached benchmark results: %s", cache_path))
+          cached <- readRDS(cache_path)
+          private$.results <- cached
+          return(cached)
+        }
       }
 
       # Default measures
@@ -137,8 +159,31 @@ BenchmarkService <- R6::R6Class(
         )
       }
 
-      # Create outer resampling
-      outer_rsmp <- mlr3::rsmp("cv", folds = private$.outer_folds)
+      # Create outer resampling with stratification and grouping support
+      if (!is.null(private$.groups) && private$.groups %in% names(private$.task$data())) {
+        # Grouped CV: ensure samples from same group stay together
+        outer_rsmp <- mlr3::rsmp("cv", folds = private$.outer_folds)
+        private$.task$set_col_roles(private$.groups, roles = "group")
+      } else if (isTRUE(private$.stratify) && private$.task$task_type == "classif") {
+        # Stratified CV: maintain class proportions
+        outer_rsmp <- mlr3::rsmp("cv", folds = private$.outer_folds)
+        private$.task$set_col_roles(private$.task$target_names, roles = c("target", "stratum"))
+      } else {
+        # Standard CV
+        outer_rsmp <- mlr3::rsmp("cv", folds = private$.outer_folds)
+      }
+
+      # Always instantiate the resampling (critical for reproducibility)
+      if (!is.null(private$.seed)) {
+        # Backward-compatible: some mlr3 versions do not accept 'seed' argument
+        tryCatch(
+          outer_rsmp$instantiate(private$.task, seed = private$.seed),
+          error = function(e) outer_rsmp$instantiate(private$.task)
+        )
+      } else {
+        # Even without seed, we must instantiate to fix the splits
+        outer_rsmp$instantiate(private$.task)
+      }
 
       # Create benchmark design
       design <- mlr3::benchmark_grid(
@@ -154,28 +199,42 @@ BenchmarkService <- R6::R6Class(
       if (parallel) {
         # Enable parallelization - only if not already set
         if (requireNamespace("future", quietly = TRUE)) {
-          current_plan <- future::plan()
+          private$.plan_old <- future::plan()
           # Only set if currently sequential to avoid overriding user config
-          if (inherits(current_plan, "sequential")) {
-            future::plan("multisession")
-            private$.plan_was_set <- TRUE
+          if (inherits(private$.plan_old, "sequential")) {
+            tryCatch({
+              future::plan("multisession")
+              private$.plan_was_set <- TRUE
+            }, error = function(e) {
+              message(sprintf("Parallel setup failed (%s). Running sequential.",
+                              e$message))
+              private$.plan_was_set <- FALSE
+            })
           }
+        } else {
+          message("Package 'future' not available. Running sequential.")
         }
       }
 
-      bmr <- mlr3::benchmark(design, store_models = TRUE)
-
-      # Reset parallel plan if we set it
       if (isTRUE(private$.plan_was_set)) {
-        future::plan("sequential")
-        private$.plan_was_set <- FALSE
+        on.exit({
+          future::plan(private$.plan_old)
+          private$.plan_was_set <- FALSE
+          private$.plan_old <- NULL
+        }, add = TRUE)
       }
+
+      bmr <- mlr3::benchmark(design, store_models = TRUE)
 
       end_time <- Sys.time()
       message(sprintf("Completed in %.1f seconds", difftime(end_time, start_time, units = "secs")))
 
       # Extract results and compute stability
       result <- private$.process_results(bmr, measures)
+
+      if (!is.null(cache_path)) {
+        saveRDS(result, cache_path)
+      }
 
       private$.results <- result
       return(result)
@@ -215,6 +274,7 @@ BenchmarkService <- R6::R6Class(
     .learners = NULL,
     .results = NULL,
     .plan_was_set = FALSE,
+    .plan_old = NULL,
 
     # Check for mlr3 packages
     .require_mlr3 = function() {
@@ -229,9 +289,10 @@ BenchmarkService <- R6::R6Class(
 
     # Validate that learner doesn't have obvious leakage patterns
     .validate_learner = function(learner) {
-      # Check if it's a GraphLearner (good) or plain Learner (check carefully)
-      if (inherits(learner, "GraphLearner")) {
-        # GraphLearner with preprocessing is the expected pattern
+      # GraphLearner or AutoTuner/AutoFSelector are the expected patterns
+      if (inherits(learner, "GraphLearner") ||
+          inherits(learner, "AutoTuner") ||
+          inherits(learner, "AutoFSelector")) {
         return(TRUE)
       }
 
@@ -253,7 +314,7 @@ BenchmarkService <- R6::R6Class(
       per_fold <- private$.extract_per_fold(bmr)
 
       # Compute stability index if feature selection was used
-      stability <- private$.compute_stability(per_fold)
+      stability <- private$.compute_stability(bmr)
 
       # Build result object
       result <- list(
@@ -288,90 +349,187 @@ BenchmarkService <- R6::R6Class(
       return(fold_info)
     },
 
-    # Compute Nogueira Stability Index
-    .compute_stability = function(per_fold) {
-      # Extract selected features from each fold if available
-      # This works with GraphLearners that use filter PipeOps
-
-      selected_per_fold <- list()
+    # Compute Nogueira Stability Index per learner
+    .compute_stability = function(bmr) {
       all_features <- private$.task$feature_names
-
-      # Try to extract features from stored models
-      for (i in seq_along(per_fold)) {
-        fold_info <- per_fold[[i]]
-
-        # Feature extraction is complex and depends on learner type
-        # For now, we provide the framework - full extraction requires
-        # inspecting GraphLearner state which varies by configuration
-        selected_per_fold[[i]] <- character(0)
-      }
-
-      # If we couldn't extract features, return NA with explanation
-      if (all(sapply(selected_per_fold, length) == 0)) {
+      if (length(all_features) == 0) {
         return(list(
           nogueira_index = NA_real_,
-          message = "Feature extraction requires GraphLearner with filter PipeOps. Use compute_stability_from_resample() for detailed analysis.",
+          message = "No features available for stability computation.",
+          selected_features_per_fold = list()
+        ))
+      }
+
+      nogueira_dt <- data.table::data.table(
+        learner_id = character(0),
+        nogueira_index = numeric(0)
+      )
+      selected_per_fold <- list()
+
+      for (i in seq_len(bmr$n_resample_results)) {
+        rr <- bmr$resample_result(i)
+        learner_id <- rr$learner$id
+
+        feature_sets <- extract_features_from_resample(rr)
+        selected_per_fold[[learner_id]] <- feature_sets
+
+        if (all(sapply(feature_sets, length) == 0)) {
+          next
+        }
+
+        stab <- compute_nogueira_stability(feature_sets, all_features)
+        nogueira_dt <- data.table::rbindlist(list(
+          nogueira_dt,
+          data.table::data.table(
+            learner_id = learner_id,
+            nogueira_index = stab$nogueira_index
+          )
+        ), use.names = TRUE, fill = TRUE)
+      }
+
+      if (nrow(nogueira_dt) == 0) {
+        return(list(
+          nogueira_index = NA_real_,
+          message = "Could not extract features from learners. Ensure GraphLearner with filter PipeOps or AutoTuner.",
           selected_features_per_fold = selected_per_fold
         ))
       }
 
-      # Compute Nogueira Stability Index
-      # SI = 1 - (observed_variance / expected_variance_under_random)
-      nogueira_index <- private$.nogueira_index(selected_per_fold, all_features)
-
       list(
-        nogueira_index = nogueira_index,
-        message = "Stability computed from feature selection across folds.",
+        nogueira_index = nogueira_dt,
+        message = "Stability computed per learner.",
         selected_features_per_fold = selected_per_fold
       )
     },
 
-    # Calculate Nogueira Stability Index
-    .nogueira_index = function(feature_sets, all_features) {
-      n_folds <- length(feature_sets)
-      p <- length(all_features)
-
-      if (n_folds < 2 || p == 0) return(NA_real_)
-
-      # Create binary selection matrix (folds x features)
-      selection_matrix <- matrix(0, nrow = n_folds, ncol = p)
-      colnames(selection_matrix) <- all_features
-
-      for (i in seq_len(n_folds)) {
-        selected <- feature_sets[[i]]
-        if (length(selected) > 0) {
-          selection_matrix[i, selected] <- 1
-        }
+    # Ensure nested CV by wrapping GraphLearner in AutoTuner when needed
+    .ensure_nested_cv = function(learner) {
+      if (private$.inner_folds < 2) {
+        return(learner)
       }
 
-      # Skip if no features selected in any fold
-      if (sum(selection_matrix) == 0) return(NA_real_)
+      if (inherits(learner, "AutoTuner") || inherits(learner, "AutoFSelector")) {
+        return(learner)
+      }
 
-      # Compute selection frequencies per feature
-      pf <- colMeans(selection_matrix)
+      if (!inherits(learner, "GraphLearner")) {
+        message(paste(
+          "Inner CV requested, but learner is not a GraphLearner/AutoTuner.",
+          "Proceeding without inner-loop tuning."
+        ))
+        return(learner)
+      }
 
-      # Average number of features selected per fold
-      k_bar <- mean(rowSums(selection_matrix))
+      if (!requireNamespace("mlr3tuning", quietly = TRUE)) {
+        stop("Package 'mlr3tuning' is required for nested CV with inner_folds >= 2.",
+             call. = FALSE)
+      }
+      if (!requireNamespace("paradox", quietly = TRUE)) {
+        stop("Package 'paradox' is required for nested CV with inner_folds >= 2.",
+             call. = FALSE)
+      }
 
-      if (k_bar == 0 || k_bar == p) return(1.0)  # Degenerate cases
+      # Find filter.nfeat parameter
+      param_ids <- learner$param_set$ids()
+      param_id <- grep("filter.*nfeat$", param_ids, value = TRUE)
+      if (length(param_id) == 0) {
+        message(paste(
+          "Inner CV requested, but no filter.nfeat parameter found.",
+          "Proceeding without inner-loop tuning."
+        ))
+        return(learner)
+      }
+      if (length(param_id) > 1) {
+        param_id <- param_id[1]
+      }
 
-      # Expected selection probability
-      p_bar <- k_bar / p
+      filter_values <- private$.default_filter_values()
+      # p_int() no longer accepts `id` in paradox >= 1.0.0; use named ps() arg.
+      search_space <- do.call(
+        paradox::ps,
+        setNames(
+          list(paradox::p_int(
+            lower = min(filter_values),
+            upper = max(filter_values)
+          )),
+          param_id
+        )
+      )
 
-      # Observed variance (pairwise agreement)
-      # Using Nogueira et al. (2018) formula
-      pf_var <- sum(pf * (1 - pf)) / p
+      inner_rsmp <- mlr3::rsmp("cv", folds = private$.inner_folds)
+      measure <- private$.default_measure()
 
-      # Expected variance under random selection
-      expected_var <- p_bar * (1 - p_bar)
+      tuner_obj <- mlr3tuning::tnr("grid_search")
+      if ("resolution" %in% tuner_obj$param_set$ids()) {
+        tuner_obj$param_set$values$resolution <- length(filter_values)
+      }
+      terminator <- mlr3tuning::trm("evals", n_evals = length(filter_values))
 
-      if (expected_var == 0) return(1.0)
+      message(sprintf(
+        "Wrapping learner '%s' with inner CV tuning (nfeat grid: %s)",
+        learner$id, paste(filter_values, collapse = ", ")
+      ))
 
-      # Nogueira Stability Index
-      stability <- 1 - (pf_var / expected_var)
+      at <- mlr3tuning::AutoTuner$new(
+        learner = learner,
+        resampling = inner_rsmp,
+        measure = measure,
+        search_space = search_space,
+        terminator = terminator,
+        tuner = tuner_obj
+      )
+      at$id <- sprintf("%s_inner", learner$id)
+      at
+    },
 
-      # Clamp to [0, 1]
-      max(0, min(1, stability))
+    .default_filter_values = function() {
+      n_features <- length(private$.task$feature_names)
+      candidates <- unique(c(5, 10, 20, 50, round(n_features * 0.05), round(n_features * 0.1)))
+      candidates <- candidates[candidates >= 1 & candidates <= n_features]
+      if (length(candidates) == 0) {
+        candidates <- max(1, n_features)
+      }
+      as.integer(sort(unique(candidates)))
+    },
+
+    .default_measure = function() {
+      if (private$.task$task_type == "classif") {
+        if (!is.null(private$.task$class_names) &&
+            length(private$.task$class_names) == 2) {
+          return(mlr3::msr("classif.auc"))
+        }
+        return(mlr3::msr("classif.acc"))
+      }
+      mlr3::msr("regr.rmse")
+    },
+
+    .build_cache_key = function() {
+      learner_ids <- names(private$.learners)
+      if (is.null(learner_ids) || any(!nzchar(learner_ids))) {
+        learner_ids <- vapply(private$.learners, function(lrn) lrn$id, character(1))
+      }
+
+      key <- paste(
+        "task", private$.task$id,
+        "n", private$.task$nrow,
+        "p", length(private$.task$feature_names),
+        "outer", private$.outer_folds,
+        "inner", private$.inner_folds,
+        "seed", ifelse(is.null(private$.seed), "none", private$.seed),
+        "learners", paste(learner_ids, collapse = ","),
+        sep = "_"
+      )
+      key
+    },
+
+    .cache_path = function(cache_dir, cache_key = NULL) {
+      if (is.null(cache_key)) {
+        cache_key <- private$.build_cache_key()
+      }
+
+      dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+      key_hash <- as.character(hash_cache_key(cache_key))
+      file.path(cache_dir, sprintf("benchmark_%s.rds", key_hash))
     }
   )
 )
@@ -392,8 +550,12 @@ print.NestedCVResult <- function(x, ...) {
   cat("Performance:\n")
   print(x$performance)
 
-  if (!is.na(x$stability$nogueira_index)) {
-    cat(sprintf("\nNogueira Stability Index: %.3f\n", x$stability$nogueira_index))
+  ni <- x$stability$nogueira_index
+  if (is.numeric(ni) && length(ni) == 1 && !is.na(ni)) {
+    cat(sprintf("\nNogueira Stability Index: %.3f\n", ni))
+  } else if (is.data.frame(ni)) {
+    cat("\nNogueira Stability Index (per learner):\n")
+    print(ni)
   }
 
   invisible(x)

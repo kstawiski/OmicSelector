@@ -40,7 +40,7 @@ Default: c(64, 32) for a 2-layer network.}
 \item{device}{"cpu" or "cuda" for GPU. Default: "cpu".}
 }
 \value{
-An mlr3 Learner object (or a fallback if mlr3torch unavailable)
+An mlr3 Learner object.
 }
 \description{
 Creates a Multi-Layer Perceptron (MLP) learner for classification tasks.
@@ -52,7 +52,7 @@ The MLP architecture:
 - Hidden layers: as specified, with batch normalization and dropout
 - Output layer: 2 neurons (binary classification) with softmax
 
-If mlr3torch is not installed, returns a fallback learner (glmnet) with a warning.
+Requires mlr3torch + torch. No non-deep-learning fallbacks are used.
 }
 \examples{
 \dontrun{

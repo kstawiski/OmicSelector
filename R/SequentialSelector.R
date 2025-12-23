@@ -5,11 +5,12 @@
 #' omics data efficiently. The pipeline chains:
 #' 1. Variance thresholding (remove near-zero variance)
 #' 2. Univariate filtering (ANOVA F-test)
-#' 3. RF importance filtering (single-pass approximation of RFE)
-#' 4. LASSO regularization for final selection
+#' 3. RF importance filtering (single-pass, not iterative RFE)
+#' 4. AUC filter for final selection (univariate ranking by AUC)
 #'
 #' Note: The RF importance stage is a single-pass approximation using Random Forest
 #' variable importance, not true iterative Recursive Feature Elimination.
+#' The final stage uses univariate AUC filtering (NOT LASSO regularization).
 #'
 #' This hybrid approach outperforms single-method selection for high-dimensional data.
 #'
@@ -38,8 +39,14 @@ SequentialSelector <- R6::R6Class(
     #' @param variance_threshold Minimum variance to keep a feature (default: 0.01)
     #' @param univariate_n Number of features after univariate filtering (default: 5000)
     #' @param univariate_method Univariate method: "anova", "kruskal", "correlation"
-    #' @param rfe_n Number of features after RFE (default: 1000)
-    #' @param lasso_n Target number of features after LASSO (default: NULL = auto)
+    #' @param rfe_n Number of features after RF importance filter (default: 1000).
+    #'   Note: Despite the parameter name, this is a single-pass RF importance filter,
+    #'   not iterative Recursive Feature Elimination. Parameter name kept for backward compatibility.
+    #' @param lasso_n Target number of features after AUC filter (default: NULL = auto).
+    #'   Note: Despite the parameter name, this stage uses univariate AUC filtering,
+    #'   not LASSO regularization. Parameter name kept for backward compatibility.
+    #' @param seed Optional random seed for RF importance filter (default: NULL = use
+    #'   global RNG state). Set for reproducibility within nested CV.
     #' @param verbose Print progress messages
     #'
     #' @return A new SequentialSelector object
@@ -48,6 +55,7 @@ SequentialSelector <- R6::R6Class(
                           univariate_method = "anova",
                           rfe_n = 1000,
                           lasso_n = NULL,
+                          seed = NULL,
                           verbose = TRUE) {
 
       # Input validation
@@ -87,10 +95,11 @@ SequentialSelector <- R6::R6Class(
         rfe = list(
           name = "RF Importance Filter",
           n_features = rfe_n,
+          seed = seed,  # User-controlled seed for reproducibility
           enabled = rfe_n > 0
         ),
         lasso = list(
-          name = "LASSO Regularization",
+          name = "AUC Filter",  # Uses univariate AUC ranking, not LASSO
           n_features = lasso_n,
           enabled = TRUE
         )
@@ -143,37 +152,41 @@ SequentialSelector <- R6::R6Class(
         )
       }
 
-      # Stage 3: Model-based importance filter (RF importance as proxy for RFE)
-      # Note: True RFE is iterative; this is a faster single-pass approximation
+      # Stage 3: RF Importance Filter (single-pass)
+      # Uses Random Forest impurity importance for feature ranking
+      # NOTE: This is NOT iterative RFE - it's a single-pass importance filter
       if (self$stages$rfe$enabled) {
-        # Use ranger with importance = "impurity" and fixed seed for reproducibility
-        rf_learner <- mlr3::lrn("classif.ranger",
-                                 importance = "impurity",
-                                 seed = 42L)  # Fixed seed for reproducibility
+        # Use ranger with importance = "impurity"
+        # Seed is user-controlled via initialize() for proper reproducibility in nested CV
+        rf_params <- list(importance = "impurity")
+        if (!is.null(self$stages$rfe$seed)) {
+          rf_params$seed <- as.integer(self$stages$rfe$seed)
+        }
+        rf_learner <- do.call(mlr3::lrn, c(list("classif.ranger"), rf_params))
         ops$rf_importance <- mlr3pipelines::po("filter",
           filter = mlr3filters::flt("importance", learner = rf_learner),
           filter.nfeat = self$stages$rfe$n_features
         )
       }
 
-      # Stage 4: LASSO-based selection (L1 regularization)
-      # Uses AUC filter as reliable alternative since glmnet lacks importance() method
+      # Stage 4: Univariate AUC Filter
+      # Ranks features by individual AUC scores for final reduction
+      # NOTE: This is NOT LASSO/L1 regularization - it's univariate ranking
       if (self$stages$lasso$enabled) {
-        # Note: mlr3filters::flt("importance") requires learner with importance() method
-        # glmnet doesn't have this, so we use AUC filter which works reliably
-        lasso_filter <- mlr3filters::flt("auc")
+        # Using AUC filter for univariate feature ranking
+        auc_filter <- mlr3filters::flt("auc")
 
         if (!is.null(self$stages$lasso$n_features)) {
           # Fixed number of features
-          ops$lasso <- mlr3pipelines::po("filter",
-            filter = lasso_filter,
+          ops$auc <- mlr3pipelines::po("filter",
+            filter = auc_filter,
             filter.nfeat = self$stages$lasso$n_features
           )
         } else {
           # Auto selection: keep top features by AUC
           # Default to top 50 features when no explicit count given
-          ops$lasso <- mlr3pipelines::po("filter",
-            filter = lasso_filter,
+          ops$auc <- mlr3pipelines::po("filter",
+            filter = auc_filter,
             filter.nfeat = 50
           )
         }
@@ -326,7 +339,7 @@ SequentialSelector <- R6::R6Class(
 #'
 #' @examples
 #' \dontrun{
-#' # Default pipeline: variance -> ANOVA(5000) -> RFE(1000) -> LASSO
+#' # Default pipeline: variance -> ANOVA(5000) -> RF_importance(1000) -> AUC_filter
 #' selector <- create_hsfs_selector("default")
 #'
 #' # Aggressive reduction for very high-dimensional data

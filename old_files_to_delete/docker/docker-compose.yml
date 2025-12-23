@@ -1,0 +1,91 @@
+# OmicSelector 2.0 Docker Compose Configuration
+#
+# Services:
+#   - core: Main R environment for OmicSelector (CPU)
+#   - ci: Lightweight image for R CMD check
+#   - dev: Development environment with additional tools
+#
+# Usage:
+#   docker-compose up core                    # Start core environment
+#   docker-compose run ci                     # Run R CMD check
+#   docker-compose run dev R                  # Interactive R session
+
+version: '3.8'
+
+services:
+  # Core OmicSelector environment
+  core:
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    image: omicselector:core
+    container_name: omicselector-core
+    volumes:
+      - .:/workspace
+      - omicselector-renv:/workspace/renv/library
+    working_dir: /workspace
+    environment:
+      - RENV_PATHS_CACHE=/renv/cache
+    stdin_open: true
+    tty: true
+    command: R
+
+  # CI/Testing environment
+  ci:
+    build:
+      context: .
+      dockerfile: Dockerfile.ci
+    image: omicselector:ci
+    container_name: omicselector-ci
+    volumes:
+      - .:/pkg:ro
+    working_dir: /pkg
+    command: ["sh", "-c", "R CMD build . && R CMD check --as-cran *.tar.gz"]
+
+  # Development environment
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    image: omicselector:dev
+    container_name: omicselector-dev
+    volumes:
+      - .:/workspace
+      - omicselector-renv:/workspace/renv/library
+    working_dir: /workspace
+    ports:
+      - "8787:8787"  # RStudio Server (if added)
+    environment:
+      - RENV_PATHS_CACHE=/renv/cache
+    stdin_open: true
+    tty: true
+    command: R
+
+  # WebUI (Shiny)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: omicselector:web
+    container_name: omicselector-web
+    ports:
+      - "3838:3838"
+    volumes:
+      - ./analyses:/OmicSelector/analyses
+    environment:
+      - OMICSELECTOR_ANALYSES_DIR=/OmicSelector/analyses
+
+  # Test runner
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.ci
+    image: omicselector:ci
+    volumes:
+      - .:/pkg
+    working_dir: /pkg
+    command: ["R", "-e", "testthat::test_local()"]
+
+volumes:
+  omicselector-renv:
+    driver: local

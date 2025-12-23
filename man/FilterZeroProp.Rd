@@ -12,7 +12,7 @@ Computes: |P(X=0|Class1) - P(X=0|Class2)|
 Higher values indicate features that are expressed in one class but not the other.
 }
 \section{Super class}{
-\code{\link[mlr3filters:Filter]{mlr3filters::Filter}} -> \code{FilterZeroProp}
+\code{mlr3filters::Filter} -> \code{FilterZeroProp}
 }
 \section{Methods}{
 \subsection{Public methods}{

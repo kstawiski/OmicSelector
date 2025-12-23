@@ -67,6 +67,12 @@ NULL
 compute_ece <- function(probs, labels, n_bins = 10, weighting = c("samples", "uniform")) {
   weighting <- match.arg(weighting)
 
+  # Convert factor labels to numeric (0/1) before validation
+  # Factors are common in mlr3 classification workflows
+  if (is.factor(labels)) {
+    labels <- as.integer(labels) - 1L  # Factor levels to 0/1
+  }
+
   # Validate inputs
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_integerish(labels, lower = 0, upper = 1, any.missing = FALSE)
@@ -163,6 +169,11 @@ compute_ece <- function(probs, labels, n_bins = 10, weighting = c("samples", "un
 #'
 #' @export
 decompose_brier <- function(probs, labels) {
+  # Convert factor labels to numeric (0/1) before validation
+  if (is.factor(labels)) {
+    labels <- as.integer(labels) - 1L
+  }
+
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_integerish(labels, lower = 0, upper = 1, any.missing = FALSE)
 
@@ -243,6 +254,11 @@ decompose_brier <- function(probs, labels) {
 #'
 #' @export
 fit_platt_scaling <- function(probs, labels) {
+  # Convert factor labels to numeric (0/1) before validation
+  if (is.factor(labels)) {
+    labels <- as.integer(labels) - 1L
+  }
+
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_integerish(labels, lower = 0, upper = 1, any.missing = FALSE)
 
@@ -296,6 +312,11 @@ fit_platt_scaling <- function(probs, labels) {
 #'
 #' @export
 fit_isotonic_calibration <- function(probs, labels) {
+  # Convert factor labels to numeric (0/1) before validation
+  if (is.factor(labels)) {
+    labels <- as.integer(labels) - 1L
+  }
+
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_integerish(labels, lower = 0, upper = 1, any.missing = FALSE)
 
@@ -345,6 +366,11 @@ fit_isotonic_calibration <- function(probs, labels) {
 #'
 #' @export
 fit_temperature_scaling <- function(probs, labels) {
+  # Convert factor labels to numeric (0/1) before validation
+  if (is.factor(labels)) {
+    labels <- as.integer(labels) - 1L
+  }
+
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
   checkmate::assert_integerish(labels, lower = 0, upper = 1, any.missing = FALSE)
 
@@ -420,14 +446,26 @@ reliability_diagram_data <- function(probs, labels, n_bins = 10) {
 #' Computes comprehensive calibration metrics from benchmark results.
 #' Intended for use with BenchmarkService outputs.
 #'
+#' This function is metrics-only and does NOT fit calibration repair models.
+#' To fit calibrators, use the separate functions \code{fit_platt_scaling()},
+#' \code{fit_isotonic_calibration()}, or \code{fit_temperature_scaling()}
+#' on a held-out calibration set (NOT the evaluation/test set).
+#'
 #' @param probs Vector or list of predicted probabilities
 #' @param labels Vector or list of true labels
-#' @param repair Logical, whether to fit calibration repair methods
 #'
-#' @return A CalibrationResult object with metrics and optional repairers
+#' @return A CalibrationResult object with calibration metrics
+#'
+#' @details
+#' To avoid data leakage, calibration repair models should be fit on a
+#' separate calibration set, not on the evaluation data used for metrics.
+#' This function only computes metrics; fitting calibrators is a separate step.
+#'
+#' @seealso \code{\link{fit_platt_scaling}}, \code{\link{fit_isotonic_calibration}},
+#'   \code{\link{fit_temperature_scaling}}
 #'
 #' @export
-calibration_summary <- function(probs, labels, repair = FALSE) {
+calibration_summary <- function(probs, labels) {
   # Handle list inputs (from CV folds)
   if (is.list(probs) && !is.data.frame(probs)) {
     probs <- unlist(probs)
@@ -437,7 +475,7 @@ calibration_summary <- function(probs, labels, repair = FALSE) {
   probs <- as.numeric(probs)
   labels <- as.numeric(labels)
 
-  # Compute metrics
+  # Compute metrics only - no fitting to prevent leakage
   ece_result <- compute_ece(probs, labels)
   brier_result <- decompose_brier(probs, labels)
 
@@ -451,13 +489,6 @@ calibration_summary <- function(probs, labels, repair = FALSE) {
     n_samples = length(probs),
     bin_data = ece_result$bin_data
   )
-
-  # Fit calibration repair methods if requested
-  if (repair) {
-    result$platt_calibrator <- fit_platt_scaling(probs, labels)
-    result$isotonic_calibrator <- fit_isotonic_calibration(probs, labels)
-    result$temperature_calibrator <- fit_temperature_scaling(probs, labels)
-  }
 
   class(result) <- c("CalibrationResult", "list")
   result
@@ -484,9 +515,8 @@ print.CalibrationResult <- function(x, ...) {
   cat(sprintf("  - Resolution:       %.4f (discrimination, higher is better)\n", x$resolution))
   cat(sprintf("  - Uncertainty:      %.4f (inherent, fixed)\n", x$uncertainty))
 
-  if (!is.null(x$platt_calibrator)) {
-    cat("\nCalibration repair methods fitted (use $platt_calibrator, $isotonic_calibrator)\n")
-  }
+  cat("\nTo fit calibrators, use fit_platt_scaling() or fit_isotonic_calibration()\n")
+  cat("on a held-out calibration set (not the evaluation data).\n")
 
   invisible(x)
 }

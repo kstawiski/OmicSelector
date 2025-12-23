@@ -6,6 +6,13 @@
 \usage{
 \method{print}{FeatureImportance}(x, n = 10, ...)
 }
+\arguments{
+\item{x}{FeatureImportance object to print.}
+
+\item{n}{Number of top features to show.}
+
+\item{...}{Unused; present for method compatibility.}
+}
 \description{
 Print Feature Importance
 }

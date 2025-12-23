@@ -6,6 +6,11 @@
 \usage{
 \method{print}{CorrelationCheck}(x, ...)
 }
+\arguments{
+\item{x}{CorrelationCheck object to print.}
+
+\item{...}{Unused; present for method compatibility.}
+}
 \description{
 Print Correlation Check
 }

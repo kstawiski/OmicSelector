@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Provides deep learning models optimized for high-dimensional omics data
-#' using mlr3torch. Includes TabTransformer, GNNs, and other architectures.
+#' using mlr3torch and torch. Includes TabTransformer and autoencoder-based
+#' representation learning.
 #'
 #' @details
 #' These learners require the 'mlr3torch' and 'torch' packages to be installed.
@@ -12,7 +13,7 @@
 #' Available architectures:
 #' - **MLP**: Multi-Layer Perceptron with dropout regularization
 #' - **TabTransformer**: Attention-based model for tabular data
-#' - **GNN**: Graph Neural Network for pathway-aware classification
+#' - **Autoencoder**: Unsupervised feature compression (PipeOp)
 #'
 #' @section Installation:
 #' ```r
@@ -192,6 +193,7 @@ make_tabtransformer_learner <- function(n_heads = 4L,
       lr = learning_rate,
       predict_type = "prob"
     )
+    learner$id <- "tabtransformer"
   } else {
     # Fallback: Create custom transformer-like architecture
     message("Using MLP approximation (TabTransformer not available in mlr3torch)")
@@ -205,9 +207,12 @@ make_tabtransformer_learner <- function(n_heads = 4L,
       epochs = epochs,
       learning_rate = learning_rate
     )
+
+    # Use a distinct ID to indicate this is a fallback, not a true TabTransformer
+    # This prevents confusion when interpreting benchmark results
+    learner$id <- "tabtransformer_mlp_fallback"
   }
 
-  learner$id <- "tabtransformer"
   learner
 }
 

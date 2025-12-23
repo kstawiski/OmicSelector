@@ -61,17 +61,10 @@ OmicSelector 2.0 prioritizes **zero data leakage** and **feature stability**
 above raw accuracy metrics. High accuracy with unstable feature sets
 (the "Rashomon Effect") indicates overfitting, not real signal.
 
-## Migration from v1.0
-
-Legacy functions like `OmicSelector_iteratedRFE` are deprecated due to
-data leakage issues. See [list_deprecated_functions()] for the full list
-and migration guidance.
 }
 \seealso{
 - [OmicPipeline]: Main pipeline class
 - [BenchmarkService]: Nested CV service
-- [validate_no_leakage()]: Check for leakage risks
-- [list_deprecated_functions()]: Deprecated function list
 }
 \author{
 \strong{Maintainer}: Konrad Stawiski \email{konrad.stawiski@umed.lodz.pl} (\href{https://orcid.org/0000-0002-6550-3384}{ORCID})

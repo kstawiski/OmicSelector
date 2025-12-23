@@ -181,10 +181,18 @@ select_best_signature <- function(
 
   candidates[, se_metric := fifelse(n_folds > 1, sd_metric / sqrt(n_folds), NA_real_)]
 
-  # If higher is not better (e.g., brier score), flip sign for ranking
+  # Store original metric value for constraint checking
+  # Constraints should be specified in original metric units (e.g., auc_min=0.7 for AUC)
+  candidates[, original_metric := mean_metric]
+
+  # If higher is not better (e.g., brier score), flip sign for internal ranking
+  # This allows all selection logic to use "higher is better" convention
   if (!metric_higher_better) {
     candidates[, mean_metric := -mean_metric]
   }
+
+  # Store metric direction for constraint interpretation
+  attr(candidates, "metric_higher_better") <- metric_higher_better
 
   # Attach stability information
   candidates[, stability := NA_real_]
@@ -228,14 +236,30 @@ select_best_signature <- function(
     # If we extracted features, compute stability from them
     features_per_fold <- attr(candidates, "features_per_fold")
     if (!is.null(features_per_fold) && length(features_per_fold) > 0) {
+      # Get total candidate feature count from original task (NOT union of selected)
+      # This is critical for correct Nogueira stability computation
+      total_features <- tryCatch({
+        # mlr3 benchmark result stores tasks
+        if (!is.null(bmr$tasks) && length(bmr$tasks$task) > 0) {
+          bmr$tasks$task[[1]]$n_features
+        } else {
+          NULL
+        }
+      }, error = function(e) NULL)
+
       for (lid in names(features_per_fold)) {
         fold_features <- features_per_fold[[lid]]
         if (length(fold_features) >= 2) {
-          # Get total feature count (needed for Nogueira index)
-          all_features <- unique(unlist(fold_features))
-          p <- length(all_features)
+          # Use total candidate features for p, not union of selected features
+          # If we couldn't get from task, fall back to union (suboptimal but better than nothing)
+          p <- if (!is.null(total_features) && total_features > 0) {
+            total_features
+          } else {
+            # Fallback: use union of selected (with warning on first occurrence)
+            length(unique(unlist(fold_features)))
+          }
 
-          # Compute Nogueira Stability Index
+          # Compute Nogueira Stability Index with correct p
           stability_val <- .compute_nogueira_index(fold_features, p)
           candidates[learner_id == lid, stability := stability_val]
         }
@@ -308,11 +332,14 @@ select_best_signature <- function(
   # SI = 1 - (1/k_bar) * sum(pf * (1 - pf)) / (1 - k_bar/p)
   #
   # Simplified: using variance formula
-  # Observed variance = (1/d) * sum(pf * (1-pf)) where d = number of features
+  # Observed variance = (1/p) * sum(pf * (1-pf)) where p = TOTAL candidate features
   # Maximum variance under random selection = k_bar/p * (1 - k_bar/p)
+  #
+  # NOTE: Features never selected have pf=0, contributing 0 to the sum,
+  # so we only need to sum over the union of selected features
+  # but MUST divide by total candidates p, not the union size
 
-  d <- length(all_features)
-  observed_var <- sum(pf * (1 - pf)) / d
+  observed_var <- sum(pf * (1 - pf)) / p  # Use p (total candidates), not length(all_features)
   max_var <- (k_bar / p) * (1 - k_bar / p)
 
   if (max_var == 0) {
@@ -479,9 +506,18 @@ select_best_signature <- function(
 
   dt <- data.table::copy(candidates)
 
-  # AUC constraint
+  # AUC constraint - use original_metric (not sign-flipped) for constraint checking
+
+  # The auc_min parameter should be specified in original metric units
+  # (e.g., auc_min=0.7 for AUC, where higher is better)
   if (!is.null(auc_min)) {
-    dt <- dt[mean_metric >= auc_min]
+    # Use original_metric if available (preserves original scale before sign-flip)
+    if ("original_metric" %in% names(dt)) {
+      dt <- dt[original_metric >= auc_min]
+    } else {
+      # Fallback for backwards compatibility
+      dt <- dt[mean_metric >= auc_min]
+    }
   }
 
   # Stability constraint
@@ -849,7 +885,10 @@ get_consensus_features <- function(nested_result, best_signature, min_frequency 
       stop("selected_features_per_fold must have 'learner_id' column")
     }
 
-    sf_learner <- sf_dt[learner_id == (learner_id)]
+    # Use a local variable to avoid data.table scoping issues
+    # (learner_id parameter would be shadowed by column name)
+    target_learner <- learner_id
+    sf_learner <- sf_dt[learner_id == target_learner]
 
     if (nrow(sf_learner) == 0) {
       warning("No feature information found for learner: ", learner_id)

@@ -33,7 +33,7 @@ NULL
 #' @param seed Random seed for reproducibility.
 #' @param device "cpu" or "cuda" for GPU. Default: "cpu".
 #'
-#' @return An mlr3 Learner object (or a fallback if mlr3torch unavailable)
+#' @return An mlr3 Learner object
 #'
 #' @details
 #' The MLP architecture:
@@ -41,7 +41,7 @@ NULL
 #' - Hidden layers: as specified, with batch normalization and dropout
 #' - Output layer: 2 neurons (binary classification) with softmax
 #'
-#' If mlr3torch is not installed, returns a fallback learner (glmnet) with a warning.
+#' Requires mlr3torch + torch. No non-deep-learning fallbacks are used.
 #'
 #' @examples
 #' \dontrun{
@@ -79,36 +79,7 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
   activation <- match.arg(activation)
 
 
-  # === GRACEFUL FALLBACK PATTERN (PAL Consensus) ===
-  #
-  # mlr3torch is in Suggests, not Imports, because:
-  # 1. Heavy dependency (CUDA/GPU drivers, system libraries)
-  # 2. Not all users need deep learning
-  # 3. Core functionality works without it
-  #
-  # Fallback chain: mlr3torch -> tabnet -> nnet -> xgboost -> glmnet
-
-  # Check if mlr3torch is available
-  if (!requireNamespace("mlr3torch", quietly = TRUE)) {
-    message(paste0(
-      "\n",
-      "======================================================================\n",
-      " Deep Learning Backend: mlr3torch not installed\n",
-      "======================================================================\n",
-      "\n",
-      " mlr3torch provides native PyTorch integration for OmicSelector.\n",
-      " Without it, falling back to a classical ML learner.\n",
-      "\n",
-      " To enable deep learning:\n",
-      "   1. Install torch: install.packages('torch')\n",
-      "   2. Install mlr3torch: install.packages('mlr3torch')\n",
-      "\n",
-      " Note: GPU support requires CUDA installation.\n",
-      "       See: https://torch.mlverse.org/docs/articles/installation\n",
-      "======================================================================\n"
-    ))
-    return(.create_robust_fallback())
-  }
+  check_torch_packages()
 
   # Set seed if provided
   if (!is.null(seed)) {
@@ -122,26 +93,19 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
   # Note: Actual mlr3torch implementation depends on version
   # This is a factory that adapts to available mlr3torch API
 
-  tryCatch({
-    mlp_learner <- .create_mlr3torch_mlp(
-      hidden_layers = hidden_layers,
-      dropout = dropout,
-      activation = activation,
-      epochs = epochs,
-      batch_size = batch_size,
-      lr = lr,
-      early_stopping = early_stopping,
-      patience = patience,
-      device = device
-    )
-    return(mlp_learner)
-  }, error = function(e) {
-    warning(sprintf(
-      "Failed to create mlr3torch MLP: %s\nUsing glmnet fallback.",
-      e$message
-    ))
-    return(.create_glmnet_fallback())
-  })
+  mlp_learner <- .create_mlr3torch_mlp(
+    hidden_layers = hidden_layers,
+    dropout = dropout,
+    activation = activation,
+    epochs = epochs,
+    batch_size = batch_size,
+    lr = lr,
+    early_stopping = early_stopping,
+    patience = patience,
+    device = device
+  )
+
+  mlp_learner
 }
 
 
@@ -151,47 +115,52 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
                                    epochs, batch_size, lr,
                                    early_stopping, patience, device) {
 
-  # Try to create native mlr3torch learner
-  # This implementation adapts to mlr3torch API
-
-  if (requireNamespace("mlr3torch", quietly = TRUE)) {
-    # mlr3torch provides learners via lrn() interface
-    # Common patterns: "classif.mlp" or custom torch learners
-
-    # Check if classif.mlp exists in mlr3torch
-    available_learners <- tryCatch({
-      mlr3::mlr_learners$keys()
-    }, error = function(e) character(0))
-
-    if ("classif.mlp" %in% available_learners) {
-      # Use built-in MLP if available
-      learner <- mlr3::lrn("classif.mlp",
-        predict_type = "prob",
-        epochs = epochs,
-        batch_size = batch_size
-      )
-      learner$id <- "omic_mlp"
-      return(learner)
-    }
-
-    # Otherwise, create custom torch network via mlr3torch
-    # This requires defining the network architecture
-
-    if (requireNamespace("torch", quietly = TRUE)) {
-      learner <- .create_custom_torch_learner(
-        hidden_layers = hidden_layers,
-        dropout = dropout,
-        activation = activation,
-        epochs = epochs,
-        batch_size = batch_size,
-        lr = lr,
-        device = device
-      )
-      return(learner)
-    }
+  # mlr3torch's nn("mlp") uses uniform layer sizes (n_hidden applies to all layers)
+  # If hidden_layers has varying sizes, warn user and use first value
+  if (length(unique(hidden_layers)) > 1) {
+    warning(
+      "mlr3torch nn('mlp') uses uniform layer sizes. ",
+      "hidden_layers = c(", paste(hidden_layers, collapse = ", "), ") ",
+      "will use ", hidden_layers[1], " neurons for ALL ", length(hidden_layers),
+      " hidden layers. For varying layer sizes, use a custom torch::nn_module().",
+      call. = FALSE
+    )
   }
 
-  stop("Could not create mlr3torch learner")
+  network <- mlr3torch::nn("mlp",
+    n_layers = length(hidden_layers),
+    n_hidden = hidden_layers[1],  # mlr3torch uses uniform size for all layers
+    dropout = dropout,
+    batch_norm = TRUE,
+    activation = activation
+  )
+
+  callbacks <- list()
+  if (isTRUE(early_stopping) &&
+      exists("t_clbk", asNamespace("mlr3torch"), inherits = FALSE)) {
+    callbacks <- list(
+      mlr3torch::t_clbk("early_stopping",
+        patience = patience,
+        min_delta = 0.001
+      )
+    )
+  }
+
+  learner <- mlr3torch::lrn("classif.torch",
+    network = network,
+    epochs = epochs,
+    batch_size = batch_size,
+    optimizer = mlr3torch::t_opt("adam", lr = lr),
+    loss = mlr3torch::t_loss("cross_entropy"),
+    callbacks = callbacks,
+    predict_type = "prob"
+  )
+
+  if ("device" %in% learner$param_set$ids()) {
+    learner$param_set$values$device <- device
+  }
+  learner$id <- "omic_mlp"
+  learner
 }
 
 
@@ -199,104 +168,19 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
 #' @keywords internal
 .create_custom_torch_learner <- function(hidden_layers, dropout, activation,
                                           epochs, batch_size, lr, device) {
-
-  # For now, return a wrapper that will use torch
-  # Full implementation requires mlr3torch's Learner infrastructure
-
-  # Check for tabnet as alternative (if available)
-  if ("classif.tabnet" %in% mlr3::mlr_learners$keys()) {
-    learner <- mlr3::lrn("classif.tabnet",
-      predict_type = "prob",
-      epochs = epochs
-    )
-    learner$id <- "omic_tabnet"
-    return(learner)
-  }
-
-  # Ultimate fallback: use nnet for simple neural network
-  if (requireNamespace("nnet", quietly = TRUE) &&
-      "classif.nnet" %in% mlr3::mlr_learners$keys()) {
-    learner <- mlr3::lrn("classif.nnet",
-      predict_type = "prob",
-      size = hidden_layers[1],  # First hidden layer size
-      MaxNWts = 10000,
-      maxit = epochs
-    )
-    learner$id <- "omic_nnet"
-    message("Using nnet as simplified neural network (mlr3torch unavailable)")
-    return(learner)
-  }
-
-  stop("No neural network backend available")
-}
-
-
-#' @title Create Robust Fallback Learner
-#'
-#' @description
-#' Creates the best available fallback learner when mlr3torch is not installed.
-#' Follows the fallback chain: xgboost -> ranger -> glmnet
-#'
-#' @return An mlr3 Learner object
-#' @keywords internal
-.create_robust_fallback <- function() {
-  if (!requireNamespace("mlr3learners", quietly = TRUE)) {
-    stop(paste(
-      "Neither mlr3torch nor mlr3learners available.\n",
-      "Install mlr3learners: install.packages('mlr3learners')"
-    ), call. = FALSE)
-  }
-
-  # Get available learners
-  available <- tryCatch(
-    mlr3::mlr_learners$keys(),
-    error = function(e) character(0)
+  .create_mlr3torch_mlp(
+    hidden_layers = hidden_layers,
+    dropout = dropout,
+    activation = activation,
+    epochs = epochs,
+    batch_size = batch_size,
+    lr = lr,
+    early_stopping = FALSE,
+    patience = 0,
+    device = device
   )
-
-  # Fallback chain based on performance for tabular data
-  if ("classif.xgboost" %in% available) {
-    message("  -> Using XGBoost as fallback (excellent for tabular data)")
-    learner <- mlr3::lrn("classif.xgboost",
-      predict_type = "prob",
-      nrounds = 100,
-      max_depth = 6,
-      eta = 0.1
-    )
-    learner$id <- "omic_xgboost_fallback"
-    return(learner)
-  }
-
-  if ("classif.ranger" %in% available) {
-    message("  -> Using Random Forest (ranger) as fallback")
-    learner <- mlr3::lrn("classif.ranger",
-      predict_type = "prob",
-      num.trees = 500
-    )
-    learner$id <- "omic_ranger_fallback"
-    return(learner)
-  }
-
-  if ("classif.glmnet" %in% available) {
-    message("  -> Using Elastic Net (glmnet) as fallback")
-    learner <- mlr3::lrn("classif.glmnet",
-      predict_type = "prob",
-      alpha = 0.5  # Elastic net
-    )
-    learner$id <- "omic_glmnet_fallback"
-    return(learner)
-  }
-
-  stop(paste(
-    "No suitable fallback learner available.\n",
-    "Install at least one of: xgboost, ranger, glmnet\n",
-    "  install.packages(c('xgboost', 'ranger', 'glmnet'))"
-  ), call. = FALSE)
 }
 
-
-#' @title Create glmnet Fallback Learner (deprecated alias)
-#' @keywords internal
-.create_glmnet_fallback <- .create_robust_fallback
 
 
 #' @title Check Deep Learning Availability
@@ -308,17 +192,31 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
 #'
 #' @export
 check_dl_availability <- function() {
-  list(
-    torch = requireNamespace("torch", quietly = TRUE),
-    mlr3torch = requireNamespace("mlr3torch", quietly = TRUE),
-    nnet = requireNamespace("nnet", quietly = TRUE),
-    keras = requireNamespace("keras", quietly = TRUE),  # Legacy, not recommended
-    recommended = if (requireNamespace("mlr3torch", quietly = TRUE)) {
-      "mlr3torch (installed)"
-    } else if (requireNamespace("nnet", quietly = TRUE)) {
-      "nnet (basic neural network)"
+  has_torch <- requireNamespace("torch", quietly = TRUE)
+  has_mlr3torch <- requireNamespace("mlr3torch", quietly = TRUE)
+  torch_ready <- FALSE
+  cuda <- FALSE
+
+  if (has_torch) {
+    torch_ready <- tryCatch(torch::torch_is_installed(), error = function(e) FALSE)
+    cuda <- if (torch_ready) {
+      tryCatch(torch::cuda_is_available(), error = function(e) FALSE)
     } else {
-      "None - install mlr3torch: install.packages('mlr3torch')"
+      FALSE
+    }
+  }
+
+  list(
+    torch = has_torch,
+    torch_ready = torch_ready,
+    mlr3torch = has_mlr3torch,
+    cuda_available = cuda,
+    recommended = if (has_mlr3torch && torch_ready) {
+      "mlr3torch (installed)"
+    } else if (has_torch && !torch_ready) {
+      "Run torch::install_torch() to install libtorch"
+    } else {
+      "Install torch + mlr3torch"
     }
   )
 }

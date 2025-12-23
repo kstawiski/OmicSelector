@@ -7,6 +7,10 @@ Authors@R: c(
       comment = c(ORCID = "0000-0002-6550-3384")),
     person("Marcin", "Kaszkowiak", role = "aut"),
     person("Damian", "Mikulski", role = "aut"))
+Author: Konrad Stawiski [aut, cre] (ORCID: 0000-0002-6550-3384),
+    Marcin Kaszkowiak [aut],
+    Damian Mikulski [aut]
+Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
 Description: A PhD-level toolkit for biomarker discovery from high-dimensional
     omics data. Enforces proper nested cross-validation with zero data leakage,
     computes feature stability metrics (Nogueira Stability Index), and provides
@@ -17,6 +21,7 @@ Description: A PhD-level toolkit for biomarker discovery from high-dimensional
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 URL: https://biostat.umed.pl/OmicSelector/, https://github.com/kstawiski/OmicSelector
 BugReports: https://github.com/kstawiski/OmicSelector/issues
 Depends:
@@ -25,39 +30,31 @@ Imports:
     R6,
     data.table,
     checkmate,
-    lgr,
+    digest,
+    MASS,
     mlr3 (>= 0.18.0),
     mlr3pipelines (>= 0.5.0),
     mlr3tuning (>= 0.20.0),
-    mlr3fselect (>= 0.12.0),
-    mlr3learners (>= 0.6.0),
     mlr3filters (>= 0.7.0),
-    mlr3measures,
-    mlr3misc,
     paradox,
-    bbotk,
     future,
-    future.apply,
-    dplyr,
-    tibble,
-    tidyr,
-    ggplot2,
-    MASS,
-    pROC,
-    stats,
-    utils,
-    cachem
+    future.apply
 Suggests:
     knitr,
     rmarkdown,
+    shiny,
+    bslib,
+    shinyWidgets,
     testthat (>= 3.0.0),
+    ggplot2,
+    ggrepel,
+    cachem,
+    memoise,
     mlr3mbo,
+    mlr3learners (>= 0.6.0),
     mlr3torch,
     torch,
-    sva,
-    Biobase,
-    BiocManager,
-    TCGAbiolinks,
+    Matrix,
     iml,
     DALEX,
     vetiver,
@@ -68,13 +65,9 @@ Suggests:
     glmnet,
     xgboost,
     lightgbm,
+    nnet,
     e1071,
     kknn,
-    randomForest,
-    mice,
-    caret,
-    keras,
-    reticulate,
     vdiffr
 Config/testthat/edition: 3
 VignetteBuilder: knitr

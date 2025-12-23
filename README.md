@@ -172,6 +172,156 @@ print(result)
 
 ---
 
+## Web UI (Shiny)
+
+Run the interactive WebUI locally:
+
+```r
+shiny::runApp("shiny/omicselector", host = "0.0.0.0", port = 3838)
+```
+
+Run via Docker (Shiny WebUI + RStudio Server):
+
+```bash
+docker compose up
+```
+
+Then open:
+- WebUI: `http://localhost:3838`
+- RStudio Server: `http://localhost:8787` (user: `rstudio`, password: `omicselector`)
+
+Uploads and results are saved under `/OmicSelector/analyses/<analysis_id>` inside
+the container and persisted to `./analyses` on the host. Set
+`OMICSELECTOR_ANALYSES_DIR` to override the storage location.
+
+---
+
+## Recipes
+
+### Binary Classification (Single-Omics)
+
+```r
+pipeline <- OmicPipeline$new(
+  data = my_data,
+  target = "outcome",
+  positive = "Case"
+)
+
+learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "rpart",
+  n_features = 20
+)
+
+fit <- pipeline$fit(learner, seed = 1)
+fit$selected_features
+```
+
+### Multi-Omics (Named List Input)
+
+```r
+pipeline <- OmicPipeline$new(
+  data = list(rna = rna_data, mirna = mirna_data),
+  target = "outcome",
+  positive = "Case"
+)
+
+learner <- pipeline$create_graph_learner(
+  filter = "mrmr",
+  model = "rpart",
+  n_features = 30
+)
+```
+
+### Benchmark (Nested CV + Screening + Caching)
+
+```r
+learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "rpart",
+  n_features = 20,
+  screening = TRUE,
+  screening_frac = 0.2
+)
+
+result <- pipeline$benchmark(
+  learners = learner,
+  outer_folds = 5,
+  inner_folds = 3,
+  seed = 42,
+  cache_dir = "cache",
+  parallel = TRUE,
+  threads = 1
+)
+```
+
+### Deep Learning (mlr3torch + Autoencoder)
+
+```r
+# Requires: torch + mlr3torch
+learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "mlp",
+  n_features = 50,
+  autoencoder = list(
+    latent_dim = 32,
+    hidden_layers = c(128, 64),
+    epochs = 50,
+    batch_size = 64,
+    early_stopping = TRUE,
+    patience = 10
+  )
+)
+
+result <- pipeline$benchmark(
+  learners = learner,
+  outer_folds = 3,
+  inner_folds = 2,
+  seed = 1
+)
+```
+
+Transfer learning via autoencoder pretraining:
+
+```r
+ae <- autoencoder_fit(x_train, latent_dim = 32, epochs = 50)
+autoencoder_save(ae, "pretrained_ae.pt")
+
+learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "mlp",
+  n_features = 50,
+  autoencoder = list(
+    pretrained = "pretrained_ae.pt",
+    freeze_encoder = TRUE
+  )
+)
+```
+
+Checkpoint export/import for fine‑tuning:
+
+```r
+fit <- pipeline$fit(learner, seed = 1)
+export_omicfit_checkpoint(fit, "mlp_checkpoint.pt")
+
+finetuned <- finetune_mlr3torch_checkpoint(
+  learner = learner,
+  task = pipeline$get_task(),
+  path = "mlp_checkpoint.pt",
+  epochs = 30
+)
+
+# Or stay at the OmicFit level
+finetuned_fit <- finetune_omicfit_checkpoint(
+  fit = fit,
+  task = pipeline$get_task(),
+  path = "mlp_checkpoint.pt",
+  epochs = 30
+)
+```
+
+---
+
 ## Configuration Options
 
 ### Feature Selection Methods

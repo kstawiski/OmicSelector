@@ -13,6 +13,22 @@ OmicSelector_profileplot(
   original.names = TRUE
 )
 }
+\arguments{
+\item{form}{Numeric matrix/data.frame of scores (rows = methods, cols = subscores).}
+
+\item{Method.id}{Optional vector of method identifiers (length = nrow(form)).}
+
+\item{standardize}{Logical; if TRUE, z-score each column.}
+
+\item{interval}{Number of intervals on y-axis for the pattern view.}
+
+\item{by.pattern}{Logical; if TRUE, draw pattern view with ggplot2.}
+
+\item{original.names}{Logical; if TRUE, use column names as labels.}
+}
+\value{
+A ggplot object (by.pattern = TRUE) or NULL (base plot).
+}
 \description{
-Modified function of profileR::profileplot to correct "Method".
+Profile plot for comparing score patterns across methods or samples.
 }

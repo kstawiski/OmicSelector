@@ -46,6 +46,7 @@ result <- pipeline$benchmark(learner, outer_folds = 5, inner_folds = 3)
 \item \href{#method-OmicPipeline-create_graph_learner}{\code{OmicPipeline$create_graph_learner()}}
 \item \href{#method-OmicPipeline-create_auto_fselector}{\code{OmicPipeline$create_auto_fselector()}}
 \item \href{#method-OmicPipeline-benchmark}{\code{OmicPipeline$benchmark()}}
+\item \href{#method-OmicPipeline-fit}{\code{OmicPipeline$fit()}}
 \item \href{#method-OmicPipeline-get_task}{\code{OmicPipeline$get_task()}}
 \item \href{#method-OmicPipeline-get_feature_names}{\code{OmicPipeline$get_feature_names()}}
 \item \href{#method-OmicPipeline-is_multi_omics}{\code{OmicPipeline$is_multi_omics()}}
@@ -107,7 +108,11 @@ Create a GraphLearner with proper leakage prevention
   impute_method = "median",
   scale = TRUE,
   oversample = NULL,
-  batch_correct = FALSE
+  screening = FALSE,
+  screening_nfeat = NULL,
+  screening_frac = 0.2,
+  batch_correct = FALSE,
+  autoencoder = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -116,7 +121,8 @@ Create a GraphLearner with proper leakage prevention
 \describe{
 \item{\code{filter}}{Filter method name (e.g., "anova", "mrmr", "correlation")}
 
-\item{\code{model}}{Model type (e.g., "ranger", "glmnet", "svm")}
+\item{\code{model}}{Model type (e.g., "ranger", "glmnet", "svm", "mlp",
+"tabtransformer") or an mlr3 Learner object.}
 
 \item{\code{n_features}}{Number of features to select (or proportion if < 1)}
 
@@ -126,9 +132,23 @@ Create a GraphLearner with proper leakage prevention
 
 \item{\code{oversample}}{Oversampling method (NULL, "smote", "rose")}
 
+\item{\code{screening}}{Logical, whether to apply a fast variance-based screening
+filter before the main selection step (default: FALSE)}
+
+\item{\code{screening_nfeat}}{Integer, number of features to keep during screening.
+If NULL, uses screening_frac.}
+
+\item{\code{screening_frac}}{Numeric (0,1], fraction of features to keep during
+screening when screening_nfeat is NULL (default: 0.2)}
+
 \item{\code{batch_correct}}{Logical or character. If TRUE, adds FrozenComBat batch
 correction using the batch column specified in pipeline creation. If a
 character string, uses that as the batch column name. Default: FALSE.}
+
+\item{\code{autoencoder}}{Logical or list. If TRUE, inserts a torch autoencoder
+PipeOp after scaling. If a list, its contents are passed to
+\code{create_autoencoder_pipeop()} to configure latent dimension, training,
+and transfer options. Default: NULL (disabled).}
 }
 \if{html}{\out{</div>}}
 }
@@ -140,31 +160,34 @@ A mlr3 GraphLearner object
 \if{html}{\out{<a id="method-OmicPipeline-create_auto_fselector"></a>}}
 \if{latex}{\out{\hypertarget{method-OmicPipeline-create_auto_fselector}{}}}
 \subsection{Method \code{create_auto_fselector()}}{
-Create an AutoFSelector for inner-loop feature selection tuning
+Create an AutoTuner that tunes filter.nfeat in the inner CV loop
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{OmicPipeline$create_auto_fselector(
   learner,
   filter_values = c(5, 10, 20, 50),
   inner_resampling = NULL,
-  measure = NULL
+  measure = NULL,
+  tuner = "grid_search"
 )}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{A Learner or GraphLearner}
+\item{\code{learner}}{A GraphLearner produced by create_graph_learner()}
 
-\item{\code{filter_values}}{Vector of n_features values to try}
+\item{\code{filter_values}}{Integer vector of n_features values to try}
 
 \item{\code{inner_resampling}}{Inner resampling strategy}
 
 \item{\code{measure}}{Performance measure}
+
+\item{\code{tuner}}{Tuning strategy (default: "grid_search")}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An AutoFSelector object
+An mlr3tuning::AutoTuner object
 }
 }
 \if{html}{\out{<hr>}}
@@ -173,7 +196,20 @@ An AutoFSelector object
 \subsection{Method \code{benchmark()}}{
 Run benchmark with proper nested cross-validation
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{OmicPipeline$benchmark(learners, outer_folds = 5, stratify = TRUE, seed = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{OmicPipeline$benchmark(
+  learners,
+  outer_folds = 5,
+  inner_folds = 3,
+  stratify = TRUE,
+  seed = NULL,
+  parallel = TRUE,
+  threads = 1,
+  cache_dir = NULL,
+  cache_key = NULL,
+  screening = FALSE,
+  screening_nfeat = NULL,
+  screening_frac = 0.2
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -183,14 +219,68 @@ Run benchmark with proper nested cross-validation
 
 \item{\code{outer_folds}}{Number of outer CV folds}
 
+\item{\code{inner_folds}}{Number of inner CV folds}
+
 \item{\code{stratify}}{Logical, whether to stratify by outcome}
 
 \item{\code{seed}}{Random seed for reproducibility}
+
+\item{\code{parallel}}{Logical, whether to run in parallel (default: TRUE)}
+
+\item{\code{threads}}{Integer, number of threads for mlr3 learners (default: 1)}
+
+\item{\code{cache_dir}}{Optional directory to cache benchmark results (RDS)}
+
+\item{\code{cache_key}}{Optional cache key override (string)}
+
+\item{\code{screening}}{Logical, apply variance screening before nested CV}
+
+\item{\code{screening_nfeat}}{Integer, number of features to keep in screening}
+
+\item{\code{screening_frac}}{Numeric (0,1], fraction of features to keep in screening}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A BenchmarkResult object
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-OmicPipeline-fit"></a>}}
+\if{latex}{\out{\hypertarget{method-OmicPipeline-fit}{}}}
+\subsection{Method \code{fit()}}{
+Fit a learner on the full dataset and return the trained model
+and selected features (for deployment).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{OmicPipeline$fit(
+  learner,
+  seed = NULL,
+  threads = 1,
+  screening = FALSE,
+  screening_nfeat = NULL,
+  screening_frac = 0.2
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{learner}}{A Learner or GraphLearner}
+
+\item{\code{seed}}{Random seed for reproducibility}
+
+\item{\code{threads}}{Integer, number of threads for mlr3 learners (default: 1)}
+
+\item{\code{screening}}{Logical, apply variance screening before selection}
+
+\item{\code{screening_nfeat}}{Integer, number of features to keep in screening}
+
+\item{\code{screening_frac}}{Numeric (0,1], fraction of features to keep in screening}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A list with trained learner and selected features
 }
 }
 \if{html}{\out{<hr>}}

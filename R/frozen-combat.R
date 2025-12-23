@@ -216,7 +216,21 @@ FrozenComBat <- R6::R6Class(
       design <- cbind(batch_design, mod[, -1, drop = FALSE])  # Remove intercept from mod
 
       # Fit linear model to get residuals
-      B_hat <- solve(crossprod(design)) %*% t(design) %*% t(dat)
+      # Use robust matrix inversion to handle rank-deficient designs
+      # (common in omics with small samples or confounded batches)
+      XtX <- crossprod(design)
+      # Add small ridge for numerical stability
+      XtX_reg <- XtX + diag(1e-8, ncol(design))
+      B_hat <- tryCatch({
+        solve(XtX_reg) %*% t(design) %*% t(dat)
+      }, error = function(e) {
+        # Fallback to pseudo-inverse if still singular
+        if (requireNamespace("MASS", quietly = TRUE)) {
+          MASS::ginv(XtX) %*% t(design) %*% t(dat)
+        } else {
+          stop("Matrix inversion failed. Install 'MASS' package for robust fallback.", call. = FALSE)
+        }
+      })
       grand_mean <- crossprod(n_per_batch / n_samples, B_hat[1:n_batch, , drop = FALSE])
 
       # Variance of batch effects
@@ -225,7 +239,9 @@ FrozenComBat <- R6::R6Class(
       # Standardize data
       stand_mean <- crossprod(grand_mean, rep(1, n_samples))
 
-      # Get batch-specific adjustments
+      # Get batch-specific adjustments from linear model coefficients
+      # This properly accounts for biological covariates (if provided)
+      # B_hat rows 1:n_batch contain batch effect coefficients
       gamma_hat <- matrix(NA, n_batch, n_features)
       delta_hat <- matrix(NA, n_batch, n_features)
 
@@ -233,13 +249,25 @@ FrozenComBat <- R6::R6Class(
         batch_idx <- which(batch == batch_levels[i])
         batch_dat <- dat[, batch_idx, drop = FALSE]
 
-        # Batch mean (location shift)
-        gamma_hat[i, ] <- rowMeans(batch_dat) - as.vector(grand_mean)
+        # Batch location shift: use linear model coefficients instead of raw means
+        # This correctly separates batch effects from covariate effects
+        # B_hat[i, ] is the batch coefficient for batch i
+        gamma_hat[i, ] <- B_hat[i, ] - as.vector(grand_mean)
 
-        # Batch variance (scale)
+        # Batch variance (scale) - computed from residuals after covariate adjustment
         if (!private$.mean_only) {
-          delta_hat[i, ] <- apply(batch_dat, 1, var)
-          delta_hat[i, delta_hat[i, ] == 0] <- 1e-6  # Avoid division by zero
+          # Compute residuals accounting for covariates
+          if (ncol(design) > n_batch) {
+            # Covariates present: compute variance from covariate-adjusted residuals
+            covariate_effect <- t(design[batch_idx, (n_batch + 1):ncol(design), drop = FALSE] %*%
+                                    B_hat[(n_batch + 1):nrow(B_hat), , drop = FALSE])
+            adjusted_dat <- batch_dat - covariate_effect
+            delta_hat[i, ] <- apply(adjusted_dat, 1, var)
+          } else {
+            # No covariates: use raw variance
+            delta_hat[i, ] <- apply(batch_dat, 1, var)
+          }
+          delta_hat[i, delta_hat[i, ] == 0 | is.na(delta_hat[i, ])] <- 1e-6  # Avoid division by zero
         } else {
           delta_hat[i, ] <- rep(1, n_features)
         }
@@ -300,17 +328,23 @@ FrozenComBat <- R6::R6Class(
       corrected <- dat
 
       # Apply correction per batch
+      # ComBat correction formula:
+      # corrected = (observed - batch_effect) / sqrt(batch_var) * sqrt(pooled_var) + grand_mean
+      # Where batch_effect = grand_mean + gamma (so subtracting it removes both batch shift and centers)
       for (i in seq_len(n_batch)) {
         batch_idx <- which(batch == batch_levels[i])
 
         if (length(batch_idx) > 0) {
           # Get frozen parameters for this batch
-          gamma_i <- params$gamma_star[i, ]
+          gamma_i <- params$gamma_star[i, ]  # gamma = batch_coef - grand_mean
           delta_i <- params$delta_star[i, ]
 
-          # Apply correction: (x - batch_mean) / sqrt(batch_var) * grand_var + grand_mean
+          # Apply correction consistently with parameter estimation:
+          # batch_effect = grand_mean + gamma_i, so we subtract (grand_mean + gamma_i)
+          # then rescale and add back grand_mean
+          batch_effect <- as.vector(params$grand_mean) + gamma_i
           for (j in batch_idx) {
-            corrected[, j] <- (dat[, j] - gamma_i) / sqrt(delta_i) *
+            corrected[, j] <- (dat[, j] - batch_effect) / sqrt(delta_i) *
               sqrt(as.vector(params$var_pooled)) + as.vector(params$grand_mean)
           }
         }

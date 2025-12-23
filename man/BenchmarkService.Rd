@@ -111,7 +111,13 @@ Self (for chaining)
 \subsection{Method \code{run()}}{
 Run the nested cross-validation benchmark
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkService$run(measures = NULL, parallel = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkService$run(
+  measures = NULL,
+  parallel = TRUE,
+  cache_dir = NULL,
+  cache_key = NULL,
+  threads = 1
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -119,7 +125,13 @@ Run the nested cross-validation benchmark
 \describe{
 \item{\code{measures}}{List of performance measures (default: AUC, accuracy)}
 
-\item{\code{parallel}}{Logical, whether to run in parallel}
+\item{\code{parallel}}{Logical, whether to run in parallel (default: TRUE)}
+
+\item{\code{cache_dir}}{Optional directory to cache benchmark results (RDS)}
+
+\item{\code{cache_key}}{Optional cache key override (string)}
+
+\item{\code{threads}}{Integer, number of threads for mlr3 learners (default: 1)}
 }
 \if{html}{\out{</div>}}
 }

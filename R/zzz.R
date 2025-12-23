@@ -1,9 +1,44 @@
-.onAttach <- function(libname, pkgname) {
-  # options(rgl.useNULL = TRUE)
-  # OmicSelector_setup(keras = FALSE, msg = FALSE)
-  packageStartupMessage("\n\nWelcome to OmicSelector!\nAuthor: Konrad Stawiski M.D., Ph.D. (konrad.stawiski@umed.lodz.pl)\n\nFor more details go to https://biostat.umed.pl/OmicSelector/\n")
-}
-
-.onLoad <- function(libname, pkgname) {
-  options(rgl.useNULL = TRUE)
-}
+# Suppress R CMD check notes for NSE and data.table symbols.
+utils::globalVariables(
+  c(
+    ".",
+    "..cols",
+    ".data",
+    ":=",
+    "correlated",
+    "dist_utopia",
+    "dropout_loss",
+    "features",
+    "fifelse",
+    "frequency",
+    "k",
+    "k_norm",
+    "k_tb",
+    "label",
+    "learner_id",
+    "mean_k",
+    "mean_metric",
+    "metric_norm",
+    "n_features",
+    "n_folds",
+    "neglog10p",
+    "nogueira_index",
+    "pareto",
+    "pars_norm",
+    "perf_norm",
+    "private",
+    "score",
+    "sd_metric",
+    "se_metric",
+    "selected",
+    "selected_features",
+    "self",
+    "stab_norm",
+    "stability",
+    "stability_tb",
+    "subscore.id",
+    "super",
+    "var",
+    "variable"
+  )
+)

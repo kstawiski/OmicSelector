@@ -22,11 +22,15 @@ Rplots.pdf
 ^static$
 ^docker$
 ^Dockerfile.*$
+^Dockerfile$
 ^docker-compose\.yml$
 ^\.devcontainer$
+^\.dockerignore$
+^\.Rd2pdf.*$
 ^renv$
 ^renv\.lock$
 ^data-raw$
+^old_files_to_delete$
 ^_config\.yml$
 ^index\.md$
 ^\.lintr$
