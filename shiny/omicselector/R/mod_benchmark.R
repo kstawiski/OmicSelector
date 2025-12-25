@@ -32,7 +32,7 @@ mod_benchmark_ui <- function(id) {
           checkboxInput(ns("parallel"), "Parallel Execution", value = TRUE),
           conditionalPanel(
             condition = sprintf("input['%s']", ns("parallel")),
-            numericInput(ns("workers"), "Workers", value = 2, min = 1, max = 32)
+            uiOutput(ns("workers_ui"))
           ),
 
           hr(),
@@ -113,6 +113,24 @@ mod_benchmark_server <- function(id, project, switch_tab) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Detect available cores for worker validation
+    available_cores <- parallel::detectCores(logical = TRUE)
+    if (is.na(available_cores) || available_cores < 1) available_cores <- 4
+    recommended_cores <- max(1, available_cores - 1)  # Leave one core free
+
+    # Workers UI with system-aware validation
+    output$workers_ui <- renderUI({
+      tagList(
+        numericInput(ns("workers"), "Workers",
+                     value = min(2, recommended_cores),
+                     min = 1,
+                     max = available_cores),
+        p(class = "text-muted small",
+          sprintf("Detected %d cores. Recommended: %d (leaves 1 free)",
+                  available_cores, recommended_cores))
+      )
+    })
+
     # Benchmark status
     benchmark_running <- reactiveVal(FALSE)
 
@@ -165,31 +183,65 @@ mod_benchmark_server <- function(id, project, switch_tab) {
       req(proj)
 
       pipeline <- proj$get_pipeline()
-      learner <- proj$get_learner()
+      learners <- proj$get_learner()
 
-      if (is.null(pipeline) || is.null(learner)) {
+      if (is.null(pipeline) || is.null(learners)) {
         showNotification("Create pipeline first", type = "error")
         return()
       }
+
+      # Handle both single learner and list of learners
+      # Check if it's a single Learner object (not a list of learners)
+      if (inherits(learners, "Learner")) {
+        # Single learner object - wrap in list
+        learners <- list(learners)
+      } else if (is.list(learners) && length(learners) > 0) {
+        # Already a list - check if first element is a Learner to validate
+        if (!inherits(learners[[1]], "Learner")) {
+          showNotification("Invalid learner configuration", type = "error")
+          return()
+        }
+        # Keep as-is, it's a valid list of learners
+      } else if (!is.list(learners)) {
+        # Not a list and not a Learner - invalid
+        showNotification("No valid learners configured", type = "error")
+        return()
+      }
+
+      n_learners <- length(learners)
+      message(sprintf("[mod_benchmark] Starting benchmark with %d learners", n_learners))
 
       benchmark_running(TRUE)
       # Ensure running state is reset even on error
       on.exit(benchmark_running(FALSE), add = TRUE)
 
       # Use withProgress for basic progress indication
-      withProgress(message = "Running nested CV...", value = 0, {
+      withProgress(message = sprintf("Running nested CV with %d learners...", n_learners), value = 0, {
         tryCatch({
           incProgress(0.1, detail = "Setting up...")
 
-          # Run benchmark
+          # Safely get worker count (may not be available on first render)
+          n_workers <- if (input$parallel) {
+            # Use input$workers if available, otherwise use recommended default
+            workers_val <- input$workers
+            if (is.null(workers_val) || is.na(workers_val) || workers_val < 1) {
+              recommended_cores
+            } else {
+              min(workers_val, available_cores)
+            }
+          } else {
+            1
+          }
+
+          # Run benchmark with all learners
           result <- pipeline$benchmark(
-            learners = list(learner),
+            learners = learners,
             outer_folds = input$outer_folds,
             inner_folds = input$inner_folds,
             stratify = input$stratify,
             seed = input$seed,
             parallel = input$parallel,
-            threads = if (input$parallel) input$workers else 1
+            threads = n_workers
           )
 
           incProgress(0.8, detail = "Processing results...")
@@ -198,8 +250,9 @@ mod_benchmark_server <- function(id, project, switch_tab) {
 
           incProgress(0.1, detail = "Done!")
 
-          showNotification("Benchmark completed!", type = "message")
+          showNotification(sprintf("Benchmark completed! Compared %d learners.", n_learners), type = "message")
         }, error = function(e) {
+          message("[mod_benchmark] ERROR: ", e$message)
           showNotification(paste("Error:", e$message), type = "error", duration = 10)
         })
       })

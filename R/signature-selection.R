@@ -171,15 +171,15 @@ select_best_signature <- function(
 
   # Aggregate across outer folds
   # Keys: learner_id identifies the candidate
-  candidates <- score_dt[, .(
+  candidates <- score_dt[, list(
     mean_metric = mean(get(metric), na.rm = TRUE),
     sd_metric = stats::sd(get(metric), na.rm = TRUE),
     n_folds = sum(!is.na(get(metric)))
-  ), by = .(learner_id)]
+  ), by = list(learner_id)]
 
   # Compute SE
 
-  candidates[, se_metric := fifelse(n_folds > 1, sd_metric / sqrt(n_folds), NA_real_)]
+  candidates[, se_metric := data.table::fifelse(n_folds > 1, sd_metric / sqrt(n_folds), NA_real_)]
 
   # Store original metric value for constraint checking
   # Constraints should be specified in original metric units (e.g., auc_min=0.7 for AUC)
@@ -207,7 +207,7 @@ select_best_signature <- function(
       # Per-learner stability
       ni_dt <- data.table::as.data.table(ni)
       if ("learner_id" %in% names(ni_dt) && "nogueira_index" %in% names(ni_dt)) {
-        candidates <- merge(candidates, ni_dt[, .(learner_id, stability = nogueira_index)],
+        candidates <- merge(candidates, ni_dt[, list(learner_id, stability = nogueira_index)],
                             by = "learner_id", all.x = TRUE)
       }
     }
@@ -223,7 +223,7 @@ select_best_signature <- function(
       sf_summary <- .summarize_feature_counts(sf)
 
       if (!is.null(sf_summary) && "learner_id" %in% names(sf_summary)) {
-        candidates <- merge(candidates, sf_summary[, .(learner_id, mean_k)],
+        candidates <- merge(candidates, sf_summary[, list(learner_id, mean_k)],
                             by = "learner_id", all.x = TRUE)
       }
     }
@@ -373,7 +373,7 @@ select_best_signature <- function(
     }
 
     if ("learner_id" %in% names(sf_dt)) {
-      return(sf_dt[, .(mean_k = mean(k, na.rm = TRUE)), by = .(learner_id)])
+      return(sf_dt[, list(mean_k = mean(k, na.rm = TRUE)), by = list(learner_id)])
     }
   }
 
@@ -768,7 +768,7 @@ select_best_signature <- function(
 
   stopifnot(length(cols) == length(maximize))
 
-  X <- as.matrix(dt[, ..cols])
+  X <- as.matrix(dt[, cols, with = FALSE])
 
   # Transform to "all maximize" by flipping sign for minimization objectives
   for (j in seq_along(cols)) {

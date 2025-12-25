@@ -45,8 +45,10 @@ mod_data_ui <- function(id) {
               fileInput(
                 ns("data_file"),
                 "Upload Data File",
-                accept = c(".csv", ".tsv", ".txt", ".rds", ".rda", ".xlsx", ".xls")
-              )
+                # Security: .rds/.rda removed - deserialization can execute arbitrary code
+                accept = c(".csv", ".tsv", ".txt", ".xlsx", ".xls")
+              ),
+              p(class = "text-muted small", "Supported: CSV, TSV, TXT, Excel")
             ),
 
             conditionalPanel(
@@ -55,8 +57,10 @@ mod_data_ui <- function(id) {
                 ns("multi_files"),
                 "Upload Multiple Files",
                 multiple = TRUE,
-                accept = c(".csv", ".tsv", ".txt", ".rds", ".rda", ".xlsx", ".xls")
-              )
+                # Security: .rds/.rda removed - deserialization can execute arbitrary code
+                accept = c(".csv", ".tsv", ".txt", ".xlsx", ".xls")
+              ),
+              p(class = "text-muted small", "Supported: CSV, TSV, TXT, Excel")
             )
           ),
 
@@ -174,9 +178,18 @@ mod_data_server <- function(id, project, switch_tab) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Reactive trigger to force UI updates when R6 object state changes
+    data_trigger <- reactiveVal(0)
+
     # Helper to read table files
     read_table_file <- function(path, clean_names = TRUE) {
       ext <- tolower(tools::file_ext(path))
+
+      # Security: Reject RDS/RDA files - deserialization can execute arbitrary code
+      if (ext %in% c("rds", "rda", "rdata")) {
+        stop("RDS/RDA files are not supported for security reasons. Please use CSV, TSV, or Excel format.", call. = FALSE)
+      }
+
       if (ext %in% c("csv", "tsv", "txt")) {
         df <- data.table::fread(path, data.table = FALSE)
       } else if (ext %in% c("xlsx", "xls")) {
@@ -185,14 +198,8 @@ mod_data_server <- function(id, project, switch_tab) {
         } else {
           stop("Package 'readxl' required for Excel files", call. = FALSE)
         }
-      } else if (ext == "rds") {
-        df <- readRDS(path)
-      } else if (ext %in% c("rda", "rdata")) {
-        env <- new.env()
-        load(path, envir = env)
-        df <- env[[ls(env)[1]]]
       } else {
-        stop("Unsupported file type", call. = FALSE)
+        stop("Unsupported file type. Use CSV, TSV, TXT, or Excel.", call. = FALSE)
       }
 
       df <- as.data.frame(df)
@@ -207,12 +214,21 @@ mod_data_server <- function(id, project, switch_tab) {
       if (name == "tcga") {
         data("orginal_TCGA_data", package = "OmicSelector", envir = environment())
         df <- as.data.frame(get("orginal_TCGA_data", envir = environment()))
-        # Subset for demo
+        # Subset for demo - limit features for faster exploration
         feature_cols <- grep("^hsa", names(df), value = TRUE)
-        feature_cols <- head(feature_cols, 200)
+        total_features <- length(feature_cols)
+        demo_limit <- 200
+        feature_cols <- head(feature_cols, demo_limit)
         meta_cols <- c("patient", "sample_type")
         meta_cols <- meta_cols[meta_cols %in% names(df)]
         df <- df[, c(meta_cols, feature_cols), drop = FALSE]
+        # Notify user about demo limitation
+        showNotification(
+          sprintf("TCGA demo: Using %d of %d features for faster exploration. Upload full data for complete analysis.",
+                  demo_limit, total_features),
+          type = "message",
+          duration = 8
+        )
         return(df)
       } else if (name == "tutorial_balanced") {
         data("miRNAselector_tutorial_balanced_dataset", package = "OmicSelector",
@@ -230,14 +246,23 @@ mod_data_server <- function(id, project, switch_tab) {
 
     # Load data
     observeEvent(input$load_data, {
-      req(project())
+      message("[mod_data] Load button clicked")
+      proj <- project()
+      if (is.null(proj)) {
+        message("[mod_data] ERROR: No project loaded")
+        showNotification("Please create a project first", type = "error")
+        return()
+      }
+      message("[mod_data] Project exists: ", proj$id)
 
       withProgress(message = "Loading data...", value = 0.2, {
         tryCatch({
           data_loaded <- NULL
           is_multi <- FALSE
 
+          message("[mod_data] Data source: ", input$data_source)
           if (input$data_source == "builtin") {
+            message("[mod_data] Loading built-in: ", input$builtin_dataset)
             data_loaded <- load_builtin(input$builtin_dataset)
           } else if (input$upload_mode == "single") {
             req(input$data_file)
@@ -256,13 +281,28 @@ mod_data_server <- function(id, project, switch_tab) {
           }
 
           incProgress(0.5)
+          # Log dimensions correctly for both single and multi-omics
+          if (is.data.frame(data_loaded)) {
+            message("[mod_data] Data loaded, dims: ", nrow(data_loaded), " x ", ncol(data_loaded))
+          } else if (is.list(data_loaded)) {
+            dims_str <- paste(sapply(names(data_loaded), function(m) {
+              sprintf("%s: %dx%d", m, nrow(data_loaded[[m]]), ncol(data_loaded[[m]]))
+            }), collapse = ", ")
+            message("[mod_data] Multi-omics loaded: ", dims_str)
+          }
 
           project()$set_data(data_loaded, is_multi)
+          message("[mod_data] set_data completed")
 
           incProgress(0.3)
 
+          # Trigger UI refresh (R6 state changes don't trigger reactivity)
+          data_trigger(data_trigger() + 1)
+
           showNotification("Data loaded successfully!", type = "message")
+          message("[mod_data] SUCCESS")
         }, error = function(e) {
+          message("[mod_data] ERROR: ", e$message)
           showNotification(paste("Error:", e$message), type = "error")
         })
       })
@@ -270,6 +310,8 @@ mod_data_server <- function(id, project, switch_tab) {
 
     # Get column names reactively
     columns <- reactive({
+      # Depend on trigger to refresh when data changes
+      data_trigger()
       proj <- project()
       if (is.null(proj)) return(character(0))
       data <- proj$get_data()
@@ -285,6 +327,8 @@ mod_data_server <- function(id, project, switch_tab) {
 
     # Data info display
     output$data_info <- renderUI({
+      # Depend on trigger to refresh when data changes
+      data_trigger()
       proj <- project()
       if (is.null(proj)) return(NULL)
       data <- proj$get_data()
@@ -312,6 +356,8 @@ mod_data_server <- function(id, project, switch_tab) {
 
     # Data preview
     output$data_preview <- renderTable({
+      # Depend on trigger to refresh when data changes
+      data_trigger()
       proj <- project()
       if (is.null(proj)) return(NULL)
       data <- proj$get_data()
@@ -320,7 +366,19 @@ mod_data_server <- function(id, project, switch_tab) {
       if (is.data.frame(data)) {
         head(data, 6)
       } else if (is.list(data)) {
-        head(data[[1]], 6)
+        # For multi-omics, show combined preview with modality prefix
+        # Take first few columns from each modality
+        preview_dfs <- lapply(names(data), function(mod_name) {
+          mod_data <- data[[mod_name]]
+          # Take first 3 columns from each modality
+          n_cols <- min(3, ncol(mod_data))
+          sub_df <- mod_data[, 1:n_cols, drop = FALSE]
+          # Add modality prefix to column names
+          names(sub_df) <- paste0(mod_name, "::", names(sub_df))
+          sub_df
+        })
+        combined <- do.call(cbind, preview_dfs)
+        head(combined, 6)
       }
     }, rownames = TRUE)
 
@@ -435,9 +493,32 @@ mod_data_server <- function(id, project, switch_tab) {
         return()
       }
 
+      # Check if target is numeric - if so, don't pass positive class
+      data <- project()$get_data()
+      positive_class <- input$positive_class
+
+      if (!is.null(data)) {
+        target_vals <- NULL
+        if (is.data.frame(data) && target %in% names(data)) {
+          target_vals <- data[[target]]
+        } else if (is.list(data)) {
+          for (m in names(data)) {
+            if (target %in% names(data[[m]])) {
+              target_vals <- data[[m]][[target]]
+              break
+            }
+          }
+        }
+
+        # For numeric targets, don't set positive class (regression task)
+        if (!is.null(target_vals) && is.numeric(target_vals)) {
+          positive_class <- NULL
+        }
+      }
+
       project()$set_mapping(
         target = target,
-        positive = input$positive_class,
+        positive = positive_class,
         patient_id = input$patient_id_col,
         batch = input$batch_col,
         feature_prefix = input$feature_prefix

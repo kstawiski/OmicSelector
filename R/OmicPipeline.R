@@ -77,11 +77,22 @@ OmicPipeline <- R6::R6Class(
       # Re-add target column
       merged_data[[target]] <- private$.omics_input$target_data
 
-      # Identify feature columns (exclude metadata columns)
+      # Identify feature columns (exclude metadata columns and non-numeric columns)
       # Note: c() automatically drops NULL values, so we just need to filter empty strings
       meta_cols <- c(target, patient_id, batch)
       meta_cols <- meta_cols[!is.na(meta_cols) & nzchar(meta_cols)]
-      private$.feature_names <- setdiff(names(merged_data), meta_cols)
+      candidate_features <- setdiff(names(merged_data), meta_cols)
+
+      # Only keep numeric features (glmnet and other models don't handle character)
+      numeric_mask <- sapply(merged_data[, candidate_features, drop = FALSE], is.numeric)
+      private$.feature_names <- candidate_features[numeric_mask]
+
+      # Warn about excluded columns
+      excluded <- candidate_features[!numeric_mask]
+      if (length(excluded) > 0) {
+        message(sprintf("Excluded %d non-numeric columns: %s",
+                        length(excluded), paste(head(excluded, 5), collapse = ", ")))
+      }
 
       # Create mlr3 Task
       private$.create_task(merged_data, target, positive)

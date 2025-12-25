@@ -182,9 +182,18 @@ mod_home_server <- function(id, project, switch_tab) {
         return(p(class = "text-muted", "No recent projects found."))
       }
 
-      # Find project state files
-      project_files <- list.files(root, pattern = "project_state\\.rds$",
-                                  full.names = TRUE, recursive = TRUE)
+      # Find project state files (limit depth to avoid scanning very deep directories)
+      # Only scan immediate subdirectories (project folders)
+      project_dirs <- list.dirs(root, full.names = TRUE, recursive = FALSE)
+      project_files <- character()
+
+      # Limit search to direct children and one level deep to avoid performance issues
+      for (dir in c(root, project_dirs)) {
+        files_in_dir <- list.files(dir, pattern = "project_state\\.rds$", full.names = TRUE)
+        project_files <- c(project_files, files_in_dir)
+        # Stop early if we have enough files
+        if (length(project_files) >= 20) break
+      }
 
       if (length(project_files) == 0) {
         return(p(class = "text-muted", "No recent projects found."))

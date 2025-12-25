@@ -115,6 +115,11 @@ mod_results_ui <- function(id) {
         p(class = "text-muted small", "Features selected in at least the specified fraction of CV folds"),
         tableOutput(ns("consensus_features")),
         hr(),
+        layout_column_wrap(
+          width = 1/2,
+          numericInput(ns("final_seed"), "Random Seed for Final Model", value = 42, min = 1),
+          div()
+        ),
         actionButton(ns("train_final"), "Train Final Model with Selected Signature",
                      class = "btn-success btn-lg",
                      icon = icon("graduation-cap")),
@@ -239,29 +244,51 @@ mod_results_server <- function(id, project, switch_tab) {
       }, error = function(e) NULL)
 
       if (is.null(candidates) || nrow(candidates) == 0) {
-        # Fallback: build candidates from performance table
+        # Fallback: build candidates from performance table with proper values
         perf <- result$performance
-        if (is.null(perf) || !is.data.frame(perf)) return(NULL)
+        if (is.null(perf) || !is.data.frame(perf)) {
+          showNotification("No performance data available for visualization", type = "warning")
+          return(NULL)
+        }
+
+        # Extract AUC column
+        auc_col <- intersect(c("classif.auc", "auc", "mean_auc"), names(perf))
+        auc_vals <- if (length(auc_col) > 0) perf[[auc_col[1]]] else rep(NA_real_, nrow(perf))
 
         candidates <- data.frame(
           learner_id = if ("learner_id" %in% names(perf)) perf$learner_id else paste0("Model_", seq_len(nrow(perf))),
-          mean_metric = if ("classif.auc" %in% names(perf)) perf$classif.auc else runif(nrow(perf), 0.7, 0.95),
+          mean_metric = auc_vals,
           stability = NA_real_,
-          mean_k = NA_real_
+          mean_k = NA_real_,
+          stringsAsFactors = FALSE
         )
 
-        # Add stability if available
+        # Add stability if available from result
         stab <- result$stability
-        if (!is.null(stab$nogueira_index)) {
-          ni <- stab$nogueira_index
-          if (is.data.frame(ni) && "learner_id" %in% names(ni)) {
-            candidates <- merge(candidates, ni[, c("learner_id", "nogueira_index")],
-                                by = "learner_id", all.x = TRUE)
-            candidates$stability <- candidates$nogueira_index
-          } else if (is.numeric(ni) && length(ni) == 1) {
-            candidates$stability <- ni
+        if (!is.null(stab)) {
+          if (!is.null(stab$nogueira_index)) {
+            ni <- stab$nogueira_index
+            if (is.data.frame(ni) && "learner_id" %in% names(ni) && "nogueira_index" %in% names(ni)) {
+              candidates <- merge(candidates, ni[, c("learner_id", "nogueira_index"), drop = FALSE],
+                                  by = "learner_id", all.x = TRUE)
+              candidates$stability <- candidates$nogueira_index
+              candidates$nogueira_index <- NULL
+            } else if (is.numeric(ni) && length(ni) == 1) {
+              candidates$stability <- ni
+            }
+          }
+          # Extract mean_k from selected features if available
+          if (!is.null(stab$selected_features_per_fold)) {
+            sf <- stab$selected_features_per_fold
+            if (is.list(sf) && length(sf) > 0) {
+              avg_k <- mean(unlist(lapply(sf, function(x) sapply(x, length))), na.rm = TRUE)
+              candidates$mean_k <- avg_k
+            }
           }
         }
+
+        # Notify user about fallback
+        showNotification("Using fallback visualization (some metrics may be unavailable)", type = "message", duration = 3)
       }
 
       # Store for later use
@@ -531,10 +558,35 @@ mod_results_server <- function(id, project, switch_tab) {
 
       withProgress(message = "Training final model...", value = 0.5, {
         tryCatch({
-          # Fit the learner on full data
+          # Find the specific learner matching the selected signature
+          selected_learner <- learner
+          if (is.list(learner) && length(learner) > 0) {
+            # Search for the learner by ID
+            learner_ids <- sapply(learner, function(l) {
+              if (!is.null(l$id)) l$id else ""
+            })
+            match_idx <- which(learner_ids == sig$learner_id)
+            if (length(match_idx) > 0) {
+              selected_learner <- learner[[match_idx[1]]]
+              message(sprintf("[mod_results] Selected learner %d: %s", match_idx[1], sig$learner_id))
+            } else {
+              # Fallback: try partial match or use first learner
+              partial_match <- grep(sig$learner_id, learner_ids, fixed = TRUE)
+              if (length(partial_match) > 0) {
+                selected_learner <- learner[[partial_match[1]]]
+                message(sprintf("[mod_results] Partial match learner %d: %s", partial_match[1], learner_ids[partial_match[1]]))
+              } else {
+                selected_learner <- learner[[1]]
+                showNotification(sprintf("Learner '%s' not found, using first learner", sig$learner_id), type = "warning")
+              }
+            }
+          }
+
+          # Fit the learner on full data with user-specified seed
+          seed_val <- input$final_seed %||% 42
           fit <- pipeline$fit(
-            learner = learner,
-            seed = 42
+            learner = selected_learner,
+            seed = seed_val
           )
 
           # Store the fit result

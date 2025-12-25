@@ -118,10 +118,53 @@ OmicProject <- R6::R6Class(
     #' @param feature_prefix Feature prefix filter
     set_mapping = function(target = NULL, positive = NULL, patient_id = NULL,
                            batch = NULL, feature_prefix = NULL) {
-      if (!is.null(target)) private$.target_col <- target
-      if (!is.null(positive)) private$.positive_class <- positive
-      if (!is.null(patient_id)) private$.patient_id_col <- patient_id
-      if (!is.null(batch)) private$.batch_col <- batch
+      data <- private$.data_current
+
+      # Helper to get all available column names
+      get_columns <- function() {
+        if (is.null(data)) return(character(0))
+        if (is.data.frame(data)) {
+          names(data)
+        } else if (is.list(data)) {
+          unique(unlist(lapply(data, names)))
+        } else {
+          character(0)
+        }
+      }
+
+      available_cols <- get_columns()
+
+      # Validate target column exists
+      if (!is.null(target) && nzchar(target)) {
+        if (length(available_cols) > 0 && !(target %in% available_cols)) {
+          stop(sprintf("Target column '%s' not found in data. Available: %s",
+                       target, paste(head(available_cols, 10), collapse = ", ")), call. = FALSE)
+        }
+        private$.target_col <- target
+      }
+
+      # Validate and set positive class
+      if (!is.null(positive) && nzchar(positive)) {
+        private$.positive_class <- positive
+      }
+
+      # Validate patient_id column exists
+      if (!is.null(patient_id) && nzchar(patient_id)) {
+        if (length(available_cols) > 0 && !(patient_id %in% available_cols)) {
+          stop(sprintf("Patient ID column '%s' not found in data", patient_id), call. = FALSE)
+        }
+        private$.patient_id_col <- patient_id
+      }
+
+      # Validate batch column exists
+      if (!is.null(batch) && nzchar(batch)) {
+        if (length(available_cols) > 0 && !(batch %in% available_cols)) {
+          stop(sprintf("Batch column '%s' not found in data", batch), call. = FALSE)
+        }
+        private$.batch_col <- batch
+      }
+
+      # Feature prefix doesn't need validation (it's a filter pattern)
       if (!is.null(feature_prefix)) private$.feature_prefix <- feature_prefix
 
       private$.log_event("Column mapping updated")
@@ -558,13 +601,32 @@ OmicProject <- R6::R6Class(
       target <- private$.target_col
       if (is.null(data)) return(NULL)
 
+      meta_cols <- c(target, private$.patient_id_col, private$.batch_col, "mix")
+      meta_cols <- meta_cols[!is.null(meta_cols) & nzchar(meta_cols)]
+
       if (is.data.frame(data)) {
-        meta_cols <- c(target, private$.patient_id_col, private$.batch_col, "mix")
-        meta_cols <- meta_cols[!is.null(meta_cols) & nzchar(meta_cols)]
         keep <- setdiff(names(data), meta_cols)
         x <- data[, keep, drop = FALSE]
         numeric_cols <- sapply(x, is.numeric)
         return(x[, numeric_cols, drop = FALSE])
+      } else if (is.list(data)) {
+        # Multi-omics: combine feature matrices from all modalities
+        combined_dfs <- lapply(names(data), function(mod_name) {
+          mod_data <- data[[mod_name]]
+          keep <- setdiff(names(mod_data), meta_cols)
+          x <- mod_data[, keep, drop = FALSE]
+          numeric_cols <- sapply(x, is.numeric)
+          x <- x[, numeric_cols, drop = FALSE]
+          # Prefix column names with modality for uniqueness
+          if (ncol(x) > 0) {
+            names(x) <- paste(mod_name, names(x), sep = "::")
+          }
+          x
+        })
+        # Combine all modalities - assumes same row order
+        if (length(combined_dfs) > 0 && nrow(combined_dfs[[1]]) > 0) {
+          return(do.call(cbind, combined_dfs))
+        }
       }
       NULL
     },

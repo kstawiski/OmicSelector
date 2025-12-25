@@ -63,7 +63,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('remotes','shiny','shinyjs','bslib','bsicons','shinyWidgets','sass','plotly','mice','readxl','ggplot2','ggrepel','digest'), dependencies = TRUE)"
 
 # Layer 3: ML packages (cached)
-RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('mlr3learners','ranger','glmnet','xgboost','lightgbm','e1071','kknn','nnet','DALEX','iml','vetiver','pins','plumber','jsonlite','cachem','memoise'))"
+RUN R -e "options(repos = c(CRAN = Sys.getenv('CRAN_REPO'), MLR = Sys.getenv('MLR_REPO')), Ncpus = 2); install.packages(c('mlr3learners','ranger','glmnet','xgboost','lightgbm','e1071','kknn','nnet','DALEX','iml','vetiver','pins','plumber','jsonlite','cachem','memoise','FSelectorRcpp'))"
 
 # Layer 4: Torch packages (cached)
 RUN mkdir -p ${TORCH_HOME}

@@ -122,6 +122,8 @@ mod_qc_ui <- function(id) {
             card_body(
               selectInput(ns("de_mode"), "Value Type",
                           choices = c("Log TPM" = "logtpm", "Delta Ct" = "deltact")),
+              numericInput(ns("de_pvalue"), "P-value Threshold", value = 0.05, min = 0.001, max = 0.1, step = 0.01),
+              numericInput(ns("de_log2fc"), "Log2 FC Threshold", value = 1, min = 0.1, max = 5, step = 0.1),
               numericInput(ns("de_top_n"), "Label Top N", value = 10, min = 0, max = 50),
               actionButton(ns("run_de"), "Run DE Analysis",
                            class = "btn-warning w-100",
@@ -158,6 +160,9 @@ mod_qc_server <- function(id, project, switch_tab) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Reactive trigger to force UI updates when R6 object state changes
+    qc_trigger <- reactiveVal(0)
+
     # Reactive for DE results
     de_results <- reactiveVal(NULL)
 
@@ -166,13 +171,21 @@ mod_qc_server <- function(id, project, switch_tab) {
       proj <- project()
       req(proj)
 
+      message("[mod_qc] Running QC checks...")
       withProgress(message = "Running QC checks...", value = 0.5, {
         proj$run_qc()
       })
+
+      # Trigger UI refresh
+      qc_trigger(qc_trigger() + 1)
+      message("[mod_qc] QC complete, trigger updated")
+      showNotification("QC checks complete!", type = "message")
     })
 
     # Traffic light display
     output$qc_traffic_lights <- renderUI({
+      # Depend on trigger to refresh when QC runs
+      qc_trigger()
       proj <- project()
       if (is.null(proj)) return(NULL)
 
@@ -221,6 +234,8 @@ mod_qc_server <- function(id, project, switch_tab) {
 
     # Overall QC status
     output$qc_overall_status <- renderUI({
+      # Depend on trigger to refresh when QC runs
+      qc_trigger()
       proj <- project()
       if (is.null(proj)) return(NULL)
 
@@ -263,11 +278,16 @@ mod_qc_server <- function(id, project, switch_tab) {
         keep <- setdiff(names(data), meta_cols)
         x <- data[, keep, drop = FALSE]
 
-        # Filter by prefix
+        # Filter by prefix (escape regex special characters for safety)
         if (!is.null(mapping$feature_prefix) && nzchar(mapping$feature_prefix)) {
-          keep_cols <- grep(paste0("^", mapping$feature_prefix), names(x), value = TRUE)
+          # Escape regex special characters in the prefix
+          escaped_prefix <- gsub("([.|()\\^{}+$*?\\[\\]\\\\])", "\\\\\\1", mapping$feature_prefix)
+          keep_cols <- grep(paste0("^", escaped_prefix), names(x), value = TRUE)
           if (length(keep_cols) > 0) {
             x <- x[, keep_cols, drop = FALSE]
+          } else {
+            # No matches found - return empty matrix
+            x <- x[, character(0), drop = FALSE]
           }
         }
 
@@ -324,9 +344,25 @@ mod_qc_server <- function(id, project, switch_tab) {
       x <- get_feature_matrix()
       if (is.null(x) || ncol(x) < 2 || nrow(x) < 2) return(NULL)
 
-      # Handle missing values
-      x <- x[complete.cases(x), , drop = FALSE]
-      if (nrow(x) < 2) return(NULL)
+      # Handle missing values with user notification
+      original_n <- nrow(x)
+      complete_idx <- complete.cases(x)
+      x <- x[complete_idx, , drop = FALSE]
+      dropped_n <- original_n - nrow(x)
+
+      if (dropped_n > 0) {
+        pct_dropped <- round(dropped_n / original_n * 100, 1)
+        showNotification(
+          sprintf("PCA: Excluded %d samples (%.1f%%) with missing values", dropped_n, pct_dropped),
+          type = if (pct_dropped > 20) "warning" else "message",
+          duration = 5
+        )
+      }
+
+      if (nrow(x) < 2) {
+        showNotification("Not enough complete samples for PCA", type = "error")
+        return(NULL)
+      }
 
       pca <- prcomp(x, scale. = TRUE)
 
@@ -336,10 +372,12 @@ mod_qc_server <- function(id, project, switch_tab) {
       groups <- NULL
       if (!is.null(input$pca_color) && nzchar(input$pca_color) &&
           input$pca_color %in% names(data)) {
-        groups <- data[[input$pca_color]][complete.cases(get_feature_matrix())]
+        # Use the same complete_idx to ensure alignment
+        groups <- data[[input$pca_color]][complete_idx]
       }
 
-      list(scores = pca$x, groups = groups, var_exp = summary(pca)$importance[2, 1:2])
+      list(scores = pca$x, groups = groups, var_exp = summary(pca)$importance[2, 1:2],
+           n_samples = nrow(x), n_dropped = dropped_n)
     })
 
     output$pca_2d <- renderPlot({
@@ -374,7 +412,9 @@ mod_qc_server <- function(id, project, switch_tab) {
       x <- get_feature_matrix()
       if (is.null(x) || ncol(x) < 3 || nrow(x) < 3) return(NULL)
 
-      x <- x[complete.cases(x), , drop = FALSE]
+      # Track complete cases for consistent indexing
+      complete_idx <- complete.cases(x)
+      x <- x[complete_idx, , drop = FALSE]
       if (nrow(x) < 3) return(NULL)
 
       pca <- prcomp(x, scale. = TRUE)
@@ -385,7 +425,7 @@ mod_qc_server <- function(id, project, switch_tab) {
 
       if (!is.null(input$pca_color) && nzchar(input$pca_color) &&
           input$pca_color %in% names(data)) {
-        scores$group <- as.factor(data[[input$pca_color]][complete.cases(get_feature_matrix())])
+        scores$group <- as.factor(data[[input$pca_color]][complete_idx])
       } else {
         scores$group <- "All"
       }
@@ -450,22 +490,29 @@ mod_qc_server <- function(id, project, switch_tab) {
       selectInput(ns("cor_y"), "Y Variable", choices = names(x), selected = default)
     })
 
-    # Correlation plot
+    # Correlation plot - use eventReactive pattern for better performance
+    cor_plot_trigger <- reactiveVal(0)
+
     observeEvent(input$plot_cor, {
-      output$correlation_plot <- renderPlot({
-        x <- get_feature_matrix()
-        req(x, input$cor_x, input$cor_y)
+      cor_plot_trigger(cor_plot_trigger() + 1)
+    })
 
-        x_vals <- x[[input$cor_x]]
-        y_vals <- x[[input$cor_y]]
+    output$correlation_plot <- renderPlot({
+      # Depend on trigger to update only when button clicked
+      cor_plot_trigger()
 
-        cor_val <- cor(x_vals, y_vals, use = "complete.obs")
+      x <- get_feature_matrix()
+      req(x, input$cor_x, input$cor_y)
 
-        plot(x_vals, y_vals, pch = 19, col = "#2563eb80",
-             xlab = input$cor_x, ylab = input$cor_y,
-             main = sprintf("Correlation: %.3f", cor_val))
-        abline(lm(y_vals ~ x_vals), col = "#ef4444", lwd = 2)
-      })
+      x_vals <- x[[input$cor_x]]
+      y_vals <- x[[input$cor_y]]
+
+      cor_val <- cor(x_vals, y_vals, use = "complete.obs")
+
+      plot(x_vals, y_vals, pch = 19, col = "#2563eb80",
+           xlab = input$cor_x, ylab = input$cor_y,
+           main = sprintf("Correlation: %.3f", cor_val))
+      abline(lm(y_vals ~ x_vals), col = "#ef4444", lwd = 2)
     })
 
     # DE Analysis
@@ -488,21 +535,30 @@ mod_qc_server <- function(id, project, switch_tab) {
         case_idx <- classes == levels(classes)[2]
         ctrl_idx <- classes == levels(classes)[1]
 
-        results <- data.frame(
-          feature = names(x),
-          stringsAsFactors = FALSE
-        )
+        # Vectorized computation of log2FC using matrix operations
+        x_matrix <- as.matrix(x)
+        case_means <- colMeans(x_matrix[case_idx, , drop = FALSE], na.rm = TRUE)
+        ctrl_means <- colMeans(x_matrix[ctrl_idx, , drop = FALSE], na.rm = TRUE)
+        log2fc_vals <- case_means - ctrl_means
 
-        results$log2FC <- sapply(seq_len(ncol(x)), function(i) {
-          mean(x[case_idx, i], na.rm = TRUE) - mean(x[ctrl_idx, i], na.rm = TRUE)
-        })
+        # Vectorized p-value computation using apply (more efficient than sapply with function)
+        # Pre-split the data for better performance
+        case_data <- x_matrix[case_idx, , drop = FALSE]
+        ctrl_data <- x_matrix[ctrl_idx, , drop = FALSE]
 
-        results$pvalue <- sapply(seq_len(ncol(x)), function(i) {
+        pvalue_vals <- vapply(seq_len(ncol(x_matrix)), function(i) {
           tryCatch(
-            t.test(x[case_idx, i], x[ctrl_idx, i])$p.value,
+            t.test(case_data[, i], ctrl_data[, i])$p.value,
             error = function(e) NA_real_
           )
-        })
+        }, FUN.VALUE = numeric(1))
+
+        results <- data.frame(
+          feature = names(x),
+          log2FC = log2fc_vals,
+          pvalue = pvalue_vals,
+          stringsAsFactors = FALSE
+        )
 
         results$padj <- p.adjust(results$pvalue, method = "BH")
         results$neg_log10_p <- -log10(results$pvalue)
@@ -526,14 +582,18 @@ mod_qc_server <- function(id, project, switch_tab) {
         return()
       }
 
+      # Use configurable thresholds
+      pval_threshold <- input$de_pvalue %||% 0.05
+      log2fc_threshold <- input$de_log2fc %||% 1
+
       plot(de$log2FC, de$neg_log10_p,
            pch = 19, col = "#64748b80",
            xlab = "log2 Fold Change",
            ylab = "-log10(p-value)",
-           main = "Volcano Plot")
+           main = sprintf("Volcano Plot (p < %.3f, |log2FC| > %.1f)", pval_threshold, log2fc_threshold))
 
-      # Highlight significant
-      sig <- de$padj < 0.05 & abs(de$log2FC) > 1
+      # Highlight significant using user-defined thresholds
+      sig <- de$padj < pval_threshold & abs(de$log2FC) > log2fc_threshold
       points(de$log2FC[sig], de$neg_log10_p[sig], pch = 19, col = "#ef4444")
 
       # Label top N
@@ -544,8 +604,16 @@ mod_qc_server <- function(id, project, switch_tab) {
              labels = top_de$feature, pos = 3, cex = 0.7)
       }
 
-      abline(h = -log10(0.05), col = "gray", lty = 2)
-      abline(v = c(-1, 1), col = "gray", lty = 2)
+      # Draw threshold lines using user-defined values
+      abline(h = -log10(pval_threshold), col = "gray", lty = 2)
+      abline(v = c(-log2fc_threshold, log2fc_threshold), col = "gray", lty = 2)
+
+      # Add legend showing counts
+      n_sig <- sum(sig, na.rm = TRUE)
+      legend("topright",
+             legend = c(sprintf("Significant: %d", n_sig), sprintf("Non-significant: %d", sum(!sig, na.rm = TRUE))),
+             col = c("#ef4444", "#64748b80"),
+             pch = 19, cex = 0.8)
     })
 
     # DE table
