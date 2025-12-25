@@ -278,6 +278,20 @@ mod_data_server <- function(id, project, switch_tab) {
               data_loaded[[mod_name]] <- df
             }
             is_multi <- TRUE
+
+            # P0 Fix: Validate sample alignment across modalities
+            if (length(data_loaded) > 1) {
+              nrows <- sapply(data_loaded, nrow)
+              if (length(unique(nrows)) != 1) {
+                # Different row counts - warn user
+                row_info <- paste(names(nrows), nrows, sep = "=", collapse = ", ")
+                showNotification(
+                  sprintf("Warning: Multi-omics files have different row counts (%s). Please ensure samples are aligned across modalities, or use a common Patient ID column for alignment.", row_info),
+                  type = "warning",
+                  duration = 10
+                )
+              }
+            }
           }
 
           incProgress(0.5)

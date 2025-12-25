@@ -33,6 +33,9 @@ OmicProject <- R6::R6Class(
     #' @field modified_at Last modification timestamp
     modified_at = NULL,
 
+    #' @field version Project file format version (P2 Fix: for migration support)
+    version = 1L,
+
     #' @description Create a new OmicProject
     #' @param id Project ID (auto-generated if NULL)
     #' @param name Project name
@@ -401,7 +404,9 @@ OmicProject <- R6::R6Class(
         filename <- file.path(self$path, "project_state.rds")
       }
 
+      # P2 Fix: Include version for migration support
       state <- list(
+        version = self$version,  # Project file format version
         id = self$id,
         name = self$name,
         path = self$path,
@@ -437,14 +442,58 @@ OmicProject <- R6::R6Class(
 
       state <- readRDS(filename)
 
+      # Validate the loaded state structure
+      if (!is.list(state)) {
+        stop("Invalid project file: not a valid state object", call. = FALSE)
+      }
+
+      # Check for required fields
+      required_fields <- c("id", "name")
+      missing_fields <- setdiff(required_fields, names(state))
+      if (length(missing_fields) > 0) {
+        stop(sprintf("Invalid project file: missing required fields: %s",
+                     paste(missing_fields, collapse = ", ")), call. = FALSE)
+      }
+
+      # Validate field types for critical fields
+      if (!is.null(state$id) && !is.character(state$id)) {
+        stop("Invalid project file: 'id' must be a character string", call. = FALSE)
+      }
+      if (!is.null(state$name) && !is.character(state$name)) {
+        stop("Invalid project file: 'name' must be a character string", call. = FALSE)
+      }
+      if (!is.null(state$data_raw) && !is.data.frame(state$data_raw) && !is.list(state$data_raw)) {
+        stop("Invalid project file: 'data_raw' must be a data.frame or list", call. = FALSE)
+      }
+
+      # P0 Fix: Validate data_current field (same validation as data_raw)
+      if (!is.null(state$data_current) && !is.data.frame(state$data_current) && !is.list(state$data_current)) {
+        stop("Invalid project file: 'data_current' must be a data.frame or list", call. = FALSE)
+      }
+
+      # P2 Fix: Handle version migration
+      loaded_version <- state$version %||% 1L
+      current_version <- 1L  # Current project format version
+
+      # Version migration logic (for future use)
+      if (loaded_version < current_version) {
+        # Future migration steps would go here, e.g.:
+        # if (loaded_version < 2L) { ... migrate v1 -> v2 ... }
+        private$.log_event(sprintf("Migrated project from v%d to v%d", loaded_version, current_version))
+      }
+
+      # Store the current version (after migration)
+      self$version <- current_version
+
+      # Safely assign values with defaults for optional fields
       self$id <- state$id
       self$name <- state$name
-      self$path <- state$path
-      self$created_at <- state$created_at
-      self$modified_at <- state$modified_at
+      self$path <- state$path %||% self$path
+      self$created_at <- state$created_at %||% Sys.time()
+      self$modified_at <- state$modified_at %||% Sys.time()
       private$.data_raw <- state$data_raw
       private$.data_current <- state$data_current
-      private$.is_multi_omics <- state$is_multi_omics
+      private$.is_multi_omics <- state$is_multi_omics %||% FALSE
       private$.target_col <- state$target_col
       private$.positive_class <- state$positive_class
       private$.patient_id_col <- state$patient_id_col
@@ -599,14 +648,28 @@ OmicProject <- R6::R6Class(
     .get_feature_matrix = function() {
       data <- private$.data_current
       target <- private$.target_col
+      prefix <- private$.feature_prefix
       if (is.null(data)) return(NULL)
 
       meta_cols <- c(target, private$.patient_id_col, private$.batch_col, "mix")
       meta_cols <- meta_cols[!is.null(meta_cols) & nzchar(meta_cols)]
 
+      # Helper to filter by prefix
+      filter_by_prefix <- function(x) {
+        if (!is.null(prefix) && nzchar(prefix)) {
+          escaped_prefix <- gsub("([.|()\\^{}+$*?\\[\\]\\\\])", "\\\\\\1", prefix)
+          keep_cols <- grep(paste0("^", escaped_prefix), names(x), value = TRUE)
+          if (length(keep_cols) > 0) {
+            x <- x[, keep_cols, drop = FALSE]
+          }
+        }
+        x
+      }
+
       if (is.data.frame(data)) {
         keep <- setdiff(names(data), meta_cols)
         x <- data[, keep, drop = FALSE]
+        x <- filter_by_prefix(x)
         numeric_cols <- sapply(x, is.numeric)
         return(x[, numeric_cols, drop = FALSE])
       } else if (is.list(data)) {
@@ -615,6 +678,7 @@ OmicProject <- R6::R6Class(
           mod_data <- data[[mod_name]]
           keep <- setdiff(names(mod_data), meta_cols)
           x <- mod_data[, keep, drop = FALSE]
+          x <- filter_by_prefix(x)
           numeric_cols <- sapply(x, is.numeric)
           x <- x[, numeric_cols, drop = FALSE]
           # Prefix column names with modality for uniqueness

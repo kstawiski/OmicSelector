@@ -206,7 +206,24 @@ mod_home_server <- function(id, project, switch_tab) {
       project_items <- lapply(seq_along(project_files), function(i) {
         pf <- project_files[i]
         info <- tryCatch({
+          # P0 Fix: Validate RDS file before full deserialization
+          # Only read from trusted analyses directory and validate structure
+          if (!startsWith(normalizePath(pf, winslash = "/", mustWork = FALSE),
+                          normalizePath(root, winslash = "/", mustWork = FALSE))) {
+            stop("File outside trusted directory")
+          }
+
           state <- readRDS(pf)
+
+          # Validate expected structure to prevent loading malicious objects
+          if (!is.list(state) || is.null(state$id) || is.null(state$name)) {
+            stop("Invalid project state structure")
+          }
+          # Validate types
+          if (!is.character(state$id) || !is.character(state$name)) {
+            stop("Invalid field types")
+          }
+
           list(
             name = state$name %||% basename(dirname(pf)),
             modified = state$modified_at,

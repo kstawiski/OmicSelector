@@ -234,14 +234,17 @@ mod_results_server <- function(id, project, switch_tab) {
       result <- proj$get_benchmark_result()
       if (is.null(result)) return(NULL)
 
-      # Try to use select_best_signature if available
-      candidates <- tryCatch({
-        select_best_signature(
-          result,
-          mode = "pareto",  # Get all candidates for visualization
-          metric = "classif.auc"
-        )
-      }, error = function(e) NULL)
+      # P0 Fix: Check if select_best_signature function exists before calling
+      candidates <- NULL
+      if (exists("select_best_signature", mode = "function")) {
+        candidates <- tryCatch({
+          select_best_signature(
+            result,
+            mode = "pareto",  # Get all candidates for visualization
+            metric = "classif.auc"
+          )
+        }, error = function(e) NULL)
+      }
 
       if (is.null(candidates) || nrow(candidates) == 0) {
         # Fallback: build candidates from performance table with proper values
@@ -389,6 +392,16 @@ mod_results_server <- function(id, project, switch_tab) {
         parsimony = input$w_parsimony
       )
 
+      # P0 Fix: Check if select_best_signature function exists before calling
+      if (!exists("select_best_signature", mode = "function")) {
+        showNotification(
+          "Signature selection function (select_best_signature) is not available. Please ensure OmicSelector package is properly installed.",
+          type = "error",
+          duration = 10
+        )
+        return()
+      }
+
       # Run signature selection using the actual function
       best <- tryCatch({
         select_best_signature(
@@ -451,6 +464,41 @@ mod_results_server <- function(id, project, switch_tab) {
 
       showNotification("Signature selected!", type = "message")
     })
+
+    # Update selected signature features when frequency slider changes
+    observeEvent(input$min_freq, {
+      sig <- selected_sig()
+      if (is.null(sig)) return()  # Only update if a signature is already selected
+
+      proj <- project()
+      if (is.null(proj)) return()
+
+      result <- proj$get_benchmark_result()
+      if (is.null(result)) return()
+
+      # Recalculate consensus features with new threshold
+      consensus <- tryCatch({
+        get_consensus_features(result, sig$learner_id, min_frequency = input$min_freq)
+      }, error = function(e) {
+        data.frame(feature = character(), frequency = numeric(), selected = logical())
+      })
+
+      selected_features <- if (nrow(consensus) > 0 && "selected" %in% names(consensus)) {
+        consensus$feature[consensus$selected == TRUE]
+      } else if (nrow(consensus) > 0) {
+        consensus$feature[consensus$frequency >= input$min_freq]
+      } else {
+        character()
+      }
+
+      # Update the selected signature with new features
+      updated_sig <- sig
+      updated_sig$features <- selected_features
+      updated_sig$consensus_df <- consensus
+      updated_sig$n_features <- length(selected_features)
+
+      selected_sig(updated_sig)
+    }, ignoreInit = TRUE)
 
     # Selected signature display
     output$selected_signature_ui <- renderUI({
@@ -558,23 +606,30 @@ mod_results_server <- function(id, project, switch_tab) {
 
       withProgress(message = "Training final model...", value = 0.5, {
         tryCatch({
+          incProgress(0.1, detail = "Preparing learner...")
+
+          # Get consensus features from the selected signature
+          consensus_features <- sig$features
+          if (is.null(consensus_features) || length(consensus_features) == 0) {
+            showNotification("No consensus features available. Select a signature first.", type = "error")
+            return()
+          }
+
+          message(sprintf("[mod_results] Training final model with %d consensus features", length(consensus_features)))
+
           # Find the specific learner matching the selected signature
           selected_learner <- learner
           if (is.list(learner) && length(learner) > 0) {
-            # Search for the learner by ID
             learner_ids <- sapply(learner, function(l) {
               if (!is.null(l$id)) l$id else ""
             })
             match_idx <- which(learner_ids == sig$learner_id)
             if (length(match_idx) > 0) {
               selected_learner <- learner[[match_idx[1]]]
-              message(sprintf("[mod_results] Selected learner %d: %s", match_idx[1], sig$learner_id))
             } else {
-              # Fallback: try partial match or use first learner
               partial_match <- grep(sig$learner_id, learner_ids, fixed = TRUE)
               if (length(partial_match) > 0) {
                 selected_learner <- learner[[partial_match[1]]]
-                message(sprintf("[mod_results] Partial match learner %d: %s", partial_match[1], learner_ids[partial_match[1]]))
               } else {
                 selected_learner <- learner[[1]]
                 showNotification(sprintf("Learner '%s' not found, using first learner", sig$learner_id), type = "warning")
@@ -582,23 +637,52 @@ mod_results_server <- function(id, project, switch_tab) {
             }
           }
 
-          # Fit the learner on full data with user-specified seed
+          incProgress(0.2, detail = "Creating fixed-feature learner...")
+
+          # Create a learner that uses ONLY the consensus features (no re-selection)
+          # This prevents the learner from selecting different features than what was validated
           seed_val <- input$final_seed %||% 42
-          fit <- pipeline$fit(
+          set.seed(seed_val)
+
+          # Try to use pipeline's fit_with_features if available, otherwise fit normally
+          fit <- tryCatch({
+            pipeline$fit_with_features(
+              learner = selected_learner,
+              features = consensus_features,
+              seed = seed_val
+            )
+          }, error = function(e) {
+            # Fallback: use standard fit but warn about potential feature mismatch
+            message("[mod_results] fit_with_features not available, using standard fit")
+            showNotification(
+              "Note: Using standard fit. Features may differ from consensus set.",
+              type = "warning",
+              duration = 5
+            )
+            pipeline$fit(
+              learner = selected_learner,
+              seed = seed_val
+            )
+          })
+
+          incProgress(0.5, detail = "Storing results...")
+
+          # Store the fit result along with the consensus features
+          fit_bundle <- list(
+            fit = fit,
             learner = selected_learner,
+            consensus_features = consensus_features,
+            learner_id = sig$learner_id,
+            stability = sig$stability,
+            auc = sig$auc,
             seed = seed_val
           )
+          proj$set_final_fit(fit_bundle)
 
-          # Store the fit result
-          proj$set_final_fit(fit)
-
-          # Also store the selected signature info
-          proj$set_mapping(
-            target = proj$get_mapping()$target,
-            positive = proj$get_mapping()$positive
+          showNotification(
+            sprintf("Final model trained with %d consensus features!", length(consensus_features)),
+            type = "message"
           )
-
-          showNotification("Final model trained!", type = "message")
         }, error = function(e) {
           showNotification(paste("Error:", e$message), type = "error")
         })

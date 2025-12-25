@@ -247,18 +247,35 @@ mod_export_server <- function(id, project, switch_tab) {
         proj <- project()
         if (is.null(proj)) return()
 
-        fit <- proj$get_final_fit()
-        if (is.null(fit)) {
+        final_fit <- proj$get_final_fit()
+        if (is.null(final_fit)) {
           showNotification("No fitted model to export", type = "error")
           return()
         }
 
-        bundle <- list(
-          fit = fit,
-          mapping = proj$get_mapping(),
-          summary = proj$summary(),
-          created = Sys.time()
-        )
+        # Handle both old (direct fit) and new (bundle) structures
+        if (is.list(final_fit) && !is.null(final_fit$fit)) {
+          # New bundle structure - include consensus features
+          bundle <- list(
+            fit = final_fit$fit,
+            learner = final_fit$learner,
+            consensus_features = final_fit$consensus_features,
+            learner_id = final_fit$learner_id,
+            stability = final_fit$stability,
+            auc = final_fit$auc,
+            mapping = proj$get_mapping(),
+            summary = proj$summary(),
+            created = Sys.time()
+          )
+        } else {
+          # Legacy structure
+          bundle <- list(
+            fit = final_fit,
+            mapping = proj$get_mapping(),
+            summary = proj$summary(),
+            created = Sys.time()
+          )
+        }
 
         saveRDS(bundle, file)
       }
@@ -365,9 +382,25 @@ function() {
       clean_name <- gsub("[^a-zA-Z0-9_-]", "", input$api_name)
       if (!nzchar(clean_name)) clean_name <- "predict_api"
       api_path <- file.path(proj$path, paste0(clean_name, ".R"))
-      writeLines(api_code, api_path)
 
-      showNotification(sprintf("API template saved to: %s", api_path), type = "message")
+      # P0 Fix: Add error handling for file write operations
+      tryCatch({
+        # Use atomic write pattern: write to temp file first, then rename
+        temp_path <- paste0(api_path, ".tmp")
+        writeLines(api_code, temp_path)
+        if (file.exists(temp_path)) {
+          file.rename(temp_path, api_path)
+          showNotification(sprintf("API template saved to: %s", api_path), type = "message")
+        } else {
+          stop("Failed to write temporary file")
+        }
+      }, error = function(e) {
+        showNotification(
+          sprintf("Failed to write API template: %s. Check directory permissions.", e$message),
+          type = "error",
+          duration = 8
+        )
+      })
     })
 
     # Export ONNX
@@ -375,10 +408,30 @@ function() {
       proj <- project()
       req(proj)
 
-      learner <- proj$get_final_fit()
-      if (is.null(learner)) {
+      final_fit <- proj$get_final_fit()
+      if (is.null(final_fit)) {
         showNotification("Train final model first", type = "error")
         return()
+      }
+
+      # Extract the actual fit from the bundle (new structure)
+      learner <- if (is.list(final_fit) && !is.null(final_fit$fit)) {
+        final_fit$fit
+      } else {
+        final_fit
+      }
+
+      # Get the task from the pipeline
+      pipeline <- proj$get_pipeline()
+      task <- if (!is.null(pipeline) && !is.null(pipeline$task)) {
+        pipeline$task
+      } else {
+        NULL
+      }
+
+      if (is.null(task)) {
+        showNotification("ONNX export requires a task object. Pipeline may not support this.", type = "warning")
+        # Continue anyway - export_onnx may handle NULL task
       }
 
       # Create output directory if needed
@@ -391,17 +444,22 @@ function() {
 
       withProgress(message = "Exporting to ONNX...", value = 0.5, {
         tryCatch({
+          # Check if export_onnx function exists
+          if (!exists("export_onnx", mode = "function")) {
+            showNotification("ONNX export function not available. Install required packages.", type = "error")
+            return()
+          }
+
           # Call backend export function
           result <- export_onnx(
             learner = learner,
             path = onnx_path,
-            task = proj$get_task(), # Assuming project has get_task method or we can get it from pipeline
+            task = task,
             export_preprocessing = TRUE
           )
 
           if (result$success) {
             showNotification(sprintf("Export successful! Saved to: %s", onnx_dir), type = "message")
-            # Open the folder in file explorer (local only) or provide download link logic if needed
           } else {
             showNotification(paste("Export warning:", result$message), type = "warning")
           }
@@ -422,6 +480,17 @@ function() {
         return()
       }
 
+      # P0 Fix: Check if report generation functions are available
+      if (!exists("create_report_data", mode = "function") ||
+          !exists("generate_tripod_report", mode = "function")) {
+        showNotification(
+          "Report generation is not available in this build. The functions create_report_data() and generate_tripod_report() are not defined. Please ensure the OmicSelector package is properly installed with report generation support.",
+          type = "error",
+          duration = 10
+        )
+        return()
+      }
+
       report_dir <- file.path(proj$path, "reports")
       if (!dir.exists(report_dir)) dir.create(report_dir)
 
@@ -431,7 +500,7 @@ function() {
         tryCatch({
           # Gather data
           incProgress(0.2, detail = "Gathering data...")
-          
+
           # Create ReportData object
           report_data <- create_report_data(
             benchmark_result = proj$get_benchmark_result(),
@@ -444,7 +513,7 @@ function() {
           )
 
           incProgress(0.4, detail = "Rendering HTML...")
-          
+
           # Generate report
           report_path <- generate_tripod_report(
             results = report_data,
@@ -454,10 +523,10 @@ function() {
 
           incProgress(0.2, detail = "Done!")
           showNotification(sprintf("Report generated: %s", basename(report_path)), type = "message")
-          
+
           # Optionally open (local)
-          # utils::browseURL(report_path) 
-          
+          # utils::browseURL(report_path)
+
         }, error = function(e) {
           showNotification(paste("Report generation failed:", e$message), type = "error")
         })

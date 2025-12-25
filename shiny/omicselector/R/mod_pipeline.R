@@ -305,7 +305,7 @@ mod_pipeline_server <- function(id, project, switch_tab) {
                   as.numeric(trimws(strsplit(input$dl_hidden, ",")[[1]]))
                 }, error = function(e) c(64, 32))
                 if (any(is.na(hidden_layers))) hidden_layers <- c(64, 32)
-                
+
                 if (mdl == "mlp") {
                   # Manually create the MLP learner with user settings
                   learner_obj <- create_mlp_learner(
@@ -314,11 +314,11 @@ mod_pipeline_server <- function(id, project, switch_tab) {
                     dropout = input$dl_dropout,
                     device = input$dl_device
                   )
-                  
+
                   # Use the object instead of the string name
                   learner <- pipeline$create_graph_learner(
                     filter = flt,
-                    model = learner_obj, # Pass the object!
+                    model = learner_obj,
                     n_features = input$n_features,
                     impute_method = input$impute_method,
                     scale = input$scale_features,
@@ -328,14 +328,52 @@ mod_pipeline_server <- function(id, project, switch_tab) {
                     batch_correct = input$batch_correct,
                     autoencoder = ae_params
                   )
-                  
+
                   # Explicitly set learner ID
                   learner$id <- paste(flt, mdl, input$n_features, sep = "_")
-                  
+
                   learners[[length(learners) + 1]] <- learner
                   next # Skip the standard creation call below
+                } else if (mdl == "tabtransformer") {
+                  # TabTransformer learner configuration
+                  learner_obj <- tryCatch({
+                    create_tabtransformer_learner(
+                      d_model = hidden_layers[1],  # Use first layer size as embedding dim
+                      n_heads = 4,
+                      epochs = input$dl_epochs,
+                      dropout = input$dl_dropout,
+                      device = input$dl_device
+                    )
+                  }, error = function(e) {
+                    # Fallback: TabTransformer not available, notify user
+                    showNotification(
+                      "TabTransformer not available. Using standard model fallback.",
+                      type = "warning",
+                      duration = 5
+                    )
+                    NULL
+                  })
+
+                  if (!is.null(learner_obj)) {
+                    learner <- pipeline$create_graph_learner(
+                      filter = flt,
+                      model = learner_obj,
+                      n_features = input$n_features,
+                      impute_method = input$impute_method,
+                      scale = input$scale_features,
+                      oversample = oversample,
+                      screening = input$screening,
+                      screening_frac = input$screening_frac,
+                      batch_correct = input$batch_correct,
+                      autoencoder = ae_params
+                    )
+
+                    learner$id <- paste(flt, mdl, input$n_features, sep = "_")
+                    learners[[length(learners) + 1]] <- learner
+                    next
+                  }
+                  # If TabTransformer failed, fall through to standard creation
                 }
-                 # Future: TabTransformer specific handling if needed
               }
 
               # Standard learner creation
