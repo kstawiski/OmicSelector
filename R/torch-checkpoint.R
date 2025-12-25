@@ -43,7 +43,12 @@ NULL
     stop("Expected an mlr3 Learner.", call. = FALSE)
   }
 
-  if (!learner$state$trained) {
+ # Check if learner is trained
+  # mlr3torch uses state$model presence, not state$trained
+  is_trained <- !is.null(learner$state) &&
+    (!is.null(learner$state$model) || isTRUE(learner$state$trained))
+
+  if (!is_trained) {
     stop("Learner must be trained before exporting a checkpoint.", call. = FALSE)
   }
 
@@ -52,7 +57,8 @@ NULL
     return(model)
   }
   if (is.list(model)) {
-    for (key in c("model", "network", "module", "net")) {
+    # mlr3torch 0.3+ stores network in model$network
+    for (key in c("network", "model", "module", "net")) {
       if (!is.null(model[[key]]) && inherits(model[[key]], "nn_module")) {
         return(model[[key]])
       }
@@ -68,7 +74,11 @@ NULL
     stop("Expected an mlr3 Learner.", call. = FALSE)
   }
 
-  if (!learner$state$trained) {
+  # Check if learner is trained (mlr3torch uses state$model, not state$trained)
+  is_trained <- !is.null(learner$state) &&
+    (!is.null(learner$state$model) || isTRUE(learner$state$trained))
+
+  if (!is_trained) {
     return(FALSE)
   }
 
@@ -171,7 +181,11 @@ import_mlr3torch_checkpoint <- function(learner, path, strict = TRUE) {
   }
 
   loaded <- FALSE
-  if (base$state$trained) {
+  # Check if learner is trained (mlr3torch uses state$model, not state$trained)
+  is_trained <- !is.null(base$state) &&
+    (!is.null(base$state$model) || isTRUE(base$state$trained))
+
+  if (is_trained) {
     loaded <- .load_state_into_learner(base, state$model_state, strict = strict)
   }
 

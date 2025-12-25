@@ -147,8 +147,9 @@ mod_qc_ui <- function(id) {
                 condition = sprintf("input['%s'] == 'pmm'", ns("impute_method")),
                 div(class = "alert alert-info small mb-2", role = "alert",
                     bsicons::bs_icon("info-circle"),
-                    " PMM (Predictive Mean Matching) preserves data distribution. ",
-                    "Requires the 'mice' package. Slower on high-dimensional data."),
+                    " PMM (Predictive Mean Matching) uses single imputation (m=1) to preserve ",
+                    "data distribution. Requires 'mice' package. Slower on high-dimensional data. ",
+                    "Note: This is NOT multiple imputation with pooling."),
                 numericInput(ns("impute_pmm_maxit"), "Iterations", value = 5, min = 1, max = 20)
               ),
               actionButton(ns("apply_imputation"), "Apply Imputation",
@@ -240,6 +241,102 @@ mod_qc_ui <- function(id) {
           card_body(
             div(style = "max-height: 300px; overflow-y: auto;",
                 tableOutput(ns("de_table")))
+          )
+        )
+      )
+    ),
+
+    # Help/FAQ Card
+    card(
+      class = "mt-4",
+      card_header(
+        bsicons::bs_icon("question-circle"),
+        span("Help & FAQ", class = "ms-2")
+      ),
+      card_body(
+        accordion(
+          id = ns("qc_help_accordion"),
+          open = FALSE,
+
+          accordion_panel(
+            "What do the QC traffic lights mean?",
+            icon = bsicons::bs_icon("stoplights"),
+            p("The QC system uses a traffic light metaphor:"),
+            tags$ul(
+              tags$li(tags$strong("Green:"), " Check passed - no issues detected."),
+              tags$li(tags$strong("Yellow:"), " Warning - proceed with caution, results may be affected."),
+              tags$li(tags$strong("Red:"), " Issue detected - may block progression if critical.")
+            ),
+            p("Key checks include: class balance, sample size per class, feature/sample ratio (p/n),
+               missing values, zero-variance features, and patient grouping for leakage prevention.")
+          ),
+
+          accordion_panel(
+            "Why is patient grouping important?",
+            icon = bsicons::bs_icon("people"),
+            p("If your data contains multiple samples from the same patient (e.g., repeated measures,
+               longitudinal samples, or multiple biopsies), you MUST set the Patient ID column."),
+            p("Without patient grouping, cross-validation may place samples from the same patient in
+               both training and test sets, causing ", tags$strong("data leakage"), " and overly
+               optimistic performance estimates."),
+            p(class = "text-danger", "Leakage can make a model appear to work well when it actually
+               won't generalize to new patients.")
+          ),
+
+          accordion_panel(
+            "Which imputation method should I use?",
+            icon = bsicons::bs_icon("magic"),
+            tags$ul(
+              tags$li(tags$strong("Median:"), " Fast, robust to outliers. Good default for most cases."),
+              tags$li(tags$strong("Mean:"), " Simple, but sensitive to outliers."),
+              tags$li(tags$strong("KNN:"), " Uses similar samples to impute. Good when features are correlated."),
+              tags$li(tags$strong("PMM (Advanced):"), " Predictive Mean Matching preserves data distribution.
+                      Best for maintaining realistic values, but slower. Uses single imputation (m=1),
+                      not full multiple imputation with pooling.")
+            ),
+            p("For high-dimensional data with >20% missing values, consider removing features with
+               excessive missingness before imputation.")
+          ),
+
+          accordion_panel(
+            "What is p/n ratio and why does it matter?",
+            icon = bsicons::bs_icon("graph-up-arrow"),
+            p("The p/n ratio is the number of features (p) divided by the number of samples (n)."),
+            tags$ul(
+              tags$li("When p/n > 10, you have 'high-dimensional' data."),
+              tags$li("When p/n > 50, overfitting risk is very high."),
+              tags$li("Many ML models struggle when p >> n.")
+            ),
+            p("Solutions: Use feature filtering (in Pipeline step), apply regularization,
+               or reduce features using domain knowledge or prefix filtering.")
+          ),
+
+          accordion_panel(
+            "How do I interpret the PCA plot?",
+            icon = bsicons::bs_icon("scatter-chart"),
+            p("PCA (Principal Component Analysis) reduces high-dimensional data to 2-3 dimensions
+               for visualization."),
+            tags$ul(
+              tags$li("Samples that cluster together are similar in their feature profiles."),
+              tags$li("Clear separation by target class suggests the features contain discriminative information."),
+              tags$li("Batch effects may cause samples to cluster by batch rather than biology."),
+              tags$li("Outliers may appear as isolated points far from other samples.")
+            )
+          ),
+
+          accordion_panel(
+            "What is Differential Expression (DE) analysis?",
+            icon = bsicons::bs_icon("sort-numeric-down"),
+            p("DE analysis identifies features that differ significantly between classes
+               using t-tests. This is useful for:"),
+            tags$ul(
+              tags$li("Exploring which features distinguish classes."),
+              tags$li("Initial feature filtering before ML."),
+              tags$li("Biological interpretation of results.")
+            ),
+            p(class = "text-warning", "Note: DE is univariate and doesn't account for feature
+               interactions. ML-based feature selection (in Pipeline step) often selects different
+               features than DE.")
           )
         )
       )

@@ -110,6 +110,26 @@ mod_export_ui <- function(id) {
       )
     ),
 
+    # Model Card (Plain-language summary for clinicians)
+    card(
+      class = "mt-4",
+      card_header(
+        bsicons::bs_icon("card-text"),
+        span("Model Card", class = "ms-2"),
+        span(class = "badge bg-info ms-2", "For Clinicians")
+      ),
+      card_body(
+        p(class = "text-muted small mb-3",
+          "A plain-language summary of the model, its intended use, limitations, and performance.
+           Designed for non-technical stakeholders."),
+        actionButton(ns("generate_model_card"), "Generate Model Card",
+                     class = "btn-info",
+                     icon = icon("id-card")),
+        hr(),
+        uiOutput(ns("model_card_content"))
+      )
+    ),
+
     # Project Summary
     card(
       class = "mt-4",
@@ -238,6 +258,177 @@ mod_export_server <- function(id, project, switch_tab) {
       }
     })
 
+    # =========================================================================
+    # MODEL CARD GENERATION
+    # =========================================================================
+
+    model_card_data <- reactiveVal(NULL)
+
+    observeEvent(input$generate_model_card, {
+      proj <- project()
+      if (is.null(proj)) {
+        showNotification("No project loaded", type = "error")
+        return()
+      }
+
+      summary <- proj$summary()
+      mapping <- proj$get_mapping()
+      qc_status <- proj$get_qc_status()
+      final_fit <- proj$get_final_fit()
+      benchmark_result <- proj$get_benchmark_result()
+
+      # Build model card data structure
+      card_data <- list(
+        # Basic info
+        project_name = summary$name,
+        created_at = format(summary$created_at, "%Y-%m-%d"),
+        modified_at = format(summary$modified_at, "%Y-%m-%d"),
+
+        # Data info
+        n_samples = summary$n_samples,
+        n_features = summary$n_features,
+        is_multi_omics = summary$is_multi_omics,
+        target_variable = mapping$target,
+        positive_class = mapping$positive,
+
+        # Model info
+        has_final_model = !is.null(final_fit),
+        learner_id = if (!is.null(final_fit) && !is.null(final_fit$learner_id)) final_fit$learner_id else "Unknown",
+        n_signature_features = if (!is.null(final_fit) && !is.null(final_fit$consensus_features))
+          length(final_fit$consensus_features) else NA,
+        signature_features = if (!is.null(final_fit) && !is.null(final_fit$consensus_features))
+          final_fit$consensus_features else NULL,
+        auc = if (!is.null(final_fit) && !is.null(final_fit$auc)) final_fit$auc else NA,
+        stability = if (!is.null(final_fit) && !is.null(final_fit$stability)) final_fit$stability else NA,
+
+        # QC warnings
+        qc_overall = summary$qc_overall,
+        qc_warnings = if (!is.null(qc_status)) {
+          warnings <- sapply(names(qc_status), function(name) {
+            check <- qc_status[[name]]
+            if (check$status %in% c("yellow", "red")) {
+              paste0(gsub("_", " ", name), ": ", check$message)
+            } else NULL
+          })
+          warnings[!sapply(warnings, is.null)]
+        } else NULL,
+
+        # Limitations
+        patient_grouped = !is.null(mapping$patient_id) && nzchar(mapping$patient_id),
+        external_validated = FALSE  # Always false in current version
+      )
+
+      model_card_data(card_data)
+      showNotification("Model card generated!", type = "message")
+    })
+
+    output$model_card_content <- renderUI({
+      card <- model_card_data()
+      if (is.null(card)) {
+        return(p(class = "text-muted", "Click 'Generate Model Card' to create a summary."))
+      }
+
+      tagList(
+        # Model Overview
+        div(class = "mb-4",
+            h5(bsicons::bs_icon("info-circle"), " Model Overview"),
+            tags$table(class = "table table-sm",
+                       tags$tr(tags$td(tags$strong("Project")), tags$td(card$project_name)),
+                       tags$tr(tags$td(tags$strong("Target")), tags$td(card$target_variable)),
+                       tags$tr(tags$td(tags$strong("Positive Class")), tags$td(card$positive_class %||% "Not specified")),
+                       tags$tr(tags$td(tags$strong("Algorithm")), tags$td(card$learner_id)),
+                       tags$tr(tags$td(tags$strong("Training Samples")), tags$td(card$n_samples)),
+                       tags$tr(tags$td(tags$strong("Original Features")), tags$td(card$n_features)),
+                       if (!is.na(card$n_signature_features))
+                         tags$tr(tags$td(tags$strong("Signature Features")), tags$td(card$n_signature_features))
+            )
+        ),
+
+        # Performance
+        if (card$has_final_model) {
+          div(class = "mb-4",
+              h5(bsicons::bs_icon("speedometer2"), " Performance"),
+              div(class = "row",
+                  div(class = "col-md-6",
+                      div(class = "card bg-light p-3 text-center",
+                          h3(class = "mb-0", if (!is.na(card$auc)) sprintf("%.1f%%", card$auc * 100) else "N/A"),
+                          small(class = "text-muted", "AUC (Area Under ROC Curve)")
+                      )
+                  ),
+                  div(class = "col-md-6",
+                      div(class = "card bg-light p-3 text-center",
+                          h3(class = "mb-0", if (!is.na(card$stability)) sprintf("%.2f", card$stability) else "N/A"),
+                          small(class = "text-muted", "Nogueira Stability Index")
+                      )
+                  )
+              ),
+              p(class = "text-muted small mt-2",
+                "AUC represents classification accuracy. Stability indicates how consistently features
+                 were selected across cross-validation folds (1.0 = perfect, >0.7 = good).")
+          )
+        } else {
+          div(class = "alert alert-warning", "No final model fitted yet.")
+        },
+
+        # Signature Features
+        if (!is.null(card$signature_features) && length(card$signature_features) > 0) {
+          div(class = "mb-4",
+              h5(bsicons::bs_icon("list-check"), " Signature Features"),
+              p(class = "text-muted small",
+                "These features are used by the model to make predictions:"),
+              div(class = "bg-light p-2 rounded",
+                  style = "max-height: 150px; overflow-y: auto;",
+                  tags$code(paste(card$signature_features, collapse = ", ")))
+          )
+        },
+
+        # Intended Use
+        div(class = "mb-4",
+            h5(bsicons::bs_icon("check-square"), " Intended Use"),
+            tags$ul(
+              tags$li("This model is intended for ", tags$strong("research purposes only"), "."),
+              tags$li("The model predicts the probability of ", tags$strong(card$target_variable),
+                      " based on ", card$n_signature_features %||% card$n_features, " molecular features."),
+              if (card$is_multi_omics)
+                tags$li("Multi-omics data integration was used.")
+            )
+        ),
+
+        # Limitations and Warnings
+        div(class = "mb-4",
+            h5(bsicons::bs_icon("exclamation-triangle"), " Limitations & Warnings"),
+            tags$ul(
+              if (!card$external_validated)
+                tags$li(class = "text-danger",
+                        tags$strong("NOT externally validated."),
+                        " Performance may differ on new cohorts."),
+              if (!card$patient_grouped)
+                tags$li(class = "text-warning",
+                        "Patient grouping was not used. If data contains repeated measures from same patients,
+                         performance estimates may be optimistic."),
+              if (card$qc_overall == "yellow")
+                tags$li(class = "text-warning", "QC warnings were present during development."),
+              if (card$qc_overall == "red")
+                tags$li(class = "text-danger", "QC issues were detected. Review carefully."),
+              tags$li("Model should not be used as sole basis for clinical decisions."),
+              tags$li("Performance may vary across populations, platforms, and sample handling.")
+            ),
+            if (length(card$qc_warnings) > 0) {
+              div(class = "alert alert-warning mt-2",
+                  tags$strong("QC Notes:"),
+                  tags$ul(lapply(card$qc_warnings, function(w) tags$li(w))))
+            }
+        ),
+
+        # Metadata
+        div(class = "text-muted small",
+            hr(),
+            sprintf("Model card generated: %s | Project created: %s",
+                    format(Sys.time(), "%Y-%m-%d %H:%M"), card$created_at)
+        )
+      )
+    })
+
     # Download RDS
     output$download_rds <- downloadHandler(
       filename = function() {
@@ -300,10 +491,10 @@ mod_export_server <- function(id, project, switch_tab) {
 library(plumber)
 
 # Load model bundle
-# Expects the RDS file to be named 'model.rds' or passed as an environment variable
+# Expects the RDS file to be named model.rds or passed as an environment variable
 model_path <- Sys.getenv("OMICSELECTOR_MODEL_PATH", "model.rds")
 if (!file.exists(model_path)) {
-  stop(sprintf("Model file '%s' not found. Please place the exported RDS file in this directory and rename it to 'model.rds' or set OMICSELECTOR_MODEL_PATH.", model_path))
+  stop(sprintf("Model file not found: %%s. Please place the exported RDS file in this directory and rename it to model.rds or set OMICSELECTOR_MODEL_PATH.", model_path))
 }
 bundle <- readRDS(model_path)
 

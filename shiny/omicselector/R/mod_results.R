@@ -109,6 +109,49 @@ mod_results_ui <- function(id) {
       class = "mt-4",
       card_header("Stability Explorer"),
       card_body(
+        # Stability CI Analysis Section
+        div(
+          class = "stability-ci-section mb-4",
+          h6(bsicons::bs_icon("graph-up-arrow"), " Stability Confidence Interval"),
+          uiOutput(ns("stability_ci_details")),
+          div(
+            class = "accordion mt-2",
+            id = ns("stability_ci_help_accordion"),
+            div(
+              class = "accordion-item",
+              h2(class = "accordion-header",
+                 tags$button(
+                   class = "accordion-button collapsed py-2 small",
+                   type = "button",
+                   `data-bs-toggle` = "collapse",
+                   `data-bs-target` = paste0("#", ns("stability_ci_help_body")),
+                   "How to interpret stability CIs?"
+                 )
+              ),
+              div(
+                id = ns("stability_ci_help_body"),
+                class = "accordion-collapse collapse",
+                `data-bs-parent` = paste0("#", ns("stability_ci_help_accordion")),
+                div(
+                  class = "accordion-body small",
+                  tags$dl(
+                    tags$dt("Narrow CI (e.g., [0.72, 0.78])"),
+                    tags$dd("Stable feature selection across folds. Reliable for clinical use."),
+                    tags$dt("Wide CI (e.g., [0.45, 0.85])"),
+                    tags$dd("High variability. Consider collecting more data or simplifying the model."),
+                    tags$dt("CI below 0.7"),
+                    tags$dd("Feature selection is unstable. Results may not replicate."),
+                    tags$dt("CI spans 0.7 threshold"),
+                    tags$dd("Uncertain stability. External validation strongly recommended.")
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        hr(),
+
         sliderInput(ns("min_freq"), "Minimum Selection Frequency",
                     value = 0.8, min = 0, max = 1, step = 0.1),
         h6("Consensus Features"),
@@ -136,6 +179,101 @@ mod_results_server <- function(id, project, switch_tab) {
 
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    # Helper function: Calculate Nogueira Stability Index from binary feature selection matrix
+    # Based on Nogueira et al. (2018) "Stability of Feature Selection Algorithms"
+    # Formula: S = 1 - (mean variance across features) / (expected variance under random selection)
+    calculate_nogueira_index <- function(feature_lists, all_features = NULL) {
+      if (length(feature_lists) < 2) return(NA_real_)
+
+      # Get all unique features
+      if (is.null(all_features)) {
+        all_features <- unique(unlist(feature_lists))
+      }
+      p <- length(all_features)  # Total number of features
+      if (p == 0) return(NA_real_)
+
+      n <- length(feature_lists)  # Number of folds/bootstrap samples
+
+      # Create binary selection matrix (folds x features)
+      Z <- matrix(0, nrow = n, ncol = p)
+      colnames(Z) <- all_features
+      for (i in seq_len(n)) {
+        selected <- feature_lists[[i]]
+        matched <- selected[selected %in% all_features]
+        if (length(matched) > 0) {
+          Z[i, matched] <- 1
+        }
+      }
+
+      # Calculate selection frequencies per feature
+      pf <- colMeans(Z)  # proportion of times each feature is selected
+
+      # Mean number of selected features per fold
+      k_bar <- mean(rowSums(Z))
+      if (k_bar == 0 || k_bar == p) return(1)  # Edge case: all or none selected
+
+      # Calculate Nogueira stability index
+      # Variance for each feature: pf * (1 - pf)
+      feat_var <- pf * (1 - pf)
+      mean_var <- mean(feat_var)
+
+      # Expected variance under random selection
+      expected_var <- (k_bar / p) * (1 - k_bar / p)
+      if (expected_var == 0) return(1)
+
+      # Stability = 1 - (observed variance / expected variance)
+      stability <- 1 - (mean_var / expected_var)
+
+      # Clamp to [0, 1]
+      max(0, min(1, stability))
+    }
+
+    # Helper function: Bootstrap confidence interval for Nogueira stability
+    # Resamples fold results with replacement to estimate uncertainty
+    bootstrap_stability_ci <- function(feature_lists, n_boot = 1000, conf_level = 0.95, seed = NULL) {
+      if (length(feature_lists) < 2) {
+        return(list(point = NA_real_, lower = NA_real_, upper = NA_real_, se = NA_real_))
+      }
+
+      if (!is.null(seed)) set.seed(seed)
+
+      # Get all unique features for consistent calculation
+      all_features <- unique(unlist(feature_lists))
+      n_folds <- length(feature_lists)
+
+      # Calculate point estimate
+      point_estimate <- calculate_nogueira_index(feature_lists, all_features)
+
+      # Bootstrap resampling of folds
+      boot_estimates <- numeric(n_boot)
+      for (b in seq_len(n_boot)) {
+        # Resample fold indices with replacement
+        boot_idx <- sample(seq_len(n_folds), n_folds, replace = TRUE)
+        boot_lists <- feature_lists[boot_idx]
+        boot_estimates[b] <- calculate_nogueira_index(boot_lists, all_features)
+      }
+
+      # Remove NAs
+      boot_estimates <- boot_estimates[!is.na(boot_estimates)]
+      if (length(boot_estimates) < 10) {
+        return(list(point = point_estimate, lower = NA_real_, upper = NA_real_, se = NA_real_))
+      }
+
+      # Calculate confidence interval (percentile method)
+      alpha <- 1 - conf_level
+      lower <- quantile(boot_estimates, probs = alpha / 2, na.rm = TRUE)
+      upper <- quantile(boot_estimates, probs = 1 - alpha / 2, na.rm = TRUE)
+      se <- sd(boot_estimates, na.rm = TRUE)
+
+      list(
+        point = point_estimate,
+        lower = as.numeric(lower),
+        upper = as.numeric(upper),
+        se = se,
+        n_boot = length(boot_estimates)
+      )
+    }
 
     # Selected signature reactive
     selected_sig <- reactiveVal(NULL)
@@ -166,8 +304,10 @@ mod_results_server <- function(id, project, switch_tab) {
         }
       }
 
-      # Stability index from nogueira_index
+      # Stability index from nogueira_index with bootstrap CI
       best_stab <- NA
+      stab_ci <- list(point = NA_real_, lower = NA_real_, upper = NA_real_, se = NA_real_)
+
       if (!is.null(stab) && !is.null(stab$nogueira_index)) {
         ni <- stab$nogueira_index
         if (is.numeric(ni) && length(ni) == 1) {
@@ -179,14 +319,43 @@ mod_results_server <- function(id, project, switch_tab) {
         }
       }
 
-      # Average feature count
+      # Calculate bootstrap CI from selected_features_per_fold
       avg_k <- NA
       if (!is.null(stab) && !is.null(stab$selected_features_per_fold)) {
         sf <- stab$selected_features_per_fold
         if (is.list(sf) && length(sf) > 0) {
+          # Calculate average feature count
           all_lengths <- unlist(lapply(sf, function(x) sapply(x, length)))
           avg_k <- mean(all_lengths, na.rm = TRUE)
+
+          # Flatten feature lists for bootstrap CI calculation
+          # sf can be nested (learner -> folds) or flat (folds)
+          feature_lists <- if (is.list(sf[[1]]) && !is.character(sf[[1]])) {
+            # Nested: take first learner's folds
+            sf[[1]]
+          } else {
+            # Flat list of character vectors
+            sf
+          }
+
+          # Compute bootstrap CI (use 500 for speed in interactive context)
+          stab_ci <- tryCatch({
+            bootstrap_stability_ci(feature_lists, n_boot = 500, conf_level = 0.95, seed = 42)
+          }, error = function(e) {
+            list(point = best_stab, lower = NA_real_, upper = NA_real_, se = NA_real_)
+          })
+
+          # Use bootstrap point estimate if original is NA
+          if (is.na(best_stab) && !is.na(stab_ci$point)) {
+            best_stab <- stab_ci$point
+          }
         }
+      }
+
+      # Determine if CI contains the 0.7 threshold (uncertain validation)
+      ci_uncertain <- FALSE
+      if (!is.na(stab_ci$lower) && !is.na(stab_ci$upper)) {
+        ci_uncertain <- stab_ci$lower < 0.7 && stab_ci$upper >= 0.7
       }
 
       div(
@@ -204,7 +373,12 @@ mod_results_server <- function(id, project, switch_tab) {
           div(
             class = "metric-box",
             div(class = "metric-value", if (!is.na(best_stab)) sprintf("%.3f", best_stab) else "N/A"),
-            div(class = "metric-label", "Stability Index")
+            div(class = "metric-label", "Stability Index"),
+            # Show 95% CI if available
+            if (!is.na(stab_ci$lower) && !is.na(stab_ci$upper)) {
+              div(class = "metric-ci text-muted small",
+                  sprintf("95%% CI: [%.3f, %.3f]", stab_ci$lower, stab_ci$upper))
+            }
           )
         ),
         div(
@@ -218,9 +392,25 @@ mod_results_server <- function(id, project, switch_tab) {
         div(
           class = "col-md-3",
           div(
-            class = if (!is.na(best_stab) && best_stab >= 0.7) "metric-box bg-success text-white" else "metric-box bg-warning",
-            div(class = "metric-value", if (!is.na(best_stab) && best_stab >= 0.7) "PASS" else "CHECK"),
-            div(class = "metric-label", "Validation Status")
+            class = if (!is.na(best_stab) && best_stab >= 0.7 && !ci_uncertain) {
+              "metric-box bg-success text-white"
+            } else if (ci_uncertain) {
+              "metric-box bg-warning"
+            } else {
+              "metric-box bg-warning"
+            },
+            div(class = "metric-value",
+                if (!is.na(best_stab) && best_stab >= 0.7 && !ci_uncertain) {
+                  "PASS"
+                } else if (ci_uncertain) {
+                  "UNCERTAIN"
+                } else {
+                  "CHECK"
+                }),
+            div(class = "metric-label", "Validation Status"),
+            if (ci_uncertain) {
+              div(class = "small", "CI spans threshold")
+            }
           )
         )
       )
@@ -534,6 +724,125 @@ mod_results_server <- function(id, project, switch_tab) {
       }
 
       data.frame(Feature = sig$features)
+    })
+
+    # Stability CI details for Stability Explorer
+    output$stability_ci_details <- renderUI({
+      proj <- project()
+      if (is.null(proj)) return(NULL)
+
+      result <- proj$get_benchmark_result()
+      if (is.null(result)) {
+        return(div(class = "text-muted", "Run benchmark to see stability analysis"))
+      }
+
+      stab <- result$stability
+      if (is.null(stab) || is.null(stab$selected_features_per_fold)) {
+        return(div(class = "text-muted", "No feature selection data available"))
+      }
+
+      # Extract feature lists and compute bootstrap CI
+      sf <- stab$selected_features_per_fold
+      feature_lists <- if (is.list(sf[[1]]) && !is.character(sf[[1]])) {
+        sf[[1]]  # Nested: first learner's folds
+      } else {
+        sf  # Flat list
+      }
+
+      # Calculate bootstrap CI with 1000 iterations for detailed view
+      stab_ci <- tryCatch({
+        bootstrap_stability_ci(feature_lists, n_boot = 1000, conf_level = 0.95, seed = 42)
+      }, error = function(e) {
+        list(point = NA_real_, lower = NA_real_, upper = NA_real_, se = NA_real_, n_boot = 0)
+      })
+
+      n_folds <- length(feature_lists)
+
+      if (is.na(stab_ci$point)) {
+        return(div(class = "text-muted", "Could not compute stability index"))
+      }
+
+      # Determine interpretation
+      ci_width <- if (!is.na(stab_ci$upper) && !is.na(stab_ci$lower)) {
+        stab_ci$upper - stab_ci$lower
+      } else NA
+
+      interpretation <- if (is.na(stab_ci$lower) || is.na(stab_ci$upper)) {
+        list(badge = "secondary", text = "CI unavailable")
+      } else if (stab_ci$lower >= 0.7) {
+        list(badge = "success", text = "Reliably stable")
+      } else if (stab_ci$upper < 0.7) {
+        list(badge = "danger", text = "Consistently unstable")
+      } else {
+        list(badge = "warning", text = "Uncertain - spans threshold")
+      }
+
+      ci_precision <- if (is.na(ci_width)) {
+        ""
+      } else if (ci_width < 0.1) {
+        " (narrow - high precision)"
+      } else if (ci_width < 0.2) {
+        " (moderate precision)"
+      } else {
+        " (wide - consider more data)"
+      }
+
+      div(
+        class = "stability-ci-result",
+        div(
+          class = "d-flex align-items-center mb-2",
+          span(class = "h4 mb-0 me-2", sprintf("%.3f", stab_ci$point)),
+          span(class = sprintf("badge bg-%s", interpretation$badge), interpretation$text)
+        ),
+        if (!is.na(stab_ci$lower) && !is.na(stab_ci$upper)) {
+          tagList(
+            p(class = "mb-1",
+              strong("95% Confidence Interval: "),
+              sprintf("[%.3f, %.3f]", stab_ci$lower, stab_ci$upper),
+              span(class = "text-muted small", ci_precision)
+            ),
+            if (!is.na(stab_ci$se)) {
+              p(class = "text-muted small mb-1",
+                sprintf("Standard Error: %.4f | Bootstrap samples: %d | CV folds: %d",
+                        stab_ci$se, stab_ci$n_boot %||% 1000, n_folds))
+            }
+          )
+        },
+        # Visual CI bar
+        if (!is.na(stab_ci$lower) && !is.na(stab_ci$upper)) {
+          div(
+            class = "ci-visual mt-2",
+            style = "position: relative; height: 24px; background: linear-gradient(to right, #dc3545 0%, #dc3545 70%, #198754 70%, #198754 100%); border-radius: 4px;",
+            # 0.7 threshold marker
+            div(
+              style = "position: absolute; left: 70%; top: 0; bottom: 0; width: 2px; background: white;",
+              title = "0.7 threshold"
+            ),
+            # CI range bar
+            div(
+              style = sprintf(
+                "position: absolute; left: %.1f%%; width: %.1f%%; top: 4px; height: 16px; background: rgba(255,255,255,0.9); border: 2px solid #333; border-radius: 3px;",
+                max(0, stab_ci$lower * 100),
+                min(100, (stab_ci$upper - stab_ci$lower) * 100)
+              ),
+              title = sprintf("95%% CI: [%.3f, %.3f]", stab_ci$lower, stab_ci$upper)
+            ),
+            # Point estimate marker
+            div(
+              style = sprintf(
+                "position: absolute; left: calc(%.1f%% - 4px); top: 2px; width: 8px; height: 20px; background: #333; border-radius: 2px;",
+                stab_ci$point * 100
+              ),
+              title = sprintf("Point estimate: %.3f", stab_ci$point)
+            ),
+            # Scale labels
+            div(
+              class = "d-flex justify-content-between mt-1 small text-muted",
+              span("0"), span("0.7"), span("1.0")
+            )
+          )
+        }
+      )
     })
 
     # Consensus features

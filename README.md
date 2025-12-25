@@ -466,7 +466,7 @@ learner <- pipeline$create_graph_learner(
                               # Use decimal < 1 for proportion (e.g., 0.1 = top 10%)
 
   # Preprocessing
-  impute_method = "median",   # Handle missing values: "median", "mean", "sample"
+  impute_method = "median",   # Handle missing values: "median", "mean", "sample", "pmm"
   scale = TRUE,               # Scale features to zero mean, unit variance
 
   # Class Imbalance (applied INSIDE each CV fold)
@@ -475,6 +475,27 @@ learner <- pipeline$create_graph_learner(
   # Batch Effect Correction
   batch_correct = FALSE       # TRUE to apply FrozenComBat (requires batch column)
 )
+```
+
+#### Advanced Imputation: PMM (Predictive Mean Matching)
+
+For complex missing data patterns, use PMM imputation via the `mice` package:
+
+```r
+# PMM uses predictive models to impute missing values
+# Best for: MAR (Missing At Random) data, preserving distributions
+learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "ranger",
+  n_features = 20,
+  impute_method = "pmm"       # Predictive Mean Matching via mice
+)
+
+# PMM advantages:
+# - Preserves data distribution (unlike mean imputation)
+# - Handles complex correlation structures
+# - Produces plausible values from observed data
+# - Applied properly inside each CV fold to prevent leakage
 ```
 
 ---
@@ -624,11 +645,22 @@ print(validation$quality_score)  # 0-1, higher is better
 ### Feature Stability Analysis
 
 ```r
-# Compute Nogueira Stability Index
+# Compute Nogueira Stability Index with Bootstrap Confidence Intervals
 stability <- compute_stability_from_resample(result$benchmark_result)
 print(stability)
 #> Nogueira Stability Index: 0.823
 #> Interpretation: Good stability
+
+# Bootstrap CI for uncertainty quantification
+stability_ci <- compute_nogueira_stability(
+  feature_matrix,
+  n_bootstrap = 1000,      # Number of bootstrap iterations
+  conf_level = 0.95        # 95% confidence interval
+)
+print(stability_ci)
+#> Nogueira Stability: 0.823
+#> 95% Bootstrap CI: [0.756, 0.889]
+#> Interpretation: Good stability (CI does not include 0.7 threshold)
 
 # Get features selected in ALL folds (consensus)
 consensus_features <- stability$consensus_features
@@ -736,6 +768,56 @@ stacker$train()
 predictions <- stacker$predict(new_data)
 ```
 
+### Quality Control Validation
+
+OmicSelector includes rigorous QC checks for clinical-grade biomarker discovery:
+
+```r
+# Run comprehensive QC validation
+qc_results <- project$run_qc_validation()
+
+# QC checks include:
+# - Sample size adequacy (minimum samples per class)
+# - Dimensionality ratio (features vs samples)
+# - Events Per Variable (EPV) for model stability
+# - Missing data patterns
+# - Feature quality (variance, zero-inflation)
+
+print(qc_results)
+#> QC Validation Results:
+#>   sample_size:    PASS (n=200, min_class=87)
+#>   dimensionality: WARN (p/n ratio = 2.5, high dimensionality)
+#>   epv:            PASS (EPV = 8.7, adequate for selected features)
+#>   missing_data:   PASS (0.3% missing, handled with PMM)
+#>   feature_quality: PASS (no constant features detected)
+
+# Warnings guide corrective action without blocking workflow
+```
+
+### Model Card Generation
+
+Generate clinical-ready Model Cards for stakeholder communication:
+
+```r
+# After training a final model
+model_card <- project$generate_model_card(
+  model_name = "Glioblastoma miRNA Classifier",
+  intended_use = "Diagnostic aid for glioblastoma classification",
+  target_population = "Adult patients with suspected CNS tumors",
+  clinical_context = "Pre-surgical tumor characterization"
+)
+
+# Model Card includes:
+# - Performance metrics with confidence intervals
+# - Training data characteristics
+# - Intended use and limitations
+# - Feature stability assessment
+# - TRIPOD+AI compliance notes
+
+# Export as HTML for stakeholders
+export_model_card(model_card, "model_card.html")
+```
+
 ---
 
 ## YAML Configuration
@@ -825,12 +907,22 @@ docker run -it --rm -v $(pwd):/workspace omicselector:2.0 \
 | `smote_augment()` | SMOTE for class imbalance |
 | `validate_synthetic()` | Synthetic data quality validation |
 
+### Quality Control & Clinical Reporting
+
+| Module | Description |
+|--------|-------------|
+| `validate_data_quality()` | Sample size, dimensionality, EPV checks |
+| `generate_model_card()` | Clinical-ready Model Card for stakeholders |
+| `generate_tripod_report()` | TRIPOD+AI compliant reporting |
+
 ### Multi-Omics & Export
 
 | Module | Description |
 |--------|-------------|
 | `MultiOmicsStacker` | Late integration of multi-omics data |
 | `export_vetiver()` | Model export for deployment |
+| `export_bundle()` | Self-contained model bundle with metadata |
+| `export_onnx()` | ONNX export for cross-platform deployment |
 
 ---
 

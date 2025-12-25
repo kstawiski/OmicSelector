@@ -211,6 +211,21 @@ OmicProject <- R6::R6Class(
           message = "Classes balanced",
           blocking = FALSE
         ),
+        sample_size = list(
+          status = "green",
+          message = "Adequate sample size",
+          blocking = FALSE
+        ),
+        dimensionality = list(
+          status = "green",
+          message = "Feature/sample ratio OK",
+          blocking = FALSE
+        ),
+        feature_quality = list(
+          status = "green",
+          message = "No problematic features",
+          blocking = FALSE
+        ),
         missing_values = list(
           status = "green",
           message = "No missing values",
@@ -263,6 +278,83 @@ OmicProject <- R6::R6Class(
                 blocking = FALSE
               )
             }
+
+            # Check: Minimum sample size per class (for CV feasibility)
+            min_class_size <- min(tbl)
+            if (min_class_size < 5) {
+              checks$sample_size <- list(
+                status = "red",
+                message = sprintf("Too few samples in minority class (%d). CV may fail.", min_class_size),
+                blocking = TRUE
+              )
+            } else if (min_class_size < 10) {
+              checks$sample_size <- list(
+                status = "yellow",
+                message = sprintf("Small minority class (%d samples). Results may be unstable.", min_class_size),
+                blocking = FALSE
+              )
+            } else {
+              checks$sample_size <- list(
+                status = "green",
+                message = sprintf("Adequate samples per class (min: %d)", min_class_size),
+                blocking = FALSE
+              )
+            }
+          }
+        }
+      }
+
+      # Check: Dimensionality (p >> n warning)
+      if (!is.null(data)) {
+        n_samples <- if (is.data.frame(data)) nrow(data) else nrow(data[[1]])
+        x <- private$.get_feature_matrix()
+        if (!is.null(x)) {
+          n_features <- ncol(x)
+          ratio_pn <- n_features / n_samples
+
+          if (ratio_pn > 50) {
+            checks$dimensionality <- list(
+              status = "red",
+              message = sprintf("Very high p/n ratio (%.0f:1). Overfitting risk high.", ratio_pn),
+              blocking = FALSE
+            )
+          } else if (ratio_pn > 10) {
+            checks$dimensionality <- list(
+              status = "yellow",
+              message = sprintf("High p/n ratio (%.0f:1). Consider feature filtering.", ratio_pn),
+              blocking = FALSE
+            )
+          } else {
+            checks$dimensionality <- list(
+              status = "green",
+              message = sprintf("p/n ratio: %.1f:1", ratio_pn),
+              blocking = FALSE
+            )
+          }
+
+          # Check: Feature quality (zero-variance, constant features)
+          feature_vars <- apply(x, 2, function(col) var(col, na.rm = TRUE))
+          n_zero_var <- sum(feature_vars == 0 | is.na(feature_vars))
+          n_near_zero_var <- sum(feature_vars < 1e-10 & feature_vars > 0, na.rm = TRUE)
+
+          if (n_zero_var > 0) {
+            checks$feature_quality <- list(
+              status = "yellow",
+              message = sprintf("%d constant features detected. Consider removing.", n_zero_var),
+              blocking = FALSE
+            )
+          } else if (n_near_zero_var > n_features * 0.1) {
+            checks$feature_quality <- list(
+              status = "yellow",
+              message = sprintf("%d near-zero variance features (>10%%). May affect stability.", n_near_zero_var),
+              blocking = FALSE
+            )
+          } else {
+            checks$feature_quality <- list(
+              status = "green",
+              message = "Feature variance OK",
+              blocking = FALSE
+            )
           }
         }
       }
@@ -294,13 +386,59 @@ OmicProject <- R6::R6Class(
         }
       }
 
-      # Check: Patient ID
+      # Check: Patient ID and leakage risk
       if (!is.null(private$.patient_id_col) && nzchar(private$.patient_id_col)) {
-        checks$patient_grouping <- list(
-          status = "green",
-          message = "Patient grouping enabled",
-          blocking = FALSE
-        )
+        # Patient ID is set - verify it's being used correctly
+        patient_vals <- NULL
+        if (is.data.frame(data)) {
+          if (private$.patient_id_col %in% names(data)) {
+            patient_vals <- data[[private$.patient_id_col]]
+          }
+        } else if (is.list(data)) {
+          for (mod in names(data)) {
+            if (private$.patient_id_col %in% names(data[[mod]])) {
+              patient_vals <- data[[mod]][[private$.patient_id_col]]
+              break
+            }
+          }
+        }
+
+        if (!is.null(patient_vals)) {
+          n_samples <- length(patient_vals)
+          n_unique <- length(unique(patient_vals))
+          if (n_unique < n_samples) {
+            # Repeated measures detected
+            checks$patient_grouping <- list(
+              status = "green",
+              message = sprintf("Patient grouping enabled (%d patients, %d samples). CV will respect groups.",
+                                n_unique, n_samples),
+              blocking = FALSE
+            )
+          } else {
+            checks$patient_grouping <- list(
+              status = "green",
+              message = sprintf("Patient IDs set (%d unique)", n_unique),
+              blocking = FALSE
+            )
+          }
+        } else {
+          checks$patient_grouping <- list(
+            status = "green",
+            message = "Patient grouping enabled",
+            blocking = FALSE
+          )
+        }
+      } else {
+        # Patient ID not set - check if data might have repeated measures
+        n_samples <- if (is.data.frame(data)) nrow(data) else nrow(data[[1]])
+        if (n_samples > 100) {
+          checks$patient_grouping <- list(
+            status = "yellow",
+            message = sprintf("Patient ID not set. If samples are from same patients, CV may leak data. (%d samples)", n_samples),
+            blocking = FALSE
+          )
+        }
+        # Default yellow warning already set in initialization
       }
 
       private$.qc_status <- checks

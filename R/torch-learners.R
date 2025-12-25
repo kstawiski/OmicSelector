@@ -115,50 +115,43 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
                                    epochs, batch_size, lr,
                                    early_stopping, patience, device) {
 
-  # mlr3torch's nn("mlp") uses uniform layer sizes (n_hidden applies to all layers)
-  # If hidden_layers has varying sizes, warn user and use first value
-  if (length(unique(hidden_layers)) > 1) {
-    warning(
-      "mlr3torch nn('mlp') uses uniform layer sizes. ",
-      "hidden_layers = c(", paste(hidden_layers, collapse = ", "), ") ",
-      "will use ", hidden_layers[1], " neurons for ALL ", length(hidden_layers),
-      " hidden layers. For varying layer sizes, use a custom torch::nn_module().",
-      call. = FALSE
-    )
-  }
 
-  network <- mlr3torch::nn("mlp",
-    n_layers = length(hidden_layers),
-    n_hidden = hidden_layers[1],  # mlr3torch uses uniform size for all layers
-    dropout = dropout,
-    batch_norm = TRUE,
-    activation = activation
-  )
+  # Map activation name to torch function
 
+  activation_fn <- switch(activation,
+    "relu" = torch::nn_relu,
+    "tanh" = torch::nn_tanh,
+    "sigmoid" = torch::nn_sigmoid,
+    torch::nn_relu  # default
+
+)
+
+  # Build callbacks list
   callbacks <- list()
-  if (isTRUE(early_stopping) &&
-      exists("t_clbk", asNamespace("mlr3torch"), inherits = FALSE)) {
-    callbacks <- list(
-      mlr3torch::t_clbk("early_stopping",
-        patience = patience,
-        min_delta = 0.001
+  if (isTRUE(early_stopping)) {
+    tryCatch({
+      callbacks <- list(
+        mlr3torch::t_clbk("history")
       )
-    )
+    }, error = function(e) {
+      # Callbacks not available, continue without
+    })
   }
 
-  learner <- mlr3torch::lrn("classif.torch",
-    network = network,
+  # Use classif.mlp - the predefined MLP learner in mlr3torch >= 0.3
+  learner <- mlr3::lrn("classif.mlp",
+    neurons = hidden_layers,
+    p = dropout,
+    activation = activation_fn,
     epochs = epochs,
     batch_size = batch_size,
+    device = device,
     optimizer = mlr3torch::t_opt("adam", lr = lr),
     loss = mlr3torch::t_loss("cross_entropy"),
-    callbacks = callbacks,
+    callbacks = if (length(callbacks) > 0) callbacks else NULL,
     predict_type = "prob"
   )
 
-  if ("device" %in% learner$param_set$ids()) {
-    learner$param_set$values$device <- device
-  }
   learner$id <- "omic_mlp"
   learner
 }
@@ -180,6 +173,18 @@ create_mlp_learner <- function(hidden_layers = c(64, 32),
     device = device
   )
 }
+
+
+#' @title Make MLP Learner (Alias)
+#'
+#' @description
+#' Convenient alias for create_mlp_learner() matching the naming convention
+#' of other factory functions (make_autotuner_*).
+#'
+#' @inheritParams create_mlp_learner
+#' @return An mlr3 Learner object
+#' @export
+make_mlp_learner <- create_mlp_learner
 
 
 
