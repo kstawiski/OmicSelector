@@ -36,16 +36,16 @@ install.packages("mlr3torch")
 ```{r load}
 library(OmicSelector)
 
-data("orginal_TCGA_data", package = "OmicSelector")
+data("original_TCGA_data", package = "OmicSelector")
 ```
 
 # Prepare a Small TCGA Subset
 
 ```{r prep}
-feature_cols <- grep("^hsa\\.", names(orginal_TCGA_data), value = TRUE)
+feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
 feature_cols <- head(feature_cols, 300)
 
-subset_df <- orginal_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
+subset_df <- original_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
 subset_df <- as.data.frame(subset_df)
 subset_df$sample_type <- factor(subset_df$sample_type)
 

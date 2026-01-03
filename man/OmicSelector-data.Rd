@@ -6,6 +6,7 @@
 \alias{miRNAselector_tutorial_balanced_benchmark}
 \alias{miRNAselector_tutorial_balanced_dataset}
 \alias{miRNAselector_tutorial_balanced_mixed}
+\alias{original_TCGA_data}
 \alias{orginal_TCGA_data}
 \title{Datasets included with OmicSelector}
 \description{
@@ -17,7 +18,8 @@ Datasets shipped with the package for examples, tutorials, and smoke tests.
   \item \code{miRNAselector_tutorial_balanced_dataset}: Balanced tutorial dataset (miRNA + labels).
   \item \code{miRNAselector_tutorial_balanced_mixed}: Balanced tutorial dataset with mixed features.
   \item \code{miRNAselector_tutorial_balanced_benchmark}: Balanced dataset prepared for benchmarking.
-  \item \code{orginal_TCGA_data}: TCGA miRNA dataset with clinical labels.
+  \item \code{original_TCGA_data}: TCGA miRNA dataset with clinical labels.
+        (Note: \code{orginal_TCGA_data} is retained for backward compatibility.)
 }
 }
 \keyword{datasets}

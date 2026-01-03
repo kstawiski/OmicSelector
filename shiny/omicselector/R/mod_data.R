@@ -212,8 +212,8 @@ mod_data_server <- function(id, project, switch_tab) {
     # Load built-in dataset
     load_builtin <- function(name) {
       if (name == "tcga") {
-        data("orginal_TCGA_data", package = "OmicSelector", envir = environment())
-        df <- as.data.frame(get("orginal_TCGA_data", envir = environment()))
+        data("original_TCGA_data", package = "OmicSelector", envir = environment())
+        df <- as.data.frame(get("original_TCGA_data", envir = environment()))
         # Subset for demo - limit features for faster exploration
         feature_cols <- grep("^hsa", names(df), value = TRUE)
         total_features <- length(feature_cols)

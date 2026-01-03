@@ -271,22 +271,15 @@ select_best_signature <- function(
 }
 
 
-#' @title Compute Nogueira Stability Index
+#' @title Compute Nogueira Stability Index (Internal Wrapper)
 #'
 #' @description
-#' Computes the Nogueira Stability Index for feature selection consistency.
-#' The index ranges from 0 (completely unstable) to 1 (perfectly stable).
-#'
-#' @details
-#' The Nogueira Stability Index is defined as:
-#' SI = 1 - (observed_variance / max_variance)
-#'
-#' Where observed variance is the average pairwise disagreement between
-#' feature sets, and max variance is what we'd expect from random selection.
+#' Internal wrapper that calls the canonical implementation from stability.R.
+#' This ensures consistency and avoids code duplication.
 #'
 #' @param fold_features List of character vectors, each containing features
 #'   selected in one fold
-#' @param p Total number of features in the dataset
+#' @param p Total number of features in the dataset (the candidate universe)
 #'
 #' @return Numeric stability index between 0 and 1
 #' @keywords internal
@@ -301,57 +294,34 @@ select_best_signature <- function(
     return(NA_real_)
   }
 
-  # Create binary selection matrix: rows = folds, cols = features
-  all_features <- unique(unlist(fold_features))
-  if (length(all_features) == 0) {
+  # Validate fold_features
+  if (all(sapply(fold_features, length) == 0)) {
     return(NA_real_)
   }
 
-  # Build selection matrix
-  Z <- matrix(0, nrow = n_folds, ncol = length(all_features))
-  colnames(Z) <- all_features
+  # Create the full candidate feature universe
 
-  for (i in seq_len(n_folds)) {
-    if (length(fold_features[[i]]) > 0) {
-      Z[i, fold_features[[i]]] <- 1
-    }
-  }
+  # CRITICAL: p must be the total number of candidate features BEFORE selection,
 
-  # Compute feature-wise selection frequencies
-  pf <- colMeans(Z)  # Proportion of times each feature was selected
-
-  # Mean number of features selected per fold
-  k_bar <- mean(rowSums(Z))
-
-  if (k_bar == 0 || k_bar == p) {
-    # Edge case: all or none selected
-    return(1.0)
-  }
-
-  # Nogueira's formula:
-  # SI = 1 - (1/k_bar) * sum(pf * (1 - pf)) / (1 - k_bar/p)
+  # NOT the union of selected features. This is essential for correct Nogueira
+  # stability computation.
   #
-  # Simplified: using variance formula
-  # Observed variance = (1/p) * sum(pf * (1-pf)) where p = TOTAL candidate features
-  # Maximum variance under random selection = k_bar/p * (1 - k_bar/p)
-  #
-  # NOTE: Features never selected have pf=0, contributing 0 to the sum,
-  # so we only need to sum over the union of selected features
-  # but MUST divide by total candidates p, not the union size
+  # If p is provided as a number, we generate placeholder feature names.
+  # The actual feature names don't matter for stability computation - only
 
-  observed_var <- sum(pf * (1 - pf)) / p  # Use p (total candidates), not length(all_features)
-  max_var <- (k_bar / p) * (1 - k_bar / p)
-
-  if (max_var == 0) {
-    return(1.0)
+  # the selection frequencies relative to the total candidate count.
+  if (is.numeric(p) && length(p) == 1) {
+    all_features <- paste0("feature_", seq_len(p))
+  } else {
+    # p is a character vector of all feature names
+    all_features <- p
+    p <- length(all_features)
   }
 
-  stability <- 1 - observed_var / max_var
+  # Call canonical implementation from stability.R
+  result <- compute_nogueira_stability(fold_features, all_features)
 
-  # Clamp to [0, 1] (numerical precision issues)
-  stability <- max(0, min(1, stability))
-
-  return(stability)
+  return(result$nogueira_index)
 }
 
 
@@ -506,16 +476,33 @@ select_best_signature <- function(
 
   dt <- data.table::copy(candidates)
 
-  # AUC constraint - use original_metric (not sign-flipped) for constraint checking
-
+  # Performance constraint - use original_metric (not sign-flipped) for constraint checking
   # The auc_min parameter should be specified in original metric units
-  # (e.g., auc_min=0.7 for AUC, where higher is better)
+  # (e.g., auc_min=0.7 for AUC where higher is better, or brier_max=0.25 for Brier where lower is better)
+  #
+  # IMPORTANT: The comparison direction depends on the metric type:
+
+  # - For higher-is-better metrics (AUC, accuracy): use >= (keep candidates above threshold)
+  # - For lower-is-better metrics (Brier, logloss): use <= (keep candidates below threshold)
   if (!is.null(auc_min)) {
+    # Get metric direction from attribute
+    metric_higher_better <- attr(candidates, "metric_higher_better")
+    if (is.null(metric_higher_better)) {
+      metric_higher_better <- TRUE  # Default to higher-is-better for backwards compatibility
+    }
+
     # Use original_metric if available (preserves original scale before sign-flip)
     if ("original_metric" %in% names(dt)) {
-      dt <- dt[original_metric >= auc_min]
+      if (metric_higher_better) {
+        # Higher is better (AUC, accuracy): keep candidates >= threshold
+        dt <- dt[original_metric >= auc_min]
+      } else {
+        # Lower is better (Brier, logloss): keep candidates <= threshold
+        # NOTE: In this case, auc_min is a misnomer - it's actually a maximum threshold
+        dt <- dt[original_metric <= auc_min]
+      }
     } else {
-      # Fallback for backwards compatibility
+      # Fallback for backwards compatibility (mean_metric is already sign-adjusted)
       dt <- dt[mean_metric >= auc_min]
     }
   }

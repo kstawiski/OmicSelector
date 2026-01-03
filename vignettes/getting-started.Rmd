@@ -32,17 +32,17 @@ library(OmicSelector)
 
 # TCGA miRNA dataset shipped with the package
 # (data frame with clinical + miRNA features)
-data("orginal_TCGA_data", package = "OmicSelector")
+data("original_TCGA_data", package = "OmicSelector")
 ```
 
 # Prepare a Tiny TCGA Subset
 
 ```{r prep}
-feature_cols <- grep("^hsa\\.", names(orginal_TCGA_data), value = TRUE)
+feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
 feature_cols <- head(feature_cols, 200)
 
 # Keep only patient id, target, and a small feature subset
-subset_df <- orginal_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
+subset_df <- original_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
 subset_df <- as.data.frame(subset_df)
 subset_df$sample_type <- factor(subset_df$sample_type)
 

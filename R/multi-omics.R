@@ -218,9 +218,11 @@ merge_omics_data <- function(omics_input, sample_subset = NULL) {
       merged <- mod_data
     } else {
       # Merge by row names (sample IDs)
+      # Note: merge() with by="row.names" creates a column named "Row.names"
+      # We use the first column position to be robust across R versions
       merged <- merge(merged, mod_data, by = "row.names", all = FALSE)
-      rownames(merged) <- merged$Row.names
-      merged$Row.names <- NULL
+      rownames(merged) <- merged[[1]]  # First column contains the row names
+      merged <- merged[, -1, drop = FALSE]  # Remove the Row.names column
     }
   }
 

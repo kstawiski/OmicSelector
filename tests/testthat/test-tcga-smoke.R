@@ -7,12 +7,12 @@ test_that("TCGA smoke test runs on tiny subset", {
   skip_if_not_installed("mlr3tuning")
   skip_if_not_installed("mlr3filters")
 
-  data("orginal_TCGA_data", package = "OmicSelector", envir = environment())
+  data("original_TCGA_data", package = "OmicSelector", envir = environment())
 
-  feature_cols <- grep("^hsa\\.", names(orginal_TCGA_data), value = TRUE)
+  feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
   feature_cols <- head(feature_cols, 25)
 
-  df <- orginal_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
+  df <- original_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
   df <- as.data.frame(df)
   df$sample_type <- factor(df$sample_type)
 
