@@ -61,6 +61,8 @@ Suggests:
     pins,
     jsonlite,
     plumber,
+    reticulate,
+    catboost,
     ranger,
     glmnet,
     xgboost,

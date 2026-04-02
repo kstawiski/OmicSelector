@@ -29,6 +29,51 @@
 NULL
 
 
+.coerce_calibration_input <- function(x) {
+  if (is.data.frame(x)) {
+    checkmate::assert_true(ncol(x) == 1L)
+    x <- x[[1L]]
+  } else if (is.matrix(x)) {
+    checkmate::assert_true(ncol(x) == 1L)
+    x <- as.vector(x[, 1L])
+  } else if (is.list(x) && !is.atomic(x)) {
+    x <- unlist(x, recursive = TRUE, use.names = FALSE)
+  }
+
+  x
+}
+
+
+.new_ece_result <- function(ece, mce, n_bins, n_samples, bin_data) {
+  structure(
+    as.numeric(ece),
+    mce = as.numeric(mce),
+    n_bins = as.integer(n_bins),
+    n_samples = as.integer(n_samples),
+    bin_data = bin_data,
+    class = "ECEResult"
+  )
+}
+
+
+"$.ECEResult" <- function(x, name) {
+  if (identical(name, "ece")) {
+    return(as.numeric(x))
+  }
+
+  attr(x, name, exact = TRUE)
+}
+
+
+"$.PlattCalibrator" <- function(x, name) {
+  if (identical(name, "predict")) {
+    return(function(new_probs) x(new_probs))
+  }
+
+  attr(x, name, exact = TRUE)
+}
+
+
 #' @title Compute Expected Calibration Error (ECE)
 #'
 #' @description
@@ -67,10 +112,15 @@ NULL
 compute_ece <- function(probs, labels, n_bins = 10, weighting = c("samples", "uniform")) {
   weighting <- match.arg(weighting)
 
+  probs <- .coerce_calibration_input(probs)
+  labels <- .coerce_calibration_input(labels)
+
   # Convert factor labels to numeric (0/1) before validation
   # Factors are common in mlr3 classification workflows
   if (is.factor(labels)) {
     labels <- as.integer(labels) - 1L  # Factor levels to 0/1
+  } else if (is.logical(labels)) {
+    labels <- as.integer(labels)
   }
 
   # Validate inputs
@@ -112,7 +162,13 @@ compute_ece <- function(probs, labels, n_bins = 10, weighting = c("samples", "un
   non_empty <- bin_data$n_samples > 0
 
   if (sum(non_empty) == 0) {
-    return(list(ece = NA, mce = NA, bin_data = bin_data))
+    return(.new_ece_result(
+      ece = NA_real_,
+      mce = NA_real_,
+      n_bins = n_bins,
+      n_samples = n,
+      bin_data = bin_data
+    ))
   }
 
   # Compute ECE
@@ -125,7 +181,7 @@ compute_ece <- function(probs, labels, n_bins = 10, weighting = c("samples", "un
   ece <- sum(weights * bin_data$calibration_error[non_empty])
   mce <- max(bin_data$calibration_error[non_empty])
 
-  list(
+  .new_ece_result(
     ece = ece,
     mce = mce,
     n_bins = n_bins,
@@ -254,9 +310,14 @@ decompose_brier <- function(probs, labels) {
 #'
 #' @export
 fit_platt_scaling <- function(probs, labels) {
+  probs <- .coerce_calibration_input(probs)
+  labels <- .coerce_calibration_input(labels)
+
   # Convert factor labels to numeric (0/1) before validation
   if (is.factor(labels)) {
     labels <- as.integer(labels) - 1L
+  } else if (is.logical(labels)) {
+    labels <- as.integer(labels)
   }
 
   checkmate::assert_numeric(probs, lower = 0, upper = 1, any.missing = FALSE)
@@ -269,15 +330,28 @@ fit_platt_scaling <- function(probs, labels) {
   probs_clipped <- pmax(pmin(probs, 1 - 1e-10), 1e-10)
 
   # Fit logistic regression
-  df <- data.frame(y = labels, score = probs_clipped)
-  fit <- suppressWarnings(glm(y ~ score, data = df, family = binomial()))
+  fit_data <- data.frame(y = labels, score = probs_clipped)
+  fit <- suppressWarnings(glm(y ~ score, data = fit_data, family = binomial()))
+  coefficients <- stats::coef(fit)
 
-  # Return calibration function
-  function(new_probs) {
+  calibrator <- function(new_probs) {
+    new_probs <- .coerce_calibration_input(new_probs)
+    checkmate::assert_numeric(new_probs, lower = 0, upper = 1, any.missing = FALSE)
     new_probs_clipped <- pmax(pmin(new_probs, 1 - 1e-10), 1e-10)
     new_df <- data.frame(score = new_probs_clipped)
     as.numeric(predict(fit, newdata = new_df, type = "response"))
   }
+
+  attr(calibrator, "intercept") <- unname(coefficients["(Intercept)"])
+  attr(calibrator, "slope") <- unname(coefficients["score"])
+  attr(calibrator, "coefficients") <- c(
+    intercept = unname(coefficients["(Intercept)"]),
+    slope = unname(coefficients["score"])
+  )
+  attr(calibrator, "model") <- fit
+  class(calibrator) <- c("PlattCalibrator", class(calibrator))
+
+  calibrator
 }
 
 

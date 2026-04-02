@@ -353,9 +353,44 @@ run_dl_benchmark <- function(task,
       }),
 
       "tabtransformer" = tryCatch({
-        make_tabtransformer_learner(epochs = epochs)
+        make_tabtransformer_learner(max_epochs = epochs)
       }, error = function(e) {
         message("TabTransformer not available: ", e$message)
+        NULL
+      }),
+
+      "fttransformer" = tryCatch({
+        make_fttransformer_learner(max_epochs = epochs)
+      }, error = function(e) {
+        message("FT-Transformer not available: ", e$message)
+        NULL
+      }),
+
+      "tabnet" = tryCatch({
+        make_tabnet_learner(max_epochs = epochs)
+      }, error = function(e) {
+        message("TabNet not available: ", e$message)
+        NULL
+      }),
+
+      "tabm" = tryCatch({
+        make_tabm_learner(max_epochs = epochs)
+      }, error = function(e) {
+        message("TabM not available: ", e$message)
+        NULL
+      }),
+
+      "catboost" = tryCatch({
+        make_catboost_learner(iterations = max(100L, as.integer(epochs * 5L)))
+      }, error = function(e) {
+        message("CatBoost not available: ", e$message)
+        NULL
+      }),
+
+      "tabpfn" = tryCatch({
+        make_tabpfn_learner()
+      }, error = function(e) {
+        message("TabPFN not available: ", e$message)
         NULL
       }),
 

@@ -117,7 +117,8 @@ OmicPipeline <- R6::R6Class(
     #'
     #' @param filter Filter method name (e.g., "anova", "mrmr", "correlation")
     #' @param model Model type (e.g., "ranger", "glmnet", "svm", "mlp",
-    #'   "tabtransformer") or an mlr3 Learner object.
+    #'   "tabtransformer", "fttransformer", "tabnet", "tabm", "catboost",
+    #'   "tabpfn") or an mlr3 Learner object.
     #' @param n_features Number of features to select (or proportion if < 1)
     #' @param impute_method Imputation method ("median", "mean", "sample")
     #' @param scale Logical, whether to scale features
@@ -708,8 +709,35 @@ OmicPipeline <- R6::R6Class(
         if (identical(model, "tabtransformer")) {
           return(make_tabtransformer_learner())
         }
+        if (identical(model, "fttransformer")) {
+          return(make_fttransformer_learner())
+        }
+        if (identical(model, "tabnet")) {
+          return(make_tabnet_learner())
+        }
+        if (identical(model, "tabm")) {
+          return(make_tabm_learner())
+        }
+        if (identical(model, "catboost")) {
+          return(make_catboost_learner())
+        }
+        if (identical(model, "tabpfn")) {
+          return(make_tabpfn_learner())
+        }
 
-        available <- paste(c(names(learner_map), "mlp", "tabtransformer"), collapse = ", ")
+        available <- paste(
+          c(
+            names(learner_map),
+            "mlp",
+            "tabtransformer",
+            "fttransformer",
+            "tabnet",
+            "tabm",
+            "catboost",
+            "tabpfn"
+          ),
+          collapse = ", "
+        )
         stop(sprintf("Unknown model '%s'. Available: %s", model, available))
       }
 
