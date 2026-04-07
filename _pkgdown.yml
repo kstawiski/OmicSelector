@@ -77,6 +77,11 @@ reference:
   - frozen_combat_correct
   - create_frozen_combat_pipeop
 
+- title: Cross-Platform Transfer
+  desc: Cross-platform model deployment and domain adaptation
+  contents:
+  - matches("cross_platform|domain_adapt|rank_transfer")
+
 - title: Calibration
   desc: Probability calibration and diagnostics
   contents:

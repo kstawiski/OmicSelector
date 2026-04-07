@@ -939,6 +939,14 @@ docker run -it --rm -v $(pwd):/workspace omicselector:2.0 \
 }
 ```
 
+## Publications Using OmicSelector
+
+If you use OmicSelector in your research, please cite:
+
+1. **Stawiski K**, Fortner RT, Elias KM, Fendler W, on behalf of the miRPOC Consortium. *External validation of a published circulating miRNA ovarian-cancer signature with OmicSelector-guided stability analysis in 13,411 samples.* (in preparation for EBioMedicine, 2026). — Used FrozenComBat, StabilityEnsemble, GOF Filters, calibration, and SHAP modules in a zero-leakage LODO-CV framework across 8 3D-Gene microarray datasets and cross-platform transfer to FirePlex immunoassay.
+
+2. **Stawiski K**, Fortner RT, Pestarino L, et al. *Circulating miRNAs as pre-diagnostic biomarkers for ovarian cancer detection using serum from the Norwegian Janus Serum Bank.* Front Oncol. 2024;14:1389066. PMID: 38983926.
+
 ## Authors
 
 - [Konrad Stawiski, M.D., Ph.D.](https://konsta.com.pl) (konrad.stawiski@umed.lodz.pl)
@@ -951,6 +959,6 @@ Department of Biostatistics and Translational Medicine, Medical University of Lo
 
 ## Links
 
-- [Documentation](https://biostat.umed.pl/OmicSelector/)
+- [Documentation](https://kstawiski.github.io/OmicSelector/)
 - [Issues & Bug Reports](https://github.com/kstawiski/OmicSelector/issues)
 - [Source Code](https://github.com/kstawiski/OmicSelector)
