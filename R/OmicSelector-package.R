@@ -1,7 +1,7 @@
 #' @title OmicSelector: Zero-Leakage Biomarker Discovery Toolkit
 #'
 #' @description
-#' OmicSelector 2.0 is a PhD-level toolkit for high-dimensional biomarker discovery
+#' OmicSelector 2.2.0 is a PhD-level toolkit for high-dimensional biomarker discovery
 #' that guarantees scientific validity through rigorous machine learning methodology.
 #'
 #' @details
@@ -52,29 +52,31 @@
 #'
 #' "Optimization without validation is hallucination."
 #'
-#' OmicSelector 2.0 prioritizes **zero data leakage** and **feature stability**
+#' OmicSelector 2.2.0 prioritizes **zero data leakage** and **feature stability**
 #' above raw accuracy metrics. High accuracy with unstable feature sets
 #' (the "Rashomon Effect") indicates overfitting, not real signal.
 #'
-#' @docType package
 #' @name OmicSelector-package
 #' @aliases OmicSelector
 #'
 #' @import R6
-#' @importFrom stats cor rnorm rbinom runif aov setNames
-#' @importFrom utils head tail
+#' @importFrom data.table as.data.table
+#' @importFrom stats aggregate aov as.stepfun binomial coef cor glm isoreg
+#'   median optimize pnorm predict qnorm quantile rbinom rnorm runif sd
+#'   setNames
+#' @importFrom utils head modifyList tail
 #'
 #' @seealso
 #' - [OmicPipeline]: Main pipeline class
 #' - [BenchmarkService]: Nested CV service
 #'
-NULL
+"_PACKAGE"
 
-#' @title OmicSelector 2.0 Package Startup
+#' @title OmicSelector 2.2.0 Package Startup
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "OmicSelector 2.0 - Zero-Leakage Biomarker Discovery\n",
+    "OmicSelector 2.2.0 - Zero-Leakage Biomarker Discovery\n",
     "Use OmicPipeline$new() to start. Run ?OmicSelector for help.\n"
   )
 }

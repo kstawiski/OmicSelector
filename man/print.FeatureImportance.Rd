@@ -7,11 +7,11 @@
 \method{print}{FeatureImportance}(x, n = 10, ...)
 }
 \arguments{
-\item{x}{FeatureImportance object to print.}
+\item{x}{A `FeatureImportance` object.}
 
-\item{n}{Number of top features to show.}
+\item{n}{Number of top features to print.}
 
-\item{...}{Unused; present for method compatibility.}
+\item{...}{Additional arguments passed through to base methods (ignored).}
 }
 \description{
 Print Feature Importance

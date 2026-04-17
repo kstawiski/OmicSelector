@@ -16,11 +16,11 @@ OmicSelector_vulcano_plot(
 )
 }
 \arguments{
-\item{selected_miRNAs}{Vector of selected miRNAs.}
+\item{selected_miRNAs}{Character vector of selected feature names.}
 
 \item{DE}{Differential expression data.frame containing columns for log2FC and p-values.}
 
-\item{only_label}{If NULL - all selected miRNAs will be labeled. If you want to label only selected miRNAs provide a character vector with their names.}
+\item{only_label}{Optional character vector: label only these features (must be in DE$miR).}
 
 \item{take_adjusted_p}{Use adjusted p-values (BH) if TRUE.}
 

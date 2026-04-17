@@ -40,7 +40,7 @@ Default: c(64, 32) for a 2-layer network.}
 \item{device}{"cpu" or "cuda" for GPU. Default: "cpu".}
 }
 \value{
-An mlr3 Learner object.
+An mlr3 Learner object
 }
 \description{
 Creates a Multi-Layer Perceptron (MLP) learner for classification tasks.

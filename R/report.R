@@ -340,6 +340,7 @@ format_metric <- function(x, digits = 4) {
 
 #' @title String Repetition Operator
 #' @keywords internal
+#' @noRd
 `%rep%` <- function(x, n) {
   paste(rep(x, n), collapse = "")
 }
@@ -347,6 +348,7 @@ format_metric <- function(x, digits = 4) {
 
 #' @title Null Coalescing Operator
 #' @keywords internal
+#' @noRd
 `%||%` <- function(x, y) {
   if (is.null(x)) y else x
 }

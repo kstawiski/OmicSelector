@@ -1,21 +1,39 @@
-#' @title Within-Sample Normalization for Batch-Effect-Free Biomarker Analysis
+#' @title Within-Sample Normalization for Biomarker Panels
 #'
 #' @description
 #' Functions for within-sample normalization that operate ONLY on a single
-#' sample's feature values. These methods are completely immune to batch effects
-#' because they use no population-level statistics — each sample is normalized
-#' independently using only its own feature values.
+#' sample's feature values. Because these methods use no population-level
+#' statistics — each sample is normalized independently using only its own
+#' feature values — they cancel specific classes of per-sample nuisance
+#' variation WITHOUT a reference cohort. Invariance scope is method-specific
+#' (see Details). These methods are NOT a general "batch-effect remover":
+#' gene-specific batch effects, non-linear platform response, and
+#' measurement-specific bias are NOT cancelled.
 #'
 #' This is the key insight for clinical deployment: a diagnostic test based on
 #' within-sample normalization requires NO reference cohort. Draw blood, measure
 #' k biomarkers, compute the relative pattern, classify.
 #'
 #' @details
-#' Within-sample normalization addresses the fundamental problem in circulating
-#' biomarker diagnostics: batch effects from different collection sites,
-#' processing protocols, storage conditions, and measurement platforms. Traditional
-#' normalization methods (quantile, ComBat, z-score) require a reference population,
-#' which is impractical for point-of-care diagnostics.
+#' Within-sample normalization addresses one component of the batch-effect
+#' problem in circulating biomarker diagnostics: per-sample nuisance variation
+#' (collection-site offset, loading amount, total-library scaling). Traditional
+#' normalization methods (quantile, ComBat, z-score) require a reference
+#' population, which is impractical for point-of-care diagnostics. Within-sample
+#' methods sidestep the reference-cohort requirement but each has a specific,
+#' narrower invariance scope:
+#' \itemize{
+#'   \item \code{ws_logratio} / \code{ws_ratio_image}: additive-shift-invariant
+#'     in log-space (equivalently, invariant to a multiplicative per-sample
+#'     factor applied UNIFORMLY across all features in raw space). NOT
+#'     invariant to gene-specific shifts or non-linear platform response.
+#'   \item \code{ws_zscore}: invariant to affine per-sample transforms
+#'     (scale + shift) applied uniformly across features.
+#'   \item \code{ws_rank}: invariant to any strictly monotonic per-sample
+#'     transform of all features.
+#'   \item \code{ws_minmax}: invariant to uniform per-sample affine transforms
+#'     but sensitive to outlier features.
+#' }
 #'
 #' Available methods:
 #' \itemize{
@@ -185,28 +203,10 @@ ws_logratio <- function(x, feature_names = NULL) {
 #' @export
 ws_ratio_image <- function(x) {
   if (is.vector(x)) {
-    n <- length(x)
-    img <- matrix(0, nrow = n, ncol = n)
-    for (i in seq_len(n)) {
-      for (j in seq_len(n)) {
-        img[i, j] <- x[i] - x[j]
-      }
-    }
-    return(img)
+    return(encode_ratio_image(x))
   }
 
-  n_samples <- nrow(x)
-  n_features <- ncol(x)
-  imgs <- array(0, dim = c(n_samples, n_features, n_features))
-
-  for (s in seq_len(n_samples)) {
-    for (i in seq_len(n_features)) {
-      for (j in seq_len(n_features)) {
-        imgs[s, i, j] <- x[s, i] - x[s, j]
-      }
-    }
-  }
-  imgs
+  make_ratio_images(x)
 }
 
 

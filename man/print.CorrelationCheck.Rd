@@ -7,9 +7,9 @@
 \method{print}{CorrelationCheck}(x, ...)
 }
 \arguments{
-\item{x}{CorrelationCheck object to print.}
+\item{x}{A `CorrelationCheck` object.}
 
-\item{...}{Unused; present for method compatibility.}
+\item{...}{Additional arguments passed through to base methods (ignored).}
 }
 \description{
 Print Correlation Check

@@ -429,6 +429,9 @@ NULL
 CrossPlatformAdapter <- R6::R6Class(
   "CrossPlatformAdapter",
   public = list(
+    #' @description
+    #' Create a cross-platform adapter with the selected normalization
+    #' strategy and backend options.
     initialize = function(strategy = c("rank", "quantile", "zscore", "reference", "combat_pooled"),
                           reference_features = NULL,
                           reference_summary = c("mean", "median"),
@@ -681,7 +684,8 @@ compute_domain_shift <- function(source_data, target_data) {
   }
 
   result <- data.table::rbindlist(stats_list)
-  result[order(-ks_stat, ks_p)]
+  data.table::setorderv(result, cols = c("ks_stat", "ks_p"), order = c(-1L, 1L))
+  result[]
 }
 
 

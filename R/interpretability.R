@@ -473,6 +473,9 @@ check_feature_correlations <- function(data, threshold = 0.7, method = c("spearm
 
 
 #' @title Print Feature Importance
+#' @param x A `FeatureImportance` object.
+#' @param n Number of top features to print.
+#' @param ... Additional arguments passed through to base methods (ignored).
 #' @export
 print.FeatureImportance <- function(x, n = 10, ...) {
   cat("=== Feature Importance (Permutation) ===\n\n")
@@ -490,6 +493,8 @@ print.FeatureImportance <- function(x, n = 10, ...) {
 
 
 #' @title Print Correlation Check
+#' @param x A `CorrelationCheck` object.
+#' @param ... Additional arguments passed through to base methods (ignored).
 #' @export
 print.CorrelationCheck <- function(x, ...) {
   cat("=== Feature Correlation Check ===\n\n")

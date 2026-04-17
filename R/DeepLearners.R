@@ -87,7 +87,7 @@ check_torch_packages <- function() {
 #' learner$train(task)
 #' }
 #'
-#' @export
+#' @noRd
 make_mlp_learner <- function(n_hidden = 128L,
                               n_layers = 2L,
                               dropout = 0.5,
@@ -167,7 +167,7 @@ make_mlp_learner <- function(n_hidden = 128L,
 #' learner$train(task)
 #' }
 #'
-#' @export
+#' @noRd
 make_tabtransformer_learner <- function(n_heads = 4L,
                                          n_layers = 2L,
                                          d_model = 64L,

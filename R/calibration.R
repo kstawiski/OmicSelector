@@ -56,6 +56,9 @@ NULL
 }
 
 
+#' @keywords internal
+#' @noRd
+#' @export
 "$.ECEResult" <- function(x, name) {
   if (identical(name, "ece")) {
     return(as.numeric(x))
@@ -65,6 +68,9 @@ NULL
 }
 
 
+#' @keywords internal
+#' @noRd
+#' @export
 "$.PlattCalibrator" <- function(x, name) {
   if (identical(name, "predict")) {
     return(function(new_probs) x(new_probs))

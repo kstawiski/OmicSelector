@@ -6,7 +6,7 @@
 \alias{OmicSelector}
 \title{OmicSelector: Zero-Leakage Biomarker Discovery Toolkit}
 \description{
-OmicSelector 2.0 is a PhD-level toolkit for high-dimensional biomarker discovery
+OmicSelector 2.2.0 is a PhD-level toolkit for high-dimensional biomarker discovery
 that guarantees scientific validity through rigorous machine learning methodology.
 }
 \details{
@@ -57,10 +57,9 @@ result <- service$run()
 
 "Optimization without validation is hallucination."
 
-OmicSelector 2.0 prioritizes **zero data leakage** and **feature stability**
+OmicSelector 2.2.0 prioritizes **zero data leakage** and **feature stability**
 above raw accuracy metrics. High accuracy with unstable feature sets
 (the "Rashomon Effect") indicates overfitting, not real signal.
-
 }
 \seealso{
 - [OmicPipeline]: Main pipeline class

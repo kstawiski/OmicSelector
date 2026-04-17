@@ -1,7 +1,7 @@
 url: https://biostat.umed.pl/OmicSelector/
 
 home:
-  title: OmicSelector 2.0 - Rigorous Biomarker Discovery
+  title: OmicSelector 2.2.0 - Rigorous Biomarker Discovery
   links:
   - text: Konrad Stawiski, M.D., Ph.D.
     href: https://konsta.com.pl
@@ -44,6 +44,7 @@ navbar:
         href: articles/validation-report.html
     github:
       icon: fa-github
+      aria-label: GitHub repository
       href: https://github.com/kstawiski/OmicSelector
 
 reference:
@@ -81,6 +82,22 @@ reference:
   desc: Cross-platform model deployment and domain adaptation
   contents:
   - matches("cross_platform|domain_adapt|rank_transfer")
+
+- title: Within-Sample CoDA Methods
+  desc: Paper 1 v2.2 image encodings, neural learners, and perturbation benchmarking
+  contents:
+  - encode_simple_grid
+  - encode_corr_grid
+  - encode_deepinsight
+  - encode_ratio_image
+  - train_ratio_cnn
+  - train_ratio_cnn_multiseed
+  - clr_transform
+  - train_clr_mlp
+  - predict_clr_mlp
+  - train_codacore
+  - predict_codacore
+  - ws_perturbation_benchmark
 
 - title: Calibration
   desc: Probability calibration and diagnostics
@@ -190,7 +207,6 @@ reference:
 - title: Legacy Functions
   desc: Functions from OmicSelector 1.x (use with caution)
   contents:
-  - list_deprecated_functions
   - starts_with("OmicSelector_")
 
 - title: Internal Functions

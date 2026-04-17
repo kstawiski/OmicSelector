@@ -39,6 +39,39 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 - **Feature Stability**: Nogueira Stability Index for reproducible biomarker sets
 - **Multi-Objective Selection**: Balance performance, stability, and parsimony
 
+## Within-Sample Biomarker Panel Classification
+
+OmicSelector 2.2.0 adds the Paper 1 v2.2 within-sample classification methods for
+reference-cohort-free biomarker panels:
+
+- Four image encodings: `encode_simple_grid()`, `encode_corr_grid()`,
+  `encode_deepinsight()`, and `encode_ratio_image()`
+- Two dense CoDA learners: `train_ratio_cnn()` for pairwise log-ratio images and
+  `train_clr_mlp()` for CLR-transformed vectors
+- A sparse balance interface: `train_codacore()`, which uses the official
+  `codacore` backend when available and otherwise falls back to a deterministic
+  sparse-balance model
+- `mlr3` learners registered on load: `classif.ratio_cnn`, `classif.clr_mlp`,
+  and `classif.codacore`
+
+```r
+library(OmicSelector)
+
+X <- matrix(rnorm(14 * 40), nrow = 40, ncol = 14)
+y <- factor(rep(c("control", "case"), each = 20), levels = c("control", "case"))
+
+clr_fit <- train_clr_mlp(X, y, backend = "glm", verbose = FALSE)
+ratio_fit <- train_ratio_cnn(
+  X_train = X,
+  y_train = y,
+  X_test = X[1:5, , drop = FALSE],
+  epochs = 5,
+  verbose = FALSE
+)
+
+mlr3::lrn("classif.clr_mlp", backend = "glm", verbose = FALSE)
+```
+
 ## Installation
 
 ```r

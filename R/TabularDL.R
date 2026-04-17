@@ -459,7 +459,8 @@ NULL
     "Package 'reticulate' is required for Python-backed tabular learners.\nInstall with: install.packages('reticulate')"
   )
 
-  if (reticulate::py_exists("omicselector_fit_rtdl")) {
+  py_exists <- get0("py_exists", envir = asNamespace("reticulate"), mode = "function")
+  if (is.function(py_exists) && isTRUE(py_exists("omicselector_fit_rtdl"))) {
     return(invisible(TRUE))
   }
 
@@ -1480,6 +1481,7 @@ make_fttransformer_learner <- function(n_blocks = 3L,
 
 
 #' @rdname make_fttransformer_learner
+#' @param ... Additional arguments forwarded to [make_fttransformer_learner()].
 #' @export
 make_tabtransformer_learner <- function(...) {
   make_fttransformer_learner(...)

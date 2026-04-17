@@ -6,11 +6,34 @@
   if (is.null(lhs)) rhs else lhs
 }
 
+.onLoad <- function(libname, pkgname) {
+  if (!requireNamespace("mlr3", quietly = TRUE)) {
+    return(invisible())
+  }
+
+  .paper1_register_learner(
+    "classif.ratio_cnn",
+    function() LearnerClassifRatioCNN$new()
+  )
+  .paper1_register_learner(
+    "classif.clr_mlp",
+    function() LearnerClassifCLRMLP$new()
+  )
+  .paper1_register_learner(
+    "classif.codacore",
+    function() LearnerClassifCoDaCoRe$new()
+  )
+  register_gof_filters()
+  register_coda_feature_selection_filters()
+  invisible()
+}
+
 # Suppress R CMD check notes for NSE and data.table symbols.
 utils::globalVariables(
   c(
     ".",
     "..cols",
+    "..feature_names",
     ".data",
     ":=",
     "correlated",
@@ -32,6 +55,7 @@ utils::globalVariables(
     "neglog10p",
     "nogueira_index",
     "pareto",
+    "original_metric",
     "pars_norm",
     "perf_norm",
     "private",
@@ -46,6 +70,7 @@ utils::globalVariables(
     "stability_tb",
     "subscore.id",
     "super",
+    "truth",
     "var",
     "variable"
   )

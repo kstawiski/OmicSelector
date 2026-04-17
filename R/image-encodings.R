@@ -21,6 +21,13 @@
 #' non-image data to an image for convolution neural network architecture.
 #' Scientific Reports 9:11399.
 #'
+#' Aitchison J. (1986). \emph{The Statistical Analysis of Compositional Data}.
+#' Chapman and Hall.
+#'
+#' Quinn TP, Erb I, Richardson MF, Crowley TM. (2020).
+#' Understanding sequencing data as compositions: an outlook and review.
+#' \emph{Bioinformatics}, 36(16), 4424-4432.
+#'
 #' @name image-encodings
 NULL
 
@@ -38,10 +45,12 @@ NULL
 #' @return A rows × cols numeric matrix
 #'
 #' @examples
-#' \dontrun{
-#' # 14 miRNAs → 2×7 grid (no padding)
-#' img <- encode_simple_grid(rnorm(14), rows = 2, cols = 7)
-#' }
+#' encode_simple_grid(1:6, rows = 2, cols = 3)
+#'
+#' @references
+#' Sharma A et al. (2019). DeepInsight: A methodology to transform a
+#' non-image data to an image for convolution neural network architecture.
+#' \emph{Scientific Reports}, 9, 11399.
 #'
 #' @export
 encode_simple_grid <- function(x, rows = NULL, cols = NULL) {
@@ -75,6 +84,15 @@ encode_simple_grid <- function(x, rows = NULL, cols = NULL) {
 #'
 #' @return Integer vector of length p, the feature order to use for encoding
 #'
+#' @examples
+#' X_train <- matrix(rnorm(30), nrow = 6, ncol = 5)
+#' fit_corr_order(X_train)
+#'
+#' @references
+#' Sharma A et al. (2019). DeepInsight: A methodology to transform a
+#' non-image data to an image for convolution neural network architecture.
+#' \emph{Scientific Reports}, 9, 11399.
+#'
 #' @export
 fit_corr_order <- function(X_train, method = "average") {
   corr <- stats::cor(X_train, use = "pairwise.complete.obs")
@@ -89,9 +107,20 @@ fit_corr_order <- function(X_train, method = "average") {
 #'
 #' @param x Numeric feature vector (length p)
 #' @param order Integer vector from \code{fit_corr_order}
-#' @param rows, cols Grid dimensions (see \code{encode_simple_grid})
+#' @param rows Number of rows in the output grid. Defaults to
+#'   \code{ceiling(sqrt(length(x)))}.
+#' @param cols Number of columns in the output grid. Defaults to
+#'   \code{ceiling(length(x) / rows)}.
 #'
 #' @return A rows × cols numeric matrix
+#'
+#' @examples
+#' encode_corr_grid(1:6, order = c(6, 5, 4, 3, 2, 1), rows = 2, cols = 3)
+#'
+#' @references
+#' Sharma A et al. (2019). DeepInsight: A methodology to transform a
+#' non-image data to an image for convolution neural network architecture.
+#' \emph{Scientific Reports}, 9, 11399.
 #'
 #' @export
 encode_corr_grid <- function(x, order, rows = NULL, cols = NULL) {
@@ -124,6 +153,12 @@ encode_corr_grid <- function(x, order, rows = NULL, cols = NULL) {
 #'
 #' @references Sharma A et al. (2019). Scientific Reports 9:11399.
 #'
+#' @examples
+#' \dontrun{
+#' X_train <- matrix(rnorm(70), nrow = 10, ncol = 7)
+#' layout <- fit_deepinsight(X_train, grid_size = 7, seed = 1)
+#' }
+#'
 #' @export
 fit_deepinsight <- function(X_train, grid_size = 14L, perplexity = NULL, seed = 42L) {
   if (!requireNamespace("Rtsne", quietly = TRUE)) {
@@ -131,7 +166,9 @@ fit_deepinsight <- function(X_train, grid_size = 14L, perplexity = NULL, seed = 
   }
 
   p <- ncol(X_train)
-  if (is.null(perplexity)) perplexity <- min(5, p - 1)
+  if (is.null(perplexity)) {
+    perplexity <- max(1, min(5, floor((p - 1L) / 3L)))
+  }
 
   # Each feature's profile across training samples = one "point" in t-SNE
   feat_profiles <- t(X_train)  # p features × n_train samples
@@ -188,6 +225,15 @@ fit_deepinsight <- function(X_train, grid_size = 14L, perplexity = NULL, seed = 
 #'
 #' @return A grid_size × grid_size numeric matrix
 #'
+#' @examples
+#' layout <- list(positions = matrix(c(1, 1, 1, 2, 2, 1), ncol = 2, byrow = TRUE), grid_size = 2L)
+#' encode_deepinsight(1:3, layout)
+#'
+#' @references
+#' Sharma A et al. (2019). DeepInsight: A methodology to transform a
+#' non-image data to an image for convolution neural network architecture.
+#' \emph{Scientific Reports}, 9, 11399.
+#'
 #' @export
 encode_deepinsight <- function(x, layout) {
   positions <- layout$positions
@@ -215,6 +261,22 @@ encode_deepinsight <- function(x, layout) {
 #'
 #' @return A 3D array (n × height × width)
 #'
+#' @examples
+#' X <- matrix(rnorm(28), nrow = 4, ncol = 7)
+#' encode_batch(X, method = "simple", rows = 1, cols = 7)
+#'
+#' @references
+#' Sharma A et al. (2019). DeepInsight: A methodology to transform a
+#' non-image data to an image for convolution neural network architecture.
+#' \emph{Scientific Reports}, 9, 11399.
+#'
+#' Aitchison J. (1986). \emph{The Statistical Analysis of Compositional Data}.
+#' Chapman and Hall.
+#'
+#' Quinn TP, Erb I, Richardson MF, Crowley TM. (2020).
+#' Understanding sequencing data as compositions: an outlook and review.
+#' \emph{Bioinformatics}, 36(16), 4424-4432.
+#'
 #' @export
 encode_batch <- function(X, method = c("simple", "corr", "deepinsight", "ratio"),
                          fit_params = NULL, ...) {
@@ -227,12 +289,7 @@ encode_batch <- function(X, method = c("simple", "corr", "deepinsight", "ratio")
     simple = encode_simple_grid(X[1, ], rows = args$rows, cols = args$cols),
     corr = encode_corr_grid(X[1, ], order = fit_params, rows = args$rows, cols = args$cols),
     deepinsight = encode_deepinsight(X[1, ], layout = fit_params),
-    ratio = {
-      if (!exists("make_ratio_image")) {
-        source(system.file("R", "ratio-image-cnn.R", package = "OmicSelector"))
-      }
-      make_ratio_image(X[1, ])
-    }
+    ratio = encode_ratio_image(X[1, ])
   )
   h <- nrow(first_img); w <- ncol(first_img)
   imgs <- array(0, dim = c(n, h, w))
@@ -243,7 +300,7 @@ encode_batch <- function(X, method = c("simple", "corr", "deepinsight", "ratio")
       simple = encode_simple_grid(X[i, ], rows = args$rows, cols = args$cols),
       corr = encode_corr_grid(X[i, ], order = fit_params, rows = args$rows, cols = args$cols),
       deepinsight = encode_deepinsight(X[i, ], layout = fit_params),
-      ratio = make_ratio_image(X[i, ])
+      ratio = encode_ratio_image(X[i, ])
     )
   }
   imgs
