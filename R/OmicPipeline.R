@@ -627,7 +627,14 @@ OmicPipeline <- R6::R6Class(
         "auc" = "auc",                           # AUC of univariate models
         "relief" = "relief",                     # Relief algorithm
         "importance" = "importance",             # Random Forest importance
-        "permutation" = "permutation"            # Permutation importance
+        "permutation" = "permutation",           # Permutation importance
+
+        # CoDA-aware feature selection
+        "coda_plr_variance" = "coda_plr_variance",
+        "coda_selbal" = "coda_selbal",
+        "coda_codacore" = "coda_codacore",
+        "coda_logcontrast_lasso" = "coda_logcontrast_lasso",
+        "coda_stability_logratio" = "coda_stability_logratio"
       )
 
       if (!filter %in% names(filter_map)) {

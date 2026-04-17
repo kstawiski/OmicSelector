@@ -318,6 +318,18 @@ FilterZeroProp <- R6::R6Class(
 )
 
 
+.paper1_register_filter <- function(key, constructor) {
+  if (!requireNamespace("mlr3filters", quietly = TRUE)) {
+    return(invisible(FALSE))
+  }
+  dictionary <- mlr3filters::mlr_filters
+  if (key %in% dictionary$keys()) {
+    return(invisible(FALSE))
+  }
+  try(dictionary$add(key, constructor), silent = TRUE)
+  invisible(TRUE)
+}
+
 #' @title Register GOF Filters in mlr3
 #'
 #' @description
@@ -330,10 +342,9 @@ register_gof_filters <- function() {
     stop("Package 'mlr3filters' is required", call. = FALSE)
   }
 
-  # Register filters
-  mlr3filters::mlr_filters$add("gof_ks", FilterGOF_KS)
-  mlr3filters::mlr_filters$add("hurdle", FilterHurdle)
-  mlr3filters::mlr_filters$add("zero_prop", FilterZeroProp)
+  .paper1_register_filter("gof_ks", FilterGOF_KS)
+  .paper1_register_filter("hurdle", FilterHurdle)
+  .paper1_register_filter("zero_prop", FilterZeroProp)
 
   invisible(TRUE)
 }
