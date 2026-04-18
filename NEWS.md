@@ -1,3 +1,8 @@
+# OmicSelector 2.3.0
+
+- Added bias-audit module (6 exported functions) for cohort-provenance and
+  method-ceiling diagnostics.
+
 # OmicSelector 2.2.0
 
 - Added the Paper 1 v2.2 within-sample biomarker panel methods: CLR transforms,
