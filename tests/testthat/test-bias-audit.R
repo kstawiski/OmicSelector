@@ -217,3 +217,37 @@ test_that("os_bias_audit prints without error", {
   expect_output(print(audit), "Bias floor")
   expect_output(print(audit), "Top-5 features")
 })
+
+
+# -----------------------------------------------------------------------------
+# os_bias_audit_report (plain-text convenience wrapper)
+# -----------------------------------------------------------------------------
+test_that("os_bias_audit_report returns a character string with the report", {
+  d <- make_provenance_data()
+  txt <- os_bias_audit_report(X = d$X, y = d$y, cohort = d$cohort)
+  expect_s3_class(txt, "os_bias_audit_report")
+  expect_type(txt, "character")
+  expect_length(txt, 1L)
+  expect_match(txt, "OmicSelector Cohort-Provenance Bias Audit", fixed = TRUE)
+  expect_match(txt, "Bias floor", fixed = TRUE)
+  expect_s3_class(attr(txt, "audit"), "os_bias_audit")
+})
+
+test_that("os_bias_audit_report accepts a pre-computed audit object", {
+  d <- make_provenance_data()
+  audit <- os_bias_audit(X = d$X, y = d$y, cohort = d$cohort)
+  txt <- os_bias_audit_report(audit = audit)
+  expect_s3_class(txt, "os_bias_audit_report")
+  expect_identical(attr(txt, "audit"), audit)
+})
+
+test_that("os_bias_audit_report validates its inputs", {
+  expect_error(
+    os_bias_audit_report(),
+    "Provide either `audit` or all of `X`, `y`, `cohort`"
+  )
+  expect_error(
+    os_bias_audit_report(audit = list(foo = 1)),
+    "must be an `os_bias_audit` object"
+  )
+})

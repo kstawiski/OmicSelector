@@ -676,6 +676,71 @@ print.os_bias_audit <- function(x, ...) {
 }
 
 
+#' @title Plain-Text Bias-Audit Report
+#'
+#' @description
+#' Convenience wrapper that runs \code{\link{os_bias_audit}} on a model/data
+#' bundle and returns the formatted report as a single character string.
+#' Useful when the report needs to be captured into a log, supplementary
+#' table, or pasted into a manuscript figure legend without relying on
+#' the console print method.
+#'
+#' @inheritParams os_bias_audit
+#' @param audit An optional pre-computed \code{os_bias_audit} object. If
+#'   supplied, the audit is not recomputed and the remaining arguments are
+#'   ignored. This makes it cheap to produce the text report alongside the
+#'   structured result when both are needed.
+#'
+#' @return A length-one character vector containing the full text report.
+#'   The same content that \code{print.os_bias_audit} would write to the
+#'   console is captured, with an additional attribute \code{"audit"} that
+#'   holds the underlying \code{os_bias_audit} object for downstream use.
+#'
+#' @examples
+#' \dontrun{
+#' txt <- os_bias_audit_report(
+#'   X = X, y = y, cohort = cohort,
+#'   predictions = preds,
+#'   covariates = list(age = age_years)
+#' )
+#' cat(txt)
+#' writeLines(txt, "bias_audit.txt")
+#' attr(txt, "audit")$bias_floor$apparent_auc
+#' }
+#'
+#' @export
+os_bias_audit_report <- function(X = NULL, y = NULL, cohort = NULL,
+                                 predictions = NULL,
+                                 covariates = NULL,
+                                 specimen_id = NULL,
+                                 sample_id = NULL,
+                                 feature_names = NULL,
+                                 seed = 42L,
+                                 audit = NULL) {
+  if (is.null(audit)) {
+    if (is.null(X) || is.null(y) || is.null(cohort)) {
+      stop("Provide either `audit` or all of `X`, `y`, `cohort`.", call. = FALSE)
+    }
+    audit <- os_bias_audit(
+      X = X, y = y, cohort = cohort,
+      predictions = predictions,
+      covariates = covariates,
+      specimen_id = specimen_id,
+      sample_id = sample_id,
+      feature_names = feature_names,
+      seed = seed
+    )
+  } else if (!inherits(audit, "os_bias_audit")) {
+    stop("`audit` must be an `os_bias_audit` object.", call. = FALSE)
+  }
+
+  txt <- paste(utils::capture.output(print(audit)), collapse = "\n")
+  attr(txt, "audit") <- audit
+  class(txt) <- c("os_bias_audit_report", "character")
+  txt
+}
+
+
 # Internal AUC: trapezoidal on rank-based approximation (no dependency on pROC).
 .auc_fast <- function(y, score) {
   if (length(unique(y)) != 2L) return(NA_real_)
