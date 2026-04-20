@@ -11,7 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = FALSE,
+  purl = FALSE
 )
 ```
 
@@ -27,7 +28,7 @@ This vignette shows a full workflow on a **tiny TCGA subset**:
 
 # Load Package and Data
 
-```{r load}
+```{r load, eval=FALSE, purl=FALSE}
 library(OmicSelector)
 
 # TCGA miRNA dataset shipped with the package
@@ -37,7 +38,7 @@ data("original_TCGA_data", package = "OmicSelector")
 
 # Prepare a Tiny TCGA Subset
 
-```{r prep}
+```{r prep, eval=FALSE, purl=FALSE}
 feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
 feature_cols <- head(feature_cols, 200)
 
@@ -56,7 +57,7 @@ subset_df <- subset_df[sample(nrow(subset_df)), ]
 
 # Create Pipeline
 
-```{r pipeline}
+```{r pipeline, eval=FALSE, purl=FALSE}
 pipeline <- OmicPipeline$new(
   data = subset_df,
   target = "sample_type",
@@ -67,7 +68,7 @@ pipeline <- OmicPipeline$new(
 
 # Build GraphLearner (with Screening)
 
-```{r learner}
+```{r learner, eval=FALSE, purl=FALSE}
 learner <- pipeline$create_graph_learner(
   filter = "anova",
   model = "rpart",
@@ -79,7 +80,7 @@ learner <- pipeline$create_graph_learner(
 
 # Optional: Deep Learning + Autoencoder
 
-```{r learner-dl}
+```{r learner-dl, eval=FALSE, purl=FALSE}
 # Requires torch + mlr3torch
 dl_learner <- pipeline$create_graph_learner(
   filter = "anova",
@@ -98,7 +99,7 @@ dl_learner <- pipeline$create_graph_learner(
 
 # Run Nested CV
 
-```{r benchmark}
+```{r benchmark, eval=FALSE, purl=FALSE}
 result <- pipeline$benchmark(
   learners = learner,
   outer_folds = 3,
@@ -114,7 +115,7 @@ print(result)
 
 # Fit Final Model and Extract Features
 
-```{r fit}
+```{r fit, eval=FALSE, purl=FALSE}
 fit <- pipeline$fit(
   learner = learner,
   seed = 42,

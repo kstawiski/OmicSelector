@@ -11,7 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = FALSE,
+  purl = FALSE
 )
 ```
 
@@ -25,7 +26,7 @@ export/import, and fine‑tuning.
 - `torch`
 - `mlr3torch`
 
-```{r install}
+```{r install, eval=FALSE, purl=FALSE}
 install.packages("torch")
 torch::install_torch()
 install.packages("mlr3torch")
@@ -33,7 +34,7 @@ install.packages("mlr3torch")
 
 # Load Package and Data
 
-```{r load}
+```{r load, eval=FALSE, purl=FALSE}
 library(OmicSelector)
 
 data("original_TCGA_data", package = "OmicSelector")
@@ -41,7 +42,7 @@ data("original_TCGA_data", package = "OmicSelector")
 
 # Prepare a Small TCGA Subset
 
-```{r prep}
+```{r prep, eval=FALSE, purl=FALSE}
 feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
 feature_cols <- head(feature_cols, 300)
 
@@ -58,7 +59,7 @@ subset_df <- subset_df[sample(nrow(subset_df)), ]
 
 # Create Pipeline
 
-```{r pipeline}
+```{r pipeline, eval=FALSE, purl=FALSE}
 pipeline <- OmicPipeline$new(
   data = subset_df,
   target = "sample_type",
@@ -72,7 +73,7 @@ pipeline <- OmicPipeline$new(
 This pipeline adds a torch autoencoder *before* feature selection and
 trains an MLP via mlr3torch.
 
-```{r learner}
+```{r learner, eval=FALSE, purl=FALSE}
 learner <- pipeline$create_graph_learner(
   filter = "anova",
   model = "mlp",
@@ -90,7 +91,7 @@ learner <- pipeline$create_graph_learner(
 
 # Run Nested CV
 
-```{r benchmark}
+```{r benchmark, eval=FALSE, purl=FALSE}
 result <- pipeline$benchmark(
   learners = learner,
   outer_folds = 3,
@@ -105,14 +106,14 @@ print(result)
 
 # Fit Final Model
 
-```{r fit}
+```{r fit, eval=FALSE, purl=FALSE}
 fit <- pipeline$fit(learner, seed = 42)
 fit$selected_features
 ```
 
 # Export / Import Checkpoint
 
-```{r checkpoint}
+```{r checkpoint, eval=FALSE, purl=FALSE}
 export_omicfit_checkpoint(fit, "mlp_checkpoint.pt")
 
 # Load into a trained learner (for inference)
@@ -121,7 +122,7 @@ fit <- import_omicfit_checkpoint(fit, "mlp_checkpoint.pt")
 
 # Fine‑tune on a New Task
 
-```{r finetune}
+```{r finetune, eval=FALSE, purl=FALSE}
 task <- pipeline$get_task()
 
 finetuned <- finetune_mlr3torch_checkpoint(
