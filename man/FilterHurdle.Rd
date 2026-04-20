@@ -31,7 +31,7 @@ mlr_filters$get("hurdle")
 }
 
 \section{Super class}{
-\code{mlr3filters::Filter} -> \code{FilterHurdle}
+\code{\link[mlr3filters:Filter]{mlr3filters::Filter}} -> \code{FilterHurdle}
 }
 \section{Methods}{
 \subsection{Public methods}{

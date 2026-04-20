@@ -122,7 +122,8 @@ Create a GraphLearner with proper leakage prevention
 \item{\code{filter}}{Filter method name (e.g., "anova", "mrmr", "correlation")}
 
 \item{\code{model}}{Model type (e.g., "ranger", "glmnet", "svm", "mlp",
-"tabtransformer") or an mlr3 Learner object.}
+"tabtransformer", "fttransformer", "tabnet", "tabm", "catboost",
+"tabpfn") or an mlr3 Learner object.}
 
 \item{\code{n_features}}{Number of features to select (or proportion if < 1)}
 
@@ -147,8 +148,8 @@ character string, uses that as the batch column name. Default: FALSE.}
 
 \item{\code{autoencoder}}{Logical or list. If TRUE, inserts a torch autoencoder
 PipeOp after scaling. If a list, its contents are passed to
-\code{create_autoencoder_pipeop()} to configure latent dimension, training,
-and transfer options. Default: NULL (disabled).}
+\code{create_autoencoder_pipeop()} to configure latent dimension,
+training, and transfer options. Default: NULL (disabled).}
 }
 \if{html}{\out{</div>}}
 }
@@ -178,9 +179,9 @@ Create an AutoTuner that tunes filter.nfeat in the inner CV loop
 
 \item{\code{filter_values}}{Integer vector of n_features values to try}
 
-\item{\code{inner_resampling}}{Inner resampling strategy}
+\item{\code{inner_resampling}}{Inner resampling strategy (default: 3-fold CV)}
 
-\item{\code{measure}}{Performance measure}
+\item{\code{measure}}{Performance measure (default: classif.auc)}
 
 \item{\code{tuner}}{Tuning strategy (default: "grid_search")}
 }
