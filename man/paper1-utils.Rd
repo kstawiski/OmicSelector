@@ -2,8 +2,8 @@
 % Please edit documentation in R/paper1-utils.R
 \name{paper1-utils}
 \alias{paper1-utils}
-\title{Paper 1 v2.2 Internal Utilities}
+\title{Within-Sample Panel Internal Utilities}
 \description{
-Paper 1 v2.2 Internal Utilities
+Within-Sample Panel Internal Utilities
 }
 \keyword{internal}

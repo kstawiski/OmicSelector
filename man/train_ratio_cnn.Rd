@@ -52,8 +52,8 @@ A list with elements `predictions`, `fit`, `model`, `train_images`,
   and `image_stats`.
 }
 \description{
-Fits the Paper 1 v2.2 pairwise-ratio CNN on log-scale biomarker data and
-returns predictions for new samples.
+Fits a pairwise-ratio CNN on log-scale biomarker data and returns
+predictions for new samples.
 }
 \examples{
 \dontrun{

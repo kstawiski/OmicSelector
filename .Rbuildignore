@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.Rprofile$
 workDir
 .Rproj.user
 .Rhistory
@@ -31,6 +32,17 @@ Rplots.pdf
 ^renv\.lock$
 ^data-raw$
 ^old_files_to_delete$
+^article$
+^build\.R$
+^install\.sh$
+^pal_generated\.code$
+^inst/extdata/wx/DearWXpub/src/__pycache__$
+^inst/extdata/wx/DearWXpub/src/.*\.pyc$
+^inst/extdata/wx/DearWXpub/src/.*\.log$
+^.*\.tar\.gz$
+^OmicSelector\.Rcheck$
+^delegated_tasks$
+^triple_consensus_logs$
 ^_config\.yml$
 ^index\.md$
 ^\.lintr$

@@ -1,4 +1,4 @@
-# OmicSelector 2.0
+# OmicSelector 2.3
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
@@ -41,8 +41,8 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 
 ## Within-Sample Biomarker Panel Classification
 
-OmicSelector 2.2.0 adds the Paper 1 v2.2 within-sample classification methods for
-reference-cohort-free biomarker panels:
+OmicSelector 2.3.0 adds within-sample classification methods for
+reference-cohort-free biomarker panels and provenance-aware validation helpers:
 
 - Four image encodings: `encode_simple_grid()`, `encode_corr_grid()`,
   `encode_deepinsight()`, and `encode_ratio_image()`
@@ -53,6 +53,8 @@ reference-cohort-free biomarker panels:
   sparse-balance model
 - `mlr3` learners registered on load: `classif.ratio_cnn`, `classif.clr_mlp`,
   and `classif.codacore`
+- Group-aware resampling, provenance-floor, identifiability, matched-null, and
+  operating-point gates for public-omics biomarker-panel audits
 
 ```r
 library(OmicSelector)

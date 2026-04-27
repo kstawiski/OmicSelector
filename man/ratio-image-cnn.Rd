@@ -15,9 +15,9 @@ relationships while removing uniform sample-level offsets.
 \details{
 For a panel of \eqn{p} biomarkers, each sample becomes a \eqn{p \times p}
 image where pixel(i,j) = log2(biomarker_i / biomarker_j). On log-scale data
-this is simply the difference \eqn{x_i - x_j}. The default CNN matches the
-Paper 1 v2.2 prototype: two 3x3 convolutions, adaptive average pooling to
-3x3, a 64-unit dense layer with dropout 0.3, and a sigmoid output head.
+this is simply the difference \eqn{x_i - x_j}. The default CNN uses two 3x3
+convolutions, adaptive average pooling to 3x3, a 64-unit dense layer with
+dropout 0.3, and a sigmoid output head.
 
 The torch backend is used when available. The learner wrapper stores the
 fitted torch module and applies the same training-fold normalization to new

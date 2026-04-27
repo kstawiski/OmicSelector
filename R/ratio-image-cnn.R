@@ -12,9 +12,9 @@
 #' @details
 #' For a panel of \eqn{p} biomarkers, each sample becomes a \eqn{p \times p}
 #' image where pixel(i,j) = log2(biomarker_i / biomarker_j). On log-scale data
-#' this is simply the difference \eqn{x_i - x_j}. The default CNN matches the
-#' Paper 1 v2.2 prototype: two 3x3 convolutions, adaptive average pooling to
-#' 3x3, a 64-unit dense layer with dropout 0.3, and a sigmoid output head.
+#' this is simply the difference \eqn{x_i - x_j}. The default CNN uses two 3x3
+#' convolutions, adaptive average pooling to 3x3, a 64-unit dense layer with
+#' dropout 0.3, and a sigmoid output head.
 #'
 #' The torch backend is used when available. The learner wrapper stores the
 #' fitted torch module and applies the same training-fold normalization to new
@@ -131,8 +131,8 @@ make_ratio_images <- function(mat) {
 #' @title Train Ratio Image CNN
 #'
 #' @description
-#' Fits the Paper 1 v2.2 pairwise-ratio CNN on log-scale biomarker data and
-#' returns predictions for new samples.
+#' Fits a pairwise-ratio CNN on log-scale biomarker data and returns
+#' predictions for new samples.
 #'
 #' @param X_train Numeric matrix with training samples in rows and features in
 #'   columns.
@@ -216,12 +216,12 @@ train_ratio_cnn <- function(X_train, y_train, X_test,
 #' @title Train Ratio CNN Across Three Default Seeds
 #'
 #' @description
-#' Repeats [train_ratio_cnn()] across the default Paper 1 v2.2 seeds
+#' Repeats [train_ratio_cnn()] across the default reproducibility seeds
 #' `c(42, 7, 2026)` and aggregates the predicted probabilities.
 #'
 #' @inheritParams train_ratio_cnn
-#' @param seeds Integer vector of seeds. Defaults to the Paper 1 v2.2
-#'   reproducibility triplet `c(42, 7, 2026)`.
+#' @param seeds Integer vector of seeds. Defaults to the reproducibility triplet
+#'   `c(42, 7, 2026)`.
 #' @param aggregate How to aggregate per-seed predictions; either `"mean"` or
 #'   `"median"`.
 #'

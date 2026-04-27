@@ -82,10 +82,10 @@ clr_transform <- function(x, input_scale = c("log", "raw"), pseudocount = 1e-8) 
 #' @title Train a CLR + MLP Classifier
 #'
 #' @description
-#' Fits the Paper 1 v2.2 dense CoDA baseline: a centered log-ratio transform
-#' followed by a multilayer perceptron. The default backend uses torch when it
-#' is available, and otherwise falls back to `nnet::nnet()` or logistic
-#' regression for environments without torch.
+#' Fits a dense CoDA baseline: a centered log-ratio transform followed by a
+#' multilayer perceptron. The default backend uses torch when it is available,
+#' and otherwise falls back to `nnet::nnet()` or logistic regression for
+#' environments without torch.
 #'
 #' @param X_train Numeric training matrix with samples in rows and features in
 #'   columns.

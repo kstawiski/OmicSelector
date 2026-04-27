@@ -12,8 +12,8 @@ test_that("TCGA smoke test runs on tiny subset", {
   feature_cols <- grep("^hsa\\.", names(original_TCGA_data), value = TRUE)
   feature_cols <- head(feature_cols, 25)
 
-  df <- original_TCGA_data[, c("patient", "sample_type", feature_cols), drop = FALSE]
-  df <- as.data.frame(df)
+  df_all <- as.data.frame(original_TCGA_data)
+  df <- df_all[, c("patient", "sample_type", feature_cols), drop = FALSE]
   df$sample_type <- factor(df$sample_type)
 
   idx_tumor <- which(df$sample_type == "PrimaryTumor")

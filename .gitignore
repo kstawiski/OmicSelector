@@ -30,6 +30,8 @@ renv/staging/
 *.Rcheck/
 .github/depends.Rds
 .github/R-version
+delegated_tasks/
+triple_consensus_logs/
 
 # IDE
 .vscode/

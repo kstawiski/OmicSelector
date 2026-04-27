@@ -1,4 +1,4 @@
-#' @title Paper 1 v2.2 Internal Utilities
+#' @title Within-Sample Panel Internal Utilities
 #' @name paper1-utils
 #' @keywords internal
 NULL
@@ -252,4 +252,3 @@ NULL
   try(dictionary$add(key, constructor), silent = TRUE)
   invisible(TRUE)
 }
-

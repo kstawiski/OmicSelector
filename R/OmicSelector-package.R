@@ -1,8 +1,9 @@
 #' @title OmicSelector: Zero-Leakage Biomarker Discovery Toolkit
 #'
 #' @description
-#' OmicSelector 2.2.0 is a PhD-level toolkit for high-dimensional biomarker discovery
-#' that guarantees scientific validity through rigorous machine learning methodology.
+#' OmicSelector 2.3.0 is a toolkit for high-dimensional biomarker discovery with
+#' leakage-resistant validation, stable feature selection, within-sample panel
+#' methods, and provenance-aware audit helpers.
 #'
 #' @details
 #' ## Key Features
@@ -17,6 +18,10 @@
 #'   robust across resamples, not just high accuracy.
 #'
 #' - **Reproducibility**: renv lockfiles, Docker containers, and deterministic pipelines.
+#'
+#' - **Panel Governance**: Group-aware resampling, provenance-floor diagnostics,
+#'   identifiability gates, matched-null benchmarks, and operating-point summaries
+#'   for biomarker panels evaluated with public omics data.
 #'
 #' ## Core Classes
 #'
@@ -50,11 +55,10 @@
 #'
 #' ## Philosophy
 #'
-#' "Optimization without validation is hallucination."
-#'
-#' OmicSelector 2.2.0 prioritizes **zero data leakage** and **feature stability**
-#' above raw accuracy metrics. High accuracy with unstable feature sets
-#' (the "Rashomon Effect") indicates overfitting, not real signal.
+#' OmicSelector 2.3.0 prioritizes leakage-resistant validation, feature
+#' stability, and auditable provenance checks above raw apparent accuracy.
+#' High accuracy with unstable feature sets or strong provenance-only prediction
+#' is treated as a warning signal rather than as direct biomarker evidence.
 #'
 #' @name OmicSelector-package
 #' @aliases OmicSelector
@@ -72,11 +76,11 @@
 #'
 "_PACKAGE"
 
-#' @title OmicSelector 2.2.0 Package Startup
+#' @title OmicSelector 2.3.0 Package Startup
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "OmicSelector 2.2.0 - Zero-Leakage Biomarker Discovery\n",
+    "OmicSelector 2.3.0 - Leakage-Resistant Biomarker Discovery\n",
     "Use OmicPipeline$new() to start. Run ?OmicSelector for help.\n"
   )
 }

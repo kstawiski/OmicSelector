@@ -39,7 +39,7 @@ A list with class `"ws_perturbation_benchmark"` containing
   predictions.
 }
 \description{
-Benchmarks a set of classification learners under the Paper 1 v2.2
+Benchmarks a set of classification learners under within-sample
 perturbation conditions: baseline, per-sample additive shift, per-sample
 scaling, and the combined perturbation. Learners are trained on the original
 training fold and evaluated on a perturbed copy of the held-out fold.

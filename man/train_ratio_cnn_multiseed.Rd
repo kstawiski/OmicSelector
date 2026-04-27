@@ -29,8 +29,8 @@ and integer `0/1` labels are supported.}
 \item{X_test}{Numeric matrix with test samples in rows and features in
 columns.}
 
-\item{seeds}{Integer vector of seeds. Defaults to the Paper 1 v2.2
-reproducibility triplet `c(42, 7, 2026)`.}
+\item{seeds}{Integer vector of seeds. Defaults to the reproducibility triplet
+`c(42, 7, 2026)`.}
 
 \item{aggregate}{How to aggregate per-seed predictions; either `"mean"` or
 `"median"`.}
@@ -56,7 +56,7 @@ A list with aggregated predictions, per-seed predictions, and the
   fitted objects.
 }
 \description{
-Repeats [train_ratio_cnn()] across the default Paper 1 v2.2 seeds
+Repeats [train_ratio_cnn()] across the default reproducibility seeds
 `c(42, 7, 2026)` and aggregates the predicted probabilities.
 }
 \examples{
