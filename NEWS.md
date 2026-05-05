@@ -1,4 +1,55 @@
-# OmicSelector 2.3.0.9000 (2026-05-04, in development; v2.4.0 release accompanies Paper 3 publishable manuscript)
+# OmicSelector 2.3.0.9000 (2026-05-04 / 2026-05-05, in development; v2.4.0 release accompanies Paper 3 publishable manuscript)
+
+Round 2 additions (2026-05-05):
+
+- Added Paper 3 miRNA name resolver in `R/paper3-mirna-name-resolver.R`:
+  `mirna_alias_table()` (88 curated miRNAs from miRBase v22.1 covering
+  the within-sample sequential-binary-partition dictionary, the additive
+  log-ratio pivot pool, the haemolysis markers, and Mitchell 2008 /
+  miRBiT / Toray-FirePlex frequent targets), `resolve_mirna_aliases()`,
+  and `apply_mirna_aliases()`. Unblocks within-sample isometric-log-ratio
+  scoring on platforms that deposit MIMAT or platform-specific probe IDs
+  (Toray 3D-Gene, Affymetrix miRNA-3_0/-4_0, Agilent miRNA arrays) by
+  resolving feature namespaces back to canonical mature-miRNA names
+  before the biology-keyed partition is applied.
+- Added Paper 3 matched-null benchmark in `R/paper3-matched-null.R`:
+  `paper3_matched_null_benchmark()` (the joint detection-rate × abundance
+  stratified matched-null benchmark; coexists with the simpler
+  `os_panel_null_benchmark()` stub in `R/panel-gates.R`),
+  `paper3_bh_fdr_correct_matched_null()`,
+  `paper3_holm_correct_familywise()`,
+  `paper3_bh_fdr_correct_blocked()`.
+- Added Paper 3 preprocessing in `R/paper3-preprocessing.R`:
+  `preprocess_inverse_log()` (inverse-log preprocessing for
+  pre-log-transformed microarray deposits).
+- Added Paper 3 batch correction in `R/paper3-batch-correction.R`:
+  `fit_frozen_ruv()` / `apply_frozen_ruv()` (frozen RUV factor estimator),
+  `fit_robust_pca_residual()` / `apply_robust_pca_residual()`.
+- Added Paper 3 robust-regression haemolysis correction in
+  `R/paper3-hemolysis.R`: `fit_hemolysis_rr()` / `apply_hemolysis_rr()`
+  (per-feature M-estimator regression of expression on haemolysis index;
+  coexists with the existing `fit_hemolysis_prefilter()` marker-ratio
+  gating method in `R/hemolysis-correction.R`).
+- Added Paper 3 outlier detection in `R/paper3-outlier-detection.R`:
+  `fit_compositional_mahalanobis()` / `apply_compositional_mahalanobis()`
+  (minimum-covariance-determinant Mahalanobis distance on log-ratio
+  coordinates), `fit_conformal_anomaly()` / `os_conformal_anomaly()`
+  (conformal anomaly p-value with held-out calibration partition),
+  `fit_isolation_forest_logratio()` /
+  `apply_isolation_forest_logratio()` (pure-R isolation forest on rCLR
+  inputs).
+- Added Paper 3 additional within-sample methods in
+  `R/paper3-additional-within-sample.R`: `fit_logistic_normal_eb()` /
+  `apply_logistic_normal_eb()` (frozen-reference Empirical-Bayes
+  denoiser), `fit_frozen_quantile()` / `apply_frozen_quantile()`
+  (monotone quantile calibrator for cross-platform mapping).
+- Added 6 new test files in `tests/testthat/` covering 44 test_that
+  blocks for the round-2 methods (1 skip on `fit_compositional_mahalanobis`
+  headline test when `robustbase` not installed, handled by
+  `skip_if_not_installed`). All other tests pass.
+
+Round 1 additions (2026-05-04):
+
 
 - Added Paper 3 within-sample compositional methods (Module A, P1) in
   `R/paper3-within-sample.R`: `ws_rclr_trimmed()` (robust trimmed CLR
