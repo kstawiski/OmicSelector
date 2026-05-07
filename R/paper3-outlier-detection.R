@@ -22,10 +22,10 @@
 #'
 #' @references
 #' Filzmoser P, Hron K, Reimann C. (2009) Principal component analysis for
-#' compositional data with outliers. \emph{Environmetrics} 20: 621–632.
+#' compositional data with outliers. \emph{Environmetrics} 20: 621-632.
 #'
 #' Rousseeuw PJ, Van Driessen K. (1999) A Fast Algorithm for the Minimum
-#' Covariance Determinant Estimator. \emph{Technometrics} 41(3): 212–223.
+#' Covariance Determinant Estimator. \emph{Technometrics} 41(3): 212-223.
 #'
 #' Vovk V, Gammerman A, Shafer G. (2005) Algorithmic Learning in a Random
 #' World. Springer.
@@ -108,7 +108,7 @@ NULL
 #' }
 #'
 #' @references
-#' Rousseeuw PJ, Van Driessen K. (1999) \emph{Technometrics} 41: 212–223.
+#' Rousseeuw PJ, Van Driessen K. (1999) \emph{Technometrics} 41: 212-223.
 #'
 #' @export
 fit_compositional_mahalanobis <- function(x_train,
@@ -148,7 +148,7 @@ fit_compositional_mahalanobis <- function(x_train,
       stop("fit_compositional_mahalanobis: robustbase unavailable and ",
             "require_robust=TRUE. Install robustbase or pass require_robust=FALSE.")
     }
-    warning("robustbase unavailable — falling back to classical covariance.")
+    warning("robustbase unavailable - falling back to classical covariance.")
     center <- colMeans(z_train, na.rm = TRUE)
     cov_mat <- stats::cov(z_train, use = "pairwise.complete.obs")
     method <- "classical"
@@ -235,10 +235,10 @@ apply_compositional_mahalanobis <- function(fit, x_test, return_pvalue = TRUE) {
 #'   reference samples.
 #' @param representation Function to project samples to a latent space. Default
 #'   \code{identity} (use raw features).
-#' @param k Integer — number of nearest neighbours. Default 10.
+#' @param k Integer - number of nearest neighbours. Default 10.
 #' @param calibration_split Fraction of \code{X_ref} held out for calibration.
 #'   Default 0.30.
-#' @param seed Integer — RNG seed for the train/calibration split. Default 42.
+#' @param seed Integer - RNG seed for the train/calibration split. Default 42.
 #'
 #' @return Object of class \code{conformal_anomaly_fit}.
 #'
@@ -411,12 +411,12 @@ os_conformal_anomaly <- function(x, fit, alpha = 0.05) {
 #' backend (e.g., \code{isotree}) would be faster.
 #'
 #' @param x_train Numeric matrix (samples \eqn{\times} features).
-#' @param n_trees Integer — number of isolation trees. Default 100.
-#' @param sample_size Integer — subsample size per tree. Default 256.
+#' @param n_trees Integer - number of isolation trees. Default 100.
+#' @param sample_size Integer - subsample size per tree. Default 256.
 #' @param max_depth Integer or \code{NULL}. Maximum tree depth. Default
 #'   \code{ceiling(log2(min(sample_size, n)))}.
 #' @param pseudocount Numeric. rCLR pseudocount. Default 0.5.
-#' @param seed Integer — RNG seed. Default 42.
+#' @param seed Integer - RNG seed. Default 42.
 #'
 #' @return Object of class \code{isolation_forest_logratio_fit}.
 #'

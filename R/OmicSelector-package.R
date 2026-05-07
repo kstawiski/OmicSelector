@@ -1,9 +1,10 @@
 #' @title OmicSelector: Zero-Leakage Biomarker Discovery Toolkit
 #'
 #' @description
-#' OmicSelector 2.3.0 is a toolkit for high-dimensional biomarker discovery with
+#' OmicSelector 2.4.0 is a toolkit for high-dimensional biomarker discovery with
 #' leakage-resistant validation, stable feature selection, within-sample panel
-#' methods, and provenance-aware audit helpers.
+#' methods, frozen-reference denoising add-ons, qPCR non-detect handling,
+#' matched-null benchmarks, and provenance-aware audit helpers.
 #'
 #' @details
 #' ## Key Features
@@ -55,7 +56,7 @@
 #'
 #' ## Philosophy
 #'
-#' OmicSelector 2.3.0 prioritizes leakage-resistant validation, feature
+#' OmicSelector 2.4.0 prioritizes leakage-resistant validation, feature
 #' stability, and auditable provenance checks above raw apparent accuracy.
 #' High accuracy with unstable feature sets or strong provenance-only prediction
 #' is treated as a warning signal rather than as direct biomarker evidence.
@@ -66,8 +67,9 @@
 #' @import R6
 #' @importFrom data.table as.data.table
 #' @importFrom stats aggregate aov as.stepfun binomial coef cor glm isoreg
-#'   median optimize pnorm predict qnorm quantile rbinom rnorm runif sd
-#'   setNames
+#'   .lm.fit mad median optimize pnorm predict qnorm quantile rbinom rnorm
+#'   runif sd setNames
+#' @importFrom methods new
 #' @importFrom utils head modifyList tail
 #'
 #' @seealso
@@ -76,11 +78,11 @@
 #'
 "_PACKAGE"
 
-#' @title OmicSelector 2.3.0 Package Startup
+#' @title OmicSelector 2.4.0 Package Startup
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "OmicSelector 2.3.0 - Leakage-Resistant Biomarker Discovery\n",
+    "OmicSelector 2.4.0 - Leakage-Resistant Biomarker Discovery\n",
     "Use OmicPipeline$new() to start. Run ?OmicSelector for help.\n"
   )
 }

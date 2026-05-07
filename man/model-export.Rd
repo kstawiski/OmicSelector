@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-export.R
 \name{model-export}
 \alias{model-export}
-\title{Model Export for OmicSelector 2.0}
+\title{Model Export for OmicSelector}
 \description{
 Provides model export functionality for deployment in non-R environments.
 Supports vetiver for R-based deployment/versioning and ONNX export for

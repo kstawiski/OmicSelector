@@ -50,5 +50,5 @@ fit <- fit_compositional_mahalanobis(x_train, transform = "rclr",
 
 }
 \references{
-Rousseeuw PJ, Van Driessen K. (1999) \emph{Technometrics} 41: 212–223.
+Rousseeuw PJ, Van Driessen K. (1999) \emph{Technometrics} 41: 212-223.
 }

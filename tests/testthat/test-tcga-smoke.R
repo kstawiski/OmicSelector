@@ -6,6 +6,7 @@ test_that("TCGA smoke test runs on tiny subset", {
   skip_if_not_installed("mlr3learners")
   skip_if_not_installed("mlr3tuning")
   skip_if_not_installed("mlr3filters")
+  skip_if_not_installed("rpart")
 
   data("original_TCGA_data", package = "OmicSelector", envir = environment())
 

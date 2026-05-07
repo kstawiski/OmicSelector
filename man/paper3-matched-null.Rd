@@ -17,6 +17,8 @@ for multi-modality family testing.
 Methods provided:
 \itemize{
   \item \code{\link{paper3_matched_null_benchmark}}: main benchmark function.
+  \item \code{\link{paper3_hanley_mcneil_auc_ci}}: closed-form
+    Hanley-McNeil 1982 95\% AUC confidence interval helper.
   \item \code{\link{paper3_bh_fdr_correct_matched_null}}: BH-FDR within a
     modality family.
   \item \code{\link{paper3_holm_correct_familywise}}: Holm correction for

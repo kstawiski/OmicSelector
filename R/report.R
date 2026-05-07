@@ -1,4 +1,4 @@
-#' @title TRIPOD+AI Report Generation for OmicSelector 2.0
+#' @title TRIPOD+AI Report Generation for OmicSelector
 #'
 #' @description
 #' Functions for generating reproducible, TRIPOD+AI compliant reports.
@@ -289,7 +289,7 @@ generate_tripod_report <- function(results,
 
   lines <- c(
     "=" %rep% 60,
-    "OmicSelector 2.0 - TRIPOD+AI Analysis Report",
+    "OmicSelector - TRIPOD+AI Analysis Report",
     "=" %rep% 60,
     "",
     sprintf("Generated: %s", format(report_data$meta$timestamp, "%Y-%m-%d %H:%M:%S")),

@@ -19,12 +19,12 @@ reference samples.}
 \item{representation}{Function to project samples to a latent space. Default
 \code{identity} (use raw features).}
 
-\item{k}{Integer — number of nearest neighbours. Default 10.}
+\item{k}{Integer - number of nearest neighbours. Default 10.}
 
 \item{calibration_split}{Fraction of \code{X_ref} held out for calibration.
 Default 0.30.}
 
-\item{seed}{Integer — RNG seed for the train/calibration split. Default 42.}
+\item{seed}{Integer - RNG seed for the train/calibration split. Default 42.}
 }
 \value{
 Object of class \code{conformal_anomaly_fit}.

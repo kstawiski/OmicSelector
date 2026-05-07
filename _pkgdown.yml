@@ -1,7 +1,7 @@
-url: https://biostat.umed.pl/OmicSelector/
+url: https://kstawiski.github.io/OmicSelector/
 
 home:
-  title: OmicSelector 2.2.0 - Rigorous Biomarker Discovery
+  title: OmicSelector 2.4.0 - Rigorous Biomarker Discovery
   links:
   - text: Konrad Stawiski, M.D., Ph.D.
     href: https://konsta.com.pl

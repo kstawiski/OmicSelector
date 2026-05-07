@@ -86,3 +86,39 @@ test_that("apply_hemolysis_rr: wrong class raises error", {
   expect_error(apply_hemolysis_rr(matrix(1), list(), hemo_score = 0),
                "hemolysis_rr_fit")
 })
+
+
+# ============================================================================
+# hemolysis_index_blondal -- Blondal canonical index helper
+# ============================================================================
+
+test_that("hemolysis_index_blondal computes log(miR-451a) - log(miR-23a-3p)", {
+  X_log <- matrix(c(8, 6, 4, 12, 5, 7, 3, 11), nrow = 2, byrow = FALSE,
+                  dimnames = list(NULL, c("hsa-miR-451a", "hsa-miR-23a-3p",
+                                          "hsa-miR-1", "hsa-miR-2")))
+  idx <- hemolysis_index_blondal(X_log)
+  expect_equal(idx, X_log[, "hsa-miR-451a"] - X_log[, "hsa-miR-23a-3p"])
+})
+
+test_that("hemolysis_index_blondal returns NULL when anchors missing", {
+  X_log <- matrix(1:6, nrow = 2,
+                  dimnames = list(NULL, c("hsa-miR-1", "hsa-miR-2", "hsa-miR-3")))
+  expect_null(hemolysis_index_blondal(X_log))
+})
+
+test_that("hemolysis_index_blondal returns NULL when only one anchor present", {
+  X_log <- matrix(1:6, nrow = 2,
+                  dimnames = list(NULL, c("hsa-miR-451a", "hsa-miR-1", "hsa-miR-2")))
+  expect_null(hemolysis_index_blondal(X_log))
+})
+
+test_that("hemolysis_index_blondal accepts MIMAT aliases", {
+  X_log <- matrix(c(8, 6, 4, 12), nrow = 2,
+                  dimnames = list(NULL, c("MIMAT0001631", "MIMAT0000078")))
+  idx <- hemolysis_index_blondal(X_log)
+  expect_equal(idx, X_log[, "MIMAT0001631"] - X_log[, "MIMAT0000078"])
+})
+
+test_that("hemolysis_index_blondal returns NULL when input has no colnames", {
+  expect_null(hemolysis_index_blondal(matrix(1:6, nrow = 2)))
+})

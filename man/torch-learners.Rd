@@ -2,7 +2,7 @@
 % Please edit documentation in R/torch-learners.R
 \name{torch-learners}
 \alias{torch-learners}
-\title{mlr3torch Learner Integration for OmicSelector 2.0}
+\title{mlr3torch Learner Integration for OmicSelector}
 \description{
 Factory functions for creating mlr3torch-based deep learning models.
 Phase 2 scope: Multi-Layer Perceptron (MLP) only.

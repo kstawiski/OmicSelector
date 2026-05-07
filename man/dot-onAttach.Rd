@@ -2,11 +2,11 @@
 % Please edit documentation in R/OmicSelector-package.R
 \name{.onAttach}
 \alias{.onAttach}
-\title{OmicSelector 2.3.0 Package Startup}
+\title{OmicSelector 2.4.0 Package Startup}
 \usage{
 .onAttach(libname, pkgname)
 }
 \description{
-OmicSelector 2.3.0 Package Startup
+OmicSelector 2.4.0 Package Startup
 }
 \keyword{internal}

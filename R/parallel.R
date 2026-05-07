@@ -1,4 +1,4 @@
-#' @title Parallelization Support for OmicSelector 2.0
+#' @title Parallelization Support for OmicSelector
 #'
 #' @description
 #' Functions for configuring and using future-based parallelization.

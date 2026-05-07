@@ -2,7 +2,7 @@
 % Please edit documentation in R/TabularDL.R
 \name{TabularDL}
 \alias{TabularDL}
-\title{Modern Tabular Learners for OmicSelector 2.0}
+\title{Modern Tabular Learners for OmicSelector}
 \description{
 Optional mlr3 learner wrappers for modern tabular methods commonly used as
 strong baselines on biomarker-style classification problems. The wrappers are

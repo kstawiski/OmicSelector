@@ -1,4 +1,4 @@
-#' @title Model Interpretability for OmicSelector 2.0
+#' @title Model Interpretability for OmicSelector
 #'
 #' @description
 #' Provides model-agnostic interpretability via DALEX and SHAP-like methods.

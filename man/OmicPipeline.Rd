@@ -9,7 +9,7 @@ Guarantees zero data leakage by enforcing all preprocessing, feature selection,
 and model training within proper cross-validation folds.
 }
 \details{
-OmicPipeline is the central class for OmicSelector 2.0. It replaces the legacy
+OmicPipeline is the central class for OmicSelector. It replaces the legacy
 script-based approach with a rigorous, composable, and reproducible architecture.
 
 Key features:

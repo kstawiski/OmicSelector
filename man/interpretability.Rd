@@ -2,7 +2,7 @@
 % Please edit documentation in R/interpretability.R
 \name{interpretability}
 \alias{interpretability}
-\title{Model Interpretability for OmicSelector 2.0}
+\title{Model Interpretability for OmicSelector}
 \description{
 Provides model-agnostic interpretability via DALEX and SHAP-like methods.
 Essential for understanding which features drive predictions and for

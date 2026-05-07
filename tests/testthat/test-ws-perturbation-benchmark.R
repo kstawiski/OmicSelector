@@ -3,6 +3,7 @@ library(OmicSelector)
 test_that("within-sample perturbation benchmark returns per-condition AUCs", {
   skip_if_not_installed("mlr3")
   skip_if_not_installed("mlr3learners")
+  skip_if_not_installed("rpart")
 
   set.seed(1)
   task_df <- data.frame(

@@ -8,12 +8,13 @@ ws_balance_ilr(
   x,
   balances = ws_default_sbp(),
   pseudocount = NULL,
-  aggregate = c("gmean", "trimmed_gmean")
+  aggregate = c("gmean", "trimmed_gmean"),
+  min_balance_coverage = 0.8
 )
 }
 \arguments{
-\item{x}{Numeric vector with miRNA names, OR a matrix (samples × features).
-Must have feature names — names are used to match the partition entries.}
+\item{x}{Numeric vector with miRNA names, OR a matrix (samples x features).
+Must have feature names - names are used to match the partition entries.}
 
 \item{balances}{Named list of balances, each with components
 \code{numerator} and \code{denominator}. Defaults to
@@ -22,11 +23,21 @@ Must have feature names — names are used to match the partition entries.}
 \item{pseudocount}{Additive pseudocount before logging. Default 1e-6 of
 sample sum.}
 
-\item{aggregate}{"gmean" (default) or "trimmed_gmean" (10% trim each end).}
+\item{aggregate}{"gmean" (default) or "trimmed_gmean" (10\% trim each end).}
+
+\item{min_balance_coverage}{Numeric in [0, 1]. Minimum fraction of the
+eight balances that must be computable from the input panel for the
+sample / cohort to be deemed eligible. When fewer than this fraction
+of balances have both numerator and denominator features present, the
+returned vector / matrix is filled with NA and carries
+the attribute \code{coverage_failed} set to TRUE. Default 0.8
+(manuscript Methods, 'Within-sample compositional methods').}
 }
 \value{
 Named numeric vector of balance values (single sample), or
-  matrix samples × balances (matrix input).
+  matrix samples x balances (matrix input). Carries attributes
+  \code{coverage} (numeric in [0, 1]) and \code{coverage_failed}
+  (logical) indicating whether the 80\% gate was satisfied.
 }
 \description{
 Computes orthonormal isometric log-ratio (ILR) balances on a frozen

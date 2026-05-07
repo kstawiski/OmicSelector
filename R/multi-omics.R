@@ -1,4 +1,4 @@
-#' @title Multi-Omics Support for OmicSelector 2.0
+#' @title Multi-Omics Support for OmicSelector
 #'
 #' @description
 #' Functions and utilities for handling multi-omics data containers.

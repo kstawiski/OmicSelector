@@ -7,7 +7,7 @@
 fit_dominance_threshold(x_train, top_k = 2L, alpha = 0.05, pseudocount = 0.5)
 }
 \arguments{
-\item{x_train}{Samples × features matrix of the training reference
+\item{x_train}{Samples x features matrix of the training reference
 cohort (typically Tier R, control samples only).}
 
 \item{top_k}{Integer; passed to \code{ws_dominance_score}. Default 2.}

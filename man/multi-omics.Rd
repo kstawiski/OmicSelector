@@ -2,7 +2,7 @@
 % Please edit documentation in R/multi-omics.R
 \name{multi-omics}
 \alias{multi-omics}
-\title{Multi-Omics Support for OmicSelector 2.0}
+\title{Multi-Omics Support for OmicSelector}
 \description{
 Functions and utilities for handling multi-omics data containers.
 Designed to future-proof the API for Phase 4 integration.

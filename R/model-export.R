@@ -1,4 +1,4 @@
-#' @title Model Export for OmicSelector 2.0
+#' @title Model Export for OmicSelector
 #'
 #' @description
 #' Provides model export functionality for deployment in non-R environments.

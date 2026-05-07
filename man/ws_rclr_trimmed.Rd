@@ -16,7 +16,7 @@ ws_rclr_trimmed(
 )
 }
 \arguments{
-\item{x}{Numeric vector or matrix (samples × features). For a matrix the
+\item{x}{Numeric vector or matrix (samples x features). For a matrix the
 transformation is applied row-wise.}
 
 \item{pseudocount}{Additive pseudocount to avoid log(0). Default 1e-6 of
@@ -48,7 +48,7 @@ Same shape as \code{x}; the rCLR-transformed values. When invoked
 }
 \description{
 Computes a robust trimmed centred log-ratio (rCLR) on a single sample or a
-samples × features matrix. The centering subset excludes a configurable
+samples x features matrix. The centering subset excludes a configurable
 set of contaminating miRNAs (default: the haemolysis and platelet-activation
 panel) and trims the top-\code{trim_upper} and bottom-\code{trim_lower}
 fractions of the remaining features by abundance before computing the

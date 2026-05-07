@@ -2,7 +2,7 @@
 % Please edit documentation in R/cache.R
 \name{cache}
 \alias{cache}
-\title{Split-Aware Caching for OmicSelector 2.0}
+\title{Split-Aware Caching for OmicSelector}
 \description{
 Caching utilities that prevent data leakage by including split identifiers
 in cache keys. Uses memoise with cachem for efficient LRU caching.

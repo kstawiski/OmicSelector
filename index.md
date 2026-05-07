@@ -1,8 +1,10 @@
-# OmicSelector 2.0
-
-![](vignettes/logo.png)
+# OmicSelector 2.4.0
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
+
+Release 2.4.0 adds the within-sample compositional scoring layer, frozen-reference
+denoising add-ons, qPCR non-detect imputation, matched-null benchmarks, and the
+provenance pre-flight gate used by the OmicSelector paper.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 

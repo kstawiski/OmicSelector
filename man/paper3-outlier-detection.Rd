@@ -25,10 +25,10 @@ Methods provided:
 }
 \references{
 Filzmoser P, Hron K, Reimann C. (2009) Principal component analysis for
-compositional data with outliers. \emph{Environmetrics} 20: 621–632.
+compositional data with outliers. \emph{Environmetrics} 20: 621-632.
 
 Rousseeuw PJ, Van Driessen K. (1999) A Fast Algorithm for the Minimum
-Covariance Determinant Estimator. \emph{Technometrics} 41(3): 212–223.
+Covariance Determinant Estimator. \emph{Technometrics} 41(3): 212-223.
 
 Vovk V, Gammerman A, Shafer G. (2005) Algorithmic Learning in a Random
 World. Springer.

@@ -31,6 +31,52 @@ NULL
 
 
 # ----------------------------------------------------------------------------
+# hemolysis_index_blondal -- canonical Blondal index helper
+# ----------------------------------------------------------------------------
+
+#' @title Blondal hemolysis index (log miR-451a - log miR-23a-3p)
+#'
+#' @description
+#' Computes the eLife-14 Blondal-style hemolysis index on a log-abundance
+#' matrix as \eqn{\log(\mathrm{miR\text{-}451a}) - \log(\mathrm{miR\text{-}23a\text{-}3p})}.
+#' Both anchor features must be present (canonical names
+#' \code{hsa-miR-451a} / \code{hsa-miR-23a-3p}, or the corresponding MIMAT
+#' accessions \code{MIMAT0001631} / \code{MIMAT0000078}); otherwise
+#' \code{NULL} is returned and the caller should treat the cell as not
+#' hemolysis-correctable. This is the convention the manuscript pipeline
+#' uses to feed \code{\link{fit_hemolysis_rr}} / \code{\link{apply_hemolysis_rr}}.
+#'
+#' @param X_log Numeric matrix (samples x features) on log-abundance scale.
+#'   Column names must be canonical mature-miRNA names (post-resolver) or
+#'   MIMAT accessions.
+#'
+#' @return Numeric vector of length \code{nrow(X_log)}, or \code{NULL} if
+#'   either anchor feature is missing from \code{colnames(X_log)}.
+#'
+#' @references
+#' Blondal T, Jensby Nielsen S, Baker A, Andreasen D, Mouritzen P,
+#' Wrang Teilum M, Dahlsveen IK. (2013) Assessing sample and miRNA profile
+#' quality in serum and plasma or other biofluids. \emph{Methods} 59(1): S1-S6.
+#'
+#' @examples
+#' X_log <- matrix(c(8, 6, 4, 12, 5, 7, 3, 11), nrow = 2,
+#'                 dimnames = list(NULL,
+#'                                 c("hsa-miR-451a", "hsa-miR-23a-3p",
+#'                                   "hsa-miR-1", "hsa-miR-2")))
+#' hemolysis_index_blondal(X_log)
+#'
+#' @export
+hemolysis_index_blondal <- function(X_log) {
+  if (!is.matrix(X_log)) X_log <- as.matrix(X_log)
+  if (is.null(colnames(X_log))) return(NULL)
+  hemo_col <- which(colnames(X_log) %in% c("hsa-miR-451a", "MIMAT0001631"))
+  ref_col  <- which(colnames(X_log) %in% c("hsa-miR-23a-3p", "MIMAT0000078"))
+  if (length(hemo_col) == 0L || length(ref_col) == 0L) return(NULL)
+  as.numeric(X_log[, hemo_col[1L]]) - as.numeric(X_log[, ref_col[1L]])
+}
+
+
+# ----------------------------------------------------------------------------
 # fit_hemolysis_rr
 # ----------------------------------------------------------------------------
 

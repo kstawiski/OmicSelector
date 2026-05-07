@@ -7,7 +7,7 @@
 ws_mad_logratio(x, pseudocount = 0.5, scale_by_mad = TRUE)
 }
 \arguments{
-\item{x}{Samples × features matrix (rows = samples).}
+\item{x}{Samples x features matrix (rows = samples).}
 
 \item{pseudocount}{Additive pseudocount before logging. Default 0.5.}
 

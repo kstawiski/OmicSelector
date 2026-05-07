@@ -5,6 +5,7 @@ test_that("nested CV tuning runs and returns stability", {
   skip_if_not_installed("mlr3learners")
   skip_if_not_installed("mlr3tuning")
   skip_if_not_installed("mlr3filters")
+  skip_if_not_installed("rpart")
 
   df <- data.frame(
     x1 = rnorm(40),

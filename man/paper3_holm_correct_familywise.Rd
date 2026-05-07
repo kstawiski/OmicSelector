@@ -15,6 +15,6 @@ Numeric vector of Holm-corrected p-values.
 \description{
 Applies Holm step-down correction across a family-wise contrast set
 (method \eqn{\times} claim-state contrasts; hemolysis-injection deltas).
-Per plan v0.3.3 \S5: Holm is reserved for these family-wise comparisons,
+Per plan v0.3.3 section 5: Holm is reserved for these family-wise comparisons,
 NOT for discovery-screening matched-null tests (which use BH-FDR).
 }

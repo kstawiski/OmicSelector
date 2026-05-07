@@ -58,11 +58,40 @@ test_that("ws_balance_ilr returns one balance per partition entry", {
 test_that("ws_balance_ilr returns NA when panel does not intersect partition", {
   x <- rlnorm(10L, meanlog = 5)
   names(x) <- paste0("MIMAT00000", 1:10)
-  b <- ws_balance_ilr(x)
+  # Disable the 80%-coverage gate to exercise the per-balance NA path.
+  b <- ws_balance_ilr(x, min_balance_coverage = 0)
   # Most balances will be NA because Toray-style MIMAT IDs don't match the
   # biology-keyed default SBP. The dominant_vs_tail balance is always
   # computable on numeric panels, so at least it should be finite.
   expect_true(is.finite(b["dominant_vs_tail"]))
+})
+
+test_that("ws_balance_ilr enforces 80% balance-coverage threshold by default", {
+  x <- rlnorm(10L, meanlog = 5)
+  names(x) <- paste0("MIMAT00000", 1:10)
+  b <- ws_balance_ilr(x)  # default min_balance_coverage = 0.8
+  expect_true(isTRUE(attr(b, "coverage_failed")))
+  expect_true(all(is.na(b)))
+  expect_true(is.numeric(attr(b, "coverage")))
+  expect_lt(attr(b, "coverage"), 0.8)
+})
+
+test_that("ws_balance_ilr exposes coverage attributes when gate passes", {
+  set.seed(42L)
+  feat_names <- c(paste0("hsa-let-7", letters[1:7], "-5p"),
+                  paste0("hsa-miR-", c("17","18a","19a","19b","20a","92a"), "-3p"),
+                  paste0("hsa-miR-200", letters[1:3], "-3p"),
+                  "hsa-miR-141-3p", "hsa-miR-141-5p", "hsa-miR-429",
+                  paste0("hsa-miR-37", 1:3, "-3p"),
+                  "hsa-miR-451a", "hsa-miR-16-5p", "hsa-miR-486-5p",
+                  "hsa-miR-144-3p", "hsa-miR-223-3p", "hsa-miR-126-3p",
+                  paste0("hsa-miR-x", sprintf("%03d", 1:30)))
+  x <- rlnorm(length(feat_names), meanlog = 5, sdlog = 1.2)
+  names(x) <- feat_names
+  b <- ws_balance_ilr(x)
+  expect_false(isTRUE(attr(b, "coverage_failed")))
+  expect_gte(attr(b, "coverage"), 0.8)
+  expect_equal(attr(b, "min_balance_coverage"), 0.8)
 })
 
 test_that("ws_balance_ilr requires named features", {

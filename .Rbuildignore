@@ -18,10 +18,14 @@ Rplots.pdf
 ^example$
 ^_pkgdown\.yml$
 ^docs$
+^docs/.*$
 ^pkgdown$
 ^pythonenv3\.8$
 ^static$
 ^docker$
+^extensions$
+^scripts$
+^shiny$
 ^Dockerfile.*$
 ^Dockerfile$
 ^docker-compose\.yml$
@@ -41,6 +45,7 @@ Rplots.pdf
 ^inst/extdata/wx/DearWXpub/src/.*\.log$
 ^.*\.tar\.gz$
 ^OmicSelector\.Rcheck$
+^release_v.*$
 ^delegated_tasks$
 ^triple_consensus_logs$
 ^_config\.yml$

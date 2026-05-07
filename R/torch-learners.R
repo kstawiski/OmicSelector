@@ -1,4 +1,4 @@
-#' @title mlr3torch Learner Integration for OmicSelector 2.0
+#' @title mlr3torch Learner Integration for OmicSelector
 #'
 #' @description
 #' Factory functions for creating mlr3torch-based deep learning models.

@@ -13,7 +13,8 @@ paper3_matched_null_benchmark(
   feature_pool = NULL,
   exclude_features = character(0),
   post_hemolysis_corrected = FALSE,
-  seed = 42L
+  seed = 42L,
+  auc_ci_method = c("hanley_mcneil", "delong", "none")
 )
 }
 \arguments{
@@ -40,11 +41,20 @@ canonical hemolysis-marker list to \code{exclude_features}. Default
 \code{FALSE}.}
 
 \item{seed}{Integer — RNG seed. Default 42.}
+
+\item{auc_ci_method}{Character; one of \code{"hanley_mcneil"} (default;
+closed-form Hanley-McNeil 1982 standard error), \code{"delong"}
+(\code{pROC::ci.auc(method="delong")}; requires \code{pROC} >= 1.16),
+or \code{"none"} (skip CI). The 95\% CI is reported alongside the
+observed AUC as \code{auc_obs_ci_lo} / \code{auc_obs_ci_hi}.}
 }
 \value{
 A list with components:
   \describe{
     \item{\code{auc_obs}}{Observed panel AUC.}
+    \item{\code{auc_obs_ci_lo}, \code{auc_obs_ci_hi}}{95\% confidence
+      interval for the observed AUC; NA when
+      \code{auc_ci_method = "none"} or computation fails.}
     \item{\code{auc_null}}{Length-\code{K} numeric vector of null AUCs
       (NA for degenerate draws).}
     \item{\code{p_emp}}{Empirical p-value, or \code{NA_real_} if not

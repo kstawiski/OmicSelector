@@ -7,7 +7,7 @@
 ws_dominance_score(x, top_k = 2L, pseudocount = 0.5)
 }
 \arguments{
-\item{x}{Samples × features matrix.}
+\item{x}{Samples x features matrix.}
 
 \item{top_k}{Integer; number of top features to include in the
 dominance numerator. Default 2.}

@@ -1,3 +1,88 @@
+# OmicSelector 2.4.0 (2026-05-07)
+
+Round 3 additions (2026-05-07) — manuscript-alignment patches (Paper 3 audit
+patches 1 through 9; orchestrator patch 10 deferred):
+
+- Added qPCR non-detect handling in `R/paper3-nondetects.R`:
+  `qpcr_nondetect_impute()` (Bayesian hierarchical imputation via the
+  `nondetects` Bioconductor package, with fall-through to LOD when
+  `nondetects`, `HTqPCR`, or `Biobase` is unavailable) and
+  `qpcr_nondetect_lod_fallback()` (limit-of-detection fallback at Ct = 40).
+  Mirrors manuscript Methods §"Non-detect handling for quantitative PCR
+  data". Added `nondetects`, `HTqPCR`, and `Biobase` to `Suggests:`.
+- Added `hemolysis_index_blondal()` in `R/paper3-hemolysis.R`: Blondal-style
+  log(miR-451a) − log(miR-23a-3p) helper accepting both canonical mature
+  miRNA names and MIMAT accessions. Closes the manuscript-claimed
+  Blondal-canonical hemolysis index gap; pair with `fit_hemolysis_rr()` /
+  `apply_hemolysis_rr()` for the manuscript-specified Module B nuisance
+  correction.
+- Added `os_provenance_preflight()` in `R/paper3-provenance-preflight.R`:
+  specimen-overlap pre-flight gate that reads a TSV manifest and returns
+  one of `NO_OVERLAP`, `KNOWN_OVERLAP`, or `UNKNOWN_ACCESSION`. Ships a
+  curated default manifest at `inst/extdata/provenance_manifest.tsv`
+  covering the Toray-3D cluster, Toray-V20 cluster, COSMOS-LDCT pair,
+  VUMC-PDAC NanoString pair, and the audited-independent accessions used
+  by the manuscript.
+- Added `paper3_matched_null_benchmark_cv()` in `R/paper3-matched-null.R`:
+  the 5-fold nested-CV matched-null benchmark (panel selection by
+  univariate AUC on the training fold; matched-null strata computed on
+  the training fold; held-out test fold scored). Supports grouped folds
+  via `group_id`, deterministic per-draw seeding via the
+  `v0.6_per_draw_seed_schedule_independent` RNG protocol, and the
+  three-tier matched-null fallback. This is the engine that produced
+  the manuscript's per-cell numbers; promoting it from
+  `OmicSelector_paper/code/methods/matched_null_benchmark.R` makes the
+  headline tables and figures reproducible from the package alone.
+- Extended `paper3_bh_fdr_correct_blocked()`: now reports BOTH the
+  conservative reference (`q_block_BH`, `p_block`; S/c against
+  chi-square(2k)) and the textbook Brown 1975 / Kost-McDermott 2002
+  reference (`q_block_BH_textbook`, `p_block_textbook`; S/c against
+  chi-square(2k/c)). Added a `rho` argument (default 0.25) so the
+  manuscript-required sensitivity analysis at rho ∈ {0.10, 0.50, 1.00}
+  can be reproduced from the package. **Backwards-compatible:** existing
+  call signatures continue to work and the `rho` default reproduces
+  the previous numerical behaviour exactly. New columns are *added*,
+  not replaced.
+- Added `auc_ci_method` argument to both `paper3_matched_null_benchmark()`
+  and `paper3_matched_null_benchmark_cv()`: `"hanley_mcneil"` (default;
+  closed-form Hanley-McNeil 1982 SE), `"delong"` (via
+  `pROC::ci.auc(method = "delong")`; pooled fold-level scores in the CV
+  variant), or `"none"`. Returns `auc_obs_ci_lo` / `auc_obs_ci_hi`
+  alongside `auc_obs` / `auc_obs_cv`. Closes the v5 per-cell-AUC-CI gap
+  flagged in the manuscript Discussion.
+- Exported `paper3_hanley_mcneil_auc_ci()` as the user-facing
+  Hanley-McNeil 1982 AUC confidence-interval helper used internally by the
+  matched-null benchmark functions.
+- Added `min_balance_coverage` argument to `ws_balance_ilr()` (default
+  0.8, per manuscript Methods §"Within-sample compositional methods").
+  When the input panel computes fewer than 80% of the eight balances,
+  the returned vector / matrix is filled with NA and carries
+  `attr(., "coverage_failed") <- TRUE` and `attr(., "coverage")` to
+  let the caller distinguish coverage failure from a real all-NA cell.
+  **Behaviour change:** previously the function silently returned a
+  partially-NA vector. Existing callers that need the old behaviour can
+  pass `min_balance_coverage = 0`.
+- Documented the `ws_alr_pivot()` fail-closed default in roxygen
+  `@details`. Default remains `allow_global_fallback = FALSE`; the
+  manuscript pipeline opts in via `allow_global_fallback = TRUE` with
+  per-cell logging. No code change beyond the docstring.
+- Bumped DESCRIPTION version from 2.3.0.9000 to 2.4.0.
+- Release-check notes: `R CMD check --as-cran` may report CRAN incoming
+  NOTEs for a new submission, tarball size, and optional `catboost` /
+  `selbal` backends that are not in the mainstream CRAN/Bioconductor
+  repositories. These are optional backend/release-distribution notes, not
+  package-code warnings.
+- Added unit tests for every new entry point: `tests/testthat/`
+  `test-paper3-nondetects.R`, `test-paper3-provenance-preflight.R`,
+  `test-paper3-hemolysis.R` (Blondal index block), `test-paper3-matched-null.R`
+  (rho / textbook / per-cell AUC CI / nested-CV blocks), and
+  `test-paper3-within-sample.R` (ILR coverage block).
+
+Patch 10 (end-to-end pipeline orchestrator wrapping
+`OmicSelector_paper/code/run_paper3_pipeline.R` as
+`omicselector_paper3_run()`) is deferred to a follow-up release; it is the
+only manuscript-alignment gap that remains after this round.
+
 # OmicSelector 2.3.0.9000 (2026-05-04 / 2026-05-05, in development; v2.4.0 release accompanies Paper 3 publishable manuscript)
 
 Round 2 additions (2026-05-05):

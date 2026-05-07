@@ -60,30 +60,30 @@ These five within-sample compositional methods target two of those failure
 modes directly: reference-cohort dependency (each method scores a single
 sample using only its own panel values) and contamination by dominant
 erythrocyte-derived species (miR-451a, miR-486-5p, miR-16, miR-144-3p,
-miR-92a-3p — all explicitly handled by either exclusion from the rCLR
+miR-92a-3p - all explicitly handled by either exclusion from the rCLR
 centering subset or by having dedicated balances in the SBP tree).
 
 Module A is one of six modules in the OmicSelector v2.4 toolkit. The
-other modules — Module B (hemolysis correction), Module C (frozen batch
+other modules - Module B (hemolysis correction), Module C (frozen batch
 correction), Module D (outlier detection and conformal claim-gating),
 Module E (multi-cancer / domain generalisation), and Module F
-(self-supervised pretraining and ablation) — are documented in Paper 3
+(self-supervised pretraining and ablation) - are documented in Paper 3
 Methods and the per-module help pages.
 }
 \references{
 Aitchison J. (1986) The Statistical Analysis of Compositional Data. Chapman & Hall.
 
 Egozcue J. J., Pawlowsky-Glahn V. (2005) Groups of parts and their balances
-in compositional data analysis. \emph{Mathematical Geology} 37(7): 795–828.
+in compositional data analysis. \emph{Mathematical Geology} 37(7): 795-828.
 
 Vandeputte D., Kathagen G., D'hoe K., et al. (2017) Quantitative microbiome
 profiling links gut community variation to microbial load. \emph{Nature}
-551(7681): 507–511. (Origin of the "detected_only" rCLR convention.)
+551(7681): 507-511. (Origin of the "detected_only" rCLR convention.)
 
 Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 microRNAs as stable blood-based markers for cancer detection.
 \emph{Proceedings of the National Academy of Sciences USA} 105(30):
-10513–10518.
+10513-10518.
 
 Stawiski K. (in preparation) Provenance-aware within-sample scoring for
 circulating-microRNA biomarkers across cancers and platforms (Paper 3

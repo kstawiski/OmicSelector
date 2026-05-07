@@ -16,16 +16,16 @@ fit_isolation_forest_logratio(
 \arguments{
 \item{x_train}{Numeric matrix (samples \eqn{\times} features).}
 
-\item{n_trees}{Integer — number of isolation trees. Default 100.}
+\item{n_trees}{Integer - number of isolation trees. Default 100.}
 
-\item{sample_size}{Integer — subsample size per tree. Default 256.}
+\item{sample_size}{Integer - subsample size per tree. Default 256.}
 
 \item{max_depth}{Integer or \code{NULL}. Maximum tree depth. Default
 \code{ceiling(log2(min(sample_size, n)))}.}
 
 \item{pseudocount}{Numeric. rCLR pseudocount. Default 0.5.}
 
-\item{seed}{Integer — RNG seed. Default 42.}
+\item{seed}{Integer - RNG seed. Default 42.}
 }
 \value{
 Object of class \code{isolation_forest_logratio_fit}.

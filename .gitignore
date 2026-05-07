@@ -28,6 +28,7 @@ renv/staging/
 # Build artifacts
 *.tar.gz
 *.Rcheck/
+release_v*/
 .github/depends.Rds
 .github/R-version
 delegated_tasks/

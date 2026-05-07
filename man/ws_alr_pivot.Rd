@@ -14,7 +14,7 @@ ws_alr_pivot(
 )
 }
 \arguments{
-\item{x}{Samples × features matrix (rows = samples). Must have column
+\item{x}{Samples x features matrix (rows = samples). Must have column
 names to identify pivot features.}
 
 \item{pivot_features}{Character vector of feature names to use as pivot
@@ -48,6 +48,24 @@ Fail-closed by default: refuses to compute when fewer than
 \code{min_pivot_present} pivots are present in the input panel, unless
 the operator explicitly opts in to a global rCLR fallback. Silent
 substitution of all-feature centering for a curated denominator can
-mask haemolysis or platelet contamination — flagged by codex Round 1
+mask haemolysis or platelet contamination - flagged by codex Round 1
 review.
+}
+\details{
+\strong{Backwards-compatibility / manuscript-pipeline note (v2.4.0).}
+The package default is \code{allow_global_fallback = FALSE} (fail-closed):
+the function errors out rather than silently substituting a global rCLR
+centering when fewer than \code{min_pivot_present} pivots are available.
+This is the conservative choice for end users running interactive
+analyses, because it prevents haemolysis-contaminated cells from being
+silently rescued by an all-feature centering that includes the very
+contaminants they were meant to flag.
+
+The Paper-3 manuscript pipeline (Methods 'Within-sample compositional
+methods") describes the fallback as having been "activated" with the
+affected cells explicitly flagged in the per-cell results. The pipeline
+opts in via \code{allow_global_fallback = TRUE} on every call. This
+alignment is intentional: the package keeps the safer default for ad-hoc
+use, while the manuscript pipeline has the explicit logging discipline
+to track every cell that took the fallback path.
 }

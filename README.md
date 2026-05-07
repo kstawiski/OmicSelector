@@ -1,9 +1,10 @@
-# OmicSelector 2.3
+# OmicSelector 2.4.0
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
+Release 2.4.0 adds the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, the matched-null benchmark, and the provenance pre-flight gate that are benchmarked in the OmicSelector paper.
+
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
-[![Validation](https://img.shields.io/badge/TCGA%20Validation-11%2F12%20Passed-brightgreen)](https://biostat.umed.pl/OmicSelector/articles/validation-report.html)
 
 ---
 
@@ -39,9 +40,61 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 - **Feature Stability**: Nogueira Stability Index for reproducible biomarker sets
 - **Multi-Objective Selection**: Balance performance, stability, and parsimony
 
+## Paper Artifacts
+
+The OmicSelector paper release is anchored to the package repository at
+<https://github.com/kstawiski/OmicSelector>. Release 2.4.0 exposes the
+paper-facing methods as exported, documented R functions:
+
+1. Five within-sample compositional scoring methods:
+   [`ws_rclr_trimmed`](man/ws_rclr_trimmed.Rd),
+   [`ws_balance_ilr`](man/ws_balance_ilr.Rd),
+   [`ws_alr_pivot`](man/ws_alr_pivot.Rd),
+   [`ws_mad_logratio`](man/ws_mad_logratio.Rd), and
+   [`ws_dominance_score`](man/ws_dominance_score.Rd).
+2. Frozen-reference denoising add-ons:
+   [`fit_frozen_ruv`](man/fit_frozen_ruv.Rd) /
+   [`apply_frozen_ruv`](man/apply_frozen_ruv.Rd),
+   [`fit_robust_pca_residual`](man/fit_robust_pca_residual.Rd) /
+   [`apply_robust_pca_residual`](man/apply_robust_pca_residual.Rd), and
+   [`hemolysis_index_blondal`](man/hemolysis_index_blondal.Rd) with
+   [`fit_hemolysis_rr`](man/fit_hemolysis_rr.Rd) /
+   [`apply_hemolysis_rr`](man/apply_hemolysis_rr.Rd).
+3. qPCR non-detect handling:
+   [`qpcr_nondetect_impute`](man/qpcr_nondetect_impute.Rd) wraps
+   Bioconductor `nondetects`, with
+   [`qpcr_nondetect_lod_fallback`](man/qpcr_nondetect_lod_fallback.Rd) as
+   the documented Ct-limit fallback.
+4. Matched-null benchmark:
+   [`paper3_matched_null_benchmark`](man/paper3_matched_null_benchmark.Rd)
+   and
+   [`paper3_matched_null_benchmark_cv`](man/paper3_matched_null_benchmark_cv.Rd)
+   implement stratified random-panel benchmarking with default `K = 10000`.
+5. Provenance pre-flight:
+   [`os_provenance_preflight`](man/os_provenance_preflight.Rd) audits a
+   manifest TSV and returns `NO_OVERLAP`, `KNOWN_OVERLAP`, or
+   `UNKNOWN_ACCESSION`.
+6. Dependent-p combination:
+   [`paper3_bh_fdr_correct_blocked`](man/paper3_bh_fdr_correct_blocked.Rd)
+   reports both conservative and textbook Brown 1975 / Kost-McDermott 2002
+   reference distributions.
+7. Block-aware FDR:
+   [`paper3_bh_fdr_correct_blocked`](man/paper3_bh_fdr_correct_blocked.Rd)
+   and
+   [`paper3_bh_fdr_correct_matched_null`](man/paper3_bh_fdr_correct_matched_null.Rd)
+   provide the block-aware and matched-null BH correction helpers.
+8. AUC confidence intervals:
+   [`paper3_hanley_mcneil_auc_ci`](man/paper3_hanley_mcneil_auc_ci.Rd)
+   exposes the Hanley-McNeil 1982 95% AUC CI calculation used by the
+   matched-null benchmark outputs.
+9. ILR coverage gate:
+   [`ws_balance_ilr`](man/ws_balance_ilr.Rd) exposes
+   `min_balance_coverage` so panels that preserve the fixed balance
+   dictionary can activate ILR scoring at the documented coverage threshold.
+
 ## Within-Sample Biomarker Panel Classification
 
-OmicSelector 2.3.0 adds within-sample classification methods for
+OmicSelector 2.4.0 adds within-sample classification methods for
 reference-cohort-free biomarker panels and provenance-aware validation helpers:
 
 - Four image encodings: `encode_simple_grid()`, `encode_corr_grid()`,
@@ -577,7 +630,7 @@ print(result$performance)
 
 ### Phase 5: Cutting-Edge Biomarker Discovery
 
-OmicSelector 2.0 includes state-of-the-art methods validated on TCGA data:
+OmicSelector includes state-of-the-art methods validated on TCGA data:
 
 #### GOF Filters for Sparse/Zero-Inflated Data
 

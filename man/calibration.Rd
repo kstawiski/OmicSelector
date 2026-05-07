@@ -2,7 +2,7 @@
 % Please edit documentation in R/calibration.R
 \name{calibration}
 \alias{calibration}
-\title{Calibration Metrics for OmicSelector 2.0}
+\title{Calibration Metrics for OmicSelector}
 \description{
 Functions for assessing and improving probability calibration of
 classification models. Well-calibrated probabilities are essential

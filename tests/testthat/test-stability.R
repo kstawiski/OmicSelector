@@ -4,6 +4,7 @@ test_that("extract_selected_features returns selected feature names", {
   skip_if_not_installed("mlr3")
   skip_if_not_installed("mlr3learners")
   skip_if_not_installed("mlr3filters")
+  skip_if_not_installed("rpart")
 
   df <- data.frame(
     x1 = rnorm(30),

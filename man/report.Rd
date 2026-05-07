@@ -2,7 +2,7 @@
 % Please edit documentation in R/report.R
 \name{report}
 \alias{report}
-\title{TRIPOD+AI Report Generation for OmicSelector 2.0}
+\title{TRIPOD+AI Report Generation for OmicSelector}
 \description{
 Functions for generating reproducible, TRIPOD+AI compliant reports.
 Reports are generated as immutable HTML/PDF artifacts.

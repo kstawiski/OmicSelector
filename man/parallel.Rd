@@ -2,7 +2,7 @@
 % Please edit documentation in R/parallel.R
 \name{parallel}
 \alias{parallel}
-\title{Parallelization Support for OmicSelector 2.0}
+\title{Parallelization Support for OmicSelector}
 \description{
 Functions for configuring and using future-based parallelization.
 Uses the `future` package for backend-agnostic parallel execution.

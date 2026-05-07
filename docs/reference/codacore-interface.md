@@ -1,0 +1,19 @@
+# CoDaCoRe Interfaces for Sparse Log-Contrast Classification
+
+Thin wrapper around the official CoDaCoRe implementation when the
+\`codacore\` package is available, with a deterministic sparse-balance
+fallback for environments where the upstream TensorFlow backend is
+missing or fails at runtime.
+
+## References
+
+Aitchison J. (1986). *The Statistical Analysis of Compositional Data*.
+Chapman and Hall.
+
+Gloor GB, Macklaim JM, Pawlowsky-Glahn V, Egozcue JJ. (2017). Microbiome
+datasets are compositional: and this is not optional. *Frontiers in
+Microbiology*, 8, 2224.
+
+Gordon-Rodriguez E, Susin A, McEwen JD, et al. (2022). CoDaCoRe:
+learning sparse log-ratios for high-throughput sequencing data.
+*Bioinformatics*, 38(12), 3179-3186.

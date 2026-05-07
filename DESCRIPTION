@@ -1,15 +1,12 @@
 Package: OmicSelector
 Type: Package
 Title: Rigorous Biomarker Discovery with Zero-Leakage Machine Learning
-Version: 2.3.0.9000
+Version: 2.4.0
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-6550-3384")),
     person("Marcin", "Kaszkowiak", role = "aut"),
     person("Damian", "Mikulski", role = "aut"))
-Author: Konrad Stawiski [aut, cre] (ORCID: 0000-0002-6550-3384),
-    Marcin Kaszkowiak [aut],
-    Damian Mikulski [aut]
 Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
 Description: A toolkit for biomarker discovery from high-dimensional omics
     data. Enforces nested cross-validation with leakage-resistant feature
@@ -22,7 +19,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-URL: https://biostat.umed.pl/OmicSelector/, https://github.com/kstawiski/OmicSelector
+URL: https://github.com/kstawiski/OmicSelector, https://kstawiski.github.io/OmicSelector/
 BugReports: https://github.com/kstawiski/OmicSelector/issues
 Depends:
     R (>= 4.1.0)
@@ -32,6 +29,7 @@ Imports:
     checkmate,
     digest,
     MASS,
+    methods,
     mlr3 (>= 0.18.0),
     mlr3pipelines (>= 0.5.0),
     mlr3tuning (>= 0.20.0),
@@ -75,7 +73,12 @@ Suggests:
     kknn,
     vdiffr,
     Rtsne,
-    selbal
+    selbal,
+    robustbase,
+    nondetects,
+    HTqPCR,
+    Biobase,
+    rpart
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3

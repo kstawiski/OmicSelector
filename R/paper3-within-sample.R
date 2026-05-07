@@ -57,30 +57,30 @@
 #' modes directly: reference-cohort dependency (each method scores a single
 #' sample using only its own panel values) and contamination by dominant
 #' erythrocyte-derived species (miR-451a, miR-486-5p, miR-16, miR-144-3p,
-#' miR-92a-3p — all explicitly handled by either exclusion from the rCLR
+#' miR-92a-3p - all explicitly handled by either exclusion from the rCLR
 #' centering subset or by having dedicated balances in the SBP tree).
 #'
 #' Module A is one of six modules in the OmicSelector v2.4 toolkit. The
-#' other modules — Module B (hemolysis correction), Module C (frozen batch
+#' other modules - Module B (hemolysis correction), Module C (frozen batch
 #' correction), Module D (outlier detection and conformal claim-gating),
 #' Module E (multi-cancer / domain generalisation), and Module F
-#' (self-supervised pretraining and ablation) — are documented in Paper 3
+#' (self-supervised pretraining and ablation) - are documented in Paper 3
 #' Methods and the per-module help pages.
 #'
 #' @references
 #' Aitchison J. (1986) The Statistical Analysis of Compositional Data. Chapman & Hall.
 #'
 #' Egozcue J. J., Pawlowsky-Glahn V. (2005) Groups of parts and their balances
-#' in compositional data analysis. \emph{Mathematical Geology} 37(7): 795–828.
+#' in compositional data analysis. \emph{Mathematical Geology} 37(7): 795-828.
 #'
 #' Vandeputte D., Kathagen G., D'hoe K., et al. (2017) Quantitative microbiome
 #' profiling links gut community variation to microbial load. \emph{Nature}
-#' 551(7681): 507–511. (Origin of the "detected_only" rCLR convention.)
+#' 551(7681): 507-511. (Origin of the "detected_only" rCLR convention.)
 #'
 #' Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 #' microRNAs as stable blood-based markers for cancer detection.
 #' \emph{Proceedings of the National Academy of Sciences USA} 105(30):
-#' 10513–10518.
+#' 10513-10518.
 #'
 #' Stawiski K. (in preparation) Provenance-aware within-sample scoring for
 #' circulating-microRNA biomarkers across cancers and platforms (Paper 3
@@ -98,7 +98,7 @@ NULL
 #'
 #' @description
 #' Computes a robust trimmed centred log-ratio (rCLR) on a single sample or a
-#' samples × features matrix. The centering subset excludes a configurable
+#' samples x features matrix. The centering subset excludes a configurable
 #' set of contaminating miRNAs (default: the haemolysis and platelet-activation
 #' panel) and trims the top-\code{trim_upper} and bottom-\code{trim_lower}
 #' fractions of the remaining features by abundance before computing the
@@ -106,7 +106,7 @@ NULL
 #' (with warning) when the centering subset shrinks below
 #' \code{min_centering_size}.
 #'
-#' @param x Numeric vector or matrix (samples × features). For a matrix the
+#' @param x Numeric vector or matrix (samples x features). For a matrix the
 #'   transformation is applied row-wise.
 #' @param pseudocount Additive pseudocount to avoid log(0). Default 1e-6 of
 #'   the sample sum.
@@ -221,7 +221,7 @@ ws_rclr_trimmed <- function(x,
 
 
 # ----------------------------------------------------------------------------
-# ws_balance_ilr — frozen sequential binary partition for ILR balances
+# ws_balance_ilr - frozen sequential binary partition for ILR balances
 # ----------------------------------------------------------------------------
 
 #' @title Default circulating-miRNA sequential binary partition (v1)
@@ -301,17 +301,26 @@ ws_default_sbp <- function(version = "circulating_v1") {
 #' removed from the numerator/denominator before computation; a balance
 #' becomes NA only if either side becomes empty.
 #'
-#' @param x Numeric vector with miRNA names, OR a matrix (samples × features).
-#'   Must have feature names — names are used to match the partition entries.
+#' @param x Numeric vector with miRNA names, OR a matrix (samples x features).
+#'   Must have feature names - names are used to match the partition entries.
 #' @param balances Named list of balances, each with components
 #'   \code{numerator} and \code{denominator}. Defaults to
 #'   \code{ws_default_sbp()}.
 #' @param pseudocount Additive pseudocount before logging. Default 1e-6 of
 #'   sample sum.
-#' @param aggregate "gmean" (default) or "trimmed_gmean" (10% trim each end).
+#' @param aggregate "gmean" (default) or "trimmed_gmean" (10\% trim each end).
+#' @param min_balance_coverage Numeric in [0, 1]. Minimum fraction of the
+#'   eight balances that must be computable from the input panel for the
+#'   sample / cohort to be deemed eligible. When fewer than this fraction
+#'   of balances have both numerator and denominator features present, the
+#'   returned vector / matrix is filled with NA and carries
+#'   the attribute \code{coverage_failed} set to TRUE. Default 0.8
+#'   (manuscript Methods, 'Within-sample compositional methods').
 #'
 #' @return Named numeric vector of balance values (single sample), or
-#'   matrix samples × balances (matrix input).
+#'   matrix samples x balances (matrix input). Carries attributes
+#'   \code{coverage} (numeric in [0, 1]) and \code{coverage_failed}
+#'   (logical) indicating whether the 80\% gate was satisfied.
 #'
 #' @examples
 #' \dontrun{
@@ -324,15 +333,33 @@ ws_default_sbp <- function(version = "circulating_v1") {
 ws_balance_ilr <- function(x,
                             balances = ws_default_sbp(),
                             pseudocount = NULL,
-                            aggregate = c("gmean", "trimmed_gmean")) {
+                            aggregate = c("gmean", "trimmed_gmean"),
+                            min_balance_coverage = 0.8) {
   aggregate <- match.arg(aggregate)
+  if (!is.numeric(min_balance_coverage) ||
+      length(min_balance_coverage) != 1L ||
+      is.na(min_balance_coverage) ||
+      min_balance_coverage < 0 || min_balance_coverage > 1) {
+    stop("ws_balance_ilr: min_balance_coverage must be a single value in [0, 1].")
+  }
 
   if (is.matrix(x) || is.data.frame(x)) {
-    out <- t(apply(x, 1L, function(row) {
-      ws_balance_ilr(row, balances = balances, pseudocount = pseudocount,
-                     aggregate = aggregate)
-    }))
+    rows <- lapply(seq_len(nrow(x)), function(i) {
+      ws_balance_ilr(x[i, ], balances = balances, pseudocount = pseudocount,
+                     aggregate = aggregate,
+                     min_balance_coverage = min_balance_coverage)
+    })
+    out <- do.call(rbind, rows)
     rownames(out) <- rownames(x)
+    coverage <- vapply(rows, function(r) attr(r, "coverage") %||% NA_real_,
+                       numeric(1L))
+    coverage_failed <- vapply(rows, function(r) {
+      v <- attr(r, "coverage_failed")
+      isTRUE(v)
+    }, logical(1L))
+    attr(out, "coverage") <- coverage
+    attr(out, "coverage_failed") <- coverage_failed
+    attr(out, "min_balance_coverage") <- min_balance_coverage
     return(out)
   }
 
@@ -350,7 +377,7 @@ ws_balance_ilr <- function(x,
     function(v) mean(v, trim = 0.10, na.rm = TRUE)
   }
 
-  vapply(names(balances), function(bn) {
+  out <- vapply(names(balances), function(bn) {
     b <- balances[[bn]]
     num <- b$numerator
     den <- b$denominator
@@ -377,6 +404,17 @@ ws_balance_ilr <- function(x,
     coef <- sqrt(nN * nD / (nN + nD))
     coef * (agg_fn(log_x[num_idx]) - agg_fn(log_x[den_idx]))
   }, numeric(1L))
+
+  coverage <- if (length(out) == 0L) 1 else mean(is.finite(out))
+  if (coverage + sqrt(.Machine$double.eps) < min_balance_coverage) {
+    out[] <- NA_real_
+    attr(out, "coverage_failed") <- TRUE
+  } else {
+    attr(out, "coverage_failed") <- FALSE
+  }
+  attr(out, "coverage") <- coverage
+  attr(out, "min_balance_coverage") <- min_balance_coverage
+  out
 }
 
 
@@ -427,10 +465,28 @@ ws_default_pivot_pool <- function() {
 #' \code{min_pivot_present} pivots are present in the input panel, unless
 #' the operator explicitly opts in to a global rCLR fallback. Silent
 #' substitution of all-feature centering for a curated denominator can
-#' mask haemolysis or platelet contamination — flagged by codex Round 1
+#' mask haemolysis or platelet contamination - flagged by codex Round 1
 #' review.
 #'
-#' @param x Samples × features matrix (rows = samples). Must have column
+#' @details
+#' \strong{Backwards-compatibility / manuscript-pipeline note (v2.4.0).}
+#' The package default is \code{allow_global_fallback = FALSE} (fail-closed):
+#' the function errors out rather than silently substituting a global rCLR
+#' centering when fewer than \code{min_pivot_present} pivots are available.
+#' This is the conservative choice for end users running interactive
+#' analyses, because it prevents haemolysis-contaminated cells from being
+#' silently rescued by an all-feature centering that includes the very
+#' contaminants they were meant to flag.
+#'
+#' The Paper-3 manuscript pipeline (Methods 'Within-sample compositional
+#' methods") describes the fallback as having been "activated" with the
+#' affected cells explicitly flagged in the per-cell results. The pipeline
+#' opts in via \code{allow_global_fallback = TRUE} on every call. This
+#' alignment is intentional: the package keeps the safer default for ad-hoc
+#' use, while the manuscript pipeline has the explicit logging discipline
+#' to track every cell that took the fallback path.
+#'
+#' @param x Samples x features matrix (rows = samples). Must have column
 #'   names to identify pivot features.
 #' @param pivot_features Character vector of feature names to use as pivot
 #'   pool. If \code{NULL}, defaults to \code{ws_default_pivot_pool()}.
@@ -472,7 +528,7 @@ ws_alr_pivot <- function(x,
             "). Pass allow_global_fallback=TRUE to opt into global rCLR fallback.")
     }
     if (verbose) message("ws_alr_pivot: <", min_pivot_present,
-                          " pivot features present — falling back to global rCLR")
+                          " pivot features present - falling back to global rCLR")
     pivot_present <- colnames(x)
     fallback_used <- TRUE
   }
@@ -505,7 +561,7 @@ ws_alr_pivot <- function(x,
 #' descriptive transform on log-abundances, suitable as input to learners
 #' that do not require the zero-sum compositional coordinate constraint.
 #'
-#' @param x Samples × features matrix (rows = samples).
+#' @param x Samples x features matrix (rows = samples).
 #' @param pseudocount Additive pseudocount before logging. Default 0.5.
 #' @param scale_by_mad Logical. If \code{TRUE}, divides each sample by its
 #'   per-sample MAD after median-centering. Default \code{TRUE}.
@@ -528,7 +584,7 @@ ws_mad_logratio <- function(x,
   per_sample_median <- apply(log_x, 1L, median, na.rm = TRUE)
   if (any(is.na(per_sample_median))) {
     stop("ws_mad_logratio: ", sum(is.na(per_sample_median)),
-          " sample(s) have all-NA log values — cannot compute median")
+          " sample(s) have all-NA log values - cannot compute median")
   }
   centered <- sweep(log_x, 1L, per_sample_median, FUN = "-")
 
@@ -562,7 +618,7 @@ ws_mad_logratio <- function(x,
 #' use as an input to claim-gating in Module D, not as a Module-A
 #' normalization method comparable to rCLR / ILR / ALR / MAD-logratio.
 #'
-#' @param x Samples × features matrix.
+#' @param x Samples x features matrix.
 #' @param top_k Integer; number of top features to include in the
 #'   dominance numerator. Default 2.
 #' @param pseudocount Additive pseudocount. Default 0.5.
@@ -597,7 +653,7 @@ ws_dominance_score <- function(x,
 #' training reference cohort. Recommended over the universal 0.60 default,
 #' which is provided only for backwards compatibility.
 #'
-#' @param x_train Samples × features matrix of the training reference
+#' @param x_train Samples x features matrix of the training reference
 #'   cohort (typically Tier R, control samples only).
 #' @param top_k Integer; passed to \code{ws_dominance_score}. Default 2.
 #' @param alpha Numeric in (0, 1). Threshold is the (1 - alpha) quantile of

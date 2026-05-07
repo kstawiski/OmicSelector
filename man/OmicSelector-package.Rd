@@ -6,9 +6,10 @@
 \alias{OmicSelector}
 \title{OmicSelector: Zero-Leakage Biomarker Discovery Toolkit}
 \description{
-OmicSelector 2.3.0 is a toolkit for high-dimensional biomarker discovery with
+OmicSelector 2.4.0 is a toolkit for high-dimensional biomarker discovery with
 leakage-resistant validation, stable feature selection, within-sample panel
-methods, and provenance-aware audit helpers.
+methods, frozen-reference denoising add-ons, qPCR non-detect handling,
+matched-null benchmarks, and provenance-aware audit helpers.
 }
 \details{
 ## Key Features
@@ -60,7 +61,7 @@ result <- service$run()
 
 ## Philosophy
 
-OmicSelector 2.3.0 prioritizes leakage-resistant validation, feature
+OmicSelector 2.4.0 prioritizes leakage-resistant validation, feature
 stability, and auditable provenance checks above raw apparent accuracy.
 High accuracy with unstable feature sets or strong provenance-only prediction
 is treated as a warning signal rather than as direct biomarker evidence.

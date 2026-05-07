@@ -15,6 +15,6 @@ Numeric vector of BH-FDR q-values, same length as \code{results}.
 }
 \description{
 Applies Benjamini-Hochberg FDR correction within a single modality family
-of matched-null tests. Per plan v0.3.3 \S5: matched-null tests use BH-FDR
-within each of the 4 modality families separately (not across modalities).
+of matched-null tests. Per plan v0.3.3 section 5: matched-null tests use
+BH-FDR within each of the 4 modality families separately (not across modalities).
 }
