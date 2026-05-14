@@ -1,5 +1,9 @@
 # OmicSelector 2.4.0 (2026-05-07)
 
+Round 4 additions (2026-05-08):
+
+* Added MIMAT ↔ hsa-miR namespace lookup table (miRBase 22.1; 2,656 human mature miRNA entries) and `resolve_mimat_to_hsa()` / `resolve_hsa_to_mimat()` helpers (`mimat_hsa_lookup_v22_1.tsv` shipped under `inst/extdata/`). Matching is case-insensitive; canonical-case output (MIMAT uppercase, hsa-miR lowercase).
+
 Round 3 additions (2026-05-07) — manuscript-alignment patches (Paper 3 audit
 patches 1 through 9; orchestrator patch 10 deferred):
 
