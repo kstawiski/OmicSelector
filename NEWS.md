@@ -1,5 +1,20 @@
 # OmicSelector 2.4.0 (2026-05-07)
 
+Round 5 additions (2026-05-22):
+
+* Promoted the remaining OmicSelector Paper 3 method-family scorer
+  implementations from the manuscript analysis workspace into the package:
+  provenance-aware, kit-aware, anchor/reference, technology-aware,
+  biofluid-aware, learned kit-aware, Group-DRO, and Sinkhorn-OT scorers.
+* Added `paper3_method_bank()` and `paper3_assert_method_bank_exports()` so the
+  manuscript method bank can be audited directly against exported package
+  functions.
+* Added `paper3_make_loco_splits()` and `paper3_make_locto_splits()` for
+  same-provenance-block-excluding leave-one-cohort-out and
+  leave-one-cancer-type-out validation protocols.
+* Added focused unit tests for the promoted method families and shipped the
+  optional Sinkhorn Python helper under `inst/python/`.
+
 Round 4 additions (2026-05-08):
 
 * Added MIMAT ↔ hsa-miR namespace lookup table (miRBase 22.1; 2,656 human mature miRNA entries) and `resolve_mimat_to_hsa()` / `resolve_hsa_to_mimat()` helpers (`mimat_hsa_lookup_v22_1.tsv` shipped under `inst/extdata/`). Matching is case-insensitive; canonical-case output (MIMAT uppercase, hsa-miR lowercase).

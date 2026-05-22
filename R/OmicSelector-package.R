@@ -68,9 +68,9 @@
 #' @importFrom data.table as.data.table
 #' @importFrom stats aggregate aov as.stepfun binomial coef cor glm isoreg
 #'   .lm.fit mad median optimize pnorm predict qnorm quantile rbinom rnorm
-#'   runif sd setNames
+#'   p.adjust runif sd setNames weighted.mean
 #' @importFrom methods new
-#' @importFrom utils head modifyList tail
+#' @importFrom utils capture.output head modifyList sessionInfo tail
 #'
 #' @seealso
 #' - [OmicPipeline]: Main pipeline class

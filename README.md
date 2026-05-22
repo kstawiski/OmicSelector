@@ -91,6 +91,16 @@ paper-facing methods as exported, documented R functions:
    [`ws_balance_ilr`](man/ws_balance_ilr.Rd) exposes
    `min_balance_coverage` so panels that preserve the fixed balance
    dictionary can activate ILR scoring at the documented coverage threshold.
+10. Full Paper 3 method-bank registry:
+    [`paper3_method_bank`](man/paper3_method_bank.Rd) maps every manuscript
+    method family (A-J) to exported package functions, including the kit-aware,
+    provenance-aware, anchor/reference, technology-aware, biofluid-aware,
+    learned/adversarial, Group-DRO, and Sinkhorn-OT scorer families.
+11. External-validation split helpers:
+    [`paper3_make_loco_splits`](man/paper3_make_loco_splits.Rd) and
+    [`paper3_make_locto_splits`](man/paper3_make_locto_splits.Rd) construct
+    leave-one-cohort-out and leave-one-cancer-type-out splits with same
+    provenance-block exclusion.
 
 ## Within-Sample Biomarker Panel Classification
 
