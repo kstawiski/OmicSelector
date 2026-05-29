@@ -1,5 +1,5 @@
 # Internal helpers for Group-DRO kit x biofluid robust scoring.
-# Sourced by code/methods/group_dro_scorer.R and tests.
+# Internal helpers used by the package Group-DRO scorer and tests.
 
 if (!exists("%||%", mode = "function")) {
   `%||%` <- function(a, b) if (is.null(a) || length(a) == 0L) b else a

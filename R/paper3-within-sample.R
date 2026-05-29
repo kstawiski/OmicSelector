@@ -238,7 +238,7 @@ ws_rclr_trimmed <- function(x,
 #'
 #' The partition is fixed at v1 and any future revision will be tagged
 #' \code{circulating_v2}, etc., with a separate justification log under
-#' \code{knowledge/literature/E_dataset_papers/sbp_partition_justification_*.md}.
+#' the manuscript's sequential-binary-partition justification notes.
 #'
 #' @param version Character. Currently only \code{"circulating_v1"} is
 #'   supported.
@@ -431,7 +431,7 @@ ws_balance_ilr <- function(x,
 #' platelet activation (miR-223 family). The pool is fixed at v1; any
 #' revision will be tagged \code{circulating_v2}, etc., with a separate
 #' justification log under
-#' \code{knowledge/literature/E_dataset_papers/pivot_pool_justification_*.md}.
+#' the manuscript's pivot-pool justification notes.
 #'
 #' Notably absent from the v1 pool: miR-92a-3p (recent serum/plasma
 #' literature treats it as erythrocyte-derived; codex Round 1 review of

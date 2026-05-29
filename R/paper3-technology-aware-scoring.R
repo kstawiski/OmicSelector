@@ -532,3 +532,28 @@ score_tech_residualized_alr <- function(
   }
   predict_tech_residualized_alr(fit, expr, meta, technology_col)
 }
+
+#' Paired DeLong SE for technology-aware transfer lift
+#'
+#' Computes the paired DeLong AUC-difference SE for a technology-aware transfer
+#' method against its paired rCLR baseline on the same held-out samples. This
+#' uses `orient = "auc"` to match the technology-aware transfer convention
+#' `max(AUC, 1 - AUC)`.
+#'
+#' @param y Binary held-out outcome vector.
+#' @param method_scores Numeric method scores on the held-out samples.
+#' @param baseline_scores Numeric paired baseline scores on the same samples.
+#' @param fold Optional fold identifier for mean-of-folds aggregation.
+#'
+#' @return A list from `paper3_paired_auc_diff_se()`.
+#' @export
+paper3_technology_lift_delong <- function(y, method_scores, baseline_scores,
+                                          fold = NULL) {
+  paper3_paired_auc_diff_se(
+    y = y,
+    score_method = method_scores,
+    score_baseline = baseline_scores,
+    fold = fold,
+    orient = "auc"
+  )
+}

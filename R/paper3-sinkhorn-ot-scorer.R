@@ -1,9 +1,8 @@
 #!/usr/bin/env Rscript
 # Sinkhorn OT cohort-barycenter projection for reviewer-package Table/Figure S55.
 #
-# Reproducible command:
-#   cd /umed-projekty/JAJNIKI/OmicSelector_paper
-#   Rscript code/methods/sinkhorn_ot_scorer.R
+# Runner utilities below require caller-supplied manuscript inputs when used
+# from the package; manuscript-workspace paths are intentionally not assumed.
 #
 # Gate status:
 #   Reviewer-package artifact only. The generated code, table, figure, and
@@ -314,12 +313,6 @@ if (!exists("%||%", mode = "function")) {
   if (!requireNamespace("reticulate", quietly = TRUE)) return(NULL)
   py_path <- system.file("python", "sinkhorn_ot_scorer.py",
                          package = "OmicSelector")
-  if (!nzchar(py_path) || !file.exists(py_path)) {
-    root <- Sys.getenv("OMICSELECTOR_PAPER_ROOT",
-                       "/umed-projekty/JAJNIKI/OmicSelector_paper")
-    py_path <- file.path(root, "code/methods/sinkhorn_ot_scorer.py")
-  }
-  if (!file.exists(py_path)) py_path <- "code/methods/sinkhorn_ot_scorer.py"
   if (!file.exists(py_path)) return(NULL)
   tryCatch(reticulate::import_from_path("sinkhorn_ot_scorer",
                                         path = dirname(py_path),
@@ -666,15 +659,22 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
 
 # ---- Reviewer-package S55 benchmark -----------------------------------------
 
-.sot_paths <- list(
-  table = "results/reviewer_package_v5/supplement/table_S55_sinkhorn_ot_benchmarks.tsv",
-  png = "results/reviewer_package_v5/figures/figure_S55_sinkhorn_ot.png",
-  pdf = "results/reviewer_package_v5/figures/figure_S55_sinkhorn_ot.pdf",
-  caption = "results/reviewer_package_v5/figures/figure_S55_sinkhorn_ot.md",
-  log = file.path("results/reviewer_package_v5/delegated_tasks",
-                  paste0("sinkhorn_ot_S55_", format(Sys.time(), "%Y%m%dT%H%M%SZ",
-                                                    tz = "UTC"), ".log"))
-)
+.sot_default_paths <- function(output_dir = tempdir()) {
+  output_dir <- path.expand(as.character(output_dir)[1L])
+  list(
+    table = file.path(output_dir, "table_S55_sinkhorn_ot_benchmarks.tsv"),
+    png = file.path(output_dir, "figure_S55_sinkhorn_ot.png"),
+    pdf = file.path(output_dir, "figure_S55_sinkhorn_ot.pdf"),
+    caption = file.path(output_dir, "figure_S55_sinkhorn_ot.md"),
+    log = file.path(
+      output_dir,
+      paste0("sinkhorn_ot_S55_", format(Sys.time(), "%Y%m%dT%H%M%SZ",
+                                        tz = "UTC"), ".log")
+    )
+  )
+}
+
+.sot_paths <- .sot_default_paths()
 
 .sot_config <- list(
   seed = 42L,
@@ -696,9 +696,13 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   backend = Sys.getenv("SINKHORN_OT_BACKEND", "auto")
 )
 
-.sot_primary_cohorts <- function() {
-  s5 <- data.table::fread("results/reviewer_package_v5/supplement/table_S5_null_calibration.tsv")
-  s22 <- data.table::fread("results/reviewer_package_v5/supplement/table_S22_delong_paired_auc.tsv")
+.sot_primary_cohorts <- function(s5_path = NULL, s22_path = NULL) {
+  s5_path <- .paper3_extdata_path("table_S5_null_calibration.tsv", s5_path,
+                                  "S5 null-calibration table")
+  s22_path <- .paper3_extdata_path("table_S22_delong_paired_auc.tsv", s22_path,
+                                   "S22 DeLong paired-AUC table")
+  s5 <- data.table::fread(s5_path)
+  s22 <- data.table::fread(s22_path)
   c5 <- sort(unique(s5$Accession))
   c22 <- sort(unique(s22[status == "evaluable", cohort]))
   if (!identical(c5, c22)) stop("Primary cohort set mismatch between S5 and S22.")
@@ -713,12 +717,17 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   out
 }
 
-.sot_load_metadata <- function(primary) {
+.sot_load_metadata <- function(primary, kit_metadata_path = NULL,
+                               union_inventory_path = NULL) {
+  kit_metadata_path <- .paper3_extdata_path(
+    "table_S43_matched_null_kit_metadata.tsv", kit_metadata_path,
+    "S43 kit metadata")
+  union_inventory_path <- .paper3_extdata_path(
+    "union_inventory.tsv", union_inventory_path, "union inventory")
   meta <- data.table::fread(
-    "results/reviewer_package_v5/supplement/table_S43_matched_null_kit_metadata.tsv",
-    sep = "\t", quote = "", fill = TRUE)
+    kit_metadata_path, sep = "\t", quote = "", fill = TRUE)
   meta <- meta[cohort %in% primary]
-  inv <- data.table::fread("knowledge/union_inventory.tsv", sep = "\t",
+  inv <- data.table::fread(union_inventory_path, sep = "\t",
                            quote = "", fill = TRUE)
   inv <- inv[accession %in% primary,
              .(cohort = accession,
@@ -762,13 +771,22 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   .sot_collapse_duplicate_features(X)
 }
 
-.sot_load_data <- function(primary, meta, log_fun = message) {
+.sot_load_data <- function(primary, meta, log_fun = message,
+                           union_inventory_path = NULL,
+                           sample_filters_path = NULL,
+                           matched_set_audit_path = NULL) {
   prep_env <- .sot_source_prepare_env()
-  inv <- data.table::fread("knowledge/union_inventory.tsv", sep = "\t",
+  union_inventory_path <- .paper3_extdata_path(
+    "union_inventory.tsv", union_inventory_path, "union inventory")
+  sample_filters_path <- .paper3_extdata_path(
+    "v0_6_sample_filters.tsv", sample_filters_path, "v0.6 sample filters")
+  matched_set_audit_path <- .paper3_extdata_path(
+    "matched_set_audit.tsv", matched_set_audit_path, "matched-set audit")
+  inv <- data.table::fread(union_inventory_path, sep = "\t",
                            quote = "", fill = TRUE)
   rows <- inv[accession %in% primary]
   rows <- rows[match(primary, accession)]
-  sample_filters <- data.table::fread("knowledge/v0_6_sample_filters.tsv",
+  sample_filters <- data.table::fread(sample_filters_path,
                                       sep = "\t", quote = "",
                                       colClasses = "character", fill = TRUE)
   get_fun <- function(name) {
@@ -781,7 +799,7 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   prepare <- get_fun(".prepare_cohort_data")
   outcome_dict <- get_fun("load_outcome_dictionary_v0_4")(strict = TRUE)
   matched_set_audit <- get_fun("load_matched_set_audit")(
-    "knowledge/matched_set_audit.tsv", n_tier_a = 35L)
+    matched_set_audit_path, n_tier_a = 35L)
   out <- list()
   failures <- list()
   for (i in seq_len(nrow(rows))) {
@@ -1161,11 +1179,16 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   writeLines(txt, .sot_paths$caption)
 }
 
-.sot_main <- function() {
+.sot_main <- function(output_dir = tempdir(), s5_path = NULL, s22_path = NULL,
+                      kit_metadata_path = NULL, union_inventory_path = NULL,
+                      sample_filters_path = NULL,
+                      matched_set_audit_path = NULL,
+                      paths = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
   if (!requireNamespace("ggplot2", quietly = TRUE)) stop("ggplot2 is required.")
-  ROOT <- "/umed-projekty/JAJNIKI/OmicSelector_paper"
-  if (dir.exists(ROOT)) setwd(ROOT)
+  old_paths <- .sot_paths
+  on.exit(.sot_paths <<- old_paths, add = TRUE)
+  .sot_paths <<- utils::modifyList(.sot_default_paths(output_dir), paths %||% list())
   dir.create(dirname(.sot_paths$table), recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(.sot_paths$png), recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(.sot_paths$log), recursive = TRUE, showWarnings = FALSE)
@@ -1180,9 +1203,13 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
   log_fun(sprintf("config atoms=%d max_cohort_atoms=%d tune=%s backend=%s",
                   .sot_config$n_atoms, .sot_config$max_cohort_atoms,
                   .sot_config$tune, .sot_config$backend))
-  primary <- .sot_primary_cohorts()
-  meta <- .sot_load_metadata(primary)
-  data <- .sot_load_data(primary, meta, log_fun)
+  primary <- .sot_primary_cohorts(s5_path = s5_path, s22_path = s22_path)
+  meta <- .sot_load_metadata(primary, kit_metadata_path = kit_metadata_path,
+                             union_inventory_path = union_inventory_path)
+  data <- .sot_load_data(primary, meta, log_fun,
+                         union_inventory_path = union_inventory_path,
+                         sample_filters_path = sample_filters_path,
+                         matched_set_audit_path = matched_set_audit_path)
   failures <- attr(data, "failures")
   if (length(failures)) {
     for (nm in names(failures)) log_fun(sprintf("load_failed %s: %s", nm, failures[[nm]]))

@@ -1,5 +1,5 @@
 # Internal helpers for kit-aware compositional within-sample scoring.
-# Sourced by code/methods/kit_aware_compositional.R and its tests.
+# Internal helpers used by the package kit-aware compositional scorers and tests.
 
 if (!exists("%||%", mode = "function")) {
   `%||%` <- function(a, b) if (is.null(a) || length(a) == 0L) b else a

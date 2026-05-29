@@ -277,8 +277,10 @@
   }, by = method]
 }
 
-.lka_load_s48_input <- function(path = "analysis/figures/dann_domain_invariant_input.tsv") {
+.lka_load_s48_input <- function(path = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
+  path <- .paper3_extdata_path("dann_domain_invariant_input.tsv", path,
+                               "prepared DANN/learned-kit-aware input")
   if (!file.exists(path)) stop("Missing prepared DANN input: ", path)
   dt <- data.table::fread(path, sep = "\t", quote = "")
   meta_cols <- c("sample_id", "accession", "cancer_type", "y", "baseline_rclr_auc")
@@ -289,14 +291,16 @@
   list(dt = dt, x = x, y = as.integer(dt$y), features = feat_cols)
 }
 
-.lka_kit_map <- function(accessions) {
+.lka_kit_map <- function(accessions, kit_metadata_path = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
-  s43 <- "results/reviewer_package_v5/supplement/table_S43_matched_null_kit_metadata.tsv"
+  s43 <- .paper3_extdata_path("table_S43_matched_null_kit_metadata.tsv",
+                              kit_metadata_path, "S43 kit metadata",
+                              required = FALSE)
   out <- data.table::data.table(accession = unique(accessions),
                                 kit_label = "unknown",
                                 kit_source = "missing_table_S43",
                                 biofluid = NA_character_)
-  if (file.exists(s43)) {
+  if (!is.null(s43) && file.exists(s43)) {
     md <- data.table::fread(s43, sep = "\t", quote = "")
     md <- md[cohort %in% unique(accessions)]
     if (nrow(md) > 0L) {
@@ -313,17 +317,23 @@
 }
 
 run_learned_kit_aware_benchmark <- function(
-    input_path = "analysis/figures/dann_domain_invariant_input.tsv",
-    out_tsv = "results/reviewer_package_v5/supplement/table_S48_learned_kit_aware_benchmarks.tsv",
-    out_png = "results/reviewer_package_v5/figures/figure_S48_learned_methods.png",
-    out_pdf = "results/reviewer_package_v5/figures/figure_S48_learned_methods.pdf",
-    out_caption = "results/reviewer_package_v5/figures/figure_S48_caption.md",
+    input_path = NULL,
+    kit_metadata_path = NULL,
+    output_dir = tempdir(),
+    out_tsv = NULL,
+    out_png = NULL,
+    out_pdf = NULL,
+    out_caption = NULL,
     seed = 42L,
     epochs = as.integer(Sys.getenv("LKA_EPOCHS", "8")),
     K_null = as.integer(Sys.getenv("LKA_K_NULL", "100")),
     panel_size = 20L) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
   if (!requireNamespace("ggplot2", quietly = TRUE)) stop("ggplot2 is required.")
+  if (is.null(out_tsv)) out_tsv <- .paper3_default_output(output_dir, "table_S48_learned_kit_aware_benchmarks.tsv")
+  if (is.null(out_png)) out_png <- .paper3_default_output(output_dir, "figure_S48_learned_methods.png")
+  if (is.null(out_pdf)) out_pdf <- .paper3_default_output(output_dir, "figure_S48_learned_methods.pdf")
+  if (is.null(out_caption)) out_caption <- .paper3_default_output(output_dir, "figure_S48_caption.md")
   required <- c("fit_dann_kit_extended", "fit_kit_conditional_vae",
                 "fit_icp_per_kit")
   if (!all(vapply(required, exists, logical(1), mode = "function"))) {
@@ -335,7 +345,7 @@ run_learned_kit_aware_benchmark <- function(
   x_all <- inp$x
   y_all <- inp$y
   accessions <- dt$accession
-  kits <- .lka_kit_map(unique(accessions))
+  kits <- .lka_kit_map(unique(accessions), kit_metadata_path = kit_metadata_path)
   kit_by_acc <- stats::setNames(kits$kit_label, kits$accession)
   kit_labels <- unname(kit_by_acc[accessions])
   kit_labels[is.na(kit_labels)] <- "unknown"

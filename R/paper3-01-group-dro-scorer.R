@@ -1,13 +1,8 @@
 #!/usr/bin/env Rscript
 # Group-DRO classifier for kit x biofluid robust circulating-miRNA scoring.
 #
-# Reproducible smoke benchmark:
-#   cd /umed-projekty/JAJNIKI/OmicSelector_paper
-#   GDRO_BENCHMARK_MODE=prepared_ngs GDRO_EPOCHS=80 GDRO_BOOT_B=200 \
-#     Rscript code/methods/group_dro_scorer.R
-#
-# Full 22-cohort attempt:
-#   GDRO_BENCHMARK_MODE=primary22 Rscript code/methods/group_dro_scorer.R
+# Runner utilities below require caller-supplied prepared inputs when used from
+# the package; manuscript-workspace paths are intentionally not assumed.
 
 if (!exists(".gdro_as_matrix", mode = "function")) {
   stop("Group-DRO helper functions are unavailable.", call. = FALSE)
@@ -157,8 +152,11 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
   as.numeric(z[, keep, drop = FALSE] %*% fit$feature_directions[keep])
 }
 
-.gdro_load_prepared_ngs <- function(input_path = "analysis/figures/dann_domain_invariant_input.tsv") {
+.gdro_load_prepared_ngs <- function(input_path = NULL, kit_metadata_path = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
+  input_path <- .paper3_extdata_path("dann_domain_invariant_input.tsv",
+                                     input_path,
+                                     "prepared Group-DRO input")
   if (!file.exists(input_path)) stop("Missing prepared input: ", input_path)
   dt <- data.table::fread(input_path, sep = "\t", quote = "")
   meta_cols <- c("sample_id", "accession", "cancer_type", "y", "baseline_rclr_auc")
@@ -173,12 +171,14 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
   colnames(x) <- feat_cols
   rownames(x) <- dt$sample_id
 
-  kit_path <- "results/reviewer_package_v5/supplement/table_S43_matched_null_kit_metadata.tsv"
+  kit_path <- .paper3_extdata_path("table_S43_matched_null_kit_metadata.tsv",
+                                   kit_metadata_path, "S43 kit metadata",
+                                   required = FALSE)
   kit <- data.table::data.table(cohort = unique(dt$accession),
                                 biofluid = "unknown",
                                 library_kit = "unknown",
                                 provenance_block = unique(dt$accession))
-  if (file.exists(kit_path)) {
+  if (!is.null(kit_path) && file.exists(kit_path)) {
     md <- data.table::fread(kit_path, sep = "\t", quote = "")
     kit <- md[cohort %in% unique(dt$accession),
               .(cohort, biofluid, library_kit, provenance_block)]
@@ -436,11 +436,13 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
 
 run_group_dro_benchmark <- function(
     mode = Sys.getenv("GDRO_BENCHMARK_MODE", "prepared_ngs"),
-    input_path = "analysis/figures/dann_domain_invariant_input.tsv",
-    out_tsv = "results/reviewer_package_v5/supplement/table_S54_group_dro_benchmarks.tsv",
-    out_png = "results/reviewer_package_v5/figures/figure_S54_group_dro.png",
-    out_pdf = "results/reviewer_package_v5/figures/figure_S54_group_dro.pdf",
-    out_md = "results/reviewer_package_v5/figures/figure_S54_group_dro.md",
+    input_path = NULL,
+    kit_metadata_path = NULL,
+    output_dir = tempdir(),
+    out_tsv = NULL,
+    out_png = NULL,
+    out_pdf = NULL,
+    out_md = NULL,
     panel_size = as.integer(Sys.getenv("GDRO_PANEL_SIZE", "20")),
     eta_grid = as.numeric(strsplit(Sys.getenv("GDRO_ETA_GRID", "0.01,0.05,0.1"), ",")[[1L]]),
     l2_grid = as.numeric(strsplit(Sys.getenv("GDRO_L2_GRID", "0.001,0.01,0.1"), ",")[[1L]]),
@@ -451,10 +453,14 @@ run_group_dro_benchmark <- function(
     seed = 42L) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
   set.seed(seed)
+  if (is.null(out_tsv)) out_tsv <- .paper3_default_output(output_dir, "table_S54_group_dro_benchmarks.tsv")
+  if (is.null(out_png)) out_png <- .paper3_default_output(output_dir, "figure_S54_group_dro.png")
+  if (is.null(out_pdf)) out_pdf <- .paper3_default_output(output_dir, "figure_S54_group_dro.pdf")
+  if (is.null(out_md)) out_md <- .paper3_default_output(output_dir, "figure_S54_group_dro.md")
   log_fun <- function(msg) message(sprintf("[%s] %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), msg))
   log_fun(sprintf("Group-DRO benchmark start mode=%s seed=%d", mode, seed))
   obj <- switch(mode,
-    prepared_ngs = .gdro_load_prepared_ngs(input_path),
+    prepared_ngs = .gdro_load_prepared_ngs(input_path, kit_metadata_path),
     primary22 = .gdro_load_primary22(log_fun),
     stop("Unknown GDRO_BENCHMARK_MODE: ", mode)
   )

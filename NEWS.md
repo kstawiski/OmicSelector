@@ -1,3 +1,23 @@
+# OmicSelector 2.5.0 (2026-05-29)
+
+* Aligned promoted Paper 3 matched-null nested-CV scoring with the CLOSED A2
+  F4 repair: the CV p-value now requires both per-fold null validity
+  (`fold_fallback_frac < 0.5`) and at least `K/2` complete null draws across
+  null-valid folds. Degenerate matched-null cells now fail closed with
+  `eligible = FALSE` and `p_emp_cv = NA_real_`.
+* Added `paper3_paired_auc_diff_se()` and
+  `paper3_technology_lift_delong()` for empirical paired DeLong AUC-lift
+  standard errors, matching the manuscript's F6 mean-of-folds estimand and
+  technology-transfer orientation.
+* Package-ized the promoted Paper 3 runner utilities: hardcoded
+  manuscript-workspace input/output paths were replaced with caller-supplied
+  input paths, package `extdata` lookup where available, and `tempdir()`
+  output defaults.
+* Verified the F5 transfer-LOPBO and F3 brms-retirement fixes are
+  manuscript-driver concerns with no clean package counterpart in the exported
+  Paper 3 scorer primitives; no brms/Stan alternative-inference branch is
+  present in the package.
+
 # OmicSelector 2.4.0 (2026-05-07)
 
 Round 5 additions (2026-05-22):

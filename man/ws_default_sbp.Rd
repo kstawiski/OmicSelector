@@ -25,5 +25,5 @@ and one partition uses the sentinel \code{"TOP_K_BY_ABUNDANCE"} with a
 
 The partition is fixed at v1 and any future revision will be tagged
 \code{circulating_v2}, etc., with a separate justification log under
-\code{knowledge/literature/E_dataset_papers/sbp_partition_justification_*.md}.
+the manuscript's sequential-binary-partition justification notes.
 }

@@ -574,7 +574,7 @@ paper3_bh_fdr_correct_blocked <- function(results, block_id, rho = 0.25) {
 
 #' Internal variant of .paper3_draw_matched_panel that also propagates the
 #' fallback tier (1=exact, 2=oversampled, 3=degenerate). Mirrors the
-#' auxiliary script at OmicSelector_paper/code/methods/matched_null_benchmark.R.
+#' manuscript auxiliary matched-null script.
 #' @noRd
 .paper3_draw_matched_panel_with_tier <- function(strata_info, exclude = character(0)) {
   strata <- strata_info$strata
@@ -892,7 +892,10 @@ paper3_matched_null_benchmark_cv <- function(
       ineligible_reason         = sprintf(
         "n_valid_folds=%d < min_valid_folds=%d; per-fold: %s",
         n_valid_folds, min_valid_folds, skip_summary),
+      p_emp_cv                  = NA_real_,
       n_valid_folds             = n_valid_folds,
+      n_null_valid_folds        = 0L,
+      n_null_valid              = 0L,
       grouping_policy           = grouping_policy,
       n_groups                  = n_groups,
       n_group_split_violations  = n_group_split_violations,
@@ -909,15 +912,41 @@ paper3_matched_null_benchmark_cv <- function(
   }
 
   auc_obs_cv  <- mean(auc_obs_folds[valid_fold_mask], na.rm = TRUE)
-  null_valid  <- auc_null_folds[, valid_fold_mask, drop = FALSE]
-  complete_null <- rowSums(is.na(null_valid)) == 0L
-  auc_null_cv <- if (any(complete_null))
-    rowMeans(null_valid[complete_null, , drop = FALSE], na.rm = FALSE)
-  else
-    numeric(0L)
-  n_null_valid <- sum(!is.na(auc_null_cv))
-  p_emp_cv    <- (1 + sum(auc_null_cv >= auc_obs_cv, na.rm = TRUE)) /
-                 (1 + n_null_valid)
+
+  fold_fallback_frac <- vapply(valid_fi, function(fi) {
+    fb <- .paper3_null_coalesce(fold_audit[[fi]]$fold_fallback_count, NA_integer_)
+    if (is.na(fb)) NA_real_ else fb / K
+  }, numeric(1L))
+  null_valid_fi <- valid_fi[is.finite(fold_fallback_frac) & fold_fallback_frac < 0.5]
+  n_null_valid_folds <- length(null_valid_fi)
+
+  if (n_null_valid_folds > 0L) {
+    null_valid <- auc_null_folds[, null_valid_fi, drop = FALSE]
+    complete_null <- rowSums(is.na(null_valid)) == 0L
+    auc_null_cv <- if (any(complete_null)) {
+      rowMeans(null_valid[complete_null, , drop = FALSE], na.rm = FALSE)
+    } else {
+      numeric(0L)
+    }
+    auc_obs_for_p <- mean(auc_obs_folds[null_valid_fi], na.rm = TRUE)
+  } else {
+    auc_null_cv <- numeric(0L)
+    auc_obs_for_p <- NA_real_
+  }
+  n_null_valid <- length(auc_null_cv)
+  matched_null_eligible <- n_null_valid_folds > 0L && n_null_valid >= K / 2
+
+  if (matched_null_eligible) {
+    p_emp_cv <- (1 + sum(auc_null_cv >= auc_obs_for_p, na.rm = TRUE)) /
+      (1 + n_null_valid)
+    ineligible_reason <- NA_character_
+  } else {
+    p_emp_cv <- NA_real_
+    ineligible_reason <- sprintf(
+      "matched-null ineligible: %d complete null draw(s) across %d null-valid fold(s) (require >= %g); candidate pool exhausted -> report bootstrap CI on observed AUC only",
+      n_null_valid, n_null_valid_folds, K / 2
+    )
+  }
 
   total_fallback <- sum(vapply(fold_audit[valid_fi], function(fa)
     .paper3_null_coalesce(fa$fold_fallback_count, 0L), integer(1L)))
@@ -951,14 +980,16 @@ paper3_matched_null_benchmark_cv <- function(
     auc_null_cv              = auc_null_cv,
     p_emp_cv                 = p_emp_cv,
     n_valid_folds            = n_valid_folds,
+    n_null_valid_folds       = n_null_valid_folds,
+    n_null_valid             = n_null_valid,
     fold_panels              = fold_panels,
     K                        = K,
     outer_k                  = outer_k,
     seed                     = seed,
     null_parallel_cores      = null_parallel_cores,
     rng_protocol             = rng_protocol,
-    eligible                 = TRUE,
-    ineligible_reason        = NA_character_,
+    eligible                 = matched_null_eligible,
+    ineligible_reason        = ineligible_reason,
     fallback_count           = total_fallback,
     fallback_tier            = max_fallback_tier,
     grouping_policy          = grouping_policy,

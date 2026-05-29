@@ -1,15 +1,8 @@
 #!/usr/bin/env Rscript
 # Kit-aware compositional within-sample scoring methods.
 #
-# Reproducible command:
-#   cd /umed-projekty/JAJNIKI/OmicSelector_paper
-#   Rscript code/methods/kit_aware_compositional.R
-#
-# Outputs:
-#   results/reviewer_package_v5/supplement/table_S45_kit_aware_compositional_benchmarks.tsv
-#   results/reviewer_package_v5/figures/figure_S45_kit_aware_methods.png
-#   results/reviewer_package_v5/figures/figure_S45_kit_aware_methods.pdf
-#   results/reviewer_package_v5/figures/figure_S45_caption.md
+# Runner utilities below require caller-supplied manuscript inputs when used
+# from the package; manuscript-workspace paths are intentionally not assumed.
 
 if (!exists(".ka_validate_inputs", mode = "function")) {
   stop("Kit-aware helper functions are unavailable.", call. = FALSE)
@@ -412,16 +405,22 @@ score_kit_residual_mad <- function(expr_matrix,
 
 # ---- S45 benchmark runner ----------------------------------------------------
 
-.s45_paths <- list(
-  table = "results/reviewer_package_v5/supplement/table_S45_kit_aware_compositional_benchmarks.tsv",
-  png = "results/reviewer_package_v5/figures/figure_S45_kit_aware_methods.png",
-  pdf = "results/reviewer_package_v5/figures/figure_S45_kit_aware_methods.pdf",
-  caption = "results/reviewer_package_v5/figures/figure_S45_caption.md",
-  log = file.path("results/reviewer_package_v5/delegated_tasks",
-                  paste0("worker_E1_kit_aware_compositional_",
-                         format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
-                         ".log"))
-)
+.s45_default_paths <- function(output_dir = tempdir()) {
+  output_dir <- path.expand(as.character(output_dir)[1L])
+  list(
+    table = file.path(output_dir, "table_S45_kit_aware_compositional_benchmarks.tsv"),
+    png = file.path(output_dir, "figure_S45_kit_aware_methods.png"),
+    pdf = file.path(output_dir, "figure_S45_kit_aware_methods.pdf"),
+    caption = file.path(output_dir, "figure_S45_caption.md"),
+    log = file.path(
+      output_dir,
+      paste0("worker_E1_kit_aware_compositional_",
+             format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"), ".log")
+    )
+  )
+}
+
+.s45_paths <- .s45_default_paths()
 
 .s45_config <- list(seed = 42L, outer_k = 5L, panel_size = 20L,
                     min_valid_folds = 4L, min_pos_per_fold = 5L,
@@ -466,9 +465,13 @@ score_kit_residual_mad <- function(expr_matrix,
   out
 }
 
-.s45_primary_cohorts <- function() {
-  s5 <- data.table::fread("results/reviewer_package_v5/supplement/table_S5_null_calibration.tsv")
-  s22 <- data.table::fread("results/reviewer_package_v5/supplement/table_S22_delong_paired_auc.tsv")
+.s45_primary_cohorts <- function(s5_path = NULL, s22_path = NULL) {
+  s5_path <- .paper3_extdata_path("table_S5_null_calibration.tsv", s5_path,
+                                  "S5 null-calibration table")
+  s22_path <- .paper3_extdata_path("table_S22_delong_paired_auc.tsv", s22_path,
+                                   "S22 DeLong paired-AUC table")
+  s5 <- data.table::fread(s5_path)
+  s22 <- data.table::fread(s22_path)
   c5 <- sort(unique(s5$Accession))
   c22 <- sort(unique(s22[status == "evaluable", cohort]))
   if (!identical(c5, c22)) {
@@ -477,26 +480,38 @@ score_kit_residual_mad <- function(expr_matrix,
   c5
 }
 
-.s45_make_metadata <- function(primary) {
-  fig4 <- readRDS("analysis/figures/figure_4_data.rds")
+.s45_make_metadata <- function(primary, fig4_data_path = NULL,
+                               union_inventory_path = NULL,
+                               preanalytics_path = NULL,
+                               kit_assignments_path = NULL) {
+  fig4_data_path <- .paper3_extdata_path("figure_4_data.rds", fig4_data_path,
+                                         "Figure 4 data RDS")
+  union_inventory_path <- .paper3_extdata_path(
+    "union_inventory.tsv", union_inventory_path, "union inventory")
+  preanalytics_path <- .paper3_extdata_path(
+    "cohort_preanalytics_metadata.tsv", preanalytics_path,
+    "cohort preanalytics metadata")
+  kit_assignments_path <- .paper3_extdata_path(
+    "kit_assignments.tsv", kit_assignments_path, "small-RNA kit assignments")
+  fig4 <- readRDS(fig4_data_path)
   pc <- data.table::as.data.table(fig4$per_cell)
   fig_meta <- unique(pc[accession %in% primary,
                         .(cohort = accession,
                           cancer_type = cancer_type,
                           modality = .s45_map_modality(modality_family),
                           provenance_block)])
-  inv <- data.table::fread("knowledge/union_inventory.tsv", sep = "\t", quote = "")
+  inv <- data.table::fread(union_inventory_path, sep = "\t", quote = "")
   inv_meta <- inv[accession %in% primary,
                   .(cohort = accession,
                     present_in, track,
                     modality_raw = modality,
                     body_fluid_inventory = body_fluid)]
-  pre <- data.table::fread("knowledge/cohort_preanalytics_metadata.tsv", sep = "\t", quote = "")
+  pre <- data.table::fread(preanalytics_path, sep = "\t", quote = "")
   pre_meta <- pre[accession %in% primary,
                   .(cohort = accession,
                     anticoagulant_raw = anticoagulant,
                     extraction_kit_raw = extraction_kit)]
-  kit <- data.table::fread("code/smrnaseq/kit_assignments.tsv", sep = "\t", quote = "")
+  kit <- data.table::fread(kit_assignments_path, sep = "\t", quote = "")
   kit_meta <- kit[, .(cohort = accession, kit_product, smrnaseq_protocol)]
   meta <- Reduce(function(a, b) merge(a, b, by = "cohort", all.x = TRUE, sort = FALSE),
                  list(fig_meta, inv_meta, pre_meta, kit_meta))
@@ -509,14 +524,22 @@ score_kit_residual_mad <- function(expr_matrix,
   meta[]
 }
 
-.s45_load_data <- function(meta, log_fun) {
+.s45_load_data <- function(meta, log_fun, union_inventory_path = NULL,
+                           sample_filters_path = NULL,
+                           matched_set_audit_path = NULL) {
   stop("The reviewer-package S45 runner is not available from the installed package; ",
        "use the manuscript repository analysis script instead.", call. = FALSE)
   prep_env <- new.env(parent = globalenv())
-  inv <- data.table::fread("knowledge/union_inventory.tsv", sep = "\t", quote = "")
+  union_inventory_path <- .paper3_extdata_path(
+    "union_inventory.tsv", union_inventory_path, "union inventory")
+  sample_filters_path <- .paper3_extdata_path(
+    "v0_6_sample_filters.tsv", sample_filters_path, "v0.6 sample filters")
+  matched_set_audit_path <- .paper3_extdata_path(
+    "matched_set_audit.tsv", matched_set_audit_path, "matched-set audit")
+  inv <- data.table::fread(union_inventory_path, sep = "\t", quote = "")
   rows <- inv[accession %in% meta$cohort]
   rows <- rows[match(meta$cohort, accession)]
-  sample_filters <- data.table::fread("knowledge/v0_6_sample_filters.tsv", sep = "\t",
+  sample_filters <- data.table::fread(sample_filters_path, sep = "\t",
                                       quote = "", colClasses = "character")
   get_fun <- function(name) {
     if (exists(name, envir = prep_env, inherits = FALSE)) {
@@ -527,7 +550,7 @@ score_kit_residual_mad <- function(expr_matrix,
   }
   outcome_dict <- get_fun("load_outcome_dictionary_v0_4")(strict = TRUE)
   matched_set_audit <- get_fun("load_matched_set_audit")(
-    "knowledge/matched_set_audit.tsv", n_tier_a = 35L)
+    matched_set_audit_path, n_tier_a = 35L)
   out <- list()
   failures <- character()
   for (i in seq_len(nrow(rows))) {
@@ -815,16 +838,24 @@ score_kit_residual_mad <- function(expr_matrix,
     desc_text,
     leak_text,
     "",
-    "This Worker E1 artifact is reproducible from `Rscript code/methods/kit_aware_compositional.R` but is not manuscript-accepted. It requires /triple-consensus and /plausibility-check before being used as evidence."
+    "This Worker E1 artifact is reproducible only with caller-supplied manuscript inputs and is not manuscript-accepted. It requires /triple-consensus and /plausibility-check before being used as evidence."
   )
   writeLines(cap, .s45_paths$caption)
 }
 
-.s45_main <- function() {
+.s45_main <- function(output_dir = tempdir(), s5_path = NULL, s22_path = NULL,
+                      fig4_data_path = NULL, union_inventory_path = NULL,
+                      preanalytics_path = NULL, kit_assignments_path = NULL,
+                      sample_filters_path = NULL,
+                      matched_set_audit_path = NULL,
+                      paths = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
   if (!requireNamespace("ggplot2", quietly = TRUE)) stop("ggplot2 is required.")
   if (!requireNamespace("metafor", quietly = TRUE)) stop("metafor is required.")
   set.seed(.s45_config$seed)
+  old_paths <- .s45_paths
+  on.exit(.s45_paths <<- old_paths, add = TRUE)
+  .s45_paths <<- utils::modifyList(.s45_default_paths(output_dir), paths %||% list())
   dir.create(dirname(.s45_paths$table), recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(.s45_paths$png), recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(.s45_paths$log), recursive = TRUE, showWarnings = FALSE)
@@ -837,10 +868,21 @@ score_kit_residual_mad <- function(expr_matrix,
 
   log_fun("Worker E1 kit-aware compositional benchmark start")
   log_fun("Seed=42; no nested delegation; outputs are provisional pending gates")
-  primary <- .s45_primary_cohorts()
+  primary <- .s45_primary_cohorts(s5_path = s5_path, s22_path = s22_path)
   log_fun(sprintf("Primary matched-null universe: %d cohorts", length(primary)))
-  meta <- .s45_make_metadata(primary)
-  data_list <- .s45_load_data(meta, log_fun)
+  meta <- .s45_make_metadata(
+    primary,
+    fig4_data_path = fig4_data_path,
+    union_inventory_path = union_inventory_path,
+    preanalytics_path = preanalytics_path,
+    kit_assignments_path = kit_assignments_path
+  )
+  data_list <- .s45_load_data(
+    meta, log_fun,
+    union_inventory_path = union_inventory_path,
+    sample_filters_path = sample_filters_path,
+    matched_set_audit_path = matched_set_audit_path
+  )
   methods <- c("kit_stratified_rclr", "kit_fe_adjusted_alr",
                "kit_orthogonal_ilr", "kit_residual_mad")
   cohort_rows <- list()
