@@ -482,3 +482,167 @@ score_reo_singscore <- function(model, X, meta = NULL) {
   if (length(present) == 0L) return(0.5)
   mean(fracranks[present])
 }
+
+
+#' @title Fit REO-kTSP within-sample pair-order discriminator
+#'
+#' @description
+#' Learns a frozen k-Top-Scoring-Pairs (k-TSP) discriminator from training
+#' samples by calling \code{\link{os_ktsp_fit}}. The fitted primitive stores
+#' oriented feature pairs so that larger vote fractions indicate the case class:
+#' each retained pair votes 1 for a specimen when
+#' \code{feature_a < feature_b} within that specimen. No test data or
+#' test-time batch statistics are used.
+#'
+#' @param X_train Numeric matrix (samples \eqn{\times} features) of
+#'   non-negative abundance values. Columns must be uniquely named feature ids.
+#' @param y_train Integer/numeric 0/1 labels aligned to \code{X_train}; 1 is
+#'   case/disease and 0 is control.
+#' @param meta_train Optional per-sample metadata. Accepted for interface
+#'   uniformity and ignored by this method.
+#' @param hp List of frozen hyperparameters: \code{k}, the number of oriented
+#'   pairs requested from \code{\link{os_ktsp_fit}} (default \code{11L}).
+#'   \code{k} is resolved once during fitting and is not tuned inside
+#'   \code{fit_reo_ktsp()}.
+#'
+#' @return A plain list of class \code{reo_ktsp_model} containing the fitted
+#'   \code{os_ktsp_model} in \code{ktsp}, \code{feature_universe}, retained
+#'   pair count \code{k}, and the resolved \code{hp}.
+#'
+#' @examples
+#' \dontrun{
+#' X <- matrix(stats::rgamma(40 * 12, shape = 2), nrow = 40,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(12))))
+#' y <- rep(c(0, 1), each = 20)
+#' X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
+#' X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
+#' model <- fit_reo_ktsp(X, y, hp = list(k = 3L))
+#' score <- score_reo_ktsp(model, X)
+#' }
+#'
+#' @references
+#' Geman D, d'Avignon C, Naiman DQ, Winslow RL. (2004) Classifying gene
+#' expression profiles from pairwise mRNA comparisons. \emph{Statistical
+#' Applications in Genetics and Molecular Biology} 3: Article19.
+#'
+#' Tan AC, Naiman DQ, Xu L, Winslow RL, Geman D. (2005) Simple decision rules
+#' for classifying human cancers from gene expression profiles. \emph{Bioinformatics}
+#' 21: 3896-3904.
+#'
+#' @export
+fit_reo_ktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+  X_train <- .reo_check_matrix(X_train, "fit_reo_ktsp", "X_train")
+  if (ncol(X_train) < 2L) {
+    stop("fit_reo_ktsp: X_train must contain at least two features for k-TSP")
+  }
+  .reo_check_meta(meta_train, nrow(X_train), "fit_reo_ktsp", "meta_train")
+  y <- .reo_check_labels(y_train, nrow(X_train), "fit_reo_ktsp")
+  hp <- .reo_resolve_hp_ktsp(hp, ncol(X_train))
+
+  ktsp <- os_ktsp_fit(X_train, y, k = hp$k)
+  model <- list(
+    ktsp = ktsp,
+    feature_universe = colnames(X_train),
+    k = ktsp$k,
+    hp = hp
+  )
+  class(model) <- "reo_ktsp_model"
+  model
+}
+
+
+#' @title Score REO-kTSP within-sample pair-order votes
+#'
+#' @description
+#' Scores each row of \code{X} independently with the frozen oriented pairs
+#' learned by \code{\link{fit_reo_ktsp}}. For the pairs whose two features are
+#' present in \code{X}, the score is the k-TSP vote fraction: the mean of
+#' \code{feature_a < feature_b} votes over usable pairs. This is the standard
+#' k-TSP decision statistic and supplies a continuous margin score for DeLong
+#' comparisons. If no retained pair has both features present, the function
+#' returns the neutral vote fraction \code{0.5} for every row.
+#'
+#' @param model A \code{reo_ktsp_model} object returned by
+#'   \code{\link{fit_reo_ktsp}}.
+#' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
+#'   abundance values. Columns must be named feature ids.
+#' @param meta Optional per-sample metadata. Accepted for interface uniformity
+#'   and ignored by this method.
+#'
+#' @return Numeric vector of one finite vote-fraction score per row of
+#'   \code{X}. Scores use only each row's own values plus the frozen model, with
+#'   no scored-batch centering, quantiles, or renormalization. On a fully
+#'   present feature set the result is identical to
+#'   \code{predict(model$ktsp, X)}.
+#'
+#' @examples
+#' \dontrun{
+#' X <- matrix(stats::rgamma(40 * 12, shape = 2), nrow = 40,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(12))))
+#' y <- rep(c(0, 1), each = 20)
+#' X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
+#' X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
+#' model <- fit_reo_ktsp(X, y, hp = list(k = 3L))
+#' score_reo_ktsp(model, X[1, , drop = FALSE])
+#' }
+#'
+#' @references
+#' Geman D, d'Avignon C, Naiman DQ, Winslow RL. (2004) Classifying gene
+#' expression profiles from pairwise mRNA comparisons. \emph{Statistical
+#' Applications in Genetics and Molecular Biology} 3: Article19.
+#'
+#' Tan AC, Naiman DQ, Xu L, Winslow RL, Geman D. (2005) Simple decision rules
+#' for classifying human cancers from gene expression profiles. \emph{Bioinformatics}
+#' 21: 3896-3904.
+#'
+#' @export
+score_reo_ktsp <- function(model, X, meta = NULL) {
+  if (!inherits(model, "reo_ktsp_model")) {
+    stop("score_reo_ktsp: model must have class reo_ktsp_model")
+  }
+  X <- .reo_check_matrix(X, "score_reo_ktsp", "X")
+  .reo_check_meta(meta, nrow(X), "score_reo_ktsp", "meta")
+
+  usable_pairs <- .reo_ktsp_usable_pairs(model$ktsp$pairs, colnames(X))
+  if (nrow(usable_pairs) == 0L) {
+    return(rep(0.5, nrow(X)))
+  }
+
+  out <- .reo_ktsp_vote_fraction(X, usable_pairs)
+  if (length(out) != nrow(X) || any(!is.finite(out))) {
+    stop("score_reo_ktsp: scorer produced non-finite or wrong-length output")
+  }
+  out
+}
+
+.reo_resolve_hp_ktsp <- function(hp, p) {
+  if (!is.list(hp)) stop("fit_reo_ktsp: hp must be a list")
+  allowed <- "k"
+  unknown <- setdiff(names(hp), allowed)
+  if (length(unknown) > 0L) {
+    stop("fit_reo_ktsp: unknown hp field(s): ",
+         paste(unknown, collapse = ", "))
+  }
+
+  k <- hp$k
+  if (is.null(k)) k <- 11L
+  if (!is.numeric(k) || length(k) != 1L || !is.finite(k) ||
+      k < 1L || k != as.integer(k)) {
+    stop("fit_reo_ktsp: hp$k must be a positive integer")
+  }
+  list(k = as.integer(k))
+}
+
+.reo_ktsp_usable_pairs <- function(pairs, feature_names) {
+  keep <- pairs$feature_a %in% feature_names & pairs$feature_b %in% feature_names
+  pairs[keep, , drop = FALSE]
+}
+
+.reo_ktsp_vote_fraction <- function(X, pairs) {
+  votes <- do.call(cbind, lapply(seq_len(nrow(pairs)), function(i) {
+    a <- pairs$feature_a[i]
+    b <- pairs$feature_b[i]
+    as.numeric(X[, a] < X[, b])
+  }))
+  as.numeric(rowMeans(votes))
+}

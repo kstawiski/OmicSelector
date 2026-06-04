@@ -12,6 +12,14 @@ test_that("k-TSP scorer learns oriented pair votes", {
   expect_s3_class(fit, "os_ktsp_model")
   expect_equal(length(pred), nrow(X))
   expect_gt(mean(pred[y == 1]), mean(pred[y == 0]))
+
+  # Single-sample deployability: a 1-row newdata must return one scalar vote
+  # fraction equal to its position in the batch (not the raw per-pair votes).
+  fit5 <- os_ktsp_fit(X, y, k = 3)
+  pred_batch <- predict(fit5, X)
+  pred_one <- predict(fit5, X[1, , drop = FALSE])
+  expect_length(pred_one, 1L)
+  expect_equal(pred_one, pred_batch[1])
 })
 
 test_that("singscore preserves direction-split cardinality", {

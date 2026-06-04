@@ -69,13 +69,15 @@ predict.os_ktsp_model <- function(object, newdata, ...) {
   if (length(missing) > 0L) {
     stop("`newdata` is missing fitted pair features: ", paste(missing, collapse = ", "), call. = FALSE)
   }
-  votes <- vapply(seq_len(nrow(object$pairs)), function(i) {
+  # cbind (not vapply) keeps an nrow x npairs matrix even for a single-row
+  # newdata, so the score is always the per-row vote fraction; vapply collapses
+  # a 1-row newdata to a length-npairs vector and would return the raw votes.
+  votes <- do.call(cbind, lapply(seq_len(nrow(object$pairs)), function(i) {
     a <- object$pairs$feature_a[i]
     b <- object$pairs$feature_b[i]
     as.numeric(X[, a] < X[, b])
-  }, FUN.VALUE = numeric(nrow(X)))
-  if (is.null(dim(votes))) return(as.numeric(votes))
-  rowMeans(votes)
+  }))
+  as.numeric(rowMeans(votes))
 }
 
 #' @title Score a Direction-Split Panel by Within-Sample Ranks
