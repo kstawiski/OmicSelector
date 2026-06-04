@@ -646,3 +646,366 @@ score_reo_ktsp <- function(model, X, meta = NULL) {
   }))
   as.numeric(rowMeans(votes))
 }
+
+
+#' @title Fit REO-pairratio within-sample log-ratio discriminator
+#'
+#' @description
+#' Learns a frozen penalized-logistic discriminator over selected pairwise
+#' log-ratios. Features are pre-screened using only the training data by the
+#' absolute two-sample t-statistic on \code{log(X_train + pseudocount)}. All
+#' pairwise log-ratios among the screened features are then generated with
+#' \code{\link{ws_logratio}}, and \code{glmnet::cv.glmnet()} fits a binomial
+#' elastic-net model with deterministic folds. No test data or test-time batch
+#' statistics are used.
+#'
+#' A retained ratio \eqn{\log(x_a + c) - \log(x_b + c)} is computed from one
+#' specimen's two features, so a frozen linear predictor over these ratios is
+#' single-sample deployable. Larger returned linear predictors are more
+#' case-like.
+#'
+#' @param X_train Numeric matrix (samples \eqn{\times} features) of
+#'   non-negative abundance values. Columns must be uniquely named feature ids.
+#' @param y_train Integer/numeric 0/1 labels aligned to \code{X_train}; 1 is
+#'   case/disease and 0 is control.
+#' @param meta_train Optional per-sample metadata. Accepted for interface
+#'   uniformity and ignored by this method.
+#' @param hp List of frozen hyperparameters: \code{pseudocount} (default
+#'   \code{0.5}, positive), \code{m_features} (default
+#'   \code{min(40L, ncol(X_train))}, at least 2), \code{alpha} (default
+#'   \code{1}, in \code{[0, 1]}), \code{nfolds} (default \code{10L}, at least
+#'   3), \code{lambda_rule} (default \code{"1se"}, or \code{"min"}), and
+#'   \code{seed} (default \code{1L}, used only to make fold assignment
+#'   reproducible while restoring the global RNG state).
+#'
+#' @return A plain list of class \code{reo_pairratio_model} containing
+#'   \code{selected_pairs}, nonzero \code{coefficients}, \code{intercept},
+#'   \code{pseudocount}, \code{screened_features}, \code{feature_universe},
+#'   \code{lambda}, \code{lambda_rule}, and resolved \code{hp}. If the chosen
+#'   lambda yields an intercept-only glmnet model, \code{selected_pairs} has
+#'   zero rows and scoring returns the intercept for every specimen.
+#'
+#' @examples
+#' \dontrun{
+#' set.seed(1)
+#' X <- matrix(stats::rgamma(60 * 20, shape = 2), nrow = 60,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(20))))
+#' y <- rep(c(0, 1), each = 30)
+#' X[y == 1, "miR-1"] <- X[y == 1, "miR-1"] + 10
+#' X[y == 0, "miR-2"] <- X[y == 0, "miR-2"] + 10
+#' model <- fit_reo_pairratio(X, y, hp = list(m_features = 8L, nfolds = 5L))
+#' score <- score_reo_pairratio(model, X)
+#' }
+#'
+#' @references
+#' Aitchison J. (1986) \emph{The Statistical Analysis of Compositional Data}.
+#' Chapman and Hall.
+#'
+#' Friedman J, Hastie T, Tibshirani R. (2010) Regularization paths for
+#' generalized linear models via coordinate descent. \emph{Journal of
+#' Statistical Software} 33: 1-22.
+#'
+#' @export
+fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
+                              hp = list()) {
+  if (!requireNamespace("glmnet", quietly = TRUE)) {
+    stop("fit_reo_pairratio: package 'glmnet' is required for reo-pairratio",
+         call. = FALSE)
+  }
+  X_train <- .reo_check_matrix(X_train, "fit_reo_pairratio", "X_train")
+  if (ncol(X_train) < 2L) {
+    stop("fit_reo_pairratio: X_train must contain at least two features for log-ratios")
+  }
+  .reo_check_meta(meta_train, nrow(X_train), "fit_reo_pairratio",
+                  "meta_train")
+  y <- .reo_check_labels(y_train, nrow(X_train), "fit_reo_pairratio")
+  if (min(table(y)) < 2L) {
+    stop("fit_reo_pairratio: each class must have at least 2 samples for ",
+         "cross-validated glmnet (got ", sum(y == 1L), " case(s), ",
+         sum(y == 0L), " control(s))", call. = FALSE)
+  }
+  hp <- .reo_resolve_hp_pairratio(hp, ncol(X_train), nrow(X_train))
+
+  L <- log(X_train + hp$pseudocount)
+  signal <- .reo_pairratio_univariate_signal(L, y)
+  feature_order <- order(-abs(signal), names(signal), method = "radix")
+  screened_features <- names(signal)[feature_order][seq_len(hp$m_features)]
+
+  L_screened <- L[, screened_features, drop = FALSE]
+  R <- ws_logratio(L_screened, feature_names = screened_features)
+  if (ncol(R) < 2L) {
+    stop("fit_reo_pairratio: need at least 3 screened features to form >= 2 ",
+         "log-ratios for glmnet; increase hp$m_features or provide more features",
+         call. = FALSE)
+  }
+  pair_map <- .reo_pairratio_pair_map(screened_features)
+  pair_map$ratio_id <- paste0("ratio_", seq_len(nrow(pair_map)))
+  colnames(R) <- pair_map$ratio_id
+
+  # RNG hygiene: snapshot/restore the global .Random.seed around ALL RNG-using
+  # fitting (seeded folds + cv.glmnet) so fit leaves no global RNG side-effect,
+  # even when no seed existed beforehand (cv.glmnet can create one).
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  old_seed <- if (had_seed) {
+    get(".Random.seed", envir = globalenv(), inherits = FALSE)
+  } else {
+    NULL
+  }
+  on.exit({
+    if (had_seed) {
+      assign(".Random.seed", old_seed, envir = globalenv())
+    } else if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+      rm(".Random.seed", envir = globalenv())
+    }
+  }, add = TRUE)
+
+  foldid <- .reo_pairratio_foldid(y, hp$nfolds, hp$seed)
+  cv_fit <- tryCatch(
+    glmnet::cv.glmnet(
+      x = R,
+      y = y,
+      family = "binomial",
+      alpha = hp$alpha,
+      foldid = foldid,
+      nfolds = hp$nfolds
+    ),
+    error = function(e) {
+      stop("fit_reo_pairratio: cv.glmnet failed (training partition likely too ",
+           "small or imbalanced for nfolds=", hp$nfolds, "): ",
+           conditionMessage(e), call. = FALSE)
+    }
+  )
+
+  lambda_name <- if (identical(hp$lambda_rule, "1se")) "lambda.1se" else "lambda.min"
+  chosen_lambda <- unname(cv_fit[[lambda_name]])
+  coef_mat <- as.matrix(stats::coef(cv_fit, s = lambda_name))
+  coef_vec <- as.numeric(coef_mat[, 1L])
+  names(coef_vec) <- rownames(coef_mat)
+
+  intercept <- unname(coef_vec["(Intercept)"])
+  beta <- coef_vec[setdiff(names(coef_vec), "(Intercept)")]
+  selected_idx <- which(beta != 0)
+  selected_pairs <- pair_map[match(names(beta)[selected_idx], pair_map$ratio_id),
+                             c("feature_a", "feature_b", "ratio_name",
+                               "ratio_id"),
+                             drop = FALSE]
+  rownames(selected_pairs) <- NULL
+  coefficients <- unname(beta[selected_idx])
+  names(coefficients) <- selected_pairs$ratio_id
+
+  model <- list(
+    selected_pairs = selected_pairs,
+    coefficients = coefficients,
+    intercept = intercept,
+    pseudocount = hp$pseudocount,
+    screened_features = unname(screened_features),
+    feature_universe = colnames(X_train),
+    lambda = chosen_lambda,
+    lambda_rule = hp$lambda_rule,
+    hp = hp
+  )
+  class(model) <- "reo_pairratio_model"
+  model
+}
+
+
+#' @title Score REO-pairratio within-sample log-ratio discriminator
+#'
+#' @description
+#' Scores each row of \code{X} independently with the frozen pairwise
+#' log-ratio coefficients learned by \code{\link{fit_reo_pairratio}}. For one
+#' specimen and each stored pair \code{(a, b)}, if both features are present in
+#' \code{X}, the term is
+#' \code{log(X[i, a] + pseudocount) - log(X[i, b] + pseudocount)}. If either
+#' feature is absent, that pair is dropped for that specimen. The returned
+#' score is the frozen linear predictor, not \code{plogis()} of it.
+#'
+#' If the model is intercept-only, or if none of the stored pairs is usable for
+#' a scored specimen, the score is the intercept. Scoring uses no random numbers
+#' and no scored-batch statistics.
+#'
+#' @param model A \code{reo_pairratio_model} object returned by
+#'   \code{\link{fit_reo_pairratio}}.
+#' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
+#'   abundance values. Columns must be named feature ids.
+#' @param meta Optional per-sample metadata. Accepted for interface uniformity
+#'   and ignored by this method.
+#'
+#' @return Numeric vector of one finite linear-predictor score per row of
+#'   \code{X}. Larger scores are more case-like.
+#'
+#' @examples
+#' \dontrun{
+#' set.seed(1)
+#' X <- matrix(stats::rgamma(60 * 20, shape = 2), nrow = 60,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(20))))
+#' y <- rep(c(0, 1), each = 30)
+#' X[y == 1, "miR-1"] <- X[y == 1, "miR-1"] + 10
+#' X[y == 0, "miR-2"] <- X[y == 0, "miR-2"] + 10
+#' model <- fit_reo_pairratio(X, y, hp = list(m_features = 8L, nfolds = 5L))
+#' score_reo_pairratio(model, X[1, , drop = FALSE])
+#' }
+#'
+#' @references
+#' Aitchison J. (1986) \emph{The Statistical Analysis of Compositional Data}.
+#' Chapman and Hall.
+#'
+#' Friedman J, Hastie T, Tibshirani R. (2010) Regularization paths for
+#' generalized linear models via coordinate descent. \emph{Journal of
+#' Statistical Software} 33: 1-22.
+#'
+#' @export
+score_reo_pairratio <- function(model, X, meta = NULL) {
+  if (!inherits(model, "reo_pairratio_model")) {
+    stop("score_reo_pairratio: model must have class reo_pairratio_model")
+  }
+  X <- .reo_check_matrix(X, "score_reo_pairratio", "X")
+  .reo_check_meta(meta, nrow(X), "score_reo_pairratio", "meta")
+
+  out <- vapply(seq_len(nrow(X)), function(i) {
+    # Restore feature names: single-row slicing of a 1-column matrix drops them,
+    # which would otherwise make partial-overlap handling depend on batch shape.
+    x_i <- X[i, ]
+    names(x_i) <- colnames(X)
+    .reo_pairratio_score_row(
+      x = x_i,
+      pairs = model$selected_pairs,
+      coefficients = model$coefficients,
+      intercept = model$intercept,
+      pseudocount = model$pseudocount
+    )
+  }, numeric(1))
+  out <- as.numeric(out)
+  if (length(out) != nrow(X) || any(!is.finite(out))) {
+    stop("score_reo_pairratio: scorer produced non-finite or wrong-length output")
+  }
+  out
+}
+
+.reo_resolve_hp_pairratio <- function(hp, p, n) {
+  if (!is.list(hp)) stop("fit_reo_pairratio: hp must be a list")
+  allowed <- c("pseudocount", "m_features", "alpha", "nfolds",
+               "lambda_rule", "seed")
+  unknown <- setdiff(names(hp), allowed)
+  if (length(unknown) > 0L) {
+    stop("fit_reo_pairratio: unknown hp field(s): ",
+         paste(unknown, collapse = ", "))
+  }
+
+  pseudocount <- hp$pseudocount
+  if (is.null(pseudocount)) pseudocount <- 0.5
+  if (!is.numeric(pseudocount) || length(pseudocount) != 1L ||
+      !is.finite(pseudocount) || pseudocount <= 0) {
+    stop("fit_reo_pairratio: hp$pseudocount must be a positive finite number")
+  }
+
+  m_features <- hp$m_features
+  if (is.null(m_features)) m_features <- min(40L, p)
+  if (!is.numeric(m_features) || length(m_features) != 1L ||
+      !is.finite(m_features) || m_features < 2L ||
+      m_features != as.integer(m_features)) {
+    stop("fit_reo_pairratio: hp$m_features must be an integer >= 2")
+  }
+  m_features <- min(as.integer(m_features), p)
+
+  alpha <- hp$alpha
+  if (is.null(alpha)) alpha <- 1
+  if (!is.numeric(alpha) || length(alpha) != 1L || !is.finite(alpha) ||
+      alpha < 0 || alpha > 1) {
+    stop("fit_reo_pairratio: hp$alpha must be a finite number in [0, 1]")
+  }
+
+  nfolds <- hp$nfolds
+  if (is.null(nfolds)) nfolds <- 10L
+  if (!is.numeric(nfolds) || length(nfolds) != 1L || !is.finite(nfolds) ||
+      nfolds < 3L || nfolds != as.integer(nfolds)) {
+    stop("fit_reo_pairratio: hp$nfolds must be an integer >= 3")
+  }
+  nfolds <- as.integer(nfolds)
+  if (nfolds > n) {
+    stop("fit_reo_pairratio: hp$nfolds cannot exceed nrow(X_train)")
+  }
+
+  lambda_rule <- hp$lambda_rule
+  if (is.null(lambda_rule)) lambda_rule <- "1se"
+  if (!is.character(lambda_rule) || length(lambda_rule) != 1L ||
+      is.na(lambda_rule) || !lambda_rule %in% c("1se", "min")) {
+    stop("fit_reo_pairratio: hp$lambda_rule must be '1se' or 'min'")
+  }
+
+  seed <- hp$seed
+  if (is.null(seed)) seed <- 1L
+  if (!is.numeric(seed) || length(seed) != 1L || !is.finite(seed) ||
+      seed < 0 || seed > .Machine$integer.max || seed != as.integer(seed)) {
+    stop("fit_reo_pairratio: hp$seed must be a non-negative integer")
+  }
+
+  list(
+    pseudocount = as.numeric(pseudocount),
+    m_features = m_features,
+    alpha = as.numeric(alpha),
+    nfolds = nfolds,
+    lambda_rule = lambda_rule,
+    seed = as.integer(seed)
+  )
+}
+
+.reo_pairratio_univariate_signal <- function(L, y) {
+  case <- y == 1L
+  control <- y == 0L
+  mean_case <- colMeans(L[case, , drop = FALSE])
+  mean_control <- colMeans(L[control, , drop = FALSE])
+  var_case <- apply(L[case, , drop = FALSE], 2L, stats::var)
+  var_control <- apply(L[control, , drop = FALSE], 2L, stats::var)
+  var_case[is.na(var_case)] <- 0
+  var_control[is.na(var_control)] <- 0
+  delta <- mean_case - mean_control
+  se <- sqrt(var_case / sum(case) + var_control / sum(control))
+  signal <- ifelse(se > 0, delta / se, ifelse(delta == 0, 0, sign(delta) * Inf))
+  names(signal) <- colnames(L)
+  signal
+}
+
+.reo_pairratio_pair_map <- function(features) {
+  out <- vector("list", length(features) * (length(features) - 1L) / 2L)
+  k <- 1L
+  for (i in seq_len(length(features) - 1L)) {
+    for (j in (i + 1L):length(features)) {
+      out[[k]] <- data.frame(
+        feature_a = features[i],
+        feature_b = features[j],
+        ratio_name = paste0(features[i], "_vs_", features[j]),
+        stringsAsFactors = FALSE
+      )
+      k <- k + 1L
+    }
+  }
+  do.call(rbind, out)
+}
+
+.reo_pairratio_foldid <- function(y, nfolds, seed) {
+  # Seeded, class-stratified fold assignment. The CALLER (fit_reo_pairratio)
+  # owns the global-.Random.seed snapshot/restore that spans this call and the
+  # subsequent cv.glmnet, so this helper only sets the seed and assigns folds.
+  set.seed(seed)
+  foldid <- integer(length(y))
+  for (cls in c(0L, 1L)) {
+    idx <- which(y == cls)
+    idx <- sample(idx, length(idx), replace = FALSE)
+    foldid[idx] <- rep(seq_len(nfolds), length.out = length(idx))
+  }
+  foldid
+}
+
+.reo_pairratio_score_row <- function(x, pairs, coefficients, intercept,
+                                     pseudocount) {
+  if (nrow(pairs) == 0L) return(intercept)
+  usable <- pairs$feature_a %in% names(x) & pairs$feature_b %in% names(x)
+  if (!any(usable)) return(intercept)
+  idx <- which(usable)
+  terms <- vapply(idx, function(k) {
+    log(x[[pairs$feature_a[k]]] + pseudocount) -
+      log(x[[pairs$feature_b[k]]] + pseudocount)
+  }, numeric(1))
+  intercept + sum(coefficients[idx] * terms)
+}
