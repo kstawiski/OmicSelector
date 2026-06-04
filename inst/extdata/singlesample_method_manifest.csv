@@ -46,7 +46,7 @@ frac-mfdfa,M,within,discriminator,R1,MFDFA,fit_frac_mfdfa,score_frac_mfdfa,new,m
 img-gasfcnn,M,within,discriminator,R2,reticulate-torch-torchvision,fit_img_gasfcnn,score_img_gasfcnn,new,GASF image to frozen CNN embedding (frozen min-max bounds + frozen BN),per_cohort_rows,within_cohort
 ot-lot,L,within,discriminator,R1,base-R,fit_ot_lot,score_ot_lot,new,linear OT embedding to frozen reference,per_cohort_rows,within_cohort
 ot-slicedlrt,L,within,discriminator,R1,base-R,fit_ot_slicedlrt,score_ot_slicedlrt,new,sliced-Wasserstein class-conditional LRT to frozen class CDFs,per_cohort_rows,within_cohort
-kme-witness,L,within,discriminator,R1,kernlab,fit_kme_witness,score_kme_witness,new,kernel mean-embedding witness (witness-at-a-point not full MMD),per_cohort_rows,within_cohort
+kme-witness,L,within,discriminator,R1,base-R,fit_kme_witness,score_kme_witness,new,kernel mean-embedding witness (witness-at-a-point not full MMD),per_cohort_rows,within_cohort
 ig-fisherrao,L,within,discriminator,R1,base-R,fit_ig_fisherrao,score_ig_fisherrao,new,Fisher-Rao geodesic class-conditional LRT,per_cohort_rows,within_cohort
 dre-ulsif,L,within,discriminator,R1,densratio,fit_dre_ulsif,score_dre_ulsif,new,direct density-ratio uLSIF,per_cohort_rows,within_cohort
 gsp-gft,M,within,discriminator,R1,base-R,fit_gsp_gft,score_gsp_gft,new,graph-Fourier on frozen co-expression graph,per_cohort_rows,within_cohort
