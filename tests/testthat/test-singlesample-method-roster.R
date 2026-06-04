@@ -180,8 +180,11 @@ test_that("singlesample_score_call dispatches a registered adapter", {
 })
 
 test_that("singlesample_score_call errors clearly for a not-yet-implemented method", {
+  # `ot-lot` is a frozen-roster method whose fit/score functions are not yet
+  # implemented (was `lrt-bw` until the Bures-Wasserstein method landed; repointed
+  # to keep this error-path test exercising a genuinely unimplemented slot).
   expect_error(
-    singlesample_score_call("lrt-bw", model = NULL, X = matrix(0, 2, 3)),
+    singlesample_score_call("ot-lot", model = NULL, X = matrix(0, 2, 3)),
     regexp = "not yet implemented")
 })
 
