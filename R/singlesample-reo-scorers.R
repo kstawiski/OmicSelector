@@ -1009,3 +1009,282 @@ score_reo_pairratio <- function(model, X, meta = NULL) {
   }, numeric(1))
   intercept + sum(coefficients[idx] * terms)
 }
+
+
+#' @title Fit REO-MetaKTSP meta-analytic pair-order discriminator
+#'
+#' @description
+#' Learns a meta-analytic k-Top-Scoring-Pairs discriminator across training
+#' cohorts named by \code{meta_train[[cohort_col]]}. Each unordered feature
+#' pair receives an avgTSP score: the simple equal-cohort-weight mean of
+#' per-cohort case-control differences in \code{feature_i < feature_j}. This is
+#' a transfer-estimand method at training because pair selection uses
+#' cross-cohort information, but it remains single-sample at inference because
+#' \code{\link{score_reo_metaktsp}} uses only one specimen's own pair order.
+#' When no usable cohort metadata is available, or only one non-missing cohort
+#' is present, fitting gracefully degenerates to ordinary single-cohort
+#' \code{\link{fit_reo_ktsp}} behavior over the training rows. Rows with
+#' missing cohort labels are dropped from meta-analytic selection, cohorts with
+#' only cases or only controls are skipped, and a zero-usable-cohort meta split
+#' falls back to the single-cohort path. At score time, no usable retained pairs
+#' returns the neutral vote fraction \code{0.5}.
+#'
+#' @param X_train Numeric matrix (samples \eqn{\times} features) of
+#'   non-negative abundance values. Columns must be uniquely named feature ids.
+#' @param y_train Integer/numeric 0/1 labels aligned to \code{X_train}; 1 is
+#'   case/disease and 0 is control.
+#' @param meta_train Optional per-sample metadata. When it contains
+#'   \code{cohort_col}, non-missing values define the training cohorts used for
+#'   avgTSP pair selection.
+#' @param hp List of frozen hyperparameters: \code{k}, the number of oriented
+#'   pairs requested (default \code{11L}), and \code{cohort_col}, a single
+#'   non-empty character string naming the cohort/study column in
+#'   \code{meta_train} (default \code{"accession"}). These are resolved once
+#'   during fitting and are not tuned inside \code{fit_reo_metaktsp()}.
+#'
+#' @return A plain list of class \code{reo_metaktsp_model} containing retained
+#'   oriented \code{pairs}, \code{feature_universe}, retained pair count
+#'   \code{k}, \code{cohort_col}, number of cohorts used in selection
+#'   \code{n_cohorts}, and the resolved \code{hp}. \code{n_cohorts} is the
+#'   auditable meta-engagement signal: \code{n_cohorts > 1} means avgTSP
+#'   selection ran across multiple cohorts, while \code{n_cohorts == 1} means
+#'   fitting degenerated to single-cohort k-TSP (NULL/missing/single-level
+#'   \code{cohort_col}, or a zero-usable-cohort fallback). A caller that
+#'   intends cross-cohort meta-analysis should check \code{n_cohorts > 1} so a
+#'   mis-wired \code{meta_train} cannot silently demote this transfer method to
+#'   pooled within-cohort k-TSP.
+#'
+#' @examples
+#' \dontrun{
+#' X <- matrix(stats::rgamma(60 * 12, shape = 2), nrow = 60,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(12))))
+#' y <- rep(c(0, 1), times = 30)
+#' meta <- data.frame(accession = rep(paste0("GSE", 1:3), each = 20))
+#' X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
+#' X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
+#' model <- fit_reo_metaktsp(X, y, meta_train = meta, hp = list(k = 3L))
+#' score <- score_reo_metaktsp(model, X)
+#' }
+#'
+#' @references
+#' Kim S, Lin C-W, Tseng GC. (2016) MetaKTSP: a meta-analytically derived
+#' k-top-scoring-pair classifier for robust prediction of human cancer
+#' subtypes. \emph{Bioinformatics} 32: 1966-1973. PMID: 27153719.
+#'
+#' Geman D, d'Avignon C, Naiman DQ, Winslow RL. (2004) Classifying gene
+#' expression profiles from pairwise mRNA comparisons. \emph{Statistical
+#' Applications in Genetics and Molecular Biology} 3: Article19.
+#'
+#' Tan AC, Naiman DQ, Xu L, Winslow RL, Geman D. (2005) Simple decision rules
+#' for classifying human cancers from gene expression profiles. \emph{Bioinformatics}
+#' 21: 3896-3904.
+#'
+#' @export
+fit_reo_metaktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+  X_train <- .reo_check_matrix(X_train, "fit_reo_metaktsp", "X_train")
+  if (ncol(X_train) < 2L) {
+    stop("fit_reo_metaktsp: X_train must contain at least two features for k-TSP")
+  }
+  .reo_check_meta(meta_train, nrow(X_train), "fit_reo_metaktsp", "meta_train")
+  y <- .reo_check_labels(y_train, nrow(X_train), "fit_reo_metaktsp")
+  hp <- .reo_resolve_hp_metaktsp(hp, ncol(X_train))
+
+  if (is.null(meta_train)) {
+    return(.reo_metaktsp_single_cohort_model(X_train, y, hp))
+  }
+  meta_train <- as.data.frame(meta_train, stringsAsFactors = FALSE)
+  if (!hp$cohort_col %in% names(meta_train)) {
+    return(.reo_metaktsp_single_cohort_model(X_train, y, hp))
+  }
+
+  cohort <- as.character(meta_train[[hp$cohort_col]])
+  non_missing <- !is.na(cohort)
+  cohort_levels <- unique(cohort[non_missing])
+  if (length(cohort_levels) <= 1L) {
+    return(.reo_metaktsp_single_cohort_model(X_train, y, hp))
+  }
+
+  usable_cohorts <- cohort_levels[vapply(cohort_levels, function(cohort_i) {
+    rows <- non_missing & cohort == cohort_i
+    any(y[rows] == 1L) && any(y[rows] == 0L)
+  }, logical(1))]
+  if (length(usable_cohorts) == 0L) {
+    return(.reo_metaktsp_single_cohort_model(X_train, y, hp,
+                                             rows = non_missing))
+  }
+
+  pairs <- .reo_metaktsp_pairs(X_train, y, cohort, usable_cohorts)
+  pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b,
+                       method = "radix"), , drop = FALSE]
+  pairs <- utils::head(pairs, min(hp$k, nrow(pairs)))
+  model <- list(
+    pairs = pairs,
+    feature_universe = colnames(X_train),
+    k = nrow(pairs),
+    cohort_col = hp$cohort_col,
+    n_cohorts = length(usable_cohorts),
+    hp = hp
+  )
+  class(model) <- "reo_metaktsp_model"
+  model
+}
+
+
+#' @title Score REO-MetaKTSP within-sample pair-order votes
+#'
+#' @description
+#' Scores each row of \code{X} independently with the frozen oriented pairs
+#' learned by \code{\link{fit_reo_metaktsp}}. The model is trained
+#' meta-analytically across cohorts via \code{meta_train[[cohort_col]]} using
+#' avgTSP with equal cohort weight, but score-time inference is single-sample:
+#' each retained pair votes 1 only when \code{feature_a < feature_b} within
+#' that specimen. The graceful single-cohort degeneration, missing-cohort-row
+#' drop, and single-class-cohort skip are fit-time behaviors only. If no
+#' retained pair has both features present in \code{X}, scoring returns the
+#' neutral vote fraction \code{0.5} for every row.
+#'
+#' @param model A \code{reo_metaktsp_model} object returned by
+#'   \code{\link{fit_reo_metaktsp}}.
+#' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
+#'   abundance values. Columns must be named feature ids.
+#' @param meta Optional per-sample metadata. Accepted for interface uniformity
+#'   and ignored by this method.
+#'
+#' @return Numeric vector of one finite vote-fraction score per row of
+#'   \code{X}. Scores use only each row's own values plus the frozen model, with
+#'   no scored-batch centering, quantiles, or renormalization.
+#'
+#' @examples
+#' \dontrun{
+#' X <- matrix(stats::rgamma(60 * 12, shape = 2), nrow = 60,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(12))))
+#' y <- rep(c(0, 1), times = 30)
+#' meta <- data.frame(accession = rep(paste0("GSE", 1:3), each = 20))
+#' X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
+#' X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
+#' model <- fit_reo_metaktsp(X, y, meta_train = meta, hp = list(k = 3L))
+#' score_reo_metaktsp(model, X[1, , drop = FALSE])
+#' }
+#'
+#' @references
+#' Kim S, Lin C-W, Tseng GC. (2016) MetaKTSP: a meta-analytically derived
+#' k-top-scoring-pair classifier for robust prediction of human cancer
+#' subtypes. \emph{Bioinformatics} 32: 1966-1973. PMID: 27153719.
+#'
+#' Geman D, d'Avignon C, Naiman DQ, Winslow RL. (2004) Classifying gene
+#' expression profiles from pairwise mRNA comparisons. \emph{Statistical
+#' Applications in Genetics and Molecular Biology} 3: Article19.
+#'
+#' Tan AC, Naiman DQ, Xu L, Winslow RL, Geman D. (2005) Simple decision rules
+#' for classifying human cancers from gene expression profiles. \emph{Bioinformatics}
+#' 21: 3896-3904.
+#'
+#' @export
+score_reo_metaktsp <- function(model, X, meta = NULL) {
+  if (!inherits(model, "reo_metaktsp_model")) {
+    stop("score_reo_metaktsp: model must have class reo_metaktsp_model")
+  }
+  X <- .reo_check_matrix(X, "score_reo_metaktsp", "X")
+  .reo_check_meta(meta, nrow(X), "score_reo_metaktsp", "meta")
+
+  usable_pairs <- .reo_ktsp_usable_pairs(model$pairs, colnames(X))
+  if (nrow(usable_pairs) == 0L) {
+    return(rep(0.5, nrow(X)))
+  }
+
+  out <- .reo_ktsp_vote_fraction(X, usable_pairs)
+  if (length(out) != nrow(X) || any(!is.finite(out))) {
+    stop("score_reo_metaktsp: scorer produced non-finite or wrong-length output")
+  }
+  out
+}
+
+.reo_resolve_hp_metaktsp <- function(hp, p) {
+  if (!is.list(hp)) stop("fit_reo_metaktsp: hp must be a list")
+  allowed <- c("k", "cohort_col")
+  unknown <- setdiff(names(hp), allowed)
+  if (length(unknown) > 0L) {
+    stop("fit_reo_metaktsp: unknown hp field(s): ",
+         paste(unknown, collapse = ", "))
+  }
+
+  k <- hp$k
+  if (is.null(k)) k <- 11L
+  if (!is.numeric(k) || length(k) != 1L || !is.finite(k) ||
+      k < 1L || k != as.integer(k)) {
+    stop("fit_reo_metaktsp: hp$k must be a positive integer")
+  }
+
+  cohort_col <- hp$cohort_col
+  if (is.null(cohort_col)) cohort_col <- "accession"
+  if (!is.character(cohort_col) || length(cohort_col) != 1L ||
+      is.na(cohort_col) || !nzchar(cohort_col)) {
+    stop("fit_reo_metaktsp: hp$cohort_col must be a single non-empty character string")
+  }
+
+  list(k = as.integer(k), cohort_col = cohort_col)
+}
+
+.reo_metaktsp_single_cohort_model <- function(X_train, y, hp, rows = NULL) {
+  if (is.null(rows)) {
+    rows <- seq_len(nrow(X_train))
+  } else {
+    rows <- which(rows)
+  }
+  if (length(rows) == 0L || !any(y[rows] == 1L) || !any(y[rows] == 0L)) {
+    rows <- seq_len(nrow(X_train))
+  }
+
+  ktsp <- os_ktsp_fit(X_train[rows, , drop = FALSE], y[rows], k = hp$k)
+  model <- list(
+    pairs = ktsp$pairs,
+    feature_universe = colnames(X_train),
+    k = ktsp$k,
+    cohort_col = hp$cohort_col,
+    n_cohorts = 1L,
+    hp = hp
+  )
+  class(model) <- "reo_metaktsp_model"
+  model
+}
+
+.reo_metaktsp_pairs <- function(X_train, y, cohort, usable_cohorts) {
+  features <- colnames(X_train)
+  pair_rows <- list()
+  idx <- 1L
+  for (a in seq_len(ncol(X_train) - 1L)) {
+    for (b in (a + 1L):ncol(X_train)) {
+      deltas <- vapply(usable_cohorts, function(cohort_i) {
+        rows <- !is.na(cohort) & cohort == cohort_i
+        case_rate <- mean(X_train[rows & y == 1L, a] <
+                            X_train[rows & y == 1L, b], na.rm = TRUE)
+        ctrl_rate <- mean(X_train[rows & y == 0L, a] <
+                            X_train[rows & y == 0L, b], na.rm = TRUE)
+        if (!is.finite(case_rate) || !is.finite(ctrl_rate)) return(NA_real_)
+        case_rate - ctrl_rate
+      }, numeric(1))
+      contributing <- is.finite(deltas)
+      n_cohorts_used <- sum(contributing)
+      meta_score <- if (n_cohorts_used > 0L) mean(deltas[contributing]) else 0
+      if (meta_score >= 0) {
+        pair_rows[[idx]] <- data.frame(
+          feature_a = features[a],
+          feature_b = features[b],
+          orientation = "<",
+          score = meta_score,
+          stringsAsFactors = FALSE
+        )
+      } else {
+        pair_rows[[idx]] <- data.frame(
+          feature_a = features[b],
+          feature_b = features[a],
+          orientation = "<",
+          score = -meta_score,
+          stringsAsFactors = FALSE
+        )
+      }
+      idx <- idx + 1L
+    }
+  }
+  do.call(rbind, pair_rows)
+}

@@ -48,7 +48,8 @@ os_ktsp_fit <- function(X, y, k = 11L) {
     }
   }
   pairs <- do.call(rbind, pair_rows)
-  pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b), , drop = FALSE]
+  pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b,
+                       method = "radix"), , drop = FALSE]
   pairs <- utils::head(pairs, min(k, nrow(pairs)))
   out <- list(pairs = pairs, features = colnames(X), k = nrow(pairs))
   class(out) <- c("os_ktsp_model", "list")
