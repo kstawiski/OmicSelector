@@ -66,25 +66,25 @@ paper-facing methods as exported, documented R functions:
    [`qpcr_nondetect_lod_fallback`](man/qpcr_nondetect_lod_fallback.Rd) as
    the documented Ct-limit fallback.
 4. Matched-null benchmark:
-   [`paper3_matched_null_benchmark`](man/paper3_matched_null_benchmark.Rd)
+   [`singlesample_matched_null_benchmark`](man/singlesample_matched_null_benchmark.Rd)
    and
-   [`paper3_matched_null_benchmark_cv`](man/paper3_matched_null_benchmark_cv.Rd)
+   [`singlesample_matched_null_benchmark_cv`](man/singlesample_matched_null_benchmark_cv.Rd)
    implement stratified random-panel benchmarking with default `K = 10000`.
 5. Provenance pre-flight:
    [`os_provenance_preflight`](man/os_provenance_preflight.Rd) audits a
    manifest TSV and returns `NO_OVERLAP`, `KNOWN_OVERLAP`, or
    `UNKNOWN_ACCESSION`.
 6. Dependent-p combination:
-   [`paper3_bh_fdr_correct_blocked`](man/paper3_bh_fdr_correct_blocked.Rd)
+   [`singlesample_bh_fdr_correct_blocked`](man/singlesample_bh_fdr_correct_blocked.Rd)
    reports both conservative and textbook Brown 1975 / Kost-McDermott 2002
    reference distributions.
 7. Block-aware FDR:
-   [`paper3_bh_fdr_correct_blocked`](man/paper3_bh_fdr_correct_blocked.Rd)
+   [`singlesample_bh_fdr_correct_blocked`](man/singlesample_bh_fdr_correct_blocked.Rd)
    and
-   [`paper3_bh_fdr_correct_matched_null`](man/paper3_bh_fdr_correct_matched_null.Rd)
+   [`singlesample_bh_fdr_correct_matched_null`](man/singlesample_bh_fdr_correct_matched_null.Rd)
    provide the block-aware and matched-null BH correction helpers.
 8. AUC confidence intervals:
-   [`paper3_hanley_mcneil_auc_ci`](man/paper3_hanley_mcneil_auc_ci.Rd)
+   [`singlesample_hanley_mcneil_auc_ci`](man/singlesample_hanley_mcneil_auc_ci.Rd)
    exposes the Hanley-McNeil 1982 95% AUC CI calculation used by the
    matched-null benchmark outputs.
 9. ILR coverage gate:
@@ -92,13 +92,13 @@ paper-facing methods as exported, documented R functions:
    `min_balance_coverage` so panels that preserve the fixed balance
    dictionary can activate ILR scoring at the documented coverage threshold.
 10. Full Paper 3 method-bank registry:
-    [`paper3_method_bank`](man/paper3_method_bank.Rd) maps every manuscript
+    [`singlesample_method_bank`](man/singlesample_method_bank.Rd) maps every manuscript
     method family (A-J) to exported package functions, including the kit-aware,
     provenance-aware, anchor/reference, technology-aware, biofluid-aware,
     learned/adversarial, Group-DRO, and Sinkhorn-OT scorer families.
 11. External-validation split helpers:
-    [`paper3_make_loco_splits`](man/paper3_make_loco_splits.Rd) and
-    [`paper3_make_locto_splits`](man/paper3_make_locto_splits.Rd) construct
+    [`singlesample_make_loco_splits`](man/singlesample_make_loco_splits.Rd) and
+    [`singlesample_make_locto_splits`](man/singlesample_make_locto_splits.Rd) construct
     leave-one-cohort-out and leave-one-cancer-type-out splits with same
     provenance-block exclusion.
 
