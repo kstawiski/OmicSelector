@@ -1,7 +1,8 @@
 #' Paper 3 Amendment #4 method roster (frozen expansion)
 #'
-#' Returns the frozen 72-row method roster for the OmicSelector manuscript
-#' method-bank expansion (Statistical Analysis Plan Amendment #4). Unlike
+#' Returns the frozen 73-row method roster for the OmicSelector manuscript
+#' method-bank expansion (Statistical Analysis Plan Amendment #4, extended by
+#' Amendment #5 which adds the Student-t-copula method `lrt-tcopula`). Unlike
 #' [singlesample_method_bank()], which is the export-check view of functions already
 #' callable in the package, the roster enumerates the full pre-specified set of
 #' single-sample scoring methods (implemented and not-yet-implemented) together
@@ -60,14 +61,15 @@ singlesample_method_roster <- function() {
 
 #' Frozen Amendment #4 roster identifiers
 #'
-#' Independent enumeration of the 72 pre-specified method identifiers,
+#' Independent enumeration of the 73 pre-specified method identifiers,
 #' transcribed from the prespecification (SAP Amendment #4 sections 4.1-4.4 and
-#' the round-2 survey, section B). Kept separate from the shipped manifest so a
+#' the round-2 survey, section B; plus Amendment #5's `lrt-tcopula`). Kept
+#' separate from the shipped manifest so a
 #' completeness test can assert the manifest implements exactly this frozen set
 #' (`setequal`): editing the CSV without editing this vector (or vice versa)
 #' fails the gate.
 #'
-#' @return Character vector of 72 method identifiers.
+#' @return Character vector of 73 method identifiers.
 #' @keywords internal
 .singlesample_frozen_roster_ids <- function() {
   baseline <- "ws-rclr-trimmed"
@@ -81,9 +83,10 @@ singlesample_method_roster <- function() {
     "tech-residualized-alr", "biofluid-stratified-rclr", "biofluid-anchor-rclr",
     "biofluid-residualized-alr", "blood-cell-marker-excl-rclr",
     "dann", "cvae", "icp")
-  within_new <- c(                                       # 35 new within disc
+  within_new <- c(                                       # 36 new within disc
     "reo-ktsp", "reo-pairratio", "reo-singscore", "reo-ucell",
-    "bal-selbal", "ws-balance-ilr", "lrt-bw", "lrt-copula", "conf-mondrian",
+    "bal-selbal", "ws-balance-ilr", "lrt-bw", "lrt-copula", "lrt-tcopula",
+    "conf-mondrian",
     "ai-scarf", "inv-scatter", "inv-olbp", "tda-ph", "sig-path", "frac-mfdfa",
     "img-gasfcnn", "ot-lot", "ot-slicedlrt", "kme-witness", "ig-fisherrao",
     "dre-ulsif", "gsp-gft", "man-nystrom", "unc-sngp", "ssl-vicreg",

@@ -10,8 +10,9 @@ singlesample_method_roster()
 A data frame with one row per frozen-roster method.
 }
 \description{
-Returns the frozen 72-row method roster for the OmicSelector manuscript
-method-bank expansion (Statistical Analysis Plan Amendment #4). Unlike
+Returns the frozen 73-row method roster for the OmicSelector manuscript
+method-bank expansion (Statistical Analysis Plan Amendment #4, extended by
+Amendment #5 which adds the Student-t-copula method `lrt-tcopula`). Unlike
 [singlesample_method_bank()], which is the export-check view of functions already
 callable in the package, the roster enumerates the full pre-specified set of
 single-sample scoring methods (implemented and not-yet-implemented) together

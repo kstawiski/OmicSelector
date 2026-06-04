@@ -32,6 +32,7 @@ bal-selbal,K,within,discriminator,R1,selbal-github,fit_bal_selbal,score_bal_selb
 ws-balance-ilr,K,within,discriminator,R1,base-R,fit_ws_balance_ilr,score_ws_balance_ilr,primitive,wrap to fit/score,per_cohort_rows,within_cohort
 lrt-bw,L,within,discriminator,R1,base-R,fit_lrt_bw,score_lrt_bw,new,Bures-Wasserstein class-conditional LRT,per_cohort_rows,within_cohort
 lrt-copula,L,within,discriminator,R1,base-R,fit_lrt_copula,score_lrt_copula,new,class-conditional Gaussian-copula LRT,per_cohort_rows,within_cohort
+lrt-tcopula,L,within,discriminator,R1,base-R,fit_lrt_tcopula,score_lrt_tcopula,new,class-conditional Student-t-copula (tail-aware) LRT,per_cohort_rows,within_cohort
 conf-mondrian,L,within,discriminator,R1,base-R,fit_conf_mondrian,score_conf_mondrian,new,Mondrian-conformal class-conditional LRT,per_cohort_rows,within_cohort
 ai-scarf,N,within,discriminator,R2,reticulate-torch,fit_ai_scarf,score_ai_scarf,new,SCARF contrastive + frozen head (eval-frozen-BN),per_cohort_rows,within_cohort
 ai-tabpfn,O,within,discriminator-conditional,R2,reticulate-tabpfn,fit_tabpfn,score_tabpfn,primitive,in-context FM; conditional-in-N per prespec 3.3; wrappers not make_tabpfn_learner,per_cohort_rows,within_cohort
