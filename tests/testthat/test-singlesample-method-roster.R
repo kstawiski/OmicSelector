@@ -222,3 +222,39 @@ test_that("singlesample_score_call validates the score output contract by type",
   expect_error(singlesample_score_call("ws-alr-pivot", model = NULL, X = X),
                regexp = "must return 4 numeric scores")
 })
+
+test_that("every implemented non-present roster score_fn is canonically dispatchable", {
+  # The canonical adapter calls score_fn(model, X, meta) positionally, so an
+  # implemented method on the canonical path MUST take `model` as its first
+  # argument -- pointing score_fn at a raw primitive (e.g. ws_balance_ilr(x,...))
+  # silently breaks singlesample_score_call() while the direct call still works.
+  ros <- singlesample_method_roster()
+  ns <- asNamespace("OmicSelector")
+  reg <- OmicSelector:::.singlesample_score_adapter_registry
+  # Legacy primitives whose roster score_fn still points at a non-canonical
+  # function (first arg is not `model`) pending their own implementation gate,
+  # where they get a canonical fit_*/score_* wrapper or a registered adapter and
+  # the manifest score_fn is repointed. Remove a method here once it is wrapped;
+  # a NEWLY-implemented method that mis-points its score_fn will still fail.
+  pending_canonical_wrapper <- c("dro-group")
+  checked <- 0L
+  for (i in seq_len(nrow(ros))) {
+    sf <- ros$score_fn[i]
+    if (is.na(sf) || !nzchar(sf)) next
+    if (!exists(sf, envir = ns, mode = "function")) next   # not yet implemented
+    if (identical(ros$pkg_status[i], "present")) next       # adapter-dispatch path
+    if (ros$method_id[i] %in% pending_canonical_wrapper) next
+    if (exists(ros$method_id[i], envir = reg, inherits = FALSE)) next  # registered
+    fn <- get(sf, envir = ns, mode = "function")
+    fm <- names(formals(fn))
+    expect_identical(
+      fm[1], "model",
+      info = paste0(ros$method_id[i], ": score_fn '", sf,
+                    "' first arg is '", fm[1],
+                    "', not 'model' -> not dispatchable via ",
+                    "singlesample_score_call()"))
+    checked <- checked + 1L
+  }
+  # At least the methods implemented so far must be covered.
+  expect_gte(checked, 5L)
+})
