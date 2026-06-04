@@ -195,19 +195,19 @@ score_reo_ucell <- function(model, X, meta = NULL) {
   X
 }
 
-.reo_check_labels <- function(y_train, n) {
+.reo_check_labels <- function(y_train, n, fn = "fit_reo_ucell") {
   if (!is.numeric(y_train)) {
-    stop("fit_reo_ucell: y_train must be numeric or integer 0/1 labels")
+    stop(fn, ": y_train must be numeric or integer 0/1 labels")
   }
   if (length(y_train) != n) {
-    stop("fit_reo_ucell: length(y_train) must match nrow(X_train)")
+    stop(fn, ": length(y_train) must match nrow(X_train)")
   }
   if (any(!is.finite(y_train)) || any(!y_train %in% c(0, 1))) {
-    stop("fit_reo_ucell: y_train must contain only 0/1 labels")
+    stop(fn, ": y_train must contain only 0/1 labels")
   }
   y <- as.integer(y_train)
-  if (!any(y == 1L)) stop("fit_reo_ucell: y_train must contain at least one case")
-  if (!any(y == 0L)) stop("fit_reo_ucell: y_train must contain at least one control")
+  if (!any(y == 1L)) stop(fn, ": y_train must contain at least one case")
+  if (!any(y == 0L)) stop(fn, ": y_train must contain at least one control")
   y
 }
 
@@ -275,4 +275,210 @@ score_reo_ucell <- function(model, X, meta = NULL) {
   n <- length(r_cap)
   u <- sum(r_cap) - n * (n + 1) / 2
   1 - u / (n * maxRank_eff)
+}
+
+
+#' @title Fit REO-singscore within-sample rank discriminator
+#'
+#' @description
+#' Learns a frozen up/down feature signature from training data using
+#' within-sample fractional ranks, then stores only that signature and fixed
+#' hyperparameters for single-sample singscore-style scoring. Training ranks are
+#' computed per sample with ascending ranks divided by the training feature
+#' count; higher fractional rank means higher abundance in that sample. A
+#' feature elevated in cases therefore has a higher mean case fractional rank
+#' than control fractional rank, and is selected by
+#' \code{mean_fracrank_cases - mean_fracrank_controls}. No test data or
+#' test-time batch statistics are used.
+#'
+#' @param X_train Numeric matrix (samples \eqn{\times} features) of
+#'   non-negative abundance values. Columns must be uniquely named feature ids.
+#' @param y_train Integer/numeric 0/1 labels aligned to \code{X_train}; 1 is
+#'   case/disease and 0 is control.
+#' @param meta_train Optional per-sample metadata. Accepted for interface
+#'   uniformity and ignored by this method.
+#' @param hp List of frozen hyperparameters: \code{k} signature size per
+#'   direction (default \code{min(25L, floor(ncol(X_train) / 4))}, at least 1)
+#'   and \code{use_down} logical (default \code{TRUE}). These are resolved once
+#'   during fitting and are not tuned inside \code{fit_reo_singscore()}.
+#'
+#' @return A plain list of class \code{reo_singscore_model} containing
+#'   \code{up_features}, \code{down_features}, \code{feature_universe},
+#'   \code{use_down}, \code{k}, and the resolved \code{hp}.
+#'
+#' @examples
+#' \dontrun{
+#' set.seed(1)
+#' X <- matrix(stats::rgamma(40 * 30, shape = 2), nrow = 40,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(30))))
+#' y <- rep(c(0, 1), each = 20)
+#' X[y == 1, 1:5] <- X[y == 1, 1:5] + 5
+#' model <- fit_reo_singscore(X, y)
+#' score <- score_reo_singscore(model, X)
+#' }
+#'
+#' @references
+#' Foroutan M, Bhuva DD, Lyu R, Horan K, Cursons J, Davis MJ. (2018)
+#' Single sample scoring of molecular phenotypes. \emph{BMC Bioinformatics}
+#' 19: 404. PMID 30400809.
+#'
+#' @export
+fit_reo_singscore <- function(X_train, y_train, meta_train = NULL,
+                              hp = list()) {
+  X_train <- .reo_check_matrix(X_train, "fit_reo_singscore", "X_train")
+  .reo_check_meta(meta_train, nrow(X_train), "fit_reo_singscore",
+                  "meta_train")
+  y <- .reo_check_labels(y_train, nrow(X_train), "fit_reo_singscore")
+  hp <- .reo_resolve_hp_singscore(hp, ncol(X_train))
+
+  # rbind (not t(vapply)) preserves an n x p shape even when ncol == 1, where
+  # vapply would collapse to a length-n vector and break the dimnames assignment.
+  train_fracranks <- do.call(rbind, lapply(seq_len(nrow(X_train)), function(i) {
+    rank(X_train[i, ], ties.method = "average") / ncol(X_train)
+  }))
+  dimnames(train_fracranks) <- dimnames(X_train)
+
+  mean_fracrank_cases <- colMeans(train_fracranks[y == 1, , drop = FALSE])
+  mean_fracrank_controls <- colMeans(train_fracranks[y == 0, , drop = FALSE])
+  elevation_in_cases <- mean_fracrank_cases - mean_fracrank_controls
+
+  # method = "radix" pins the feature-name tie-break to locale-independent byte
+  # order, so the frozen signature is reproducible across machines/locales.
+  up_order <- order(-elevation_in_cases, names(elevation_in_cases),
+                    method = "radix")
+  up_features <- names(elevation_in_cases)[up_order][seq_len(hp$k)]
+
+  down_order <- order(elevation_in_cases, names(elevation_in_cases),
+                      method = "radix")
+  down_candidates <- setdiff(names(elevation_in_cases)[down_order], up_features)
+  down_features <- utils::head(down_candidates, hp$k)
+
+  model <- list(
+    up_features = unname(up_features),
+    down_features = unname(down_features),
+    feature_universe = colnames(X_train),
+    use_down = hp$use_down,
+    k = hp$k,
+    hp = hp
+  )
+  class(model) <- "reo_singscore_model"
+  model
+}
+
+
+#' @title Score REO-singscore within-sample rank signature
+#'
+#' @description
+#' Scores each row of \code{X} independently with the frozen signature learned
+#' by \code{\link{fit_reo_singscore}}. For one sample, features in the frozen
+#' training universe that are present in \code{X} are ranked in increasing
+#' abundance using
+#' \code{rank(x, ties.method = "average") / length(x)}. The up term is the mean
+#' fractional rank of present up features; the down term is the mean fractional
+#' rank of present down features. If a signature direction has no present
+#' features, it contributes the neutral expected fractional rank \code{0.5}.
+#' With \code{use_down = TRUE}, the returned score is
+#' \code{mean_rank(up) - mean_rank(down)}; otherwise it is \code{mean_rank(up)}.
+#'
+#' @param model A \code{reo_singscore_model} object returned by
+#'   \code{\link{fit_reo_singscore}}.
+#' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
+#'   abundance values. Columns must be named feature ids.
+#' @param meta Optional per-sample metadata. Accepted for interface uniformity
+#'   and ignored by this method.
+#'
+#' @return Numeric vector of one finite score per row of \code{X}. Scores use
+#'   only each row's own values plus the frozen model, with no scored-batch
+#'   centering, quantiles, or renormalization. If no model-universe features are
+#'   shared with \code{X}, scoring stops explicitly.
+#'
+#' @examples
+#' \dontrun{
+#' set.seed(1)
+#' X <- matrix(stats::rgamma(40 * 30, shape = 2), nrow = 40,
+#'             dimnames = list(NULL, paste0("miR-", seq_len(30))))
+#' y <- rep(c(0, 1), each = 20)
+#' X[y == 1, 1:5] <- X[y == 1, 1:5] + 5
+#' model <- fit_reo_singscore(X, y)
+#' score_reo_singscore(model, X[1, , drop = FALSE])
+#' }
+#'
+#' @references
+#' Foroutan M, Bhuva DD, Lyu R, Horan K, Cursons J, Davis MJ. (2018)
+#' Single sample scoring of molecular phenotypes. \emph{BMC Bioinformatics}
+#' 19: 404. PMID 30400809.
+#'
+#' @export
+score_reo_singscore <- function(model, X, meta = NULL) {
+  if (!inherits(model, "reo_singscore_model")) {
+    stop("score_reo_singscore: model must have class reo_singscore_model")
+  }
+  X <- .reo_check_matrix(X, "score_reo_singscore", "X")
+  .reo_check_meta(meta, nrow(X), "score_reo_singscore", "meta")
+
+  universe_present <- intersect(model$feature_universe, colnames(X))
+  if (length(universe_present) == 0L) {
+    stop("score_reo_singscore: no shared features between model feature_universe and X")
+  }
+
+  X_use <- X[, universe_present, drop = FALSE]
+  out <- vapply(seq_len(nrow(X_use)), function(i) {
+    # Restore feature names: single-row slicing of a 1-column matrix drops them,
+    # which would silently empty the signature intersection and return neutral.
+    x_i <- X_use[i, ]
+    names(x_i) <- universe_present
+    .reo_singscore_score_row(
+      x = x_i,
+      up = model$up_features,
+      down = model$down_features,
+      use_down = model$use_down
+    )
+  }, numeric(1))
+  out <- as.numeric(out)
+  if (length(out) != nrow(X) || any(!is.finite(out))) {
+    stop("score_reo_singscore: scorer produced non-finite or wrong-length output")
+  }
+  out
+}
+
+.reo_resolve_hp_singscore <- function(hp, p) {
+  if (!is.list(hp)) stop("fit_reo_singscore: hp must be a list")
+  allowed <- c("k", "use_down")
+  unknown <- setdiff(names(hp), allowed)
+  if (length(unknown) > 0L) {
+    stop("fit_reo_singscore: unknown hp field(s): ",
+         paste(unknown, collapse = ", "))
+  }
+
+  k_default <- max(1L, min(25L, floor(p / 4)))
+  k <- hp$k
+  if (is.null(k)) k <- k_default
+  if (!is.numeric(k) || length(k) != 1L || !is.finite(k) ||
+      k < 1L || k != as.integer(k)) {
+    stop("fit_reo_singscore: hp$k must be a positive integer")
+  }
+  k <- as.integer(k)
+  if (k > p) stop("fit_reo_singscore: hp$k cannot exceed ncol(X_train)")
+
+  use_down <- hp$use_down
+  if (is.null(use_down)) use_down <- TRUE
+  if (!is.logical(use_down) || length(use_down) != 1L || is.na(use_down)) {
+    stop("fit_reo_singscore: hp$use_down must be TRUE or FALSE")
+  }
+
+  list(k = k, use_down = use_down)
+}
+
+.reo_singscore_score_row <- function(x, up, down, use_down) {
+  fracranks <- rank(x, ties.method = "average") / length(x)
+  names(fracranks) <- names(x)
+  up_score <- .reo_singscore_direction(fracranks, up)
+  if (!use_down) return(up_score)
+  up_score - .reo_singscore_direction(fracranks, down)
+}
+
+.reo_singscore_direction <- function(fracranks, features) {
+  present <- intersect(features, names(fracranks))
+  if (length(present) == 0L) return(0.5)
+  mean(fracranks[present])
 }
