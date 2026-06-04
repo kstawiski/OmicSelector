@@ -7,10 +7,10 @@
 .singlesample_frozen_roster_ids()
 }
 \value{
-Character vector of 73 method identifiers.
+Character vector of 74 method identifiers.
 }
 \description{
-Independent enumeration of the 73 pre-specified method identifiers,
+Independent enumeration of the 74 pre-specified method identifiers,
 transcribed from the prespecification (SAP Amendment #4 sections 4.1-4.4 and
 the round-2 survey, section B; plus Amendment #5's `lrt-tcopula`). Kept
 separate from the shipped manifest so a

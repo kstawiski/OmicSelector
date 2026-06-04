@@ -31,6 +31,7 @@ reo-metaktsp,K,transfer,discriminator,R1,base-R,fit_reo_metaktsp,score_reo_metak
 bal-selbal,K,within,discriminator,R1,selbal-github,fit_bal_selbal,score_bal_selbal,primitive,balance selection + logistic on log-contrast (not the FS wrapper),per_cohort_rows,within_cohort
 ws-balance-ilr,K,within,discriminator,R1,base-R,fit_ws_balance_ilr,score_ws_balance_ilr,primitive,wrap to fit/score,per_cohort_rows,within_cohort
 lrt-bw,L,within,discriminator,R1,base-R,fit_lrt_bw,score_lrt_bw,new,Bures-Wasserstein class-conditional LRT,per_cohort_rows,within_cohort
+lrt-nbkde,L,within,discriminator,R1,base-R,fit_lrt_nbkde,score_lrt_nbkde,new,KDE per-feature naive-Bayes class-conditional LRT,per_cohort_rows,within_cohort
 lrt-copula,L,within,discriminator,R1,base-R,fit_lrt_copula,score_lrt_copula,new,class-conditional Gaussian-copula LRT,per_cohort_rows,within_cohort
 lrt-tcopula,L,within,discriminator,R1,base-R,fit_lrt_tcopula,score_lrt_tcopula,new,class-conditional Student-t-copula (tail-aware) LRT,per_cohort_rows,within_cohort
 conf-mondrian,L,within,discriminator,R1,base-R,fit_conf_mondrian,score_conf_mondrian,new,Mondrian-conformal class-conditional LRT,per_cohort_rows,within_cohort

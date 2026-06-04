@@ -3,7 +3,7 @@
 
 test_that("Amendment #4 roster loads with canonical columns and frozen membership", {
   ros <- singlesample_method_roster()
-  expect_equal(nrow(ros), 73L)
+  expect_equal(nrow(ros), 74L)
   expect_true(all(c("method_id", "estimand", "role", "single_sample_gate",
                     "row_source", "lopbo_mechanism", "is_discriminator",
                     "is_negative_control") %in% names(ros)))
@@ -14,13 +14,13 @@ test_that("Amendment #4 roster loads with canonical columns and frozen membershi
 
 test_that("roster per-estimand counts match the frozen prespecification (section 4.4)", {
   ros <- singlesample_method_roster()
-  expect_equal(sum(ros$role == "discriminator" & ros$estimand == "within"), 42L)
+  expect_equal(sum(ros$role == "discriminator" & ros$estimand == "within"), 43L)
   expect_equal(sum(ros$role == "discriminator-conditional"), 1L)   # ai-tabpfn
   expect_equal(sum(ros$role == "discriminator" & ros$estimand == "transfer"), 24L)
   expect_equal(sum(ros$role == "negative_control"), 5L)
   expect_equal(sum(ros$role == "baseline"), 1L)
-  # Headline discriminator bank = 42 within firm + 24 transfer = 66 (+1 conditional).
-  expect_equal(sum(ros$is_discriminator & ros$role != "discriminator-conditional"), 66L)
+  # Headline discriminator bank = 43 within firm + 24 transfer = 67 (+1 conditional).
+  expect_equal(sum(ros$is_discriminator & ros$role != "discriminator-conditional"), 67L)
 })
 
 test_that("roster routing columns use only the allowed enums", {
