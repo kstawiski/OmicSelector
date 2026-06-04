@@ -1,0 +1,73 @@
+method_id,family,estimand,role,tier,dep_route,fit_fn,score_fn,pkg_status,notes,row_source,lopbo_mechanism
+ws-rclr-trimmed,A,within,baseline,R1,base-R,NA,ws_rclr_trimmed,present,rCLR-trimmed baseline (reference; not a candidate),per_cohort_rows,na
+ws-alr-pivot,A,within,discriminator,R1,base-R,NA,ws_alr_pivot,present,ALR pivot pool,per_cohort_rows,within_cohort
+ws-mad-logratio,A,within,discriminator,R1,base-R,NA,ws_mad_logratio,present,MAD log-ratio,per_cohort_rows,within_cohort
+ws-dominance,A,within,discriminator,R1,base-R,fit_dominance_threshold,ws_dominance_score,present,dominance score,per_cohort_rows,within_cohort
+frozen-ruv,B,within,discriminator,R1,base-R,fit_frozen_ruv,apply_frozen_ruv,present,frozen RUV denoiser,per_cohort_rows,within_cohort
+robust-pca-resid,B,within,discriminator,R1,base-R,fit_robust_pca_residual,apply_robust_pca_residual,present,robust-PCA residual,per_cohort_rows,within_cohort
+hemolysis-resid,B,within,discriminator,R1,base-R,fit_hemolysis_rr,apply_hemolysis_rr,present,hemolysis residual removal,per_cohort_rows,within_cohort
+kit-stratified-rclr,D,transfer,discriminator,R1,base-R,fit_kit_stratified_rclr,score_kit_stratified_rclr,present,kit-aware,stratum_pooled_upstream,deferred
+kit-fe-adjusted-alr,D,transfer,discriminator,R1,base-R,fit_kit_fe_adjusted_alr,score_kit_fe_adjusted_alr,present,kit-aware,stratum_pooled_upstream,deferred
+kit-orthogonal-ilr,D,transfer,discriminator,R1,base-R,fit_kit_orthogonal_ilr,score_kit_orthogonal_ilr,present,kit-aware,stratum_pooled_upstream,deferred
+kit-residual-mad,D,transfer,discriminator,R1,base-R,fit_kit_residual_mad,score_kit_residual_mad,present,kit-aware,stratum_pooled_upstream,deferred
+kit-stable-anchor-rclr,E,transfer,discriminator,R1,base-R,fit_kit_stable_anchors,score_kit_stable_anchor_rclr,present,anchor-denoising,per_cohort_rows,within_cohort
+hemolysis-kit-dual-anchor,E,transfer,discriminator,R1,base-R,fit_hemolysis_kit_dual_anchor,score_hemolysis_kit_dual_anchor,present,anchor-denoising,per_cohort_rows,within_cohort
+rin-weighted-score,E,transfer,discriminator,R1,base-R,fit_rin_weighted_reference,score_rin_weighted_score,present,anchor-denoising,per_cohort_rows,within_cohort
+tech-stratified-rclr,F,transfer,discriminator,R1,base-R,fit_tech_stratified_rclr,score_tech_stratified_rclr,present,technology-aware,stratum_pooled_upstream,transfer_fold
+cross-tech-harmonized-rclr,F,transfer,discriminator,R1,base-R,fit_cross_tech_harmonized_rclr,score_cross_tech_harmonized_rclr,present,technology-aware,stratum_pooled_upstream,transfer_fold
+tech-residualized-alr,F,transfer,discriminator,R1,base-R,fit_tech_residualized_alr,score_tech_residualized_alr,present,technology-aware,stratum_pooled_upstream,transfer_fold
+biofluid-stratified-rclr,G,transfer,discriminator,R1,base-R,fit_biofluid_stratified_rclr,score_biofluid_stratified_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
+biofluid-anchor-rclr,G,transfer,discriminator,R1,base-R,fit_biofluid_anchor_rclr,score_biofluid_anchor_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
+biofluid-residualized-alr,G,transfer,discriminator,R1,base-R,fit_biofluid_residualized_alr,score_biofluid_residualized_alr,present,biofluid-aware,per_cohort_rows,within_cohort
+blood-cell-marker-excl-rclr,G,transfer,discriminator,R1,base-R,NA,score_platelet_exclusion_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
+dann,H,transfer,discriminator,R2,reticulate-torch,os_fit_dann_kit_extended,os_score_dann_kit_extended,present,domain-adversarial,per_cohort_rows,within_cohort
+cvae,H,transfer,discriminator,R2,reticulate-torch,os_fit_kit_conditional_vae,os_score_kit_conditional_vae,present,counterfactual VAE,per_cohort_rows,within_cohort
+icp,H,transfer,discriminator,R2,reticulate-torch,os_fit_icp_per_kit,os_score_icp_per_kit,present,invariant causal prediction,per_cohort_rows,within_cohort
+reo-ktsp,K,within,discriminator,R1,base-R,fit_reo_ktsp,score_reo_ktsp,primitive,wrap os_ktsp_fit+predict.os_ktsp_model to continuous margin score,per_cohort_rows,within_cohort
+reo-pairratio,K,within,discriminator,R1,glmnet,fit_reo_pairratio,score_reo_pairratio,new,penalized logistic over selected log-ratios,per_cohort_rows,within_cohort
+reo-singscore,K,within,discriminator,R1,base-R,fit_reo_singscore,score_reo_singscore,primitive,wrap stateless os_singscore + learn up/down panel on train folds,per_cohort_rows,within_cohort
+reo-ucell,K,within,discriminator,R1,base-R,fit_reo_ucell,score_reo_ucell,new,Mann-Whitney U over within-sample ranks,per_cohort_rows,within_cohort
+reo-metaktsp,K,transfer,discriminator,R1,base-R,fit_reo_metaktsp,score_reo_metaktsp,new,meta-analytic k-TSP across cohorts,transfer_fold_rows,m4_decision
+bal-selbal,K,within,discriminator,R1,selbal-github,fit_bal_selbal,score_bal_selbal,primitive,balance selection + logistic on log-contrast (not the FS wrapper),per_cohort_rows,within_cohort
+ws-balance-ilr,K,within,discriminator,R1,base-R,fit_ws_balance_ilr,ws_balance_ilr,primitive,wrap to fit/score,per_cohort_rows,within_cohort
+lrt-bw,L,within,discriminator,R1,base-R,fit_lrt_bw,score_lrt_bw,new,Bures-Wasserstein class-conditional LRT,per_cohort_rows,within_cohort
+lrt-copula,L,within,discriminator,R1,base-R,fit_lrt_copula,score_lrt_copula,new,class-conditional tail-copula LRT,per_cohort_rows,within_cohort
+conf-mondrian,L,within,discriminator,R1,base-R,fit_conf_mondrian,score_conf_mondrian,new,Mondrian-conformal class-conditional LRT,per_cohort_rows,within_cohort
+ai-scarf,N,within,discriminator,R2,reticulate-torch,fit_ai_scarf,score_ai_scarf,new,SCARF contrastive + frozen head (eval-frozen-BN),per_cohort_rows,within_cohort
+ai-tabpfn,O,within,discriminator-conditional,R2,reticulate-tabpfn,fit_tabpfn,score_tabpfn,primitive,in-context FM; conditional-in-N per prespec 3.3; wrappers not make_tabpfn_learner,per_cohort_rows,within_cohort
+dro-group,N,transfer,discriminator,R2,reticulate-torch,os_fit_group_dro_scorer,os_score_group_dro_scorer,primitive,group-DRO over provenance groups,transfer_fold_rows,m4_decision
+dro-vrex,N,transfer,discriminator,R2,reticulate-torch,fit_dro_vrex,score_dro_vrex,new,V-REx variance-of-risk,transfer_fold_rows,m4_decision
+moe-gated,N,transfer,discriminator,R2,reticulate-torch,fit_moe_gated,score_moe_gated,new,kit-gated mixture of frozen experts,transfer_fold_rows,m4_decision
+inv-scatter,M,within,discriminator,R2,reticulate-kymatio,fit_inv_scatter,score_inv_scatter,new,wavelet scattering + frozen head,per_cohort_rows,within_cohort
+inv-olbp,M,within,discriminator,R1,base-R,fit_inv_olbp,score_inv_olbp,new,ordinal-LBP on sorted-abundance profile + frozen head,per_cohort_rows,within_cohort
+tda-ph,M,within,discriminator,R1,TDAstats-or-R2-giotto,fit_tda_ph,score_tda_ph,new,sublevel persistent homology persistence image; R1 only if TDAstats deterministic frozen grid,per_cohort_rows,within_cohort
+sig-path,M,within,discriminator,R2,reticulate-iisignature,fit_sig_path,score_sig_path,new,path/log-signature features,per_cohort_rows,within_cohort
+frac-mfdfa,M,within,discriminator,R1,MFDFA,fit_frac_mfdfa,score_frac_mfdfa,new,multifractal spectrum descriptors,per_cohort_rows,within_cohort
+img-gasfcnn,M,within,discriminator,R2,reticulate-torch-torchvision,fit_img_gasfcnn,score_img_gasfcnn,new,GASF image to frozen CNN embedding (frozen min-max bounds + frozen BN),per_cohort_rows,within_cohort
+ot-lot,L,within,discriminator,R1,base-R,fit_ot_lot,score_ot_lot,new,linear OT embedding to frozen reference,per_cohort_rows,within_cohort
+ot-slicedlrt,L,within,discriminator,R1,base-R,fit_ot_slicedlrt,score_ot_slicedlrt,new,sliced-Wasserstein class-conditional LRT to frozen class CDFs,per_cohort_rows,within_cohort
+kme-witness,L,within,discriminator,R1,kernlab,fit_kme_witness,score_kme_witness,new,kernel mean-embedding witness (witness-at-a-point not full MMD),per_cohort_rows,within_cohort
+ig-fisherrao,L,within,discriminator,R1,base-R,fit_ig_fisherrao,score_ig_fisherrao,new,Fisher-Rao geodesic class-conditional LRT,per_cohort_rows,within_cohort
+dre-ulsif,L,within,discriminator,R1,densratio,fit_dre_ulsif,score_dre_ulsif,new,direct density-ratio uLSIF,per_cohort_rows,within_cohort
+gsp-gft,M,within,discriminator,R1,base-R,fit_gsp_gft,score_gsp_gft,new,graph-Fourier on frozen co-expression graph,per_cohort_rows,within_cohort
+man-nystrom,M,within,discriminator,R1,base-R,fit_man_nystrom,score_man_nystrom,new,Nystrom out-of-sample diffusion-map,per_cohort_rows,within_cohort
+unc-sngp,N,within,discriminator,R2,reticulate-torch,fit_unc_sngp,score_unc_sngp,new,spectral-normalized neural GP (LayerNorm),per_cohort_rows,within_cohort
+ssl-vicreg,N,within,discriminator,R2,reticulate-torch,fit_ssl_vicreg,score_ssl_vicreg,new,VICReg embedding + head (BN-free or eval-frozen-BN),per_cohort_rows,within_cohort
+coda-deepcoda,O,within,discriminator,R2,reticulate-torch,fit_coda_deepcoda,score_coda_deepcoda,new,non-linear log-contrast NN,per_cohort_rows,within_cohort
+tab-tabicl,O,within,discriminator,R2,reticulate-tabicl,fit_tab_tabicl,score_tab_tabicl,new,large-context in-context FM (context=frozen reference),per_cohort_rows,within_cohort
+tab-tabdpt,O,within,discriminator,R2,reticulate-tabdpt,fit_tab_tabdpt,score_tab_tabdpt,new,retrieval FM (retrieval pool=frozen reference),per_cohort_rows,within_cohort
+inv-glcm,M,within,discriminator,R1,radiomics-or-EBImage,fit_inv_glcm,score_inv_glcm,new-secondary,Haralick GLCM (frozen gray-level edges),per_cohort_rows,within_cohort
+inv-fdaqf,M,within,discriminator,R1,fda,fit_inv_fdaqf,score_inv_fdaqf,new-secondary,quantile-function FDA (frozen FPCA basis),per_cohort_rows,within_cohort
+inv-css,M,within,discriminator,R1,base-R,fit_inv_css,score_inv_css,new-secondary,curvature-scale-space descriptor,per_cohort_rows,within_cohort
+lrt-vinecopula,L,within,discriminator,R1,rvinecopulib,fit_lrt_vinecopula,score_lrt_vinecopula,new-secondary,vine-copula class-conditional LRT (frozen-marginal PIT),per_cohort_rows,within_cohort
+proto-net,N,within,discriminator,R2,reticulate-torch,fit_proto_net,score_proto_net,new-secondary,prototypical network (frozen prototypes),per_cohort_rows,within_cohort
+lrt-deepmaha,N,within,discriminator,R2,reticulate-torch-plus-R,fit_lrt_deepmaha,score_lrt_deepmaha,new-secondary,class-conditional Mahalanobis on a learned frozen embedding (R2 per survey),per_cohort_rows,within_cohort
+coda-codacore,O,within,discriminator,R2,codacore-tensorflow,fit_coda_codacore,score_coda_codacore,new-secondary,sparse log-ratio balances (TF/Keras backend so R2),per_cohort_rows,within_cohort
+dg-fishr,N,transfer,discriminator,R2,reticulate-torch,fit_dg_fishr,score_dg_fishr,new,Fishr invariant gradient variances,transfer_fold_rows,m4_decision
+dg-ibirm,N,transfer,discriminator,R2,reticulate-torch,fit_dg_ibirm,score_dg_ibirm,new,IB-IRM,transfer_fold_rows,m4_decision
+sel-stablemate,N,transfer,discriminator,R1,StableMate-github,fit_sel_stablemate,score_sel_stablemate,new,StableMate stable-predictor selection,transfer_fold_rows,m4_decision
+nc-mahalanobis,NC,within,negative_control,R1,base-R,fit_compositional_mahalanobis,apply_compositional_mahalanobis,present,frozen MCD; EXCLUDE batch-coupled os_mahalanobis_score,per_cohort_rows,na
+nc-conformal-anom,NC,within,negative_control,R1,base-R,fit_conformal_anomaly,os_conformal_anomaly,present,one-class atypicality frozen-fit $score; EXCLUDE batch-coupled os_conformal_anomaly_score,per_cohort_rows,na
+nc-isoforest,NC,within,negative_control,R1,isotree-or-base,fit_isolation_forest_logratio,apply_isolation_forest_logratio,present,one-class atypicality,per_cohort_rows,na
+nc-ecod-copod,NC,within,negative_control,R2,reticulate-pyod,fit_ecod_copod,score_ecod_copod,new,ECOD/COPOD global tail outlier (PyOD),per_cohort_rows,na
+nc-sinkhorn-single,NC,within,negative_control,R2,reticulate-or-base,fit_sinkhorn_single,score_sinkhorn_single,primitive,forced n=1 entropic-kernel row-by-row; multi-row scorer out-N with negative test,per_cohort_rows,na

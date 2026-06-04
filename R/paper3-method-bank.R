@@ -73,6 +73,33 @@ paper3_method_bank <- function() {
     f <- stats::na.omit(c(out$fit_function[[i]], out$score_function[[i]]))
     all(f %in% funcs[exported])
   }, logical(1))
+  out <- .paper3_annotate_bank_roster(out)
+  out
+}
+
+# Annotate the export-check bank with the Amendment #4 roster routing metadata.
+# Rows are matched to the roster by score function; auxiliary / non-roster rows
+# (e.g. family J protocols, non-evaluable family C, the batchwise out-N Sinkhorn
+# scorer) receive NA. Backward compatible: existing columns are unchanged and no
+# rows are added or removed.
+.paper3_annotate_bank_roster <- function(out) {
+  ros <- tryCatch(paper3_method_roster(), error = function(e) NULL)
+  add_cols <- c("method_id", "estimand", "role", "single_sample_gate",
+                "negative_control", "row_source", "lopbo_mechanism")
+  if (is.null(ros)) {
+    for (col in add_cols) {
+      out[[col]] <- if (col == "negative_control") NA else NA_character_
+    }
+    return(out)
+  }
+  idx <- match(out$score_function, ros$score_fn)
+  out$method_id         <- ros$method_id[idx]
+  out$estimand          <- ros$estimand[idx]
+  out$role              <- ros$role[idx]
+  out$single_sample_gate <- ifelse(is.na(idx), NA_character_, "required")
+  out$negative_control  <- ros$is_negative_control[idx]
+  out$row_source        <- ros$row_source[idx]
+  out$lopbo_mechanism   <- ros$lopbo_mechanism[idx]
   out
 }
 
