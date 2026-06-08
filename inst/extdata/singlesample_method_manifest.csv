@@ -42,7 +42,7 @@ dro-vrex,N,transfer,discriminator,R2,reticulate-torch,fit_dro_vrex,score_dro_vre
 moe-gated,N,transfer,discriminator,R2,reticulate-torch,fit_moe_gated,score_moe_gated,new,kit-gated mixture of frozen experts,transfer_fold_rows,m4_decision
 inv-scatter,M,within,discriminator,R2,reticulate-kymatio,fit_inv_scatter,score_inv_scatter,new,wavelet scattering + frozen head,per_cohort_rows,within_cohort
 inv-olbp,M,within,discriminator,R1,base-R,fit_inv_olbp,score_inv_olbp,new,ordinal-LBP on sorted-abundance profile + frozen head,per_cohort_rows,within_cohort
-tda-ph,M,within,discriminator,R1,TDAstats-or-R2-giotto,fit_tda_ph,score_tda_ph,new,sublevel persistent homology persistence image; R1 only if TDAstats deterministic frozen grid,per_cohort_rows,within_cohort
+tda-ph,M,within,discriminator,R1,base-R,fit_tda_ph,score_tda_ph,new,sublevel persistent homology persistence image; base-R lower-star union-find + frozen exact-integral persistence image (finite classes only),per_cohort_rows,within_cohort
 sig-path,M,within,discriminator,R2,reticulate-iisignature,fit_sig_path,score_sig_path,new,path/log-signature features,per_cohort_rows,within_cohort
 frac-mfdfa,M,within,discriminator,R1,MFDFA,fit_frac_mfdfa,score_frac_mfdfa,new,multifractal spectrum descriptors,per_cohort_rows,within_cohort
 img-gasfcnn,M,within,discriminator,R2,reticulate-torch-torchvision,fit_img_gasfcnn,score_img_gasfcnn,new,GASF image to frozen CNN embedding (frozen min-max bounds + frozen BN),per_cohort_rows,within_cohort
