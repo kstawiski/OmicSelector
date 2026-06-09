@@ -62,7 +62,7 @@ inv-glcm,M,within,discriminator,R1,base-R,fit_inv_glcm,score_inv_glcm,new-second
 inv-fdaqf,M,within,discriminator,R1,base-R,fit_inv_fdaqf,score_inv_fdaqf,new-secondary,quantile-function FDA (frozen FPCA basis via base-R svd; LAPACK-orientation note),per_cohort_rows,within_cohort
 inv-css,M,within,discriminator,R1,base-R,fit_inv_css,score_inv_css,new-secondary,curvature-scale-space descriptor,per_cohort_rows,within_cohort
 lrt-vinecopula,L,within,discriminator,R1,rvinecopulib,fit_lrt_vinecopula,score_lrt_vinecopula,new-secondary,vine-copula class-conditional LRT (frozen-marginal PIT),per_cohort_rows,within_cohort
-proto-net,N,within,discriminator,R2,reticulate-torch,fit_proto_net,score_proto_net,new-secondary,prototypical network (frozen prototypes),per_cohort_rows,within_cohort
+proto-net,N,within,discriminator,R2,reticulate-torch-plus-R,fit_proto_net,score_proto_net,new-secondary,prototypical network (frozen prototypes),per_cohort_rows,within_cohort
 lrt-deepmaha,N,within,discriminator,R2,reticulate-torch-plus-R,fit_lrt_deepmaha,score_lrt_deepmaha,new-secondary,class-conditional Mahalanobis on a learned frozen embedding (R2 per survey),per_cohort_rows,within_cohort
 coda-codacore,O,within,discriminator,R2,codacore-tensorflow,fit_coda_codacore,score_coda_codacore,new-secondary,sparse log-ratio balances (TF/Keras backend so R2),per_cohort_rows,within_cohort
 dg-fishr,N,transfer,discriminator,R2,reticulate-torch,fit_dg_fishr,score_dg_fishr,new,Fishr invariant gradient variances,transfer_fold_rows,m4_decision
