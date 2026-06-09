@@ -37,7 +37,7 @@ lrt-tcopula,L,within,discriminator,R1,base-R,fit_lrt_tcopula,score_lrt_tcopula,n
 conf-mondrian,L,within,discriminator,R1,base-R,fit_conf_mondrian,score_conf_mondrian,new,Mondrian-conformal class-conditional LRT,per_cohort_rows,within_cohort
 ai-scarf,N,within,discriminator,R2,reticulate-torch,fit_ai_scarf,score_ai_scarf,new,SCARF contrastive + frozen head (eval-frozen-BN),per_cohort_rows,within_cohort
 ai-tabpfn,O,within,discriminator-conditional,R2,reticulate-tabpfn,fit_tabpfn,score_tabpfn,primitive,in-context FM; conditional-in-N per prespec 3.3; wrappers not make_tabpfn_learner,per_cohort_rows,within_cohort
-dro-group,N,transfer,discriminator,R2,base-R,fit_dro_group,score_dro_group,new,group-DRO over provenance groups,transfer_fold_rows,m4_decision
+dro-group,N,transfer,discriminator,R1,base-R,fit_dro_group,score_dro_group,new,group-DRO over provenance groups,transfer_fold_rows,m4_decision
 dro-vrex,N,transfer,discriminator,R2,reticulate-torch,fit_dro_vrex,score_dro_vrex,new,V-REx variance-of-risk,transfer_fold_rows,m4_decision
 moe-gated,N,transfer,discriminator,R2,reticulate-torch,fit_moe_gated,score_moe_gated,new,kit-gated mixture of frozen experts,transfer_fold_rows,m4_decision
 inv-scatter,M,within,discriminator,R2,reticulate-kymatio,fit_inv_scatter,score_inv_scatter,new,wavelet scattering + frozen head,per_cohort_rows,within_cohort
@@ -72,4 +72,4 @@ nc-mahalanobis,NC,within,negative_control,R1,base-R,fit_compositional_mahalanobi
 nc-conformal-anom,NC,within,negative_control,R1,base-R,fit_conformal_anomaly,os_conformal_anomaly,present,one-class atypicality frozen-fit $score; EXCLUDE batch-coupled os_conformal_anomaly_score,per_cohort_rows,na
 nc-isoforest,NC,within,negative_control,R1,isotree-or-base,fit_isolation_forest_logratio,apply_isolation_forest_logratio,present,one-class atypicality,per_cohort_rows,na
 nc-ecod-copod,NC,within,negative_control,R2,reticulate-pyod,fit_ecod_copod,score_ecod_copod,new,ECOD/COPOD global tail outlier (PyOD),per_cohort_rows,na
-nc-sinkhorn-single,NC,within,negative_control,R2,reticulate-or-base,fit_sinkhorn_single,score_sinkhorn_single,primitive,forced n=1 entropic-kernel row-by-row; multi-row scorer out-N with negative test,per_cohort_rows,na
+nc-sinkhorn-single,NC,within,negative_control,R1,base-R,fit_sinkhorn_single,score_sinkhorn_single,new,forced n=1 entropic-kernel row-by-row; multi-row scorer out-N with negative test,per_cohort_rows,na
