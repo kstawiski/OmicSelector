@@ -56,7 +56,7 @@ man-nystrom,M,within,discriminator,R1,base-R,fit_man_nystrom,score_man_nystrom,n
 unc-sngp,N,within,discriminator,R2,reticulate-torch,fit_unc_sngp,score_unc_sngp,new,spectral-normalized neural GP (LayerNorm),per_cohort_rows,within_cohort
 ssl-vicreg,N,within,discriminator,R2,reticulate-torch,fit_ssl_vicreg,score_ssl_vicreg,new,VICReg embedding + head (BN-free or eval-frozen-BN),per_cohort_rows,within_cohort
 coda-deepcoda,O,within,discriminator,R2,reticulate-torch,fit_coda_deepcoda,score_coda_deepcoda,new,non-linear log-contrast NN,per_cohort_rows,within_cohort
-tab-tabicl,O,within,discriminator,R2,reticulate-tabicl,fit_tab_tabicl,score_tab_tabicl,new,large-context in-context FM (context=frozen reference),per_cohort_rows,within_cohort
+tab-tabicl,O,within,discriminator,R2,reticulate-tabicl,fit_tabicl,score_tabicl,new,large-context in-context FM (context=frozen reference),per_cohort_rows,within_cohort
 tab-tabdpt,O,within,discriminator,R2,reticulate-tabdpt,fit_tab_tabdpt,score_tab_tabdpt,new,retrieval FM (retrieval pool=frozen reference),per_cohort_rows,within_cohort
 inv-glcm,M,within,discriminator,R1,base-R,fit_inv_glcm,score_inv_glcm,new-secondary,Haralick GLCM of the frozen-order rCLR landscape (frozen gray-level quantile edges; base-R),per_cohort_rows,within_cohort
 inv-fdaqf,M,within,discriminator,R1,base-R,fit_inv_fdaqf,score_inv_fdaqf,new-secondary,quantile-function FDA (frozen FPCA basis via base-R svd; LAPACK-orientation note),per_cohort_rows,within_cohort
