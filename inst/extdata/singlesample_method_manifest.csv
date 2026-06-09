@@ -54,7 +54,7 @@ dre-ulsif,L,within,discriminator,R1,base-R,fit_dre_ulsif,score_dre_ulsif,new,dir
 gsp-gft,M,within,discriminator,R1,base-R,fit_gsp_gft,score_gsp_gft,new,graph-Fourier on frozen co-expression graph,per_cohort_rows,within_cohort
 man-nystrom,M,within,discriminator,R1,base-R,fit_man_nystrom,score_man_nystrom,new,Nystrom out-of-sample diffusion-map,per_cohort_rows,within_cohort
 unc-sngp,N,within,discriminator,R2,reticulate-torch,fit_unc_sngp,score_unc_sngp,new,spectral-normalized neural GP (LayerNorm),per_cohort_rows,within_cohort
-ssl-vicreg,N,within,discriminator,R2,reticulate-torch,fit_ssl_vicreg,score_ssl_vicreg,new,VICReg embedding + head (BN-free or eval-frozen-BN),per_cohort_rows,within_cohort
+ssl-vicreg,N,within,discriminator,R2,reticulate-torch-plus-R,fit_ssl_vicreg,score_ssl_vicreg,new,VICReg embedding + head (BN-free or eval-frozen-BN),per_cohort_rows,within_cohort
 coda-deepcoda,O,within,discriminator,R2,reticulate-torch,fit_coda_deepcoda,score_coda_deepcoda,new,non-linear log-contrast NN,per_cohort_rows,within_cohort
 tab-tabicl,O,within,discriminator,R2,reticulate-tabicl,fit_tabicl,score_tabicl,new,large-context in-context FM (context=frozen reference),per_cohort_rows,within_cohort
 tab-tabdpt,O,within,discriminator,R2,reticulate-tabdpt,fit_tabdpt,score_tabdpt,new,retrieval FM (retrieval pool=frozen reference),per_cohort_rows,within_cohort
