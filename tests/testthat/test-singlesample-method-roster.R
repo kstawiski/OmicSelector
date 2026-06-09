@@ -240,7 +240,8 @@ test_that("every implemented non-present roster score_fn is canonically dispatch
   # where they get a canonical fit_*/score_* wrapper or a registered adapter and
   # the manifest score_fn is repointed. Remove a method here once it is wrapped;
   # a NEWLY-implemented method that mis-points its score_fn will still fail.
-  pending_canonical_wrapper <- c("dro-group")
+  # dro-group was wrapped (fit_dro_group/score_dro_group) and removed here.
+  pending_canonical_wrapper <- character(0)
   checked <- 0L
   for (i in seq_len(nrow(ros))) {
     sf <- ros$score_fn[i]
