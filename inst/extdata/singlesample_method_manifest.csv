@@ -21,8 +21,8 @@ biofluid-anchor-rclr,G,transfer,discriminator,R1,base-R,fit_biofluid_anchor_rclr
 biofluid-residualized-alr,G,transfer,discriminator,R1,base-R,fit_biofluid_residualized_alr,score_biofluid_residualized_alr,present,biofluid-aware,per_cohort_rows,within_cohort
 blood-cell-marker-excl-rclr,G,transfer,discriminator,R1,base-R,NA,score_platelet_exclusion_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
 dann,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dann,score_dann,new,domain-adversarial (cohort-adversarial encoder; FIT-only GRL+domain head),transfer_fold_rows,m4_decision
-cvae,H,transfer,discriminator,R2,reticulate-torch,os_fit_kit_conditional_vae,os_score_kit_conditional_vae,present,counterfactual VAE,per_cohort_rows,within_cohort
-icp,H,transfer,discriminator,R2,reticulate-torch,os_fit_icp_per_kit,os_score_icp_per_kit,present,invariant causal prediction,per_cohort_rows,within_cohort
+cvae,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_cvae,score_cvae,new,counterfactual class-conditional VAE (ELBO log-ratio; class- not kit-conditional),per_cohort_rows,within_cohort
+icp,N,transfer,discriminator,R1,base-R,fit_icp,score_icp,new,Invariant Causal Prediction (cross-cohort invariant feature selection + frozen logistic; not kit-conditional),transfer_fold_rows,m4_decision
 reo-ktsp,K,within,discriminator,R1,base-R,fit_reo_ktsp,score_reo_ktsp,primitive,wrap os_ktsp_fit+predict.os_ktsp_model to continuous margin score,per_cohort_rows,within_cohort
 reo-pairratio,K,within,discriminator,R1,glmnet,fit_reo_pairratio,score_reo_pairratio,new,penalized logistic over selected log-ratios,per_cohort_rows,within_cohort
 reo-singscore,K,within,discriminator,R1,base-R,fit_reo_singscore,score_reo_singscore,primitive,wrap stateless os_singscore + learn up/down panel on train folds,per_cohort_rows,within_cohort
