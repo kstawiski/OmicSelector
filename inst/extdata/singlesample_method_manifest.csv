@@ -43,7 +43,7 @@ moe-gated,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_moe_gated,scor
 inv-scatter,M,within,discriminator,R2,reticulate-kymatio,fit_inv_scatter,score_inv_scatter,new,wavelet scattering + frozen head,per_cohort_rows,within_cohort
 inv-olbp,M,within,discriminator,R1,base-R,fit_inv_olbp,score_inv_olbp,new,ordinal-LBP on sorted-abundance profile + frozen head,per_cohort_rows,within_cohort
 tda-ph,M,within,discriminator,R1,base-R,fit_tda_ph,score_tda_ph,new,sublevel persistent homology persistence image; base-R lower-star union-find + frozen exact-integral persistence image (finite classes only),per_cohort_rows,within_cohort
-sig-path,M,within,discriminator,R2,reticulate-iisignature,fit_sig_path,score_sig_path,new,path/log-signature features,per_cohort_rows,within_cohort
+sig-path,M,within,discriminator,R1,base-R,fit_sig_path,score_sig_path,new,path-signature features (pure-R closed-form truncated signature),per_cohort_rows,within_cohort
 frac-mfdfa,M,within,discriminator,R1,base-R,fit_frac_mfdfa,score_frac_mfdfa,new,multifractal-DFA spectrum descriptors of the frozen-order rCLR landscape (resample-to-L; base-R),per_cohort_rows,within_cohort
 img-gasfcnn,M,within,discriminator,R2,reticulate-torch-torchvision,fit_img_gasfcnn,score_img_gasfcnn,new,GASF image to frozen CNN embedding (frozen min-max bounds + frozen BN),per_cohort_rows,within_cohort
 ot-lot,L,within,discriminator,R1,base-R,fit_ot_lot,score_ot_lot,new,linear OT embedding to frozen reference,per_cohort_rows,within_cohort

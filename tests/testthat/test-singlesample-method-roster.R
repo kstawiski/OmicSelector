@@ -180,12 +180,22 @@ test_that("singlesample_score_call dispatches a registered adapter", {
 })
 
 test_that("singlesample_score_call errors clearly for a not-yet-implemented method", {
-  # `sig-path` is a frozen-roster method whose fit/score functions are not yet
-  # implemented (a Tier-R2 reticulate-iisignature method; repointed from `ot-lot`
-  # when the linearized-OT/CDT method landed, to keep this error-path test
-  # exercising a genuinely unimplemented slot).
+  # The error path is exercised with a SYNTHETIC one-row roster whose score_fn is a
+  # guaranteed-nonexistent function name, so the test does NOT depend on any real
+  # roster method still being unimplemented. (It previously pointed at a real
+  # not-yet-implemented slot -- `ot-lot`, then `sig-path` -- and had to be repointed
+  # each time that method landed; the synthetic row makes it stable as the roster
+  # fills in.) `pkg_status = "new"` routes through the canonical adapter, which must
+  # raise an explicit "not yet implemented" error when the score function does not
+  # resolve in the OmicSelector namespace.
+  fake_roster <- data.frame(
+    method_id  = "zzz-unimplemented-probe",
+    pkg_status = "new",
+    score_fn   = "zzz_no_such_score_fn_probe",
+    stringsAsFactors = FALSE)
   expect_error(
-    singlesample_score_call("sig-path", model = NULL, X = matrix(0, 2, 3)),
+    singlesample_score_call("zzz-unimplemented-probe", model = NULL,
+                            X = matrix(0, 2, 3), roster = fake_roster),
     regexp = "not yet implemented")
 })
 
