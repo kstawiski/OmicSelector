@@ -39,7 +39,7 @@ ai-scarf,N,within,discriminator,R2,reticulate-torch-plus-R,fit_ai_scarf,score_ai
 ai-tabpfn,O,within,discriminator-conditional,R2,reticulate-tabpfn,fit_tabpfn,score_tabpfn,new,in-context FM (TabPFN-v2 ModelVersion.V2 token-free; V2.6 default license-gated); conditional-in-N per prespec 3.3; wrappers not make_tabpfn_learner,per_cohort_rows,within_cohort
 dro-group,N,transfer,discriminator,R1,base-R,fit_dro_group,score_dro_group,new,group-DRO over provenance groups,transfer_fold_rows,m4_decision
 dro-vrex,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dro_vrex,score_dro_vrex,new,V-REx variance-of-risk,transfer_fold_rows,m4_decision
-moe-gated,N,transfer,discriminator,R2,reticulate-torch,fit_moe_gated,score_moe_gated,new,kit-gated mixture of frozen experts,transfer_fold_rows,m4_decision
+moe-gated,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_moe_gated,score_moe_gated,new,self-gated mixture of frozen experts (gate softmax over own rCLR embedding),transfer_fold_rows,m4_decision
 inv-scatter,M,within,discriminator,R2,reticulate-kymatio,fit_inv_scatter,score_inv_scatter,new,wavelet scattering + frozen head,per_cohort_rows,within_cohort
 inv-olbp,M,within,discriminator,R1,base-R,fit_inv_olbp,score_inv_olbp,new,ordinal-LBP on sorted-abundance profile + frozen head,per_cohort_rows,within_cohort
 tda-ph,M,within,discriminator,R1,base-R,fit_tda_ph,score_tda_ph,new,sublevel persistent homology persistence image; base-R lower-star union-find + frozen exact-integral persistence image (finite classes only),per_cohort_rows,within_cohort
