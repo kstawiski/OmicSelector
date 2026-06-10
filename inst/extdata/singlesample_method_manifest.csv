@@ -66,7 +66,7 @@ proto-net,N,within,discriminator,R2,reticulate-torch-plus-R,fit_proto_net,score_
 lrt-deepmaha,N,within,discriminator,R2,reticulate-torch-plus-R,fit_lrt_deepmaha,score_lrt_deepmaha,new-secondary,class-conditional Mahalanobis on a learned frozen embedding (R2 per survey),per_cohort_rows,within_cohort
 coda-codacore,O,within,discriminator,R2,codacore-tensorflow,fit_coda_codacore,score_coda_codacore,new-secondary,sparse log-ratio balances (TF/Keras backend so R2),per_cohort_rows,within_cohort
 dg-fishr,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dg_fishr,score_dg_fishr,new,Fishr invariant gradient variances,transfer_fold_rows,m4_decision
-dg-ibirm,N,transfer,discriminator,R2,reticulate-torch,fit_dg_ibirm,score_dg_ibirm,new,IB-IRM,transfer_fold_rows,m4_decision
+dg-ibirm,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dg_ibirm,score_dg_ibirm,new,IB-IRM,transfer_fold_rows,m4_decision
 sel-stablemate,N,transfer,discriminator,R1,StableMate-github,fit_sel_stablemate,score_sel_stablemate,new,StableMate stable-predictor selection,transfer_fold_rows,m4_decision
 nc-mahalanobis,NC,within,negative_control,R1,base-R,fit_compositional_mahalanobis,apply_compositional_mahalanobis,present,frozen MCD; EXCLUDE batch-coupled os_mahalanobis_score,per_cohort_rows,na
 nc-conformal-anom,NC,within,negative_control,R1,base-R,fit_conformal_anomaly,os_conformal_anomaly,present,one-class atypicality frozen-fit $score; EXCLUDE batch-coupled os_conformal_anomaly_score,per_cohort_rows,na
