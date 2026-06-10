@@ -20,7 +20,7 @@ biofluid-stratified-rclr,G,transfer,discriminator,R1,base-R,fit_biofluid_stratif
 biofluid-anchor-rclr,G,transfer,discriminator,R1,base-R,fit_biofluid_anchor_rclr,score_biofluid_anchor_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
 biofluid-residualized-alr,G,transfer,discriminator,R1,base-R,fit_biofluid_residualized_alr,score_biofluid_residualized_alr,present,biofluid-aware,per_cohort_rows,within_cohort
 blood-cell-marker-excl-rclr,G,transfer,discriminator,R1,base-R,NA,score_platelet_exclusion_rclr,present,biofluid-aware,per_cohort_rows,within_cohort
-dann,H,transfer,discriminator,R2,reticulate-torch,os_fit_dann_kit_extended,os_score_dann_kit_extended,present,domain-adversarial,per_cohort_rows,within_cohort
+dann,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dann,score_dann,new,domain-adversarial (cohort-adversarial encoder; FIT-only GRL+domain head),transfer_fold_rows,m4_decision
 cvae,H,transfer,discriminator,R2,reticulate-torch,os_fit_kit_conditional_vae,os_score_kit_conditional_vae,present,counterfactual VAE,per_cohort_rows,within_cohort
 icp,H,transfer,discriminator,R2,reticulate-torch,os_fit_icp_per_kit,os_score_icp_per_kit,present,invariant causal prediction,per_cohort_rows,within_cohort
 reo-ktsp,K,within,discriminator,R1,base-R,fit_reo_ktsp,score_reo_ktsp,primitive,wrap os_ktsp_fit+predict.os_ktsp_model to continuous margin score,per_cohort_rows,within_cohort
