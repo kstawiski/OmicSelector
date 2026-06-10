@@ -35,7 +35,7 @@ lrt-nbkde,L,within,discriminator,R1,base-R,fit_lrt_nbkde,score_lrt_nbkde,new,KDE
 lrt-copula,L,within,discriminator,R1,base-R,fit_lrt_copula,score_lrt_copula,new,class-conditional Gaussian-copula LRT,per_cohort_rows,within_cohort
 lrt-tcopula,L,within,discriminator,R1,base-R,fit_lrt_tcopula,score_lrt_tcopula,new,class-conditional Student-t-copula (tail-aware) LRT,per_cohort_rows,within_cohort
 conf-mondrian,L,within,discriminator,R1,base-R,fit_conf_mondrian,score_conf_mondrian,new,Mondrian-conformal class-conditional LRT,per_cohort_rows,within_cohort
-ai-scarf,N,within,discriminator,R2,reticulate-torch,fit_ai_scarf,score_ai_scarf,new,SCARF contrastive + frozen head (eval-frozen-BN),per_cohort_rows,within_cohort
+ai-scarf,N,within,discriminator,R2,reticulate-torch-plus-R,fit_ai_scarf,score_ai_scarf,new,SCARF contrastive + frozen head (eval-frozen-BN),per_cohort_rows,within_cohort
 ai-tabpfn,O,within,discriminator-conditional,R2,reticulate-tabpfn,fit_tabpfn,score_tabpfn,new,in-context FM (TabPFN-v2 ModelVersion.V2 token-free; V2.6 default license-gated); conditional-in-N per prespec 3.3; wrappers not make_tabpfn_learner,per_cohort_rows,within_cohort
 dro-group,N,transfer,discriminator,R1,base-R,fit_dro_group,score_dro_group,new,group-DRO over provenance groups,transfer_fold_rows,m4_decision
 dro-vrex,N,transfer,discriminator,R2,reticulate-torch,fit_dro_vrex,score_dro_vrex,new,V-REx variance-of-risk,transfer_fold_rows,m4_decision
