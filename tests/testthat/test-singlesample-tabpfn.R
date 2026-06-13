@@ -303,3 +303,92 @@ test_that("fit leaves the CUDA torch RNG byte-unchanged (GPU only)", {
     logical(1L))
   expect_true(all(eq))
 })
+
+test_that("feature-limit override supports full >500-feature TabPFN scoring", {
+  skip_if_no_tabpfn()
+  d <- .make_tabpfn_data(n = 120L, p = 700L, k = 12L, shift = 2.5,
+                         sd = 0.35, seed = 2026L)
+  hp <- list(device = "cpu", n_estimators = 1L, seed = 42L)
+
+  m1 <- NULL
+  expect_error(m1 <- fit_tabpfn(d$X, d$y, hp = hp), NA)
+  expect_true(isTRUE(m1$ignore_pretraining_limits))
+
+  query <- c(seq_len(12L), 60L + seq_len(12L))
+  Xq <- d$X[query, , drop = FALSE]
+  yq <- d$y[query]
+  batch <- score_tabpfn(m1, Xq)
+  single <- vapply(seq_len(nrow(Xq)), function(i) {
+    score_tabpfn(m1, Xq[i, , drop = FALSE])
+  }, numeric(1L))
+  expect_equal(max(abs(batch - single)), 0, tolerance = 1e-6)
+
+  m2 <- fit_tabpfn(d$X, d$y, hp = hp)
+  rerun <- score_tabpfn(m2, Xq)
+  expect_identical(batch, rerun)
+  expect_gt(.auc_mw_tabpfn(yq, batch), 0.5)
+})
+
+test_that("batch scoring is companion-invariant and digest-neutral", {
+  skip_if_no_tabpfn()
+  expect_false(.tabpfn_resolve_hp(list())$score_batch)
+  expect_error(.tabpfn_resolve_hp(list(score_batch = 1)), "score_batch")
+  expect_true(.tabpfn_resolve_hp(list(score_batch = TRUE))$score_batch)
+
+  d <- .make_tabpfn_data(n = 120L, p = 300L, k = 12L, shift = 2.5,
+                         sd = 0.35, seed = 2027L)
+  hp <- list(device = "auto", n_estimators = 1L, max_context = 120L,
+             seed = 42L)
+  m <- fit_tabpfn(d$X, d$y, hp = hp)
+
+  query <- 8L
+  comp_a <- 9L:24L
+  comp_b <- 61L:76L
+  X_a <- d$X[c(query, comp_a), , drop = FALSE]
+  X_b <- d$X[c(query, comp_b), , drop = FALSE]
+  rownames(X_a)[1L] <- "query"
+  rownames(X_b)[1L] <- "query"
+  zero <- matrix(0, nrow = 1L, ncol = ncol(X_a),
+                 dimnames = list("zero", colnames(X_a)))
+  X_a_zero <- rbind(X_a, zero)
+
+  digest_before <- .tabpfn_model_digest(m)
+  invisible(score_tabpfn(m, X_a))
+  expect_identical(digest_before, .tabpfn_model_digest(m))
+
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  batch_a <- score_tabpfn(mb, X_a_zero)
+  batch_b <- score_tabpfn(mb, X_b)
+  expect_length(batch_a, nrow(X_a_zero))
+  expect_equal(abs(batch_a[1L] - batch_b[1L]), 0, tolerance = 1e-12)
+  expect_equal(batch_a[nrow(X_a_zero)], 0.5)
+  expect_identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb))
+})
+
+test_that("multi-chunk batch scoring avoids singleton tails", {
+  skip_if_no_tabpfn()
+  chunks_1025 <- .tabpfn_score_chunks(seq_len(1025L), chunk_size = 1024L)
+  chunks_2049 <- .tabpfn_score_chunks(seq_len(2049L), chunk_size = 1024L)
+  for (chunks in list(chunks_1025, chunks_2049)) {
+    sizes <- lengths(chunks)
+    expect_true(all(sizes >= 2L))
+    expect_lte(max(sizes) - min(sizes), 1L)
+    expect_identical(unname(unlist(chunks)), seq_len(sum(sizes)))
+  }
+
+  d <- .make_tabpfn_data(n = 40L, p = 20L, k = 6L, shift = 2.5,
+                         sd = 0.35, seed = 2028L)
+  m <- fit_tabpfn(d$X, d$y, hp = list(device = "auto", n_estimators = 1L,
+                                      max_context = 40L, seed = 42L))
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  q_idx <- rep(seq_len(nrow(d$X)), length.out = 1026L)
+  Xq <- d$X[q_idx, , drop = FALSE]
+  rownames(Xq) <- paste0("Q", seq_len(nrow(Xq)))
+
+  s_1025 <- score_tabpfn(mb, Xq[seq_len(1025L), , drop = FALSE])
+  s_1026 <- score_tabpfn(mb, Xq[seq_len(1026L), , drop = FALSE])
+  expect_equal(s_1025[1025L], s_1026[1025L], tolerance = 1e-3)
+  expect_identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb))
+})

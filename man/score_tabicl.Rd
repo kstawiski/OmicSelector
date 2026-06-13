@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-tabicl-scorer.R
 \name{score_tabicl}
 \alias{score_tabicl}
-\title{Score the TabICL in-context discriminator (forced row-by-row)}
+\title{Score the TabICL in-context discriminator (default row-by-row)}
 \usage{
 score_tabicl(model, X, meta = NULL)
 }
@@ -24,8 +24,7 @@ Scores each row of \code{X} independently with the frozen model from
 \code{\link{fit_tabicl}}. Each query is mapped to the per-sample robust CLR
 over the frozen feature universe (absent universe features carry the neutral
 rCLR value \code{0}), then classified by TabICL against the FROZEN training
-context. To guarantee that the score of a row is bit-identical whether scored
-alone or in any batch, queries are passed to \code{predict_proba} ONE ROW AT A
+context. By default, queries are passed to \code{predict_proba} ONE ROW AT A
 TIME (the \eqn{n=1} forward path used uniformly); the score is the case
 posterior \eqn{P(y = 1)} in \eqn{[0, 1]}, larger = more case-like.
 
@@ -33,6 +32,14 @@ Queries with fewer than \code{model$hp$min_features} present universe features,
 or an all-zero / empty specimen, return the neutral probability \code{0.5}.
 The score of a row depends only on that row and the frozen model, and is
 exactly invariant to per-specimen positive scaling.
+}
+\details{
+A benchmark-only \code{score_batch} option evaluates
+\code{predict_proba} once over balanced chunks of query rows; this is
+numerically identical to the default row-by-row single-sample path because the
+model is row-order-invariant and queries are conditionally independent given
+the frozen context, while the \eqn{n = 1} single-specimen deployment path is
+unchanged.
 }
 \examples{
 \dontrun{

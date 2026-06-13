@@ -20,22 +20,14 @@
 #' one frozen context. The frozen context is the TRAINING rows only, so it is
 #' leakage-safe (no scored / test data ever enters the context).
 #'
-#' \strong{Row-independence of TabICL and forced row-by-row scoring.} TabICL's
-#' \code{predict_proba} is exactly invariant to the row ORDER of the scored batch
-#' and to the scored subset -- a query's posterior does not depend on the other
-#' queries (measured permutation maxdiff \eqn{0}, subset-vs-full maxdiff \eqn{0}).
-#' This is a cleaner row-independence than TabPFN exhibits. However, on the
-#' installed build the posterior for a 1-row batch differs from the same row
-#' inside a multi-row batch by \eqn{\approx 3\mathrm{e}{-8}} on cuda (and is
-#' likewise tiny on cpu): the \eqn{n=1} forward path is numerically distinct from
-#' the \eqn{n>1} path (GPU/BLAS tiling differences), not a cross-row coupling. To
-#' make the canonical single-sample gate hold EXACTLY (single-row score == batch
-#' score to machine precision, not merely within a tolerance), this scorer
-#' evaluates \code{predict_proba} ONE QUERY ROW AT A TIME in a loop, so the
-#' \eqn{n=1} path is used uniformly and the score of a row is bit-identical
-#' whether it is scored alone or in any batch. This mirrors \code{score_tabpfn}'s
-#' documented design decision; it trades a small amount of throughput for exact
-#' conditional-single-sample equivariance.
+#' \strong{Row-independent scoring modes.} TabICL's \code{predict_proba} is
+#' exactly invariant to the row ORDER of the scored batch and to the scored
+#' subset -- a query's posterior does not depend on the other queries (measured
+#' companion maxdiff \eqn{0}). The default deployment path evaluates
+#' \code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1} forward path is
+#' used uniformly. The optional benchmark-only \code{score_batch} path evaluates
+#' balanced chunks of query rows and is numerically identical to the row-by-row
+#' path (\eqn{\max |b-r| = 0}).
 #'
 #' \strong{Single-sample transform.} Each specimen is mapped to the
 #' self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive
@@ -103,6 +95,16 @@ NULL
   Z
 }
 
+.tabicl_score_chunks <- function(score_idx, chunk_size = 1024L) {
+  n <- length(score_idx)
+  if (n == 0L) return(list())
+  n_chunks <- ceiling(n / chunk_size)
+  sizes <- rep.int(n %/% n_chunks, n_chunks)
+  extra <- n %% n_chunks
+  if (extra > 0L) sizes[seq_len(extra)] <- sizes[seq_len(extra)] + 1L
+  split(score_idx, rep.int(seq_len(n_chunks), sizes))
+}
+
 
 # ----------------------------------------------------------------------------
 # Hyperparameter resolver (strict allow-list)
@@ -120,7 +122,8 @@ NULL
            paste(unique(nm[duplicated(nm)]), collapse = ", "))
     }
   }
-  allowed <- c("device", "n_estimators", "max_context", "min_features", "seed")
+  allowed <- c("device", "n_estimators", "max_context", "min_features", "seed",
+               "score_batch")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown) > 0L) {
     stop("fit_tabicl: unknown hp field(s): ", paste(unknown, collapse = ", "))
@@ -167,12 +170,20 @@ NULL
     stop("fit_tabicl: hp$seed must be a single integer")
   }
 
+  score_batch <- hp$score_batch
+  if (is.null(score_batch)) score_batch <- FALSE
+  if (!is.logical(score_batch) || length(score_batch) != 1L ||
+      is.na(score_batch)) {
+    stop("fit_tabicl: hp$score_batch must be TRUE or FALSE")
+  }
+
   list(
     device = device,
     n_estimators = as.integer(n_estimators),
     max_context = as.integer(max_context),
     min_features = as.integer(min_features),
-    seed = as.integer(seed)
+    seed = as.integer(seed),
+    score_batch = score_batch
   )
 }
 
@@ -310,7 +321,9 @@ NULL
 #'   \code{max_context} (row cap on the frozen context, integer \eqn{\ge 2},
 #'   default \code{4096L}; larger contexts are seeded class-stratified
 #'   subsampled), \code{min_features} (feature-overlap floor at scoring, positive
-#'   integer, default \code{3L}), and \code{seed} (integer; default \code{42L}).
+#'   integer, default \code{3L}), \code{seed} (integer; default \code{42L}), and
+#'   \code{score_batch} (benchmark-only batched scoring flag, logical, default
+#'   \code{FALSE}).
 #'
 #' @return Object of class \code{tabicl_model}: a list with \code{context_rclr}
 #'   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
@@ -430,15 +443,14 @@ fit_tabicl <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 # score_tabicl
 # ----------------------------------------------------------------------------
 
-#' @title Score the TabICL in-context discriminator (forced row-by-row)
+#' @title Score the TabICL in-context discriminator (default row-by-row)
 #'
 #' @description
 #' Scores each row of \code{X} independently with the frozen model from
 #' \code{\link{fit_tabicl}}. Each query is mapped to the per-sample robust CLR
 #' over the frozen feature universe (absent universe features carry the neutral
 #' rCLR value \code{0}), then classified by TabICL against the FROZEN training
-#' context. To guarantee that the score of a row is bit-identical whether scored
-#' alone or in any batch, queries are passed to \code{predict_proba} ONE ROW AT A
+#' context. By default, queries are passed to \code{predict_proba} ONE ROW AT A
 #' TIME (the \eqn{n=1} forward path used uniformly); the score is the case
 #' posterior \eqn{P(y = 1)} in \eqn{[0, 1]}, larger = more case-like.
 #'
@@ -446,6 +458,13 @@ fit_tabicl <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' or an all-zero / empty specimen, return the neutral probability \code{0.5}.
 #' The score of a row depends only on that row and the frozen model, and is
 #' exactly invariant to per-specimen positive scaling.
+#'
+#' @details A benchmark-only \code{score_batch} option evaluates
+#' \code{predict_proba} once over balanced chunks of query rows; this is
+#' numerically identical to the default row-by-row single-sample path because the
+#' model is row-order-invariant and queries are conditionally independent given
+#' the frozen context, while the \eqn{n = 1} single-specimen deployment path is
+#' unchanged.
 #'
 #' @param model A \code{tabicl_model} object from \code{\link{fit_tabicl}}.
 #' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -492,23 +511,39 @@ score_tabicl <- function(model, X, meta = NULL) {
   clf <- model$clf
   case_col <- model$case_col
 
-  # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly,
-  # so a row's posterior is bit-identical alone or in any batch. The torch RNG
-  # is restored around the whole loop (TabICL's predict does not advance it, but
-  # the guard makes RNG-safety robust to build differences).
-  .tabicl_with_torch_rng(model$hp$seed, function() {
-    for (i in seq_len(nrow(X_use))) {
-      z <- .tabicl_rclr(X_use[i, ])
-      if (all(z == 0)) next                          # all-zero specimen: neutral
-      zi <- matrix(z, nrow = 1L)
-      pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
-      out[i] <<- as.numeric(pr[1, case_col])
+  if (isTRUE(model$hp$score_batch)) {
+    Z <- .tabicl_rclr_matrix(X_use)
+    score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
+    if (length(score_idx) > 0L) {
+      .tabicl_with_torch_rng(model$hp$seed, function() {
+        for (idx in .tabicl_score_chunks(score_idx, chunk_size = 1024L)) {
+          pr <- reticulate::py_to_r(
+            clf$predict_proba(np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
+          )
+          out[idx] <<- as.numeric(pr[, case_col])
+        }
+      })
     }
-  })
+  } else {
+    # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly,
+    # so a row's posterior is bit-identical alone or in any batch. The torch RNG
+    # is restored around the whole loop (TabICL's predict does not advance it, but
+    # the guard makes RNG-safety robust to build differences).
+    .tabicl_with_torch_rng(model$hp$seed, function() {
+      for (i in seq_len(nrow(X_use))) {
+        z <- .tabicl_rclr(X_use[i, ])
+        if (all(z == 0)) next                          # all-zero specimen: neutral
+        zi <- matrix(z, nrow = 1L)
+        pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
+        out[i] <<- as.numeric(pr[1, case_col])
+      }
+    })
+  }
 
   out <- as.numeric(out)
-  if (length(out) != nrow(X) || any(!is.finite(out))) {
-    stop("score_tabicl: scorer produced non-finite or wrong-length output")
+  if (length(out) != nrow(X) || any(!is.finite(out)) ||
+      any(out < 0 | out > 1)) {
+    stop("score_tabicl: scorer produced invalid output")
   }
   out
 }
@@ -526,6 +561,8 @@ score_tabicl <- function(model, X, meta = NULL) {
 # bytes must be identical before and after scoring). Scoring never mutates this
 # frozen state (TabICL inference is read-only over the frozen context).
 .tabicl_model_digest <- function(model) {
+  hp <- model$hp
+  hp$score_batch <- NULL
   state <- list(
     context_rclr = model$context_rclr,
     context_y = model$context_y,
@@ -535,7 +572,7 @@ score_tabicl <- function(model, X, meta = NULL) {
     n_context = model$n_context,
     device = model$device,
     checkpoint = model$checkpoint,
-    hp = model$hp
+    hp = hp
   )
   digest::digest(state, algo = "xxhash64")
 }

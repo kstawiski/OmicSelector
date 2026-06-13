@@ -23,14 +23,17 @@ uniformity and otherwise ignored.}
 \code{max_context} (row cap on the frozen context, integer \eqn{\ge 2},
 default \code{4096L}; larger contexts are seeded class-stratified
 subsampled), \code{min_features} (feature-overlap floor at scoring, positive
-integer, default \code{3L}), and \code{seed} (integer; default \code{42L}).}
+integer, default \code{3L}), \code{seed} (integer; default \code{42L}), and
+\code{score_batch} (benchmark-only batched scoring flag, logical, default
+\code{FALSE}).}
 }
 \value{
 Object of class \code{tabpfn_model}: a list with \code{context_rclr}
   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
-  \code{model_version} (\code{"v2"}), \code{hp}, and the live python classifier
-  \code{clf} (excluded from the digest).
+  \code{model_version} (\code{"v2"}),
+  \code{ignore_pretraining_limits} (\code{TRUE}), \code{hp}, and the live
+  python classifier \code{clf} (excluded from the digest).
 }
 \description{
 Freezes the training context for TabPFN-v2 in-context classification. The
@@ -44,6 +47,22 @@ The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is NEVER part of the model
 digest.
+TabPFN-v2 is applied to the full rCLR feature universe; cohorts with
+\eqn{>500} features, including approximately 2540-2565-feature high-plex
+miRNA panels, exceed TabPFN's nominal 500-feature ceiling, so its documented
+\code{ignore_pretraining_limits} override is enabled. Under the pinned
+\code{ModelVersion.V2} preprocessor path (tabpfn 8.0.7) the per-estimator
+feature-subsampling threshold is 1,000,000 (the 500-feature random-subspace
+reduction is the separate V2.5 preset, which is not used here), so TabPFN-v2
+ingests the full feature set directly and is run outside its nominal
+\eqn{\le 500}-feature pretraining regime. No per-estimator feature subsampling
+is introduced (the ensemble subsample indices are all empty), so scoring stays
+deterministic and exactly row-equivariant. The override also lifts the CPU
+\eqn{>1000}-sample guard (a compute guard, not a numeric change). This matches
+how the sibling in-context foundation models TabICL and TabDPT are run on the
+full representation and keeps the comparison apples-to-apples with the rCLR
+baseline; a leakage-safe in-regime top-500 feature reduction is evaluated as
+a companion sensitivity analysis (the prespecified out-of-regime control).
 }
 \examples{
 \dontrun{

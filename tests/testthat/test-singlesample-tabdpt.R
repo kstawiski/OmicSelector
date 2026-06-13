@@ -323,3 +323,66 @@ test_that("fit leaves the CUDA torch RNG byte-unchanged (GPU only)", {
     logical(1L))
   expect_true(all(eq))
 })
+
+test_that("batch scoring is companion-invariant and digest-neutral", {
+  skip_if_no_tabdpt()
+  expect_false(.tabdpt_resolve_hp(list())$score_batch)
+  expect_error(.tabdpt_resolve_hp(list(score_batch = 1)), "score_batch")
+  expect_true(.tabdpt_resolve_hp(list(score_batch = TRUE))$score_batch)
+
+  d <- .make_tabdpt_data(n = 120L, p = 300L, k = 12L, shift = 2.5,
+                         sd = 0.35, seed = 2027L)
+  hp <- list(device = "auto", max_context = 120L, seed = 42L)
+  m <- fit_tabdpt(d$X, d$y, hp = hp)
+
+  query <- 8L
+  comp_a <- 9L:24L
+  comp_b <- 61L:76L
+  X_a <- d$X[c(query, comp_a), , drop = FALSE]
+  X_b <- d$X[c(query, comp_b), , drop = FALSE]
+  rownames(X_a)[1L] <- "query"
+  rownames(X_b)[1L] <- "query"
+  zero <- matrix(0, nrow = 1L, ncol = ncol(X_a),
+                 dimnames = list("zero", colnames(X_a)))
+  X_a_zero <- rbind(X_a, zero)
+
+  digest_before <- .tabdpt_model_digest(m)
+  invisible(score_tabdpt(m, X_a))
+  expect_identical(digest_before, .tabdpt_model_digest(m))
+
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  batch_a <- score_tabdpt(mb, X_a_zero)
+  batch_b <- score_tabdpt(mb, X_b)
+  expect_length(batch_a, nrow(X_a_zero))
+  expect_equal(abs(batch_a[1L] - batch_b[1L]), 0, tolerance = 1e-12)
+  expect_equal(batch_a[nrow(X_a_zero)], 0.5)
+  expect_identical(.tabdpt_model_digest(m), .tabdpt_model_digest(mb))
+})
+
+test_that("multi-chunk batch scoring avoids singleton tails", {
+  skip_if_no_tabdpt()
+  chunks_1025 <- .tabdpt_score_chunks(seq_len(1025L), chunk_size = 1024L)
+  chunks_2049 <- .tabdpt_score_chunks(seq_len(2049L), chunk_size = 1024L)
+  for (chunks in list(chunks_1025, chunks_2049)) {
+    sizes <- lengths(chunks)
+    expect_true(all(sizes >= 2L))
+    expect_lte(max(sizes) - min(sizes), 1L)
+    expect_identical(unname(unlist(chunks)), seq_len(sum(sizes)))
+  }
+
+  d <- .make_tabdpt_data(n = 40L, p = 20L, k = 6L, shift = 2.5,
+                         sd = 0.35, seed = 2028L)
+  m <- fit_tabdpt(d$X, d$y, hp = list(device = "auto", max_context = 40L,
+                                      seed = 42L))
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  q_idx <- rep(seq_len(nrow(d$X)), length.out = 1026L)
+  Xq <- d$X[q_idx, , drop = FALSE]
+  rownames(Xq) <- paste0("Q", seq_len(nrow(Xq)))
+
+  s_1025 <- score_tabdpt(mb, Xq[seq_len(1025L), , drop = FALSE])
+  s_1026 <- score_tabdpt(mb, Xq[seq_len(1026L), , drop = FALSE])
+  expect_equal(s_1025[1025L], s_1026[1025L], tolerance = 1e-3)
+  expect_identical(.tabdpt_model_digest(m), .tabdpt_model_digest(mb))
+})

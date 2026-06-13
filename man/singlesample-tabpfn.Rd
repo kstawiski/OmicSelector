@@ -21,20 +21,18 @@ the feature universe at fit, and at score conditions every query against that
 one frozen context. The frozen context is the TRAINING rows only, so it is
 leakage-safe (no scored / test data ever enters the context).
 
-\strong{Forced row-by-row scoring (the decisive correctness fix).} TabPFN's
-\code{predict_proba} is exactly invariant to the row ORDER of the scored
-batch and to the scored subset -- a query's posterior does not depend on the
-other queries (measured permutation maxdiff \eqn{0}, subset-vs-full maxdiff
-\eqn{0}). However, the installed build's posterior for a 1-row batch differs
-from the same row inside a multi-row batch by \eqn{\approx 1\mathrm{e}{-4}}:
-the \eqn{n=1} forward path is numerically distinct from the \eqn{n>1} path
-(padding / tensor-shape differences), not a cross-row coupling. To make the
-canonical single-sample gate hold EXACTLY (single-row score == batch score to
-machine precision), this scorer evaluates \code{predict_proba} ONE QUERY ROW
-AT A TIME in a loop, so the \eqn{n=1} path is used uniformly and the score of
-a row is bit-identical whether it is scored alone or in any batch. This is the
-documented design decision; it trades a small amount of throughput for exact
-conditional-single-sample equivariance.
+\strong{Row-independent scoring modes.} TabPFN's \code{predict_proba} is
+invariant to the row ORDER of the scored batch and to the scored subset -- a
+query's posterior does not depend on the other queries (measured companion
+maxdiff \eqn{0}). The default deployment path still evaluates
+\code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1} forward path is
+used uniformly. The optional benchmark-only \code{score_batch} path evaluates
+balanced chunks of query rows. That batched path is leakage-free and
+AUC-faithful (observed \eqn{|dAUC| = 7.8\mathrm{e}{-5}} at production scale;
+specimen ranks/verdicts unchanged), but it is not bit-identical to the
+\eqn{n=1} row-by-row path: the installed build has a deterministic batch-size
+numerical effect (raw probability shifts around \eqn{1\mathrm{e}{-4}} to
+\eqn{2.6\mathrm{e}{-3}}), not a cross-row coupling.
 
 \strong{Single-sample transform.} Each specimen is mapped to the
 self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive

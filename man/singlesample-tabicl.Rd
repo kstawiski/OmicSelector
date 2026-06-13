@@ -23,22 +23,14 @@ the feature universe at fit, and at score conditions every query against that
 one frozen context. The frozen context is the TRAINING rows only, so it is
 leakage-safe (no scored / test data ever enters the context).
 
-\strong{Row-independence of TabICL and forced row-by-row scoring.} TabICL's
-\code{predict_proba} is exactly invariant to the row ORDER of the scored batch
-and to the scored subset -- a query's posterior does not depend on the other
-queries (measured permutation maxdiff \eqn{0}, subset-vs-full maxdiff \eqn{0}).
-This is a cleaner row-independence than TabPFN exhibits. However, on the
-installed build the posterior for a 1-row batch differs from the same row
-inside a multi-row batch by \eqn{\approx 3\mathrm{e}{-8}} on cuda (and is
-likewise tiny on cpu): the \eqn{n=1} forward path is numerically distinct from
-the \eqn{n>1} path (GPU/BLAS tiling differences), not a cross-row coupling. To
-make the canonical single-sample gate hold EXACTLY (single-row score == batch
-score to machine precision, not merely within a tolerance), this scorer
-evaluates \code{predict_proba} ONE QUERY ROW AT A TIME in a loop, so the
-\eqn{n=1} path is used uniformly and the score of a row is bit-identical
-whether it is scored alone or in any batch. This mirrors \code{score_tabpfn}'s
-documented design decision; it trades a small amount of throughput for exact
-conditional-single-sample equivariance.
+\strong{Row-independent scoring modes.} TabICL's \code{predict_proba} is
+exactly invariant to the row ORDER of the scored batch and to the scored
+subset -- a query's posterior does not depend on the other queries (measured
+companion maxdiff \eqn{0}). The default deployment path evaluates
+\code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1} forward path is
+used uniformly. The optional benchmark-only \code{score_batch} path evaluates
+balanced chunks of query rows and is numerically identical to the row-by-row
+path (\eqn{\max |b-r| = 0}).
 
 \strong{Single-sample transform.} Each specimen is mapped to the
 self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive

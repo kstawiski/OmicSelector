@@ -417,4 +417,63 @@ test_that("strict hp allow-list rejects unknown / duplicate / unnamed / bad fiel
                "min_features")
   expect_error(fit_img_gasfcnn(d$X, d$y, hp = list(seed = 1.5)),
                "seed")
+  expect_error(fit_img_gasfcnn(d$X, d$y, hp = list(image_size = 1L)),
+               "image_size")
+  expect_error(fit_img_gasfcnn(d$X, d$y, hp = list(image_size = 2.5)),
+               "image_size")
+  # A GASF image side L (= min(p, image_size)) smaller than 2^(#MaxPool blocks) errors
+  # clearly instead of an opaque torch MaxPool RuntimeError. image_size=3 with the
+  # default 2-block net -> L=3 < 4 -> guard fires.
+  expect_error(fit_img_gasfcnn(d$X, d$y, hp = list(image_size = 3L)),
+               "too small for")
+})
+
+# §7.12 PAA fixed-size imaging: when p > image_size the frozen-order rCLR profile is
+# PAA-reduced to L = image_size, so the GASF image is L x L (bounded regardless of p),
+# gasf_lo/gasf_hi have length L, and EVERY single-sample invariant still holds EXACTLY
+# (forced row-by-row + frozen-BN eval + float64): single-row == batch maxdiff 0,
+# per-sample positive-scale invariance ~0, and two seed-matched fits share a digest.
+# This is the property the W7 benchmark relies on: a 2500-feature cohort cannot form a
+# p x p image (memory/compute), but a fixed L x L image is feasible and equivariant.
+test_that("§7.12 PAA: p > image_size -> bounded L x L image, invariants exact", {
+  skip_if_no_gasfcnn()
+  d <- .make_gasfcnn_data(n = 40L, p = 200L, k = 8L, shift = 1.2)  # p = 200 > L
+  m <- fit_img_gasfcnn(d$X, d$y,
+                       hp = list(device = "auto", epochs = 40L, seed = 11L,
+                                 image_size = 64L))
+  # PAA activated: the frozen bounds are length L = image_size = 64 (not p = 200).
+  expect_length(m$gasf_lo, 64L)
+  expect_length(m$gasf_hi, 64L)
+  expect_identical(m$paa_len, 64L)
+  expect_identical(m$image_size, 64L)
+
+  X <- d$X[seq_len(8L), , drop = FALSE]
+  # The rendered GASF image is L x L = 64 x 64 (bounded), NOT p x p.
+  Z <- .img_gasfcnn_rclr_matrix(X[1L, , drop = FALSE])
+  zr <- .img_gasfcnn_paa(Z[1L, ], m$hp$image_size)
+  Gimg <- reticulate::py_to_r(.img_gasfcnn_images(matrix(zr, nrow = 1L),
+                                                  m$gasf_lo, m$gasf_hi))
+  expect_identical(dim(Gimg), c(1L, 1L, 64L, 64L))
+
+  # DECISIVE single-sample equivariance under PAA: single-row == batch, maxdiff 0.
+  batch <- score_img_gasfcnn(m, X)
+  single <- vapply(seq_len(nrow(X)), function(i)
+    score_img_gasfcnn(m, X[i, , drop = FALSE]), numeric(1L))
+  expect_identical(max(abs(batch - single)), 0)
+
+  # Per-sample positive-scale invariance preserved (rCLR-before-PAA is linear).
+  set.seed(5)
+  scal <- matrix(stats::runif(nrow(X), 1e-3, 1e3), nrow(X), ncol(X))
+  expect_equal(max(abs(batch - score_img_gasfcnn(m, X * scal))), 0, tolerance = 1e-6)
+
+  # Determinism under PAA: two seed-matched fits -> identical digest.
+  m2 <- fit_img_gasfcnn(d$X, d$y,
+                        hp = list(device = "auto", epochs = 40L, seed = 11L,
+                                  image_size = 64L))
+  expect_identical(.img_gasfcnn_model_digest(m), .img_gasfcnn_model_digest(m2))
+
+  # Canonical row-equivariance gate under PAA.
+  expect_invisible(
+    singlesample_assert_row_equivariant(
+      score_img_gasfcnn, m, X, model_digest = .img_gasfcnn_model_digest))
 })

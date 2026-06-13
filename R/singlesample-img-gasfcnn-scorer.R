@@ -4,8 +4,11 @@
 #' Single-sample within-cohort discriminator (family M, image/invariance) that turns
 #' each specimen's per-sample robust-CLR (rCLR) profile into a Gramian Angular
 #' Summation Field (GASF) image (Wang & Oates, 2015) and scores it through a small
-#' convolutional network with FROZEN BatchNorm. A specimen of \eqn{p} features maps
-#' to a single-channel \eqn{p \times p} GASF image; a small Conv-BN-ReLU-MaxPool CNN
+#' convolutional network with FROZEN BatchNorm. Following the canonical Wang & Oates
+#' pipeline, the length-\eqn{p} frozen-order rCLR profile is first PAA-reduced to a
+#' FIXED length \eqn{L = \min(p, \mathrm{image\_size})} (default \code{image_size = 128})
+#' so a specimen maps to a single-channel \eqn{L \times L} GASF image of bounded size
+#' regardless of the feature count; a small Conv-BN-ReLU-MaxPool CNN
 #' with a global-average-pool logit head is trained end-to-end on the TRAINING images
 #' by binary cross-entropy, then FROZEN. A new specimen is scored by the logit of the
 #' frozen, eval-mode CNN on its GASF image. Larger = more case-like.
@@ -120,6 +123,42 @@ NULL
   X_use
 }
 
+# ----------------------------------------------------------------------------
+# Piecewise Aggregate Approximation (PAA) -- fixed-size image sizing
+# ----------------------------------------------------------------------------
+# The GASF of a length-L vector is an L x L image; on real miRNA cohorts L can be
+# ~2500 features, so a full-resolution p x p GASF is both memory- (n x p^2: a single
+# CV training fold materialises ~137 GB of images at p=2565) and compute-infeasible
+# (a conv over 2565 x 2565 images for thousands of samples is hours/fold). The
+# prespecification (method_expansion_round2_survey.md) describes this method as
+# "GASF image -> frozen ImageNet CNN/ViT embedding", and an ImageNet backbone takes a
+# FIXED-size input -- i.e. the canonical Wang & Oates (2015) pipeline PAA-reduces the
+# series to a fixed length BEFORE imaging. We therefore PAA-reduce the frozen-order
+# rCLR profile to a fixed length L = min(p, image_size) and form the L x L GASF. PAA
+# is a deterministic, per-sample, LINEAR map (contiguous-segment averaging), so it
+# preserves every single-sample invariant: applied AFTER the per-sample rCLR it keeps
+# exact per-specimen scale-invariance (rCLR(c v) = rCLR(v) => PAA(rCLR(c v)) =
+# PAA(rCLR(v))), uses no cross-row statistic, and the L x L image of a query depends
+# ONLY on that query and the frozen length-L bounds. When p <= image_size no reduction
+# is applied (the vector passes through unchanged), so small-p inputs are byte-identical
+# to the pre-PAA behaviour.
+.img_gasfcnn_paa <- function(z, image_size) {
+  p <- length(z)
+  L <- min(as.integer(image_size), p)
+  if (L >= p) return(z)                          # cap only; no downsampling needed
+  # Contiguous-segment averaging with deterministic floor() boundaries. With p > L the
+  # average segment width p/L > 1 so no segment is empty.
+  bnd <- floor(seq(0, p, length.out = L + 1L))
+  vapply(seq_len(L), function(k) mean(z[(bnd[k] + 1L):bnd[k + 1L]]), numeric(1))
+}
+
+# Row-wise PAA of an n x p matrix to n x L (L = min(p, image_size)). rbind keeps the
+# n x L shape even when n == 1 or L == 1.
+.img_gasfcnn_paa_matrix <- function(Z, image_size) {
+  do.call(rbind, lapply(seq_len(nrow(Z)), function(i)
+    .img_gasfcnn_paa(Z[i, ], image_size)))
+}
+
 
 # ----------------------------------------------------------------------------
 # Pure-R GASF (closed form) -- used ONLY by a §7 test to verify the python GASF
@@ -157,7 +196,7 @@ NULL
     }
   }
   allowed <- c("channels", "epochs", "lr", "weight_decay", "min_features",
-               "device", "seed")
+               "device", "seed", "image_size")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown) > 0L) {
     stop("fit_img_gasfcnn: unknown hp field(s): ",
@@ -202,6 +241,18 @@ NULL
     stop("fit_img_gasfcnn: hp$min_features must be a positive integer")
   }
 
+  # Fixed GASF image side length (PAA target). The frozen-order rCLR profile is
+  # PAA-reduced to L = min(p, image_size) so the GASF image is at most
+  # image_size x image_size, bounding fit memory/compute regardless of feature count.
+  image_size <- hp$image_size
+  if (is.null(image_size)) image_size <- 128L
+  if (!is.numeric(image_size) || length(image_size) != 1L ||
+      !is.finite(image_size) || image_size < 2L ||
+      image_size > .Machine$integer.max ||
+      image_size != as.integer(image_size)) {
+    stop("fit_img_gasfcnn: hp$image_size must be an integer >= 2")
+  }
+
   device <- hp$device
   if (is.null(device)) device <- "cpu"
   if (!is.character(device) || length(device) != 1L || is.na(device) ||
@@ -223,7 +274,8 @@ NULL
     weight_decay = as.numeric(weight_decay),
     min_features = as.integer(min_features),
     device = device,
-    seed = as.integer(seed)
+    seed = as.integer(seed),
+    image_size = as.integer(image_size)
   )
 }
 
@@ -356,9 +408,10 @@ NULL
   list(lo = as.numeric(lo), hi = as.numeric(hi))
 }
 
-# Build the n x 1 x p x p GASF image tensor (numpy -> torch) from the n x p rCLR
-# matrix under frozen bounds, in float64. Implemented in python (numpy) per the
-# brief; the closed form matches .img_gasfcnn_gasf exactly (verified in §7.1).
+# Build the n x 1 x L x L GASF image tensor (numpy -> torch) from an n x L matrix
+# (the PAA-reduced rCLR, L = ncol(Z)) under frozen length-L bounds, in float64.
+# Implemented in python (numpy) per the brief; the closed form matches
+# .img_gasfcnn_gasf exactly (verified in §7.1).
 .img_gasfcnn_images <- function(Z, lo, hi) {
   np <- reticulate::import("numpy", delay_load = FALSE)
   Zp <- np$asarray(Z, dtype = "float64")
@@ -376,8 +429,8 @@ NULL
   vt_j <- np$expand_dims(vt, axis = 1L)                    # n x 1 x p
   s_i <- np$expand_dims(s, axis = 2L)
   s_j <- np$expand_dims(s, axis = 1L)
-  G <- np$subtract(np$multiply(vt_i, vt_j), np$multiply(s_i, s_j))  # n x p x p
-  G <- np$expand_dims(G, axis = 1L)                        # n x 1 x p x p
+  G <- np$subtract(np$multiply(vt_i, vt_j), np$multiply(s_i, s_j))  # n x L x L
+  G <- np$expand_dims(G, axis = 1L)                        # n x 1 x L x L
   G
 }
 
@@ -439,7 +492,7 @@ NULL
   net <- .img_gasfcnn_build_net(hp$channels, device)        # float32 training net
 
   # Training images (float32 for training speed) + labels.
-  G <- .img_gasfcnn_images(Z, bounds$lo, bounds$hi)         # n x 1 x p x p float64
+  G <- .img_gasfcnn_images(Z, bounds$lo, bounds$hi)         # n x 1 x L x L float64
   X_py <- torch$as_tensor(G)$to(torch$float32)$to(device)
   y_py <- torch$as_tensor(np$asarray(as.numeric(y), dtype = "float32"))$to(device)
 
@@ -495,11 +548,18 @@ NULL
 #'   \code{1e-4}), \code{min_features} (feature-overlap floor at scoring, positive
 #'   integer; default \code{3L}), \code{device} (\code{"cpu"} (default),
 #'   \code{"cuda"}, or \code{"auto"}; \code{"cuda"}/\code{"auto"} fall back to CPU
-#'   with no GPU), and \code{seed} (integer; default \code{42L}).
+#'   with no GPU), \code{seed} (integer; default \code{42L}), and \code{image_size}
+#'   (fixed GASF image side length, integer \eqn{\ge 2}; default \code{128L}). The
+#'   frozen-order rCLR profile is PAA-reduced to length \eqn{L = \min(p, image\_size)}
+#'   before imaging, so the GASF image is at most \code{image_size} x \code{image_size}
+#'   regardless of the feature count \eqn{p}; when \eqn{p \le image\_size} no reduction
+#'   is applied.
 #'
 #' @return Object of class \code{img_gasfcnn_model}: a list with
 #'   \code{feature_universe}, \code{state_dict} (named float64 arrays + BN counters),
-#'   \code{channels}, \code{gasf_lo}, \code{gasf_hi} (frozen per-feature bounds),
+#'   \code{channels}, \code{gasf_lo}, \code{gasf_hi} (frozen per-coordinate GASF bounds,
+#'   length \code{paa_len}), \code{image_size} (the PAA target side length) and
+#'   \code{paa_len} (\code{= min(p, image_size)}, the actual GASF image side),
 #'   \code{device} (resolved), \code{seed}, and \code{hp}. No python pointer.
 #'
 #' @examples
@@ -551,10 +611,24 @@ fit_img_gasfcnn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 
   feat_order <- colnames(X_train)
   Z <- .img_gasfcnn_rclr_matrix(X_train)            # n x p rCLR over full universe
-  bounds <- .img_gasfcnn_bounds(Z)                  # frozen per-feature GASF bounds
+  Zr <- .img_gasfcnn_paa_matrix(Z, hp$image_size)   # n x L PAA-reduced (L = min(p, image_size))
+  paa_len <- ncol(Zr)
+  # The L x L image passes through length(channels) MaxPool2d(2) blocks, each halving
+  # the spatial size, so L must be at least 2^(#blocks) for the smallest feature map to
+  # stay >= 1 x 1 (otherwise torch raises an opaque MaxPool RuntimeError). With the
+  # default image_size=128 and real cohorts (p in the hundreds-thousands) this always
+  # holds; the guard only fires for a pathologically small image_size or feature count.
+  min_side <- 2L^length(hp$channels)
+  if (paa_len < min_side) {
+    stop(sprintf(paste0("fit_img_gasfcnn: GASF image side L=%d (= min(p=%d, image_size=%d)) is ",
+                        "too small for %d MaxPool blocks; need L >= %d (raise image_size or ",
+                        "reduce length(channels))"),
+                 paa_len, ncol(X_train), hp$image_size, length(hp$channels), min_side))
+  }
+  bounds <- .img_gasfcnn_bounds(Zr)                 # frozen per-coordinate GASF bounds (length L)
 
   device <- .img_gasfcnn_resolve_device(hp$device)
-  trained <- .img_gasfcnn_train_export(Z, y, bounds, hp, device)
+  trained <- .img_gasfcnn_train_export(Zr, y, bounds, hp, device)
 
   model <- list(
     feature_universe = feat_order,
@@ -562,6 +636,8 @@ fit_img_gasfcnn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     channels = trained$channels,
     gasf_lo = bounds$lo,
     gasf_hi = bounds$hi,
+    image_size = hp$image_size,
+    paa_len = paa_len,
     device = device,
     seed = hp$seed,
     hp = hp
@@ -672,9 +748,13 @@ score_img_gasfcnn <- function(model, X, meta = NULL) {
     # an all-zero rCLR but is a valid specimen that MUST be imaged and scored.
     if (!any(X_use[i, ] > 0)) next                    # empty positive support
     z <- .img_gasfcnn_rclr(X_use[i, ])
+    # PAA-reduce to the SAME fixed length L = min(p, image_size) used at fit, so the
+    # query is imaged at the frozen image side length and scaled by the frozen length-L
+    # bounds. PAA is per-sample + deterministic, so this stays single-sample.
+    zr <- .img_gasfcnn_paa(z, model$hp$image_size)
     # One row at a time: the n = 1 float64 forward path is used uniformly, so the
     # logit is bit-identical alone or in any batch.
-    G <- .img_gasfcnn_images(matrix(z, nrow = 1L), lo, hi)   # 1 x 1 x p x p
+    G <- .img_gasfcnn_images(matrix(zr, nrow = 1L), lo, hi)  # 1 x 1 x L x L
     img <- torch$as_tensor(G)$to(torch$float64)$to(device)
     logit <- net(img)$reshape(list(-1L))
     out[i] <- as.numeric(reticulate::py_to_r(logit$item()))

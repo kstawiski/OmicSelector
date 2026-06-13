@@ -303,3 +303,59 @@ test_that("fit leaves the CUDA torch RNG byte-unchanged (GPU only)", {
     logical(1L))
   expect_true(all(eq))
 })
+
+test_that("batch scoring equals row-by-row (>500 features)", {
+  skip_if_no_tabicl()
+  expect_true(.tabicl_resolve_hp(list(score_batch = TRUE))$score_batch)
+  expect_error(.tabicl_resolve_hp(list(score_batch = 1)), "score_batch")
+
+  d <- .make_tabicl_data(n = 64L, p = 700L, k = 12L, shift = 2.5,
+                         sd = 0.35, seed = 813L)
+  hp <- list(device = "auto", n_estimators = 2L, seed = 42L)
+  m <- fit_tabicl(d$X, d$y, hp = hp)
+
+  query <- c(seq_len(12L), 32L + seq_len(12L))
+  Xq <- d$X[query, , drop = FALSE]
+  yq <- d$y[query]
+  Xq <- rbind(
+    Xq,
+    zero = matrix(0, nrow = 1L, ncol = ncol(Xq), dimnames = list(NULL, colnames(Xq)))
+  )
+
+  row <- score_tabicl(m, Xq)
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  batch <- score_tabicl(mb, Xq)
+
+  expect_equal(batch, row, tolerance = 1e-6)
+  expect_equal(batch[nrow(Xq)], 0.5)
+  expect_gt(.auc_mw_tabicl(yq, batch[seq_along(yq)]), 0.5)
+  expect_identical(.tabicl_model_digest(m), .tabicl_model_digest(mb))
+})
+
+test_that("multi-chunk batch scoring avoids singleton tails", {
+  skip_if_no_tabicl()
+  chunks_1025 <- .tabicl_score_chunks(seq_len(1025L), chunk_size = 1024L)
+  chunks_2049 <- .tabicl_score_chunks(seq_len(2049L), chunk_size = 1024L)
+  for (chunks in list(chunks_1025, chunks_2049)) {
+    sizes <- lengths(chunks)
+    expect_true(all(sizes >= 2L))
+    expect_lte(max(sizes) - min(sizes), 1L)
+    expect_identical(unname(unlist(chunks)), seq_len(sum(sizes)))
+  }
+
+  d <- .make_tabicl_data(n = 40L, p = 20L, k = 6L, shift = 2.5,
+                         sd = 0.35, seed = 814L)
+  m <- fit_tabicl(d$X, d$y, hp = list(device = "auto", n_estimators = 2L,
+                                      max_context = 40L, seed = 42L))
+  mb <- m
+  mb$hp$score_batch <- TRUE
+  q_idx <- rep(seq_len(nrow(d$X)), length.out = 1026L)
+  Xq <- d$X[q_idx, , drop = FALSE]
+  rownames(Xq) <- paste0("Q", seq_len(nrow(Xq)))
+
+  s_1025 <- score_tabicl(mb, Xq[seq_len(1025L), , drop = FALSE])
+  s_1026 <- score_tabicl(mb, Xq[seq_len(1026L), , drop = FALSE])
+  expect_identical(unname(s_1025[1025L]), unname(s_1026[1025L]))
+  expect_identical(.tabicl_model_digest(m), .tabicl_model_digest(mb))
+})

@@ -25,8 +25,9 @@ uniformity and otherwise ignored.}
 \code{"quantile-normal"}, \code{"log1p"}), \code{max_context} (row cap on the
 frozen context, integer \eqn{\ge 2}, default \code{4096L}; larger contexts are
 seeded class-stratified subsampled), \code{min_features} (feature-overlap
-floor at scoring, positive integer, default \code{3L}), and \code{seed}
-(integer; default \code{42L}).}
+floor at scoring, positive integer, default \code{3L}), \code{seed}
+(integer; default \code{42L}), and \code{score_batch} (benchmark-only batched
+scoring flag, logical, default \code{FALSE}).}
 }
 \value{
 Object of class \code{tabdpt_model}: a list with \code{context_rclr}

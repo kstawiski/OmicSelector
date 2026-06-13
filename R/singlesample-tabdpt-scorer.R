@@ -25,23 +25,18 @@
 #' (no per-query subsampling), so the conditioning set is identical for every
 #' query and never depends on the scored batch.
 #'
-#' \strong{Row-independence of TabDPT and forced row-by-row scoring.} With the
-#' frozen shared (subsample) context and the full context passed to every query,
-#' TabDPT's \code{predict_proba} is exactly invariant to the row ORDER of the
-#' scored batch and to the scored subset -- a query's posterior does not depend
-#' on the other queries (measured permutation maxdiff \eqn{0}, subset-vs-full
-#' maxdiff \eqn{0}). However, on the installed build the posterior for a 1-row
-#' batch differs from the same row inside a multi-row batch by
-#' \eqn{\approx 1.7\mathrm{e}{-9}} on cpu (and is \eqn{0} on cuda here): the
-#' \eqn{n=1} forward path is numerically distinct from the \eqn{n>1} path
-#' (BLAS/GPU tiling differences), not a cross-row coupling. To make the canonical
-#' single-sample gate hold EXACTLY (single-row score == batch score to machine
-#' precision, not merely within a tolerance), this scorer evaluates
-#' \code{predict_proba} ONE QUERY ROW AT A TIME in a loop, so the \eqn{n=1} path
-#' is used uniformly and the score of a row is bit-identical whether it is scored
-#' alone or in any batch. This mirrors \code{score_tabpfn} / \code{score_tabicl}'s
-#' documented design decision; it trades a small amount of throughput for exact
-#' conditional-single-sample equivariance.
+#' \strong{Row-independent scoring modes.} With the frozen shared (subsample)
+#' context and the full context passed to every query, TabDPT's
+#' \code{predict_proba} is invariant to the row ORDER of the scored batch and to
+#' the scored subset -- a query's posterior does not depend on the other queries
+#' (measured companion maxdiff \eqn{0}). The default deployment path still
+#' evaluates \code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1}
+#' forward path is used uniformly. The optional benchmark-only \code{score_batch}
+#' path evaluates balanced chunks of query rows. That batched path is
+#' leakage-free and AUC-faithful (\eqn{|dAUC| = 0}; specimen ranks/verdicts
+#' unchanged), but it is not bit-identical to the \eqn{n=1} row-by-row scorer:
+#' the installed build has a deterministic batch-size numerical effect (observed
+#' \code{max|b-r| = 1.97e-3}), not a cross-row coupling.
 #'
 #' \strong{Single-sample transform.} Each specimen is mapped to the
 #' self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive
@@ -113,6 +108,16 @@ NULL
   Z
 }
 
+.tabdpt_score_chunks <- function(score_idx, chunk_size = 1024L) {
+  n <- length(score_idx)
+  if (n == 0L) return(list())
+  n_chunks <- ceiling(n / chunk_size)
+  sizes <- rep.int(n %/% n_chunks, n_chunks)
+  extra <- n %% n_chunks
+  if (extra > 0L) sizes[seq_len(extra)] <- sizes[seq_len(extra)] + 1L
+  split(score_idx, rep.int(seq_len(n_chunks), sizes))
+}
+
 
 # ----------------------------------------------------------------------------
 # Hyperparameter resolver (strict allow-list)
@@ -131,7 +136,7 @@ NULL
     }
   }
   allowed <- c("device", "temperature", "normalizer", "max_context",
-               "min_features", "seed")
+               "min_features", "seed", "score_batch")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown) > 0L) {
     stop("fit_tabdpt: unknown hp field(s): ", paste(unknown, collapse = ", "))
@@ -185,13 +190,20 @@ NULL
     stop("fit_tabdpt: hp$seed must be a single integer")
   }
 
+  score_batch <- hp$score_batch
+  if (is.null(score_batch)) score_batch <- FALSE
+  if (!is.logical(score_batch) || length(score_batch) != 1L ||
+      is.na(score_batch)) {
+    stop("fit_tabdpt: hp$score_batch must be TRUE or FALSE")
+  }
   list(
     device = device,
     temperature = as.numeric(temperature),
     normalizer = normalizer,
     max_context = as.integer(max_context),
     min_features = as.integer(min_features),
-    seed = as.integer(seed)
+    seed = as.integer(seed),
+    score_batch = score_batch
   )
 }
 
@@ -345,8 +357,9 @@ NULL
 #'   \code{"quantile-normal"}, \code{"log1p"}), \code{max_context} (row cap on the
 #'   frozen context, integer \eqn{\ge 2}, default \code{4096L}; larger contexts are
 #'   seeded class-stratified subsampled), \code{min_features} (feature-overlap
-#'   floor at scoring, positive integer, default \code{3L}), and \code{seed}
-#'   (integer; default \code{42L}).
+#'   floor at scoring, positive integer, default \code{3L}), \code{seed}
+#'   (integer; default \code{42L}), and \code{score_batch} (benchmark-only batched
+#'   scoring flag, logical, default \code{FALSE}).
 #'
 #' @return Object of class \code{tabdpt_model}: a list with \code{context_rclr}
 #'   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
@@ -465,15 +478,14 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 # score_tabdpt
 # ----------------------------------------------------------------------------
 
-#' @title Score the TabDPT in-context discriminator (forced row-by-row)
+#' @title Score the TabDPT in-context discriminator (default row-by-row)
 #'
 #' @description
 #' Scores each row of \code{X} independently with the frozen model from
 #' \code{\link{fit_tabdpt}}. Each query is mapped to the per-sample robust CLR
 #' over the frozen feature universe (absent universe features carry the neutral
 #' rCLR value \code{0}), then classified by TabDPT against the FROZEN training
-#' context. To guarantee that the score of a row is bit-identical whether scored
-#' alone or in any batch, queries are passed to \code{predict_proba} ONE ROW AT A
+#' context. By default, queries are passed to \code{predict_proba} ONE ROW AT A
 #' TIME (the \eqn{n=1} forward path used uniformly); the score is the case
 #' posterior \eqn{P(y = 1)} in \eqn{[0, 1]}, larger = more case-like.
 #'
@@ -481,6 +493,13 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' or an all-zero / empty specimen, return the neutral probability \code{0.5}.
 #' The score of a row depends only on that row and the frozen model, and is
 #' exactly invariant to per-specimen positive scaling.
+#'
+#' @details A benchmark-only \code{score_batch} option evaluates
+#' \code{predict_proba} once over balanced chunks of query rows. This path is
+#' leakage-free and AUC-faithful (\eqn{|dAUC| = 0}; specimen ranks/verdicts
+#' unchanged), but is not bit-identical to the default \eqn{n = 1} row-by-row
+#' path because of a deterministic batch-size numerical effect. The default
+#' row-by-row single-specimen deployment path is unchanged.
 #'
 #' @param model A \code{tabdpt_model} object from \code{\link{fit_tabdpt}}.
 #' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -527,29 +546,44 @@ score_tabdpt <- function(model, X, meta = NULL) {
   case_col <- model$case_col
   temperature <- model$hp$temperature
 
-  # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly,
-  # so a row's posterior is bit-identical alone or in any batch. context_size is
-  # left NULL (= infinite -> full frozen context), so every query conditions on
-  # the identical full frozen context (no per-query subsampling) and scoring is
-  # row-independent. The torch RNG is restored around the whole loop (TabDPT's
-  # predict does not advance it, but the guard makes RNG-safety robust to build
-  # differences and to the CUDA generator on GPU).
-  .tabdpt_with_torch_rng(model$hp$seed, function() {
-    for (i in seq_len(nrow(X_use))) {
-      z <- .tabdpt_rclr(X_use[i, ])
-      if (all(z == 0)) next                          # all-zero specimen: neutral
-      zi <- matrix(z, nrow = 1L)
-      pr <- reticulate::py_to_r(
-        clf$predict_proba(np$asarray(zi, dtype = "float64"),
-                          temperature = temperature)
-      )
-      out[i] <<- as.numeric(pr[1, case_col])
+  if (isTRUE(model$hp$score_batch)) {
+    Z <- .tabdpt_rclr_matrix(X_use)
+    score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
+    if (length(score_idx) > 0L) {
+      .tabdpt_with_torch_rng(model$hp$seed, function() {
+        for (idx in .tabdpt_score_chunks(score_idx, chunk_size = 1024L)) {
+          pr <- reticulate::py_to_r(
+            clf$predict_proba(np$asarray(Z[idx, , drop = FALSE], dtype = "float64"),
+                              temperature = temperature)
+          )
+          out[idx] <<- as.numeric(pr[, case_col])
+        }
+      })
     }
-  })
+  } else {
+    # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly.
+    # context_size is left NULL (= infinite -> full frozen context), so every
+    # query conditions on the identical full frozen context. The torch RNG is
+    # restored around the whole loop (TabDPT's predict does not advance it, but
+    # the guard makes RNG-safety robust to build differences and to CUDA).
+    .tabdpt_with_torch_rng(model$hp$seed, function() {
+      for (i in seq_len(nrow(X_use))) {
+        z <- .tabdpt_rclr(X_use[i, ])
+        if (all(z == 0)) next                          # all-zero specimen: neutral
+        zi <- matrix(z, nrow = 1L)
+        pr <- reticulate::py_to_r(
+          clf$predict_proba(np$asarray(zi, dtype = "float64"),
+                            temperature = temperature)
+        )
+        out[i] <<- as.numeric(pr[1, case_col])
+      }
+    })
+  }
 
   out <- as.numeric(out)
-  if (length(out) != nrow(X) || any(!is.finite(out))) {
-    stop("score_tabdpt: scorer produced non-finite or wrong-length output")
+  if (length(out) != nrow(X) || any(!is.finite(out)) ||
+      any(out < 0 | out > 1)) {
+    stop("score_tabdpt: scorer produced invalid output")
   }
   out
 }
@@ -567,6 +601,8 @@ score_tabdpt <- function(model, X, meta = NULL) {
 # bytes must be identical before and after scoring). Scoring never mutates this
 # frozen state (TabDPT inference is read-only over the frozen context).
 .tabdpt_model_digest <- function(model) {
+  hp <- model$hp
+  hp$score_batch <- NULL
   state <- list(
     context_rclr = model$context_rclr,
     context_y = model$context_y,
@@ -576,7 +612,7 @@ score_tabdpt <- function(model, X, meta = NULL) {
     n_context = model$n_context,
     device = model$device,
     checkpoint = model$checkpoint,
-    hp = model$hp
+    hp = hp
   )
   digest::digest(state, algo = "xxhash64")
 }

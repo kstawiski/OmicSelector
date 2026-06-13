@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-tabpfn-scorer.R
 \name{score_tabpfn}
 \alias{score_tabpfn}
-\title{Score the TabPFN-v2 in-context discriminator (forced row-by-row)}
+\title{Score the TabPFN-v2 in-context discriminator (default row-by-row)}
 \usage{
 score_tabpfn(model, X, meta = NULL)
 }
@@ -24,8 +24,7 @@ Scores each row of \code{X} independently with the frozen model from
 \code{\link{fit_tabpfn}}. Each query is mapped to the per-sample robust CLR
 over the frozen feature universe (absent universe features carry the neutral
 rCLR value \code{0}), then classified by TabPFN against the FROZEN training
-context. To guarantee that the score of a row is bit-identical whether scored
-alone or in any batch, queries are passed to \code{predict_proba} ONE ROW AT A
+context. By default, queries are passed to \code{predict_proba} ONE ROW AT A
 TIME (the \eqn{n=1} forward path used uniformly); the score is the case
 posterior \eqn{P(y = 1)} in \eqn{[0, 1]}, larger = more case-like.
 
@@ -33,6 +32,15 @@ Queries with fewer than \code{model$hp$min_features} present universe features,
 or an all-zero / empty specimen, return the neutral probability \code{0.5}.
 The score of a row depends only on that row and the frozen model, and is
 exactly invariant to per-specimen positive scaling.
+}
+\details{
+A benchmark-only \code{score_batch} option evaluates
+\code{predict_proba} once over balanced chunks of query rows. This path is
+leakage-free and AUC-faithful (observed \eqn{|dAUC| = 7.8\mathrm{e}{-5}} at
+production scale; specimen ranks/verdicts unchanged), but is not bit-identical
+to the default \eqn{n = 1} row-by-row path because of a deterministic
+batch-size numerical effect. The default row-by-row single-specimen deployment
+path is unchanged.
 }
 \examples{
 \dontrun{

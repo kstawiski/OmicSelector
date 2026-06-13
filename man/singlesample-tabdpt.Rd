@@ -28,23 +28,18 @@ across queries, not per-query retrieval) and passes the full frozen context
 (no per-query subsampling), so the conditioning set is identical for every
 query and never depends on the scored batch.
 
-\strong{Row-independence of TabDPT and forced row-by-row scoring.} With the
-frozen shared (subsample) context and the full context passed to every query,
-TabDPT's \code{predict_proba} is exactly invariant to the row ORDER of the
-scored batch and to the scored subset -- a query's posterior does not depend
-on the other queries (measured permutation maxdiff \eqn{0}, subset-vs-full
-maxdiff \eqn{0}). However, on the installed build the posterior for a 1-row
-batch differs from the same row inside a multi-row batch by
-\eqn{\approx 1.7\mathrm{e}{-9}} on cpu (and is \eqn{0} on cuda here): the
-\eqn{n=1} forward path is numerically distinct from the \eqn{n>1} path
-(BLAS/GPU tiling differences), not a cross-row coupling. To make the canonical
-single-sample gate hold EXACTLY (single-row score == batch score to machine
-precision, not merely within a tolerance), this scorer evaluates
-\code{predict_proba} ONE QUERY ROW AT A TIME in a loop, so the \eqn{n=1} path
-is used uniformly and the score of a row is bit-identical whether it is scored
-alone or in any batch. This mirrors \code{score_tabpfn} / \code{score_tabicl}'s
-documented design decision; it trades a small amount of throughput for exact
-conditional-single-sample equivariance.
+\strong{Row-independent scoring modes.} With the frozen shared (subsample)
+context and the full context passed to every query, TabDPT's
+\code{predict_proba} is invariant to the row ORDER of the scored batch and to
+the scored subset -- a query's posterior does not depend on the other queries
+(measured companion maxdiff \eqn{0}). The default deployment path still
+evaluates \code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1}
+forward path is used uniformly. The optional benchmark-only \code{score_batch}
+path evaluates balanced chunks of query rows. That batched path is
+leakage-free and AUC-faithful (\eqn{|dAUC| = 0}; specimen ranks/verdicts
+unchanged), but it is not bit-identical to the \eqn{n=1} row-by-row scorer:
+the installed build has a deterministic batch-size numerical effect (observed
+\code{max|b-r| = 1.97e-3}), not a cross-row coupling.
 
 \strong{Single-sample transform.} Each specimen is mapped to the
 self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive

@@ -478,6 +478,15 @@ NULL
     opt$zero_grad()
     loss$backward()
     opt$step()
+    # Release the per-epoch reticulate tensor WRAPPERS so the Python-side tensors they
+    # hold are freed. reticulate releases a Python object only when R garbage-collects
+    # its R-side external-pointer wrapper; without a periodic gc the n x n InfoNCE
+    # intermediates (logits/zc/zk/x_corr/...) accumulate across all epochs on a large
+    # training fold, leaking tens-to-hundreds of GB on the biggest cohorts (observed
+    # ~210 GB on one cohort -> OOM). gc() is computation-neutral -- it touches no live
+    # training state (net/opt/current tensors) -- so the fitted weights are bit-identical
+    # (the §7.8 determinism test confirms an unchanged model digest).
+    if (ep %% 10L == 0L) gc(FALSE)
   }
   encoder$eval(); proj$eval()
 
@@ -515,6 +524,7 @@ NULL
     loss_h <- bce(logit, yt)
     loss_h$backward()
     opt_h$step()
+    if (ep %% 10L == 0L) gc(FALSE)   # release per-epoch wrappers (computation-neutral; see SSL loop)
   }
   head$eval()
   head_w <- as.numeric(reticulate::py_to_r(
