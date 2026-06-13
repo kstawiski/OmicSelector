@@ -212,6 +212,52 @@ test_that("ecod-copod tie tolerance preserves genuinely distinct fine-grained ra
   expect_lt(max(abs(agg[, "copod"] - as.numeric(cf$decision_scores_))), 1e-8)
 })
 
+test_that("ecod-copod pyod parity preserves large-n near-neighbour ranks", {
+  skip_if_no_pyod()
+  # Large references can contain distinct rCLR values closer than the
+  # scale-invariance ULP window. The ECDF convention must snap a scaled query
+  # back to its nearest frozen reference value, then use pyod's exact maximum
+  # rank; widening the inequality itself would merge the two top ranks here.
+  n_ctrl <- 320L
+  n_case <- 8L
+  y <- c(rep(0L, n_ctrl), rep(1L, n_case))
+  l1_ctrl <- seq(0, 10, length.out = n_ctrl)
+  l1_ctrl[n_ctrl - 1L] <- 10 - 1e-12
+  l1_ctrl[n_ctrl] <- 10
+  l1_case <- seq(1, 2, length.out = n_case)
+  L <- cbind(c(l1_ctrl, l1_case), 0, 0)
+  X <- exp(L)
+  colnames(X) <- paste0("f", 1:3)
+  rownames(X) <- paste0("S", seq_len(nrow(X)))
+
+  Zc <- .ecod_copod_rclr_matrix(X[y == 0L, , drop = FALSE])
+  gap <- abs(Zc[n_ctrl, 1L] - Zc[n_ctrl - 1L, 1L])
+  tol <- .ECOD_COPOD_TIE_ULP * .Machine$double.eps *
+    (abs(Zc[n_ctrl, 1L]) + 1)
+  expect_gt(gap, 0)
+  expect_lt(gap, tol)
+  expect_equal(.ecod_copod_ecdf_right(Zc[, 1L], Zc[n_ctrl, 1L]),
+               1 / n_ctrl, tolerance = 1e-15)
+
+  model <- fit_ecod_copod(X, y)
+  ecod_mod <- reticulate::import("pyod.models.ecod", delay_load = FALSE)
+  copod_mod <- reticulate::import("pyod.models.copod", delay_load = FALSE)
+  np <- reticulate::import("numpy", delay_load = FALSE)
+  Zc_py <- np$asarray(Zc, dtype = "float64")
+  ef <- ecod_mod$ECOD(); ef$fit(Zc_py)
+  cf <- copod_mod$COPOD(); cf$fit(Zc_py)
+  full_idx <- seq_len(ncol(Zc))
+  agg <- t(vapply(seq_len(nrow(Zc)), function(i) {
+    .ecod_copod_aggregates(Zc[i, ], model$feature_universe, full_idx,
+                           model$ref_cols, model$skew_sign)
+  }, numeric(2L)))
+  expect_lt(max(abs(agg[, "ecod"] - as.numeric(ef$decision_scores_))), 1e-6)
+  expect_lt(max(abs(agg[, "copod"] - as.numeric(cf$decision_scores_))), 1e-6)
+
+  expect_equal(score_ecod_copod(model, X * 2),
+               score_ecod_copod(model, X), tolerance = 1e-8)
+})
+
 test_that("ecod-copod handles partial feature overlap (consistent + single-row)", {
   skip_if_no_pyod()
   dat <- .make_ecod_copod_data(seed = 45L)
@@ -353,4 +399,30 @@ test_that("ecod-copod hyperparameter validation is strict", {
     fit_ecod_copod(dat$X, dat$y,
                    hp = structure(list(1e-8, 1e-8), names = c("eps", "eps"))),
     "duplicate hp")
+})
+
+test_that("ecod-copod fit/score succeed with a single control row (n_ctrl = 1)", {
+  skip_if_no_pyod()
+  # Regression: the vectorized fit-time control aggregate must keep an n x p
+  # shape when there is exactly one control row. vapply() would otherwise
+  # simplify the per-feature numeric(1) results to a length-p vector and the
+  # matrix-indexed u_skew[, pos] assignment errors. The public label validator
+  # only requires >= 1 control + >= 1 case, so n_ctrl == 1 is a reachable input;
+  # pyod supports a one-row reference (decision score 0).
+  dat <- .make_ecod_copod_data(seed = 71L)
+  ctrl1 <- which(dat$y == 0L)[1]
+  cases <- which(dat$y == 1L)
+  X <- dat$X[c(ctrl1, cases), , drop = FALSE]
+  y <- c(0L, dat$y[cases])
+  expect_error(model <- fit_ecod_copod(X, y, hp = list(verify_pyod = FALSE)), NA)
+  # One control row -> every per-feature max-rank ECDF is 1 -> U_l = U_r = 0 ->
+  # the control aggregates are exactly 0 (matches pyod's single-row reference).
+  Zc <- .ecod_copod_rclr_matrix(X[y == 0L, , drop = FALSE])
+  agg <- .ecod_copod_control_aggregates(Zc, model$skew_sign)
+  expect_equal(nrow(agg), 1L)
+  expect_equal(unname(agg[1, "ecod"]), 0)
+  expect_equal(unname(agg[1, "copod"]), 0)
+  s <- score_ecod_copod(model, X)
+  expect_length(s, nrow(X))
+  expect_true(all(is.finite(s)))
 })

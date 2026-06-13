@@ -76,7 +76,10 @@ NULL
   z <- rep.int(0, length(v))
   pos <- which(v > 0)
   if (length(pos) >= 1L) {
-    lv <- log(v[pos])
+    vp <- v[pos]
+    # log(v / max(v)) - mean(log(v / max(v))) is algebraically identical to
+    # log(v) - mean(log(v)), but removes the per-row scale before taking logs.
+    lv <- log(vp / max(vp))
     z[pos] <- lv - mean(lv)
   }
   z
@@ -104,58 +107,78 @@ NULL
   m3 / m2^1.5
 }
 
-# Tie tolerance for the ECDF step comparison. The per-sample rCLR is exactly
-# scale-invariant only up to floating-point round-off (the cancelling log-scale
-# shift log(c) does not subtract to the bit). The ECDF is a STEP function of x,
-# so without a tolerance a round-off-sized perturbation of x ACROSS an exact
-# reference value (which always happens when the scored specimen is itself a
-# reference row, so its own rCLR value sits in the reference column) flips the
-# inclusive count by one and makes the tail term -- and hence the score --
-# discontinuous under per-sample scaling.
-#
-# The tolerance is therefore sized to the ACTUAL round-off, not a blanket
-# absolute constant. Empirically (measured directly on rCLR(c * X) vs rCLR(X))
-# the round-off is ~4e-15 (~18 * .Machine$double.eps) for O(1) rCLR values under
-# scale factors spanning c in [1e-9, 1e9] and per-row random scalings over
-# 10^[-8, 8] -- far beyond any realistic platform gain. The round-off grows with
-# the log-magnitude (~|rCLR| * eps; up to ~6e-14 only under adversarial extreme
-# |rCLR|~37 stress), but so does the tolerance below (~(|x| + 1) * 2048 * eps),
-# so the safety margin does NOT erode for wide-dynamic-range inputs. Genuine
-# inter-value gaps between DISTINCT rCLR values, even adversarially fine ones
-# (raw abundances differing by 1e-10 -> rCLR gaps ~3e-11), are >= ~3e-11. We set
-# the tie tolerance to an EPSILON-RELATIVE value
+# Tie tolerance for snapping a query value back to an exact frozen reference
+# point after harmless floating-point round-off. The ECDF is a STEP function of
+# x, so a round-off-sized perturbation across a reference value can flip one
+# rank count. The tolerance is therefore sized to expected arithmetic round-off,
+# not to biological/platform noise:
 #   tol(x) = .ECOD_COPOD_TIE_ULP * .Machine$double.eps * (abs(x) + 1)
-# with ULP = 2048, i.e. tol ~= 4.5e-13 for the O(1) rCLR values. At matched
-# magnitude this sits ~100x above the round-off (so scale-invariance stays exact,
-# verified score(c*X) - score(X) maxdiff 0) and ~70x below the finest genuine gap
-# exercised (so it NEVER merges genuinely distinct ranks and the frozen pure-R
-# aggregates still match pyod's decision_scores_ to ~1e-14). The earlier fixed
-# 1e-9 was ~1e7 * eps and over-snapped genuine sub-1e-9 gaps, materially
-# corrupting the frozen model on fine-grained inputs; the ulp-relative tolerance
-# closes that. It is a frozen rule applied identically at fit and score.
+# with ULP = 2048. Crucially, this tolerance is NOT applied by widening the ECDF
+# inequalities. PyOD's column_ecdf uses exact maximum-rank ties, and large real
+# references can contain genuinely distinct values inside this ULP window. The
+# helper below only snaps the query to its nearest frozen reference value; the
+# subsequent ECDF count remains exact, preserving pyod parity and avoiding
+# near-neighbour rank merging.
 .ECOD_COPOD_TIE_ULP <- 2048L
 
-# Left-tail empirical CDF P(ref <= x) = (#{ref_i <= x}) / n_ref, evaluated for a
-# scalar x against a single frozen reference column `ref`. Matches statsmodels'
-# ECDF (the convention pyod's column_ecdf reproduces): tied values all receive
-# the maximum rank probability, i.e. exactly the count of values <= x over n.
-# The `<=` comparison is widened by a relative tie tolerance so a value within
-# float round-off of an exact reference value counts as tied (inclusive),
-# matching pyod's tie handling AND making the count invariant to the round-off of
-# per-sample scaling (see .ECOD_COPOD_TIE_ULP). The count is floored at 0.5
-# (strictly below the smallest training-row count of 1) BEFORE dividing by n, so:
-# (a) on a training-reference row the true count is >= 1 and the floor never
-# bites -> exact match to pyod's decision_scores_; (b) a new specimen more
-# extreme than every reference value (count 0) yields a finite -log(0.5/n)
-# instead of -log(0) = +Inf. The symmetric right tail P(ref >= x) is the same
-# construction on the count of values >= x.
-.ecod_copod_ecdf_left <- function(ref, x) {
+# Snap only the query value, not the reference ECDF, when per-sample scaling
+# round-off lands within the ULP window of a frozen reference point. PyOD's
+# column_ecdf uses exact maximum-rank ties; widening the inequality itself would
+# merge genuinely distinct near-neighbour ranks in large references.
+.ecod_copod_snap_to_ref <- function(ref, x) {
   tol <- .ECOD_COPOD_TIE_ULP * .Machine$double.eps * (abs(x) + 1)
-  max(sum(ref <= x + tol), 0.5) / length(ref)
+  n <- length(ref)
+  if (n < 1L) return(x)
+  k <- findInterval(x, ref)
+  cand <- unique(pmin(pmax(c(k, k + 1L), 1L), n))
+  d <- abs(ref[cand] - x)
+  best <- which.min(d)
+  if (length(best) == 1L && is.finite(d[[best]]) && d[[best]] <= tol) {
+    ref[[cand[[best]]]]
+  } else {
+    x
+  }
+}
+
+.ecod_copod_snap_to_ref_vec <- function(ref, x) {
+  n <- length(ref)
+  if (n < 1L || length(x) < 1L) return(x)
+  tol <- .ECOD_COPOD_TIE_ULP * .Machine$double.eps * (abs(x) + 1)
+  k <- findInterval(x, ref)
+  lo <- pmin(pmax(k, 1L), n)
+  hi <- pmin(pmax(k + 1L, 1L), n)
+  d_lo <- abs(ref[lo] - x)
+  d_hi <- abs(ref[hi] - x)
+  use_hi <- d_hi < d_lo
+  nearest <- ref[lo]
+  nearest[use_hi] <- ref[hi[use_hi]]
+  d <- d_lo
+  d[use_hi] <- d_hi[use_hi]
+  snap <- is.finite(d) & d <= tol
+  x[snap] <- nearest[snap]
+  x
+}
+
+# Left-tail empirical CDF P(ref <= x) = (#{ref_i <= x}) / n_ref, evaluated for a
+# scalar x against a single frozen reference column `ref`. Matches pyod's
+# column_ecdf: tied values all receive the maximum rank probability, i.e. the
+# exact count of values <= x over n. For scaled single-row scoring, `x` is first
+# snapped to the nearest frozen reference value only when it is within the
+# measured floating-point round-off window; the subsequent ECDF count remains an
+# exact pyod-style rank count and does not merge neighbouring distinct values.
+# The count is floored at 0.5 (strictly below the smallest training-row count of
+# 1) BEFORE dividing by n, so: (a) on a training-reference row the true count is
+# >= 1 and the floor never bites -> exact match to pyod's decision_scores_; (b) a
+# new specimen more extreme than every reference value (count 0) yields a finite
+# -log(0.5/n) instead of -log(0) = +Inf. The symmetric right tail P(ref >= x) is
+# the same construction on the exact count of values >= snapped x.
+.ecod_copod_ecdf_left <- function(ref, x) {
+  x <- .ecod_copod_snap_to_ref(ref, x)
+  max(findInterval(x, ref), 0.5) / length(ref)
 }
 .ecod_copod_ecdf_right <- function(ref, x) {
-  tol <- .ECOD_COPOD_TIE_ULP * .Machine$double.eps * (abs(x) + 1)
-  max(sum(ref >= x - tol), 0.5) / length(ref)
+  x <- .ecod_copod_snap_to_ref(ref, x)
+  max(length(ref) - findInterval(x, ref, left.open = TRUE), 0.5) / length(ref)
 }
 
 # ECOD and COPOD per-specimen aggregates against the frozen per-feature control
@@ -186,6 +209,54 @@ NULL
     copod <- copod + max(u_skew, (u_l + u_r) / 2)
   }
   c(ecod = ecod, copod = copod)
+}
+
+.ecod_copod_aggregates_matrix <- function(Z, present_idx, ref_cols,
+                                          skew_sign) {
+  ecod <- numeric(nrow(Z))
+  copod <- numeric(nrow(Z))
+  for (j in present_idx) {
+    ref <- ref_cols[[j]]
+    x <- .ecod_copod_snap_to_ref_vec(ref, Z[, j])
+    u_l <- -log(pmax(findInterval(x, ref), 0.5) / length(ref))
+    u_r <- -log(pmax(length(ref) - findInterval(x, ref, left.open = TRUE),
+                     0.5) / length(ref))
+    s <- skew_sign[[j]]
+    u_skew <- if (s > 0) u_r else if (s < 0) u_l else (u_l + u_r)
+    ecod <- ecod + pmax(u_l, u_r, u_skew)
+    copod <- copod + pmax(u_skew, (u_l + u_r) / 2)
+  }
+  cbind(ecod = ecod, copod = copod)
+}
+
+# Fit-time control aggregates against the full control reference. This is the
+# vectorized equivalent of `.ecod_copod_aggregates()` for rows that are already
+# in `Z_ctrl`: pyod's exact maximum-rank ECDF is just rank(..., ties="max") / n.
+.ecod_copod_control_aggregates <- function(Z_ctrl, skew_sign) {
+  n <- nrow(Z_ctrl)
+  p <- ncol(Z_ctrl)
+  # matrix(..., nrow = n) keeps an n x p shape even when n == 1, where vapply()
+  # otherwise simplifies the per-feature numeric(1) results to a length-p vector
+  # and the matrix-indexed u_skew[, pos] assignment below would error. For n == 1
+  # every rank is 1, so u_l = u_r = -log(1) = 0 (matching pyod's single-row ref).
+  u_l <- matrix(vapply(seq_len(p), function(j) {
+    -log(rank(Z_ctrl[, j], ties.method = "max") / n)
+  }, numeric(n)), nrow = n)
+  u_r <- matrix(vapply(seq_len(p), function(j) {
+    -log(rank(-Z_ctrl[, j], ties.method = "max") / n)
+  }, numeric(n)), nrow = n)
+
+  u_skew <- u_l
+  pos <- skew_sign > 0
+  zero <- skew_sign == 0
+  if (any(pos)) u_skew[, pos] <- u_r[, pos, drop = FALSE]
+  if (any(zero)) u_skew[, zero] <- u_l[, zero, drop = FALSE] +
+    u_r[, zero, drop = FALSE]
+
+  cbind(
+    ecod = rowSums(pmax(u_l, u_r, u_skew)),
+    copod = rowSums(pmax(u_skew, (u_l + u_r) / 2))
+  )
 }
 
 # Combined, oriented per-specimen score from the two raw aggregates and the
@@ -362,19 +433,16 @@ fit_ecod_copod <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     sign(.ecod_copod_skew(Z_ctrl[, j]))
   }, numeric(1L))
 
-  # Frozen per-feature reference columns (one numeric vector per universe
+  # Frozen sorted per-feature reference columns (one numeric vector per universe
   # feature). Stored as a list so the score path indexes by feature position.
-  ref_cols <- lapply(seq_len(ncol(Z_ctrl)), function(j) Z_ctrl[, j])
+  ref_cols <- lapply(seq_len(ncol(Z_ctrl)), function(j) sort(Z_ctrl[, j]))
   names(ref_cols) <- feat_order
   names(skew_sign) <- feat_order
 
   # Frozen pure-R control aggregates -> standardization constants. Every universe
   # feature is present for a control row, so present_idx is the full set here.
   full_idx <- seq_len(ncol(Z_ctrl))
-  ctrl_agg <- do.call(rbind, lapply(seq_len(nrow(Z_ctrl)), function(i) {
-    .ecod_copod_aggregates(Z_ctrl[i, ], feat_order, full_idx, ref_cols,
-                           skew_sign)
-  }))
+  ctrl_agg <- .ecod_copod_control_aggregates(Z_ctrl, skew_sign)
   score_mean <- c(ecod = mean(ctrl_agg[, "ecod"]),
                   copod = mean(ctrl_agg[, "copod"]))
   score_sd <- c(ecod = stats::sd(ctrl_agg[, "ecod"]),
@@ -401,11 +469,11 @@ fit_ecod_copod <- function(X_train, y_train, meta_train = NULL, hp = list()) {
   # combined score is positively associated with case. Computed with a +1
   # orientation, then flipped if anomaly is anti-correlated with case (training
   # AUC < 0.5). Uses the frozen standardization constants.
-  train_combined <- vapply(seq_len(nrow(Z)), function(i) {
-    agg <- .ecod_copod_aggregates(Z[i, ], feat_order, full_idx, ref_cols,
-                                  skew_sign)
-    .ecod_copod_combine(agg, score_mean, score_sd, 1, hp$eps)
-  }, numeric(1L))
+  train_agg <- .ecod_copod_aggregates_matrix(Z, full_idx, ref_cols, skew_sign)
+  train_combined <- ((train_agg[, "ecod"] - score_mean[["ecod"]]) /
+                       max(score_sd[["ecod"]], hp$eps) +
+                       (train_agg[, "copod"] - score_mean[["copod"]]) /
+                       max(score_sd[["copod"]], hp$eps)) / 2
   auc_pos <- .ecod_copod_auc(y, train_combined)
   orientation <- if (is.finite(auc_pos) && auc_pos < 0.5) -1 else 1
 
@@ -500,13 +568,14 @@ score_ecod_copod <- function(model, X, meta = NULL) {
   ref_cols <- model$ref_cols
   skew_sign <- model$skew_sign
 
-  out <- vapply(seq_len(nrow(X_use)), function(i) {
-    z <- .ecod_copod_rclr(X_use[i, ])
-    if (all(z == 0)) return(0)                      # all-zero specimen: neutral
-    agg <- .ecod_copod_aggregates(z, feat_order, present_idx, ref_cols,
-                                  skew_sign)
-    .ecod_copod_combine(agg, mu, sd, orientation, eps)
-  }, numeric(1L))
+  Z <- .ecod_copod_rclr_matrix(X_use)
+  empty <- rowSums(Z != 0) == 0                      # all-zero specimen: neutral
+  agg <- .ecod_copod_aggregates_matrix(Z, present_idx, ref_cols, skew_sign)
+  out <- orientation * (((agg[, "ecod"] - mu[["ecod"]]) /
+                           max(sd[["ecod"]], eps) +
+                           (agg[, "copod"] - mu[["copod"]]) /
+                           max(sd[["copod"]], eps)) / 2)
+  out[empty] <- 0
 
   out <- as.numeric(out)
   if (length(out) != nrow(X) || any(!is.finite(out))) {
