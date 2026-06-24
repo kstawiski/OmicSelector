@@ -190,7 +190,7 @@ dacvae_ct_to_abundance <- function(model, X) {
   if (!inherits(model, "dacvae_model")) {
     stop("dacvae_ct_to_abundance: model must have class dacvae_model")
   }
-  X <- .reo_check_matrix(X, "dacvae_ct_to_abundance", "X")
+  X <- .reo_check_matrix(X, "dacvae_ct_to_abundance", "X", allow_na = TRUE)
   if (!identical(model$input_type, "ct") || is.null(model$ct)) return(X)
   .dacvae_apply_ct(X, model$ct)
 }
@@ -697,14 +697,17 @@ class _DACVAE_AdvHead(nn.Module):
 #'   \code{\link{fit_ss_struct_ilr}}
 #' @export
 fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = list()) {
-  X_train <- .reo_check_matrix(X_train, "fit_dacvae", "X_train")
-  .reo_check_meta(meta_train, nrow(X_train), "fit_dacvae", "meta_train")
-  y <- .reo_check_labels(y_train, nrow(X_train), "fit_dacvae")
   if (missing(annotation) || is.null(annotation)) {
     stop("fit_dacvae: annotation (feature/cluster/gc) is required")
   }
   annotation <- .ss_struct_ilr_check_annotation(annotation)
   hp <- .dacvae_resolve_hp(hp)
+  # Ct input encodes censored/undetected measurements as NA; allow them through the
+  # validator (mapped to the MZR floor at conversion). Abundance input stays NA-free.
+  X_train <- .reo_check_matrix(X_train, "fit_dacvae", "X_train",
+                               allow_na = identical(hp$input_type, "ct"))
+  .reo_check_meta(meta_train, nrow(X_train), "fit_dacvae", "meta_train")
+  y <- .reo_check_labels(y_train, nrow(X_train), "fit_dacvae")
   if (ncol(X_train) < hp$min_features) {
     stop("fit_dacvae: X_train must contain at least hp$min_features features")
   }
@@ -876,7 +879,8 @@ score_dacvae <- function(model, X, meta = NULL) {
   if (!inherits(model, "dacvae_model")) {
     stop("score_dacvae: model must have class dacvae_model")
   }
-  X <- .reo_check_matrix(X, "score_dacvae", "X")
+  X <- .reo_check_matrix(X, "score_dacvae", "X",
+                         allow_na = identical(model$input_type, "ct"))
   .reo_check_meta(meta, nrow(X), "score_dacvae", "meta")
 
   lat <- .dacvae_latents(model, X)
@@ -913,7 +917,8 @@ score_dacvae_novelty <- function(model, X, meta = NULL) {
   if (!inherits(model, "dacvae_model")) {
     stop("score_dacvae_novelty: model must have class dacvae_model")
   }
-  X <- .reo_check_matrix(X, "score_dacvae_novelty", "X")
+  X <- .reo_check_matrix(X, "score_dacvae_novelty", "X",
+                         allow_na = identical(model$input_type, "ct"))
   .reo_check_meta(meta, nrow(X), "score_dacvae_novelty", "meta")
 
   ref <- model$novelty_ref

@@ -170,7 +170,12 @@ score_reo_ucell <- function(model, X, meta = NULL) {
 }
 
 
-.reo_check_matrix <- function(X, fn, arg) {
+# allow_na: when FALSE (default; every existing caller) NA/non-finite values are
+# rejected -- behaviour is byte-identical to before. When TRUE (the qPCR-Ct entry
+# points, where NA encodes a censored/undetected measurement) NA is permitted to pass
+# through, and the negative-value check uses na.rm so NA does not break it; NA is mapped
+# to a positive floor downstream before any numeric use.
+.reo_check_matrix <- function(X, fn, arg, allow_na = FALSE) {
   if (is.data.frame(X)) X <- as.matrix(X)
   if (!is.matrix(X) || !is.numeric(X)) {
     stop(fn, ": ", arg, " must be a numeric matrix of samples x features")
@@ -185,10 +190,10 @@ score_reo_ucell <- function(model, X, meta = NULL) {
   if (any(duplicated(feat_names))) {
     stop(fn, ": ", arg, " must have unique feature names (colnames)")
   }
-  if (any(!is.finite(X))) {
+  if (!allow_na && any(!is.finite(X))) {
     stop(fn, ": ", arg, " must contain only finite numeric values")
   }
-  if (any(X < 0)) {
+  if (any(X < 0, na.rm = TRUE)) {
     stop(fn, ": negative values not allowed (compositional input)")
   }
   storage.mode(X) <- "double"
