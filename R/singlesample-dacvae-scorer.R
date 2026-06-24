@@ -190,8 +190,11 @@ dacvae_ct_to_abundance <- function(model, X) {
   if (!inherits(model, "dacvae_model")) {
     stop("dacvae_ct_to_abundance: model must have class dacvae_model")
   }
-  X <- .reo_check_matrix(X, "dacvae_ct_to_abundance", "X", allow_na = TRUE)
-  if (!identical(model$input_type, "ct") || is.null(model$ct)) return(X)
+  # Allow NA (censored Ct) ONLY for a ct-mode model; an abundance-mode model rejects NA
+  # like every other abundance entry point (for which this converter is an identity).
+  ct_mode <- identical(model$input_type, "ct") && !is.null(model$ct)
+  X <- .reo_check_matrix(X, "dacvae_ct_to_abundance", "X", allow_na = ct_mode)
+  if (!ct_mode) return(X)
   .dacvae_apply_ct(X, model$ct)
 }
 

@@ -155,11 +155,13 @@ test_that("dacvae ct-mode: censored (NA) Ct accepted through the PUBLIC API, sin
   expect_equal(unname(A[3, 2]), unname(m$ct$floor), tolerance = 1e-12)
   expect_equal(unname(A[10, 5]), unname(m$ct$floor), tolerance = 1e-12)
 
-  # Abundance-mode input still rejects NA (no regression to the strict default path).
+  # Abundance-mode input still rejects NA at EVERY public entry point (no regression to
+  # the strict default path), including the Ct converter (an identity for abundance mode).
   ab <- fit_dacvae(d$X, d$y, meta_train = d$meta, annotation = d$annotation,
                    hp = list(epochs = 20L))
   Xbad <- d$X; Xbad[1, 1] <- NA_real_
   expect_error(score_dacvae(ab, Xbad), "finite")
+  expect_error(dacvae_ct_to_abundance(ab, Xbad), "finite")
 })
 
 test_that("dacvae scores neutrally when no balances are constructible (torch-free path)", {
