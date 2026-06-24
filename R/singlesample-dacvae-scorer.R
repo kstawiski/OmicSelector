@@ -129,6 +129,74 @@ NULL
 
 
 # ----------------------------------------------------------------------------
+# qPCR Ct -> relative abundance via a FROZEN train-derived per-miRNA reference
+# ----------------------------------------------------------------------------
+# Pre-registered model (design F3): relative abundance = E^(-dCt), dCt = Ct - ref, with
+# ref = the per-miRNA MEDIAN Ct over the TRAINING samples (a frozen per-feature vector,
+# NOT a sample-specific housekeeping gene, NOT a global scalar). Censored / undetected
+# Ct (NA) maps to the MZR floor (a small positive abundance), never to 0 and never
+# dropped. The reference + efficiency + floor are computed ONCE on train, serialized,
+# and applied UNCHANGED at score time -> single-sample-faithful (no test-batch stat).
+
+# Fit the frozen Ct parameters from a TRAIN Ct matrix. Returns list(reference [named per
+# feature], efficiency E, floor). The floor defaults to half the smallest observed
+# converted abundance (so a censored Ct sits below every detected one); a positive
+# hp$ct_floor overrides it.
+.dacvae_fit_ct <- function(X_ct, E, floor_hp) {
+  ref <- apply(X_ct, 2L, function(v) stats::median(v, na.rm = TRUE))
+  ref[!is.finite(ref)] <- 0                                  # all-NA feature -> ref 0
+  names(ref) <- colnames(X_ct)
+  A_obs <- E^(-(sweep(X_ct, 2L, ref, "-")))                  # NA Ct -> NA abundance
+  obs <- A_obs[is.finite(A_obs) & A_obs > 0]
+  floor <- if (!is.null(floor_hp)) floor_hp
+           else if (length(obs)) 0.5 * min(obs) else 1e-6
+  list(reference = ref, efficiency = E, floor = floor)
+}
+
+# Apply the frozen Ct parameters to a Ct matrix -> relative-abundance matrix (same
+# dimnames). Features without a frozen reference, and censored/undetected (NA or
+# non-positive) conversions, take the MZR floor. Per-cell with a frozen per-feature
+# reference -> row-equivariant.
+.dacvae_apply_ct <- function(X_ct, ct) {
+  ref <- ct$reference; E <- ct$efficiency; fl <- ct$floor
+  A <- matrix(fl, nrow = nrow(X_ct), ncol = ncol(X_ct), dimnames = dimnames(X_ct))
+  common <- intersect(colnames(X_ct), names(ref))
+  if (length(common) > 0L) {
+    sub <- X_ct[, common, drop = FALSE]
+    conv <- E^(-(sweep(sub, 2L, ref[common], "-")))
+    conv[!is.finite(conv) | conv <= 0] <- fl                 # censored -> MZR floor
+    A[, common] <- conv
+  }
+  A
+}
+
+#' @title Convert qPCR Ct values to relative abundance with a fitted DA-cVAE's frozen reference
+#'
+#' @description
+#' Applies a fitted \code{ct}-mode \code{\link{fit_dacvae}} model's FROZEN per-miRNA Ct
+#' reference (median train Ct), assay efficiency \eqn{E}, and censored-Ct MZR floor to a
+#' matrix of qPCR cycle-threshold values, returning the relative-abundance matrix
+#' \eqn{E^{-(Ct - \mathrm{ref})}} (censored / undetected Ct \eqn{\to} the floor). Exposed
+#' for the cross-platform harness to convert qPCR cohorts to the abundance simplex with
+#' the SAME frozen reference the model was fit under (single-sample-faithful). For an
+#' \code{abundance}-mode model this is a no-op identity.
+#'
+#' @param model A \code{dacvae_model} from \code{\link{fit_dacvae}}.
+#' @param X Numeric matrix of qPCR Ct values (samples x features); named feature columns.
+#' @return Relative-abundance matrix with the same dimensions/dimnames as \code{X}.
+#' @seealso \code{\link{fit_dacvae}}, \code{\link{score_dacvae}}
+#' @export
+dacvae_ct_to_abundance <- function(model, X) {
+  if (!inherits(model, "dacvae_model")) {
+    stop("dacvae_ct_to_abundance: model must have class dacvae_model")
+  }
+  X <- .reo_check_matrix(X, "dacvae_ct_to_abundance", "X")
+  if (!identical(model$input_type, "ct") || is.null(model$ct)) return(X)
+  .dacvae_apply_ct(X, model$ct)
+}
+
+
+# ----------------------------------------------------------------------------
 # Pure-R encoder forward (exact reimplementation of the torch encoder up to mu)
 # ----------------------------------------------------------------------------
 
@@ -173,7 +241,8 @@ NULL
   }
   allowed <- c("enc_hidden", "dec_hidden", "latent_dim", "activation", "epochs", "lr",
                "weight_decay", "kl_beta", "recon_weight", "grl_lambda", "domain_hidden",
-               "platform_col", "novelty_k", "pseudocount", "aggregate",
+               "platform_col", "novelty_k", "input_type", "ct_efficiency", "ct_floor",
+               "pseudocount", "aggregate",
                "min_balance_coverage", "min_part", "min_features", "device", "seed")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown) > 0L) {
@@ -242,6 +311,27 @@ NULL
 
   novelty_k <- if (is.null(hp$novelty_k)) 5L else pos_int1(hp$novelty_k, "novelty_k")
 
+  # input_type: "abundance" (default; X is non-negative relative abundance) or "ct"
+  # (X is qPCR cycle-threshold values, converted to relative abundance via a FROZEN
+  # train-derived per-miRNA reference; see .dacvae_fit_ct / .dacvae_apply_ct).
+  input_type <- hp$input_type
+  if (is.null(input_type)) input_type <- "abundance"
+  if (!is.character(input_type) || length(input_type) != 1L || is.na(input_type) ||
+      !input_type %in% c("abundance", "ct")) {
+    stop("fit_dacvae: hp$input_type must be one of 'abundance', 'ct'")
+  }
+  ct_efficiency <- hp$ct_efficiency
+  if (is.null(ct_efficiency)) ct_efficiency <- 2.0
+  if (!is.numeric(ct_efficiency) || length(ct_efficiency) != 1L ||
+      !is.finite(ct_efficiency) || ct_efficiency <= 1) {
+    stop("fit_dacvae: hp$ct_efficiency must be a finite number > 1 (e.g. 2 for 2^-dCt)")
+  }
+  ct_floor <- hp$ct_floor                       # NULL -> computed at fit (frozen)
+  if (!is.null(ct_floor) && (!is.numeric(ct_floor) || length(ct_floor) != 1L ||
+      !is.finite(ct_floor) || ct_floor <= 0)) {
+    stop("fit_dacvae: hp$ct_floor must be NULL (fit-computed) or a positive finite number")
+  }
+
   pseudocount <- hp$pseudocount
   if (!is.null(pseudocount) && (!is.numeric(pseudocount) || length(pseudocount) != 1L ||
       !is.finite(pseudocount) || pseudocount <= 0)) {
@@ -275,7 +365,9 @@ NULL
        activation = activation, epochs = epochs, lr = as.numeric(lr),
        weight_decay = weight_decay, kl_beta = kl_beta, recon_weight = recon_weight,
        grl_lambda = grl_lambda, domain_hidden = as.integer(domain_hidden),
-       platform_col = platform_col, novelty_k = novelty_k, pseudocount = pseudocount,
+       platform_col = platform_col, novelty_k = novelty_k,
+       input_type = input_type, ct_efficiency = as.numeric(ct_efficiency),
+       ct_floor = ct_floor, pseudocount = pseudocount,
        aggregate = aggregate, min_balance_coverage = mbc, min_part = min_part,
        min_features = min_features, device = device, seed = as.integer(seed))
 }
@@ -580,7 +672,12 @@ class _DACVAE_AdvHead(nn.Module):
 #'   \code{1.0}), \code{grl_lambda} (adversary strength; default \code{1.0};
 #'   \code{0} = no-GRL ablation), \code{domain_hidden} (FIT-only adversary widths;
 #'   default \code{c(32L)}), \code{platform_col} (\code{NULL} = auto-detect),
-#'   \code{novelty_k} (kNN novelty neighbours; default \code{5L}), \code{pseudocount} /
+#'   \code{novelty_k} (kNN novelty neighbours; default \code{5L}), \code{input_type}
+#'   (\code{"abundance"} (default) or \code{"ct"} for qPCR cycle-threshold input,
+#'   converted to relative abundance via a frozen per-miRNA train-median reference),
+#'   \code{ct_efficiency} (assay efficiency \eqn{E} for \eqn{E^{-\Delta Ct}}; default
+#'   \code{2}), \code{ct_floor} (censored-Ct MZR floor abundance; \code{NULL} =
+#'   fit-computed), \code{pseudocount} /
 #'   \code{aggregate} / \code{min_balance_coverage} / \code{min_part} (Stage-1 balance
 #'   controls), \code{min_features} (score-time overlap floor; default \code{3L}),
 #'   \code{device} (\code{"cpu"}/\code{"cuda"}/\code{"auto"}), \code{seed}
@@ -612,7 +709,18 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
     stop("fit_dacvae: X_train must contain at least hp$min_features features")
   }
 
-  features <- colnames(X_train)
+  # ---- qPCR Ct -> relative abundance (frozen per-miRNA reference), if requested ----
+  # input_type = "ct": derive the per-miRNA Ct reference + MZR floor from TRAIN once,
+  # serialize them, and convert to relative abundance; everything downstream operates on
+  # abundance. input_type = "abundance" (default) is byte-identical to the prior path.
+  if (identical(hp$input_type, "ct")) {
+    ct_params <- .dacvae_fit_ct(X_train, hp$ct_efficiency, hp$ct_floor)
+    X_ab <- .dacvae_apply_ct(X_train, ct_params)
+  } else {
+    ct_params <- NULL
+    X_ab <- X_train
+  }
+  features <- colnames(X_ab)
   sbp <- .ss_struct_ilr_build_sbp(features, annotation, hp$min_part)
   balance_names <- names(sbp)
 
@@ -620,6 +728,7 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
     feature_universe = features,
     sbp = sbp,
     balance_names = balance_names,
+    input_type = hp$input_type, ct = ct_params,
     pseudocount = hp$pseudocount,
     aggregate = hp$aggregate,
     min_balance_coverage = hp$min_balance_coverage,
@@ -640,7 +749,7 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
   }
 
   # ---- balances + frozen train-only standardisation -------------------------
-  B <- .dacvae_raw_balances(X_train, sbp, hp$pseudocount, hp$aggregate,
+  B <- .dacvae_raw_balances(X_ab, sbp, hp$pseudocount, hp$aggregate,
                             hp$min_balance_coverage, balance_names)
   center <- apply(B, 2L, function(v) { m <- mean(v, na.rm = TRUE); if (is.finite(m)) m else 0 })
   scale_ <- apply(B, 2L, function(v) { s <- stats::sd(v, na.rm = TRUE); if (is.finite(s) && s > 0) s else 1 })
@@ -723,6 +832,10 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
   L <- model$latent_dim
   out <- list(mu = matrix(NA_real_, nrow = n, ncol = L), floored = rep(TRUE, n))
   if (length(model$sbp) == 0L || length(model$weights) == 0L) return(out)
+  # Ct-mode: convert qPCR Ct -> relative abundance with the FROZEN reference first.
+  if (identical(model$input_type, "ct") && !is.null(model$ct)) {
+    X <- .dacvae_apply_ct(X, model$ct)
+  }
   present <- intersect(model$feature_universe, colnames(X))
   if (length(present) < model$hp$min_features) return(out)
   Xr <- X[, present, drop = FALSE]
@@ -834,7 +947,9 @@ score_dacvae_novelty <- function(model, X, meta = NULL) {
 .dacvae_model_digest <- function(model) {
   state <- list(
     feature_universe = model$feature_universe, sbp = model$sbp,
-    balance_names = model$balance_names, pseudocount = model$pseudocount,
+    balance_names = model$balance_names,
+    input_type = model$input_type, ct = model$ct,
+    pseudocount = model$pseudocount,
     aggregate = model$aggregate, min_balance_coverage = model$min_balance_coverage,
     center = model$center, scale = model$scale, weights = model$weights,
     activation = model$activation, head_w = model$head_w, head_b = model$head_b,

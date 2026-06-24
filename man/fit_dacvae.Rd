@@ -32,7 +32,12 @@ adversary off). Must have one row per row of \code{X_train}.}
 \code{1.0}), \code{grl_lambda} (adversary strength; default \code{1.0};
 \code{0} = no-GRL ablation), \code{domain_hidden} (FIT-only adversary widths;
 default \code{c(32L)}), \code{platform_col} (\code{NULL} = auto-detect),
-\code{novelty_k} (kNN novelty neighbours; default \code{5L}), \code{pseudocount} /
+\code{novelty_k} (kNN novelty neighbours; default \code{5L}), \code{input_type}
+(\code{"abundance"} (default) or \code{"ct"} for qPCR cycle-threshold input,
+converted to relative abundance via a frozen per-miRNA train-median reference),
+\code{ct_efficiency} (assay efficiency \eqn{E} for \eqn{E^{-\Delta Ct}}; default
+\code{2}), \code{ct_floor} (censored-Ct MZR floor abundance; \code{NULL} =
+fit-computed), \code{pseudocount} /
 \code{aggregate} / \code{min_balance_coverage} / \code{min_part} (Stage-1 balance
 controls), \code{min_features} (score-time overlap floor; default \code{3L}),
 \code{device} (\code{"cpu"}/\code{"cuda"}/\code{"auto"}), \code{seed}

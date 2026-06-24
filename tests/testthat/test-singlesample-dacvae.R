@@ -123,6 +123,38 @@ test_that("dacvae is cross-process reproducible (seed-matched digests match)", {
   expect_identical(.dacvae_model_digest(m1), .dacvae_model_digest(m2))
 })
 
+test_that("dacvae ct-mode: frozen Ct reference, single == batch, censored Ct -> floor", {
+  skip_if_no_torch()
+  d <- mk_dacvae_data(n = 32L, p = 21L, seed = 13L)
+  # Synthetic qPCR Ct (lower Ct = higher abundance); positive, finite.
+  Ct <- 35 - 5 * log2(d$X + 1)
+  colnames(Ct) <- d$features
+  m <- fit_dacvae(Ct, d$y, meta_train = d$meta, annotation = d$annotation,
+                  hp = list(epochs = 40L, input_type = "ct"))
+  expect_identical(m$input_type, "ct")
+  expect_true(!is.null(m$ct) && length(m$ct$reference) == ncol(Ct) && m$ct$floor > 0)
+
+  s <- score_dacvae(m, Ct)
+  expect_length(s, nrow(Ct))
+  expect_true(all(is.finite(s)))
+  # Single-sample faithfulness: a Ct row scored alone == its batch position EXACTLY
+  # (frozen per-feature reference). Abundance-scale-invariance does NOT apply to Ct
+  # input (Ct is logarithmic) and is intentionally not asserted here.
+  for (i in c(1L, nrow(Ct))) {
+    expect_equal(score_dacvae(m, Ct[i, , drop = FALSE]), s[i], tolerance = 1e-9)
+  }
+  # The exported converter maps Ct -> positive relative abundance with the frozen ref.
+  A <- dacvae_ct_to_abundance(m, Ct)
+  expect_true(all(A > 0) && all(is.finite(A)))
+  # Censored / undetected (NA) Ct -> the positive MZR floor, never 0 (unit-test the
+  # frozen converter directly so the NA does not trip the abundance input validator).
+  Ct_cens <- Ct[1:2, , drop = FALSE]
+  Ct_cens[1, 2] <- NA_real_
+  Acens <- .dacvae_apply_ct(Ct_cens, m$ct)
+  expect_equal(unname(Acens[1, 2]), unname(m$ct$floor), tolerance = 1e-12)
+  expect_true(all(Acens > 0))
+})
+
 test_that("dacvae scores neutrally when no balances are constructible (torch-free path)", {
   # No skip_if_no_torch(): a degenerate SBP makes fit_dacvae return BEFORE it requires
   # torch, and scoring is pure base-R, so this path must run even on a torch-less host.
