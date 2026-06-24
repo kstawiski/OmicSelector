@@ -40,11 +40,16 @@
 #' \strong{Platforms from \code{meta_train}.} The platform/assay domains are the
 #' distinct non-missing labels in \code{meta_train[[platform_col]]} (auto-detected from
 #' \code{"platform"}, \code{"assay"}, \code{"technology"}, \code{"accession"},
-#' \code{"batch"}, \code{"study"}, \code{"dataset"} when \code{NULL}). The adversary is
-#' engaged only with \eqn{\ge 2} platforms AND \code{grl_lambda > 0}; otherwise the fit
-#' degenerates to a plain conditional VAE + label head with the adversary inert (the
-#' \strong{no-GRL ablation}, \code{model$n_platforms == 1} or \code{grl_lambda == 0}).
-#' This is exactly the ablation the design's no-harm guard compares against.
+#' \code{"batch"}, \code{"study"}, \code{"dataset"} when \code{NULL}). The conditional
+#' decoder uses ALL \eqn{\ge 2} platforms whenever they exist, INDEPENDENT of
+#' \code{grl_lambda}; the GRL adversary is engaged SEPARATELY, only when
+#' \code{grl_lambda > 0} (recorded as \code{model$adv_engaged}). Setting
+#' \code{grl_lambda = 0} with \eqn{\ge 2} platforms is therefore the design's
+#' \strong{no-GRL ablation}: the SAME architecture (conditional decoder preserved),
+#' adversary off — exactly the baseline the design's non-negotiable no-harm guard
+#' compares against. A single platform (or \code{NULL} \code{meta_train}) collapses the
+#' decoder to unconditional (\code{n_platforms == 1}) with the adversary necessarily
+#' off.
 #'
 #' \strong{Torch is confined to FIT.} After training, the encoder weights (trunk up to
 #' and including the \eqn{\mu} head) and the disease LABEL head \eqn{(w, b_0)} are
@@ -559,10 +564,10 @@ class _DACVAE_AdvHead(nn.Module):
 #' @param y_train 0/1 disease labels (1 = case), length \code{nrow(X_train)}, with at
 #'   least one case and one control.
 #' @param meta_train Optional per-sample metadata carrying a platform/assay column (the
-#'   adversary domain). When it contains the resolved \code{platform_col} with \eqn{\ge
-#'   2} platforms and \code{grl_lambda > 0}, the adversary is engaged; otherwise the fit
-#'   degenerates to a conditional VAE + label head (the no-GRL ablation). Must have one
-#'   row per row of \code{X_train}.
+#'   conditional-decoder + adversary domain). With \eqn{\ge 2} platforms the conditional
+#'   decoder is always used; the adversary is engaged only when \code{grl_lambda > 0}
+#'   (so \code{grl_lambda = 0} here is the no-GRL ablation: conditional decoder preserved,
+#'   adversary off). Must have one row per row of \code{X_train}.
 #' @param annotation data.frame with columns \code{feature} (miRNA id), \code{cluster}
 #'   (genomic-cluster id), \code{gc} (GC fraction) — the Stage-1 SBP priors.
 #' @param hp Optional list of hyperparameters (all frozen into the model). Fields:
@@ -586,9 +591,10 @@ class _DACVAE_AdvHead(nn.Module):
 #'   \code{aggregate}, \code{min_balance_coverage}), \code{center}/\code{scale}
 #'   (frozen balance standardisation), \code{weights} (exported encoder layers),
 #'   \code{activation}, \code{head_w}/\code{head_b} (frozen disease head),
-#'   \code{latent_dim}, \code{platform_levels}, \code{n_platforms} (\code{1} = ablation),
-#'   \code{grl_lambda}, \code{novelty_ref} (control-latent reference matrix),
-#'   \code{novelty_k}, \code{device}, \code{seed}, \code{hp}.
+#'   \code{latent_dim}, \code{platform_levels}, \code{n_platforms} (platforms used by the
+#'   conditional decoder; \code{1} = unconditional), \code{adv_engaged} (\code{FALSE} =
+#'   no-GRL ablation), \code{grl_lambda}, \code{novelty_ref} (control-latent reference
+#'   matrix), \code{novelty_k}, \code{device}, \code{seed}, \code{hp}.
 #'
 #' @seealso \code{\link{score_dacvae}}, \code{\link{score_dacvae_novelty}},
 #'   \code{\link{fit_ss_struct_ilr}}
@@ -621,7 +627,7 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
     weights = list(), activation = hp$activation,
     head_w = numeric(0), head_b = 0,
     latent_dim = hp$latent_dim,
-    platform_levels = character(0), n_platforms = 1L,
+    platform_levels = character(0), n_platforms = 1L, adv_engaged = FALSE,
     grl_lambda = hp$grl_lambda,
     novelty_ref = matrix(numeric(0), nrow = 0L, ncol = 0L),
     novelty_k = hp$novelty_k,
@@ -640,20 +646,28 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
   scale_ <- apply(B, 2L, function(v) { s <- stats::sd(v, na.rm = TRUE); if (is.finite(s) && s > 0) s else 1 })
   Bstd <- .dacvae_standardize(B, center, scale_)
 
-  # ---- resolve platforms (adversary domains) --------------------------------
+  # ---- resolve platforms (conditional-decoder domains) ----------------------
+  # The conditional decoder p(balances | z, platform) uses ALL platforms whenever >=2
+  # exist, INDEPENDENT of grl_lambda. The GRL adversary is engaged SEPARATELY (only
+  # when grl_lambda > 0; see adv_engaged + .dacvae_train_export's adv_active). This
+  # decoupling is what makes grl_lambda=0 with >=2 platforms the design's true no-GRL
+  # ablation: SAME architecture (conditional decoder preserved), adversary off -- the
+  # reference baseline for the non-negotiable no-harm guard. (Collapsing the decoder to
+  # unconditional when grl_lambda=0 would confound adversary-off with
+  # conditional->unconditional and mis-specify that guard.)
   plat <- .dacvae_resolve_platforms(meta_train, nrow(X_train), hp$platform_col)
   plat_levels <- character(0)
   if (!is.null(plat)) plat_levels <- sort(unique(plat[!is.na(plat)]))
-  if (length(plat_levels) >= 2L && hp$grl_lambda > 0) {
+  if (length(plat_levels) >= 2L) {
     plat_idx <- match(plat, plat_levels)
     plat_idx[is.na(plat_idx)] <- 1L                  # missing -> first platform
     n_plat <- length(plat_levels)
   } else {
     plat_idx <- rep.int(1L, nrow(X_train))           # single constant platform
     n_plat <- 1L
-    plat_levels <- if (length(plat_levels) >= 1L) plat_levels else "all"
-    plat_levels <- plat_levels[1L]
+    plat_levels <- if (length(plat_levels) >= 1L) plat_levels[1L] else "all"
   }
+  adv_engaged <- (n_plat >= 2L) && (hp$grl_lambda > 0)
 
   # Save the global R .Random.seed BEFORE any reticulate import (reticulate's first
   # python init seeds R's RNG as a side effect; fit draws no R randomness of its own).
@@ -688,6 +702,7 @@ fit_dacvae <- function(X_train, y_train, meta_train = NULL, annotation, hp = lis
   model$head_b <- as.numeric(trained$head_b)
   model$platform_levels <- plat_levels
   model$n_platforms <- n_plat
+  model$adv_engaged <- adv_engaged
   model$novelty_ref <- novelty_ref
   model$device <- device
   class(model) <- "dacvae_model"
@@ -824,7 +839,8 @@ score_dacvae_novelty <- function(model, X, meta = NULL) {
     center = model$center, scale = model$scale, weights = model$weights,
     activation = model$activation, head_w = model$head_w, head_b = model$head_b,
     latent_dim = model$latent_dim, platform_levels = model$platform_levels,
-    n_platforms = model$n_platforms, grl_lambda = model$grl_lambda,
+    n_platforms = model$n_platforms, adv_engaged = model$adv_engaged,
+    grl_lambda = model$grl_lambda,
     novelty_ref = model$novelty_ref, novelty_k = model$novelty_k,
     seed = model$seed, hp = model$hp
   )

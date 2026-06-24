@@ -93,17 +93,28 @@
     }
   }
 
-  # (2) GC high vs low tertile within each cluster (tertiles frozen from train)
+  # (2) GC-tertile sequential binary partition WITHIN each cluster. The three GC
+  # tertiles (tertile cut-offs frozen from the TRAIN annotated features) are split as a
+  # proper 2-balance SBP so all three tertiles are represented and the high-GC tertile
+  # is isolated in a terminal balance (quarantining GC-driven dropout, the design goal):
+  #   gc_hi__<cl> : high tertile           vs (mid union low)
+  #   gc_lo__<cl> : mid tertile            vs low tertile
+  # Degenerate GC (hi_cut == lo_cut) collapses the mid tertile to empty, so only the
+  # high-vs-low terminal balance survives -- a graceful 2-group fallback.
   qs <- stats::quantile(ann$gc, probs = c(1/3, 2/3), na.rm = TRUE, names = FALSE)
   lo_cut <- qs[1]; hi_cut <- qs[2]
   for (cl in clusters) {
     sub <- ann[ann$cluster == cl, , drop = FALSE]
     if (nrow(sub) < 2L) next
-    hi <- sub$feature[sub$gc >= hi_cut]
     lo <- sub$feature[sub$gc <= lo_cut]
-    hi <- setdiff(hi, lo)  # exclusive when hi_cut == lo_cut (degenerate GC)
-    if (length(hi) >= min_part && length(lo) >= min_part) {
-      balances[[paste0("gc__", cl)]] <- list(numerator = hi, denominator = lo)
+    hi <- sub$feature[sub$gc >= hi_cut & sub$gc > lo_cut]   # exclude any low overlap
+    mid <- setdiff(sub$feature, union(lo, hi))              # strictly between cut-offs
+    rest_hi <- union(mid, lo)                               # everything below the high tertile
+    if (length(hi) >= min_part && length(rest_hi) >= min_part) {
+      balances[[paste0("gc_hi__", cl)]] <- list(numerator = hi, denominator = rest_hi)
+    }
+    if (length(mid) >= min_part && length(lo) >= min_part) {
+      balances[[paste0("gc_lo__", cl)]] <- list(numerator = mid, denominator = lo)
     }
   }
   balances
@@ -248,6 +259,13 @@ score_ss_struct_ilr <- function(model, X, meta = NULL) {
   Bs <- sweep(sweep(B, 2L, model$center, "-"), 2L, model$scale, "/")
   w <- model$weights
   out <- vapply(seq_len(nrow(Bs)), function(i) {
+    # Empty positive support is the only degenerate row floored to neutral 0. Test it
+    # on the ORIGINAL aligned abundances, NOT on all(balance == 0): an all-zero
+    # specimen maps (via the per-sample pseudocount) to all-zero balances, which the
+    # frozen standardisation would otherwise shift OFF origin to a spurious non-zero
+    # score. A FLAT all-equal-positive composition also has all-zero balances but is a
+    # valid specimen and is scored normally.
+    if (!any(Xr[i, ] > 0)) return(0)
     sum(w * Bs[i, ], na.rm = TRUE)
   }, numeric(1L))
   out <- as.numeric(out)

@@ -82,23 +82,35 @@ test_that("dacvae is exactly scale-invariant per specimen (disease + novelty)", 
   expect_equal(score_dacvae_novelty(m, Xs), base_nov, tolerance = 1e-6)
 })
 
-test_that("dacvae no-GRL ablation and single-platform paths fit and score", {
+test_that("dacvae no-GRL ablation preserves the conditional decoder (decoupled from adversary)", {
   skip_if_no_torch()
-  d <- mk_dacvae_data(n = 32L, seed = 9L)
-  # grl_lambda = 0 -> adversary inert (the no-harm-guard ablation).
+  d <- mk_dacvae_data(n = 32L, n_platforms = 3L, seed = 9L)
+  # grl_lambda = 0 with >=2 platforms = the design's no-GRL ablation: the conditional
+  # decoder is PRESERVED (n_platforms == #platforms), only the adversary is off. This
+  # is the reference baseline for the non-negotiable no-harm guard, so the ablation must
+  # NOT also collapse the decoder to unconditional.
   m0 <- fit_dacvae(d$X, d$y, meta_train = d$meta, annotation = d$annotation,
                    hp = list(epochs = 40L, grl_lambda = 0.0))
+  expect_identical(m0$n_platforms, 3L)       # conditional decoder preserved
+  expect_false(m0$adv_engaged)               # adversary off
   expect_true(all(is.finite(score_dacvae(m0, d$X))))
-  # A single platform -> n_platforms == 1 (plain conditional VAE + label head).
+  # The full model on the SAME data engages the adversary (same conditional decoder).
+  mf <- fit_dacvae(d$X, d$y, meta_train = d$meta, annotation = d$annotation,
+                   hp = list(epochs = 40L, grl_lambda = 1.0))
+  expect_identical(mf$n_platforms, 3L)
+  expect_true(mf$adv_engaged)
+  # A single platform -> unconditional decoder (n_platforms == 1), adversary necessarily off.
   meta1 <- data.frame(platform = rep("only", nrow(d$X)), stringsAsFactors = FALSE)
   m1 <- fit_dacvae(d$X, d$y, meta_train = meta1, annotation = d$annotation,
                    hp = list(epochs = 40L))
   expect_identical(m1$n_platforms, 1L)
+  expect_false(m1$adv_engaged)
   expect_true(all(is.finite(score_dacvae(m1, d$X))))
   # NULL meta -> also single platform.
   mn <- fit_dacvae(d$X, d$y, meta_train = NULL, annotation = d$annotation,
                    hp = list(epochs = 30L))
   expect_identical(mn$n_platforms, 1L)
+  expect_false(mn$adv_engaged)
 })
 
 test_that("dacvae is cross-process reproducible (seed-matched digests match)", {
@@ -111,8 +123,9 @@ test_that("dacvae is cross-process reproducible (seed-matched digests match)", {
   expect_identical(.dacvae_model_digest(m1), .dacvae_model_digest(m2))
 })
 
-test_that("dacvae scores neutrally when no balances are constructible", {
-  skip_if_no_torch()
+test_that("dacvae scores neutrally when no balances are constructible (torch-free path)", {
+  # No skip_if_no_torch(): a degenerate SBP makes fit_dacvae return BEFORE it requires
+  # torch, and scoring is pure base-R, so this path must run even on a torch-less host.
   set.seed(1)
   n <- 8L; p <- 6L
   features <- sprintf("hsa-miR-%03d-3p", seq_len(p))

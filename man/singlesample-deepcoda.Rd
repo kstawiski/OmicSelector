@@ -39,7 +39,7 @@ with a learned scalar bias \eqn{c}. The faithful self-explaining form
 linear head \eqn{s(x)=w\cdot b(x)+c} with constant coefficients is the simpler
 defensible variant -- see SEVEN_evidence.md for the flagged design choice). The
 \eqn{\theta}-net uses \code{relu} / \code{tanh} hidden activation and a
-\code{Linear(\to B)} output, with NO BatchNorm (every operation is a function of
+\eqn{\mathrm{Linear}(\cdot \to B)} output, with NO BatchNorm (every operation is a function of
 \eqn{x} alone, so the forward is per-row and single-sample-safe).
 
 \strong{Torch is confined to FIT.} The bottleneck + \eqn{\theta}-net + bias are

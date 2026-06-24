@@ -43,11 +43,16 @@ logvar head, and adversary are FIT-only and are NOT exported.
 \strong{Platforms from \code{meta_train}.} The platform/assay domains are the
 distinct non-missing labels in \code{meta_train[[platform_col]]} (auto-detected from
 \code{"platform"}, \code{"assay"}, \code{"technology"}, \code{"accession"},
-\code{"batch"}, \code{"study"}, \code{"dataset"} when \code{NULL}). The adversary is
-engaged only with \eqn{\ge 2} platforms AND \code{grl_lambda > 0}; otherwise the fit
-degenerates to a plain conditional VAE + label head with the adversary inert (the
-\strong{no-GRL ablation}, \code{model$n_platforms == 1} or \code{grl_lambda == 0}).
-This is exactly the ablation the design's no-harm guard compares against.
+\code{"batch"}, \code{"study"}, \code{"dataset"} when \code{NULL}). The conditional
+decoder uses ALL \eqn{\ge 2} platforms whenever they exist, INDEPENDENT of
+\code{grl_lambda}; the GRL adversary is engaged SEPARATELY, only when
+\code{grl_lambda > 0} (recorded as \code{model$adv_engaged}). Setting
+\code{grl_lambda = 0} with \eqn{\ge 2} platforms is therefore the design's
+\strong{no-GRL ablation}: the SAME architecture (conditional decoder preserved),
+adversary off — exactly the baseline the design's non-negotiable no-harm guard
+compares against. A single platform (or \code{NULL} \code{meta_train}) collapses the
+decoder to unconditional (\code{n_platforms == 1}) with the adversary necessarily
+off.
 
 \strong{Torch is confined to FIT.} After training, the encoder weights (trunk up to
 and including the \eqn{\mu} head) and the disease LABEL head \eqn{(w, b_0)} are

@@ -14,10 +14,10 @@ unique, non-empty feature names (colnames).}
 least one case and one control.}
 
 \item{meta_train}{Optional per-sample metadata carrying a platform/assay column (the
-adversary domain). When it contains the resolved \code{platform_col} with \eqn{\ge
-2} platforms and \code{grl_lambda > 0}, the adversary is engaged; otherwise the fit
-degenerates to a conditional VAE + label head (the no-GRL ablation). Must have one
-row per row of \code{X_train}.}
+conditional-decoder + adversary domain). With \eqn{\ge 2} platforms the conditional
+decoder is always used; the adversary is engaged only when \code{grl_lambda > 0}
+(so \code{grl_lambda = 0} here is the no-GRL ablation: conditional decoder preserved,
+adversary off). Must have one row per row of \code{X_train}.}
 
 \item{annotation}{data.frame with columns \code{feature} (miRNA id), \code{cluster}
 (genomic-cluster id), \code{gc} (GC fraction) — the Stage-1 SBP priors.}
@@ -44,9 +44,10 @@ Object of class \code{dacvae_model}: a list with \code{feature_universe},
   \code{aggregate}, \code{min_balance_coverage}), \code{center}/\code{scale}
   (frozen balance standardisation), \code{weights} (exported encoder layers),
   \code{activation}, \code{head_w}/\code{head_b} (frozen disease head),
-  \code{latent_dim}, \code{platform_levels}, \code{n_platforms} (\code{1} = ablation),
-  \code{grl_lambda}, \code{novelty_ref} (control-latent reference matrix),
-  \code{novelty_k}, \code{device}, \code{seed}, \code{hp}.
+  \code{latent_dim}, \code{platform_levels}, \code{n_platforms} (platforms used by the
+  conditional decoder; \code{1} = unconditional), \code{adv_engaged} (\code{FALSE} =
+  no-GRL ablation), \code{grl_lambda}, \code{novelty_ref} (control-latent reference
+  matrix), \code{novelty_k}, \code{device}, \code{seed}, \code{hp}.
 }
 \description{
 Trains a domain-adversarial conditional VAE on the standardised Stage-1

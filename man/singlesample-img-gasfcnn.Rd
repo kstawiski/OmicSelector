@@ -7,8 +7,11 @@
 Single-sample within-cohort discriminator (family M, image/invariance) that turns
 each specimen's per-sample robust-CLR (rCLR) profile into a Gramian Angular
 Summation Field (GASF) image (Wang & Oates, 2015) and scores it through a small
-convolutional network with FROZEN BatchNorm. A specimen of \eqn{p} features maps
-to a single-channel \eqn{p \times p} GASF image; a small Conv-BN-ReLU-MaxPool CNN
+convolutional network with FROZEN BatchNorm. Following the canonical Wang & Oates
+pipeline, the length-\eqn{p} frozen-order rCLR profile is first PAA-reduced to a
+FIXED length \eqn{L = \min(p, \mathrm{image\_size})} (default \code{image_size = 128})
+so a specimen maps to a single-channel \eqn{L \times L} GASF image of bounded size
+regardless of the feature count; a small Conv-BN-ReLU-MaxPool CNN
 with a global-average-pool logit head is trained end-to-end on the TRAINING images
 by binary cross-entropy, then FROZEN. A new specimen is scored by the logit of the
 frozen, eval-mode CNN on its GASF image. Larger = more case-like.

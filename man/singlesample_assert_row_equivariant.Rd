@@ -52,7 +52,7 @@ it. This harness implements the strengthened single-sample-deployability unit
 test prespecified in SAP Amendment #4 (section 2): for the same specimen, the
 batch score must equal its standalone score across ALL of
 \itemize{
-  \item (a) the singleton `{x_i}` (the decisive single-sample case);
+  \item (a) the singleton \eqn{\{x_i\}} (the decisive single-sample case);
   \item (b) differently-composed batches (varied size/composition) and an
     adversarial batch (the specimen among extreme, scaled neighbours);
   \item (c) row-order permutations and batches with duplicated rows present;

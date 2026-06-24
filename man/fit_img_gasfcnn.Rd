@@ -24,12 +24,19 @@ default \code{1e-3}), \code{weight_decay} (non-negative Adam L2; default
 \code{1e-4}), \code{min_features} (feature-overlap floor at scoring, positive
 integer; default \code{3L}), \code{device} (\code{"cpu"} (default),
 \code{"cuda"}, or \code{"auto"}; \code{"cuda"}/\code{"auto"} fall back to CPU
-with no GPU), and \code{seed} (integer; default \code{42L}).}
+with no GPU), \code{seed} (integer; default \code{42L}), and \code{image_size}
+(fixed GASF image side length, integer \eqn{\ge 2}; default \code{128L}). The
+frozen-order rCLR profile is PAA-reduced to length \eqn{L = \min(p, image\_size)}
+before imaging, so the GASF image is at most \code{image_size} x \code{image_size}
+regardless of the feature count \eqn{p}; when \eqn{p \le image\_size} no reduction
+is applied.}
 }
 \value{
 Object of class \code{img_gasfcnn_model}: a list with
   \code{feature_universe}, \code{state_dict} (named float64 arrays + BN counters),
-  \code{channels}, \code{gasf_lo}, \code{gasf_hi} (frozen per-feature bounds),
+  \code{channels}, \code{gasf_lo}, \code{gasf_hi} (frozen per-coordinate GASF bounds,
+  length \code{paa_len}), \code{image_size} (the PAA target side length) and
+  \code{paa_len} (\code{= min(p, image_size)}, the actual GASF image side),
   \code{device} (resolved), \code{seed}, and \code{hp}. No python pointer.
 }
 \description{

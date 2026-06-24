@@ -15,6 +15,10 @@ case/disease and 0 is control.}
 
 \item{meta_train}{Optional per-sample metadata. Accepted for interface
 uniformity and ignored by this method.}
+
+\item{hp}{Optional list of frozen MFDFA hyperparameters. Supported names are
+validated by the internal resolver: resample_len, n_scales, s_min, s_max,
+m_poly, q, shrink, min_features, eps, and seed.}
 }
 \value{
 A plain list of class \code{frac_mfdfa_model} containing
