@@ -1,10 +1,31 @@
-# OmicSelector 2.4.0
+# OmicSelector 2.6.0
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
-Release 2.4.0 adds the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, the matched-null benchmark, and the provenance pre-flight gate that are benchmarked in the OmicSelector paper.
+Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, the matched-null benchmark, and the provenance pre-flight gate that are benchmarked in the OmicSelector paper.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
+
+---
+
+## Single-sample deployment (what's distinctive)
+
+OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score
+one incoming specimen without a co-resident test batch, reference cohort, or
+test-time batch-correction step. This is a deployability feature, not a
+superiority claim: in the 21-cohort benchmark, no single-sample method robustly
+cleared +0.05 over trimmed-rCLR, and cross-platform transfer was null.
+
+```r
+dep <- deploy_singlesample(X_train, y_train, method = "ws-balance-ilr")
+score <- score_specimen(dep, x_new)
+is_singlesample_deployable(dep, X_probe = X_train)
+singlesample_method_roster()
+```
+
+The default `ws-balance-ilr` is a compositional deployment default, not a
+certified winner. Use `singlesample_method_roster()` to inspect deployable
+methods and explicit rejection routes without ranking them.
 
 ---
 
@@ -43,7 +64,7 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 ## Paper Artifacts
 
 The OmicSelector paper release is anchored to the package repository at
-<https://github.com/kstawiski/OmicSelector>. Release 2.4.0 exposes the
+<https://github.com/kstawiski/OmicSelector>. Release 2.6.0 exposes the
 paper-facing methods as exported, documented R functions:
 
 1. Five within-sample compositional scoring methods:
@@ -104,7 +125,7 @@ paper-facing methods as exported, documented R functions:
 
 ## Within-Sample Biomarker Panel Classification
 
-OmicSelector 2.4.0 adds within-sample classification methods for
+OmicSelector 2.6.0 adds within-sample classification methods for
 reference-cohort-free biomarker panels and provenance-aware validation helpers:
 
 - Four image encodings: `encode_simple_grid()`, `encode_corr_grid()`,

@@ -424,12 +424,15 @@ score_sel_stablemate <- function(model, X, meta = NULL) {
 # cross-cohort instability the method exists to reject. "No stable predictor
 # found" is an honest, correct outcome, not a failure to be patched over.
 .sel_stablemate_extract_stable <- function(fit, sigthresh) {
-  res <- NULL
-  invisible(utils::capture.output(
-    res <- StableMate:::print.stablemate(fit, sigthresh = sigthresh)
-  ))
-  pred <- as.character(res$pred_selected)
-  stab <- as.character(res$stab_selected)
+  pred_imp <- fit$prediction_ensemble$imp_scores$joint
+  stab_imp <- fit$stable_ensemble$imp_scores$conditional
+  if (is.null(pred_imp) || is.null(stab_imp)) {
+    return(character())
+  }
+  pred_sig <- pred_imp$significance[-1]
+  stab_sig <- stab_imp$significance[-1]
+  pred <- names(pred_sig)[pred_sig > sigthresh]
+  stab <- names(stab_sig)[stab_sig > sigthresh]
   intersect(pred, stab)
 }
 

@@ -339,10 +339,41 @@ NULL
 # D can exceed n, so the ridge is REQUIRED (the un-penalized Hessian would be
 # singular). Returns list(intercept, weights) -- a plain pure-R linear map; no RNG.
 .inv_scatter_ridge_logit <- function(Xs, y, lambda, max_iter = 200L, tol = 1e-10) {
-  Xa <- cbind(1, Xs)                                 # n x (D+1), col 1 = intercept
+  D <- ncol(Xs)
+  if (D > 0L) {
+    sv <- svd(Xs, nu = 0L, nv = min(dim(Xs)))
+    # Standard numerical-rank cutoff. Exact for exact-null directions (the primal
+    # ridge optimum has a strictly-zero component there); for a near-null direction
+    # 0 < d_k <= rank_tol that is dropped, the residual vs the primal is O(d_k/lambda)
+    # -> negligible at the CV grid floor lambda >= 1e-3 and ~0 for in-distribution
+    # queries. So this preserves the ridge optimum up to the numerical-rank tolerance,
+    # not literally for every finite matrix (see the lambda=0 note at `force_jitter`).
+    rank_tol <- if (length(sv$d) > 0L) {
+      sv$d[1L] * max(dim(Xs)) * .Machine$double.eps
+    } else {
+      0
+    }
+    keep <- sv$d > rank_tol
+    r <- sum(keep)
+    V <- if (r > 0L) sv$v[, keep, drop = FALSE] else matrix(numeric(0L), D, 0L)
+  } else {
+    r <- 0L
+    V <- matrix(numeric(0L), 0L, 0L)
+  }
+  Psi <- if (r > 0L) Xs %*% V else matrix(numeric(0L), nrow(Xs), 0L)
+  Xa <- cbind(1, Psi)                                # n x (r+1), col 1 = intercept
   D1 <- ncol(Xa)
   pen <- rep(lambda, D1); pen[1L] <- 0               # do not penalize the intercept
   b <- rep(0, D1)
+  # lambda=0 is NOT reachable in the benchmark (CV grid floor is 1e-3; default
+  # lambda=NULL -> CV); it is only reachable via explicit user hp$lambda=0. With
+  # dropped null directions (D>r) the primal H is singular and falls back to a
+  # 1e-8-jittered solve; we force the same jitter here so the EXACT-null case
+  # matches. NOTE: for lambda=0 on a RANK-DEFICIENT design the reduced (r+1) jitter
+  # and the primal (D+1) jitter condition the singular system differently, so the
+  # two are NOT bit-equivalent there (~1e-7); both are ~1e-8-ridge solutions of a
+  # singular problem. This corner is documented/tested, not used by W7.
+  force_jitter <- isTRUE(lambda == 0) && D > r        # omitted null directions made primal H singular
   for (it in seq_len(max_iter)) {
     eta <- as.vector(Xa %*% b)
     mu <- 1 / (1 + exp(-eta))
@@ -353,14 +384,22 @@ NULL
     H <- XtW %*% Xa
     diag(H) <- diag(H) + pen
     g <- XtW %*% zwork
-    bn <- tryCatch(solve(H, g), error = function(e) {
+    bn <- if (force_jitter) {
+      solve(H + diag(1e-8, D1), g)
+    } else tryCatch(solve(H, g), error = function(e) {
       solve(H + diag(1e-8, D1), g)                   # tiny jitter if ill-conditioned
     })
     bn <- as.vector(bn)
-    if (max(abs(bn - b)) < tol) { b <- bn; break }
+    delta <- if (r > 0L) {
+      max(abs(c(bn[1L] - b[1L], as.vector(V %*% (bn[-1L] - b[-1L])))))
+    } else {
+      abs(bn[1L] - b[1L])
+    }
+    if (delta < tol) { b <- bn; break }
     b <- bn
   }
-  list(intercept = b[1L], weights = b[-1L])
+  weights <- if (r > 0L) as.vector(V %*% b[-1L]) else numeric(D)
+  list(intercept = b[1L], weights = weights)
 }
 
 # Deterministic class-stratified k-fold assignment (NO RNG): within each class,

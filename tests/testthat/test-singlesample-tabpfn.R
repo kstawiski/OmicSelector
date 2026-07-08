@@ -14,6 +14,12 @@ skip_if_no_tabpfn <- function() {
   Sys.setenv(TABPFN_NO_BROWSER = "1")
   Sys.setenv(TABPFN_DISABLE_TELEMETRY = "1")
   testthat::skip_if_not_installed("reticulate")
+  cuda_ok <- tryCatch(suppressWarnings({
+    torch <- reticulate::import("torch", delay_load = FALSE)
+    isTRUE(reticulate::py_to_r(torch$cuda$is_available()))
+  }), error = function(e) FALSE)
+  testthat::skip_if_not(
+    cuda_ok, "CUDA unavailable; TabPFN CPU fallback is too slow for R CMD check")
   testthat::skip_if_not(reticulate::py_module_available("tabpfn"),
                         "Python module 'tabpfn' not available")
 }

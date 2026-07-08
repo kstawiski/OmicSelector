@@ -1,7 +1,7 @@
 url: https://kstawiski.github.io/OmicSelector/
 
 home:
-  title: OmicSelector 2.4.0 - Rigorous Biomarker Discovery
+  title: OmicSelector 2.6.0 - Rigorous Biomarker Discovery
   links:
   - text: Konrad Stawiski, M.D., Ph.D.
     href: https://konsta.com.pl
@@ -32,6 +32,9 @@ navbar:
       icon: fas fa-book
       text: Articles
       menu:
+      - text: Single-sample deployment
+        href: articles/single-sample-deployment.html
+      - text: "---"
       - text: Getting Started
         href: articles/getting-started.html
       - text: TCGA Biomarker Discovery
@@ -47,7 +50,24 @@ navbar:
       aria-label: GitHub repository
       href: https://github.com/kstawiski/OmicSelector
 
+articles:
+- title: Single-sample scoring & deployment
+  contents:
+  - single-sample-deployment
+
 reference:
+- title: Single-sample scoring & deployment
+  desc: Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a benchmark-winning claim.
+  contents:
+  - deploy_singlesample
+  - score_specimen
+  - is_singlesample_deployable
+  - ws_balance_ilr
+  - ws_rclr_trimmed
+  - singlesample_method_roster
+  - singlesample_score_call
+  - singlesample_assert_row_equivariant
+
 - title: Core Pipeline
   desc: Main classes for building zero-leakage ML pipelines
   contents:

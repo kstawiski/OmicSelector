@@ -51,6 +51,20 @@ abundance balance computed at runtime.
 Tolerant to feature absence: features missing from the panel are simply
 removed from the numerator/denominator before computation; a balance
 becomes NA only if either side becomes empty.
+
+The matrix/data.frame path is vectorized for deployment throughput. For
+\code{aggregate = "gmean"}, it uses row-wise means of the logged feature
+matrix and is regression-locked to the prior scalar row-loop semantics,
+including large \code{"ALL_NON_RBC"} / \code{"ALL_NON_PLT"} denominators
+and structurally generated SBPs. The same path also preserves feature
+names for one-column matrices and avoids the prior multi-column
+data.frame recursion failure.
+
+Backwards-compatibility note: the pre-existing
+\code{"TOP_K_BY_ABUNDANCE"} behavior when the panel size is less than or
+equal to \code{k} is intentionally preserved here for frozen within-sample
+result identity. Treating that case as a semantic empty-tail denominator
+would change existing scores and is reserved for a separate fix.
 }
 \examples{
 \dontrun{

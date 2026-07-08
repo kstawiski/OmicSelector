@@ -14,6 +14,12 @@ skip_if_no_tabdpt <- function() {
   # not load-path-stable under R) and is hermetic.
   Sys.setenv(HF_HUB_OFFLINE = "1")
   testthat::skip_if_not_installed("reticulate")
+  cuda_ok <- tryCatch(suppressWarnings({
+    torch <- reticulate::import("torch", delay_load = FALSE)
+    isTRUE(reticulate::py_to_r(torch$cuda$is_available()))
+  }), error = function(e) FALSE)
+  testthat::skip_if_not(
+    cuda_ok, "CUDA unavailable; TabDPT CPU fallback is too slow for R CMD check")
   # Actually IMPORT tabdpt (not just module-available): tabdpt's import chain
   # pulls in Python's _ssl, whose brew-OpenSSL build needs the brew libcrypto on
   # the loader path BEFORE R loads the system one. On this host run R with

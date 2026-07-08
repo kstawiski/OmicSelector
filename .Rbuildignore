@@ -45,6 +45,7 @@ Rplots.pdf
 ^inst/extdata/wx/DearWXpub/src/.*\.log$
 ^.*\.tar\.gz$
 ^OmicSelector\.Rcheck$
+^\.check_logs.*$
 ^release_v.*$
 ^delegated_tasks$
 ^triple_consensus_logs$
@@ -52,3 +53,9 @@ Rplots.pdf
 ^index\.md$
 ^\.lintr$
 ^\.pre-commit-config\.yaml$
+^core$
+^m3_staging$
+^inst/python/__pycache__$
+^inst/python/.*\.pyc$
+^doc$
+^Meta$

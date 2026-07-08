@@ -46,21 +46,9 @@
 #'   case/disease and 0 is control.
 #' @param meta_train Optional per-sample metadata. Accepted for interface
 #'   uniformity and ignored by this method.
-#' @param hp List of frozen hyperparameters (strict allowed-list, exact
-#'   \code{[[ ]]} reads): \code{resample_len} fixed MFDFA series length
-#'   (default \code{256L}; integer \eqn{\ge 32}); \code{n_scales} number of
-#'   geometric scales (default \code{12L}; integer \eqn{\ge 4}); \code{s_min}
-#'   smallest scale (default \code{8L}; integer \eqn{\ge 4}); \code{s_max}
-#'   largest scale (default \code{resample_len %/% 4}; integer greater than
-#'   \code{s_min} and at most \code{resample_len %/% 2}); \code{m_poly} DFA
-#'   detrending polynomial order (default \code{1L}; integer in \code{[1,3]});
-#'   \code{q} MFDFA moments (default \code{c(-5,-3,-1,2,3,5)}; finite numeric
-#'   vector, no duplicates, must include 2); \code{shrink} ridge fraction
-#'   (default \code{0.1}; non-negative finite); \code{min_features} positive
-#'   support floor (default resolved as \code{max(32L, 2L * s_max)} to satisfy
-#'   the frozen-scale support coupling); \code{eps} positive numerical floor
-#'   (default \code{1e-8}); and \code{seed} (default \code{1L}; accepted for
-#'   interface uniformity only, no randomness is used).
+#' @param hp Optional list of frozen MFDFA hyperparameters. Supported names are
+#'   validated by the internal resolver: resample_len, n_scales, s_min, s_max,
+#'   m_poly, q, shrink, min_features, eps, and seed.
 #'
 #' @return A plain list of class \code{frac_mfdfa_model} containing
 #'   \code{feature_universe}, \code{order_perm}, frozen \code{scales},

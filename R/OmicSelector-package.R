@@ -1,7 +1,7 @@
 #' @title OmicSelector: Zero-Leakage Biomarker Discovery Toolkit
 #'
 #' @description
-#' OmicSelector 2.5.0 is a toolkit for high-dimensional biomarker discovery with
+#' OmicSelector 2.6.0 is a toolkit for high-dimensional biomarker discovery with
 #' leakage-resistant validation, stable feature selection, within-sample panel
 #' methods, frozen-reference denoising add-ons, qPCR non-detect handling,
 #' matched-null benchmarks, and provenance-aware audit helpers.
@@ -56,7 +56,7 @@
 #'
 #' ## Philosophy
 #'
-#' OmicSelector 2.5.0 prioritizes leakage-resistant validation, feature
+#' OmicSelector 2.6.0 prioritizes leakage-resistant validation, feature
 #' stability, and auditable provenance checks above raw apparent accuracy.
 #' High accuracy with unstable feature sets or strong provenance-only prediction
 #' is treated as a warning signal rather than as direct biomarker evidence.
@@ -78,11 +78,11 @@
 #'
 "_PACKAGE"
 
-#' @title OmicSelector 2.5.0 Package Startup
+#' @title OmicSelector 2.6.0 Package Startup
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "OmicSelector 2.5.0 - Leakage-Resistant Biomarker Discovery\n",
+    "OmicSelector 2.6.0 - Leakage-Resistant Biomarker Discovery\n",
     "Use OmicPipeline$new() to start. Run ?OmicSelector for help.\n"
   )
 }

@@ -301,6 +301,20 @@ ws_default_sbp <- function(version = "circulating_v1") {
 #' removed from the numerator/denominator before computation; a balance
 #' becomes NA only if either side becomes empty.
 #'
+#' The matrix/data.frame path is vectorized for deployment throughput. For
+#' \code{aggregate = "gmean"}, it uses row-wise means of the logged feature
+#' matrix and is regression-locked to the prior scalar row-loop semantics,
+#' including large \code{"ALL_NON_RBC"} / \code{"ALL_NON_PLT"} denominators
+#' and structurally generated SBPs. The same path also preserves feature
+#' names for one-column matrices and avoids the prior multi-column
+#' data.frame recursion failure.
+#'
+#' Backwards-compatibility note: the pre-existing
+#' \code{"TOP_K_BY_ABUNDANCE"} behavior when the panel size is less than or
+#' equal to \code{k} is intentionally preserved here for frozen within-sample
+#' result identity. Treating that case as a semantic empty-tail denominator
+#' would change existing scores and is reserved for a separate fix.
+#'
 #' @param x Numeric vector with miRNA names, OR a matrix (samples x features).
 #'   Must have feature names - names are used to match the partition entries.
 #' @param balances Named list of balances, each with components
@@ -344,19 +358,85 @@ ws_balance_ilr <- function(x,
   }
 
   if (is.matrix(x) || is.data.frame(x)) {
-    rows <- lapply(seq_len(nrow(x)), function(i) {
-      ws_balance_ilr(x[i, ], balances = balances, pseudocount = pseudocount,
-                     aggregate = aggregate,
-                     min_balance_coverage = min_balance_coverage)
-    })
-    out <- do.call(rbind, rows)
+    x <- as.matrix(x)
+    feat_names <- colnames(x)
+    if (is.null(feat_names)) stop("x must have feature names (miRNA IDs).")
+
+    balance_names <- names(balances)
+    out <- matrix(NA_real_, nrow = nrow(x), ncol = length(balance_names),
+                  dimnames = list(rownames(x), balance_names))
+    if (is.null(pseudocount)) {
+      pc <- 1e-6 * rowSums(x, na.rm = TRUE)
+      pc[pc <= 0] <- .Machine$double.eps
+    } else {
+      pc <- pseudocount
+      if (pc <= 0) pc <- .Machine$double.eps
+    }
+    log_x <- log(x + pc)
+
+    for (j in seq_along(balance_names)) {
+      b <- balances[[balance_names[[j]]]]
+      num <- b$numerator
+      den <- b$denominator
+
+      if (length(num) == 1L && num == "TOP_K_BY_ABUNDANCE") {
+        k <- if (!is.null(b$k)) b$k else 8L
+        for (i in seq_len(nrow(x))) {
+          ord <- order(x[i, ], decreasing = TRUE)
+          num_idx <- ord[seq_len(min(k, length(x[i, ])))]
+          den_idx <- ord[(min(k, length(x[i, ])) + 1L):length(ord)]
+          if (length(num_idx) == 0L || length(den_idx) == 0L) next
+          nN <- length(num_idx); nD <- length(den_idx)
+          coef <- sqrt(nN * nD / (nN + nD))
+          if (aggregate == "gmean") {
+            num_mean <- mean(log_x[i, num_idx], na.rm = TRUE)
+            den_mean <- mean(log_x[i, den_idx], na.rm = TRUE)
+          } else {
+            num_mean <- mean(log_x[i, num_idx], trim = 0.10, na.rm = TRUE)
+            den_mean <- mean(log_x[i, den_idx], trim = 0.10, na.rm = TRUE)
+          }
+          out[i, j] <- coef * (num_mean - den_mean)
+        }
+        next
+      }
+
+      if (length(den) == 1L && den == "ALL_NON_RBC") {
+        num_idx <- match(num, feat_names); num_idx <- num_idx[!is.na(num_idx)]
+        den_idx <- setdiff(seq_along(feat_names), num_idx)
+      } else if (length(den) == 1L && den == "ALL_NON_PLT") {
+        num_idx <- match(num, feat_names); num_idx <- num_idx[!is.na(num_idx)]
+        den_idx <- setdiff(seq_along(feat_names), num_idx)
+      } else {
+        num_idx <- match(num, feat_names); num_idx <- num_idx[!is.na(num_idx)]
+        den_idx <- match(den, feat_names); den_idx <- den_idx[!is.na(den_idx)]
+      }
+
+      if (length(num_idx) == 0L || length(den_idx) == 0L) next
+
+      nN <- length(num_idx); nD <- length(den_idx)
+      coef <- sqrt(nN * nD / (nN + nD))
+      if (aggregate == "gmean") {
+        num_mean <- rowMeans(log_x[, num_idx, drop = FALSE], na.rm = TRUE)
+        den_mean <- rowMeans(log_x[, den_idx, drop = FALSE], na.rm = TRUE)
+      } else {
+        num_mean <- apply(log_x[, num_idx, drop = FALSE], 1L, function(v) {
+          mean(v, trim = 0.10, na.rm = TRUE)
+        })
+        den_mean <- apply(log_x[, den_idx, drop = FALSE], 1L, function(v) {
+          mean(v, trim = 0.10, na.rm = TRUE)
+        })
+      }
+      out[, j] <- coef * (num_mean - den_mean)
+    }
+
+    coverage <- if (ncol(out) == 0L) {
+      rep(1, nrow(out))
+    } else {
+      unname(rowMeans(is.finite(out)))
+    }
+    coverage_failed <- coverage + sqrt(.Machine$double.eps) < min_balance_coverage
+    if (any(coverage_failed)) out[coverage_failed, ] <- NA_real_
     rownames(out) <- rownames(x)
-    coverage <- vapply(rows, function(r) attr(r, "coverage") %||% NA_real_,
-                       numeric(1L))
-    coverage_failed <- vapply(rows, function(r) {
-      v <- attr(r, "coverage_failed")
-      isTRUE(v)
-    }, logical(1L))
     attr(out, "coverage") <- coverage
     attr(out, "coverage_failed") <- coverage_failed
     attr(out, "min_balance_coverage") <- min_balance_coverage

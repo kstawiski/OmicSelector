@@ -28,6 +28,7 @@ renv/staging/
 # Build artifacts
 *.tar.gz
 *.Rcheck/
+.check_logs*/
 release_v*/
 .github/depends.Rds
 .github/R-version
@@ -41,3 +42,10 @@ triple_consensus_logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Crash dumps / build staging / pycache
+core
+m3_staging/
+inst/python/__pycache__/
+/doc/
+/Meta/

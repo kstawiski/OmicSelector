@@ -64,7 +64,7 @@
 #' linear logit
 #' \deqn{s(z) = w^\top z + b,}
 #' the SSL linear-probe evaluation read-out. The head is a single BN-free
-#' \code{Linear(d \to 1)} trained by seeded, fixed-epoch,
+#' \eqn{\mathrm{Linear}(d \to 1)} trained by seeded, fixed-epoch,
 #' \code{head_weight_decay}-regularised optimisation on the FROZEN encoder embeddings
 #' (regularisation handles separation on small \eqn{n}). Larger = more case-like.
 #'

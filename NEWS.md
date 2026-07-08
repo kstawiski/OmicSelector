@@ -1,4 +1,126 @@
-# OmicSelector 2.5.0.9000 (development)
+# OmicSelector 2.6.0 (2026-07-08)
+
+## Single-sample deployment API
+
+* Added a single-sample deployment API — `deploy_singlesample()` freezes one
+  rostered scorer, `score_specimen()` scores an incoming specimen from its own
+  panel values plus frozen fit-time parameters (no test batch, reference
+  cohort, or batch-correction step), and `is_singlesample_deployable()` checks
+  the singleton-equals-batch guarantee; about 30 roster methods deploy and the
+  rest reject cleanly. This exposes deployability only and is not a
+  benchmark-ranking claim: no method robustly cleared +0.05 AUC over
+  trimmed-rCLR and cross-cohort transfer was null. See
+  `vignette("single-sample-deployment")`.
+* inv-scatter: replaced the O(D^3) frozen ridge head with an exact SVD
+  row-space solve so the scattering scorer is shippable when D >> n; results
+  are unchanged up to numerical-rank tolerance (added
+  `test-inv-scatter-head-equivalence.R`).
+
+## Single-sample miRNA scoring method bank (74 methods)
+
+* Completed the frozen 74-method single-sample scoring bank under
+  `R/singlesample-*.R`, rostered in
+  `inst/extdata/singlesample_method_manifest.csv` and enumerable via
+  `singlesample_method_roster()` / `singlesample_method_bank()`. Every method
+  is a single-sample (per-row) scorer: a deployed sample is scored using only
+  its own panel values plus frozen parameters learned at fit time, with no
+  batch-correction step and no requirement for a co-resident reference cohort
+  at deployment. Methods carry a `within` (within-cohort) or `transfer`
+  (cross-cohort generalisation) estimand and a role of baseline,
+  discriminator, or negative control. The bank is grouped into the following
+  families (manifest `family` codes A-O, NC, which are short grouping letters,
+  not descriptive names):
+
+* Compositional within-sample baselines (family A): trimmed robust-CLR
+  reference (`ws_rclr_trimmed`, the reference, not a candidate), additive
+  log-ratio with a frozen pivot pool, MAD log-ratio, and a panel-internal
+  dominance score for pre-analytical-failure detection.
+
+* Frozen denoisers (family B): frozen-RUV factor removal, robust-PCA residual,
+  and robust-regression hemolysis residual removal.
+
+* Kit-aware compositional transfer scorers (family D): kit-stratified rCLR,
+  kit fixed-effect-adjusted ALR, kit-orthogonal ILR, and kit-residual MAD.
+
+* Anchor/reference denoising transfer scorers (family E): kit-stable-anchor
+  rCLR, hemolysis-and-kit dual-anchor, and RIN-weighted reference scoring.
+
+* Technology-aware transfer scorers (family F): technology-stratified rCLR,
+  cross-technology harmonised rCLR, and technology-residualised ALR.
+
+* Biofluid-aware transfer scorers (family G): biofluid-stratified rCLR,
+  biofluid-anchor rCLR, biofluid-residualised ALR, and blood-cell/platelet
+  marker-exclusion rCLR.
+
+* Rank / relative-ordering and balance methods (family K): k-TSP relative
+  expression ordering (`reo_ktsp`), pairwise-log-ratio penalised logistic
+  (`reo_pairratio`), singscore and UCell within-sample rank scores, a
+  meta-analytic cross-cohort k-TSP (`reo_metaktsp`), the `selbal` balance
+  selection + log-contrast logistic scorer (`bal_selbal`), and the ILR
+  balance scorer (`ws_balance_ilr`).
+
+* Likelihood-ratio, optimal-transport, kernel and density-ratio scorers
+  (family L): class-conditional likelihood-ratio tests including
+  Bures-Wasserstein (`lrt_bw`), KDE naive-Bayes (`lrt_nbkde`),
+  Gaussian-copula (`lrt_copula`), tail-aware Student-t-copula (`lrt_tcopula`),
+  vine-copula (`lrt_vinecopula`, via `rvinecopulib`), Mondrian-conformal LRT
+  (`conf_mondrian`), linearised OT embedding to a frozen reference (`ot_lot`),
+  sliced-Wasserstein-view Gaussian LRT (`ot_slicedlrt`), kernel
+  mean-embedding witness (`kme_witness`), Fisher-Rao geodesic LRT
+  (`ig_fisherrao`), and direct density-ratio uLSIF (`dre_ulsif`).
+
+* Image / invariance / signal-descriptor scorers (family M): wavelet
+  scattering + frozen head (`inv_scatter`, via `kymatio`), ordinal-LBP
+  (`inv_olbp`), sublevel persistent homology persistence image (`tda_ph`),
+  path-signature features (`sig_path`), multifractal-DFA spectrum descriptors
+  (`frac_mfdfa`), GASF-image-to-frozen-CNN embedding (`img_gasfcnn`, via
+  torch/torchvision), graph-Fourier transform on a frozen co-expression graph
+  (`gsp_gft`), Nystrom out-of-sample diffusion-map (`man_nystrom`), Haralick
+  GLCM (`inv_glcm`), quantile-function FDA (`inv_fdaqf`), and
+  curvature-scale-space descriptor (`inv_css`).
+
+* Neural / domain-generalisation / self-supervised scorers (family N): most
+  use a torch backend at fit and export frozen weights for a pure-R per-row
+  score. Members are domain-adversarial encoder (`dann`), counterfactual
+  class-conditional VAE (`cvae`), Invariant Causal Prediction (`icp`),
+  SCARF contrastive (`ai_scarf`), group-DRO (`dro_group`), V-REx
+  (`dro_vrex`), self-gated mixture of frozen experts (`moe_gated`),
+  spectral-normalised neural GP (`unc_sngp`), VICReg self-supervised
+  embedding (`ssl_vicreg`), prototypical network (`proto_net`), deep
+  Mahalanobis on a learned frozen embedding (`lrt_deepmaha`), Fishr
+  (`dg_fishr`), IB-IRM (`dg_ibirm`), and StableMate stable-predictor
+  selection (`sel_stablemate`).
+
+* Foundation-model and non-linear-compositional scorers (family O):
+  in-context tabular foundation models scored against a frozen reference
+  context (TabPFN-v2 `tabpfn`, large-context TabICL `tabicl`, retrieval-based
+  TabDPT `tabdpt`), non-linear log-contrast network DeepCoDA
+  (`coda_deepcoda`), and sparse log-ratio balances CoDaCoRe (`coda_codacore`).
+
+* Negative controls (family NC): deliberately weak atypicality / outlier
+  detectors used as a calibration floor, not biomarker candidates -- frozen
+  MCD Mahalanobis (`fit_compositional_mahalanobis`), conformal anomaly
+  p-value (`fit_conformal_anomaly`), log-ratio isolation forest
+  (`fit_isolation_forest_logratio`), ECOD/COPOD global tail outlier
+  (`ecod_copod`, via PyOD), and a forced n=1 entropic-kernel single-sample
+  Sinkhorn control (`sinkhorn_single`).
+
+* Methods using a Python backend (torch, kymatio, torchvision, PyOD, TabPFN,
+  TabICL, TabDPT, via `reticulate`) train at fit time and, where applicable,
+  export frozen weights so the deployment-time score runs in base R; their
+  optional backends are not declared as hard dependencies. The bank can be
+  audited against exported package functions with
+  `singlesample_assert_method_bank_exports()`.
+
+* Vectorized the `ws_balance_ilr()` matrix/data.frame path for deployment
+  throughput (~270x faster in the Paper 3 benchmark) while preserving
+  byte-identical results versus the prior per-row path on realistic inputs.
+  This incidentally fixes data.frame recursion and single-column matrix
+  name-dropping. The pre-existing `TOP_K_BY_ABUNDANCE` `p <= k` empty-tail
+  quirk is intentionally preserved for frozen within-sample result identity
+  and is flagged for a future separate fix because changing it alters scores.
+
+## Maintenance
 
 * Renamed the single-sample-deployable method-bank machinery from the internal
   codename `paper3_*` / `R/paper3-*.R` to the descriptive `singlesample_*` /
