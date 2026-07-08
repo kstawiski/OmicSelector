@@ -1,109 +1,92 @@
 Package: OmicSelector
 Type: Package
-Title: OmicSelector - a package for biomarker selection based on high-throughput experiments. 
-Version: 1.0.0
-Author: Konrad Stawiski
-Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
-Description: OmicSelector is package is the environment, docker-based application and R package for biomarker signature selection from high-throughput experiments. Initially developed for miRNA-seq. The package introduces automatic and structured feature selection with further benchmarking using multiple data mining methods, thus allow to find the most overfitting resiliant signature (set of featrues) that can be used in biomarker validation studies. E.g. this package can be used to find the set of miRNAs with the greatest biomarker potential based on miRNAs-seq. This set can be further validated in cheaper qPCR studies.
-License: License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-StagedInstall: yes
-Imports: 
-    dplyr,
-    snow,
-    remotes,
-    devtools,
-    ellipsis,
-    BiocManager,
-    plyr,
-    tibble,
-    tidyr,
-    XML,
-    epiDisplay,
-    rsq,
-    MASS,
-    caret,
-    tidyverse,
-    xtable,
-    pROC,
-    ggplot2,
-    DMwR,
-    ROSE,
-    gridExtra,
-    gplots,
-    stringr,
-    data.table,
-    doParallel,
-    Boruta,
-    spFSR,
-    varSelRF,
-    My.stepwise,
-    psych,
-    C50,
-    randomForest,
-    nnet,
-    reticulate,
-    stargazer,
-    ggrepel,
-    classInt,
-    plotly,
-    keras,
-    cutpointr,
-    naniar,
-    visdat,
-    imputeMissings,
-    foreach,
-    deepnet,
-    calibrate,
-    networkD3,
-    VennDiagram,
-    RSNNS,
-    kernlab,
-    car,
-    PairedData,
-    profileR,
-    xgboost,
-    kableExtra,
-    curl,
-    tidyselect,
-    rJava,
-    mice,
-    MatchIt,
-    cluster,
-    Biobase,
-    Biocomb,
-    ComplexHeatmap,
-    GDCRNATools,
-    R.utils,
-    TCGAbiolinks,
-    VIM,
-    circlize,
-    edgeR,
-    mgcv,
-    party,
-    rmarkdown,
-    rpart,
-    sva,
-    devtools,
-    nnet,
-    klaR,
-    ParBayesianOptimization,
-    recipes,
-    resample,
-    mlbench
-RoxygenNote: 7.2.0
+Title: Rigorous Biomarker Discovery with Zero-Leakage Machine Learning
+Version: 2.6.0
+Date: 2026-07-08
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
-      comment = c(ORCID = "0000-0002-6550-3384")
-    ),
-    person("Marcin", "Kaszkowiak", role = "aut"))
+      comment = c(ORCID = "0000-0002-6550-3384")),
+    person("Marcin", "Kaszkowiak", role = "aut"),
+    person("Damian", "Mikulski", role = "aut"))
+Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
+Description: A toolkit for biomarker discovery from high-dimensional omics
+    data. Enforces nested cross-validation with leakage-resistant feature
+    selection, computes feature stability metrics, and provides multi-objective
+    signature selection. Built on the mlr3 ecosystem for reproducible machine
+    learning pipelines. Supports multi-omics integration, frozen batch-effect
+    correction, model calibration, provenance-aware validation gates,
+    within-sample biomarker panel methods, and SHAP-based interpretability.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression: xz
+URL: https://github.com/kstawiski/OmicSelector, https://kstawiski.github.io/OmicSelector/
 BugReports: https://github.com/kstawiski/OmicSelector/issues
-URL: https://biostat.umed.pl/OmicSelector/ 
+Depends:
+    R (>= 4.1.0)
+Imports:
+    R6,
+    data.table,
+    checkmate,
+    digest,
+    MASS,
+    methods,
+    mlr3 (>= 0.18.0),
+    mlr3pipelines (>= 0.5.0),
+    mlr3tuning (>= 0.20.0),
+    mlr3filters (>= 0.7.0),
+    paradox,
+    future,
+    future.apply
+Suggests:
+    knitr,
+    rmarkdown,
+    shiny,
+    bslib,
+    shinyWidgets,
+    testthat (>= 3.0.0),
+    ggplot2,
+    ggrepel,
+    cachem,
+    memoise,
+    mlr3mbo,
+    mlr3learners (>= 0.6.0),
+    mlr3torch,
+    torch,
+    coro,
+    Matrix,
+    iml,
+    DALEX,
+    vetiver,
+    pins,
+    jsonlite,
+    plumber,
+    reticulate,
+    catboost,
+    ranger,
+    glmnet,
+    xgboost,
+    lightgbm,
+    nnet,
+    pROC,
+    lme4,
+    metafor,
+    codacore,
+    e1071,
+    kknn,
+    vdiffr,
+    Rtsne,
+    selbal,
+    StableMate,
+    rvinecopulib,
+    robustbase,
+    matrixStats,
+    sva,
+    nondetects,
+    HTqPCR,
+    Biobase,
+    rpart
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+RoxygenNote: 7.3.3
 biocViews: Software
-Depends: 
-    R (>= 2.10)

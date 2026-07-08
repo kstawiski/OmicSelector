@@ -1,51 +1,74 @@
 #' OmicSelector_correlation_plot
 #'
-#' Draw a correlation plot with reference f(x)=x axis and correlation metrics.
+#' Draw a correlation scatterplot with optional y = x reference and summary stats.
 #'
-#' @param var1 First numeric variable.
-#' @param var2 Second numeric variable.
-#' @param labvar1 Label to be written on plot for fist variable.
-#' @param labvar2 Label to be written on plot for second variable.
-#' @param yx Logical varable. TRUE if you want f(x)=x axis for reference (usefull for calibration plots).
-#' @param gdzie_legenda Where the legend should be placed?
+#' @param var1 First numeric vector.
+#' @param var2 Second numeric vector.
+#' @param labvar1 Label for x-axis.
+#' @param labvar2 Label for y-axis.
+#' @param title Optional plot title.
+#' @param yx Logical, draw y = x reference line (useful for calibration plots).
+#' @param metoda Correlation method: "pearson" or "spearman".
+#' @param gdzie_legenda Legend position passed to `legend()`.
 #'
 #' @export
-OmicSelector_correlation_plot = function(var1, var2, labvar1, labvar2, title, yx = T, metoda = 'pearson', gdzie_legenda = "topleft") {
-  suppressMessages(library(plyr))
-  suppressMessages(library(dplyr))
-  suppressMessages(library(edgeR))
-  suppressMessages(library(epiDisplay))
-  suppressMessages(library(rsq))
-  suppressMessages(library(MASS))
-  suppressMessages(library(Biocomb))
-  suppressMessages(library(caret))
-  suppressMessages(library(dplyr))
-  suppressMessages(library(epiDisplay))
-  suppressMessages(library(pROC))
-  suppressMessages(library(ggplot2))
-  suppressMessages(library(DMwR))
-  suppressMessages(library(ROSE))
-  suppressMessages(library(gridExtra))
-  suppressMessages(library(gplots))
-  suppressMessages(library(devtools))
-  suppressMessages(library(stringr))
-  suppressMessages(library(data.table))
-  suppressMessages(library(tidyverse))
-  var1 = as.numeric(as.character(var1))
-  var2 = as.numeric(as.character(var2))
-  plot(var1, var2, pch = 19, cex=0.5, xlab=labvar1, ylab=labvar2, main=title)
-  if (yx == T) { abline(0,1, col='gray') }
-  abline(fit <- lm(var2 ~ var1), col='black', lty = 2)
-  temp = cor.test(var1, var2, method = metoda)
-  if (metoda=='pearson') {
-    if (temp$p.value < 0.0001) {
-      legend(gdzie_legenda, bty="n", legend=paste("r =",round(cor(var1,var2,use="complete.obs"),2),", p < 0.0001\nadj. R2 =", format(summary(fit)$adj.r.squared, digits=4)))
-    } else {
-      legend(gdzie_legenda, bty="n", legend=paste("r =",round(cor(var1,var2,use="complete.obs"),2),", p =",round(temp$p.value, 4),"\nadj. R2 =", format(summary(fit)$adj.r.squared, digits=4))) } }
-  if (metoda=="spearman")
-  { if (temp$p.value < 0.0001) {
-    legend(gdzie_legenda, bty="n", legend=paste("rho =",round(cor(var1,var2,use="complete.obs"),2),", p < 0.0001"))
-  } else {
-    legend(gdzie_legenda, bty="n", legend=paste("rho =",round(cor(var1,var2,use="complete.obs"),2),", p =",round(temp$p.value, 4))) } }
+OmicSelector_correlation_plot <- function(var1,
+                                          var2,
+                                          labvar1,
+                                          labvar2,
+                                          title = NULL,
+                                          yx = TRUE,
+                                          metoda = "pearson",
+                                          gdzie_legenda = "topleft") {
+  metoda <- match.arg(metoda, c("pearson", "spearman"))
 
+  x <- as.numeric(var1)
+  y <- as.numeric(var2)
+  keep <- stats::complete.cases(x, y)
+  x <- x[keep]
+  y <- y[keep]
+
+  if (length(x) < 2) {
+    stop("Not enough complete observations for correlation plot.", call. = FALSE)
+  }
+
+  graphics::plot(x, y,
+                 pch = 19,
+                 cex = 0.6,
+                 xlab = labvar1,
+                 ylab = labvar2,
+                 main = title)
+
+  if (isTRUE(yx)) {
+    graphics::abline(0, 1, col = "gray")
+  }
+
+  fit <- stats::lm(y ~ x)
+  graphics::abline(fit, col = "black", lty = 2)
+
+  cor_val <- stats::cor(x, y, use = "complete.obs", method = metoda)
+  cor_test <- stats::cor.test(x, y, method = metoda)
+
+  if (metoda == "pearson") {
+    label <- if (cor_test$p.value < 1e-4) {
+      sprintf("r = %.2f, p < 0.0001\nadj. R2 = %.4f",
+              cor_val,
+              summary(fit)$adj.r.squared)
+    } else {
+      sprintf("r = %.2f, p = %.4f\nadj. R2 = %.4f",
+              cor_val,
+              cor_test$p.value,
+              summary(fit)$adj.r.squared)
+    }
+  } else {
+    label <- if (cor_test$p.value < 1e-4) {
+      sprintf("rho = %.2f, p < 0.0001", cor_val)
+    } else {
+      sprintf("rho = %.2f, p = %.4f", cor_val, cor_test$p.value)
+    }
+  }
+
+  graphics::legend(gdzie_legenda, bty = "n", legend = label)
+
+  invisible(list(correlation = cor_val, p_value = cor_test$p.value, model = fit))
 }

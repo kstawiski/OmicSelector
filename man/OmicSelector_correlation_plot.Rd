@@ -9,25 +9,29 @@ OmicSelector_correlation_plot(
   var2,
   labvar1,
   labvar2,
-  title,
-  yx = T,
+  title = NULL,
+  yx = TRUE,
   metoda = "pearson",
   gdzie_legenda = "topleft"
 )
 }
 \arguments{
-\item{var1}{First numeric variable.}
+\item{var1}{First numeric vector.}
 
-\item{var2}{Second numeric variable.}
+\item{var2}{Second numeric vector.}
 
-\item{labvar1}{Label to be written on plot for fist variable.}
+\item{labvar1}{Label for x-axis.}
 
-\item{labvar2}{Label to be written on plot for second variable.}
+\item{labvar2}{Label for y-axis.}
 
-\item{yx}{Logical varable. TRUE if you want f(x)=x axis for reference (usefull for calibration plots).}
+\item{title}{Optional plot title.}
 
-\item{gdzie_legenda}{Where the legend should be placed?}
+\item{yx}{Logical, draw y = x reference line (useful for calibration plots).}
+
+\item{metoda}{Correlation method: "pearson" or "spearman".}
+
+\item{gdzie_legenda}{Legend position passed to `legend()`.}
 }
 \description{
-Draw a correlation plot with reference f(x)=x axis and correlation metrics.
+Draw a correlation scatterplot with optional y = x reference and summary stats.
 }

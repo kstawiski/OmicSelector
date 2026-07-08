@@ -1,0 +1,931 @@
+---
+title: "Biomarker Discovery with TCGA Data"
+subtitle: "A Complete Workflow Using OmicSelector 2.0"
+author: "OmicSelector Team"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{Biomarker Discovery with TCGA Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE,
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+# Introduction
+
+This tutorial demonstrates a complete biomarker discovery workflow using **OmicSelector 2.0** with real data from The Cancer Genome Atlas (TCGA). We'll use miRNA expression data to discover diagnostic biomarkers for pancreatic cancer.
+
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+1. Prepare TCGA data for biomarker discovery
+2. Configure and run feature selection with zero data leakage
+3. Compare multiple filter-model combinations using nested CV
+4. Analyze feature stability across cross-validation folds
+5. Select an optimal biomarker signature balancing performance and stability
+6. Train and save a final model for deployment
+7. Apply batch correction using FrozenComBat
+8. Assess and improve model calibration
+9. Generate a TRIPOD+AI compliant report
+
+## Prerequisites
+
+```{r prerequisites}
+# Install OmicSelector if needed
+if (!require("OmicSelector")) {
+  remotes::install_github("kstawiski/OmicSelector")
+}
+
+# Load required packages
+library(OmicSelector)
+library(mlr3)
+library(mlr3learners)
+library(data.table)
+library(ggplot2)
+
+# For TCGA data download (optional)
+# BiocManager::install("TCGAbiolinks")
+```
+
+---
+
+# Part 1: Data Preparation
+
+## 1.1 Loading TCGA Data
+
+OmicSelector includes pre-processed TCGA miRNA expression data for demonstration.
+
+```{r load-data}
+# Load packaged TCGA data
+data("orginal_TCGA_data", package = "OmicSelector")
+
+# Examine the data structure
+cat("Dataset dimensions:", nrow(orginal_TCGA_data), "samples x",
+    ncol(orginal_TCGA_data), "columns\n")
+
+# View available cancer types
+table(orginal_TCGA_data$primary_site)
+```
+
+## 1.2 Selecting Cases and Controls
+
+For a valid biomarker study, we need properly matched cases and controls.
+Using tumor vs. normal tissue from the **same organ** is critical.
+
+```{r select-samples}
+# Select pancreatic cancer cases (primary tumors only)
+pancreatic_cancer <- orginal_TCGA_data[
+  orginal_TCGA_data$primary_site == "Pancreas" &
+  orginal_TCGA_data$sample_type == "PrimaryTumor",
+]
+
+# Select pancreatic normal controls
+pancreatic_normal <- orginal_TCGA_data[
+  orginal_TCGA_data$primary_site == "Pancreas" &
+  orginal_TCGA_data$sample_type == "SolidTissueNormal",
+]
+
+cat("Pancreatic cancer samples:", nrow(pancreatic_cancer), "\n")
+cat("Pancreatic normal samples:", nrow(pancreatic_normal), "\n")
+```
+
+**Important**: Never mix normal tissues from different organs as controls - this creates confounding that leads to inflated performance estimates.
+
+## 1.3 Handling Limited Normal Samples
+
+TCGA often has few matched normal samples. We can carefully add normals from related tissues.
+
+**⚠️ IMPORTANT WARNING**: Adding normal tissues from different organs introduces
+**biological confounding**. Expression differences between organs may dominate
+tumor vs. normal differences, potentially leading to:
+
+- **Inflated performance estimates** - You may be classifying "pancreas vs. colon"
+  rather than "tumor vs. normal"
+- **Biologically meaningless biomarkers** - Features distinguishing tissue types,
+  not cancer status
+- **Failed external validation** - Models trained this way often fail when tested
+  on matched tumor-normal pairs
+
+**Recommendations:**
+1. **Preferred**: Use only matched tissue normals, even if sample size is small
+2. **Alternative**: Use an independent normal cohort from the same tissue
+3. **Last resort**: Add related tissue normals, but **clearly report this limitation**
+   and interpret results with extreme caution
+
+```{r handle-limited-normals}
+# If we have fewer than 30 pancreatic normals, add GI tract normals
+# WARNING: This is a last resort that introduces biological confounding!
+if (nrow(pancreatic_normal) < 30) {
+  warning("Adding GI tract normals - this introduces biological confounding!")
+  message("Adding GI tract normals to increase control sample size")
+  message("Results should be validated on matched tumor-normal pairs.")
+
+  # Add normal tissues from related GI organs
+  gi_organs <- c("Stomach", "Colon", "Liver and intrahepatic bile ducts")
+  gi_normals <- orginal_TCGA_data[
+    orginal_TCGA_data$primary_site %in% gi_organs &
+    orginal_TCGA_data$sample_type == "SolidTissueNormal",
+  ]
+
+  # Sample to avoid overwhelming imbalance
+  set.seed(42)
+  n_to_add <- min(50, nrow(gi_normals))
+  gi_sample <- gi_normals[sample(nrow(gi_normals), n_to_add), ]
+
+  pancreatic_normal <- rbind(pancreatic_normal, gi_sample)
+  cat("Total controls after augmentation:", nrow(pancreatic_normal), "\n")
+  cat("WARNING: These results may be confounded by tissue-type differences.\n")
+}
+```
+
+## 1.4 Creating the Analysis Dataset
+
+```{r create-dataset}
+# Add class labels
+pancreatic_cancer$Class <- "Case"
+pancreatic_normal$Class <- "Control"
+
+# Combine into final dataset
+dataset <- rbind(pancreatic_cancer, pancreatic_normal)
+
+# Extract miRNA features (columns starting with "hsa")
+mirna_cols <- grep("^hsa", names(dataset), value = TRUE)
+cat("Number of miRNA features:", length(mirna_cols), "\n")
+
+# Create analysis data.frame
+# Handle both data.table and data.frame inputs
+if (inherits(dataset, "data.table")) {
+  mirna_matrix <- as.data.frame(dataset[, mirna_cols, with = FALSE])
+} else {
+  mirna_matrix <- dataset[, mirna_cols]
+}
+
+analysis_data <- data.frame(
+  mirna_matrix,
+  outcome = factor(dataset$Class, levels = c("Control", "Case"))
+)
+
+# Check class distribution
+table(analysis_data$outcome)
+```
+
+## 1.5 Data Quality Checks
+
+Before analysis, always perform quality checks:
+
+```{r quality-checks}
+# Check for missing values
+na_count <- sum(is.na(analysis_data))
+cat("Total missing values:", na_count, "\n")
+
+# Check feature variance
+feature_vars <- apply(analysis_data[, mirna_cols], 2, var, na.rm = TRUE)
+low_var_features <- sum(feature_vars < 0.01)
+cat("Features with very low variance:", low_var_features, "\n")
+
+# Remove zero-variance features
+valid_features <- names(feature_vars[feature_vars > 0])
+analysis_data <- analysis_data[, c(valid_features, "outcome")]
+
+cat("Features after QC:", length(valid_features), "\n")
+```
+
+---
+
+# Part 2: Building the Analysis Pipeline
+
+## 2.1 Creating an OmicPipeline
+
+```{r create-pipeline}
+# Create pipeline
+pipeline <- OmicPipeline$new(
+  data = analysis_data,
+  target = "outcome",
+  positive = "Case"    # Define which class is "positive" for AUC
+)
+
+# View pipeline summary
+print(pipeline)
+```
+
+## 2.2 Understanding GraphLearners
+
+OmicSelector uses `mlr3pipelines` GraphLearners to ensure all preprocessing
+happens **inside** cross-validation folds. The pipeline order is:
+
+```
+Impute → Scale → [Batch Correct] → [Oversample] → Filter → Model
+                   optional         optional
+```
+
+```{r create-learner}
+# Create a basic GraphLearner
+learner_basic <- pipeline$create_graph_learner(
+  filter = "anova",           # ANOVA F-test for feature selection
+  model = "ranger",           # Random Forest
+  n_features = 30,            # Select top 30 features
+  impute_method = "median",   # Impute missing values with median
+  scale = TRUE                # Standardize features
+)
+
+# View the learner structure
+print(learner_basic)
+```
+
+## 2.3 Available Options
+
+### Feature Selection Methods
+
+| Filter | Description | Strengths |
+|--------|-------------|-----------|
+| `"anova"` | ANOVA F-test | Good default, tests mean differences |
+| `"variance"` | Variance filter | Removes uninformative features |
+| `"correlation"` | Target correlation | Fast univariate filter |
+| `"mrmr"` | Min Redundancy Max Relevance | Reduces redundant features |
+| `"information_gain"` | Entropy-based | Good for mixed data types |
+
+### Classification Models
+
+| Model | Description | When to Use |
+|-------|-------------|-------------|
+| `"ranger"` | Random Forest | Default choice, handles interactions |
+| `"glmnet"` | Elastic Net | When interpretability is important |
+| `"svm"` | Support Vector Machine | High-dimensional data |
+| `"log_reg"` | Logistic Regression | Baseline comparison |
+
+---
+
+# Part 3: Comparing Multiple Configurations
+
+## 3.1 Defining a Comparison Grid
+
+We'll compare different filter-model combinations:
+
+```{r define-grid}
+# Define configurations to compare
+configs <- list(
+  list(filter = "anova", model = "ranger", n_features = 20, id = "anova_rf_20"),
+  list(filter = "anova", model = "ranger", n_features = 30, id = "anova_rf_30"),
+  list(filter = "anova", model = "glmnet", n_features = 30, id = "anova_glmnet_30"),
+  list(filter = "mrmr", model = "ranger", n_features = 20, id = "mrmr_rf_20"),
+  list(filter = "variance", model = "svm", n_features = 30, id = "var_svm_30")
+)
+
+cat("Testing", length(configs), "configurations\n")
+```
+
+## 3.2 Setting Up the Benchmark
+
+```{r setup-benchmark}
+# Create benchmark service with nested cross-validation
+benchmark <- BenchmarkService$new(
+  task = pipeline,
+  outer_folds = 5,    # 5-fold outer CV for evaluation
+  inner_folds = 3,    # 3-fold inner CV for feature selection
+  seed = 42           # For reproducibility
+)
+
+# Add all configurations
+for (cfg in configs) {
+  learner <- pipeline$create_graph_learner(
+    filter = cfg$filter,
+    model = cfg$model,
+    n_features = cfg$n_features
+  )
+  benchmark$add_learner(learner, id = cfg$id)
+}
+
+print(benchmark)
+```
+
+## 3.3 Running the Benchmark
+
+```{r run-benchmark}
+# Run nested cross-validation (this may take several minutes)
+cat("Starting nested cross-validation...\n")
+cat("This may take 5-10 minutes depending on data size.\n\n")
+
+result <- benchmark$run()
+
+# View performance summary
+print(result)
+```
+
+## 3.4 Analyzing Results
+
+```{r analyze-results}
+# Get performance table
+performance <- result$performance
+print(performance)
+
+# Compute standard errors from resampling (if available)
+# The benchmark stores per-fold scores that we can use
+bmr <- result$benchmark_result
+fold_scores <- bmr$score(msr("classif.auc"))
+
+# Aggregate mean and standard error per learner
+library(data.table)
+scores_dt <- as.data.table(fold_scores)
+perf_summary <- scores_dt[, .(
+  mean_auc = mean(classif.auc, na.rm = TRUE),
+  se_auc = sd(classif.auc, na.rm = TRUE) / sqrt(.N)
+), by = learner_id]
+
+# Visualize performance with proper error bars
+ggplot(perf_summary, aes(x = reorder(learner_id, mean_auc),
+                          y = mean_auc)) +
+  geom_col(fill = "steelblue", alpha = 0.8) +
+  geom_errorbar(aes(ymin = mean_auc - se_auc, ymax = mean_auc + se_auc),
+                width = 0.2) +
+  coord_flip() +
+  labs(
+    title = "Performance Comparison: AUC",
+    subtitle = "Error bars show standard error across CV folds",
+    x = "Configuration",
+    y = "AUC (Cross-Validated)"
+  ) +
+  theme_minimal()
+```
+
+---
+
+# Part 4: Feature Stability Analysis
+
+## 4.1 Why Stability Matters
+
+High performance with unstable features often indicates overfitting.
+The **Nogueira Stability Index** quantifies feature selection consistency:
+
+- **SI ≥ 0.9**: Excellent - Very stable selections
+- **SI 0.7-0.9**: Good - Reasonably stable
+- **SI 0.5-0.7**: Moderate - Some instability
+- **SI < 0.5**: Poor - Likely overfitting
+
+## 4.2 Computing Stability
+
+```{r compute-stability}
+# Compute stability for the benchmark result
+stability <- compute_stability_from_resample(result$benchmark_result)
+
+print(stability)
+
+# View interpretation
+cat("\n", stability$interpretation, "\n")
+```
+
+## 4.3 Examining Consensus Features
+
+Features selected in ALL folds (consensus) are most reliable:
+
+```{r consensus-features}
+# Get consensus features
+consensus <- stability$consensus_features
+cat("Consensus features (selected in all folds):", length(consensus), "\n")
+print(head(consensus, 20))
+
+# View selection frequency
+freq <- sort(stability$selection_frequency, decreasing = TRUE)
+head(freq, 20)
+```
+
+## 4.4 Visualizing Feature Stability
+
+```{r plot-stability}
+# Create selection frequency plot
+freq_df <- data.frame(
+  feature = names(freq)[1:20],
+  frequency = freq[1:20]
+)
+freq_df$feature <- factor(freq_df$feature, levels = rev(freq_df$feature))
+
+ggplot(freq_df, aes(x = frequency, y = feature)) +
+  geom_col(aes(fill = frequency >= 1.0), alpha = 0.8) +
+  scale_fill_manual(
+    values = c("FALSE" = "steelblue", "TRUE" = "darkgreen"),
+    labels = c("Variable", "Consensus"),
+    name = "Selection"
+  ) +
+  geom_vline(xintercept = 1.0, linetype = "dashed", color = "red") +
+  labs(
+    title = "Top 20 Features by Selection Frequency",
+    x = "Selection Frequency (1.0 = all folds)",
+    y = NULL
+  ) +
+  theme_minimal()
+```
+
+---
+
+# Part 5: Optimal Signature Selection
+
+## 5.1 Multi-Objective Selection
+
+OmicSelector selects signatures balancing:
+- **Performance** (AUC)
+- **Stability** (Nogueira Index)
+- **Parsimony** (fewer features)
+
+```{r select-signature}
+# Select best signature using weighted mode
+best <- select_best_signature(
+  result,
+  mode = "weighted",
+  stability_weight = 0.3,    # 30% weight on stability
+  parsimony_weight = 0.1     # 10% weight on fewer features
+)
+
+print(best)
+```
+
+## 5.2 Selection Modes
+
+| Mode | Description | Use When |
+|------|-------------|----------|
+| `"best_auc"` | Highest AUC only | Maximum predictive power needed |
+| `"best_stability"` | Highest stability only | Reproducibility is critical |
+| `"weighted"` | Weighted combination | Balanced selection (default) |
+| `"pareto"` | Pareto-optimal with utopia | Formal multi-objective |
+
+## 5.3 Final Signature
+
+```{r final-signature}
+# Extract the final signature
+final_features <- best$features
+cat("Final signature contains", length(final_features), "features:\n")
+print(final_features)
+
+# Summary metrics
+cat("\nSignature Metrics:\n")
+cat("  AUC:", round(best$auc, 3), "\n")
+cat("  Stability:", round(best$stability, 3), "\n")
+cat("  N Features:", length(final_features), "\n")
+```
+
+---
+
+# Part 6: Training the Final Model
+
+After selecting an optimal signature configuration, we train a final model on the
+**full dataset** for deployment or external validation.
+
+## 6.1 Selecting the Best Learner
+
+```{r select-best-learner}
+# From benchmarking, identify the best configuration
+# Let's say "anova_rf_30" performed best (example)
+best_config <- "anova_rf_30"
+
+# Create the learner with the optimal configuration
+final_learner <- pipeline$create_graph_learner(
+  filter = "anova",
+  model = "ranger",
+  n_features = 30,
+  scale = TRUE
+)
+
+# Set the learner ID
+final_learner$id <- "final_model"
+```
+
+## 6.2 Training on Full Data
+
+```{r train-final-model}
+# Get the task from the pipeline
+task <- pipeline$get_task()
+
+# Train the final model on ALL data
+# (Feature selection happens inside the pipeline, so no leakage)
+final_learner$train(task)
+
+cat("Final model trained successfully.\n")
+cat("Model type:", final_learner$model$model, "\n")
+
+# Extract selected features from the trained pipeline
+# The filter step stores which features were selected
+selected_features <- final_learner$state$model$filter$features
+cat("Features selected:", length(selected_features), "\n")
+print(head(selected_features, 10))
+```
+
+## 6.3 Generating Predictions
+
+```{r final-predictions}
+# Generate predictions on the training data (for calibration)
+predictions <- final_learner$predict(task)
+
+# Extract probabilities for the positive class
+prob_positive <- predictions$prob[, "Case"]
+
+# Extract true labels
+true_labels <- as.integer(task$truth() == "Case")
+
+# Summary statistics
+cat("Prediction summary:\n")
+cat("  Mean probability:", round(mean(prob_positive), 3), "\n")
+cat("  Min:", round(min(prob_positive), 3), "\n")
+cat("  Max:", round(max(prob_positive), 3), "\n")
+cat("  AUC (resubstitution):",
+    round(predictions$score(msr("classif.auc")), 3), "\n")
+```
+
+**Note**: The resubstitution AUC is optimistically biased. The nested CV results
+from Part 3 provide unbiased performance estimates.
+
+## 6.4 Saving the Model
+
+```{r save-model}
+# Save the trained model for later use
+saveRDS(final_learner, "final_pancreatic_model.rds")
+cat("Model saved to 'final_pancreatic_model.rds'\n")
+
+# To load later:
+# loaded_model <- readRDS("final_pancreatic_model.rds")
+# new_predictions <- loaded_model$predict_newdata(new_data)
+```
+
+---
+
+# Part 7: Batch Correction with FrozenComBat
+
+## 7.1 Why FrozenComBat?
+
+When applying a model to external data with batch effects, we must:
+1. Fit batch parameters on **training data only**
+2. Apply the same transformation to new data
+
+Standard ComBat re-fits on all data, causing **leakage**.
+**FrozenComBat** solves this by "freezing" parameters from training.
+
+## 7.2 Creating a Batch Column
+
+```{r create-batch}
+# Simulate batch information (in practice, extract from sample metadata)
+set.seed(42)
+analysis_data$batch <- sample(
+  c("Batch_A", "Batch_B", "Batch_C"),
+  nrow(analysis_data),
+  replace = TRUE
+)
+
+# View batch distribution
+table(analysis_data$batch, analysis_data$outcome)
+```
+
+## 7.3 Including Batch Correction in Pipeline
+
+```{r batch-correction}
+# Create pipeline with batch information
+pipeline_bc <- OmicPipeline$new(
+  data = analysis_data,
+  target = "outcome",
+  positive = "Case",
+  batch = "batch"     # Specify batch column
+)
+
+# Create learner with batch correction enabled
+learner_bc <- pipeline_bc$create_graph_learner(
+  filter = "anova",
+  model = "ranger",
+  n_features = 30,
+  batch_correct = TRUE   # Enable FrozenComBat
+)
+
+print(learner_bc)
+```
+
+## 7.4 Verifying No Batch Leakage
+
+```{r check-batch-leakage}
+# After running benchmark, check for batch effect reduction
+# If reduction > 95%, this may indicate leakage
+check_result <- check_batch_correction_leakage(
+  data = analysis_data[, mirna_cols[1:50]],  # Sample of features
+  batch = analysis_data$batch
+)
+
+print(check_result)
+```
+
+---
+
+# Part 8: Model Calibration
+
+## 8.1 Why Calibrate?
+
+Predicted probabilities may not reflect true event rates.
+Calibration ensures `P(outcome|prediction=0.7) ≈ 70%`.
+
+**When to calibrate:**
+- When probability estimates (not just classifications) matter
+- For risk stratification or clinical decision support
+- When combining predictions with other probability-based models
+
+## 8.2 Computing Calibration Metrics
+
+Using the predictions from Part 6 (final model training):
+
+```{r calibration-metrics}
+# We already have prob_positive and true_labels from Part 6
+# prob_positive <- predictions$prob[, "Case"]
+# true_labels <- as.integer(task$truth() == "Case")
+
+# Compute Expected Calibration Error (ECE)
+# ECE measures how well predicted probabilities match observed frequencies
+ece <- compute_ece(prob_positive, true_labels)
+cat("Expected Calibration Error (ECE):", round(ece, 4), "\n")
+
+# Interpretation:
+# ECE < 0.05: Well-calibrated
+# ECE 0.05-0.10: Acceptable
+# ECE > 0.10: Consider recalibration
+
+# Decompose Brier Score into reliability, resolution, uncertainty
+brier <- decompose_brier(prob_positive, true_labels)
+cat("\nBrier Score Decomposition:\n")
+cat("  Total Brier Score:", round(brier$brier, 4), "\n")
+cat("  Reliability (lower is better):", round(brier$reliability, 4), "\n")
+cat("  Resolution (higher is better):", round(brier$resolution, 4), "\n")
+cat("  Uncertainty (baseline):", round(brier$uncertainty, 4), "\n")
+```
+
+## 8.3 Calibration Plot
+
+```{r calibration-plot}
+# Create calibration curve data
+n_bins <- 10
+breaks <- seq(0, 1, length.out = n_bins + 1)
+bins <- cut(prob_positive, breaks = breaks, include.lowest = TRUE)
+
+cal_data <- data.frame(
+  bin = levels(bins),
+  predicted = tapply(prob_positive, bins, mean),
+  observed = tapply(true_labels, bins, mean),
+  n = as.numeric(table(bins))
+)
+cal_data <- cal_data[!is.na(cal_data$predicted), ]
+
+# Plot calibration curve
+ggplot(cal_data, aes(x = predicted, y = observed)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray50") +
+  geom_point(aes(size = n), color = "steelblue", alpha = 0.7) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkblue") +
+  scale_size_continuous(name = "N samples", range = c(2, 8)) +
+  labs(
+    title = "Calibration Plot",
+    subtitle = paste("ECE =", round(ece, 3)),
+    x = "Mean Predicted Probability",
+    y = "Observed Frequency"
+  ) +
+  coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
+  theme_minimal()
+```
+
+## 8.4 Applying Calibration
+
+If calibration is poor (ECE > 0.10), apply recalibration:
+
+```{r apply-calibration}
+# Option 1: Platt Scaling (logistic recalibration)
+# Best for sigmoid-shaped miscalibration
+calibrator_platt <- fit_platt_scaling(prob_positive, true_labels)
+
+# Option 2: Isotonic Regression
+# More flexible, best for non-monotonic miscalibration
+calibrator_isotonic <- fit_isotonic_calibration(prob_positive, true_labels)
+
+# Apply calibration to the same data (for demonstration)
+calibrated_platt <- calibrator_platt$calibrate(prob_positive)
+calibrated_isotonic <- calibrator_isotonic$calibrate(prob_positive)
+
+# Compare calibration errors
+ece_original <- compute_ece(prob_positive, true_labels)
+ece_platt <- compute_ece(calibrated_platt, true_labels)
+ece_isotonic <- compute_ece(calibrated_isotonic, true_labels)
+
+cat("Calibration Comparison:\n")
+cat("  Original ECE:", round(ece_original, 4), "\n")
+cat("  After Platt Scaling:", round(ece_platt, 4), "\n")
+cat("  After Isotonic Regression:", round(ece_isotonic, 4), "\n")
+
+# Save the calibrator for use with new predictions
+saveRDS(calibrator_platt, "calibrator_platt.rds")
+cat("\nCalibrator saved for future use.\n")
+```
+
+**Important**: For rigorous calibration:
+- Use a held-out calibration set, not the training data
+- Or perform calibration within cross-validation folds
+
+---
+
+# Part 9: Generating Reports
+
+## 9.1 TRIPOD+AI Compliant Report
+
+OmicSelector generates reports following the TRIPOD+AI checklist:
+
+```{r generate-report}
+# Generate comprehensive report
+generate_tripod_report(
+  results = result,
+  output_file = "tcga_pancreatic_report.html",
+  title = "Pancreatic Cancer miRNA Biomarker Discovery",
+  author = "OmicSelector Analysis"
+)
+```
+
+## 9.2 Report Contents
+
+The generated report includes:
+
+1. **Executive Summary** - Key metrics at a glance
+2. **Methods** - Data source, validation strategy, model details
+3. **Discrimination** - AUC, sensitivity, specificity
+4. **Calibration** - Brier score, calibration plot
+5. **Stability** - Nogueira index, consensus features
+6. **TRIPOD Checklist** - Compliance status
+
+---
+
+# Part 10: Phase 5 Advanced Features
+
+OmicSelector 2.0 includes cutting-edge methods validated on TCGA data.
+
+## 10.1 GOF Filters for Sparse miRNA Data
+
+miRNA data often shows zero-inflation (features "off" in one condition).
+GOF filters detect these patterns that ANOVA misses.
+
+```{r gof-filters}
+# Load GOF filters
+source(system.file("R", "FilterGOF.R", package = "OmicSelector"))
+
+# Compare KS filter vs ANOVA
+ks_filter <- FilterGOF_KS$new()
+ks_filter$calculate(task)
+ks_top <- names(sort(ks_filter$scores, decreasing = TRUE))[1:20]
+
+anova_filter <- flt("anova")
+anova_filter$calculate(task)
+anova_top <- names(sort(anova_filter$scores, decreasing = TRUE))[1:20]
+
+# Features unique to KS (potential discoveries)
+unique_discoveries <- setdiff(ks_top, anova_top)
+cat("KS-unique features:", length(unique_discoveries), "\n")
+```
+
+On TCGA kidney cancer, KS filter discovered the **miR-200/miR-141 family**
+(EMT regulators) that ANOVA missed.
+
+## 10.2 AutoXAI with Correlation Warnings
+
+Get SHAP-based interpretability with automatic warnings for correlated features:
+
+```{r autoxai}
+# Train a model
+learner_rf <- lrn("classif.ranger",
+  predict_type = "prob",
+  num.trees = 200,
+  importance = "impurity"
+)
+learner_rf$train(task)
+
+# Run XAI pipeline
+xai_results <- xai_pipeline(
+  learner = learner_rf,
+  task = task,
+  top_k = 15,
+  cor_threshold = 0.7
+)
+
+# Check for correlation warnings
+if (xai_results$correlations$n_warnings > 0) {
+  cat("WARNING:", xai_results$correlations$n_warnings,
+      "correlated feature pairs detected!\n")
+  cat("SHAP values may be unreliable for these features.\n")
+}
+
+# Visualize importance
+plot_xai_importance(xai_results, top_n = 15)
+```
+
+## 10.3 Bootstrap Stability Ensemble
+
+Find reproducible biomarkers across resamples:
+
+```{r stability-ensemble}
+# Create ensemble with multiple filters
+ensemble <- create_stability_ensemble(
+  preset = "default",
+  n_bootstrap = 100,
+  n_features = 30
+)
+
+# Fit and extract stable features
+ensemble$fit(task, seed = 42)
+stable_features <- ensemble$get_feature_importance(30)
+
+# Features with >90% selection are highly reproducible
+very_stable <- names(stable_features[stable_features >= 0.9])
+cat("Very stable biomarkers (>90%):", length(very_stable), "\n")
+print(very_stable)
+```
+
+## 10.4 Bayesian Hyperparameter Tuning
+
+Replace grid search with efficient Bayesian optimization:
+
+```{r bayesian-tuning}
+# Create Bayesian-tuned autotuner
+autotuner <- make_autotuner_glmnet(
+  task,
+  n_evals = 20,
+  inner_folds = 3
+)
+
+# Train (performs Bayesian optimization internally)
+autotuner$train(task)
+
+# Get optimal parameters
+params <- get_optimal_params(autotuner)
+cat("Optimal alpha:", params$alpha, "\n")
+cat("Optimal lambda:", params$s, "\n")
+```
+
+## 10.5 SMOTE for Class Imbalance
+
+Balance classes properly inside CV folds:
+
+```{r smote}
+# Check current class balance
+cat("Original class distribution:\n")
+print(table(task$truth()))
+
+# Apply SMOTE
+task_balanced <- smote_augment(task, ratio = 1.0, k = 5)
+
+cat("\nBalanced class distribution:\n")
+print(table(task_balanced$truth()))
+
+# Validate synthetic data quality
+validation <- validate_synthetic(
+  real = as.data.frame(task$data()),
+  synthetic = as.data.frame(task_balanced$data()),
+  target = "outcome",
+  features = task$feature_names
+)
+cat("\nSynthetic data quality score:", validation$quality_score, "\n")
+```
+
+---
+
+# Summary
+
+In this tutorial, we demonstrated:
+
+1. **Data Preparation**: Loading TCGA data, selecting proper controls
+2. **Pipeline Creation**: Using OmicPipeline with GraphLearners
+3. **Benchmarking**: Comparing multiple configurations with nested CV
+4. **Stability Analysis**: Computing and interpreting Nogueira Index
+5. **Signature Selection**: Multi-objective selection of optimal features
+6. **Final Model Training**: Training on full data for deployment
+7. **Batch Correction**: FrozenComBat for leakage-free batch correction
+8. **Calibration**: Ensuring reliable probability predictions
+9. **Reporting**: TRIPOD+AI compliant documentation
+10. **Phase 5 Features**: GOF filters, AutoXAI, stability ensembles, Bayesian tuning
+
+## Key Takeaways
+
+- Always use **nested cross-validation** for unbiased performance estimates
+- Check **feature stability** - high AUC with low stability = overfitting
+- Use **consensus features** (selected in all folds) for robust signatures
+- Apply **FrozenComBat** when external validation involves batch effects
+- Generate **TRIPOD+AI reports** for publication-ready documentation
+
+## Next Steps
+
+- Try different feature selection methods
+- Explore multi-omics integration
+- Apply the signature to external validation cohorts
+- Use SHAP values to interpret feature importance
+
+---
+
+# Session Info
+
+```{r session-info, eval=TRUE}
+sessionInfo()
+```

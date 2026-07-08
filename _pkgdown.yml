@@ -1,58 +1,235 @@
-home:
-  links:
-  - text: Konrad Stawiski M.D.
-    href: https://konsta.com.pl
+url: https://kstawiski.github.io/OmicSelector/
 
-  - text: Department of Biostatistics and Translational Research (UMED LODZ)
+home:
+  title: OmicSelector 2.6.0 - Rigorous Biomarker Discovery
+  links:
+  - text: Konrad Stawiski, M.D., Ph.D.
+    href: https://konsta.com.pl
+  - text: Department of Biostatistics and Translational Research
     href: https://biostat.umed.pl
 
 template:
-  package: tidytemplate
   bootstrap: 5
   bslib:
     base_font: {google: "Roboto"}
     heading_font: {google: "Roboto Slab"}
     code_font: {google: "JetBrains Mono"}
-  params:
-    ganalytics: UA-53584749-8
-    package: OmicSelector
 
 navbar:
   structure:
-    left:  [news]
-    right: [home, intro, demo, reference, methods, articles, github, twitter]
+    left:  [intro, reference, articles, news]
+    right: [github]
   components:
-    home:
-      icon: fa-home
-      text: Introduction
-      href: index.html
     intro:
-      icon: fa-video
-      text: Tutorial (GUI)
-      href: https://www.youtube.com/watch?v=dKUdINEcOjk
-    demo:
-      icon: fa-cubes
-      text: Demo
-      href: https://s3-apps.kstawiski.net/modules/omicselector-request/
+      icon: fa-home
+      text: Home
+      href: index.html
     reference:
       icon: fa-file-code
-      text: Functions
+      text: Reference
       href: reference/index.html
-    methods:
-      icon: fa-tools
-      text: Methods
-      href: articles/metody.html
     articles:
-      icon: "fas fa-book"
-      text: Tutorials (Code)
+      icon: fas fa-book
+      text: Articles
       menu:
-      - icon: fa-user-graduate
-        text: Basic analysis tutorial
-        href: articles/Tutorial.html
-      - icon: fa-code-branch
-        text: Deep learning tutorial
-        href: articles/DeepLearningTutorial.html
-    twitter:
-      icon: fa-twitter
-      href: http://twitter.com/KonradStawiski
-      aria-label: Twitter
+      - text: Single-sample deployment
+        href: articles/single-sample-deployment.html
+      - text: "---"
+      - text: Getting Started
+        href: articles/getting-started.html
+      - text: TCGA Biomarker Discovery
+        href: articles/tcga-tutorial.html
+      - text: "---"
+      - text: "Phase 5: Advanced Features"
+        href: articles/phase5-advanced.html
+      - text: "---"
+      - text: Validation Report
+        href: articles/validation-report.html
+    github:
+      icon: fa-github
+      aria-label: GitHub repository
+      href: https://github.com/kstawiski/OmicSelector
+
+articles:
+- title: Single-sample scoring & deployment
+  contents:
+  - single-sample-deployment
+
+reference:
+- title: Single-sample scoring & deployment
+  desc: Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a benchmark-winning claim.
+  contents:
+  - deploy_singlesample
+  - score_specimen
+  - is_singlesample_deployable
+  - ws_balance_ilr
+  - ws_rclr_trimmed
+  - singlesample_method_roster
+  - singlesample_score_call
+  - singlesample_assert_row_equivariant
+
+- title: Core Pipeline
+  desc: Main classes for building zero-leakage ML pipelines
+  contents:
+  - OmicPipeline
+  - omic_pipeline
+  - BenchmarkService
+  - omic_benchmark
+
+- title: Signature Selection
+  desc: Multi-objective biomarker signature selection
+  contents:
+  - select_best_signature
+  - get_consensus_features
+  - get_selected_features_per_fold
+
+- title: Stability Analysis
+  desc: Feature selection stability metrics
+  contents:
+  - compute_nogueira_stability
+  - compute_stability_from_resample
+  - extract_features_from_resample
+  - extract_selected_features
+
+- title: Batch Correction
+  desc: FrozenComBat for proper batch effect handling
+  contents:
+  - FrozenComBat
+  - frozen_combat_correct
+  - create_frozen_combat_pipeop
+
+- title: Cross-Platform Transfer
+  desc: Cross-platform model deployment and domain adaptation
+  contents:
+  - matches("cross_platform|domain_adapt|rank_transfer")
+
+- title: Within-Sample CoDA Methods
+  desc: Paper 1 v2.2 image encodings, neural learners, and perturbation benchmarking
+  contents:
+  - encode_simple_grid
+  - encode_corr_grid
+  - encode_deepinsight
+  - encode_ratio_image
+  - train_ratio_cnn
+  - train_ratio_cnn_multiseed
+  - clr_transform
+  - train_clr_mlp
+  - predict_clr_mlp
+  - train_codacore
+  - predict_codacore
+  - ws_perturbation_benchmark
+
+- title: Calibration
+  desc: Probability calibration and diagnostics
+  contents:
+  - fit_platt_scaling
+  - fit_isotonic_calibration
+  - fit_temperature_scaling
+  - compute_ece
+  - decompose_brier
+  - calibration_summary
+  - reliability_diagram_data
+
+- title: Interpretability
+  desc: Model interpretation and feature importance
+  contents:
+  - create_explainer
+  - shap_values
+  - feature_importance
+  - partial_dependence
+  - check_feature_correlations
+
+- title: "Phase 5: GOF Filters"
+  desc: Goodness-of-fit filters for sparse/zero-inflated omics data
+  contents:
+  - FilterGOF_KS
+  - FilterHurdle
+  - FilterZeroProp
+  - make_gof_filter
+  - compare_gof_filters
+  - register_gof_filters
+
+- title: "Phase 5: Bayesian Tuning"
+  desc: Bayesian hyperparameter optimization with mlr3mbo
+  contents:
+  - make_autotuner_glmnet
+  - make_autotuner_xgboost
+  - make_autotuner_ranger
+  - make_autotuner_lightgbm
+  - get_optimal_params
+  - run_bayesian_benchmark
+
+- title: "Phase 5: AutoXAI"
+  desc: DALEX-based interpretability with correlation warnings
+  contents:
+  - xai_pipeline
+  - xai_explainer_mlr3
+  - xai_importance
+  - xai_correlations
+  - xai_pdp
+  - xai_shap
+  - plot_xai_importance
+  - print_xai_summary
+
+- title: "Phase 5: Stability Ensemble"
+  desc: Bootstrap-based feature selection stability
+  contents:
+  - create_stability_ensemble
+  - StabilityEnsemble
+  - SequentialSelector
+
+- title: "Phase 5: Synthetic Data"
+  desc: Data augmentation and synthetic data generation
+  contents:
+  - smote_augment
+  - noise_augment
+  - validate_synthetic
+  - balance_classes
+  - tabddpm_generate
+
+- title: "Phase 5: Deep Learning"
+  desc: Deep learning models for omics (requires torch)
+  contents:
+  - create_mlp_learner
+  - make_mlp_learner
+  - make_tabtransformer_learner
+  - make_gnn_learner
+  - build_correlation_adjacency
+  - run_dl_benchmark
+  - check_dl_availability
+
+- title: Multi-Omics
+  desc: Multi-omics late integration
+  contents:
+  - merge_omics_data
+  - get_modality_info
+  - validate_omics_input
+  - stack_omics
+
+- title: Model Export & Reporting
+  desc: Model deployment and TRIPOD reporting
+  contents:
+  - generate_tripod_report
+  - create_report_data
+
+- title: Utilities
+  desc: Helper functions for parallel processing and caching
+  contents:
+  - setup_parallel
+  - with_parallel
+  - get_parallel_status
+  - reset_parallel
+  - create_omic_cache
+  - cached_filter
+  - cache_stats
+  - clear_cache
+
+- title: Legacy Functions
+  desc: Functions from OmicSelector 1.x (use with caution)
+  contents:
+  - starts_with("OmicSelector_")
+
+- title: Internal Functions
+  desc: Internal functions and helpers (exported for advanced use)
+  contents:
+  - matches(".*")

@@ -16,3 +16,36 @@ docs
 vignettes/balanced_dataset.csv.gz
 docker/build.log
 playground/*.*
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# Build artifacts
+*.tar.gz
+*.Rcheck/
+.check_logs*/
+release_v*/
+.github/depends.Rds
+.github/R-version
+delegated_tasks/
+triple_consensus_logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Crash dumps / build staging / pycache
+core
+m3_staging/
+inst/python/__pycache__/
+/doc/
+/Meta/

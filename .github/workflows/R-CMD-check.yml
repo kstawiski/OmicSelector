@@ -1,0 +1,65 @@
+# OmicSelector 2.0 - R CMD Check
+name: R-CMD-check
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    env:
+      # Disable renv auto-activation to use system packages
+      RENV_CONFIG_AUTOLOADER_ENABLED: 'false'
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: 'true'
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libxml2-dev \
+            libfontconfig1-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            libfreetype6-dev \
+            libtiff-dev \
+            libpng-dev \
+            libgit2-dev
+
+      - name: Install R dependencies
+        run: |
+          install.packages(c('remotes', 'rcmdcheck'))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: R CMD check
+        env:
+          _R_CHECK_CRAN_INCOMING_: false
+          _R_CHECK_FORCE_SUGGESTS_: false
+        run: |
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-results
+          path: check

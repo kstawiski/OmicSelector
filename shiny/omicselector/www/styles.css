@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #f6f3ef;
+  --panel: #ffffff;
+  --border: #e2dbd3;
+  --text: #1d1d1f;
+  --muted: #5a5a5f;
+  --accent: #f26b38;
+  --accent-dark: #c6532a;
+  --nav: #0f3d3e;
+  --shadow: 0 6px 18px rgba(15, 15, 15, 0.08);
+}
+
+body {
+  font-family: "Space Grotesk", "IBM Plex Mono", sans-serif;
+  background: linear-gradient(135deg, #f6f3ef 0%, #f1ebe4 100%);
+  color: var(--text);
+}
+
+.navbar {
+  background-color: var(--nav);
+  border: none;
+  border-radius: 0;
+  margin-bottom: 18px;
+}
+
+.navbar .navbar-brand,
+.navbar-nav > li > a {
+  color: #f5efe7 !important;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:focus,
+.navbar-nav > .active > a:hover {
+  background-color: #114b4d !important;
+}
+
+.app-title {
+  font-weight: 600;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-default {
+  background: #ffffff;
+  border: 1px solid var(--border);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+  padding-top: 6px;
+}
+
+table {
+  font-size: 12px;
+}

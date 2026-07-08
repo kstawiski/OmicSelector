@@ -1,0 +1,19 @@
+# OmicSelector 2.0 Docker Compose (WebUI + RStudio Server)
+
+services:
+  omicselector:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: omicselector:latest
+    container_name: omicselector
+    ports:
+      - "3838:3838"  # Shiny WebUI
+      - "8787:8787"  # RStudio Server
+    environment:
+      - PASSWORD=omicselector
+      - OMICSELECTOR_ANALYSES_DIR=/OmicSelector/analyses
+    volumes:
+      - .:/OmicSelector
+      - ./analyses:/OmicSelector/analyses

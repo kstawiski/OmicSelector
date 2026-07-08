@@ -1,0 +1,25 @@
+# Exclude renv - Docker uses its own dependency management
+.Rprofile
+renv/
+renv.lock
+
+# Exclude git artifacts
+.git/
+.github/
+
+# Exclude dev files
+.Rbuildignore
+.Rproj.user/
+*.Rproj
+old_files_to_delete/
+
+# Exclude test artifacts
+tests/testthat/test-results/
+check/
+
+# Exclude documentation build artifacts
+docs/
+
+# Exclude vignette outputs
+vignettes/*.html
+vignettes/*.pdf

@@ -1,0 +1,75 @@
+<GENERATED-CODE>
+1. Create new file R/class_AppSession.R with the R6 state manager
+
+<NEWFILE: R/class_AppSession.R>
+#' @title Application Session State Manager
+#' @description Handles data persistence and state across Shiny modules
+#' @export
+AppSession <- R6::R6Class(
+  "AppSession",
+  public = list(
+    # Reactive values wrapper for Shiny reactivity
+    rv = NULL,
+    
+    # Core Data Objects
+    analysis_id = NULL,
+    base_dir = NULL,
+    
+    initialize = function(analysis_dir_root = "analyses") {
+      # Initialize reactive values
+      self$rv <- reactiveValues(
+        data_status = "empty",   # empty, loaded, mapped
+        pipeline_status = "new", # new, configured, running, complete
+        
+        # Data pointers
+        raw_data = NULL,
+        metadata = list(),       # Stores target col, batch col names
+        
+        # Results
+        benchmark_result = NULL,
+        best_model = NULL
+      )
+      
+      # Ensure root directory
+      if (!dir.exists(analysis_dir_root)) dir.create(analysis_dir_root)
+      self$base_dir <- normalizePath(analysis_dir_root)
+    },
+    
+    # Project Management
+    create_project = function(name = NULL) {
+      if (is.null(name)) name <- paste0("Project_", format(Sys.time(), "%Y%m%d_%H%M"))
+      self$analysis_id <- name
+      dir.create(file.path(self$base_dir, self$analysis_id), showWarnings = FALSE)
+      
+      # Reset state
+      self$rv$data_status <- "empty"
+      self$rv$raw_data <- NULL
+      self$save_state()
+      
+      return(self$analysis_id)
+    },
+    
+    load_project = function(project_id) {
+      path <- file.path(self$base_dir, project_id, "session_state.rds")
+      if (!file.exists(path)) stop("Project state not found")
+      
+      state <- readRDS(path)
+      # Restore state to reactive values
+      for (n in names(state)) {
+        self$rv[[n]] <- state[[n]]
+      }
+      self$analysis_id <- project_id
+    },
+    
+    save_state = function() {
+      if (is.null(self$analysis_id)) return(FALSE)
+      
+      # Convert reactive values to regular list for saving
+      state_list <- reactiveValuesToList(self$rv)
+      saveRDS(state_list, file.path(self$base_dir, self$analysis_id, "session_state.rds"))
+      return(TRUE)
+    }
+  )
+)
+</NEWFILE>
+</GENERATED-CODE>

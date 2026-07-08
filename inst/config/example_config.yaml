@@ -1,0 +1,43 @@
+# OmicSelector 2.0 Configuration File
+# Use with: omicselector run --config=config.yaml
+
+# Data settings
+data:
+  file: "data/expression.csv"      # Path to data file (CSV, TSV, or RDS), relative to working directory or absolute
+  target: "outcome"                 # Target column name
+  positive: "Case"                  # Positive class label (for binary classification)
+  # patient_id: "patient"           # Optional: Column for patient grouping
+
+# Pipeline settings (GraphLearner configuration)
+pipeline:
+  filter: "anova"                   # Filter method: anova, mrmr, variance, correlation
+  model: "ranger"                   # Model type: ranger, glmnet, svm
+  n_features: 20                    # Number of features to select
+  scale: true                       # Scale features before selection
+  impute: "median"                  # Imputation method: median, mean, sample
+  # oversample: "smote"             # Optional: smote for class imbalance
+
+# Benchmark settings (Nested CV configuration)
+benchmark:
+  outer_folds: 5                    # Outer CV folds (for evaluation)
+  inner_folds: 3                    # Inner CV folds (for feature selection)
+  seed: 42                          # Random seed for reproducibility
+  stratify: true                    # Stratify by outcome
+
+# Parallel processing
+parallel:
+  workers: 4                        # Number of parallel workers
+  plan: "multisession"              # future plan: multisession, multicore, sequential
+
+# Output settings
+output:
+  dir: "./results"                  # Output directory
+  save_models: false                # Save trained models (can be large)
+  report_format: "html"             # Report format: html, pdf
+
+# TRIPOD+AI report settings
+report:
+  include_calibration: true         # Include calibration plot
+  include_decision_curve: true      # Include decision curve analysis
+  include_stability: true           # Include stability analysis
+  include_session_info: true        # Include full session info
