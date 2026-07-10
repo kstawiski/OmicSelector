@@ -48,9 +48,3 @@ Available methods:
 - `ws_logratio`: Compute all pairwise log-ratios (self-normalizing)
 
 - `ws_ratio_image`: Create pairwise ratio matrix (for CNN input)
-
-## References
-
-Stawiski K et al. (2026). Within-sample normalization enables
-batch-effect-free pan-cancer detection from circulating miRNA
-signatures. (in preparation)

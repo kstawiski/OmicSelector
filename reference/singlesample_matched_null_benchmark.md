@@ -1,4 +1,4 @@
-# Paper 3 matched-null benchmark for within-sample miRNA panel scoring
+# Single-sample matched-null benchmark for within-sample miRNA panel scoring
 
 For an observed scoring method `scoring_fn` applied to a panel of size
 `k`, generates `K` random panels of the same size drawn from the cohort
@@ -126,10 +126,6 @@ A list with components:
 - `fallback_count`:
 
   Number of draws that fell back to tier 3.
-
-## References
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 
 ## Examples
 

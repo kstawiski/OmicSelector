@@ -4,8 +4,8 @@ Returns a `data.frame` with one row per canonical mature miRNA and
 columns for the primary mature miRNA name, MIMAT accession, optional
 precursor MI accession, and a semicolon-separated list of known
 alternate identifiers. The table covers the ~92 high-priority
-circulating miRNAs used in Paper 3 of the OmicSelector programme: all
-members of
+circulating miRNAs used in the OmicSelector single-sample scoring bank:
+all members of
 [`ws_default_sbp`](https://kstawiski.github.io/OmicSelector/reference/ws_default_sbp.md)
 and
 [`ws_default_pivot_pool`](https://kstawiski.github.io/OmicSelector/reference/ws_default_pivot_pool.md),

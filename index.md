@@ -5,8 +5,8 @@ zero data leakage.**
 
 Release 2.6.0 adds single-sample deployment wrappers on top of the
 within-sample compositional scoring layer, frozen-reference denoising
-add-ons, qPCR non-detect imputation, matched-null benchmarks, and the
-provenance pre-flight gate used by the OmicSelector paper.
+add-ons, qPCR non-detect imputation, matched-null benchmarks, and a
+provenance pre-flight gate.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 
@@ -15,9 +15,8 @@ provenance pre-flight gate used by the OmicSelector paper.
 OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later
 score one incoming specimen without a co-resident test batch, reference
 cohort, or test-time batch-correction step. This is a deployability
-feature, not a superiority claim: in the 21-cohort benchmark, no
-single-sample method robustly cleared +0.05 over trimmed-rCLR, and
-cross-platform transfer was null.
+feature, not a superiority claim: it does not assert that any
+single-sample method out-discriminates a batch-corrected pipeline.
 
 ``` r
 
@@ -150,7 +149,7 @@ Factor/character (classification) or numeric (regression)
 | **compute_nogueira_stability** | Feature selection stability metrics     |
 | **FrozenComBat**               | Batch correction with frozen parameters |
 | **fit_platt_scaling**          | Probability calibration                 |
-| **MultiOmicsStacker**          | Late integration of multi-omics data    |
+| **stack_omics**                | Late integration of multi-omics data    |
 
 ## Phase 5: Advanced Features
 
@@ -165,8 +164,8 @@ Factor/character (classification) or numeric (regression)
 ## Docker
 
 ``` bash
-docker build -f Dockerfile.core -t omicselector:2.0 .
-docker run -it --rm -v $(pwd):/workspace omicselector:2.0 R
+docker build -f Dockerfile -t omicselector .
+docker run -it --rm -v $(pwd):/workspace omicselector R
 ```
 
 ## Citation
@@ -196,7 +195,7 @@ University of Lodz, Poland
 
 ## Links
 
-- [Documentation](https://biostat.umed.pl/OmicSelector/)
+- [Documentation](https://kstawiski.github.io/OmicSelector/)
 - [Issues & Bug
   Reports](https://github.com/kstawiski/OmicSelector/issues)
 - [Source Code](https://github.com/kstawiski/OmicSelector)

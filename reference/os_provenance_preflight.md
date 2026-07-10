@@ -1,4 +1,4 @@
-# Paper 3 specimen-overlap provenance pre-flight gate
+# Single-sample specimen-overlap provenance pre-flight gate
 
 Audits a candidate accession list against a manifest of known specimen-
 overlap pairs and returns one of three exit conditions:
@@ -21,8 +21,8 @@ overlap pairs and returns one of three exit conditions:
   before combining with anything else. Takes precedence over
   `KNOWN_OVERLAP`.
 
-Intended as the first stage in the Paper-3 pipeline (Methods section
-"Provenance auditing and specimen-overlap handling").
+Intended as the first stage in the single-sample pipeline (Methods
+section "Provenance auditing and specimen-overlap handling").
 
 ## Usage
 

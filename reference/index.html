@@ -20,13 +20,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="../articles/deep-learning.html">Deep Learning</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
@@ -44,7 +39,7 @@
     <div class="section level2">
       <h2 id="single-sample-scoring-deployment">Single-sample scoring &amp; deployment<a class="anchor" aria-label="anchor" href="#single-sample-scoring-deployment"></a></h2>
 
-      <div class="section-desc"><p>Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a benchmark-winning claim.</p></div>
+      <div class="section-desc"><p>Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a superiority claim.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -91,7 +86,7 @@
           <code><a href="singlesample_method_roster.html">singlesample_method_roster()</a></code>
 
         </dt>
-        <dd>Paper 3 Amendment #4 method roster (frozen expansion)</dd>
+        <dd>Amendment #4 method roster (frozen expansion)</dd>
 
         <dt>
 
@@ -2761,7 +2756,7 @@
           <code><a href="os_provenance_preflight.html">os_provenance_preflight()</a></code>
 
         </dt>
-        <dd>Paper 3 specimen-overlap provenance pre-flight gate</dd>
+        <dd>Single-sample specimen-overlap provenance pre-flight gate</dd>
 
         <dt>
 
@@ -3727,14 +3722,14 @@
           <code><a href="singlesample-additional-within-sample.html">singlesample-additional-within-sample</a></code>
 
         </dt>
-        <dd>Paper 3 additional within-sample methods (Module A, P2)</dd>
+        <dd>Single-sample additional within-sample methods (Module A, P2)</dd>
 
         <dt>
 
           <code><a href="singlesample-batch-correction.html">singlesample-batch-correction</a></code>
 
         </dt>
-        <dd>Paper 3 batch-correction methods (Module C)</dd>
+        <dd>Single-sample batch-correction methods (Module C)</dd>
 
         <dt>
 
@@ -3811,7 +3806,7 @@
           <code><a href="singlesample-hemolysis.html">singlesample-hemolysis</a></code>
 
         </dt>
-        <dd>Paper 3 robust-regression hemolysis correction (Module B)</dd>
+        <dd>Single-sample robust-regression hemolysis correction (Module B)</dd>
 
         <dt>
 
@@ -3832,7 +3827,7 @@
           <code><a href="singlesample-matched-null.html">singlesample-matched-null</a></code>
 
         </dt>
-        <dd>Paper 3 matched-null benchmark for panel-vs-random-panel AUC inference</dd>
+        <dd>Single-sample matched-null benchmark for panel-vs-random-panel AUC inference</dd>
 
         <dt>
 
@@ -3846,21 +3841,21 @@
           <code><a href="singlesample-nondetects.html">singlesample-nondetects</a></code>
 
         </dt>
-        <dd>Paper 3 qPCR non-detect imputation (Module B add-on)</dd>
+        <dd>Single-sample qPCR non-detect imputation (Module B add-on)</dd>
 
         <dt>
 
           <code><a href="singlesample-outlier-detection.html">singlesample-outlier-detection</a></code>
 
         </dt>
-        <dd>Paper 3 outlier detection and conformal claim-gating (Module D)</dd>
+        <dd>Single-sample outlier detection and conformal claim-gating (Module D)</dd>
 
         <dt>
 
           <code><a href="singlesample-preprocessing.html">singlesample-preprocessing</a></code>
 
         </dt>
-        <dd>Paper 3 preprocessing utilities</dd>
+        <dd>Single-sample preprocessing utilities</dd>
 
         <dt>
 
@@ -3937,21 +3932,21 @@
           <code><a href="singlesample-within-sample.html">singlesample-within-sample</a></code>
 
         </dt>
-        <dd>Paper 3 within-sample compositional methods (Module A, P1)</dd>
+        <dd>Single-sample within-sample compositional methods (Module A, P1)</dd>
 
         <dt>
 
           <code><a href="singlesample_advanced_scorers.html">os_fit_dann_kit_extended()</a></code> <code><a href="singlesample_advanced_scorers.html">os_score_dann_kit_extended()</a></code> <code><a href="singlesample_advanced_scorers.html">os_transform_dann_kit_extended()</a></code> <code><a href="singlesample_advanced_scorers.html">os_fit_kit_conditional_vae()</a></code> <code><a href="singlesample_advanced_scorers.html">os_score_kit_conditional_vae()</a></code> <code><a href="singlesample_advanced_scorers.html">os_transform_kit_conditional_vae()</a></code> <code><a href="singlesample_advanced_scorers.html">os_fit_icp_per_kit()</a></code> <code><a href="singlesample_advanced_scorers.html">os_score_icp_per_kit()</a></code> <code><a href="singlesample_advanced_scorers.html">os_predict_icp_per_kit_details()</a></code> <code><a href="singlesample_advanced_scorers.html">os_fit_group_dro_scorer()</a></code> <code><a href="singlesample_advanced_scorers.html">os_score_group_dro_scorer()</a></code> <code><a href="singlesample_advanced_scorers.html">os_fit_sinkhorn_ot_scorer()</a></code> <code><a href="singlesample_advanced_scorers.html">os_apply_sinkhorn_ot_scorer()</a></code> <code><a href="singlesample_advanced_scorers.html">os_score_sinkhorn_ot_scorer()</a></code>
 
         </dt>
-        <dd>Advanced Paper 3 learned and transport scorers</dd>
+        <dd>Advanced single-sample learned and transport scorers</dd>
 
         <dt>
 
           <code><a href="singlesample_assert_method_bank_exports.html">singlesample_assert_method_bank_exports()</a></code>
 
         </dt>
-        <dd>Assert that Paper 3 method-bank functions are present and exported</dd>
+        <dd>Assert that single-sample method-bank functions are present and exported</dd>
 
         <dt>
 
@@ -4014,7 +4009,7 @@
           <code><a href="singlesample_matched_null_benchmark.html">singlesample_matched_null_benchmark()</a></code>
 
         </dt>
-        <dd>Paper 3 matched-null benchmark for within-sample miRNA panel scoring</dd>
+        <dd>Single-sample matched-null benchmark for within-sample miRNA panel scoring</dd>
 
         <dt>
 
@@ -4028,21 +4023,21 @@
           <code><a href="singlesample_method_bank.html">singlesample_method_bank()</a></code>
 
         </dt>
-        <dd>Paper 3 method-bank registry</dd>
+        <dd>Single-sample method-bank registry</dd>
 
         <dt>
 
           <code><a href="singlesample_method_roster.html">singlesample_method_roster()</a></code>
 
         </dt>
-        <dd>Paper 3 Amendment #4 method roster (frozen expansion)</dd>
+        <dd>Amendment #4 method roster (frozen expansion)</dd>
 
         <dt>
 
           <code><a href="singlesample_paired_auc_diff_se.html">singlesample_paired_auc_diff_se()</a></code>
 
         </dt>
-        <dd>Paired DeLong SE for Paper 3 AUC lift</dd>
+        <dd>Paired DeLong SE for single-sample AUC lift</dd>
 
         <dt>
 

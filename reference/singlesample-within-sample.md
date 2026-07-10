@@ -1,15 +1,15 @@
-# Paper 3 within-sample compositional methods (Module A, P1)
+# Single-sample within-sample compositional methods (Module A, P1)
 
-Five Module-A within-sample compositional transforms introduced in Paper
-3 of the OmicSelector programme (Stawiski et al., in preparation; Nature
-Methods target). All methods are single-sample and
-reference-cohort-free: each sample is normalised, scored, or projected
-using only its own panel values, with no requirement for an external
-training cohort to exist at deployment time. This is the property that
-makes within-sample methods suitable for clinical translation: a
-diagnostic test built on these primitives can be deployed by computing a
-per-patient score from the patient's own panel measurement, without
-re-fitting any normalization on a population reference.
+Five Module-A within-sample compositional transforms introduced in the
+OmicSelector single-sample scoring bank. All methods are single-sample
+and reference-cohort-free: each sample is normalised, scored, or
+projected using only its own panel values, with no requirement for an
+external training cohort to exist at deployment time. This is the
+property that makes within-sample methods suitable for clinical
+translation: a diagnostic test built on these primitives can be deployed
+by computing a per-patient score from the patient's own panel
+measurement, without re-fitting any normalization on a population
+reference.
 
 Methods provided:
 
@@ -72,8 +72,8 @@ Module A is one of six modules in the OmicSelector v2.4 toolkit. The
 other modules - Module B (hemolysis correction), Module C (frozen batch
 correction), Module D (outlier detection and conformal claim-gating),
 Module E (multi-cancer / domain generalisation), and Module F
-(self-supervised pretraining and ablation) - are documented in Paper 3
-Methods and the per-module help pages.
+(self-supervised pretraining and ablation) - are documented in the
+single-sample scoring bank and the per-module help pages.
 
 ## References
 
@@ -93,7 +93,3 @@ Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 microRNAs as stable blood-based markers for cancer detection.
 *Proceedings of the National Academy of Sciences USA* 105(30):
 10513-10518.
-
-Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-circulating-microRNA biomarkers across cancers and platforms (Paper 3 of
-the OmicSelector programme; Nature Methods target).

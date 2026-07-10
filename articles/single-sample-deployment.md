@@ -15,12 +15,12 @@ library(OmicSelector)
 > one new specimen arrives alone and must be scored without co-resident
 > test samples.
 >
-> **Honest caveat.** In the 21-cohort benchmark, no single-sample method
-> robustly cleared +0.05 over trimmed-rCLR, and cross-platform transfer
-> was null. The value of the API below is deployability: score one
-> incoming specimen with its own panel values plus frozen fit-time
-> parameters. It is not a claim that `ws-balance-ilr` is the most
-> accurate method.
+> **Honest caveat.** The value of the API below is *deployability*: it
+> scores one incoming specimen from its own panel values plus frozen
+> fit-time parameters, with no co-resident test batch. It is not a claim
+> that `ws-balance-ilr`, or any single-sample method, out-discriminates
+> a batch-corrected pipeline — choose and validate the scoring method on
+> your own data.
 
 ## Make a tiny synthetic compositional panel
 
@@ -83,7 +83,7 @@ print(dep)
 #>   method_id: ws-balance-ilr
 #>   n_train: 39
 #>   gate: verified row-equivariant scoring on 39 probe rows (single specimen == same row in batch; frozen model)
-#>   caveat: deployability only; no single-sample method robustly cleared +0.05 over trimmed-rCLR in the 21-cohort benchmark.
+#>   caveat: deployability only; not a claim of superior discrimination over a batch-corrected pipeline.
 ```
 
 ## Score one incoming specimen
@@ -138,8 +138,8 @@ head(roster[, c("method_id", "tier", "dep_route")], 8)
 #> 8 kit-stratified-rclr   R1    base-R
 ```
 
-The benchmark caveat remains load-bearing for all methods in the roster:
-on the 21-cohort benchmark no single-sample method robustly cleared
-+0.05 over trimmed-rCLR, and cross-platform transfer was null. The
-documented value is that deployable methods can score one incoming
-specimen without a new batch or test-time batch correction step.
+The deployability contract is what the roster guarantees, not a ranking:
+a deployable method can score one incoming specimen without a new batch
+or a test-time batch-correction step. It does not certify that any
+method provides superior discrimination, so benchmark the method choice
+on your own cohorts.

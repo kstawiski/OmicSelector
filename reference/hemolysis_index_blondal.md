@@ -6,7 +6,7 @@ matrix as \\\log(\mathrm{miR\text{-}451a}) -
 present (canonical names `hsa-miR-451a` / `hsa-miR-23a-3p`, or the
 corresponding MIMAT accessions `MIMAT0001631` / `MIMAT0000078`);
 otherwise `NULL` is returned and the caller should treat the cell as not
-hemolysis-correctable. This is the convention the manuscript pipeline
+hemolysis-correctable. This is the convention the single-sample pipeline
 uses to feed
 [`fit_hemolysis_rr`](https://kstawiski.github.io/OmicSelector/reference/fit_hemolysis_rr.md)
 /

@@ -41,13 +41,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="articles/deep-learning.html">Deep Learning</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -65,12 +60,12 @@
 <div class="page-header"><h1 id="omicselector-260">OmicSelector 2.6.0<a class="anchor" aria-label="anchor" href="#omicselector-260"></a>
 </h1></div>
 <p><strong>Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.</strong></p>
-<p>Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, matched-null benchmarks, and the provenance pre-flight gate used by the OmicSelector paper.</p>
+<p>Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, matched-null benchmarks, and a provenance pre-flight gate.</p>
 <p><a href="https://github.com/kstawiski/OmicSelector/actions" class="external-link"><img src="https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></p>
 <div class="section level2">
 <h2 id="single-sample-deployment-whats-distinctive">Single-sample deployment (what’s distinctive)<a class="anchor" aria-label="anchor" href="#single-sample-deployment-whats-distinctive"></a>
 </h2>
-<p>OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score one incoming specimen without a co-resident test batch, reference cohort, or test-time batch-correction step. This is a deployability feature, not a superiority claim: in the 21-cohort benchmark, no single-sample method robustly cleared +0.05 over trimmed-rCLR, and cross-platform transfer was null.</p>
+<p>OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score one incoming specimen without a co-resident test batch, reference cohort, or test-time batch-correction step. This is a deployability feature, not a superiority claim: it does not assert that any single-sample method out-discriminates a batch-corrected pipeline.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/deploy_singlesample.html">deploy_singlesample</a></span><span class="op">(</span><span class="va">X_train</span>, <span class="va">y_train</span>, method <span class="op">=</span> <span class="st">"ws-balance-ilr"</span><span class="op">)</span></span>
 <span><span class="va">score</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">dep</span>, <span class="va">x_new</span><span class="op">)</span></span>
@@ -331,7 +326,7 @@
 <td>Probability calibration</td>
 </tr>
 <tr>
-<td><strong>MultiOmicsStacker</strong></td>
+<td><strong>stack_omics</strong></td>
 <td>Late integration of multi-omics data</td>
 </tr>
 </tbody>
@@ -376,8 +371,8 @@
 <div class="section level2">
 <h2 id="docker">Docker<a class="anchor" aria-label="anchor" href="#docker"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile.core <span class="at">-t</span> omicselector:2.0 .</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/workspace omicselector:2.0 R</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile <span class="at">-t</span> omicselector .</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/workspace omicselector R</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -407,7 +402,7 @@
 <h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
 </h2>
 <ul>
-<li><a href="https://biostat.umed.pl/OmicSelector/" class="external-link">Documentation</a></li>
+<li><a href="https://kstawiski.github.io/OmicSelector/">Documentation</a></li>
 <li><a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">Issues &amp; Bug Reports</a></li>
 <li><a href="https://github.com/kstawiski/OmicSelector" class="external-link">Source Code</a></li>
 </ul>

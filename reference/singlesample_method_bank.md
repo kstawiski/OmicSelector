@@ -1,9 +1,9 @@
-# Paper 3 method-bank registry
+# Single-sample method-bank registry
 
 Returns the package-facing implementation map for the OmicSelector
-manuscript method bank. The registry is intentionally executable
+single-sample method bank. The registry is intentionally executable
 metadata: each row names the exported fit, predict, score, or helper
-function that implements the manuscript method or auxiliary protocol.
+function that implements the single-sample method or auxiliary protocol.
 
 ## Usage
 

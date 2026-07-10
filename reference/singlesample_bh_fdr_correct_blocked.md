@@ -10,8 +10,8 @@ test statistics. This function implements a two-stage correction:
     reported side by side:
 
     - *conservative reference*: \\S/c\\ against \\\chi^2\_{2k}\\;
-      intentionally conservative; used for the manuscript's headline
-      counts.
+      intentionally conservative; used for the frozen benchmark's
+      headline counts.
 
     - *textbook reference* (Brown 1975 / Kost-McDermott 2002): \\S/c\\
       against \\\chi^2\_{2k/c}\\ with \\df\\ rescaled by the same
@@ -22,8 +22,8 @@ test statistics. This function implements a two-stage correction:
 
 The inflation factor is \\c(k) = 1 + (k - 1)\rho\\ with \\k\\ the number
 of cohorts in the block and \\\rho\\ the assumed within-block
-correlation (default \\\rho = 0.25\\ reproduces the manuscript's
-headline).
+correlation (default \\\rho = 0.25\\ reproduces the frozen benchmark's
+headline configuration).
 
 ## Usage
 
@@ -48,7 +48,8 @@ singlesample_bh_fdr_correct_blocked(results, block_id, rho = 0.25)
 
   Numeric in \[0, 1\]. Assumed within-block correlation; controls the
   inflation factor \\c(k) = 1 + (k - 1)\rho\\. Default 0.25 reproduces
-  the manuscript headline. Set to 0 to recover vanilla Fisher.
+  the frozen benchmark's headline configuration. Set to 0 to recover
+  vanilla Fisher.
 
 ## Value
 

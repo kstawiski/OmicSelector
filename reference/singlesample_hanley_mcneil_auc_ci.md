@@ -3,8 +3,9 @@
 Computes the closed-form Hanley-McNeil 1982 standard error and Wald
 confidence interval for a binary-classification AUC from the AUC
 estimate and the number of positive and negative samples. This is the
-manuscript's default per-cell AUC interval helper; it is conservative
-for cross-validated estimates because it does not model fold dependence.
+single-sample scoring bank's default per-cell AUC interval helper; it is
+conservative for cross-validated estimates because it does not model
+fold dependence.
 
 ## Usage
 

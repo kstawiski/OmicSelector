@@ -1,6 +1,6 @@
-# Assert that Paper 3 method-bank functions are present and exported
+# Assert that single-sample method-bank functions are present and exported
 
-Assert that Paper 3 method-bank functions are present and exported
+Assert that single-sample method-bank functions are present and exported
 
 ## Usage
 

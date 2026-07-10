@@ -1,7 +1,7 @@
-# Paper 3 robust-regression hemolysis correction (Module B)
+# Single-sample robust-regression hemolysis correction (Module B)
 
-Frozen robust-regression hemolysis correction introduced in Paper 3
-(Module B; Stawiski et al., in preparation). Performs per-feature robust
+Frozen robust-regression hemolysis correction introduced in the
+single-sample scoring bank (Module B). Performs per-feature robust
 regression of log-expression on a hemolysis proxy score (and optionally
 a platelet score), fitting only on training controls. At deployment, the
 predicted nuisance contribution is subtracted from each feature.
@@ -24,5 +24,3 @@ Methods provided:
 
 Huber PJ. (1964) Robust Estimation of a Location Parameter. *The Annals
 of Mathematical Statistics* 35(1): 73–101.
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.

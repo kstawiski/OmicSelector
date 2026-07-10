@@ -39,13 +39,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="../articles/deep-learning.html">Deep Learning</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -87,12 +82,12 @@ corrections such as ComBat, quantile normalization, or RUV are designed
 around a batch or reference set. That is a mismatch for a clinical-style
 handoff where one new specimen arrives alone and must be scored without
 co-resident test samples.</p>
-<p><strong>Honest caveat.</strong> In the 21-cohort benchmark, no
-single-sample method robustly cleared +0.05 over trimmed-rCLR, and
-cross-platform transfer was null. The value of the API below is
-deployability: score one incoming specimen with its own panel values
-plus frozen fit-time parameters. It is not a claim that
-<code>ws-balance-ilr</code> is the most accurate method.</p>
+<p><strong>Honest caveat.</strong> The value of the API below is
+<em>deployability</em>: it scores one incoming specimen from its own
+panel values plus frozen fit-time parameters, with no co-resident test
+batch. It is not a claim that <code>ws-balance-ilr</code>, or any
+single-sample method, out-discriminates a batch-corrected pipeline —
+choose and validate the scoring method on your own data.</p>
 </blockquote>
 </div>
 <div class="section level2">
@@ -153,7 +148,7 @@ default, not a certified benchmark winner.</p>
 <span><span class="co">#&gt;   method_id: ws-balance-ilr</span></span>
 <span><span class="co">#&gt;   n_train: 39</span></span>
 <span><span class="co">#&gt;   gate: verified row-equivariant scoring on 39 probe rows (single specimen == same row in batch; frozen model)</span></span>
-<span><span class="co">#&gt;   caveat: deployability only; no single-sample method robustly cleared +0.05 over trimmed-rCLR in the 21-cohort benchmark.</span></span></code></pre></div>
+<span><span class="co">#&gt;   caveat: deployability only; not a claim of superior discrimination over a batch-corrected pipeline.</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="score-one-incoming-specimen">Score one incoming specimen<a class="anchor" aria-label="anchor" href="#score-one-incoming-specimen"></a>
@@ -198,11 +193,11 @@ and do not treat the roster order as a performance ranking.</p>
 <span><span class="co">#&gt; 6    robust-pca-resid   R1    base-R</span></span>
 <span><span class="co">#&gt; 7     hemolysis-resid   R1    base-R</span></span>
 <span><span class="co">#&gt; 8 kit-stratified-rclr   R1    base-R</span></span></code></pre></div>
-<p>The benchmark caveat remains load-bearing for all methods in the
-roster: on the 21-cohort benchmark no single-sample method robustly
-cleared +0.05 over trimmed-rCLR, and cross-platform transfer was null.
-The documented value is that deployable methods can score one incoming
-specimen without a new batch or test-time batch correction step.</p>
+<p>The deployability contract is what the roster guarantees, not a
+ranking: a deployable method can score one incoming specimen without a
+new batch or a test-time batch-correction step. It does not certify that
+any method provides superior discrimination, so benchmark the method
+choice on your own cohorts.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -1,8 +1,8 @@
 # Limit-of-detection fallback imputation for qPCR non-detects
 
 Replaces every NA in `expr_mat` with the supplied `lod_ct` value
-(default 40). Used by the Paper-3 pipeline when Bayesian hierarchical
-imputation via `nondetects` is unavailable or fails. Sets
+(default 40). Used by the single-sample pipeline when Bayesian
+hierarchical imputation via `nondetects` is unavailable or fails. Sets
 `nondetect_method = "lod_fallback"` and `n_imputed` attributes.
 
 ## Usage

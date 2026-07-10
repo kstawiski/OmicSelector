@@ -1,11 +1,11 @@
-# Paper 3 batch-correction methods (Module C)
+# Single-sample batch-correction methods (Module C)
 
-Frozen batch-correction primitives introduced in Paper 3 (Module C;
-Stawiski et al., in preparation). All methods follow a fit-then-freeze
-paradigm: factor loadings or basis vectors are estimated once on
-training data, then applied to test samples without re-estimation,
-making them suitable for clinical deployment where a population-matched
-training cohort may not be available at prediction time.
+Frozen batch-correction primitives introduced in the single-sample
+scoring bank (Module C). All methods follow a fit-then-freeze paradigm:
+factor loadings or basis vectors are estimated once on training data,
+then applied to test samples without re-estimation, making them suitable
+for clinical deployment where a population-matched training cohort may
+not be available at prediction time.
 
 Methods provided:
 
@@ -30,5 +30,3 @@ Biotechnology* 32(9): 896–902.
 
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA: A New Approach
 to Robust Principal Component Analysis. *Technometrics* 47(1): 64–79.
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.

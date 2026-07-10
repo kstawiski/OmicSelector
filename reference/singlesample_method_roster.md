@@ -1,14 +1,14 @@
-# Paper 3 Amendment \#4 method roster (frozen expansion)
+# Amendment \#4 method roster (frozen expansion)
 
-Returns the frozen 74-row method roster for the OmicSelector manuscript
-method-bank expansion (Statistical Analysis Plan Amendment \#4, extended
-by Amendment \#5 which adds the Student-t-copula method \`lrt-tcopula\`
-and Amendment \#6 which adds the KDE naive-Bayes method \`lrt-nbkde\`).
-Unlike \[singlesample_method_bank()\], which is the export-check view of
-functions already callable in the package, the roster enumerates the
-full pre-specified set of single-sample scoring methods (implemented and
-not-yet-implemented) together with the routing metadata the benchmark
-instrument consumes.
+Returns the frozen 74-row method roster for the OmicSelector
+single-sample method-bank expansion (Statistical Analysis Plan Amendment
+\#4, extended by Amendment \#5 which adds the Student-t-copula method
+\`lrt-tcopula\` and Amendment \#6 which adds the KDE naive-Bayes method
+\`lrt-nbkde\`). Unlike \[singlesample_method_bank()\], which is the
+export-check view of functions already callable in the package, the
+roster enumerates the full pre-specified set of single-sample scoring
+methods (implemented and not-yet-implemented) together with the routing
+metadata the benchmark instrument consumes.
 
 ## Usage
 

@@ -1,4 +1,4 @@
-# Paper 3 miRNA name / alias resolver (Module A, P1 — cross-platform)
+# Single-sample miRNA name / alias resolver (Module A, P1 — cross-platform)
 
 Platform-portable alias resolver for circulating miRNA feature vectors.
 Microarray platforms deposited in public repositories use a variety of
@@ -14,7 +14,7 @@ key the biology-frozen partition dictionary on canonical mature miRNA
 names (e.g. `hsa-miR-451a`, `hsa-let-7a-5p`), a feature vector arriving
 with MIMAT IDs will produce NA balances and fall to an AUC of 0.500.
 This module resolves that mismatch for the ~60–100 highest-priority
-circulating-miRNA features used in Paper 3.
+circulating-miRNA features used in the single-sample scoring bank.
 
 Three exported functions are provided:
 
@@ -52,7 +52,3 @@ Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 microRNAs as stable blood-based markers for cancer detection.
 *Proceedings of the National Academy of Sciences USA* 105(30):
 10513–10518.
-
-Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-circulating-microRNA biomarkers across cancers and platforms (Paper 3 of
-the OmicSelector programme; Nature Methods target).

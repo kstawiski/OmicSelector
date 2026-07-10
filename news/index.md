@@ -14,8 +14,7 @@
   [`is_singlesample_deployable()`](https://kstawiski.github.io/OmicSelector/reference/is_singlesample_deployable.md)
   checks the singleton-equals-batch guarantee; about 30 roster methods
   deploy and the rest reject cleanly. This exposes deployability only
-  and is not a benchmark-ranking claim: no method robustly cleared +0.05
-  AUC over trimmed-rCLR and cross-cohort transfer was null. See
+  and is not a superiority claim over batch-corrected pipelines. See
   [`vignette("single-sample-deployment")`](https://kstawiski.github.io/OmicSelector/articles/single-sample-deployment.md).
 - inv-scatter: replaced the O(D^3) frozen ridge head with an exact SVD
   row-space solve so the scattering scorer is shippable when D \>\> n;
@@ -129,8 +128,8 @@
 
 - Vectorized the
   [`ws_balance_ilr()`](https://kstawiski.github.io/OmicSelector/reference/ws_balance_ilr.md)
-  matrix/data.frame path for deployment throughput (~270x faster in the
-  Paper 3 benchmark) while preserving byte-identical results versus the
+  matrix/data.frame path for deployment throughput (a large speed-up on
+  realistic panels) while preserving byte-identical results versus the
   prior per-row path on realistic inputs. This incidentally fixes
   data.frame recursion and single-column matrix name-dropping. The
   pre-existing `TOP_K_BY_ABUNDANCE` `p <= k` empty-tail quirk is

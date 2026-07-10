@@ -42,13 +42,8 @@ review."></head><body>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="../articles/deep-learning.html">Deep Learning</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
@@ -133,7 +128,7 @@ message.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><strong>Backwards-compatibility / manuscript-pipeline note (v2.4.0).</strong>
+    <p><strong>Backwards-compatibility / single-sample-pipeline note (v2.4.0).</strong>
 The package default is <code>allow_global_fallback = FALSE</code> (fail-closed):
 the function errors out rather than silently substituting a global rCLR
 centering when fewer than <code>min_pivot_present</code> pivots are available.
@@ -141,12 +136,12 @@ This is the conservative choice for end users running interactive
 analyses, because it prevents haemolysis-contaminated cells from being
 silently rescued by an all-feature centering that includes the very
 contaminants they were meant to flag.</p>
-<p>The Paper-3 manuscript pipeline (Methods 'Within-sample compositional
-methods") describes the fallback as having been "activated" with the
+<p>The single-sample pipeline (within-sample compositional methods) describes
+the fallback as having been "activated" with the
 affected cells explicitly flagged in the per-cell results. The pipeline
 opts in via <code>allow_global_fallback = TRUE</code> on every call. This
 alignment is intentional: the package keeps the safer default for ad-hoc
-use, while the manuscript pipeline has the explicit logging discipline
+use, while the single-sample pipeline has the explicit logging discipline
 to track every cell that took the fallback path.</p>
     </div>
 

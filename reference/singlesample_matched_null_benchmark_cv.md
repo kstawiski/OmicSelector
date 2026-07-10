@@ -10,8 +10,8 @@ univariate AUC, and the matched-null strata are computed on the training
 fold; the held-out test fold is then used to compute both the observed
 AUC and `K` matched-null AUCs.
 
-This is the engine that produced the manuscript's per-cell numbers in
-Supplementary Table S1 / Figure 3 / Table 2.
+This is the engine that produced the frozen benchmark's per-cell numbers
+in Supplementary Table S1 / Figure 3 / Table 2.
 
 ## Usage
 
@@ -90,7 +90,7 @@ singlesample_matched_null_benchmark_cv(
 
 - min_valid_folds:
 
-  Integer. Default 4 (manuscript / plan v0.6 sec 4.1).
+  Integer. Default 4 (the frozen analysis plan, v0.6 sec 4.1).
 
 - min_pos_per_fold:
 
@@ -115,7 +115,7 @@ singlesample_matched_null_benchmark_cv(
 
 Named list including `auc_obs_cv`, `auc_obs_ci_lo`, `auc_obs_ci_hi`,
 `p_emp_cv`, `n_valid_folds`, `eligible`, `fold_panels`, and a per-fold
-audit. See the manuscript Methods §"Statistical evaluation".
+audit. See the single-sample statistical-evaluation protocol.
 
 ## Examples
 

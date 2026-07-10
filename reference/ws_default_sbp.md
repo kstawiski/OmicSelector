@@ -12,7 +12,8 @@ resolved at runtime by sorting the panel.
 
 The partition is fixed at v1 and any future revision will be tagged
 `circulating_v2`, etc., with a separate justification log under the
-manuscript's sequential-binary-partition justification notes.
+single-sample scoring bank's sequential-binary-partition justification
+notes.
 
 ## Usage
 

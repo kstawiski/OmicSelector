@@ -1,10 +1,10 @@
-# Advanced Paper 3 learned and transport scorers
+# Advanced single-sample learned and transport scorers
 
 Thin exported aliases for the learned kit-aware, Group-DRO, and
-Sinkhorn-OT scorer implementations used by the OmicSelector manuscript.
-The aliases keep experimental method names under the \`os\_\` namespace
-while preserving the train/apply separation in the underlying fit and
-score functions.
+Sinkhorn-OT scorer implementations used by the OmicSelector
+single-sample scoring bank. The aliases keep experimental method names
+under the \`os\_\` namespace while preserving the train/apply separation
+in the underlying fit and score functions.
 
 ## Usage
 

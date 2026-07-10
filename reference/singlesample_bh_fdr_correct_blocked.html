@@ -8,7 +8,7 @@ Within each provenance block, combine cohort-level p-values via
     reported side by side:
 conservative reference: \(S/c\) against
         \(\chi^2_{2k}\); intentionally conservative; used for the
-        manuscript's headline counts.
+        frozen benchmark's headline counts.
 textbook reference (Brown 1975 / Kost-McDermott 2002):
         \(S/c\) against \(\chi^2_{2k/c}\) with \(df\) rescaled by
         the same inflation factor.
@@ -19,7 +19,7 @@ Apply BH-FDR across block-level p-values, separately for each
 
 The inflation factor is \(c(k) = 1 + (k - 1)\rho\) with \(k\) the
 number of cohorts in the block and \(\rho\) the assumed within-block
-correlation (default \(\rho = 0.25\) reproduces the manuscript's headline)."><meta property="og:description" content="Naïve BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
+correlation (default \(\rho = 0.25\) reproduces the frozen benchmark's headline configuration)."><meta property="og:description" content="Naïve BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
 Toray clusters with \(\sim 94.5\%\) specimen reuse) as independent tests,
 which is anti-conservative due to strongly correlated test statistics. This
 function implements a two-stage correction:
@@ -28,7 +28,7 @@ Within each provenance block, combine cohort-level p-values via
     reported side by side:
 conservative reference: \(S/c\) against
         \(\chi^2_{2k}\); intentionally conservative; used for the
-        manuscript's headline counts.
+        frozen benchmark's headline counts.
 textbook reference (Brown 1975 / Kost-McDermott 2002):
         \(S/c\) against \(\chi^2_{2k/c}\) with \(df\) rescaled by
         the same inflation factor.
@@ -39,7 +39,7 @@ Apply BH-FDR across block-level p-values, separately for each
 
 The inflation factor is \(c(k) = 1 + (k - 1)\rho\) with \(k\) the
 number of cohorts in the block and \(\rho\) the assumed within-block
-correlation (default \(\rho = 0.25\) reproduces the manuscript's headline)."></head><body>
+correlation (default \(\rho = 0.25\) reproduces the frozen benchmark's headline configuration)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -60,13 +60,8 @@ correlation (default \(\rho = 0.25\) reproduces the manuscript's headline)."></h
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="../articles/deep-learning.html">Deep Learning</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
@@ -91,7 +86,7 @@ function implements a two-stage correction:</p><ol><li><p>Within each provenance
     Fisher's chi-square statistic. Two reference distributions are
     reported side by side:</p><ul><li><p><em>conservative reference</em>: \(S/c\) against
         \(\chi^2_{2k}\); intentionally conservative; used for the
-        manuscript's headline counts.</p></li>
+        frozen benchmark's headline counts.</p></li>
 <li><p><em>textbook reference</em> (Brown 1975 / Kost-McDermott 2002):
         \(S/c\) against \(\chi^2_{2k/c}\) with \(df\) rescaled by
         the same inflation factor.</p></li>
@@ -100,7 +95,7 @@ function implements a two-stage correction:</p><ol><li><p>Within each provenance
     reference.</p></li>
 </ol><p>The inflation factor is \(c(k) = 1 + (k - 1)\rho\) with \(k\) the
 number of cohorts in the block and \(\rho\) the assumed within-block
-correlation (default \(\rho = 0.25\) reproduces the manuscript's headline).</p>
+correlation (default \(\rho = 0.25\) reproduces the frozen benchmark's headline configuration).</p>
     </div>
 
     <div class="section level2">
@@ -125,7 +120,7 @@ cohort (e.g., <code>"Toray-cluster"</code>, <code>"Affy-singleton"</code>).</p><
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
 <dd><p>Numeric in [0, 1]. Assumed within-block correlation; controls
 the inflation factor \(c(k) = 1 + (k - 1)\rho\). Default 0.25
-reproduces the manuscript headline. Set to 0 to recover vanilla Fisher.</p></dd>
+reproduces the frozen benchmark's headline configuration. Set to 0 to recover vanilla Fisher.</p></dd>
 
 </dl></div>
     <div class="section level2">

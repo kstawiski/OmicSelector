@@ -1,8 +1,8 @@
-# Paper 3 additional within-sample methods (Module A, P2)
+# Single-sample additional within-sample methods (Module A, P2)
 
-Two additional Module-A within-sample methods introduced in Paper 3
-(Stawiski et al., in preparation), complementing the five core methods
-in `singlesample-within-sample.R`.
+Two additional Module-A within-sample methods introduced in the
+single-sample scoring bank, complementing the five core methods in
+`singlesample-within-sample.R`.
 
 Methods provided:
 
@@ -34,5 +34,3 @@ on variance and bias. *Bioinformatics* 19(2): 185–193.
 
 Hicks SC, Okrah K, Paulson JN, Quackenbush J, Irizarry RA, Bravo HC.
 (2018) Smooth quantile normalization. *Biostatistics* 19(2): 185–198.
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.

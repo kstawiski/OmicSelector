@@ -7,7 +7,7 @@ a panel of size panel_size is selected on the TRAINING fold by
 univariate AUC, and the matched-null strata are computed on the training
 fold; the held-out test fold is then used to compute both the observed
 AUC and K matched-null AUCs.
-This is the engine that produced the manuscript's per-cell numbers in
+This is the engine that produced the frozen benchmark's per-cell numbers in
 Supplementary Table S1 / Figure 3 / Table 2."><meta property="og:description" content="Nested cross-validation variant of singlesample_matched_null_benchmark.
 Outer folds are stratified by outcome; when group_id is supplied
 (e.g., matched-set patient IDs from a provenance audit), grouped folds
@@ -16,7 +16,7 @@ a panel of size panel_size is selected on the TRAINING fold by
 univariate AUC, and the matched-null strata are computed on the training
 fold; the held-out test fold is then used to compute both the observed
 AUC and K matched-null AUCs.
-This is the engine that produced the manuscript's per-cell numbers in
+This is the engine that produced the frozen benchmark's per-cell numbers in
 Supplementary Table S1 / Figure 3 / Table 2."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -38,13 +38,8 @@ Supplementary Table S1 / Figure 3 / Table 2."></head><body>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/single-sample-deployment.html">Single-sample deployment</a></li>
-    <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/validation-report.html">Validation Report</a></li>
+    <li><a class="dropdown-item" href="../articles/deep-learning.html">Deep Learning</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
@@ -70,7 +65,7 @@ a panel of size <code>panel_size</code> is selected on the TRAINING fold by
 univariate AUC, and the matched-null strata are computed on the training
 fold; the held-out test fold is then used to compute both the observed
 AUC and <code>K</code> matched-null AUCs.</p>
-<p>This is the engine that produced the manuscript's per-cell numbers in
+<p>This is the engine that produced the frozen benchmark's per-cell numbers in
 Supplementary Table S1 / Figure 3 / Table 2.</p>
     </div>
 
@@ -153,7 +148,7 @@ seeds are derived deterministically from this value.</p></dd>
 
 
 <dt id="arg-min-valid-folds">min_valid_folds<a class="anchor" aria-label="anchor" href="#arg-min-valid-folds"></a></dt>
-<dd><p>Integer. Default 4 (manuscript / plan v0.6 sec 4.1).</p></dd>
+<dd><p>Integer. Default 4 (the frozen analysis plan, v0.6 sec 4.1).</p></dd>
 
 
 <dt id="arg-min-pos-per-fold">min_pos_per_fold<a class="anchor" aria-label="anchor" href="#arg-min-pos-per-fold"></a></dt>
@@ -182,7 +177,7 @@ pooled-fold prediction.</p></dd>
     <p>Named list including <code>auc_obs_cv</code>, <code>auc_obs_ci_lo</code>,
   <code>auc_obs_ci_hi</code>, <code>p_emp_cv</code>, <code>n_valid_folds</code>,
   <code>eligible</code>, <code>fold_panels</code>, and a per-fold audit. See the
-  manuscript Methods §"Statistical evaluation".</p>
+  single-sample statistical-evaluation protocol.</p>
     </div>
 
     <div class="section level2">

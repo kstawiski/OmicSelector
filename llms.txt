@@ -5,8 +5,8 @@ zero data leakage.**
 
 Release 2.6.0 adds single-sample deployment wrappers on top of the
 within-sample compositional scoring layer, frozen-reference denoising
-add-ons, qPCR non-detect imputation, matched-null benchmarks, and the
-provenance pre-flight gate used by the OmicSelector paper.
+add-ons, qPCR non-detect imputation, matched-null benchmarks, and a
+provenance pre-flight gate.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 
@@ -15,9 +15,8 @@ provenance pre-flight gate used by the OmicSelector paper.
 OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later
 score one incoming specimen without a co-resident test batch, reference
 cohort, or test-time batch-correction step. This is a deployability
-feature, not a superiority claim: in the 21-cohort benchmark, no
-single-sample method robustly cleared +0.05 over trimmed-rCLR, and
-cross-platform transfer was null.
+feature, not a superiority claim: it does not assert that any
+single-sample method out-discriminates a batch-corrected pipeline.
 
 ``` r
 
@@ -150,7 +149,7 @@ Factor/character (classification) or numeric (regression)
 | **compute_nogueira_stability** | Feature selection stability metrics     |
 | **FrozenComBat**               | Batch correction with frozen parameters |
 | **fit_platt_scaling**          | Probability calibration                 |
-| **MultiOmicsStacker**          | Late integration of multi-omics data    |
+| **stack_omics**                | Late integration of multi-omics data    |
 
 ## Phase 5: Advanced Features
 
@@ -165,8 +164,8 @@ Factor/character (classification) or numeric (regression)
 ## Docker
 
 ``` bash
-docker build -f Dockerfile.core -t omicselector:2.0 .
-docker run -it --rm -v $(pwd):/workspace omicselector:2.0 R
+docker build -f Dockerfile -t omicselector .
+docker run -it --rm -v $(pwd):/workspace omicselector R
 ```
 
 ## Citation
@@ -196,7 +195,7 @@ University of Lodz, Poland
 
 ## Links
 
-- [Documentation](https://biostat.umed.pl/OmicSelector/)
+- [Documentation](https://kstawiski.github.io/OmicSelector/)
 - [Issues & Bug
   Reports](https://github.com/kstawiski/OmicSelector/issues)
 - [Source Code](https://github.com/kstawiski/OmicSelector)
@@ -206,7 +205,7 @@ University of Lodz, Poland
 ## Single-sample scoring & deployment
 
 Freeze rostered within-sample scorers and score one incoming specimen
-without a test batch; deployability only, not a benchmark-winning claim.
+without a test batch; deployability only, not a superiority claim.
 
 - [`deploy_singlesample()`](https://kstawiski.github.io/OmicSelector/reference/deploy_singlesample.md)
   : Build a frozen single-sample deployment scorer
@@ -219,7 +218,7 @@ without a test batch; deployability only, not a benchmark-winning claim.
 - [`ws_rclr_trimmed()`](https://kstawiski.github.io/OmicSelector/reference/ws_rclr_trimmed.md)
   : Robust trimmed centred log-ratio for compositional miRNA panels
 - [`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
-  : Paper 3 Amendment \#4 method roster (frozen expansion)
+  : Amendment \#4 method roster (frozen expansion)
 - [`singlesample_score_call()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.md)
   : Score a roster method with the canonical single-sample interface
 - [`singlesample_assert_row_equivariant()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_row_equivariant.md)
@@ -1057,7 +1056,7 @@ Internal functions and helpers (exported for advanced use)
 - [`os_provenance_floor_suite()`](https://kstawiski.github.io/OmicSelector/reference/os_provenance_floor_suite.md)
   : Estimate a Provenance-Only Prediction Floor
 - [`os_provenance_preflight()`](https://kstawiski.github.io/OmicSelector/reference/os_provenance_preflight.md)
-  : Paper 3 specimen-overlap provenance pre-flight gate
+  : Single-sample specimen-overlap provenance pre-flight gate
 - [`os_required_margin()`](https://kstawiski.github.io/OmicSelector/reference/os_required_margin.md)
   : Required Margin for Matched-Null Claims
 - [`os_singscore()`](https://kstawiski.github.io/OmicSelector/reference/os_singscore.md)
@@ -1351,9 +1350,9 @@ Internal functions and helpers (exported for advanced use)
 - [`signature-selection`](https://kstawiski.github.io/OmicSelector/reference/signature-selection.md)
   : Signature Selection: Multi-Objective Best Biomarker Selection
 - [`singlesample-additional-within-sample`](https://kstawiski.github.io/OmicSelector/reference/singlesample-additional-within-sample.md)
-  : Paper 3 additional within-sample methods (Module A, P2)
+  : Single-sample additional within-sample methods (Module A, P2)
 - [`singlesample-batch-correction`](https://kstawiski.github.io/OmicSelector/reference/singlesample-batch-correction.md)
-  : Paper 3 batch-correction methods (Module C)
+  : Single-sample batch-correction methods (Module C)
 - [`singlesample-coda-codacore`](https://kstawiski.github.io/OmicSelector/reference/singlesample-coda-codacore.md)
   : CoDaCoRe stagewise log-ratio-balance single-sample discriminator
   (torch relaxation at fit, frozen discrete balances, PURE-R score)
@@ -1382,7 +1381,7 @@ Internal functions and helpers (exported for advanced use)
 - [`singlesample-ecod-copod`](https://kstawiski.github.io/OmicSelector/reference/singlesample-ecod-copod.md)
   : ECOD + COPOD novelty discriminator (single-sample, frozen-ECDF)
 - [`singlesample-hemolysis`](https://kstawiski.github.io/OmicSelector/reference/singlesample-hemolysis.md)
-  : Paper 3 robust-regression hemolysis correction (Module B)
+  : Single-sample robust-regression hemolysis correction (Module B)
 - [`singlesample-img-gasfcnn`](https://kstawiski.github.io/OmicSelector/reference/singlesample-img-gasfcnn.md)
   : GASF-image CNN single-sample discriminator (frozen-BatchNorm,
   python-at-score)
@@ -1390,16 +1389,17 @@ Internal functions and helpers (exported for advanced use)
   : 1D wavelet-scattering single-sample discriminator (python-at-score,
   frozen head)
 - [`singlesample-matched-null`](https://kstawiski.github.io/OmicSelector/reference/singlesample-matched-null.md)
-  : Paper 3 matched-null benchmark for panel-vs-random-panel AUC
+  : Single-sample matched-null benchmark for panel-vs-random-panel AUC
   inference
 - [`singlesample-moe-gated`](https://kstawiski.github.io/OmicSelector/reference/singlesample-moe-gated.md)
   : Self-gated mixture of frozen experts (MoE-gated), single-sample
 - [`singlesample-nondetects`](https://kstawiski.github.io/OmicSelector/reference/singlesample-nondetects.md)
-  : Paper 3 qPCR non-detect imputation (Module B add-on)
+  : Single-sample qPCR non-detect imputation (Module B add-on)
 - [`singlesample-outlier-detection`](https://kstawiski.github.io/OmicSelector/reference/singlesample-outlier-detection.md)
-  : Paper 3 outlier detection and conformal claim-gating (Module D)
+  : Single-sample outlier detection and conformal claim-gating (Module
+  D)
 - [`singlesample-preprocessing`](https://kstawiski.github.io/OmicSelector/reference/singlesample-preprocessing.md)
-  : Paper 3 preprocessing utilities
+  : Single-sample preprocessing utilities
 - [`singlesample-protonet`](https://kstawiski.github.io/OmicSelector/reference/singlesample-protonet.md)
   : Prototypical-network single-sample discriminator (frozen class
   prototypes)
@@ -1429,7 +1429,7 @@ Internal functions and helpers (exported for advanced use)
   : V-REx (Variance Risk Extrapolation) cross-cohort transfer
   discriminator
 - [`singlesample-within-sample`](https://kstawiski.github.io/OmicSelector/reference/singlesample-within-sample.md)
-  : Paper 3 within-sample compositional methods (Module A, P1)
+  : Single-sample within-sample compositional methods (Module A, P1)
 - [`os_fit_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_score_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_transform_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
@@ -1444,9 +1444,10 @@ Internal functions and helpers (exported for advanced use)
   [`os_fit_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_apply_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_score_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
-  : Advanced Paper 3 learned and transport scorers
+  : Advanced single-sample learned and transport scorers
 - [`singlesample_assert_method_bank_exports()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_method_bank_exports.md)
-  : Assert that Paper 3 method-bank functions are present and exported
+  : Assert that single-sample method-bank functions are present and
+  exported
 - [`singlesample_assert_row_equivariant()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_row_equivariant.md)
   : Assert that a scorer is row-equivariant (single-sample deployable)
 - [`singlesample_bh_fdr_correct_blocked()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_blocked.md)
@@ -1464,15 +1465,16 @@ Internal functions and helpers (exported for advanced use)
 - [`singlesample_make_locto_splits()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_make_locto_splits.md)
   : Build leave-one-cancer-type-out splits with same-block exclusion
 - [`singlesample_matched_null_benchmark()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark.md)
-  : Paper 3 matched-null benchmark for within-sample miRNA panel scoring
+  : Single-sample matched-null benchmark for within-sample miRNA panel
+  scoring
 - [`singlesample_matched_null_benchmark_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark_cv.md)
   : 5-fold nested-CV matched-null benchmark
 - [`singlesample_method_bank()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_bank.md)
-  : Paper 3 method-bank registry
+  : Single-sample method-bank registry
 - [`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
-  : Paper 3 Amendment \#4 method roster (frozen expansion)
+  : Amendment \#4 method roster (frozen expansion)
 - [`singlesample_paired_auc_diff_se()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_paired_auc_diff_se.md)
-  : Paired DeLong SE for Paper 3 AUC lift
+  : Paired DeLong SE for single-sample AUC lift
 - [`singlesample_register_score_adapter()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_register_score_adapter.md)
   : Register a non-canonical score adapter for a roster method
 - [`singlesample_score_call()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.md)
