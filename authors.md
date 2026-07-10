@@ -12,7 +12,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kstawiski/OmicSelector/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kstawiski/OmicSelector/blob/master/DESCRIPTION)
 
 Stawiski K, Kaszkowiak M, Mikulski D (2026). *OmicSelector: Rigorous
 Biomarker Discovery with Zero-Leakage Machine Learning*. R package
