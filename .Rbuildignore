@@ -35,7 +35,6 @@ Rplots.pdf
 ^renv$
 ^renv\.lock$
 ^data-raw$
-^old_files_to_delete$
 ^article$
 ^build\.R$
 ^install\.sh$
