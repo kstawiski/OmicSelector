@@ -45,14 +45,23 @@ jobs:
 
       - name: Install R dependencies
         run: |
-          install.packages(c('remotes', 'rcmdcheck', 'knitr', 'rmarkdown'))
-          # Hard dependencies only (Depends/Imports/LinkingTo) plus the vignette
-          # builders. Three Suggests (catboost, selbal, StableMate) are not on CRAN
-          # and cannot be resolved in CI; they only gate optional code paths that the
-          # test suite skips or exercises via fallback backends, and _R_CHECK_FORCE_
-          # SUGGESTS_=false lets the check proceed without them. Installing the full
-          # Suggests closure (dependencies = TRUE) aborts the whole solve.
-          remotes::install_deps(dependencies = c("Depends", "Imports", "LinkingTo"))
+          # Use the RSPM binary repo (set by setup-r with use-public-rspm) so
+          # rmarkdown/knitr and every dependency install as fast, reliable binaries
+          # rather than source builds.
+          rspm <- Sys.getenv("RSPM", unset = "https://packagemanager.posit.co/cran/__linux__/noble/latest")
+          options(repos = c(RSPM = rspm, CRAN = "https://cloud.r-project.org"))
+          install.packages(c("remotes", "rcmdcheck", "knitr", "rmarkdown"))
+          # Install every declared dependency (hard + Suggests) that is actually
+          # available on the repo, skipping only the three non-CRAN Suggests
+          # (catboost, selbal, StableMate) that cannot be resolved in CI. This keeps
+          # test and example coverage for all resolvable Suggests (glmnet, pROC,
+          # torch, ...); requesting the full closure with install_deps(dependencies
+          # = TRUE) instead aborts because the three are unavailable, and
+          # _R_CHECK_FORCE_SUGGESTS_=false lets the check tolerate their absence.
+          deps <- remotes::local_package_deps(dependencies = TRUE)
+          avail <- rownames(available.packages())
+          need <- setdiff(intersect(deps, avail), rownames(installed.packages()))
+          if (length(need)) install.packages(need)
         shell: Rscript {0}
 
       - name: R CMD check
