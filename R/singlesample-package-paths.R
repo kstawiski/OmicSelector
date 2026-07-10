@@ -1,4 +1,4 @@
-# Internal path helpers for promoted Paper 3 runner utilities.
+# Internal path helpers for promoted single-sample runner utilities.
 
 .singlesample_extdata_path <- function(filename, supplied = NULL, what = filename,
                                  required = TRUE) {
@@ -18,7 +18,7 @@
   if (isTRUE(required)) {
     stop(
       what, " is not shipped with this package build. Supply an explicit path ",
-      "to the corresponding Paper 3 input.",
+      "to the corresponding single-sample input.",
       call. = FALSE
     )
   }

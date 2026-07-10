@@ -1,8 +1,8 @@
-#' @title Paper 3 matched-null benchmark for panel-vs-random-panel AUC inference
+#' @title Single-sample matched-null benchmark for panel-vs-random-panel AUC inference
 #'
 #' @description
-#' Generalised matched-null benchmark introduced in Paper 3 (Module A
-#' validation framework; Stawiski et al., in preparation). Unlike the simpler
+#' Generalised matched-null benchmark introduced in the single-sample scoring
+#' bank (Module A validation framework). Unlike the simpler
 #' \code{\link{os_panel_null_benchmark}} in \code{panel-gates.R}, this
 #' implementation stratifies random-panel draws by per-feature detection-rate
 #' and log-mean-abundance quartile bins, explicitly excludes hemolysis-marker
@@ -28,10 +28,6 @@
 #' Benjamini Y, Hochberg Y. (1995) Controlling the False Discovery Rate:
 #' A Practical and Powerful Approach to Multiple Testing.
 #' \emph{Journal of the Royal Statistical Society Series B} 57(1): 289–300.
-#'
-#' Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-#' circulating-microRNA biomarkers across cancers and platforms (Paper 3 of
-#' the OmicSelector programme; Nature Methods target).
 #'
 #' @name singlesample-matched-null
 NULL
@@ -100,7 +96,7 @@ NULL
 # singlesample_matched_null_benchmark
 # ----------------------------------------------------------------------------
 
-#' @title Paper 3 matched-null benchmark for within-sample miRNA panel scoring
+#' @title Single-sample matched-null benchmark for within-sample miRNA panel scoring
 #'
 #' @description
 #' For an observed scoring method \code{scoring_fn} applied to a panel of
@@ -166,9 +162,6 @@ NULL
 #'          K = 200L)
 #' res$p_emp
 #' }
-#'
-#' @references
-#' Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 #'
 #' @export
 singlesample_matched_null_benchmark <- function(X, y, panel, scoring_fn,
@@ -320,8 +313,8 @@ singlesample_matched_null_benchmark <- function(X, y, panel, scoring_fn,
 #' @description
 #' Computes the closed-form Hanley-McNeil 1982 standard error and Wald
 #' confidence interval for a binary-classification AUC from the AUC estimate
-#' and the number of positive and negative samples. This is the manuscript's
-#' default per-cell AUC interval helper; it is conservative for cross-validated
+#' and the number of positive and negative samples. This is the single-sample
+#' scoring bank's default per-cell AUC interval helper; it is conservative for cross-validated
 #' estimates because it does not model fold dependence.
 #'
 #' @param auc Numeric scalar in [0, 1].
@@ -429,7 +422,7 @@ singlesample_holm_correct_familywise <- function(p_values) {
 #'     \itemize{
 #'       \item \emph{conservative reference}: \eqn{S/c} against
 #'         \eqn{\chi^2_{2k}}; intentionally conservative; used for the
-#'         manuscript's headline counts.
+#'         frozen benchmark's headline counts.
 #'       \item \emph{textbook reference} (Brown 1975 / Kost-McDermott 2002):
 #'         \eqn{S/c} against \eqn{\chi^2_{2k/c}} with \eqn{df} rescaled by
 #'         the same inflation factor.
@@ -440,7 +433,7 @@ singlesample_holm_correct_familywise <- function(p_values) {
 #'
 #' The inflation factor is \eqn{c(k) = 1 + (k - 1)\rho} with \eqn{k} the
 #' number of cohorts in the block and \eqn{\rho} the assumed within-block
-#' correlation (default \eqn{\rho = 0.25} reproduces the manuscript's headline).
+#' correlation (default \eqn{\rho = 0.25} reproduces the frozen benchmark's headline configuration).
 #'
 #' @param results List of \code{\link{singlesample_matched_null_benchmark}} return
 #'   objects.
@@ -448,7 +441,7 @@ singlesample_holm_correct_familywise <- function(p_values) {
 #'   cohort (e.g., \code{"Toray-cluster"}, \code{"Affy-singleton"}).
 #' @param rho Numeric in [0, 1]. Assumed within-block correlation; controls
 #'   the inflation factor \eqn{c(k) = 1 + (k - 1)\rho}. Default 0.25
-#'   reproduces the manuscript headline. Set to 0 to recover vanilla Fisher.
+#'   reproduces the frozen benchmark's headline configuration. Set to 0 to recover vanilla Fisher.
 #'
 #' @return A \code{data.frame} with columns: \code{cohort_idx},
 #'   \code{block_id}, \code{p_emp}, \code{p_block} (conservative),
@@ -574,7 +567,7 @@ singlesample_bh_fdr_correct_blocked <- function(results, block_id, rho = 0.25) {
 
 #' Internal variant of .singlesample_draw_matched_panel that also propagates the
 #' fallback tier (1=exact, 2=oversampled, 3=degenerate). Mirrors the
-#' manuscript auxiliary matched-null script.
+#' auxiliary matched-null analysis script.
 #' @noRd
 .singlesample_draw_matched_panel_with_tier <- function(strata_info, exclude = character(0)) {
   strata <- strata_info$strata
@@ -626,7 +619,7 @@ singlesample_bh_fdr_correct_blocked <- function(results, block_id, rho = 0.25) {
 #' fold; the held-out test fold is then used to compute both the observed
 #' AUC and \code{K} matched-null AUCs.
 #'
-#' This is the engine that produced the manuscript's per-cell numbers in
+#' This is the engine that produced the frozen benchmark's per-cell numbers in
 #' Supplementary Table S1 / Figure 3 / Table 2.
 #'
 #' @param X Numeric matrix (samples \eqn{\times} features) with column names.
@@ -648,7 +641,7 @@ singlesample_bh_fdr_correct_blocked <- function(results, block_id, rho = 0.25) {
 #'   canonical hemolysis-marker list to \code{exclude_features}.
 #' @param seed Integer in [0, 21474]. Fold-assignment and per-draw null
 #'   seeds are derived deterministically from this value.
-#' @param min_valid_folds Integer. Default 4 (manuscript / plan v0.6 sec 4.1).
+#' @param min_valid_folds Integer. Default 4 (the frozen analysis plan, v0.6 sec 4.1).
 #' @param min_pos_per_fold Integer. Default 5.
 #' @param min_neg_per_fold Integer. Default 5.
 #' @param null_parallel_cores Integer. Number of forked workers per fold.
@@ -662,7 +655,7 @@ singlesample_bh_fdr_correct_blocked <- function(results, block_id, rho = 0.25) {
 #' @return Named list including \code{auc_obs_cv}, \code{auc_obs_ci_lo},
 #'   \code{auc_obs_ci_hi}, \code{p_emp_cv}, \code{n_valid_folds},
 #'   \code{eligible}, \code{fold_panels}, and a per-fold audit. See the
-#'   manuscript Methods §"Statistical evaluation".
+#'   single-sample statistical-evaluation protocol.
 #'
 #' @examples
 #' \dontrun{

@@ -1,13 +1,12 @@
 #!/usr/bin/env Rscript
 # Sinkhorn OT cohort-barycenter projection for reviewer-package Table/Figure S55.
 #
-# Runner utilities below require caller-supplied manuscript inputs when used
-# from the package; manuscript-workspace paths are intentionally not assumed.
+# Runner utilities below require caller-supplied analysis inputs when used
+# from the package; external analysis-workspace paths are intentionally not assumed.
 #
 # Gate status:
 #   Reviewer-package artifact only. The generated code, table, figure, and
-#   caption require /triple-consensus and /plausibility-check before manuscript
-#   acceptance.
+#   caption require independent review before publication.
 
 if (!exists("%||%", mode = "function")) {
   `%||%` <- function(a, b) if (is.null(a) || length(a) == 0L) b else a
@@ -739,7 +738,7 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
 
 .sot_source_prepare_env <- function() {
   stop("The reviewer-package S55 runner is not available from the installed package; ",
-       "use the manuscript repository analysis script instead.", call. = FALSE)
+       "use the external analysis-repository script instead.", call. = FALSE)
 }
 
 .sot_collapse_duplicate_features <- function(x) {
@@ -1174,7 +1173,7 @@ score_sinkhorn_ot_scorer <- function(X_test, fit, panel_features = fit$panel_fea
     "",
     flag_txt,
     "",
-    "This reviewer-package artifact is not manuscript-accepted evidence until code, result table, figure, and interpretation pass /triple-consensus, /plausibility-check, and /consistency-check."
+    "This reviewer-package artifact is not validated evidence until the code, denominators, and leakage screen are independently reviewed."
   )
   writeLines(txt, .sot_paths$caption)
 }

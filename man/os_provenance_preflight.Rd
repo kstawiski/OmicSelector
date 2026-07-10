@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-provenance-preflight.R
 \name{os_provenance_preflight}
 \alias{os_provenance_preflight}
-\title{Paper 3 specimen-overlap provenance pre-flight gate}
+\title{Single-sample specimen-overlap provenance pre-flight gate}
 \usage{
 os_provenance_preflight(accessions, manifest_path = NULL)
 }
@@ -44,7 +44,7 @@ overlap pairs and returns one of three exit conditions:
     Takes precedence over \code{KNOWN_OVERLAP}.}
 }
 
-Intended as the first stage in the Paper-3 pipeline (Methods section
+Intended as the first stage in the single-sample pipeline (Methods section
 "Provenance auditing and specimen-overlap handling").
 }
 \examples{

@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 # Kit-aware compositional within-sample scoring methods.
 #
-# Runner utilities below require caller-supplied manuscript inputs when used
-# from the package; manuscript-workspace paths are intentionally not assumed.
+# Runner utilities below require caller-supplied analysis inputs when used
+# from the package; external analysis-workspace paths are intentionally not assumed.
 
 if (!exists(".ka_validate_inputs", mode = "function")) {
   stop("Kit-aware helper functions are unavailable.", call. = FALSE)
@@ -528,7 +528,7 @@ score_kit_residual_mad <- function(expr_matrix,
                            sample_filters_path = NULL,
                            matched_set_audit_path = NULL) {
   stop("The reviewer-package S45 runner is not available from the installed package; ",
-       "use the manuscript repository analysis script instead.", call. = FALSE)
+       "use the external analysis-repository script instead.", call. = FALSE)
   prep_env <- new.env(parent = globalenv())
   union_inventory_path <- .singlesample_extdata_path(
     "union_inventory.tsv", union_inventory_path, "union inventory")
@@ -838,7 +838,7 @@ score_kit_residual_mad <- function(expr_matrix,
     desc_text,
     leak_text,
     "",
-    "This Worker E1 artifact is reproducible only with caller-supplied manuscript inputs and is not manuscript-accepted. It requires /triple-consensus and /plausibility-check before being used as evidence."
+    "This Worker E1 artifact is reproducible only with caller-supplied analysis inputs and is not validated evidence until the code, denominators, and leakage screen are independently reviewed."
   )
   writeLines(cap, .s45_paths$caption)
 }

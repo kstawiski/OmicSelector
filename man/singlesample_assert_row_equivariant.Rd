@@ -45,7 +45,7 @@ Invisibly `TRUE` on success; otherwise an error naming the failing
   case.
 }
 \description{
-The decisive inclusion property for the manuscript method bank: at inference a
+The decisive inclusion property for the single-sample method bank: at inference a
 specimen's score must be computable from that specimen alone given a frozen
 fitted model, with no dependence on which other specimens are scored alongside
 it. This harness implements the strengthened single-sample-deployability unit

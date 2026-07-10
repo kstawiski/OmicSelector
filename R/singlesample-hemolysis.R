@@ -1,8 +1,8 @@
-#' @title Paper 3 robust-regression hemolysis correction (Module B)
+#' @title Single-sample robust-regression hemolysis correction (Module B)
 #'
 #' @description
-#' Frozen robust-regression hemolysis correction introduced in Paper 3
-#' (Module B; Stawiski et al., in preparation). Performs per-feature robust
+#' Frozen robust-regression hemolysis correction introduced in the
+#' single-sample scoring bank (Module B). Performs per-feature robust
 #' regression of log-expression on a hemolysis proxy score (and optionally a
 #' platelet score), fitting only on training controls. At deployment, the
 #' predicted nuisance contribution is subtracted from each feature.
@@ -24,8 +24,6 @@
 #' Huber PJ. (1964) Robust Estimation of a Location Parameter.
 #' \emph{The Annals of Mathematical Statistics} 35(1): 73–101.
 #'
-#' Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
-#'
 #' @name singlesample-hemolysis
 NULL
 
@@ -43,7 +41,7 @@ NULL
 #' \code{hsa-miR-451a} / \code{hsa-miR-23a-3p}, or the corresponding MIMAT
 #' accessions \code{MIMAT0001631} / \code{MIMAT0000078}); otherwise
 #' \code{NULL} is returned and the caller should treat the cell as not
-#' hemolysis-correctable. This is the convention the manuscript pipeline
+#' hemolysis-correctable. This is the convention the single-sample pipeline
 #' uses to feed \code{\link{fit_hemolysis_rr}} / \code{\link{apply_hemolysis_rr}}.
 #'
 #' @param X_log Numeric matrix (samples x features) on log-abundance scale.

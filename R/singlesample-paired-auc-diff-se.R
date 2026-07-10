@@ -1,9 +1,9 @@
-#' Paired DeLong SE for Paper 3 AUC lift
+#' Paired DeLong SE for single-sample AUC lift
 #'
 #' Computes the empirical DeLong variance of a paired AUC difference
 #' (method score minus baseline score). When `fold` is supplied, the per-fold
 #' DeLong variances are aggregated as the variance of the mean fold-level AUC
-#' difference, matching Paper 3's `auc_obs_cv = mean(auc_obs_folds)` estimand.
+#' difference, matching the `auc_obs_cv = mean(auc_obs_folds)` mean-of-folds estimand.
 #'
 #' @param y Binary outcome vector, coded 0/1 or a two-level factor.
 #' @param score_method Numeric scores from the candidate method.

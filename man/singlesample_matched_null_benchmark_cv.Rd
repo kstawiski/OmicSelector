@@ -54,7 +54,7 @@ canonical hemolysis-marker list to \code{exclude_features}.}
 \item{seed}{Integer in [0, 21474]. Fold-assignment and per-draw null
 seeds are derived deterministically from this value.}
 
-\item{min_valid_folds}{Integer. Default 4 (manuscript / plan v0.6 sec 4.1).}
+\item{min_valid_folds}{Integer. Default 4 (the frozen analysis plan, v0.6 sec 4.1).}
 
 \item{min_pos_per_fold}{Integer. Default 5.}
 
@@ -73,7 +73,7 @@ pooled-fold prediction.}
 Named list including \code{auc_obs_cv}, \code{auc_obs_ci_lo},
   \code{auc_obs_ci_hi}, \code{p_emp_cv}, \code{n_valid_folds},
   \code{eligible}, \code{fold_panels}, and a per-fold audit. See the
-  manuscript Methods §"Statistical evaluation".
+  single-sample statistical-evaluation protocol.
 }
 \description{
 Nested cross-validation variant of \code{\link{singlesample_matched_null_benchmark}}.
@@ -85,7 +85,7 @@ univariate AUC, and the matched-null strata are computed on the training
 fold; the held-out test fold is then used to compute both the observed
 AUC and \code{K} matched-null AUCs.
 
-This is the engine that produced the manuscript's per-cell numbers in
+This is the engine that produced the frozen benchmark's per-cell numbers in
 Supplementary Table S1 / Figure 3 / Table 2.
 }
 \examples{

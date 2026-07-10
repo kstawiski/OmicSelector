@@ -1,8 +1,8 @@
-#' @title Paper 3 outlier detection and conformal claim-gating (Module D)
+#' @title Single-sample outlier detection and conformal claim-gating (Module D)
 #'
 #' @description
 #' Outlier detection and conformal anomaly-scoring primitives introduced in
-#' Paper 3 (Module D; Stawiski et al., in preparation). These methods flag
+#' the single-sample scoring bank (Module D). These methods flag
 #' out-of-distribution samples before a biomarker claim is reported, providing
 #' either distribution-free FPR guarantees (conformal approach) or
 #' robust compositional distance metrics (Mahalanobis / isolation forest).
@@ -31,8 +31,6 @@
 #' World. Springer.
 #'
 #' Liu FT, Ting KM, Zhou Z-H. (2008) Isolation Forest. \emph{ICDM}.
-#'
-#' Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 #'
 #' @name singlesample-outlier-detection
 NULL

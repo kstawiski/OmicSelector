@@ -1,4 +1,4 @@
-#' @title Paper 3 specimen-overlap provenance pre-flight gate
+#' @title Single-sample specimen-overlap provenance pre-flight gate
 #'
 #' @description
 #' Audits a candidate accession list against a manifest of known specimen-
@@ -16,7 +16,7 @@
 #'     Takes precedence over \code{KNOWN_OVERLAP}.}
 #' }
 #'
-#' Intended as the first stage in the Paper-3 pipeline (Methods section
+#' Intended as the first stage in the single-sample pipeline (Methods section
 #' "Provenance auditing and specimen-overlap handling").
 #'
 #' @param accessions Character vector of GEO/ArrayExpress accessions

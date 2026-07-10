@@ -5,9 +5,9 @@
 #' that can score one incoming specimen without a scored batch, co-resident
 #' reference cohort, or batch-correction step. This is a deployability API, not a
 #' benchmark-ranking claim: the default \code{"ws-balance-ilr"} is a reasonable
-#' compositional default, not a certified winner. On the 21-cohort benchmark no
-#' single-sample method robustly cleared +0.05 over trimmed-rCLR, and
-#' cross-platform transfer was null.
+#' compositional default, not a certified winner. It does not assert that any
+#' single-sample method out-discriminates a batch-corrected pipeline; validate
+#' the method choice on your own data.
 #'
 #' Reticulate methods (roster tier R2; require a Python backend / venv) are
 #' intentionally not fitted by this base-R deployment wrapper.
@@ -191,8 +191,8 @@ print.singlesample_deployable <- function(x, ...) {
     cat("  gate: not run for this object; call is_singlesample_deployable() ",
         "with probe rows\n", sep = "")
   }
-  cat("  caveat: deployability only; no single-sample method robustly cleared ",
-      "+0.05 over trimmed-rCLR in the 21-cohort benchmark.\n", sep = "")
+  cat("  caveat: deployability only; not a claim of superior discrimination ",
+      "over a batch-corrected pipeline.\n", sep = "")
   invisible(x)
 }
 

@@ -31,7 +31,7 @@ sample / cohort to be deemed eligible. When fewer than this fraction
 of balances have both numerator and denominator features present, the
 returned vector / matrix is filled with NA and carries
 the attribute \code{coverage_failed} set to TRUE. Default 0.8
-(manuscript Methods, 'Within-sample compositional methods').}
+(within-sample compositional methods).}
 }
 \value{
 Named numeric vector of balance values (single sample), or

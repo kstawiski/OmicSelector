@@ -44,10 +44,6 @@
 #'   \item \code{ws_ratio_image}: Create pairwise ratio matrix (for CNN input)
 #' }
 #'
-#' @references
-#' Stawiski K et al. (2026). Within-sample normalization enables batch-effect-free
-#' pan-cancer detection from circulating miRNA signatures. (in preparation)
-#'
 #' @name within-sample
 NULL
 

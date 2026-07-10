@@ -2,9 +2,9 @@
 % Please edit documentation in R/singlesample-nondetects.R
 \name{singlesample-nondetects}
 \alias{singlesample-nondetects}
-\title{Paper 3 qPCR non-detect imputation (Module B add-on)}
+\title{Single-sample qPCR non-detect imputation (Module B add-on)}
 \description{
-Two qPCR non-detect handlers used by the Paper-3 pipeline:
+Two qPCR non-detect handlers used by the single-sample pipeline:
 \itemize{
   \item \code{\link{qpcr_nondetect_impute}}: Bayesian hierarchical
     imputation via the \code{nondetects} Bioconductor package
@@ -17,8 +17,7 @@ Both operate on a features-by-samples Ct matrix. NAs in the input
 represent undetermined Cts. The Bayesian path requires both
 \code{nondetects} and \code{HTqPCR} (Bioconductor); if either is
 unavailable, the function falls back to LOD imputation with a logged
-message. This mirrors the manuscript Methods section "Non-detect handling
-for quantitative PCR data".
+message. This mirrors the single-sample non-detect handling convention.
 }
 \references{
 McCall MN, McMurray HR, Land H, Almudevar A. (2014) On non-detects in qPCR

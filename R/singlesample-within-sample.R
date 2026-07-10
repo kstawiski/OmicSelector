@@ -1,9 +1,9 @@
-#' @title Paper 3 within-sample compositional methods (Module A, P1)
+#' @title Single-sample within-sample compositional methods (Module A, P1)
 #'
 #' @description
-#' Five Module-A within-sample compositional transforms introduced in Paper 3
-#' of the OmicSelector programme (Stawiski et al., in preparation; Nature
-#' Methods target). All methods are single-sample and reference-cohort-free:
+#' Five Module-A within-sample compositional transforms introduced in the
+#' OmicSelector single-sample scoring bank. All methods are single-sample and
+#' reference-cohort-free:
 #' each sample is normalised, scored, or projected using only its own panel
 #' values, with no requirement for an external training cohort to exist at
 #' deployment time. This is the property that makes within-sample methods
@@ -64,8 +64,8 @@
 #' other modules - Module B (hemolysis correction), Module C (frozen batch
 #' correction), Module D (outlier detection and conformal claim-gating),
 #' Module E (multi-cancer / domain generalisation), and Module F
-#' (self-supervised pretraining and ablation) - are documented in Paper 3
-#' Methods and the per-module help pages.
+#' (self-supervised pretraining and ablation) - are documented in the
+#' single-sample scoring bank and the per-module help pages.
 #'
 #' @references
 #' Aitchison J. (1986) The Statistical Analysis of Compositional Data. Chapman & Hall.
@@ -81,10 +81,6 @@
 #' microRNAs as stable blood-based markers for cancer detection.
 #' \emph{Proceedings of the National Academy of Sciences USA} 105(30):
 #' 10513-10518.
-#'
-#' Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-#' circulating-microRNA biomarkers across cancers and platforms (Paper 3
-#' of the OmicSelector programme; Nature Methods target).
 #'
 #' @name singlesample-within-sample
 NULL
@@ -238,7 +234,7 @@ ws_rclr_trimmed <- function(x,
 #'
 #' The partition is fixed at v1 and any future revision will be tagged
 #' \code{circulating_v2}, etc., with a separate justification log under
-#' the manuscript's sequential-binary-partition justification notes.
+#' the single-sample scoring bank's sequential-binary-partition justification notes.
 #'
 #' @param version Character. Currently only \code{"circulating_v1"} is
 #'   supported.
@@ -329,7 +325,7 @@ ws_default_sbp <- function(version = "circulating_v1") {
 #'   of balances have both numerator and denominator features present, the
 #'   returned vector / matrix is filled with NA and carries
 #'   the attribute \code{coverage_failed} set to TRUE. Default 0.8
-#'   (manuscript Methods, 'Within-sample compositional methods').
+#'   (within-sample compositional methods).
 #'
 #' @return Named numeric vector of balance values (single sample), or
 #'   matrix samples x balances (matrix input). Carries attributes
@@ -511,11 +507,11 @@ ws_balance_ilr <- function(x,
 #' platelet activation (miR-223 family). The pool is fixed at v1; any
 #' revision will be tagged \code{circulating_v2}, etc., with a separate
 #' justification log under
-#' the manuscript's pivot-pool justification notes.
+#' the single-sample scoring bank's pivot-pool justification notes.
 #'
 #' Notably absent from the v1 pool: miR-92a-3p (recent serum/plasma
 #' literature treats it as erythrocyte-derived; codex Round 1 review of
-#' Paper 3 plan v0.2 flagged its prior inclusion as a concern).
+#' the single-sample scoring bank plan v0.2 flagged its prior inclusion as a concern).
 #'
 #' @return Character vector of six miRNA IDs.
 #' @export
@@ -549,7 +545,7 @@ ws_default_pivot_pool <- function() {
 #' review.
 #'
 #' @details
-#' \strong{Backwards-compatibility / manuscript-pipeline note (v2.4.0).}
+#' \strong{Backwards-compatibility / single-sample-pipeline note (v2.4.0).}
 #' The package default is \code{allow_global_fallback = FALSE} (fail-closed):
 #' the function errors out rather than silently substituting a global rCLR
 #' centering when fewer than \code{min_pivot_present} pivots are available.
@@ -558,12 +554,12 @@ ws_default_pivot_pool <- function() {
 #' silently rescued by an all-feature centering that includes the very
 #' contaminants they were meant to flag.
 #'
-#' The Paper-3 manuscript pipeline (Methods 'Within-sample compositional
-#' methods") describes the fallback as having been "activated" with the
+#' The single-sample pipeline (within-sample compositional methods) describes
+#' the fallback as having been "activated" with the
 #' affected cells explicitly flagged in the per-cell results. The pipeline
 #' opts in via \code{allow_global_fallback = TRUE} on every call. This
 #' alignment is intentional: the package keeps the safer default for ad-hoc
-#' use, while the manuscript pipeline has the explicit logging discipline
+#' use, while the single-sample pipeline has the explicit logging discipline
 #' to track every cell that took the fallback path.
 #'
 #' @param x Samples x features matrix (rows = samples). Must have column

@@ -2,10 +2,10 @@
 % Please edit documentation in R/singlesample-matched-null.R
 \name{singlesample-matched-null}
 \alias{singlesample-matched-null}
-\title{Paper 3 matched-null benchmark for panel-vs-random-panel AUC inference}
+\title{Single-sample matched-null benchmark for panel-vs-random-panel AUC inference}
 \description{
-Generalised matched-null benchmark introduced in Paper 3 (Module A
-validation framework; Stawiski et al., in preparation). Unlike the simpler
+Generalised matched-null benchmark introduced in the single-sample scoring
+bank (Module A validation framework). Unlike the simpler
 \code{\link{os_panel_null_benchmark}} in \code{panel-gates.R}, this
 implementation stratifies random-panel draws by per-feature detection-rate
 and log-mean-abundance quartile bins, explicitly excludes hemolysis-marker
@@ -31,8 +31,4 @@ Methods provided:
 Benjamini Y, Hochberg Y. (1995) Controlling the False Discovery Rate:
 A Practical and Powerful Approach to Multiple Testing.
 \emph{Journal of the Royal Statistical Society Series B} 57(1): 289–300.
-
-Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-circulating-microRNA biomarkers across cancers and platforms (Paper 3 of
-the OmicSelector programme; Nature Methods target).
 }

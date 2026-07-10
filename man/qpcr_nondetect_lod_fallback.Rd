@@ -22,7 +22,7 @@ Matrix of the same shape as \code{expr_mat}, with NAs filled by
 }
 \description{
 Replaces every NA in \code{expr_mat} with the supplied \code{lod_ct}
-value (default 40). Used by the Paper-3 pipeline when Bayesian
+value (default 40). Used by the single-sample pipeline when Bayesian
 hierarchical imputation via \code{nondetects} is unavailable or fails.
 Sets \code{nondetect_method = "lod_fallback"} and \code{n_imputed}
 attributes.

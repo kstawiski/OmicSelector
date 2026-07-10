@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-method-bank.R
 \name{singlesample_method_bank}
 \alias{singlesample_method_bank}
-\title{Paper 3 method-bank registry}
+\title{Single-sample method-bank registry}
 \usage{
 singlesample_method_bank()
 }
@@ -10,8 +10,8 @@ singlesample_method_bank()
 A data frame with one row per method or auxiliary protocol.
 }
 \description{
-Returns the package-facing implementation map for the OmicSelector manuscript
+Returns the package-facing implementation map for the OmicSelector single-sample
 method bank. The registry is intentionally executable metadata: each row
 names the exported fit, predict, score, or helper function that implements
-the manuscript method or auxiliary protocol.
+the single-sample method or auxiliary protocol.
 }

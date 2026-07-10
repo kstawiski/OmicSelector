@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-paired-auc-diff-se.R
 \name{singlesample_paired_auc_diff_se}
 \alias{singlesample_paired_auc_diff_se}
-\title{Paired DeLong SE for Paper 3 AUC lift}
+\title{Paired DeLong SE for single-sample AUC lift}
 \usage{
 singlesample_paired_auc_diff_se(
   y,
@@ -34,7 +34,7 @@ A list with `lift`, `se`, `variance`, `n_folds`, `auc_method`,
 Computes the empirical DeLong variance of a paired AUC difference
 (method score minus baseline score). When `fold` is supplied, the per-fold
 DeLong variances are aggregated as the variance of the mean fold-level AUC
-difference, matching Paper 3's `auc_obs_cv = mean(auc_obs_folds)` estimand.
+difference, matching the `auc_obs_cv = mean(auc_obs_folds)` mean-of-folds estimand.
 }
 \references{
 DeLong ER, DeLong DM, Clarke-Pearson DL. (1988) Comparing the

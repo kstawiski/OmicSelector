@@ -9,7 +9,7 @@
 # diagonal-LDA linear rule. Quarantining high-GC features into isolated within-cluster
 # balances isolates GC-driven dropout. Score time recomputes NOTHING from the test
 # batch: the SBP, the per-coordinate standardisation, and the linear weights are all
-# locked at fit. EXPLORATORY (paper 3): occupies the pre-reserved 44th within slot;
+# locked at fit. EXPLORATORY: occupies the pre-reserved 44th within slot;
 # never folded into the frozen 0/43 leakage-free primary.
 # =============================================================================
 

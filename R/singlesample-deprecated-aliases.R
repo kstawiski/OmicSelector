@@ -2,7 +2,7 @@
 #
 # The single-sample-deployable method-bank machinery was renamed from the
 # meaningless internal codename `paper3_*` to the descriptive `singlesample_*`.
-# These thin aliases keep existing callers (including the manuscript analysis
+# These thin aliases keep existing callers (including the older analysis
 # pipeline) working unchanged. Prefer the `singlesample_*` names in new code.
 
 #' Deprecated `paper3_*` aliases

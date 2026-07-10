@@ -2,10 +2,10 @@
 % Please edit documentation in R/singlesample-batch-correction.R
 \name{singlesample-batch-correction}
 \alias{singlesample-batch-correction}
-\title{Paper 3 batch-correction methods (Module C)}
+\title{Single-sample batch-correction methods (Module C)}
 \description{
-Frozen batch-correction primitives introduced in Paper 3 (Module C;
-Stawiski et al., in preparation). All methods follow a fit-then-freeze
+Frozen batch-correction primitives introduced in the single-sample scoring
+bank (Module C). All methods follow a fit-then-freeze
 paradigm: factor loadings or basis vectors are estimated once on training
 data, then applied to test samples without re-estimation, making them
 suitable for clinical deployment where a population-matched training cohort
@@ -29,6 +29,4 @@ using factor analysis of control genes or samples.
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA: A New Approach
 to Robust Principal Component Analysis.
 \emph{Technometrics} 47(1): 64–79.
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 }

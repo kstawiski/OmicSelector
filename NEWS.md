@@ -8,8 +8,7 @@
   cohort, or batch-correction step), and `is_singlesample_deployable()` checks
   the singleton-equals-batch guarantee; about 30 roster methods deploy and the
   rest reject cleanly. This exposes deployability only and is not a
-  benchmark-ranking claim: no method robustly cleared +0.05 AUC over
-  trimmed-rCLR and cross-cohort transfer was null. See
+  superiority claim over batch-corrected pipelines. See
   `vignette("single-sample-deployment")`.
 * inv-scatter: replaced the O(D^3) frozen ridge head with an exact SVD
   row-space solve so the scattering scorer is shippable when D >> n; results
@@ -113,7 +112,7 @@
   `singlesample_assert_method_bank_exports()`.
 
 * Vectorized the `ws_balance_ilr()` matrix/data.frame path for deployment
-  throughput (~270x faster in the Paper 3 benchmark) while preserving
+  throughput (a large speed-up on realistic panels) while preserving
   byte-identical results versus the prior per-row path on realistic inputs.
   This incidentally fixes data.frame recursion and single-column matrix
   name-dropping. The pre-existing `TOP_K_BY_ABUNDANCE` `p <= k` empty-tail

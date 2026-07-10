@@ -23,7 +23,7 @@ Returns a \code{data.frame} with one row per canonical mature miRNA and
 columns for the primary mature miRNA name, MIMAT accession, optional
 precursor MI accession, and a semicolon-separated list of known alternate
 identifiers.  The table covers the ~92 high-priority circulating miRNAs
-used in Paper 3 of the OmicSelector programme: all members of
+used in the OmicSelector single-sample scoring bank: all members of
 \code{\link{ws_default_sbp}} and \code{\link{ws_default_pivot_pool}}, the
 five canonical haemolysis markers, the Mitchell 2008 / miRBiT panel members,
 and frequently-deposited Toray / FirePlex identifiers.

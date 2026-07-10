@@ -2,7 +2,7 @@
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
-Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, the matched-null benchmark, and the provenance pre-flight gate that are benchmarked in the OmicSelector paper.
+Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, a matched-null benchmark, and a provenance pre-flight gate.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 
@@ -13,8 +13,9 @@ Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample
 OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score
 one incoming specimen without a co-resident test batch, reference cohort, or
 test-time batch-correction step. This is a deployability feature, not a
-superiority claim: in the 21-cohort benchmark, no single-sample method robustly
-cleared +0.05 over trimmed-rCLR, and cross-platform transfer was null.
+superiority claim: it does not assert that any single-sample method
+out-discriminates a batch-corrected pipeline. Choose and validate the scoring
+method on your own data.
 
 ```r
 dep <- deploy_singlesample(X_train, y_train, method = "ws-balance-ilr")
@@ -29,26 +30,17 @@ methods and explicit rejection routes without ranking them.
 
 ---
 
-## Validation Status
+## Testing and continuous integration
 
-**All 11 core modules validated on TCGA pan-cancer miRNA data (10,366 samples, 2,566 features):**
+Correctness is enforced by a `testthat` suite that runs on every push through
+GitHub Actions (`R-CMD-check`, badge above). The suite covers the pipeline, the
+nested-CV leakage guarantees, feature-stability metrics, calibration, batch
+correction, multi-omics integration, and the single-sample scoring roster. Run
+it locally with:
 
-| Module | Status | Key Metrics |
-|--------|--------|-------------|
-| OmicPipeline | PASS | Quick validation AUC: 0.936 |
-| BenchmarkService | PASS | Nested CV AUC: 0.876 (honest estimate) |
-| GOF Filters | PASS | Discovered miR-139/183/145 family |
-| Bayesian Tuning | PASS | Training AUC: 0.984 |
-| AutoXAI | PASS | 9 correlation warnings flagged |
-| Stability Ensemble | PASS | 13 features at 100% stability |
-| Sequential Selector (HSFS) | PASS | AUC: 0.965 |
-| Synthetic Data (SMOTE) | PASS | Quality score validated |
-| Calibration | PASS | Platt scaling: 0-0.56 → 0.003-0.96 |
-| FrozenComBat | PASS | Batch correction validated |
-| Multi-Omics | PASS | Combined AUC: 0.827 |
-| Deep Learning | SKIPPED | torch not installed |
-
-**Top Biomarkers**: miR-183-5p, miR-145-5p, miR-182-5p are established cancer biomarkers with known oncogenic/tumor suppressor roles.
+```r
+devtools::test()
+```
 
 ---
 
@@ -61,11 +53,10 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 - **Feature Stability**: Nogueira Stability Index for reproducible biomarker sets
 - **Multi-Objective Selection**: Balance performance, stability, and parsimony
 
-## Paper Artifacts
+## Single-sample scoring methods (2.6.0)
 
-The OmicSelector paper release is anchored to the package repository at
-<https://github.com/kstawiski/OmicSelector>. Release 2.6.0 exposes the
-paper-facing methods as exported, documented R functions:
+Release 2.6.0 exposes the within-sample, reference-free scoring layer as
+exported, documented R functions:
 
 1. Five within-sample compositional scoring methods:
    [`ws_rclr_trimmed`](man/ws_rclr_trimmed.Rd),
@@ -112,8 +103,8 @@ paper-facing methods as exported, documented R functions:
    [`ws_balance_ilr`](man/ws_balance_ilr.Rd) exposes
    `min_balance_coverage` so panels that preserve the fixed balance
    dictionary can activate ILR scoring at the documented coverage threshold.
-10. Full Paper 3 method-bank registry:
-    [`singlesample_method_bank`](man/singlesample_method_bank.Rd) maps every manuscript
+10. Full single-sample method-bank registry:
+    [`singlesample_method_bank`](man/singlesample_method_bank.Rd) maps every
     method family (A-J) to exported package functions, including the kit-aware,
     provenance-aware, anchor/reference, technology-aware, biofluid-aware,
     learned/adversarial, Group-DRO, and Sinkhorn-OT scorer families.
@@ -869,72 +860,31 @@ correlations <- check_feature_correlations(
 ### Multi-Omics Late Integration
 
 ```r
-# Create separate pipelines for each modality
-rna_pipeline <- OmicPipeline$new(rna_data, target = outcome)
-mirna_pipeline <- OmicPipeline$new(mirna_data, target = outcome)
-
-# Create stacker
-stacker <- MultiOmicsStacker$new(
-  modalities = list(
-    rna = rna_pipeline$get_task(),
-    mirna = mirna_pipeline$get_task()
-  ),
-  meta_learner = mlr3::lrn("classif.glmnet")
+# Late-integrate modalities with a stacked ensemble: one base learner per
+# modality plus a meta-learner. Samples must be aligned across modalities.
+ensemble <- stack_omics(
+  data_list    = list(rna = rna_data, mirna = mirna_data),
+  learner_list = list(rna = "classif.ranger", mirna = "classif.glmnet"),
+  y            = outcome,
+  meta_learner = "classif.log_reg"
 )
 
-# Train and predict
-stacker$train()
-predictions <- stacker$predict(new_data)
+# Predict on new, aligned modalities
+predictions <- ensemble$predict(list(rna = new_rna, mirna = new_mirna))
 ```
 
-### Quality Control Validation
+For early integration, pass a named list of modalities directly to
+`OmicPipeline$new()`; features are namespaced automatically as
+`modality::feature`.
 
-OmicSelector includes rigorous QC checks for clinical-grade biomarker discovery:
+### TRIPOD+AI Reporting
 
-```r
-# Run comprehensive QC validation
-qc_results <- project$run_qc_validation()
-
-# QC checks include:
-# - Sample size adequacy (minimum samples per class)
-# - Dimensionality ratio (features vs samples)
-# - Events Per Variable (EPV) for model stability
-# - Missing data patterns
-# - Feature quality (variance, zero-inflation)
-
-print(qc_results)
-#> QC Validation Results:
-#>   sample_size:    PASS (n=200, min_class=87)
-#>   dimensionality: WARN (p/n ratio = 2.5, high dimensionality)
-#>   epv:            PASS (EPV = 8.7, adequate for selected features)
-#>   missing_data:   PASS (0.3% missing, handled with PMM)
-#>   feature_quality: PASS (no constant features detected)
-
-# Warnings guide corrective action without blocking workflow
-```
-
-### Model Card Generation
-
-Generate clinical-ready Model Cards for stakeholder communication:
+Generate a TRIPOD+AI-oriented reporting object from a fitted model and result
+for transparent model documentation:
 
 ```r
-# After training a final model
-model_card <- project$generate_model_card(
-  model_name = "Glioblastoma miRNA Classifier",
-  intended_use = "Diagnostic aid for glioblastoma classification",
-  target_population = "Adult patients with suspected CNS tumors",
-  clinical_context = "Pre-surgical tumor characterization"
-)
-
-# Model Card includes:
-# - Performance metrics with confidence intervals
-# - Training data characteristics
-# - Intended use and limitations
-# - Feature stability assessment
-# - TRIPOD+AI compliance notes
-
-# Export as HTML for stakeholders
-export_model_card(model_card, "model_card.html")
+report <- create_report_data(result)
+generate_tripod_report(report, output_file = "tripod_report.html")
 ```
 
 ---
@@ -979,13 +929,13 @@ Rscript inst/bin/omicselector run --config=config.yaml
 
 ```bash
 # Build image
-docker build -f Dockerfile.core -t omicselector:2.0 .
+docker build -f Dockerfile -t omicselector .
 
 # Run interactive R session
-docker run -it --rm -v $(pwd):/workspace omicselector:2.0 R
+docker run -it --rm -v $(pwd):/workspace omicselector R
 
 # Run analysis with config
-docker run -it --rm -v $(pwd):/workspace omicselector:2.0 \
+docker run -it --rm -v $(pwd):/workspace omicselector \
   Rscript inst/bin/omicselector run --config=/workspace/config.yaml
 ```
 
@@ -1030,15 +980,15 @@ docker run -it --rm -v $(pwd):/workspace omicselector:2.0 \
 
 | Module | Description |
 |--------|-------------|
-| `validate_data_quality()` | Sample size, dimensionality, EPV checks |
-| `generate_model_card()` | Clinical-ready Model Card for stakeholders |
-| `generate_tripod_report()` | TRIPOD+AI compliant reporting |
+| `create_report_data()` | Assemble TRIPOD+AI report data from a benchmark result |
+| `generate_tripod_report()` | TRIPOD+AI compliant HTML/PDF reporting |
+| `os_bias_audit_report()` | Provenance/bias audit report for public-omics panels |
 
 ### Multi-Omics & Export
 
 | Module | Description |
 |--------|-------------|
-| `MultiOmicsStacker` | Late integration of multi-omics data |
+| `stack_omics()` | Late integration of multi-omics data (stacked ensemble) |
 | `export_vetiver()` | Model export for deployment |
 | `export_bundle()` | Self-contained model bundle with metadata |
 | `export_onnx()` | ONNX export for cross-platform deployment |
@@ -1060,11 +1010,9 @@ docker run -it --rm -v $(pwd):/workspace omicselector:2.0 \
 
 ## Publications Using OmicSelector
 
-If you use OmicSelector in your research, please cite:
+Selected peer-reviewed work built with OmicSelector:
 
-1. **Stawiski K**, Fortner RT, Elias KM, Fendler W, on behalf of the miRPOC Consortium. *External validation of a published circulating miRNA ovarian-cancer signature with OmicSelector-guided stability analysis in 13,411 samples.* (in preparation for EBioMedicine, 2026). — Used FrozenComBat, StabilityEnsemble, GOF Filters, calibration, and SHAP modules in a zero-leakage LODO-CV framework across 8 3D-Gene microarray datasets and cross-platform transfer to FirePlex immunoassay.
-
-2. **Stawiski K**, Fortner RT, Pestarino L, et al. *Circulating miRNAs as pre-diagnostic biomarkers for ovarian cancer detection using serum from the Norwegian Janus Serum Bank.* Front Oncol. 2024;14:1389066. PMID: 38983926.
+1. **Stawiski K**, Fortner RT, Pestarino L, et al. *Validation of miRNA signatures for ovarian cancer earlier detection in the pre-diagnosis setting using machine learning approaches.* Front Oncol. 2024;14:1389066. PMID: 38983926.
 
 ## Authors
 

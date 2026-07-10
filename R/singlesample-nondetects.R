@@ -1,7 +1,7 @@
-#' @title Paper 3 qPCR non-detect imputation (Module B add-on)
+#' @title Single-sample qPCR non-detect imputation (Module B add-on)
 #'
 #' @description
-#' Two qPCR non-detect handlers used by the Paper-3 pipeline:
+#' Two qPCR non-detect handlers used by the single-sample pipeline:
 #' \itemize{
 #'   \item \code{\link{qpcr_nondetect_impute}}: Bayesian hierarchical
 #'     imputation via the \code{nondetects} Bioconductor package
@@ -14,8 +14,7 @@
 #' represent undetermined Cts. The Bayesian path requires both
 #' \code{nondetects} and \code{HTqPCR} (Bioconductor); if either is
 #' unavailable, the function falls back to LOD imputation with a logged
-#' message. This mirrors the manuscript Methods section "Non-detect handling
-#' for quantitative PCR data".
+#' message. This mirrors the single-sample non-detect handling convention.
 #'
 #' @references
 #' McCall MN, McMurray HR, Land H, Almudevar A. (2014) On non-detects in qPCR
@@ -108,7 +107,7 @@ qpcr_nondetect_impute <- function(expr_mat, log_handler = message) {
 #'
 #' @description
 #' Replaces every NA in \code{expr_mat} with the supplied \code{lod_ct}
-#' value (default 40). Used by the Paper-3 pipeline when Bayesian
+#' value (default 40). Used by the single-sample pipeline when Bayesian
 #' hierarchical imputation via \code{nondetects} is unavailable or fails.
 #' Sets \code{nondetect_method = "lod_fallback"} and \code{n_imputed}
 #' attributes.

@@ -1,4 +1,4 @@
-#' @title Paper 3 miRNA name / alias resolver (Module A, P1 — cross-platform)
+#' @title Single-sample miRNA name / alias resolver (Module A, P1 — cross-platform)
 #'
 #' @description
 #' Platform-portable alias resolver for circulating miRNA feature vectors.
@@ -12,7 +12,7 @@
 #' dictionary on canonical mature miRNA names (e.g. \code{hsa-miR-451a},
 #' \code{hsa-let-7a-5p}), a feature vector arriving with MIMAT IDs will produce
 #' NA balances and fall to an AUC of 0.500. This module resolves that mismatch
-#' for the ~60–100 highest-priority circulating-miRNA features used in Paper 3.
+#' for the ~60–100 highest-priority circulating-miRNA features used in the single-sample scoring bank.
 #'
 #' Three exported functions are provided:
 #' \itemize{
@@ -42,10 +42,6 @@
 #' \emph{Proceedings of the National Academy of Sciences USA} 105(30):
 #' 10513–10518.
 #'
-#' Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-#' circulating-microRNA biomarkers across cancers and platforms (Paper 3 of the
-#' OmicSelector programme; Nature Methods target).
-#'
 #' @name singlesample-mirna-name-resolver
 #' @keywords internal
 NULL
@@ -70,7 +66,7 @@ NULL
 #' columns for the primary mature miRNA name, MIMAT accession, optional
 #' precursor MI accession, and a semicolon-separated list of known alternate
 #' identifiers.  The table covers the ~92 high-priority circulating miRNAs
-#' used in Paper 3 of the OmicSelector programme: all members of
+#' used in the OmicSelector single-sample scoring bank: all members of
 #' \code{\link{ws_default_sbp}} and \code{\link{ws_default_pivot_pool}}, the
 #' five canonical haemolysis markers, the Mitchell 2008 / miRBiT panel members,
 #' and frequently-deposited Toray / FirePlex identifiers.

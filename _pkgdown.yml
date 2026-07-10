@@ -34,17 +34,10 @@ navbar:
       menu:
       - text: Single-sample deployment
         href: articles/single-sample-deployment.html
-      - text: "---"
       - text: Getting Started
         href: articles/getting-started.html
-      - text: TCGA Biomarker Discovery
-        href: articles/tcga-tutorial.html
-      - text: "---"
-      - text: "Phase 5: Advanced Features"
-        href: articles/phase5-advanced.html
-      - text: "---"
-      - text: Validation Report
-        href: articles/validation-report.html
+      - text: Deep Learning
+        href: articles/deep-learning.html
     github:
       icon: fa-github
       aria-label: GitHub repository
@@ -61,7 +54,7 @@ articles:
 
 reference:
 - title: Single-sample scoring & deployment
-  desc: Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a benchmark-winning claim.
+  desc: Freeze rostered within-sample scorers and score one incoming specimen without a test batch; deployability only, not a superiority claim.
   contents:
   - deploy_singlesample
   - score_specimen

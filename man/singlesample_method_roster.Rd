@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-method-roster.R
 \name{singlesample_method_roster}
 \alias{singlesample_method_roster}
-\title{Paper 3 Amendment #4 method roster (frozen expansion)}
+\title{Amendment #4 method roster (frozen expansion)}
 \usage{
 singlesample_method_roster()
 }
@@ -10,7 +10,7 @@ singlesample_method_roster()
 A data frame with one row per frozen-roster method.
 }
 \description{
-Returns the frozen 74-row method roster for the OmicSelector manuscript
+Returns the frozen 74-row method roster for the OmicSelector single-sample
 method-bank expansion (Statistical Analysis Plan Amendment #4, extended by
 Amendment #5 which adds the Student-t-copula method `lrt-tcopula` and
 Amendment #6 which adds the KDE naive-Bayes method `lrt-nbkde`). Unlike

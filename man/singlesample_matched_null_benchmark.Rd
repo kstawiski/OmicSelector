@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-matched-null.R
 \name{singlesample_matched_null_benchmark}
 \alias{singlesample_matched_null_benchmark}
-\title{Paper 3 matched-null benchmark for within-sample miRNA panel scoring}
+\title{Single-sample matched-null benchmark for within-sample miRNA panel scoring}
 \usage{
 singlesample_matched_null_benchmark(
   X,
@@ -93,7 +93,4 @@ res <- singlesample_matched_null_benchmark(X, y, panel,
 res$p_emp
 }
 
-}
-\references{
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 }

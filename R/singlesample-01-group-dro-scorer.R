@@ -2,7 +2,7 @@
 # Group-DRO classifier for kit x biofluid robust circulating-miRNA scoring.
 #
 # Runner utilities below require caller-supplied prepared inputs when used from
-# the package; manuscript-workspace paths are intentionally not assumed.
+# the package; external analysis-workspace paths are intentionally not assumed.
 
 if (!exists(".gdro_as_matrix", mode = "function")) {
   stop("Group-DRO helper functions are unavailable.", call. = FALSE)
@@ -429,7 +429,7 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
     "",
     sprintf("Plausibility gate: %d LOCO row(s) had AUC > 0.95 and require targeted leakage review if nonzero.", nrow(leak)),
     "",
-    "The table reports both average AUC and worst kit x biofluid AUC. These outputs are not manuscript-accepted evidence until `/triple-consensus` and `/plausibility-check` review the code, denominator accounting, and leakage screen."
+    "The table reports both average AUC and worst kit x biofluid AUC. These outputs are not validated evidence until the code, denominators, and leakage screen are independently reviewed."
   )
   writeLines(cap, out_md)
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/singlesample-preprocessing.R
 \name{singlesample-preprocessing}
 \alias{singlesample-preprocessing}
-\title{Paper 3 preprocessing utilities}
+\title{Single-sample preprocessing utilities}
 \description{
-Preprocessing helpers introduced in Paper 3 of the OmicSelector programme
-(Stawiski et al., in preparation). Currently provides inverse-log
+Preprocessing helpers introduced in the OmicSelector single-sample scoring
+bank. Currently provides inverse-log
 preprocessing for microarray deposits whose values are already on a
 log-abundance scale (e.g., Toray 3D-Gene, Agilent log-ratio exports).
 }

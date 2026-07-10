@@ -1,9 +1,9 @@
-#' Paper 3 method-bank registry
+#' Single-sample method-bank registry
 #'
-#' Returns the package-facing implementation map for the OmicSelector manuscript
+#' Returns the package-facing implementation map for the OmicSelector single-sample
 #' method bank. The registry is intentionally executable metadata: each row
 #' names the exported fit, predict, score, or helper function that implements
-#' the manuscript method or auxiliary protocol.
+#' the single-sample method or auxiliary protocol.
 #'
 #' @return A data frame with one row per method or auxiliary protocol.
 #' @export
@@ -114,7 +114,7 @@ singlesample_method_bank <- function() {
   )
 }
 
-#' Assert that Paper 3 method-bank functions are present and exported
+#' Assert that single-sample method-bank functions are present and exported
 #'
 #' @param bank Optional registry returned by [singlesample_method_bank()].
 #' @param allow_deferred Logical. If `TRUE`, deferred methods such as TabPFN-v2
@@ -129,7 +129,7 @@ singlesample_assert_method_bank_exports <- function(bank = singlesample_method_b
   }
   bad <- required[!required$functions_exist | !required$functions_exported, , drop = FALSE]
   if (nrow(bad) > 0L) {
-    stop("Paper 3 method-bank export check failed for: ",
+    stop("single-sample method-bank export check failed for: ",
          paste(paste0(bad$family, "/", bad$method), collapse = "; "),
          call. = FALSE)
   }
@@ -216,10 +216,10 @@ singlesample_make_locto_splits <- function(sample_meta,
   invisible(TRUE)
 }
 
-#' Advanced Paper 3 learned and transport scorers
+#' Advanced single-sample learned and transport scorers
 #'
 #' Thin exported aliases for the learned kit-aware, Group-DRO, and Sinkhorn-OT
-#' scorer implementations used by the OmicSelector manuscript. The aliases keep
+#' scorer implementations used by the OmicSelector single-sample scoring bank. The aliases keep
 #' experimental method names under the `os_` namespace while preserving the
 #' train/apply separation in the underlying fit and score functions.
 #'

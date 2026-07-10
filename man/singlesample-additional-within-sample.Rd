@@ -2,10 +2,10 @@
 % Please edit documentation in R/singlesample-additional-within-sample.R
 \name{singlesample-additional-within-sample}
 \alias{singlesample-additional-within-sample}
-\title{Paper 3 additional within-sample methods (Module A, P2)}
+\title{Single-sample additional within-sample methods (Module A, P2)}
 \description{
-Two additional Module-A within-sample methods introduced in Paper 3
-(Stawiski et al., in preparation), complementing the five core methods in
+Two additional Module-A within-sample methods introduced in the single-sample
+scoring bank, complementing the five core methods in
 \code{singlesample-within-sample.R}.
 
 Methods provided:
@@ -34,6 +34,4 @@ variance and bias. \emph{Bioinformatics} 19(2): 185–193.
 
 Hicks SC, Okrah K, Paulson JN, Quackenbush J, Irizarry RA, Bravo HC. (2018)
 Smooth quantile normalization. \emph{Biostatistics} 19(2): 185–198.
-
-Stawiski K. (in preparation) Paper 3 of the OmicSelector programme.
 }

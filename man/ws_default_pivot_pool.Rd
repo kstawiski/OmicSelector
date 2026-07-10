@@ -16,9 +16,9 @@ no documented contamination from haemolysis (miR-451a/16/486/144/223) or
 platelet activation (miR-223 family). The pool is fixed at v1; any
 revision will be tagged \code{circulating_v2}, etc., with a separate
 justification log under
-the manuscript's pivot-pool justification notes.
+the single-sample scoring bank's pivot-pool justification notes.
 
 Notably absent from the v1 pool: miR-92a-3p (recent serum/plasma
 literature treats it as erythrocyte-derived; codex Round 1 review of
-Paper 3 plan v0.2 flagged its prior inclusion as a concern).
+the single-sample scoring bank plan v0.2 flagged its prior inclusion as a concern).
 }

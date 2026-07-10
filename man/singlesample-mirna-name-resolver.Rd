@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-mirna-name-resolver.R
 \name{singlesample-mirna-name-resolver}
 \alias{singlesample-mirna-name-resolver}
-\title{Paper 3 miRNA name / alias resolver (Module A, P1 — cross-platform)}
+\title{Single-sample miRNA name / alias resolver (Module A, P1 — cross-platform)}
 \description{
 Platform-portable alias resolver for circulating miRNA feature vectors.
 Microarray platforms deposited in public repositories use a variety of
@@ -15,7 +15,7 @@ and \code{\link[OmicSelector]{ws_alr_pivot}} key the biology-frozen partition
 dictionary on canonical mature miRNA names (e.g. \code{hsa-miR-451a},
 \code{hsa-let-7a-5p}), a feature vector arriving with MIMAT IDs will produce
 NA balances and fall to an AUC of 0.500. This module resolves that mismatch
-for the ~60–100 highest-priority circulating-miRNA features used in Paper 3.
+for the ~60–100 highest-priority circulating-miRNA features used in the single-sample scoring bank.
 
 Three exported functions are provided:
 \itemize{
@@ -44,9 +44,5 @@ Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 microRNAs as stable blood-based markers for cancer detection.
 \emph{Proceedings of the National Academy of Sciences USA} 105(30):
 10513–10518.
-
-Stawiski K. (in preparation) Provenance-aware within-sample scoring for
-circulating-microRNA biomarkers across cancers and platforms (Paper 3 of the
-OmicSelector programme; Nature Methods target).
 }
 \keyword{internal}

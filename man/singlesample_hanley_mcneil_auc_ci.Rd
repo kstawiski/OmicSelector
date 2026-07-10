@@ -22,8 +22,8 @@ Named numeric vector with \code{ci_lo}, \code{ci_hi}, and
 \description{
 Computes the closed-form Hanley-McNeil 1982 standard error and Wald
 confidence interval for a binary-classification AUC from the AUC estimate
-and the number of positive and negative samples. This is the manuscript's
-default per-cell AUC interval helper; it is conservative for cross-validated
+and the number of positive and negative samples. This is the single-sample
+scoring bank's default per-cell AUC interval helper; it is conservative for cross-validated
 estimates because it does not model fold dependence.
 }
 \examples{

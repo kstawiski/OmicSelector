@@ -545,7 +545,7 @@ run_learned_kit_aware_benchmark <- function(
     "",
     sprintf("Evaluable LOCO rows: %d. Leakage screen rows with AUC > 0.95: %d. Any method with AUC > 0.95 in multiple strata is flagged in the table and must be investigated before use.", n_eval, n_leak),
     "",
-    "Kit strata are sparse and partly unknown/custom in this NGS subset; all kit-stratified summaries are descriptive and confounded with cohort/cancer type. These outputs are not acceptance-ready scientific evidence until /triple-consensus and /plausibility-check review the code, denominator accounting, and leakage screen."
+    "Kit strata are sparse and partly unknown/custom in this NGS subset; all kit-stratified summaries are descriptive and confounded with cohort/cancer type. These outputs are not validated evidence until the code, denominators, and leakage screen are independently reviewed."
   )
   writeLines(cap, out_caption)
   invisible(out)

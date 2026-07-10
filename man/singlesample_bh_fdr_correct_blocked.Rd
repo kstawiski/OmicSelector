@@ -15,7 +15,7 @@ cohort (e.g., \code{"Toray-cluster"}, \code{"Affy-singleton"}).}
 
 \item{rho}{Numeric in [0, 1]. Assumed within-block correlation; controls
 the inflation factor \eqn{c(k) = 1 + (k - 1)\rho}. Default 0.25
-reproduces the manuscript headline. Set to 0 to recover vanilla Fisher.}
+reproduces the frozen benchmark's headline configuration. Set to 0 to recover vanilla Fisher.}
 }
 \value{
 A \code{data.frame} with columns: \code{cohort_idx},
@@ -35,7 +35,7 @@ function implements a two-stage correction:
     \itemize{
       \item \emph{conservative reference}: \eqn{S/c} against
         \eqn{\chi^2_{2k}}; intentionally conservative; used for the
-        manuscript's headline counts.
+        frozen benchmark's headline counts.
       \item \emph{textbook reference} (Brown 1975 / Kost-McDermott 2002):
         \eqn{S/c} against \eqn{\chi^2_{2k/c}} with \eqn{df} rescaled by
         the same inflation factor.
@@ -46,5 +46,5 @@ function implements a two-stage correction:
 
 The inflation factor is \eqn{c(k) = 1 + (k - 1)\rho} with \eqn{k} the
 number of cohorts in the block and \eqn{\rho} the assumed within-block
-correlation (default \eqn{\rho = 0.25} reproduces the manuscript's headline).
+correlation (default \eqn{\rho = 0.25} reproduces the frozen benchmark's headline configuration).
 }

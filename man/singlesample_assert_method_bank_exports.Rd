@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-method-bank.R
 \name{singlesample_assert_method_bank_exports}
 \alias{singlesample_assert_method_bank_exports}
-\title{Assert that Paper 3 method-bank functions are present and exported}
+\title{Assert that single-sample method-bank functions are present and exported}
 \usage{
 singlesample_assert_method_bank_exports(
   bank = singlesample_method_bank(),
@@ -19,5 +19,5 @@ are not treated as failures.}
 Invisibly returns the registry if all required functions are exported.
 }
 \description{
-Assert that Paper 3 method-bank functions are present and exported
+Assert that single-sample method-bank functions are present and exported
 }

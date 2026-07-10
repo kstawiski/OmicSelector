@@ -1,6 +1,6 @@
-#' Paper 3 Amendment #4 method roster (frozen expansion)
+#' Amendment #4 method roster (frozen expansion)
 #'
-#' Returns the frozen 74-row method roster for the OmicSelector manuscript
+#' Returns the frozen 74-row method roster for the OmicSelector single-sample
 #' method-bank expansion (Statistical Analysis Plan Amendment #4, extended by
 #' Amendment #5 which adds the Student-t-copula method `lrt-tcopula` and
 #' Amendment #6 which adds the KDE naive-Bayes method `lrt-nbkde`). Unlike
@@ -291,7 +291,7 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
 
 #' Assert that a scorer is row-equivariant (single-sample deployable)
 #'
-#' The decisive inclusion property for the manuscript method bank: at inference a
+#' The decisive inclusion property for the single-sample method bank: at inference a
 #' specimen's score must be computable from that specimen alone given a frozen
 #' fitted model, with no dependence on which other specimens are scored alongside
 #' it. This harness implements the strengthened single-sample-deployability unit

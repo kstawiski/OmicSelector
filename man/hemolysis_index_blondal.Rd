@@ -22,7 +22,7 @@ Both anchor features must be present (canonical names
 \code{hsa-miR-451a} / \code{hsa-miR-23a-3p}, or the corresponding MIMAT
 accessions \code{MIMAT0001631} / \code{MIMAT0000078}); otherwise
 \code{NULL} is returned and the caller should treat the cell as not
-hemolysis-correctable. This is the convention the manuscript pipeline
+hemolysis-correctable. This is the convention the single-sample pipeline
 uses to feed \code{\link{fit_hemolysis_rr}} / \code{\link{apply_hemolysis_rr}}.
 }
 \examples{
