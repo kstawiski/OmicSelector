@@ -51,6 +51,10 @@ navbar:
       href: https://github.com/kstawiski/OmicSelector
 
 articles:
+- title: Getting started
+  contents:
+  - getting-started
+  - deep-learning
 - title: Single-sample scoring & deployment
   contents:
   - single-sample-deployment
