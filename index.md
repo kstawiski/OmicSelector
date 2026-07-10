@@ -1,11 +1,37 @@
-# OmicSelector 2.0
-
-![](articles/logo.png)
+# OmicSelector 2.6.0
 
 **Rigorous biomarker discovery from high-dimensional omics data with
 zero data leakage.**
 
+Release 2.6.0 adds single-sample deployment wrappers on top of the
+within-sample compositional scoring layer, frozen-reference denoising
+add-ons, qPCR non-detect imputation, matched-null benchmarks, and the
+provenance pre-flight gate used by the OmicSelector paper.
+
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
+
+## Single-sample deployment (what’s distinctive)
+
+OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later
+score one incoming specimen without a co-resident test batch, reference
+cohort, or test-time batch-correction step. This is a deployability
+feature, not a superiority claim: in the 21-cohort benchmark, no
+single-sample method robustly cleared +0.05 over trimmed-rCLR, and
+cross-platform transfer was null.
+
+``` r
+
+dep <- deploy_singlesample(X_train, y_train, method = "ws-balance-ilr")
+score <- score_specimen(dep, x_new)
+is_singlesample_deployable(dep, X_probe = X_train)
+singlesample_method_roster()
+```
+
+The default `ws-balance-ilr` is a compositional deployment default, not
+a certified winner. Use
+[`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
+to inspect deployable methods and explicit rejection routes without
+ranking them.
 
 ## Overview
 
@@ -25,12 +51,14 @@ ecosystem, it guarantees:
 ## Installation
 
 ``` r
+
 remotes::install_github("kstawiski/OmicSelector")
 ```
 
 ## Quick Start
 
 ``` r
+
 library(OmicSelector)
 
 # Create pipeline from your data
@@ -69,6 +97,7 @@ values (gene expression, miRNA counts, etc.) - **Target column**:
 Factor/character (classification) or numeric (regression)
 
 ``` r
+
 # Example structure:
 #   gene_A  gene_B  gene_C  outcome
 # 1   2.34    1.56    3.21     Case
@@ -97,19 +126,19 @@ Factor/character (classification) or numeric (regression)
 
 ### Classification Models
 
-| Model               | Code             | Strengths                                |
-|---------------------|------------------|------------------------------------------|
-| Random Forest       | `"ranger"`       | Handles interactions, robust             |
-| XGBoost             | `"xgboost"`      | High performance, handles missing values |
-| LightGBM            | `"lightgbm"`     | Very fast, memory efficient              |
-| Elastic Net         | `"glmnet"`       | Interpretable coefficients               |
-| SVM                 | `"svm"`          | High-dimensional data                    |
-| Logistic Regression | `"log_reg"`      | Baseline, interpretable                  |
-| k-NN                | `"kknn"`         | Non-parametric                           |
-| Naive Bayes         | `"naive_bayes"`  | Fast, small data                         |
-| LDA/QDA             | `"lda"`, `"qda"` | Dimensionality reduction                 |
-| Neural Net          | `"nnet"`         | Non-linear relationships                 |
-| Decision Tree       | `"rpart"`        | Interpretable                            |
+| Model | Code | Strengths |
+|----|----|----|
+| Random Forest | `"ranger"` | Handles interactions, robust |
+| XGBoost | `"xgboost"` | High performance, handles missing values |
+| LightGBM | `"lightgbm"` | Very fast, memory efficient |
+| Elastic Net | `"glmnet"` | Interpretable coefficients |
+| SVM | `"svm"` | High-dimensional data |
+| Logistic Regression | `"log_reg"` | Baseline, interpretable |
+| k-NN | `"kknn"` | Non-parametric |
+| Naive Bayes | `"naive_bayes"` | Fast, small data |
+| LDA/QDA | `"lda"`, `"qda"` | Dimensionality reduction |
+| Neural Net | `"nnet"` | Non-linear relationships |
+| Decision Tree | `"rpart"` | Interpretable |
 
 ## Key Modules
 
@@ -125,13 +154,13 @@ Factor/character (classification) or numeric (regression)
 
 ## Phase 5: Advanced Features
 
-| Module                          | Description                                            |
-|---------------------------------|--------------------------------------------------------|
-| **FilterGOF_KS / FilterHurdle** | GOF filters for sparse/zero-inflated data              |
-| **xai_pipeline**                | DALEX-based interpretability with correlation warnings |
-| **create_stability_ensemble**   | Bootstrap stability for reproducible biomarkers        |
-| **make_autotuner_glmnet**       | Bayesian hyperparameter optimization                   |
-| **smote_augment**               | SMOTE for class imbalance (inside CV)                  |
+| Module | Description |
+|----|----|
+| **FilterGOF_KS / FilterHurdle** | GOF filters for sparse/zero-inflated data |
+| **xai_pipeline** | DALEX-based interpretability with correlation warnings |
+| **create_stability_ensemble** | Bootstrap stability for reproducible biomarkers |
+| **make_autotuner_glmnet** | Bayesian hyperparameter optimization |
+| **smote_augment** | SMOTE for class imbalance (inside CV) |
 
 ## Docker
 

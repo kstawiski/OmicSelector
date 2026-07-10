@@ -1,4 +1,4 @@
-# mlr3torch Learner Integration for OmicSelector 2.0
+# mlr3torch Learner Integration for OmicSelector
 
 Factory functions for creating mlr3torch-based deep learning models.
 Phase 2 scope: Multi-Layer Perceptron (MLP) only.

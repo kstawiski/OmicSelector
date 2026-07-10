@@ -1,4 +1,4 @@
-# Calibration Metrics for OmicSelector 2.0
+# Calibration Metrics for OmicSelector
 
 Functions for assessing and improving probability calibration of
 classification models. Well-calibrated probabilities are essential for

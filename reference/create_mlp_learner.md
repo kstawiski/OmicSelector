@@ -65,7 +65,7 @@ create_mlp_learner(
 
 ## Value
 
-An mlr3 Learner object (or a fallback if mlr3torch unavailable)
+An mlr3 Learner object
 
 ## Details
 
@@ -73,8 +73,7 @@ The MLP architecture: - Input layer: matches number of features - Hidden
 layers: as specified, with batch normalization and dropout - Output
 layer: 2 neurons (binary classification) with softmax
 
-If mlr3torch is not installed, returns a fallback learner (glmnet) with
-a warning.
+Requires mlr3torch + torch. No non-deep-learning fallbacks are used.
 
 ## Examples
 

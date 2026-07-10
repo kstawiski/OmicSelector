@@ -1,4 +1,4 @@
-# Model Export for OmicSelector 2.0
+# Model Export for OmicSelector
 
 Provides model export functionality for deployment in non-R
 environments. Supports vetiver for R-based deployment/versioning and

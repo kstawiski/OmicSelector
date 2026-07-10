@@ -1,0 +1,137 @@
+# Fit Sinkhorn OT cohort barycenter scorer.
+
+Fit Sinkhorn OT cohort barycenter scorer.
+
+## Usage
+
+``` r
+fit_sinkhorn_ot_scorer(
+  X_train,
+  y_train = NULL,
+  meta_train,
+  cohort_col = "cohort",
+  panel_size = 20L,
+  panel_features = NULL,
+  feature_weights = NULL,
+  epsilon = NULL,
+  lambda = NULL,
+  epsilon_grid = c(0.05, 0.1, 0.2),
+  lambda_grid = c(0.35, 0.6, 0.85),
+  tune = TRUE,
+  tune_max_folds = 3L,
+  tune_n_atoms = 120L,
+  tune_max_cohort_atoms = 60L,
+  n_barycenter_atoms = 1000L,
+  max_cohort_atoms = 250L,
+  barycenter_iter = 4L,
+  max_sinkhorn_iter = 250L,
+  sinkhorn_tol = 1e-07,
+  min_pivot_features = 12L,
+  max_pivot_features = 80L,
+  pseudocount = NULL,
+  seed = 42L,
+  backend = c("auto", "python", "R")
+)
+```
+
+## Arguments
+
+- X_train:
+
+  Samples x features non-negative matrix.
+
+- y_train:
+
+  Optional 0/1 outcome vector. Required when panel selection or
+  hyperparameter tuning is requested.
+
+- meta_train:
+
+  data.frame with one row per sample and a cohort column.
+
+- cohort_col:
+
+  Column identifying training cohorts.
+
+- panel_size:
+
+  Number of features selected when \`panel_features\` is NULL.
+
+- panel_features:
+
+  Optional fixed panel features.
+
+- feature_weights:
+
+  Optional named numeric panel weights.
+
+- epsilon:
+
+  Entropic-transport regularization. If NULL, selected from
+  \`epsilon_grid\` when tuning is enabled.
+
+- lambda:
+
+  Barycenter shrinkage weight. If NULL, selected from \`lambda_grid\`
+  when tuning is enabled.
+
+- epsilon_grid, lambda_grid:
+
+  Candidate hyperparameter grids.
+
+- tune:
+
+  Logical. If TRUE, use train-only nested cohort CV to tune transport
+  hyperparameters.
+
+- tune_max_folds:
+
+  Maximum training folds used during tuning.
+
+- tune_n_atoms:
+
+  Number of barycenter atoms used during tuning.
+
+- tune_max_cohort_atoms:
+
+  Maximum cohort atoms used during tuning.
+
+- n_barycenter_atoms:
+
+  Number of free-support barycenter atoms.
+
+- max_cohort_atoms:
+
+  Maximum samples retained per cohort cloud.
+
+- barycenter_iter:
+
+  Number of barycenter updates.
+
+- max_sinkhorn_iter:
+
+  Maximum Sinkhorn iterations.
+
+- sinkhorn_tol:
+
+  Sinkhorn convergence tolerance.
+
+- min_pivot_features, max_pivot_features:
+
+  Bounds for CLR pivot features.
+
+- pseudocount:
+
+  Optional additive pseudocount before CLR transform.
+
+- seed:
+
+  Integer random seed.
+
+- backend:
+
+  Backend for barycenter/projection computation.
+
+## Value
+
+A frozen \`sinkhorn_ot_scorer\` object.

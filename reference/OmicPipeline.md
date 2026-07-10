@@ -6,7 +6,7 @@ selection, and model training within proper cross-validation folds.
 
 ## Details
 
-OmicPipeline is the central class for OmicSelector 2.0. It replaces the
+OmicPipeline is the central class for OmicSelector. It replaces the
 legacy script-based approach with a rigorous, composable, and
 reproducible architecture.
 
@@ -26,6 +26,8 @@ Factory methods generate configured GraphLearners
 - [`OmicPipeline$create_auto_fselector()`](#method-OmicPipeline-create_auto_fselector)
 
 - [`OmicPipeline$benchmark()`](#method-OmicPipeline-benchmark)
+
+- [`OmicPipeline$fit()`](#method-OmicPipeline-fit)
 
 - [`OmicPipeline$get_task()`](#method-OmicPipeline-get_task)
 
@@ -106,7 +108,11 @@ Create a GraphLearner with proper leakage prevention
       impute_method = "median",
       scale = TRUE,
       oversample = NULL,
-      batch_correct = FALSE
+      screening = FALSE,
+      screening_nfeat = NULL,
+      screening_frac = 0.2,
+      batch_correct = FALSE,
+      autoencoder = NULL
     )
 
 #### Arguments
@@ -117,7 +123,9 @@ Create a GraphLearner with proper leakage prevention
 
 - `model`:
 
-  Model type (e.g., "ranger", "glmnet", "svm")
+  Model type (e.g., "ranger", "glmnet", "svm", "mlp", "tabtransformer",
+  "fttransformer", "tabnet", "tabm", "catboost", "tabpfn") or an mlr3
+  Learner object.
 
 - `n_features`:
 
@@ -135,11 +143,34 @@ Create a GraphLearner with proper leakage prevention
 
   Oversampling method (NULL, "smote", "rose")
 
+- `screening`:
+
+  Logical, whether to apply a fast variance-based screening filter
+  before the main selection step (default: FALSE)
+
+- `screening_nfeat`:
+
+  Integer, number of features to keep during screening. If NULL, uses
+  screening_frac.
+
+- `screening_frac`:
+
+  Numeric (0,1\], fraction of features to keep during screening when
+  screening_nfeat is NULL (default: 0.2)
+
 - `batch_correct`:
 
   Logical or character. If TRUE, adds FrozenComBat batch correction
   using the batch column specified in pipeline creation. If a character
   string, uses that as the batch column name. Default: FALSE.
+
+- `autoencoder`:
+
+  Logical or list. If TRUE, inserts a torch autoencoder PipeOp after
+  scaling. If a list, its contents are passed to
+  [`create_autoencoder_pipeop()`](https://kstawiski.github.io/OmicSelector/reference/create_autoencoder_pipeop.md)
+  to configure latent dimension, training, and transfer options.
+  Default: NULL (disabled).
 
 #### Returns
 
@@ -149,7 +180,7 @@ A mlr3 GraphLearner object
 
 ### Method `create_auto_fselector()`
 
-Create an AutoFSelector for inner-loop feature selection tuning
+Create an AutoTuner that tunes filter.nfeat in the inner CV loop
 
 #### Usage
 
@@ -157,30 +188,35 @@ Create an AutoFSelector for inner-loop feature selection tuning
       learner,
       filter_values = c(5, 10, 20, 50),
       inner_resampling = NULL,
-      measure = NULL
+      measure = NULL,
+      tuner = "grid_search"
     )
 
 #### Arguments
 
 - `learner`:
 
-  A Learner or GraphLearner
+  A GraphLearner produced by create_graph_learner()
 
 - `filter_values`:
 
-  Vector of n_features values to try
+  Integer vector of n_features values to try
 
 - `inner_resampling`:
 
-  Inner resampling strategy
+  Inner resampling strategy (default: 3-fold CV)
 
 - `measure`:
 
-  Performance measure
+  Performance measure (default: classif.auc)
+
+- `tuner`:
+
+  Tuning strategy (default: "grid_search")
 
 #### Returns
 
-An AutoFSelector object
+An mlr3tuning::AutoTuner object
 
 ------------------------------------------------------------------------
 
@@ -190,7 +226,20 @@ Run benchmark with proper nested cross-validation
 
 #### Usage
 
-    OmicPipeline$benchmark(learners, outer_folds = 5, stratify = TRUE, seed = NULL)
+    OmicPipeline$benchmark(
+      learners,
+      outer_folds = 5,
+      inner_folds = 3,
+      stratify = TRUE,
+      seed = NULL,
+      parallel = TRUE,
+      threads = 1,
+      cache_dir = NULL,
+      cache_key = NULL,
+      screening = FALSE,
+      screening_nfeat = NULL,
+      screening_frac = 0.2
+    )
 
 #### Arguments
 
@@ -202,6 +251,10 @@ Run benchmark with proper nested cross-validation
 
   Number of outer CV folds
 
+- `inner_folds`:
+
+  Number of inner CV folds
+
 - `stratify`:
 
   Logical, whether to stratify by outcome
@@ -210,9 +263,85 @@ Run benchmark with proper nested cross-validation
 
   Random seed for reproducibility
 
+- `parallel`:
+
+  Logical, whether to run in parallel (default: TRUE)
+
+- `threads`:
+
+  Integer, number of threads for mlr3 learners (default: 1)
+
+- `cache_dir`:
+
+  Optional directory to cache benchmark results (RDS)
+
+- `cache_key`:
+
+  Optional cache key override (string)
+
+- `screening`:
+
+  Logical, apply variance screening before nested CV
+
+- `screening_nfeat`:
+
+  Integer, number of features to keep in screening
+
+- `screening_frac`:
+
+  Numeric (0,1\], fraction of features to keep in screening
+
 #### Returns
 
 A BenchmarkResult object
+
+------------------------------------------------------------------------
+
+### Method `fit()`
+
+Fit a learner on the full dataset and return the trained model and
+selected features (for deployment).
+
+#### Usage
+
+    OmicPipeline$fit(
+      learner,
+      seed = NULL,
+      threads = 1,
+      screening = FALSE,
+      screening_nfeat = NULL,
+      screening_frac = 0.2
+    )
+
+#### Arguments
+
+- `learner`:
+
+  A Learner or GraphLearner
+
+- `seed`:
+
+  Random seed for reproducibility
+
+- `threads`:
+
+  Integer, number of threads for mlr3 learners (default: 1)
+
+- `screening`:
+
+  Logical, apply variance screening before selection
+
+- `screening_nfeat`:
+
+  Integer, number of features to keep in screening
+
+- `screening_frac`:
+
+  Numeric (0,1\], fraction of features to keep in screening
+
+#### Returns
+
+A list with trained learner and selected features
 
 ------------------------------------------------------------------------
 
@@ -258,7 +387,7 @@ Logical
 
 ------------------------------------------------------------------------
 
-### Method [`get_modality_info()`](https://biostat.umed.pl/OmicSelector/reference/get_modality_info.md)
+### Method [`get_modality_info()`](https://kstawiski.github.io/OmicSelector/reference/get_modality_info.md)
 
 Get modality information for multi-omics data
 

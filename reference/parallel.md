@@ -1,4 +1,4 @@
-# Parallelization Support for OmicSelector 2.0
+# Parallelization Support for OmicSelector
 
 Functions for configuring and using future-based parallelization. Uses
 the \`future\` package for backend-agnostic parallel execution.

@@ -56,18 +56,16 @@ frozen_combat: The fitted FrozenComBat object (for external validation)
 
 For nested cross-validation, you should use this function OR the PipeOp:
 
-“\`r \# Option 1: Use PipeOp in mlr3pipelines (recommended) po_combat
-\<- create_frozen_combat_pipeop(batch_col = "batch") graph \<- po_combat
+Option 1: Use a PipeOp in \`mlr3pipelines\`:
+\`create_frozen_combat_pipeop(batch_col = "batch")\`.
 
-\# Option 2: Manual application in custom CV loop for (fold in folds)
-result \<- apply_frozen_combat_cv( data = features, batch =
-batch_vector, train_indices = fold\$train, test_indices = fold\$test )
-\# Use result\$corrected_train and result\$corrected_test “\`
+Option 2: Fit within each custom CV fold, then transform the
+corresponding test fold with the frozen parameters from that training
+split.
 
-\## WRONG: Do NOT do this! “\`r \# WRONG: Applying ComBat to all data
-before CV causes leakage! corrected_all \<- sva::ComBat(all_data, batch)
-\# LEAKAGE! cv_result \<- run_cv(corrected_all) \# Inflated performance
-“\`
+\## WRONG: Do NOT do this! Do not apply ComBat to the full dataset
+before splitting folds, because that leaks batch-adjustment information
+from held-out samples into training.
 
 ## Examples
 

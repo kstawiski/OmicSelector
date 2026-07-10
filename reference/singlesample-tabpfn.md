@@ -1,0 +1,66 @@
+# TabPFN-v2 in-context foundation-model discriminator (conditional single-sample)
+
+Conditional-single-sample discriminator (family O) built on TabPFN-v2,
+the pretrained tabular foundation model of Hollmann et al. (Nature
+2025). TabPFN classifies a query row by *in-context learning*: a single
+forward pass of a frozen pretrained transformer conditions on a provided
+labelled TRAINING context and emits the query's class posterior. There
+is no per-dataset gradient training – "fitting" only loads the training
+context into the model.
+
+**Why this is single-sample-deployable (conditional-in-N).** A specimen
+is single-sample-classifiable iff the TRAINING context that conditions
+the transformer is FROZEN into the model at fit time, so that at
+inference the query's posterior depends only on that query row and the
+frozen context – never on which other specimens are scored alongside it.
+This implementation freezes the per-sample-rCLR-transformed training
+context (rows + labels) and the feature universe at fit, and at score
+conditions every query against that one frozen context. The frozen
+context is the TRAINING rows only, so it is leakage-safe (no scored /
+test data ever enters the context).
+
+**Row-independent scoring modes.** TabPFN's `predict_proba` is invariant
+to the row ORDER of the scored batch and to the scored subset – a
+query's posterior does not depend on the other queries (measured
+companion maxdiff \\0\\). The default deployment path still evaluates
+`predict_proba` ONE QUERY ROW AT A TIME, so the \\n=1\\ forward path is
+used uniformly. The optional benchmark-only `score_batch` path evaluates
+balanced chunks of query rows. That batched path is leakage-free and
+AUC-faithful (observed \\\|dAUC\| = 7.8\mathrm{e}{-5}\\ at production
+scale; specimen ranks/verdicts unchanged), but it is not bit-identical
+to the \\n=1\\ row-by-row path: the installed build has a deterministic
+batch-size numerical effect (raw probability shifts around
+\\1\mathrm{e}{-4}\\ to \\2.6\mathrm{e}{-3}\\), not a cross-row coupling.
+
+**Single-sample transform.** Each specimen is mapped to the
+self-contained per-sample robust CLR (rCLR) over its OWN
+strictly-positive support (geometric-mean centring on `v > 0`) in the
+FROZEN feature universe; this is exactly invariant to per-specimen
+scaling and uses no cross-row statistic. The SAME rCLR transform is
+applied to the frozen training context at fit and to each query at
+score. Universe features absent from a specimen carry the neutral rCLR
+value `0` (centred log-ratio of an absent coordinate), matching the
+missing-feature rule of the other roster scorers.
+
+**Ungated TabPFN-v2 weights.** The default TabPFN model version in
+current tabpfn releases (V2.6) is license-gated and needs an interactive
+token. This method pins the model to `ModelVersion.V2` – the original
+TabPFN-v2 (Hollmann et al., Nature 2025) – which ships with a direct
+(token-free) download option, so the method installs and runs
+non-interactively.
+
+**Orientation and output.** The score is the frozen-context posterior
+\\P(\mathrm{case}) = P(y = 1)\\ for the query, in \\\[0, 1\]\\; larger =
+more case-like. Degenerate queries (fewer than `hp$min_features`
+universe features present, or an all-zero / empty specimen) return the
+neutral probability `0.5`.
+
+## References
+
+Hollmann N, Muller S, Purucker L, Krishnakumar A, Korfer M, Hoo SB,
+Schirrmeister RT, Hutter F. (2025) Accurate predictions on small data
+with a tabular foundation model. *Nature* 637:319-326.
+
+Hollmann N, Muller S, Eggensperger K, Hutter F. (2023) TabPFN: A
+Transformer That Solves Small Tabular Classification Problems in a
+Second. *International Conference on Learning Representations (ICLR)*.

@@ -26,7 +26,7 @@ A SequentialSelector object
 
 ``` r
 if (FALSE) { # \dontrun{
-# Default pipeline: variance -> ANOVA(5000) -> RFE(1000) -> LASSO
+# Default pipeline: variance -> ANOVA(5000) -> RF_importance(1000) -> AUC_filter
 selector <- create_hsfs_selector("default")
 
 # Aggressive reduction for very high-dimensional data

@@ -5,18 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>OmicSelector 2.0 - Rigorous Biomarker Discovery • OmicSelector</title>
+<title>OmicSelector 2.6.0 - Rigorous Biomarker Discovery • OmicSelector</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.10/font.css" rel="stylesheet">
 <link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="OmicSelector 2.0 - Rigorous Biomarker Discovery">
-<meta name="description" content="A PhD-level toolkit for biomarker discovery from high-dimensional omics data. Enforces proper nested cross-validation with zero data leakage, computes feature stability metrics (Nogueira Stability Index), and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible and scalable machine learning pipelines. Supports multi-omics integration, batch effect correction (FrozenComBat), model calibration, and SHAP-based interpretability.">
-<meta property="og:description" content="A PhD-level toolkit for biomarker discovery from high-dimensional omics data. Enforces proper nested cross-validation with zero data leakage, computes feature stability metrics (Nogueira Stability Index), and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible and scalable machine learning pipelines. Supports multi-omics integration, batch effect correction (FrozenComBat), model calibration, and SHAP-based interpretability.">
+<meta property="og:title" content="OmicSelector 2.6.0 - Rigorous Biomarker Discovery">
+<meta name="description" content="A toolkit for biomarker discovery from high-dimensional omics data. Enforces nested cross-validation with leakage-resistant feature selection, computes feature stability metrics, and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible machine learning pipelines. Supports multi-omics integration, frozen batch-effect correction, model calibration, provenance-aware validation gates, within-sample biomarker panel methods, and SHAP-based interpretability.">
+<meta property="og:description" content="A toolkit for biomarker discovery from high-dimensional omics data. Enforces nested cross-validation with leakage-resistant feature selection, computes feature stability metrics, and provides multi-objective signature selection. Built on the mlr3 ecosystem for reproducible machine learning pipelines. Supports multi-omics integration, frozen batch-effect correction, model calibration, provenance-aware validation gates, within-sample biomarker panel methods, and SHAP-based interpretability.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
+<li><a class="dropdown-item" href="articles/single-sample-deployment.html">Single-sample deployment</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
     <li><a class="dropdown-item" href="articles/tcga-tutorial.html">TCGA Biomarker Discovery</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="articles/phase5-advanced.html">Phase 5: Advanced Features</a></li>
@@ -48,9 +50,10 @@
     <li><a class="dropdown-item" href="articles/validation-report.html">Validation Report</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/kstawiski/OmicSelector" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -59,11 +62,22 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="omicselector-20">OmicSelector 2.0<a class="anchor" aria-label="anchor" href="#omicselector-20"></a>
+<div class="page-header"><h1 id="omicselector-260">OmicSelector 2.6.0<a class="anchor" aria-label="anchor" href="#omicselector-260"></a>
 </h1></div>
-<p><img src="articles/logo.png"></p>
 <p><strong>Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.</strong></p>
+<p>Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, matched-null benchmarks, and the provenance pre-flight gate used by the OmicSelector paper.</p>
 <p><a href="https://github.com/kstawiski/OmicSelector/actions" class="external-link"><img src="https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></p>
+<div class="section level2">
+<h2 id="single-sample-deployment-whats-distinctive">Single-sample deployment (what’s distinctive)<a class="anchor" aria-label="anchor" href="#single-sample-deployment-whats-distinctive"></a>
+</h2>
+<p>OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score one incoming specimen without a co-resident test batch, reference cohort, or test-time batch-correction step. This is a deployability feature, not a superiority claim: in the 21-cohort benchmark, no single-sample method robustly cleared +0.05 over trimmed-rCLR, and cross-platform transfer was null.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/deploy_singlesample.html">deploy_singlesample</a></span><span class="op">(</span><span class="va">X_train</span>, <span class="va">y_train</span>, method <span class="op">=</span> <span class="st">"ws-balance-ilr"</span><span class="op">)</span></span>
+<span><span class="va">score</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">dep</span>, <span class="va">x_new</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/is_singlesample_deployable.html">is_singlesample_deployable</a></span><span class="op">(</span><span class="va">dep</span>, X_probe <span class="op">=</span> <span class="va">X_train</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/singlesample_method_roster.html">singlesample_method_roster</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The default <code>ws-balance-ilr</code> is a compositional deployment default, not a certified winner. Use <code><a href="reference/singlesample_method_roster.html">singlesample_method_roster()</a></code> to inspect deployable methods and explicit rejection routes without ranking them.</p>
+</div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -82,14 +96,14 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kstawiski/OmicSelector"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://biostat.umed.pl/OmicSelector/">OmicSelector</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kstawiski/OmicSelector" class="external-link">OmicSelector</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create pipeline from your data</span></span>
 <span><span class="va">pipeline</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/OmicPipeline.html">OmicPipeline</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -123,7 +137,7 @@
 <h2 id="data-format">Data Format<a class="anchor" aria-label="anchor" href="#data-format"></a>
 </h2>
 <p>Your data should be a <code>data.frame</code> with: - <strong>Feature columns</strong>: Numeric values (gene expression, miRNA counts, etc.) - <strong>Target column</strong>: Factor/character (classification) or numeric (regression)</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example structure:</span></span>
 <span><span class="co">#   gene_A  gene_B  gene_C  outcome</span></span>
 <span><span class="co"># 1   2.34    1.56    3.21     Case</span></span>
@@ -136,75 +150,75 @@
 <h3 id="feature-selection-methods">Feature Selection Methods<a class="anchor" aria-label="anchor" href="#feature-selection-methods"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Method</th>
 <th>Code</th>
 <th>Best For</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ANOVA F-test</td>
 <td><code>"anova"</code></td>
 <td>Default, continuous features</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Kruskal-Wallis</td>
 <td><code>"kruskal"</code></td>
 <td>Non-normal distributions</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Chi-Squared</td>
 <td><code>"chi_squared"</code></td>
 <td>Categorical features</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Variance</td>
 <td><code>"variance"</code></td>
 <td>Pre-filtering</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Correlation</td>
 <td><code>"correlation"</code></td>
 <td>Quick univariate</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Information Gain</td>
 <td><code>"information_gain"</code></td>
 <td>Mixed feature types</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Gain Ratio</td>
 <td><code>"gain_ratio"</code></td>
 <td>Avoiding cardinality bias</td>
 </tr>
-<tr class="even">
+<tr>
 <td>mRMR</td>
 <td><code>"mrmr"</code></td>
 <td>Reducing redundancy</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>CMIM/JMIM/JMI</td>
 <td>
 <code>"cmim"</code>, <code>"jmim"</code>, <code>"jmi"</code>
 </td>
 <td>Feature interactions</td>
 </tr>
-<tr class="even">
+<tr>
 <td>AUC</td>
 <td><code>"auc"</code></td>
 <td>Classification performance</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Relief</td>
 <td><code>"relief"</code></td>
 <td>Detecting interactions</td>
 </tr>
-<tr class="even">
+<tr>
 <td>RF Importance</td>
 <td><code>"importance"</code></td>
 <td>Non-linear relationships</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Permutation</td>
 <td><code>"permutation"</code></td>
 <td>Model-agnostic</td>
@@ -216,65 +230,65 @@
 <h3 id="classification-models">Classification Models<a class="anchor" aria-label="anchor" href="#classification-models"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Model</th>
 <th>Code</th>
 <th>Strengths</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Random Forest</td>
 <td><code>"ranger"</code></td>
 <td>Handles interactions, robust</td>
 </tr>
-<tr class="even">
+<tr>
 <td>XGBoost</td>
 <td><code>"xgboost"</code></td>
 <td>High performance, handles missing values</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>LightGBM</td>
 <td><code>"lightgbm"</code></td>
 <td>Very fast, memory efficient</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Elastic Net</td>
 <td><code>"glmnet"</code></td>
 <td>Interpretable coefficients</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>SVM</td>
 <td><code>"svm"</code></td>
 <td>High-dimensional data</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Logistic Regression</td>
 <td><code>"log_reg"</code></td>
 <td>Baseline, interpretable</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>k-NN</td>
 <td><code>"kknn"</code></td>
 <td>Non-parametric</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Naive Bayes</td>
 <td><code>"naive_bayes"</code></td>
 <td>Fast, small data</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>LDA/QDA</td>
 <td>
 <code>"lda"</code>, <code>"qda"</code>
 </td>
 <td>Dimensionality reduction</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Neural Net</td>
 <td><code>"nnet"</code></td>
 <td>Non-linear relationships</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Decision Tree</td>
 <td><code>"rpart"</code></td>
 <td>Interpretable</td>
@@ -287,36 +301,36 @@
 <h2 id="key-modules">Key Modules<a class="anchor" aria-label="anchor" href="#key-modules"></a>
 </h2>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Module</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>OmicPipeline</strong></td>
 <td>Build mlr3 graphs with preprocessing</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>BenchmarkService</strong></td>
 <td>Nested CV with zero leakage</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>select_best_signature</strong></td>
 <td>Multi-objective signature selection</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>compute_nogueira_stability</strong></td>
 <td>Feature selection stability metrics</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>FrozenComBat</strong></td>
 <td>Batch correction with frozen parameters</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>fit_platt_scaling</strong></td>
 <td>Probability calibration</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>MultiOmicsStacker</strong></td>
 <td>Late integration of multi-omics data</td>
 </tr>
@@ -331,28 +345,28 @@
 <col width="38%">
 <col width="61%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Module</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>FilterGOF_KS / FilterHurdle</strong></td>
 <td>GOF filters for sparse/zero-inflated data</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>xai_pipeline</strong></td>
 <td>DALEX-based interpretability with correlation warnings</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>create_stability_ensemble</strong></td>
 <td>Bootstrap stability for reproducible biomarkers</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>make_autotuner_glmnet</strong></td>
 <td>Bayesian hyperparameter optimization</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>smote_augment</strong></td>
 <td>SMOTE for class imbalance (inside CV)</td>
 </tr>
@@ -362,20 +376,20 @@
 <div class="section level2">
 <h2 id="docker">Docker<a class="anchor" aria-label="anchor" href="#docker"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile.core <span class="at">-t</span> omicselector:2.0 .</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/workspace omicselector:2.0 R</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile.core <span class="at">-t</span> omicselector:2.0 .</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>:/workspace omicselector:2.0 R</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">stawiski2022omicselector</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="dt">title</span>={OmicSelector: automatic feature selection and deep learning</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>         modeling for omic experiments},</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="dt">author</span>={Stawiski, Konrad and Kaszkowiak, Marcin and Mikulski, Damian and others},</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="dt">journal</span>={bioRxiv},</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="dt">year</span>={2022},</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="dt">doi</span>={10.1101/2022.06.01.494299}</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">stawiski2022omicselector</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="dt">title</span>={OmicSelector: automatic feature selection and deep learning</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>         modeling for omic experiments},</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="dt">author</span>={Stawiski, Konrad and Kaszkowiak, Marcin and Mikulski, Damian and others},</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="dt">journal</span>={bioRxiv},</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="dt">year</span>={2022},</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="dt">doi</span>={10.1101/2022.06.01.494299}</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="authors">Authors<a class="anchor" aria-label="anchor" href="#authors"></a>
@@ -393,7 +407,7 @@
 <h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
 </h2>
 <ul>
-<li><a href="https://biostat.umed.pl/OmicSelector/">Documentation</a></li>
+<li><a href="https://biostat.umed.pl/OmicSelector/" class="external-link">Documentation</a></li>
 <li><a href="https://github.com/kstawiski/OmicSelector/issues" class="external-link">Issues &amp; Bug Reports</a></li>
 <li><a href="https://github.com/kstawiski/OmicSelector" class="external-link">Source Code</a></li>
 </ul>
@@ -446,7 +460,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

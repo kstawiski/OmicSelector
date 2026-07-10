@@ -1,4 +1,4 @@
-# Multi-Omics Support for OmicSelector 2.0
+# Multi-Omics Support for OmicSelector
 
 Functions and utilities for handling multi-omics data containers.
 Designed to future-proof the API for Phase 4 integration.

@@ -1,12 +1,11 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  deep-learning: deep-learning.html
   getting-started: getting-started.html
-  phase5-advanced: phase5-advanced.html
-  tcga-tutorial: tcga-tutorial.html
-  validation-report: validation-report.html
-last_built: 2025-12-21T07:58Z
+  single-sample-deployment: single-sample-deployment.html
+last_built: 2026-07-10T03:24Z
 urls:
-  reference: https://biostat.umed.pl/OmicSelector/reference
-  article: https://biostat.umed.pl/OmicSelector/articles
+  reference: https://kstawiski.github.io/OmicSelector/reference
+  article: https://kstawiski.github.io/OmicSelector/articles

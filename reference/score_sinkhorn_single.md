@@ -1,0 +1,61 @@
+# Score the forced-single-sample entropic-OT (Sinkhorn) negative control
+
+Scores each row of `X` independently with the frozen model from
+[`fit_sinkhorn_single`](https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_single.md).
+For one specimen the abundances are mapped to the per-sample robust CLR
+over its own positive support; its entropic-OT (Sinkhorn) transport
+energy to the frozen case cloud and to the frozen control cloud is
+computed in pure R on the present-feature subspace, and the frozen
+orientation is applied to \\(E\_{\mathrm{control}} -
+E\_{\mathrm{case}})\\ so larger = more case-like. No statistic of any
+other scored row enters, so the score of a row depends only on that row
+and the frozen model and is exactly invariant to per-specimen scaling.
+
+The present feature set is
+`intersect(model$feature_universe, colnames(X))`; features missing from
+a specimen contribute no transport cost. If fewer than
+`model$hp$min_features` universe features are present, or a reference
+cloud is empty, or a specimen has empty positive support, the neutral
+score `0` is returned (for that row, or for every row in the below-floor
+/ empty-cloud cases).
+
+## Usage
+
+``` r
+score_sinkhorn_single(model, X, meta = NULL)
+```
+
+## Arguments
+
+- model:
+
+  A `sinkhorn_single_model` object from
+  [`fit_sinkhorn_single`](https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_single.md).
+
+- X:
+
+  Numeric matrix (samples \\\times\\ features) of non-negative
+  abundances with named feature columns.
+
+- meta:
+
+  Optional per-sample metadata. Accepted for interface uniformity and
+  ignored by this method.
+
+## Value
+
+Plain finite numeric vector of length `nrow(X)`; larger values are more
+case-like.
+
+## References
+
+Cuturi M. (2013) Sinkhorn Distances. *NeurIPS* 26:2292-2300.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+model <- fit_sinkhorn_single(X, y)
+score_sinkhorn_single(model, X[1, , drop = FALSE])
+} # }
+```

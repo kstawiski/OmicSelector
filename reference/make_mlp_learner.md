@@ -1,72 +1,68 @@
-# Create Omics-Optimized MLP Learner
+# Make MLP Learner (Alias)
 
-Creates a Multi-Layer Perceptron with regularization optimized for
-high-dimensional omics data.
+Convenient alias for create_mlp_learner() matching the naming convention
+of other factory functions (make_autotuner\_\*).
 
 ## Usage
 
 ``` r
 make_mlp_learner(
-  n_hidden = 128L,
-  n_layers = 2L,
-  dropout = 0.5,
-  batch_size = 32L,
-  epochs = 100L,
-  learning_rate = 0.001,
-  weight_decay = 0.01,
-  early_stopping_patience = 10L
+  hidden_layers = c(64, 32),
+  dropout = 0.2,
+  activation = c("relu", "tanh", "sigmoid"),
+  epochs = 100,
+  batch_size = 32,
+  lr = 0.001,
+  early_stopping = TRUE,
+  patience = 10,
+  seed = NULL,
+  device = "cpu"
 )
 ```
 
 ## Arguments
 
-- n_hidden:
+- hidden_layers:
 
-  Number of hidden units per layer (default: 128)
-
-- n_layers:
-
-  Number of hidden layers (default: 2)
+  Integer vector specifying neurons per hidden layer. Default: c(64, 32)
+  for a 2-layer network.
 
 - dropout:
 
-  Dropout rate (default: 0.5)
+  Dropout rate between 0 and 1. Default: 0.2.
 
-- batch_size:
+- activation:
 
-  Training batch size (default: 32)
+  Activation function: "relu" (default), "tanh", "sigmoid".
 
 - epochs:
 
-  Number of training epochs (default: 100)
+  Maximum training epochs. Default: 100.
 
-- learning_rate:
+- batch_size:
 
-  Learning rate (default: 0.001)
+  Training batch size. Default: 32.
 
-- weight_decay:
+- lr:
 
-  L2 regularization (default: 0.01)
+  Learning rate. Default: 0.001.
 
-- early_stopping_patience:
+- early_stopping:
 
-  Patience for early stopping (default: 10)
+  Logical, use early stopping. Default: TRUE.
+
+- patience:
+
+  Early stopping patience (epochs). Default: 10.
+
+- seed:
+
+  Random seed for reproducibility.
+
+- device:
+
+  "cpu" or "cuda" for GPU. Default: "cpu".
 
 ## Value
 
 An mlr3 Learner object
-
-## Details
-
-The MLP is configured with: - High dropout (0.5) to prevent overfitting
-on high-dimensional data - Strong L2 regularization - Batch
-normalization between layers - Adam optimizer with early stopping
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-learner <- make_mlp_learner(n_hidden = 64, dropout = 0.5)
-learner$train(task)
-} # }
-```

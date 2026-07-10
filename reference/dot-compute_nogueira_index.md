@@ -1,7 +1,7 @@
-# Compute Nogueira Stability Index
+# Compute Nogueira Stability Index (Internal Wrapper)
 
-Computes the Nogueira Stability Index for feature selection consistency.
-The index ranges from 0 (completely unstable) to 1 (perfectly stable).
+Internal wrapper that calls the canonical implementation from
+stability.R. This ensures consistency and avoids code duplication.
 
 ## Usage
 
@@ -18,20 +18,11 @@ The index ranges from 0 (completely unstable) to 1 (perfectly stable).
 
 - p:
 
-  Total number of features in the dataset
+  Total number of features in the dataset (the candidate universe)
 
 ## Value
 
 Numeric stability index between 0 and 1
-
-## Details
-
-The Nogueira Stability Index is defined as: SI = 1 - (observed_variance
-/ max_variance)
-
-Where observed variance is the average pairwise disagreement between
-feature sets, and max variance is what we'd expect from random
-selection.
 
 ## References
 

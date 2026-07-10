@@ -1,0 +1,97 @@
+# GASF-image CNN single-sample discriminator (frozen-BatchNorm, python-at-score)
+
+Single-sample within-cohort discriminator (family M, image/invariance)
+that turns each specimen's per-sample robust-CLR (rCLR) profile into a
+Gramian Angular Summation Field (GASF) image (Wang & Oates, 2015) and
+scores it through a small convolutional network with FROZEN BatchNorm.
+Following the canonical Wang & Oates pipeline, the length-\\p\\
+frozen-order rCLR profile is first PAA-reduced to a FIXED length \\L =
+\min(p, \mathrm{image\\size})\\ (default `image_size = 128`) so a
+specimen maps to a single-channel \\L \times L\\ GASF image of bounded
+size regardless of the feature count; a small Conv-BN-ReLU-MaxPool CNN
+with a global-average-pool logit head is trained end-to-end on the
+TRAINING images by binary cross-entropy, then FROZEN. A new specimen is
+scored by the logit of the frozen, eval-mode CNN on its GASF image.
+Larger = more case-like.
+
+**Python-at-score contract (no live pointer).** Unlike the
+BatchNorm-free trained-torch siblings (`proto-net`, `lrt-deepmaha`)
+which export weights to a pure-R forward, a CNN with
+Conv2d/MaxPool/BatchNorm has no compact pure-R forward, so this scorer
+follows the PROVEN PYTHON-AT-SCORE pattern of
+[`fit_tabicl`](https://kstawiski.github.io/OmicSelector/reference/fit_tabicl.md)
+/
+[`fit_tabpfn`](https://kstawiski.github.io/OmicSelector/reference/fit_tabpfn.md):
+the fitted model stores ONLY plain R-side state – the CNN `state_dict`
+as named float64 numeric arrays (every conv/BN/linear parameter,
+INCLUDING the BN `running_mean`, `running_var`, `num_batches_tracked`),
+the architecture config, the frozen per-feature GASF min/max bounds, the
+feature universe, and the seed/hp. There is NO live python pointer on
+the model. At SCORE, the identical CNN is rebuilt in python from that R
+state, `load_state_dict` loads the exported weights, `net.eval()` puts
+BatchNorm in FROZEN mode (running stats, not per-batch stats), and each
+query's GASF image is forwarded ONE ROW AT A TIME. Because the R-side
+state is fully serialisable, the default `model_digest` is a stable
+deterministic snapshot suitable for
+[`singlesample_assert_row_equivariant`](https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_row_equivariant.md).
+
+**Frozen BatchNorm + forced row-by-row = exact single-sample
+equivariance.** Two ingredients make the canonical gate hold EXACTLY.
+(1) `net.eval()` freezes BatchNorm to its training running statistics,
+so a query's normalisation depends only on the FROZEN stats – never on
+the other rows in the scored batch. In `net.train()` mode BatchNorm
+would compute per-batch statistics and COUPLE the rows, breaking
+single-sample deployability; eval mode is therefore mandatory and is
+asserted by a dedicated test (§7.10). (2) On a TRAINED net the float32
+conv accumulation across the batch dimension makes a 1-row forward
+differ from the same row inside an \\n\>1\\ batch by \\\sim 2\times
+10^{-7}\\ (a tiling/accumulation artefact, not a cross-row coupling). To
+remove even that, this scorer forwards in **float64** and ONE ROW AT A
+TIME, so the \\n=1\\ path is used uniformly and a row's logit is
+bit-identical whether scored alone or in any batch (single-row score ==
+batch score EXACTLY 0). float64 also makes the same image in a batch of
+1 vs a batch of 32 agree to \\\sim 4\times 10^{-16}\\ (the frozen-BN
+eval-mode proof).
+
+**GASF transform (deterministic, single-sample-safe via FROZEN
+bounds).** For a specimen's universe-aligned per-sample rCLR vector
+\\v\\ (length \\p\\, frozen feature order): (1) min-max scale to \\\[-1,
+1\]\\ using FROZEN TRAINING per-feature bounds \\(\mathrm{lo}\_j,
+\mathrm{hi}\_j)\\ computed once at fit, \\\tilde v_j =
+\mathrm{clamp}(2(v_j - \mathrm{lo}\_j)/(\mathrm{hi}\_j -
+\mathrm{lo}\_j) - 1, -1, 1)\\; (2) angular \\\phi_j = \arccos(\tilde
+v_j)\\; (3) \\\mathrm{GASF}\[i, j\] = \cos(\phi_i + \phi_j) = \tilde v_i
+\tilde v_j - \sqrt{1 - \tilde v_i^2}\sqrt{1 - \tilde v_j^2}\\, a
+single-channel \\p \times p\\ image. Because the bounds are FROZEN
+(training-derived), a query is scaled by training bounds – never its own
+min/max – so the image depends ONLY on the query and the frozen bounds,
+making it single-sample. The transform is implemented in python (numpy)
+at fit and score; a pure-R `.img_gasfcnn_gasf` reimplements the closed
+form and is used only by a §7 test to independently verify the python
+GASF.
+
+**Single-sample transform.** Each specimen is mapped to the
+self-contained per-sample robust CLR over its OWN strictly-positive
+support (geometric-mean centring on `v > 0`) in the FROZEN feature
+universe; this is exactly invariant to per-specimen scaling and uses no
+cross-row statistic. Universe features absent from a specimen carry the
+neutral rCLR value `0`. The SAME rCLR transform feeds the GASF at fit
+and at score.
+
+**Degenerate-neutral.** A query returns the neutral score `0` if fewer
+than `hp$min_features` universe features overlap the query columns (a
+column-overlap floor, batch-independent), or it has empty positive
+support over the frozen universe on the (pre-rCLR) aligned ORIGINAL
+abundances (`!any(X_use[i, ] > 0)`). A FLAT all-equal-positive
+composition maps to the rCLR origin but is a VALID specimen: it yields a
+valid GASF and is scored normally (NOT floored) – the empty-support test
+is on the ORIGINAL abundances, NOT on `all(z == 0)`.
+
+## References
+
+Wang Z, Oates T. (2015) Imaging Time-Series to Improve Classification
+and Imputation. *Proceedings of the 24th International Joint Conference
+on Artificial Intelligence (IJCAI)*, 3939-3945. arXiv:1506.00327.
+
+Ioffe S, Szegedy C. (2015) Batch Normalization: Accelerating Deep
+Network Training by Reducing Internal Covariate Shift. *ICML*.

@@ -1,4 +1,4 @@
-# Model Interpretability for OmicSelector 2.0
+# Model Interpretability for OmicSelector
 
 Provides model-agnostic interpretability via DALEX and SHAP-like
 methods. Essential for understanding which features drive predictions

@@ -3,12 +3,14 @@
 Implements a multi-stage feature reduction pipeline to handle
 high-dimensional omics data efficiently. The pipeline chains: 1.
 Variance thresholding (remove near-zero variance) 2. Univariate
-filtering (ANOVA F-test) 3. RF importance filtering (single-pass
-approximation of RFE) 4. LASSO regularization for final selection
+filtering (ANOVA F-test) 3. RF importance filtering (single-pass, not
+iterative RFE) 4. AUC filter for final selection (univariate ranking by
+AUC)
 
 Note: The RF importance stage is a single-pass approximation using
 Random Forest variable importance, not true iterative Recursive Feature
-Elimination.
+Elimination. The final stage uses univariate AUC filtering (NOT LASSO
+regularization).
 
 This hybrid approach outperforms single-method selection for
 high-dimensional data.
@@ -60,6 +62,7 @@ Create a new SequentialSelector
       univariate_method = "anova",
       rfe_n = 1000,
       lasso_n = NULL,
+      seed = NULL,
       verbose = TRUE
     )
 
@@ -79,11 +82,22 @@ Create a new SequentialSelector
 
 - `rfe_n`:
 
-  Number of features after RFE (default: 1000)
+  Number of features after RF importance filter (default: 1000). Note:
+  Despite the parameter name, this is a single-pass RF importance
+  filter, not iterative Recursive Feature Elimination. Parameter name
+  kept for backward compatibility.
 
 - `lasso_n`:
 
-  Target number of features after LASSO (default: NULL = auto)
+  Target number of features after AUC filter (default: NULL = auto).
+  Note: Despite the parameter name, this stage uses univariate AUC
+  filtering, not LASSO regularization. Parameter name kept for backward
+  compatibility.
+
+- `seed`:
+
+  Optional random seed for RF importance filter (default: NULL = use
+  global RNG state). Set for reproducibility within nested CV.
 
 - `verbose`:
 

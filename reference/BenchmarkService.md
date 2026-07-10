@@ -107,7 +107,13 @@ Run the nested cross-validation benchmark
 
 #### Usage
 
-    BenchmarkService$run(measures = NULL, parallel = FALSE)
+    BenchmarkService$run(
+      measures = NULL,
+      parallel = TRUE,
+      cache_dir = NULL,
+      cache_key = NULL,
+      threads = 1
+    )
 
 #### Arguments
 
@@ -117,7 +123,19 @@ Run the nested cross-validation benchmark
 
 - `parallel`:
 
-  Logical, whether to run in parallel
+  Logical, whether to run in parallel (default: TRUE)
+
+- `cache_dir`:
+
+  Optional directory to cache benchmark results (RDS)
+
+- `cache_key`:
+
+  Optional cache key override (string)
+
+- `threads`:
+
+  Integer, number of threads for mlr3 learners (default: 1)
 
 #### Returns
 

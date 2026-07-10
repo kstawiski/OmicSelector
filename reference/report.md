@@ -1,4 +1,4 @@
-# TRIPOD+AI Report Generation for OmicSelector 2.0
+# TRIPOD+AI Report Generation for OmicSelector
 
 Functions for generating reproducible, TRIPOD+AI compliant reports.
 Reports are generated as immutable HTML/PDF artifacts.

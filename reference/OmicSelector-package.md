@@ -1,8 +1,10 @@
 # OmicSelector: Zero-Leakage Biomarker Discovery Toolkit
 
-OmicSelector 2.0 is a PhD-level toolkit for high-dimensional biomarker
-discovery that guarantees scientific validity through rigorous machine
-learning methodology.
+OmicSelector 2.6.0 is a toolkit for high-dimensional biomarker discovery
+with leakage-resistant validation, stable feature selection,
+within-sample panel methods, frozen-reference denoising add-ons, qPCR
+non-detect handling, matched-null benchmarks, and provenance-aware audit
+helpers.
 
 ## Details
 
@@ -20,6 +22,11 @@ selected features are robust across resamples, not just high accuracy.
 
 \- \*\*Reproducibility\*\*: renv lockfiles, Docker containers, and
 deterministic pipelines.
+
+\- \*\*Panel Governance\*\*: Group-aware resampling, provenance-floor
+diagnostics, identifiability gates, matched-null benchmarks, and
+operating-point summaries for biomarker panels evaluated with public
+omics data.
 
 \## Core Classes
 
@@ -44,24 +51,16 @@ outer_folds = 5, inner_folds = 3) service\$add_learner(learner) result
 
 \## Philosophy
 
-"Optimization without validation is hallucination."
-
-OmicSelector 2.0 prioritizes \*\*zero data leakage\*\* and \*\*feature
-stability\*\* above raw accuracy metrics. High accuracy with unstable
-feature sets (the "Rashomon Effect") indicates overfitting, not real
-signal.
-
-\## Migration from v1.0
-
-Legacy functions like \`OmicSelector_iteratedRFE\` are deprecated due to
-data leakage issues. See \[list_deprecated_functions()\] for the full
-list and migration guidance.
+OmicSelector 2.6.0 prioritizes leakage-resistant validation, feature
+stability, and auditable provenance checks above raw apparent accuracy.
+High accuracy with unstable feature sets or strong provenance-only
+prediction is treated as a warning signal rather than as direct
+biomarker evidence.
 
 ## See also
 
 \- \[OmicPipeline\]: Main pipeline class - \[BenchmarkService\]: Nested
-CV service - \[validate_no_leakage()\]: Check for leakage risks -
-\[list_deprecated_functions()\]: Deprecated function list
+CV service
 
 ## Author
 

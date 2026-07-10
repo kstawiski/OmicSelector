@@ -1,6 +1,6 @@
 # OmicSelector_propensity_score_matching
 
-Propensity score matching.
+Lightweight propensity score matching (nearest neighbor) using base R.
 
 ## Usage
 
@@ -8,8 +8,14 @@ Propensity score matching.
 OmicSelector_propensity_score_matching(
   dataset,
   match_by = c("age_at_diagnosis", "gender.x"),
+  class_col = "Class",
+  positive = "Case",
   method = "nearest",
-  distance = "logit"
+  distance = "logit",
+  ratio = 1,
+  replace = FALSE,
+  caliper = NULL,
+  na_action = c("omit", "median")
 )
 ```
 
@@ -21,12 +27,40 @@ OmicSelector_propensity_score_matching(
 
 - match_by:
 
-  Vector describing by which variables should the dataset be matched.
+  Character vector of covariate names to match on.
+
+- class_col:
+
+  Outcome column name (default: "Class").
+
+- positive:
+
+  Label for the treated/positive class (default: "Case").
 
 - method:
 
-  Passed to \`matchit()\`.
+  Matching method (currently only "nearest").
 
 - distance:
 
-  Passed to \`matchit()\`.
+  Propensity model type (currently only "logit").
+
+- ratio:
+
+  Number of controls per treated (default: 1).
+
+- replace:
+
+  Logical; allow matching controls with replacement.
+
+- caliper:
+
+  Optional maximum absolute propensity score distance.
+
+- na_action:
+
+  How to handle missing values in match_by: "omit" or "median".
+
+## Value
+
+Matched dataset (treated + matched controls).

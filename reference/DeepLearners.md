@@ -1,7 +1,8 @@
 # Deep Learning Learners for Omics Data
 
 Provides deep learning models optimized for high-dimensional omics data
-using mlr3torch. Includes TabTransformer, GNNs, and other architectures.
+using mlr3torch and torch. Includes TabTransformer and autoencoder-based
+representation learning.
 
 ## Details
 
@@ -11,8 +12,8 @@ deep learning capabilities for biomarker discovery.
 
 Available architectures: - \*\*MLP\*\*: Multi-Layer Perceptron with
 dropout regularization - \*\*TabTransformer\*\*: Attention-based model
-for tabular data - \*\*GNN\*\*: Graph Neural Network for pathway-aware
-classification
+for tabular data - \*\*Autoencoder\*\*: Unsupervised feature compression
+(PipeOp)
 
 ## Installation
 

@@ -1,7 +1,7 @@
 # OmicSelector_correlation_plot
 
-Draw a correlation plot with reference f(x)=x axis and correlation
-metrics.
+Draw a correlation scatterplot with optional y = x reference and summary
+stats.
 
 ## Usage
 
@@ -11,8 +11,8 @@ OmicSelector_correlation_plot(
   var2,
   labvar1,
   labvar2,
-  title,
-  yx = T,
+  title = NULL,
+  yx = TRUE,
   metoda = "pearson",
   gdzie_legenda = "topleft"
 )
@@ -22,25 +22,32 @@ OmicSelector_correlation_plot(
 
 - var1:
 
-  First numeric variable.
+  First numeric vector.
 
 - var2:
 
-  Second numeric variable.
+  Second numeric vector.
 
 - labvar1:
 
-  Label to be written on plot for fist variable.
+  Label for x-axis.
 
 - labvar2:
 
-  Label to be written on plot for second variable.
+  Label for y-axis.
+
+- title:
+
+  Optional plot title.
 
 - yx:
 
-  Logical varable. TRUE if you want f(x)=x axis for reference (usefull
-  for calibration plots).
+  Logical, draw y = x reference line (useful for calibration plots).
+
+- metoda:
+
+  Correlation method: "pearson" or "spearman".
 
 - gdzie_legenda:
 
-  Where the legend should be placed?
+  Legend position passed to \`legend()\`.

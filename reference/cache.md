@@ -1,4 +1,4 @@
-# Split-Aware Caching for OmicSelector 2.0
+# Split-Aware Caching for OmicSelector
 
 Caching utilities that prevent data leakage by including split
 identifiers in cache keys. Uses memoise with cachem for efficient LRU
