@@ -3,6 +3,7 @@ library(OmicSelector)
 
 test_that("autoencoder_fit/encode works on small data", {
   skip_if_not_installed("torch")
+  skip_if_not(torch::torch_is_installed())
 
   x <- matrix(runif(60), nrow = 12, ncol = 5)
   model <- autoencoder_fit(
@@ -23,6 +24,7 @@ test_that("autoencoder_fit/encode works on small data", {
 
 test_that("autoencoder pipeop returns expected shape", {
   skip_if_not_installed("torch")
+  skip_if_not(torch::torch_is_installed())
   skip_if_not_installed("mlr3pipelines")
   skip_if_not_installed("mlr3learners")
 
