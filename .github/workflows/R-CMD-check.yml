@@ -45,8 +45,14 @@ jobs:
 
       - name: Install R dependencies
         run: |
-          install.packages(c('remotes', 'rcmdcheck'))
-          remotes::install_deps(dependencies = TRUE)
+          install.packages(c('remotes', 'rcmdcheck', 'knitr', 'rmarkdown'))
+          # Hard dependencies only (Depends/Imports/LinkingTo) plus the vignette
+          # builders. Three Suggests (catboost, selbal, StableMate) are not on CRAN
+          # and cannot be resolved in CI; they only gate optional code paths that the
+          # test suite skips or exercises via fallback backends, and _R_CHECK_FORCE_
+          # SUGGESTS_=false lets the check proceed without them. Installing the full
+          # Suggests closure (dependencies = TRUE) aborts the whole solve.
+          remotes::install_deps(dependencies = c("Depends", "Imports", "LinkingTo"))
         shell: Rscript {0}
 
       - name: R CMD check
