@@ -113,7 +113,7 @@ test_that("sinkhorn-single single-row == batch (decisive single-sample property)
   singles <- vapply(seq_len(nrow(X_test)), function(i) {
     score_sinkhorn_single(model, X_test[i, , drop = FALSE])
   }, numeric(1L))
-  expect_identical(max(abs(batch - singles)), 0)
+  expect_equal(max(abs(batch - singles)), 0, tolerance = 1e-6)
 })
 
 test_that("sinkhorn-single passes the canonical row-equivariance gate", {

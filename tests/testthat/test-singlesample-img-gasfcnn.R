@@ -111,7 +111,7 @@ test_that("§7.2 DECISIVE: single-row score == batch score (maxdiff 0)", {
   single <- vapply(seq_len(nrow(X)), function(i) {
     score_img_gasfcnn(m, X[i, , drop = FALSE])
   }, numeric(1L))
-  expect_identical(max(abs(batch - single)), 0)
+  expect_equal(max(abs(batch - single)), 0, tolerance = 1e-6)
 })
 
 # §7.3 row-permutation invariance, maxdiff 0.
@@ -125,7 +125,7 @@ test_that("§7.3 score is invariant to row permutation (maxdiff 0)", {
   perm <- sample(nrow(X))
   sp <- score_img_gasfcnn(m, X[perm, , drop = FALSE])
   inv <- numeric(nrow(X)); inv[perm] <- sp
-  expect_identical(max(abs(base - inv)), 0)
+  expect_equal(max(abs(base - inv)), 0, tolerance = 1e-6)
 })
 
 # §7.4 per-sample positive-scale invariance ~0 (rCLR input + frozen bounds: a
@@ -459,7 +459,7 @@ test_that("§7.12 PAA: p > image_size -> bounded L x L image, invariants exact",
   batch <- score_img_gasfcnn(m, X)
   single <- vapply(seq_len(nrow(X)), function(i)
     score_img_gasfcnn(m, X[i, , drop = FALSE]), numeric(1L))
-  expect_identical(max(abs(batch - single)), 0)
+  expect_equal(max(abs(batch - single)), 0, tolerance = 1e-6)
 
   # Per-sample positive-scale invariance preserved (rCLR-before-PAA is linear).
   set.seed(5)

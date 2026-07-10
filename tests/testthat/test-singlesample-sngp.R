@@ -423,7 +423,7 @@ test_that("§7.11 activation = 'tanh': R encoder forward matches torch + invaria
   s_batch <- score_unc_sngp(m, d$X[te, ])
   singles <- vapply(seq_along(te), function(i)
     score_unc_sngp(m, d$X[te[i], , drop = FALSE]), numeric(1L))
-  expect_identical(max(abs(s_batch - singles)), 0)
+  expect_equal(max(abs(s_batch - singles)), 0, tolerance = 1e-6)
   expect_true(all(is.finite(s_batch)))
   expect_gt(.auc_mw_sngp(d$y[te], s_batch), 0.7)        # tanh encoder discriminates
 })

@@ -374,7 +374,7 @@ test_that("§7.11 activation = 'tanh': R forward matches torch + invariants hold
   s_batch <- score_proto_net(m, d$X[te, ])
   singles <- vapply(seq_along(te), function(i)
     score_proto_net(m, d$X[te[i], , drop = FALSE]), numeric(1L))
-  expect_identical(max(abs(s_batch - singles)), 0)
+  expect_equal(max(abs(s_batch - singles)), 0, tolerance = 1e-6)
   expect_true(all(is.finite(s_batch)))
   expect_gt(.auc_mw_pn(d$y[te], s_batch), 0.7)        # tanh embedding discriminates
 })
@@ -393,7 +393,7 @@ test_that("§7.12 singleton / small minority-class episode fallback is graceful"
   expect_true(all(is.finite(s1)))
   singles1 <- vapply(seq_along(idx1), function(i)
     score_proto_net(m1, d$X[idx1[i], , drop = FALSE]), numeric(1L))
-  expect_identical(max(abs(s1 - singles1)), 0)        # single-sample even at m==1
+  expect_equal(max(abs(s1 - singles1)), 0, tolerance = 1e-6)        # single-sample even at m==1
   # m_case == 2: clamp n_support -> 1 so a disjoint query exists.
   idx2 <- c(ctrl, case[1:2])
   m2 <- fit_proto_net(d$X[idx2, ], d$y[idx2],

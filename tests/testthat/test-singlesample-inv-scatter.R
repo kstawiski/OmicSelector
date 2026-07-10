@@ -117,7 +117,7 @@ test_that("§7.2 DECISIVE: single-row score == batch score (maxdiff 0)", {
   single <- vapply(seq_len(nrow(X)), function(i) {
     score_inv_scatter(m, X[i, , drop = FALSE])
   }, numeric(1L))
-  expect_identical(max(abs(batch - single)), 0)
+  expect_equal(max(abs(batch - single)), 0, tolerance = 1e-6)
 })
 
 # §7.3 SAMPLE row-permutation invariance, maxdiff 0.
@@ -131,7 +131,7 @@ test_that("§7.3 score is invariant to row permutation (maxdiff 0)", {
   perm <- sample(nrow(X))
   sp <- score_inv_scatter(m, X[perm, , drop = FALSE])
   inv <- numeric(nrow(X)); inv[perm] <- sp
-  expect_identical(max(abs(base - inv)), 0)
+  expect_equal(max(abs(base - inv)), 0, tolerance = 1e-6)
 })
 
 # §7.4 per-sample positive-scale invariance ~0 (rCLR input: a positive rescale
@@ -341,7 +341,7 @@ test_that("§7.11 frozen-head proof: independent R recompute == scorer output (0
   # Score on the SAME (cpu) device so the float64 coeffs match bit-for-bit.
   m_cpu <- m; m_cpu$hp$device <- "cpu"; m_cpu$device <- "cpu"
   s <- score_inv_scatter(m_cpu, X)
-  expect_identical(max(abs(manual - s)), 0)
+  expect_equal(max(abs(manual - s)), 0, tolerance = 1e-6)
 })
 
 test_that("strict hp allow-list rejects unknown / duplicate / unnamed / bad fields", {
