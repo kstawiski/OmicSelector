@@ -259,9 +259,19 @@ NULL
 # scorer's exactness does not depend on the compiled path. context_reduction is
 # pinned to "subsample" so a single context is shared across queries (not per-query
 # retrieval), which keeps scoring row-independent.
+.tabdpt_writable_array <- function(x, dtype) {
+  # convert = FALSE is essential: automatic conversion would immediately turn
+  # the owned NumPy array back into an R matrix, recreating a read-only view when
+  # it is passed to Python again.
+  np <- reticulate::import("numpy", delay_load = FALSE, convert = FALSE)
+  # reticulate can expose an R matrix as a read-only NumPy view. TabDPT converts
+  # its input with torch.from_numpy(), which warns that writes to such a tensor
+  # would be undefined. A C-contiguous owned copy removes that backend hazard.
+  np$array(x, dtype = dtype, copy = TRUE, order = "C")
+}
+
 .tabdpt_build_and_fit <- function(Z_ctx, y_ctx, device, seed, normalizer) {
   tabdpt <- reticulate::import("tabdpt", delay_load = FALSE)
-  np <- reticulate::import("numpy", delay_load = FALSE)
 
   clf <- tabdpt$TabDPTClassifier(
     device = device,
@@ -272,8 +282,8 @@ NULL
     use_flash = identical(device, "cuda"),
     verbose = FALSE
   )
-  x_py <- np$asarray(Z_ctx, dtype = "float64")
-  y_py <- np$asarray(as.integer(y_ctx), dtype = "int64")
+  x_py <- .tabdpt_writable_array(Z_ctx, dtype = "float64")
+  y_py <- .tabdpt_writable_array(as.integer(y_ctx), dtype = "int64")
 
   .tabdpt_with_torch_rng(seed, function() clf$fit(x_py, y_py))
 
@@ -541,7 +551,6 @@ score_tabdpt <- function(model, X, meta = NULL) {
     return(out)
   }
 
-  np <- reticulate::import("numpy", delay_load = FALSE)
   clf <- model$clf
   case_col <- model$case_col
   temperature <- model$hp$temperature
@@ -553,7 +562,7 @@ score_tabdpt <- function(model, X, meta = NULL) {
       .tabdpt_with_torch_rng(model$hp$seed, function() {
         for (idx in .tabdpt_score_chunks(score_idx, chunk_size = 1024L)) {
           pr <- reticulate::py_to_r(
-            clf$predict_proba(np$asarray(Z[idx, , drop = FALSE], dtype = "float64"),
+            clf$predict_proba(.tabdpt_writable_array(Z[idx, , drop = FALSE], "float64"),
                               temperature = temperature)
           )
           out[idx] <<- as.numeric(pr[, case_col])
@@ -572,7 +581,7 @@ score_tabdpt <- function(model, X, meta = NULL) {
         if (all(z == 0)) next                          # all-zero specimen: neutral
         zi <- matrix(z, nrow = 1L)
         pr <- reticulate::py_to_r(
-          clf$predict_proba(np$asarray(zi, dtype = "float64"),
+          clf$predict_proba(.tabdpt_writable_array(zi, "float64"),
                             temperature = temperature)
         )
         out[i] <<- as.numeric(pr[1, case_col])

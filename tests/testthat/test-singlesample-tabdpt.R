@@ -94,6 +94,15 @@ test_that("fit returns a well-formed tabdpt_model", {
   expect_equal(nrow(m$context_rclr), m$n_context)
 })
 
+test_that("R inputs are copied to writable owned NumPy arrays", {
+  skip_if_no_tabdpt()
+  x <- matrix(seq_len(12L), nrow = 3L)
+  a <- .tabdpt_writable_array(x, "float64")
+  expect_true(isTRUE(reticulate::py_to_r(a$flags$writeable)))
+  expect_true(isTRUE(reticulate::py_to_r(a$flags$c_contiguous)))
+  expect_true(isTRUE(reticulate::py_to_r(a$flags$owndata)))
+})
+
 test_that("score is finite, length-correct, and in [0, 1]", {
   skip_if_no_tabdpt()
   f <- .fit_small_tabdpt()
