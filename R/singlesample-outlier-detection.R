@@ -120,23 +120,39 @@ fit_compositional_mahalanobis <- function(x_train,
     stop("fit_compositional_mahalanobis: negative values not allowed (compositional input)")
   }
   if (pseudocount <= 0) stop("fit_compositional_mahalanobis: pseudocount must be > 0")
+  if (nrow(x_train) < 2L) {
+    stop("fit_compositional_mahalanobis: at least two training samples are required")
+  }
+  if (ncol(x_train) < 2L) {
+    stop("fit_compositional_mahalanobis: at least two compositional features are required")
+  }
 
   z_train <- .singlesample_compose_transform(x_train, transform = transform,
                                         pseudocount = pseudocount)
-  D <- ncol(z_train)
-  effective_df <- if (transform == "ilr") D else max(1L, D - 1L)
-
-  rank_cov <- min(nrow(z_train) - 1L, effective_df)
-  if (rank_cov < effective_df) {
-    warning("fit_compositional_mahalanobis: covariance is rank-deficient (n=",
-             nrow(z_train), ", df=", effective_df,
-             "). Chi-square p-values will be conservative.")
+  projection_basis <- NULL
+  if (transform == "rclr") {
+    projection_basis <- .singlesample_helmert_basis(ncol(z_train))
+    z_train <- z_train %*% projection_basis
   }
-
   has_robustbase <- requireNamespace("robustbase", quietly = TRUE)
   has_MASS <- requireNamespace("MASS", quietly = TRUE)
 
-  if (has_robustbase) {
+  use_robust <- has_robustbase
+  fallback_message <- NULL
+  if (has_robustbase && nrow(z_train) <= ncol(z_train)) {
+    if (require_robust) {
+      stop("fit_compositional_mahalanobis: robust MCD requires n_train > ",
+           "transformed dimension (got n_train=", nrow(z_train),
+           ", dimension=", ncol(z_train), ").")
+    }
+    fallback_message <- paste0(
+      "fit_compositional_mahalanobis: n_train <= transformed dimension; ",
+      "falling back to classical covariance because require_robust=FALSE"
+    )
+    use_robust <- FALSE
+  }
+
+  if (use_robust) {
     mcd <- robustbase::covMcd(z_train, alpha = alpha)
     center <- mcd$center
     cov_mat <- mcd$cov
@@ -146,24 +162,43 @@ fit_compositional_mahalanobis <- function(x_train,
       stop("fit_compositional_mahalanobis: robustbase unavailable and ",
             "require_robust=TRUE. Install robustbase or pass require_robust=FALSE.")
     }
-    warning("robustbase unavailable - falling back to classical covariance.")
+    if (is.null(fallback_message)) {
+      fallback_message <- paste0(
+        "fit_compositional_mahalanobis: robustbase unavailable; ",
+        "falling back to classical covariance"
+      )
+    }
     center <- colMeans(z_train, na.rm = TRUE)
     cov_mat <- stats::cov(z_train, use = "pairwise.complete.obs")
     method <- "classical"
   }
 
   if (!has_MASS) stop("fit_compositional_mahalanobis requires the MASS package for ginv().")
+  covariance_rank <- qr(cov_mat)$rank
+  if (covariance_rank < 1L) {
+    stop("fit_compositional_mahalanobis: fitted covariance has zero numerical rank")
+  }
+  if (!is.null(fallback_message)) {
+    warning(fallback_message, "; fitted covariance rank=", covariance_rank,
+            " of ", ncol(z_train),
+            ". Chi-square degrees of freedom use the fitted rank.")
+  } else if (covariance_rank < ncol(z_train)) {
+    warning("fit_compositional_mahalanobis: fitted covariance is rank-deficient ",
+            "(rank=", covariance_rank, ", dimension=", ncol(z_train),
+            "). Chi-square degrees of freedom use the fitted rank.")
+  }
   cov_inv <- MASS::ginv(cov_mat)
 
   fit <- list(
     transform = transform,
     pseudocount = pseudocount,
     feature_names = colnames(x_train),
+    projection_basis = projection_basis,
     center = center,
     cov = cov_mat,
     cov_inv = cov_inv,
     method = method,
-    df = effective_df,
+    df = covariance_rank,
     n_train = nrow(z_train)
   )
   class(fit) <- "compositional_mahalanobis_fit"
@@ -205,6 +240,9 @@ apply_compositional_mahalanobis <- function(fit, x_test, return_pvalue = TRUE) {
   x_test <- x_test[, fit$feature_names, drop = FALSE]
   z_test <- .singlesample_compose_transform(x_test, transform = fit$transform,
                                        pseudocount = fit$pseudocount)
+  if (!is.null(fit$projection_basis)) {
+    z_test <- z_test %*% fit$projection_basis
+  }
   delta <- sweep(z_test, 2L, fit$center, FUN = "-")
   d2 <- rowSums((delta %*% fit$cov_inv) * delta)
 
