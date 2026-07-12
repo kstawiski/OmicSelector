@@ -20,14 +20,13 @@
 #' one frozen context. The frozen context is the TRAINING rows only, so it is
 #' leakage-safe (no scored / test data ever enters the context).
 #'
-#' \strong{Row-independent scoring modes.} TabICL's \code{predict_proba} is
-#' exactly invariant to the row ORDER of the scored batch and to the scored
-#' subset -- a query's posterior does not depend on the other queries (measured
-#' companion maxdiff \eqn{0}). The default deployment path evaluates
+#' \strong{Row-independent scoring.} The deployment path evaluates
 #' \code{predict_proba} ONE QUERY ROW AT A TIME, so the \eqn{n=1} forward path is
-#' used uniformly. The optional benchmark-only \code{score_batch} path evaluates
-#' balanced chunks of query rows and is numerically identical to the row-by-row
-#' path (\eqn{\max |b-r| = 0}).
+#' used uniformly and a query cannot be affected by the size or composition of a
+#' scoring batch. The legacy \code{score_batch} option is accepted for model
+#' compatibility but deliberately uses this same row-by-row path. GPU matrix
+#' kernels can otherwise produce small batch-size-dependent floating-point
+#' differences even when queries are conditionally independent.
 #'
 #' \strong{Single-sample transform.} Each specimen is mapped to the
 #' self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive
@@ -322,8 +321,8 @@ NULL
 #'   default \code{4096L}; larger contexts are seeded class-stratified
 #'   subsampled), \code{min_features} (feature-overlap floor at scoring, positive
 #'   integer, default \code{3L}), \code{seed} (integer; default \code{42L}), and
-#'   \code{score_batch} (benchmark-only batched scoring flag, logical, default
-#'   \code{FALSE}).
+#'   \code{score_batch} (legacy compatibility flag, logical, default
+#'   \code{FALSE}; both values use the exact row-by-row deployment path).
 #'
 #' @return Object of class \code{tabicl_model}: a list with \code{context_rclr}
 #'   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
@@ -459,12 +458,11 @@ fit_tabicl <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' The score of a row depends only on that row and the frozen model, and is
 #' exactly invariant to per-specimen positive scaling.
 #'
-#' @details A benchmark-only \code{score_batch} option evaluates
-#' \code{predict_proba} once over balanced chunks of query rows; this is
-#' numerically identical to the default row-by-row single-sample path because the
-#' model is row-order-invariant and queries are conditionally independent given
-#' the frozen context, while the \eqn{n = 1} single-specimen deployment path is
-#' unchanged.
+#' @details The legacy \code{score_batch} option is retained for serialized-model
+#' and hyperparameter compatibility, but scoring always uses the row-by-row
+#' \eqn{n=1} forward path. This is intentional: fused GPU batch kernels produced
+#' small batch-size-dependent numerical differences on otherwise identical
+#' queries, which violates the operational single-sample contract.
 #'
 #' @param model A \code{tabicl_model} object from \code{\link{fit_tabicl}}.
 #' @param X Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -511,34 +509,19 @@ score_tabicl <- function(model, X, meta = NULL) {
   clf <- model$clf
   case_col <- model$case_col
 
-  if (isTRUE(model$hp$score_batch)) {
-    Z <- .tabicl_rclr_matrix(X_use)
-    score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
-    if (length(score_idx) > 0L) {
-      .tabicl_with_torch_rng(model$hp$seed, function() {
-        for (idx in .tabicl_score_chunks(score_idx, chunk_size = 1024L)) {
-          pr <- reticulate::py_to_r(
-            clf$predict_proba(np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
-          )
-          out[idx] <<- as.numeric(pr[, case_col])
-        }
-      })
+  # Always force the n = 1 forward path. The score_batch field remains part of
+  # the accepted hp schema only for backward compatibility; using a fused GPU
+  # batch path caused small but real batch-size-dependent prediction differences.
+  # The torch RNG guard also makes this robust to backend changes.
+  .tabicl_with_torch_rng(model$hp$seed, function() {
+    for (i in seq_len(nrow(X_use))) {
+      z <- .tabicl_rclr(X_use[i, ])
+      if (all(z == 0)) next                            # all-zero specimen: neutral
+      zi <- matrix(z, nrow = 1L)
+      pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
+      out[i] <<- as.numeric(pr[1, case_col])
     }
-  } else {
-    # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly,
-    # so a row's posterior is bit-identical alone or in any batch. The torch RNG
-    # is restored around the whole loop (TabICL's predict does not advance it, but
-    # the guard makes RNG-safety robust to build differences).
-    .tabicl_with_torch_rng(model$hp$seed, function() {
-      for (i in seq_len(nrow(X_use))) {
-        z <- .tabicl_rclr(X_use[i, ])
-        if (all(z == 0)) next                          # all-zero specimen: neutral
-        zi <- matrix(z, nrow = 1L)
-        pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
-        out[i] <<- as.numeric(pr[1, case_col])
-      }
-    })
-  }
+  })
 
   out <- as.numeric(out)
   if (length(out) != nrow(X) || any(!is.finite(out)) ||

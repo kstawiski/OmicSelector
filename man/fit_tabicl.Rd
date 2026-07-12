@@ -24,8 +24,8 @@ uniformity and otherwise ignored.}
 default \code{4096L}; larger contexts are seeded class-stratified
 subsampled), \code{min_features} (feature-overlap floor at scoring, positive
 integer, default \code{3L}), \code{seed} (integer; default \code{42L}), and
-\code{score_batch} (benchmark-only batched scoring flag, logical, default
-\code{FALSE}).}
+\code{score_batch} (legacy compatibility flag, logical, default
+\code{FALSE}; both values use the exact row-by-row deployment path).}
 }
 \value{
 Object of class \code{tabicl_model}: a list with \code{context_rclr}

@@ -34,12 +34,11 @@ The score of a row depends only on that row and the frozen model, and is
 exactly invariant to per-specimen positive scaling.
 }
 \details{
-A benchmark-only \code{score_batch} option evaluates
-\code{predict_proba} once over balanced chunks of query rows; this is
-numerically identical to the default row-by-row single-sample path because the
-model is row-order-invariant and queries are conditionally independent given
-the frozen context, while the \eqn{n = 1} single-specimen deployment path is
-unchanged.
+The legacy \code{score_batch} option is retained for serialized-model
+and hyperparameter compatibility, but scoring always uses the row-by-row
+\eqn{n=1} forward path. This is intentional: fused GPU batch kernels produced
+small batch-size-dependent numerical differences on otherwise identical
+queries, which violates the operational single-sample contract.
 }
 \examples{
 \dontrun{

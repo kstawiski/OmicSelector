@@ -310,7 +310,7 @@ test_that("fit leaves the CUDA torch RNG byte-unchanged (GPU only)", {
   expect_true(all(eq))
 })
 
-test_that("batch scoring equals row-by-row (>500 features)", {
+test_that("legacy batch flag uses the exact row-by-row path (>500 features)", {
   skip_if_no_tabicl()
   expect_true(.tabicl_resolve_hp(list(score_batch = TRUE))$score_batch)
   expect_error(.tabicl_resolve_hp(list(score_batch = 1)), "score_batch")
@@ -333,7 +333,7 @@ test_that("batch scoring equals row-by-row (>500 features)", {
   mb$hp$score_batch <- TRUE
   batch <- score_tabicl(mb, Xq)
 
-  expect_equal(batch, row, tolerance = 1e-6)
+  expect_identical(batch, row)
   expect_equal(batch[nrow(Xq)], 0.5)
   expect_gt(.auc_mw_tabicl(yq, batch[seq_along(yq)]), 0.5)
   expect_identical(.tabicl_model_digest(m), .tabicl_model_digest(mb))
