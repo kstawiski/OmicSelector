@@ -121,6 +121,14 @@
 
 ## Maintenance
 
+* Corrected the compositional Mahalanobis scorer to use full-rank coordinates
+  rather than a singular full-composition covariance representation.
+* Preserved exact row-wise TabICL scoring for large feature panels and ensured
+  TabDPT receives writable, owned NumPy arrays from R inputs.
+* Prevented pair-ratio logistic fits from using a truncated regularization
+  path when selecting the frozen deployment model.
+* Added a project `renv.lock` and activation bootstrap for reproducible package
+  development and checks.
 * Renamed the single-sample-deployable method-bank machinery from the internal
   codename `paper3_*` / `R/paper3-*.R` to the descriptive `singlesample_*` /
   `R/singlesample-*.R` (e.g. `singlesample_method_roster()`,
