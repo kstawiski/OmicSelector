@@ -102,12 +102,11 @@ and ignored by this method.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>A benchmark-only <code>score_batch</code> option evaluates
-<code>predict_proba</code> once over balanced chunks of query rows; this is
-numerically identical to the default row-by-row single-sample path because the
-model is row-order-invariant and queries are conditionally independent given
-the frozen context, while the \(n = 1\) single-specimen deployment path is
-unchanged.</p>
+    <p>The legacy <code>score_batch</code> option is retained for serialized-model
+and hyperparameter compatibility, but scoring always uses the row-by-row
+\(n=1\) forward path. This is intentional: fused GPU batch kernels produced
+small batch-size-dependent numerical differences on otherwise identical
+queries, which violates the operational single-sample contract.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

@@ -64,7 +64,11 @@
 </ul></div>
 <div class="section level3">
 <h3 id="maintenance-2-6-0">Maintenance<a class="anchor" aria-label="anchor" href="#maintenance-2-6-0"></a></h3>
-<ul><li>Renamed the single-sample-deployable method-bank machinery from the internal codename <code>paper3_*</code> / <code>R/paper3-*.R</code> to the descriptive <code>singlesample_*</code> / <code>R/singlesample-*.R</code> (e.g. <code><a href="../reference/singlesample_method_roster.html">singlesample_method_roster()</a></code>, <code><a href="../reference/singlesample_score_call.html">singlesample_score_call()</a></code>, <code><a href="../reference/singlesample_assert_row_equivariant.html">singlesample_assert_row_equivariant()</a></code>; <code>inst/extdata/singlesample_method_manifest.csv</code>). The former <code>paper3_*</code> exported names are retained as thin, exported back-compatibility aliases, so existing code keeps working; prefer the <code>singlesample_*</code> names.</li>
+<ul><li>Corrected the compositional Mahalanobis scorer to use full-rank coordinates rather than a singular full-composition covariance representation.</li>
+<li>Preserved exact row-wise TabICL scoring for large feature panels and ensured TabDPT receives writable, owned NumPy arrays from R inputs.</li>
+<li>Prevented pair-ratio logistic fits from using a truncated regularization path when selecting the frozen deployment model.</li>
+<li>Added a project <code>renv.lock</code> and activation bootstrap for reproducible package development and checks.</li>
+<li>Renamed the single-sample-deployable method-bank machinery from the internal codename <code>paper3_*</code> / <code>R/paper3-*.R</code> to the descriptive <code>singlesample_*</code> / <code>R/singlesample-*.R</code> (e.g. <code><a href="../reference/singlesample_method_roster.html">singlesample_method_roster()</a></code>, <code><a href="../reference/singlesample_score_call.html">singlesample_score_call()</a></code>, <code><a href="../reference/singlesample_assert_row_equivariant.html">singlesample_assert_row_equivariant()</a></code>; <code>inst/extdata/singlesample_method_manifest.csv</code>). The former <code>paper3_*</code> exported names are retained as thin, exported back-compatibility aliases, so existing code keeps working; prefer the <code>singlesample_*</code> names.</li>
 </ul></div>
 </div>
     <div class="section level2">

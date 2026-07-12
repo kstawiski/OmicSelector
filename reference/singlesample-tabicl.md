@@ -21,14 +21,14 @@ conditions every query against that one frozen context. The frozen
 context is the TRAINING rows only, so it is leakage-safe (no scored /
 test data ever enters the context).
 
-**Row-independent scoring modes.** TabICL's `predict_proba` is exactly
-invariant to the row ORDER of the scored batch and to the scored subset
-– a query's posterior does not depend on the other queries (measured
-companion maxdiff \\0\\). The default deployment path evaluates
+**Row-independent scoring.** The deployment path evaluates
 `predict_proba` ONE QUERY ROW AT A TIME, so the \\n=1\\ forward path is
-used uniformly. The optional benchmark-only `score_batch` path evaluates
-balanced chunks of query rows and is numerically identical to the
-row-by-row path (\\\max \|b-r\| = 0\\).
+used uniformly and a query cannot be affected by the size or composition
+of a scoring batch. The legacy `score_batch` option is accepted for
+model compatibility but deliberately uses this same row-by-row path. GPU
+matrix kernels can otherwise produce small batch-size-dependent
+floating-point differences even when queries are conditionally
+independent.
 
 **Single-sample transform.** Each specimen is mapped to the
 self-contained per-sample robust CLR (rCLR) over its OWN

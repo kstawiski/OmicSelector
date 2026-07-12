@@ -44,8 +44,9 @@ fit_tabicl(X_train, y_train, meta_train = NULL, hp = list())
   context, integer \\\ge 2\\, default `4096L`; larger contexts are
   seeded class-stratified subsampled), `min_features` (feature-overlap
   floor at scoring, positive integer, default `3L`), `seed` (integer;
-  default `42L`), and `score_batch` (benchmark-only batched scoring
-  flag, logical, default `FALSE`).
+  default `42L`), and `score_batch` (legacy compatibility flag, logical,
+  default `FALSE`; both values use the exact row-by-row deployment
+  path).
 
 ## Value
 

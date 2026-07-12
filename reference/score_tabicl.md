@@ -44,12 +44,12 @@ values are more case-like.
 
 ## Details
 
-A benchmark-only `score_batch` option evaluates `predict_proba` once
-over balanced chunks of query rows; this is numerically identical to the
-default row-by-row single-sample path because the model is
-row-order-invariant and queries are conditionally independent given the
-frozen context, while the \\n = 1\\ single-specimen deployment path is
-unchanged.
+The legacy `score_batch` option is retained for serialized-model and
+hyperparameter compatibility, but scoring always uses the row-by-row
+\\n=1\\ forward path. This is intentional: fused GPU batch kernels
+produced small batch-size-dependent numerical differences on otherwise
+identical queries, which violates the operational single-sample
+contract.
 
 ## References
 
