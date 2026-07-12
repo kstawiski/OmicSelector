@@ -772,7 +772,12 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
       family = "binomial",
       alpha = hp$alpha,
       foldid = foldid,
-      nfolds = hp$nfolds
+      nfolds = hp$nfolds,
+      # Small, strongly separated single-sample panels can require more than
+      # glmnet's default 100,000 coordinate-descent passes at the path tail.
+      # A fixed larger ceiling prevents silently truncated CV paths while
+      # preserving the model grid and deterministic fold assignment.
+      maxit = 1000000L
     ),
     error = function(e) {
       stop("fit_reo_pairratio: cv.glmnet failed (training partition likely too ",
