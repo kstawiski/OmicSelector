@@ -263,7 +263,7 @@ test_that("print method reports deployment framing without superiority claims", 
 
   expect_output(print(dep), "method_id: ws-balance-ilr")
   expect_output(print(dep), "deployability only")
-  expect_output(print(dep), "trimmed-rCLR")
+  expect_output(print(dep), "batch-corrected pipeline")
 })
 
 test_that("all roster methods deploy or fail with deploy-specific errors", {
