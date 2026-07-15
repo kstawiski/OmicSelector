@@ -1,3 +1,9 @@
+# OmicSelector 2.6.2 (2026-07-15)
+
+- Made `orient = "fixed"` the default for
+  `singlesample_paired_auc_diff_se()`. Outcome-dependent `"median"` and
+  sign-invariant `"auc"` orientation remain explicit opt-ins.
+
 # OmicSelector 2.6.1 (2026-07-15)
 
 - Added `orient = "fixed"` to `singlesample_paired_auc_diff_se()` so a

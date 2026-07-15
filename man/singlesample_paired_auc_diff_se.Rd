@@ -9,7 +9,7 @@ singlesample_paired_auc_diff_se(
   score_method,
   score_baseline,
   fold = NULL,
-  orient = c("median", "auc", "fixed")
+  orient = c("fixed", "median", "auc")
 )
 }
 \arguments{
@@ -22,11 +22,11 @@ singlesample_paired_auc_diff_se(
 \item{fold}{Optional fold identifier. If `NULL`, all observations are treated
 as one fold.}
 
-\item{orient}{Orientation rule. `"median"` mirrors pROC's within-cohort
+\item{orient}{Orientation rule. The default, `"fixed"`, preserves the
+supplied score direction and therefore does not inspect held-out outcomes
+to choose orientation. `"median"` mirrors pROC's within-cohort
 auto-orientation convention; `"auc"` reports `max(AUC, 1 - AUC)` and is
-used by the transfer-family technology-aware engines; `"fixed"` preserves
-the supplied score direction and therefore does not inspect held-out
-outcomes to choose orientation.}
+retained as an explicit opt-in for sign-invariant descriptive analyses.}
 }
 \value{
 A list with `lift`, `se`, `variance`, `n_folds`, `auc_method`,

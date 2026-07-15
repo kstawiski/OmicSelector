@@ -18,6 +18,20 @@ test_that("paired AUC fixed orientation never reflects from held-out labels", {
   expect_equal(automatic$lift, 0)
 })
 
+test_that("paired AUC defaults to the frozen supplied direction", {
+  y <- c(0L, 0L, 1L, 1L)
+  inverse_method <- c(4, 3, 2, 1)
+  forward_baseline <- c(1, 2, 3, 4)
+
+  default <- singlesample_paired_auc_diff_se(
+    y, inverse_method, forward_baseline
+  )
+
+  expect_equal(default$auc_method, 0)
+  expect_equal(default$auc_baseline, 1)
+  expect_equal(default$lift, -1)
+})
+
 test_that("fixed orientation is respected independently within supplied folds", {
   y <- rep(c(0L, 0L, 1L, 1L), 2L)
   fold <- rep(1:2, each = 4L)

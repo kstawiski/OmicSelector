@@ -10,11 +10,11 @@
 #' @param score_baseline Numeric scores from the paired baseline method.
 #' @param fold Optional fold identifier. If `NULL`, all observations are treated
 #'   as one fold.
-#' @param orient Orientation rule. `"median"` mirrors pROC's within-cohort
+#' @param orient Orientation rule. The default, `"fixed"`, preserves the
+#'   supplied score direction and therefore does not inspect held-out outcomes
+#'   to choose orientation. `"median"` mirrors pROC's within-cohort
 #'   auto-orientation convention; `"auc"` reports `max(AUC, 1 - AUC)` and is
-#'   used by the transfer-family technology-aware engines; `"fixed"` preserves
-#'   the supplied score direction and therefore does not inspect held-out
-#'   outcomes to choose orientation.
+#'   retained as an explicit opt-in for sign-invariant descriptive analyses.
 #'
 #' @return A list with `lift`, `se`, `variance`, `n_folds`, `auc_method`,
 #'   `auc_baseline`, and a per-fold `fold_results` data frame.
@@ -26,7 +26,7 @@
 #' @export
 singlesample_paired_auc_diff_se <- function(y, score_method, score_baseline,
                                       fold = NULL,
-                                      orient = c("median", "auc", "fixed")) {
+                                      orient = c("fixed", "median", "auc")) {
   orient <- match.arg(orient)
   if (is.factor(y)) y <- as.integer(y) - 1L
   y <- as.integer(y)
@@ -86,7 +86,7 @@ singlesample_paired_auc_diff_se <- function(y, score_method, score_baseline,
 }
 
 .singlesample_delong_placements <- function(y, score,
-                                            orient = c("median", "auc", "fixed")) {
+                                            orient = c("fixed", "median", "auc")) {
   orient <- match.arg(orient)
   ok <- is.finite(score) & !is.na(y)
   y <- y[ok]
@@ -119,7 +119,7 @@ singlesample_paired_auc_diff_se <- function(y, score_method, score_baseline,
 }
 
 .singlesample_delong_var_diff_fold <- function(y, score_method, score_baseline,
-                                         orient = c("median", "auc", "fixed")) {
+                                         orient = c("fixed", "median", "auc")) {
   orient <- match.arg(orient)
   ok <- is.finite(score_method) & is.finite(score_baseline) & !is.na(y)
   y <- y[ok]
