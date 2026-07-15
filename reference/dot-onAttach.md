@@ -1,6 +1,6 @@
-# OmicSelector 2.6.0 Package Startup
+# OmicSelector Package Startup
 
-OmicSelector 2.6.0 Package Startup
+OmicSelector Package Startup
 
 ## Usage
 
