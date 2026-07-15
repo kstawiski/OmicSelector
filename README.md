@@ -1,4 +1,4 @@
-# OmicSelector 2.6.0
+# OmicSelector 2.6.1
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 

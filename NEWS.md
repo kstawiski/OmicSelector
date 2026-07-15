@@ -1,3 +1,9 @@
+# OmicSelector 2.6.1 (2026-07-15)
+
+- Added `orient = "fixed"` to `singlesample_paired_auc_diff_se()` so a
+  training-frozen score direction can be evaluated without using held-out
+  outcomes to reflect the ROC curve.
+
 # OmicSelector 2.6.0 (2026-07-08)
 
 ## Single-sample deployment API

@@ -78,11 +78,12 @@
 #'
 "_PACKAGE"
 
-#' @title OmicSelector 2.6.0 Package Startup
+#' @title OmicSelector Package Startup
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    "OmicSelector 2.6.0 - Leakage-Resistant Biomarker Discovery\n",
+    sprintf("OmicSelector %s - Leakage-Resistant Biomarker Discovery\n",
+            as.character(utils::packageVersion("OmicSelector"))),
     "Use OmicPipeline$new() to start. Run ?OmicSelector for help.\n"
   )
 }
