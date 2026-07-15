@@ -14,7 +14,7 @@ singlesample_paired_auc_diff_se(
   score_method,
   score_baseline,
   fold = NULL,
-  orient = c("median", "auc", "fixed")
+  orient = c("fixed", "median", "auc")
 )
 ```
 
@@ -39,11 +39,12 @@ singlesample_paired_auc_diff_se(
 
 - orient:
 
-  Orientation rule. \`"median"\` mirrors pROC's within-cohort
+  Orientation rule. The default, \`"fixed"\`, preserves the supplied
+  score direction and therefore does not inspect held-out outcomes to
+  choose orientation. \`"median"\` mirrors pROC's within-cohort
   auto-orientation convention; \`"auc"\` reports \`max(AUC, 1 - AUC)\`
-  and is used by the transfer-family technology-aware engines;
-  \`"fixed"\` preserves the supplied score direction and therefore does
-  not inspect held-out outcomes to choose orientation.
+  and is retained as an explicit opt-in for sign-invariant descriptive
+  analyses.
 
 ## Value
 

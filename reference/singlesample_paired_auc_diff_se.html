@@ -13,7 +13,7 @@ difference, matching the `auc_obs_cv = mean(auc_obs_folds)` mean-of-folds estima
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@ difference, matching the `auc_obs_cv = mean(auc_obs_folds)` mean-of-folds estima
 <span>  <span class="va">score_method</span>,</span>
 <span>  <span class="va">score_baseline</span>,</span>
 <span>  fold <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  orient <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"median"</span>, <span class="st">"auc"</span>, <span class="st">"fixed"</span><span class="op">)</span></span>
+<span>  orient <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fixed"</span>, <span class="st">"median"</span>, <span class="st">"auc"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,11 +84,11 @@ as one fold.</p></dd>
 
 
 <dt id="arg-orient">orient<a class="anchor" aria-label="anchor" href="#arg-orient"></a></dt>
-<dd><p>Orientation rule. `"median"` mirrors pROC's within-cohort
+<dd><p>Orientation rule. The default, `"fixed"`, preserves the
+supplied score direction and therefore does not inspect held-out outcomes
+to choose orientation. `"median"` mirrors pROC's within-cohort
 auto-orientation convention; `"auc"` reports `max(AUC, 1 - AUC)` and is
-used by the transfer-family technology-aware engines; `"fixed"` preserves
-the supplied score direction and therefore does not inspect held-out
-outcomes to choose orientation.</p></dd>
+retained as an explicit opt-in for sign-invariant descriptive analyses.</p></dd>
 
 </dl></div>
     <div class="section level2">

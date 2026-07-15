@@ -16,12 +16,12 @@ Source:
 
 Stawiski K, Kaszkowiak M, Mikulski D (2026). *OmicSelector: Rigorous
 Biomarker Discovery with Zero-Leakage Machine Learning*. R package
-version 2.6.1, <https://github.com/kstawiski/OmicSelector>.
+version 2.6.2, <https://github.com/kstawiski/OmicSelector>.
 
     @Manual{,
       title = {OmicSelector: Rigorous Biomarker Discovery with Zero-Leakage Machine Learning},
       author = {Konrad Stawiski and Marcin Kaszkowiak and Damian Mikulski},
       year = {2026},
-      note = {R package version 2.6.1},
+      note = {R package version 2.6.2},
       url = {https://github.com/kstawiski/OmicSelector},
     }
