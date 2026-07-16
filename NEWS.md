@@ -1,3 +1,10 @@
+# OmicSelector 2.6.4 (2026-07-16)
+
+* `score_lrt_bw()` now reuses the fit-time Bures-Wasserstein class
+  representation when the complete fitted feature universe is present. This
+  removes amplified eigensolver round-off differences between singleton and
+  batch scoring while preserving the documented partial-overlap route.
+
 # OmicSelector 2.6.3 (2026-07-16)
 
 - Promoted the benchmark's trimmed-rCLR signed-panel reference to canonical

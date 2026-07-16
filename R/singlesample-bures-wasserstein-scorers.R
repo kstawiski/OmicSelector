@@ -249,11 +249,20 @@ score_lrt_bw <- function(model, X, meta = NULL) {
     return(rep(0, nrow(X)))
   }
 
-  repr <- .lrt_bw_class_repr(
-    model$case_anchors[, present, drop = FALSE],
-    model$control_anchors[, present, drop = FALSE],
-    model$hp
-  )
+  # Reuse the fit-time representation when the complete fitted universe is
+  # present. Recomputing the same ill-conditioned eigensystem on every scoring
+  # call can introduce small BLAS-dependent round-off changes that are amplified
+  # by the Gaussian quadratic form. The frozen representation is both the exact
+  # deployment contract and numerically stable across singleton and batch calls.
+  repr <- if (identical(present, model$feature_universe)) {
+    model$repr
+  } else {
+    .lrt_bw_class_repr(
+      model$case_anchors[, present, drop = FALSE],
+      model$control_anchors[, present, drop = FALSE],
+      model$hp
+    )
+  }
   X_use <- X[, present, drop = FALSE]
 
   out <- vapply(seq_len(nrow(X_use)), function(i) {

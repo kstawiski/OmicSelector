@@ -103,6 +103,33 @@ test_that("lrt-bw passes the canonical row-equivariance gate", {
   expect_true(singlesample_is_row_equivariant(score_fun, model, X_test))
 })
 
+test_that("lrt-bw reuses its frozen full-universe representation", {
+  set.seed(101L)
+  n <- 160L
+  features <- paste0("hsa-miR-STRESS-", seq_len(128L))
+  y <- rep(c(0L, 1L), each = n / 2L)
+  X <- matrix(
+    stats::rgamma(n * length(features), shape = 20, rate = 2),
+    nrow = n,
+    dimnames = list(paste0("S", seq_len(n)), features)
+  )
+  X[y == 1L, features[1:5]] <- X[y == 1L, features[1:5]] + 80
+  X[y == 0L, features[6:10]] <- X[y == 0L, features[6:10]] + 80
+
+  model <- fit_lrt_bw(X, y)
+  singleton <- score_lrt_bw(model, X[1L, , drop = FALSE])
+  batch <- score_lrt_bw(model, X[1:5, , drop = FALSE])
+  permuted <- score_lrt_bw(model, X[c(5L, 1L, 4L, 2L, 3L), , drop = FALSE])
+
+  expect_identical(singleton[[1L]], batch[[1L]])
+  expect_identical(batch, permuted[c(2L, 4L, 5L, 3L, 1L)])
+  expect_invisible(singlesample_assert_row_equivariant(
+    function(fit, rows, meta) score_lrt_bw(fit, rows, meta),
+    model,
+    X[1:8, , drop = FALSE]
+  ))
+})
+
 test_that("lrt-bw scoring is exactly invariant to per-sample scaling", {
   dat <- .make_lrt_bw_data(seed = 44L)
   model <- fit_lrt_bw(dat$X, dat$y)
