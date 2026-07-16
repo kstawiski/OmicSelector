@@ -710,6 +710,8 @@ Internal functions and helpers (exported for advanced use)
   (SNGP)
 - [`fit_ws_balance_ilr()`](https://kstawiski.github.io/OmicSelector/reference/fit_ws_balance_ilr.md)
   : Fit within-cohort ILR balance discriminator
+- [`fit_ws_rclr_panel()`](https://kstawiski.github.io/OmicSelector/reference/fit_ws_rclr_panel.md)
+  : Fit a training-frozen trimmed-rCLR signed-panel score
 - [`frozen-combat`](https://kstawiski.github.io/OmicSelector/reference/frozen-combat.md)
   : Frozen ComBat for Leakage-Free Batch Correction
 - [`frozen_combat_correct()`](https://kstawiski.github.io/OmicSelector/reference/frozen_combat_correct.md)
@@ -1135,6 +1137,8 @@ Internal functions and helpers (exported for advanced use)
   (SNGP)
 - [`score_ws_balance_ilr()`](https://kstawiski.github.io/OmicSelector/reference/score_ws_balance_ilr.md)
   : Score within-cohort ILR balance discriminator
+- [`score_ws_rclr_panel()`](https://kstawiski.github.io/OmicSelector/reference/score_ws_rclr_panel.md)
+  : Score specimens with a frozen trimmed-rCLR signed panel
 - [`select_best_signature()`](https://kstawiski.github.io/OmicSelector/reference/select_best_signature.md)
   : Select Best Biomarker Signature from Nested CV Results
 - [`select_cross_tech_anchor_features()`](https://kstawiski.github.io/OmicSelector/reference/select_cross_tech_anchor_features.md)

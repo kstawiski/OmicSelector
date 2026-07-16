@@ -1,5 +1,17 @@
 # Changelog
 
+## OmicSelector 2.6.3 (2026-07-16)
+
+- Promoted the benchmark’s trimmed-rCLR signed-panel reference to
+  canonical
+  [`fit_ws_rclr_panel()`](https://kstawiski.github.io/OmicSelector/reference/fit_ws_rclr_panel.md)
+  /
+  [`score_ws_rclr_panel()`](https://kstawiski.github.io/OmicSelector/reference/score_ws_rclr_panel.md)
+  package functions. The frozen model selects a 20-feature panel and
+  score signs from training data only and exposes the same
+  one-score-per-specimen deployment contract as the other rostered
+  methods.
+
 ## OmicSelector 2.6.2 (2026-07-15)
 
 - Made `orient = "fixed"` the default for
