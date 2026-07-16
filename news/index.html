@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,11 @@
       <small>Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.6.4" id="omicselector-264-2026-07-16">OmicSelector 2.6.4 (2026-07-16)<a class="anchor" aria-label="anchor" href="#omicselector-264-2026-07-16"></a></h2>
+<ul><li>
+<code><a href="../reference/score_lrt_bw.html">score_lrt_bw()</a></code> now reuses the fit-time Bures-Wasserstein class representation when the complete fitted feature universe is present. This removes amplified eigensolver round-off differences between singleton and batch scoring while preserving the documented partial-overlap route.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.6.3" id="omicselector-263-2026-07-16">OmicSelector 2.6.3 (2026-07-16)<a class="anchor" aria-label="anchor" href="#omicselector-263-2026-07-16"></a></h2>
 <ul><li>Promoted the benchmark’s trimmed-rCLR signed-panel reference to canonical <code><a href="../reference/fit_ws_rclr_panel.html">fit_ws_rclr_panel()</a></code> / <code><a href="../reference/score_ws_rclr_panel.html">score_ws_rclr_panel()</a></code> package functions. The frozen model selects a 20-feature panel and score signs from training data only and exposes the same one-score-per-specimen deployment contract as the other rostered methods.</li>
