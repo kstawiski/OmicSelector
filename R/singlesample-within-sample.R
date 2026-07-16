@@ -217,6 +217,153 @@ ws_rclr_trimmed <- function(x,
 
 
 # ----------------------------------------------------------------------------
+# fit_ws_rclr_panel / score_ws_rclr_panel
+# ----------------------------------------------------------------------------
+
+#' Fit a training-frozen trimmed-rCLR signed-panel score
+#'
+#' @description
+#' Fits the canonical trimmed-rCLR reference used by the OmicSelector
+#' single-sample benchmark. Each training specimen is transformed independently
+#' with [ws_rclr_trimmed()]. Features are ranked by the absolute standardized
+#' case-control mean difference in the training data, the first `panel_size`
+#' features are retained, and each feature receives the sign of its training
+#' case-minus-control median difference. No held-out value or outcome is used.
+#'
+#' @param X_train Numeric training matrix with specimens in rows and named
+#'   features in columns.
+#' @param y_train Binary training labels coded 0/1.
+#' @param meta_train Unused; accepted for the canonical roster fit contract.
+#' @param hp Optional named list. Supported fields are `panel_size` (default
+#'   20), `pseudocount`, `trim_upper` (0.10), `trim_lower` (0.05),
+#'   `exclude_features`, `zero_policy` (`"pseudocount"`), and
+#'   `min_centering_size` (8).
+#'
+#' @return A `ws_rclr_panel_model` containing the frozen feature panel, signs,
+#'   training effects, and transform settings.
+#' @seealso [score_ws_rclr_panel()], [ws_rclr_trimmed()]
+#' @export
+fit_ws_rclr_panel <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+  if (is.data.frame(X_train)) X_train <- as.matrix(X_train)
+  if (!is.matrix(X_train) || !is.numeric(X_train) || nrow(X_train) < 4L ||
+      ncol(X_train) < 2L) {
+    stop("fit_ws_rclr_panel: X_train must be a numeric samples-by-features matrix with at least four rows and two columns.",
+         call. = FALSE)
+  }
+  if (is.null(colnames(X_train)) || any(!nzchar(colnames(X_train))) ||
+      anyDuplicated(colnames(X_train))) {
+    stop("fit_ws_rclr_panel: X_train requires unique non-empty feature names.",
+         call. = FALSE)
+  }
+  y <- as.integer(y_train)
+  if (length(y) != nrow(X_train) || anyNA(y) || !setequal(unique(y), 0:1)) {
+    stop("fit_ws_rclr_panel: y_train must contain aligned binary 0/1 labels with both classes present.",
+         call. = FALSE)
+  }
+  if (!is.null(meta_train) && nrow(as.data.frame(meta_train)) != nrow(X_train)) {
+    stop("fit_ws_rclr_panel: meta_train must have one row per training specimen.",
+         call. = FALSE)
+  }
+  if (!is.list(hp)) stop("fit_ws_rclr_panel: hp must be a named list.", call. = FALSE)
+  if (length(hp) && (is.null(names(hp)) || any(!nzchar(names(hp))))) {
+    stop("fit_ws_rclr_panel: all hp entries must be named.", call. = FALSE)
+  }
+  defaults <- list(
+    panel_size = 20L,
+    pseudocount = NULL,
+    trim_upper = 0.10,
+    trim_lower = 0.05,
+    exclude_features = c("hsa-miR-451a", "hsa-miR-16-5p",
+                         "hsa-miR-486-5p", "hsa-miR-144-3p",
+                         "hsa-miR-223-3p"),
+    zero_policy = "pseudocount",
+    min_centering_size = 8L
+  )
+  unknown <- setdiff(names(hp), names(defaults))
+  if (length(unknown)) {
+    stop("fit_ws_rclr_panel: unknown hp field(s): ",
+         paste(unknown, collapse = ", "), call. = FALSE)
+  }
+  settings <- utils::modifyList(defaults, hp)
+  settings$panel_size <- as.integer(settings$panel_size)
+  settings$min_centering_size <- as.integer(settings$min_centering_size)
+  if (length(settings$panel_size) != 1L || is.na(settings$panel_size) ||
+      settings$panel_size < 1L) {
+    stop("fit_ws_rclr_panel: hp$panel_size must be a positive integer.",
+         call. = FALSE)
+  }
+  transform_args <- settings[setdiff(names(settings), "panel_size")]
+  Z_train <- do.call(ws_rclr_trimmed, c(list(x = X_train), transform_args))
+  effects <- vapply(colnames(Z_train), function(feature) {
+    x <- Z_train[, feature]
+    ok <- is.finite(x)
+    denom <- stats::sd(x[ok])
+    if (sum(ok) < 5L || !is.finite(denom) || denom <= 0) return(0)
+    abs(mean(x[ok & y == 1L]) - mean(x[ok & y == 0L])) / denom
+  }, numeric(1L))
+  order_idx <- order(effects, decreasing = TRUE)
+  panel <- colnames(Z_train)[order_idx][seq_len(min(settings$panel_size,
+                                                     ncol(Z_train)))]
+  signs <- vapply(panel, function(feature) {
+    difference <- stats::median(Z_train[y == 1L, feature], na.rm = TRUE) -
+      stats::median(Z_train[y == 0L, feature], na.rm = TRUE)
+    if (is.finite(difference) && difference < 0) -1 else 1
+  }, numeric(1L))
+  model <- list(
+    panel = panel,
+    weights = signs,
+    effects = effects[panel],
+    panel_size = length(panel),
+    transform_args = transform_args,
+    feature_universe = colnames(X_train)
+  )
+  class(model) <- "ws_rclr_panel_model"
+  model
+}
+
+#' Score specimens with a frozen trimmed-rCLR signed panel
+#'
+#' @description
+#' Applies [ws_rclr_trimmed()] independently to each incoming specimen and sums
+#' the transformed values over the training-frozen feature panel after applying
+#' the training-frozen signs. Extra features are ignored. Missing panel features
+#' fail closed rather than being imputed from a scored batch.
+#'
+#' @param model A `ws_rclr_panel_model` returned by [fit_ws_rclr_panel()].
+#' @param X Numeric specimens-by-features matrix.
+#' @param meta Unused; accepted for the canonical roster score contract.
+#'
+#' @return One finite numeric score per specimen.
+#' @export
+score_ws_rclr_panel <- function(model, X, meta = NULL) {
+  if (!inherits(model, "ws_rclr_panel_model")) {
+    stop("score_ws_rclr_panel: model must come from fit_ws_rclr_panel().",
+         call. = FALSE)
+  }
+  if (is.data.frame(X)) X <- as.matrix(X)
+  if (!is.matrix(X) || !is.numeric(X) || nrow(X) < 1L) {
+    stop("score_ws_rclr_panel: X must be a numeric samples-by-features matrix.",
+         call. = FALSE)
+  }
+  if (!is.null(meta) && nrow(as.data.frame(meta)) != nrow(X)) {
+    stop("score_ws_rclr_panel: meta must have one row per specimen.",
+         call. = FALSE)
+  }
+  missing <- setdiff(model$panel, colnames(X))
+  if (length(missing)) {
+    stop("score_ws_rclr_panel: missing frozen panel feature(s): ",
+         paste(missing, collapse = ", "), call. = FALSE)
+  }
+  Z <- do.call(ws_rclr_trimmed, c(list(x = X), model$transform_args))
+  score <- as.numeric(Z[, model$panel, drop = FALSE] %*% model$weights)
+  if (length(score) != nrow(X) || any(!is.finite(score))) {
+    stop("score_ws_rclr_panel: non-finite score produced.", call. = FALSE)
+  }
+  score
+}
+
+
+# ----------------------------------------------------------------------------
 # ws_balance_ilr - frozen sequential binary partition for ILR balances
 # ----------------------------------------------------------------------------
 

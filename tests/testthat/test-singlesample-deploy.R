@@ -181,14 +181,13 @@ test_that("non-canonical fit signatures do not leak unused-argument errors", {
   invisible(expect_clean_deploy_outcome(dat$X, dat$y, "ws-dominance"))
 })
 
-test_that("pure-transform scorers are rejected with deploy-specific shape errors", {
+test_that("trimmed-rCLR reference deploys through its frozen signed panel", {
   dat <- make_singlesample_deploy_data()
 
-  expect_error(
-    deploy_singlesample(dat$X, dat$y, method = "ws-rclr-trimmed",
-                        verify = FALSE),
-    "does not return one score per specimen"
-  )
+  deployed <- deploy_singlesample(
+    dat$X, dat$y, method = "ws-rclr-trimmed", verify = FALSE)
+  expect_s3_class(deployed, "singlesample_deployable")
+  expect_equal(length(score_specimen(deployed, dat$X[1:3, , drop = FALSE])), 3L)
 })
 
 test_that("verify gate and user-facing deployability check pass", {

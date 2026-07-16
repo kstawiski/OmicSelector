@@ -1,5 +1,5 @@
 method_id,family,estimand,role,tier,dep_route,fit_fn,score_fn,pkg_status,notes,row_source,lopbo_mechanism
-ws-rclr-trimmed,A,within,baseline,R1,base-R,NA,ws_rclr_trimmed,present,rCLR-trimmed baseline (reference; not a candidate),per_cohort_rows,na
+ws-rclr-trimmed,A,within,baseline,R1,base-R,fit_ws_rclr_panel,score_ws_rclr_panel,new,rCLR-trimmed signed-panel baseline (training-frozen reference; not a candidate),per_cohort_rows,na
 ws-alr-pivot,A,within,discriminator,R1,base-R,NA,ws_alr_pivot,present,ALR pivot pool,per_cohort_rows,within_cohort
 ws-mad-logratio,A,within,discriminator,R1,base-R,NA,ws_mad_logratio,present,MAD log-ratio,per_cohort_rows,within_cohort
 ws-dominance,A,within,discriminator,R1,base-R,fit_dominance_threshold,ws_dominance_score,present,dominance score,per_cohort_rows,within_cohort
