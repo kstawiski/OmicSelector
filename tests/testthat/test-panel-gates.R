@@ -22,6 +22,52 @@ test_that("k-TSP scorer learns oriented pair votes", {
   expect_equal(pred_one, pred_batch[1])
 })
 
+test_that("vectorized kTSP fit is exactly equivalent to pairwise enumeration", {
+  slow_reference <- function(X, y, k) {
+    y_num <- OmicSelector:::.os_binary_y(y)
+    pair_rows <- list()
+    idx <- 1L
+    for (a in seq_len(ncol(X) - 1L)) {
+      for (b in (a + 1L):ncol(X)) {
+        ctrl_rate <- mean(X[y_num == 0L, a] < X[y_num == 0L, b], na.rm = TRUE)
+        case_rate <- mean(X[y_num == 1L, a] < X[y_num == 1L, b], na.rm = TRUE)
+        if (!is.finite(ctrl_rate)) ctrl_rate <- 0
+        if (!is.finite(case_rate)) case_rate <- 0
+        if (case_rate >= ctrl_rate) {
+          pair_rows[[idx]] <- data.frame(
+            feature_a = colnames(X)[a], feature_b = colnames(X)[b],
+            orientation = "<", score = case_rate - ctrl_rate,
+            stringsAsFactors = FALSE
+          )
+        } else {
+          pair_rows[[idx]] <- data.frame(
+            feature_a = colnames(X)[b], feature_b = colnames(X)[a],
+            orientation = "<", score = ctrl_rate - case_rate,
+            stringsAsFactors = FALSE
+          )
+        }
+        idx <- idx + 1L
+      }
+    }
+    pairs <- do.call(rbind, pair_rows)
+    pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b,
+                         method = "radix"), , drop = FALSE]
+    utils::head(pairs, min(k, nrow(pairs)))
+  }
+
+  set.seed(712)
+  X <- matrix(sample(c(NA_real_, 0:5), 28 * 17, replace = TRUE), nrow = 28,
+              dimnames = list(NULL, sprintf("miR-%02d", sample(17))))
+  y <- rep(c(0L, 1L), each = 14L)
+  # Exercise finite rates, ties, and an all-missing feature.
+  X[, "miR-17"] <- NA_real_
+
+  for (k in c(1L, 11L, choose(ncol(X), 2L))) {
+    expect_identical(os_ktsp_fit(X, y, k = k)$pairs,
+                     slow_reference(X, y, k = k))
+  }
+})
+
 test_that("singscore preserves direction-split cardinality", {
   X <- matrix(c(
     5, 4, 1, 0,

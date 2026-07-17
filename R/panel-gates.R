@@ -19,38 +19,44 @@ os_ktsp_fit <- function(X, y, k = 11L) {
   k <- as.integer(k)
   if (is.na(k) || k < 1L) stop("`k` must be a positive integer.", call. = FALSE)
 
-  pair_rows <- list()
-  idx <- 1L
+  # Evaluate one feature against every later feature in a vectorized block.
+  # The previous pair-by-pair R loop performed the same comparisons but became
+  # impractical for genome-scale miRNA matrices (millions of candidate pairs
+  # per outer-training fold). Keeping only the current top-k rows is exact:
+  # the final ordering is total and a row outside a prefix's top k cannot enter
+  # the top k after more rows are appended.
+  ctrl <- X[y_num == 0L, , drop = FALSE]
+  case <- X[y_num == 1L, , drop = FALSE]
+  feature_names <- colnames(X)
+  pairs <- data.frame(
+    feature_a = character(), feature_b = character(),
+    orientation = character(), score = numeric(), pair_index = integer(),
+    stringsAsFactors = FALSE
+  )
   for (a in seq_len(ncol(X) - 1L)) {
-    for (b in (a + 1L):ncol(X)) {
-      ctrl_rate <- mean(X[y_num == 0L, a] < X[y_num == 0L, b], na.rm = TRUE)
-      case_rate <- mean(X[y_num == 1L, a] < X[y_num == 1L, b], na.rm = TRUE)
-      if (!is.finite(ctrl_rate)) ctrl_rate <- 0
-      if (!is.finite(case_rate)) case_rate <- 0
-      if (case_rate >= ctrl_rate) {
-        pair_rows[[idx]] <- data.frame(
-          feature_a = colnames(X)[a],
-          feature_b = colnames(X)[b],
-          orientation = "<",
-          score = case_rate - ctrl_rate,
-          stringsAsFactors = FALSE
-        )
-      } else {
-        pair_rows[[idx]] <- data.frame(
-          feature_a = colnames(X)[b],
-          feature_b = colnames(X)[a],
-          orientation = "<",
-          score = ctrl_rate - case_rate,
-          stringsAsFactors = FALSE
-        )
-      }
-      idx <- idx + 1L
-    }
+    b <- (a + 1L):ncol(X)
+    ctrl_rate <- colMeans(ctrl[, a] < ctrl[, b, drop = FALSE], na.rm = TRUE)
+    case_rate <- colMeans(case[, a] < case[, b, drop = FALSE], na.rm = TRUE)
+    ctrl_rate[!is.finite(ctrl_rate)] <- 0
+    case_rate[!is.finite(case_rate)] <- 0
+    case_forward <- case_rate >= ctrl_rate
+    block <- data.frame(
+      feature_a = unname(ifelse(case_forward, feature_names[a], feature_names[b])),
+      feature_b = unname(ifelse(case_forward, feature_names[b], feature_names[a])),
+      orientation = "<",
+      score = unname(ifelse(case_forward,
+                            case_rate - ctrl_rate,
+                            ctrl_rate - case_rate)),
+      pair_index = as.integer((a - 1L) * ncol(X) - (a - 1L) * a / 2L + (b - a)),
+      stringsAsFactors = FALSE
+    )
+    pairs <- rbind(pairs, block)
+    pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b,
+                         method = "radix"), , drop = FALSE]
+    pairs <- utils::head(pairs, min(k, nrow(pairs)))
   }
-  pairs <- do.call(rbind, pair_rows)
-  pairs <- pairs[order(-pairs$score, pairs$feature_a, pairs$feature_b,
-                       method = "radix"), , drop = FALSE]
-  pairs <- utils::head(pairs, min(k, nrow(pairs)))
+  attr(pairs, "row.names") <- pairs$pair_index
+  pairs$pair_index <- NULL
   out <- list(pairs = pairs, features = colnames(X), k = nrow(pairs))
   class(out) <- c("os_ktsp_model", "list")
   out

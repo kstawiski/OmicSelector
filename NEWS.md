@@ -1,3 +1,10 @@
+# OmicSelector 2.6.5 (2026-07-17)
+
+* Reimplemented the exact `os_ktsp_fit()` candidate-pair enumeration as
+  vectorized feature blocks with top-k retention. The fitted pair ordering and
+  scores are identical to the prior pairwise implementation, while large miRNA
+  feature spaces no longer incur millions of interpreted-R loop iterations.
+
 # OmicSelector 2.6.4 (2026-07-16)
 
 * `score_lrt_bw()` now reuses the fit-time Bures-Wasserstein class
