@@ -118,6 +118,22 @@ test_that("fit returns a well-formed moe_gated_model", {
   expect_true(all(is.finite(s)))
 })
 
+test_that("CUDA fit places encoder, experts, and gate on the requested device", {
+  skip_if_no_moe_gated()
+  torch <- reticulate::import("torch", delay_load = FALSE)
+  testthat::skip_if_not(
+    isTRUE(reticulate::py_to_r(torch$cuda$is_available())),
+    "CUDA is unavailable"
+  )
+  d <- .make_moe_data(n = 20L, p = 8L, k = 3L, seed = 19L)
+  m <- fit_moe_gated(
+    d$X, d$y,
+    hp = list(hidden = c(8L, 4L), epochs = 2L, device = "cuda", seed = 19L)
+  )
+  expect_identical(m$device, "cuda")
+  expect_true(all(is.finite(score_moe_gated(m, d$X))))
+})
+
 test_that("§7.1 R encoder+MoE forward matches the torch mixture (LayerNorm + weights baked, ~1e-6)", {
   skip_if_no_moe_gated()
   d <- .make_moe_data(seed = 21L)

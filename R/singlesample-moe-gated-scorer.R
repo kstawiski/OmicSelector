@@ -388,8 +388,8 @@ NULL
   in_dim <- p
   for (h in hidden) {
     ho <- as.integer(h)
-    lins[[length(lins) + 1L]] <- nn$Linear(in_dim, ho)
-    lns[[length(lns) + 1L]] <- nn$LayerNorm(ho)
+    lins[[length(lins) + 1L]] <- nn$Linear(in_dim, ho)$to(device)
+    lns[[length(lns) + 1L]] <- nn$LayerNorm(ho)$to(device)
     in_dim <- ho
   }
   d <- in_dim
@@ -399,8 +399,8 @@ NULL
   # single 2-logit shape is avoided: we keep each expert a SCALAR logit so the
   # mixture logit feeds a sigmoid-style CE. To use CrossEntropyLoss (2-logit) we
   # form a 2-column [-s/2, +s/2]-style output below.
-  experts <- nn$Linear(d, E)                  # E expert logits in one Linear
-  gate    <- nn$Linear(d, E)                  # E gate logits
+  experts <- nn$Linear(d, E)$to(device)       # E expert logits in one Linear
+  gate    <- nn$Linear(d, E)$to(device)       # E gate logits
 
   # Manual forward so the LayerNorm placement, the pre-activation embedding, and
   # the gate-softmax mixture match the pure-R .moe_gated_forward / .moe_gated_mixture

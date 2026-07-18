@@ -388,10 +388,13 @@ NULL
   W_init <- cbind(w0, -w0, rep(0, p))            # p x 3 (num, den, neither)
   W <- torch$as_tensor(np$asarray(W_init, dtype = "float64"))$to(torch$float64)$to(device)
   W$requires_grad_(TRUE)
-  slope <- torch$zeros(list(1L), dtype = torch$float64,
-                       requires_grad = TRUE)$to(device)
-  bias <- torch$zeros(list(1L), dtype = torch$float64,
-                      requires_grad = TRUE)$to(device)
+  # Construct trainable scalars directly on the requested device. Creating a
+  # requires-grad CPU tensor and then calling .to("cuda") produces a non-leaf
+  # tensor that torch optimizers reject.
+  slope <- torch$zeros(list(1L), dtype = torch$float64, device = device,
+                       requires_grad = TRUE)
+  bias <- torch$zeros(list(1L), dtype = torch$float64, device = device,
+                      requires_grad = TRUE)
   W$requires_grad_(TRUE); slope$requires_grad_(TRUE); bias$requires_grad_(TRUE)
 
   params <- list(W, slope, bias)

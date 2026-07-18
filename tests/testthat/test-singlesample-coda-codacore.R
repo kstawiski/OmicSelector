@@ -352,6 +352,20 @@ test_that("§7.9 fit leaves global R + torch RNG byte-unchanged; score consumes 
   expect_s3_class(m2, "coda_codacore_model")
 })
 
+test_that("CUDA fit keeps trainable CoDaCoRe stage parameters as optimizer leaves", {
+  skip_if_no_coda_codacore()
+  torch <- reticulate::import("torch", delay_load = FALSE)
+  cuda_ok <- isTRUE(reticulate::py_to_r(torch$cuda$is_available()))
+  testthat::skip_if_not(cuda_ok, "CUDA is unavailable")
+  d <- .make_coda_codacore_data(n = 40L, p = 16L, seed = 37L)
+  model <- fit_coda_codacore(
+    d$X, d$y,
+    hp = list(device = "cuda", epochs = 2L, max_balances = 1L, seed = 91L)
+  )
+  expect_s3_class(model, "coda_codacore_model")
+  expect_true(all(is.finite(score_coda_codacore(model, d$X))))
+})
+
 # §7.10 no-live-pointer: the fitted model holds NO python.builtin.object field (the
 # torch relaxation is discarded after export; only discrete sets + logistic weights
 # remain).
