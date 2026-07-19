@@ -323,6 +323,33 @@ test_that("nested-selector task arguments freeze the registered bootstrap", {
   )
 })
 
+test_that("nested selector task producer freezes the exact 34 by 5 grid", {
+  env <- paper3_script_env("paper3_build_nested_selector_tasks.R")
+  expected <- env$.nested_expected_units()
+  expect_length(expected, 34L)
+  cache <- setNames(lapply(seq_along(expected), function(i) {
+    n <- 20L
+    y <- rep(0:1, each = n / 2L)
+    X <- matrix(seq_len(n * 8L), nrow = n,
+                dimnames = list(paste0("s", i, "_", seq_len(n)),
+                                paste0("f", seq_len(8L))))
+    list(
+      expr_per_sample = X, y_bin = y,
+      group_id = paste0("g", i, "_", seq_len(n)),
+      outer_k = if (expected[[i]] %in% env$.nested_expected_k3()) 3L else 5L,
+      provenance_block = paste0("block::", expected[[i]]),
+      source_accessions = expected[[i]]
+    )
+  }), expected)
+  units <- env$.nested_validate_cache(cache)
+  tasks <- env$.nested_task_grid(units)
+  expect_equal(nrow(units), 34L)
+  expect_equal(nrow(tasks), 170L)
+  expect_identical(anyDuplicated(tasks[, c("unit_id", "seed")]), 0L)
+  expect_setequal(unique(tasks$seed), c(101L, 202L, 303L, 404L, 505L))
+  expect_equal(sum(units$outer_k == 3L), 8L)
+})
+
 test_that("nested-selector synthesis arguments have an explicit run mode", {
   env <- paper3_script_env("paper3_summarize_nested_selector.R")
   args <- c(

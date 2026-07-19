@@ -11,6 +11,9 @@
   comparison, fully nested selector tasks, and selector synthesis. These
   scripts fail closed on provenance, split, support, fit-budget, and manifest
   inconsistencies.
+- Add a fail-closed 34-by-five nested-selector task-grid producer and portable
+  one-task launcher that pin cache bytes, clean package commit, runtime inputs,
+  and atomic output paths.
 
 # OmicSelector 2.6.5 (2026-07-17)
 
