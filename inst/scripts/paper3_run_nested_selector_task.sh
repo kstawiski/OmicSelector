@@ -77,8 +77,12 @@ args=(
 
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 if [ -n "${SINGULARITY_IMAGE:-}" ]; then
-  test -f "$SINGULARITY_IMAGE"
-  command=(singularity exec "$SINGULARITY_IMAGE" env)
+  singularity_image="$SINGULARITY_IMAGE"
+  test -f "$singularity_image"
+  # Singularity 2.x reserves SINGULARITY_IMAGE for its internal launcher. Do
+  # not leak the caller-facing path variable into the container environment.
+  unset SINGULARITY_IMAGE
+  command=(singularity exec "$singularity_image" env)
   if [ -n "${R_LIBRARY:-}" ]; then
     command+=("R_LIBS_USER=$R_LIBRARY")
   fi
