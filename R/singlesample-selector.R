@@ -539,9 +539,24 @@ score_singlesample_selector <- function(selector, x_new, meta = NULL) {
       meta, nrow(X), "score_singlesample_selector", "meta"
     )
   }
+  # The selector's public contract is specimen-local, including exact
+  # batch-versus-singleton equality. Some otherwise row-local base scorers use
+  # BLAS matrix operations whose final rounding can differ by a few ulps when
+  # several rows are scored together. Route every deployed row through the
+  # identical one-row code path so batch size cannot affect a selector score.
   base <- vapply(selector$selected_methods, function(method) {
-    as.numeric(score_specimen(selector$models[[method]], X, meta)) *
-      selector$directions[[method]]
+    vapply(seq_len(nrow(X)), function(i) {
+      meta_i <- if (is.null(meta)) NULL else meta[i, , drop = FALSE]
+      value <- score_specimen(
+        selector$models[[method]], X[i, , drop = FALSE], meta_i
+      )
+      if (!is.numeric(value) || length(value) != 1L || is.na(value) ||
+          !is.finite(value)) {
+        stop("A selected base model did not return one finite score for a ",
+             "specimen.", call. = FALSE)
+      }
+      as.numeric(value) * selector$directions[[method]]
+    }, numeric(1L))
   }, numeric(nrow(X)))
   base <- matrix(base, nrow = nrow(X), ncol = length(selector$selected_methods),
                  dimnames = list(NULL, selector$selected_methods))
@@ -551,7 +566,15 @@ score_singlesample_selector <- function(selector, x_new, meta = NULL) {
   Z <- sweep(base[, selector$selected_methods, drop = FALSE], 2L,
              selector$stack$center, "-")
   Z <- sweep(Z, 2L, selector$stack$scale, "/")
-  as.numeric(selector$stack$intercept + Z %*% selector$stack$weights)
+  # Keep the affine stack on the same one-row arithmetic path as singleton
+  # deployment. A matrix product may select a batch-size-dependent BLAS kernel
+  # and differ by a few ulps even when every base score is specimen-local.
+  vapply(seq_len(nrow(Z)), function(i) {
+    as.numeric(
+      selector$stack$intercept +
+        sum(Z[i, , drop = TRUE] * selector$stack$weights)
+    )
+  }, numeric(1L))
 }
 
 #' Print a single-sample selector

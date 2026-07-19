@@ -120,6 +120,52 @@ test_that("simplex stack freezes non-negative unit-sum weights", {
   )
 })
 
+test_that("large simplex stacks are exactly batch-versus-singleton invariant", {
+  set.seed(20260719)
+  k <- 33L
+  n <- 100L
+  X <- matrix(
+    stats::rnorm(n * k), nrow = n,
+    dimnames = list(NULL, paste0("f", seq_len(k)))
+  )
+  methods <- paste0("m", seq_len(k))
+  models <- stats::setNames(lapply(seq_len(k), function(j) {
+    structure(
+      list(
+        model = j,
+        method_id = methods[[j]],
+        score_fn = function(model, X, meta = NULL) X[, model],
+        score_route = "direct_model"
+      ),
+      class = "singlesample_deployable"
+    )
+  }), methods)
+  weights <- stats::runif(k)
+  weights <- weights / sum(weights)
+  selector <- structure(
+    list(
+      status = "eligible",
+      route = "simplex_stack",
+      selected_methods = methods,
+      models = models,
+      directions = stats::setNames(rep(1, k), methods),
+      stack = list(
+        center = stats::setNames(stats::rnorm(k), methods),
+        scale = stats::setNames(stats::runif(k, 0.5, 2), methods),
+        intercept = 0.3141592653589793,
+        weights = stats::setNames(weights, methods)
+      )
+    ),
+    class = "singlesample_selector"
+  )
+
+  batch <- score_singlesample_selector(selector, X)
+  singleton <- vapply(seq_len(n), function(i) {
+    score_singlesample_selector(selector, X[i, , drop = FALSE])
+  }, numeric(1L))
+  expect_identical(batch, singleton)
+})
+
 test_that("all selector routes reuse one candidate audit and score as a set", {
   d <- selector_fixture()
   fit <- fit_singlesample_selector(
