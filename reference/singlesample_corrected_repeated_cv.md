@@ -31,7 +31,9 @@ singlesample_corrected_repeated_cv(
 - n_test, n_train:
 
   Positive test and training counts for each stratum. Use
-  biological-group counts when profiles repeat within a group.
+  biological-group counts for the group-collapsed primary estimand;
+  profile counts are appropriate only for an explicit profile-weighted
+  sensitivity analysis.
 
 - stratum_id:
 

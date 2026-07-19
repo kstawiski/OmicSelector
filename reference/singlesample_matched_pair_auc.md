@@ -1,11 +1,13 @@
-# Matched group-primary AUC difference across repeated CV strata
+# Matched AUC difference across repeated CV strata
 
 Computes fixed-direction AUC for two methods on exactly aligned held-out
-rows, collapses repeated profiles to their biological/provenance group
-within each stratum, and applies
-\[singlesample_corrected_repeated_cv()\] to the stratum-level paired
-differences. Larger scores must already indicate the positive class
-according to a training-frozen orientation.
+rows and applies
+[`singlesample_corrected_repeated_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_corrected_repeated_cv.md)
+to the stratum-level paired differences. The default preserves the
+historical group-collapsed estimand; `analysis_level = "profile"` gives
+every held-out profile equal weight while retaining
+provenance-group-safe folds. Larger scores must already indicate the
+positive class according to a training-frozen orientation.
 
 ## Usage
 
@@ -18,6 +20,7 @@ singlesample_matched_pair_auc(
   sample_id,
   group_id,
   expected_strata,
+  analysis_level = c("group", "profile"),
   margin = 0.05,
   conf_level = 0.95
 )
@@ -50,6 +53,11 @@ singlesample_matched_pair_auc(
 - expected_strata:
 
   Complete prespecified repeated-CV strata.
+
+- analysis_level:
+
+  Either `"group"` (collapse repeated profiles within
+  biological/provenance group) or `"profile"` (equal profile weight).
 
 - margin:
 

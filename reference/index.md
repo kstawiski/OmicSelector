@@ -1298,7 +1298,7 @@ Internal functions and helpers (exported for advanced use)
 - [`singlesample_matched_null_benchmark_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark_cv.md)
   : 5-fold nested-CV matched-null benchmark
 - [`singlesample_matched_pair_auc()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_pair_auc.md)
-  : Matched group-primary AUC difference across repeated CV strata
+  : Matched AUC difference across repeated CV strata
 - [`singlesample_method_bank()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_bank.md)
   : Single-sample method-bank registry
 - [`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
