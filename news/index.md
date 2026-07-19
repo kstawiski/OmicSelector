@@ -17,7 +17,10 @@
 - Add an experimental grouped cross-fitted single-sample selector with
   best-AUC, lower-confidence-limit, and simplex-stack routes. The three
   routes can share one inner cross-fit pass and return pure-R frozen
-  scoring objects.
+  scoring objects. Deployed selector scores now route every base method
+  and the final simplex affine reduction through the same one-specimen
+  arithmetic path, guaranteeing exact batch-versus-singleton equality
+  across BLAS implementations.
 - Add immutable paper-analysis producers for snapshot integration,
   all-method comparison, fully nested selector tasks, and selector
   synthesis. These scripts fail closed on provenance, split, support,
@@ -35,6 +38,13 @@
   cardinality, and package/code pins before atomically emitting one-cell
   task bundles and a final manifest; arbitrary fit, score, dependency,
   and runtime failures cannot be relabelled as structural ineligibility.
+- Add a package-owned structural-witness producer for generic
+  ineligibility in that dependency benchmark. It replays only explicitly
+  pinned cells from a clean historical package commit, preserves every
+  finite held-out score, and authorizes sharding only when exact cache,
+  task, analysis, fold-engine, and producer bytes prove a fold-local
+  constant-score limitation rather than a hidden fit, scoring,
+  dependency, or runtime error.
 
 ## OmicSelector 2.6.5 (2026-07-17)
 
