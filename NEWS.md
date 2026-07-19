@@ -8,10 +8,12 @@
   representation mismatch. The adapter also confines random-forest screening
   to its reproducible single-core RNG route and preserves singleton probability
   array dimensions.
-- Add audited, group-primary inference helpers for fair comparison of the full
-  registered single-sample method roster, including corrected repeated-CV
-  uncertainty, frozen multiplicity families, and outcome-independent
-  complete-support panels.
+- Add audited group-collapsed and profile-weighted inference helpers for fair
+  comparison of the full registered single-sample method roster, including
+  corrected repeated-CV uncertainty, frozen multiplicity families, and
+  outcome-independent complete-support panels. The paper runner uses the
+  group-collapsed estimand as primary when biological groups have repeated
+  profiles and reports equal-profile weighting as a sensitivity analysis.
 - Add an experimental grouped cross-fitted single-sample selector with
   best-AUC, lower-confidence-limit, and simplex-stack routes. The three routes
   can share one inner cross-fit pass and return pure-R frozen scoring objects.
@@ -41,6 +43,28 @@
   authorizes sharding only when exact cache, task, analysis, fold-engine, and
   producer bytes prove a fold-local constant-score limitation rather than a
   hidden fit, scoring, dependency, or runtime error.
+- Make the paper's all-method comparison consume an immutable, fully validated
+  dependency-overlay candidate rather than mutable aggregate tables. The
+  snapshot now binds every upstream validation row and input byte, exact source
+  and installed-package pins, route-specific execution receipts, splitter
+  manifests, and the structural witness transitively through the candidate
+  manifest. Snapshot construction, execution, and validation additionally bind
+  a deterministic digest of every file in the loaded OmicSelector installation,
+  preventing a same-version but stale lazy-load database from passing a
+  source-script check. Fair-inference snapshots export predictions only for
+  method--unit pairs completing all five registered seeds, while preserving
+  every partial seed failure and reason in the complete cell/eligibility audit.
+- Add a package-owned, atomic runtime-receipt producer and shared start/end
+  guard for the paper analyses. It pins the immutable image, canonical
+  executables, exact R/platform/RNG/BLAS and one-thread state, and recursive
+  installed dependency trees rooted at OmicSelector, data.table, digest, and
+  metafor; snapshot, runner, and validator manifests carry the same receipt
+  and image digests.
+- Add a package-owned post-run validator for the fair all-method comparison. It
+  verifies the exact artifact inventory, frozen dimensions and pair family,
+  common-support held-out joins, multiplicity families, inference and
+  resampling contracts, provenance identity, and source/snapshot/runtime pins
+  before atomically promoting a PASS receipt.
 
 # OmicSelector 2.6.5 (2026-07-17)
 

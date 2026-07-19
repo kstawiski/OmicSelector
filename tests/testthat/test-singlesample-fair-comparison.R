@@ -105,6 +105,32 @@ test_that("matched pair AUC is group-primary and antisymmetric", {
   expect_equal(reverse$summary$se, forward$summary$se)
 })
 
+test_that("matched pair AUC exposes a profile-weighted estimand", {
+  strata <- rep(paste0("s", 1:5), each = 6L)
+  sample_id <- paste0(strata, "_p", rep(1:6, times = 5L))
+  group_id <- paste0(
+    strata, "_", rep(c("g0", "g0", "g0", "g1", "g2", "g3"), times = 5L)
+  )
+  y <- rep(c(0L, 0L, 0L, 0L, 1L, 1L), times = 5L)
+  score_a <- rep(c(0.9, 0.8, 0.7, 0.1, 0.6, 0.5), times = 5L)
+  score_b <- rep(c(0.1, 0.2, 0.3, 0.4, 0.8, 0.9), times = 5L)
+
+  profile <- singlesample_matched_pair_auc(
+    y, score_a, score_b, strata, sample_id, group_id, paste0("s", 1:5),
+    analysis_level = "profile"
+  )
+  group <- singlesample_matched_pair_auc(
+    y, score_a, score_b, strata, sample_id, group_id, paste0("s", 1:5),
+    analysis_level = "group"
+  )
+
+  expect_equal(profile$strata$n_test, rep(6L, 5L))
+  expect_true(all(is.na(profile$strata$n_test_groups)))
+  expect_equal(group$strata$n_test_groups, rep(4L, 5L))
+  expect_false(isTRUE(all.equal(profile$summary$estimate,
+                                group$summary$estimate)))
+})
+
 test_that("all 1,225 within-method pairs follow frozen roster order", {
   roster <- singlesample_method_roster()
   within <- roster$method_id[roster$estimand == "within"]

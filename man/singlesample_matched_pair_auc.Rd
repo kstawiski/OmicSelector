@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlesample-fair-comparison.R
 \name{singlesample_matched_pair_auc}
 \alias{singlesample_matched_pair_auc}
-\title{Matched group-primary AUC difference across repeated CV strata}
+\title{Matched AUC difference across repeated CV strata}
 \usage{
 singlesample_matched_pair_auc(
   y,
@@ -12,6 +12,7 @@ singlesample_matched_pair_auc(
   sample_id,
   group_id,
   expected_strata,
+  analysis_level = c("group", "profile"),
   margin = 0.05,
   conf_level = 0.95
 )
@@ -32,6 +33,9 @@ homogeneous.}
 
 \item{expected_strata}{Complete prespecified repeated-CV strata.}
 
+\item{analysis_level}{Either \code{"group"} (collapse repeated profiles within
+biological/provenance group) or \code{"profile"} (equal profile weight).}
+
 \item{margin}{Positive relevance margin in AUC units.}
 
 \item{conf_level}{Confidence level for the nominal corrected t interval.}
@@ -41,8 +45,10 @@ A list with one `strata` data frame and one corrected `summary` list.
 }
 \description{
 Computes fixed-direction AUC for two methods on exactly aligned held-out
-rows, collapses repeated profiles to their biological/provenance group within
-each stratum, and applies [singlesample_corrected_repeated_cv()] to the
-stratum-level paired differences. Larger scores must already indicate the
-positive class according to a training-frozen orientation.
+rows and applies \code{\link[=singlesample_corrected_repeated_cv]{singlesample_corrected_repeated_cv()}} to the stratum-level
+paired differences. The default preserves the historical group-collapsed
+estimand; \code{analysis_level = "profile"} gives every held-out profile equal
+weight while retaining provenance-group-safe folds. Larger scores must
+already indicate the positive class according to a training-frozen
+orientation.
 }

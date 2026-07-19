@@ -16,7 +16,9 @@
 #' @param effect Numeric paired effect for every shared CV stratum, ordered as
 #'   method A minus method B.
 #' @param n_test,n_train Positive test and training counts for each stratum.
-#'   Use biological-group counts when profiles repeat within a group.
+#'   Use biological-group counts for the group-collapsed primary estimand;
+#'   profile counts are appropriate only for an explicit profile-weighted
+#'   sensitivity analysis.
 #' @param stratum_id Unique observed stratum identifiers.
 #' @param expected_m Prespecified number of shared strata.
 #' @param expected_strata Complete prespecified stratum identifiers. Their order
@@ -116,13 +118,15 @@ singlesample_corrected_repeated_cv <- function(
   )
 }
 
-#' Matched group-primary AUC difference across repeated CV strata
+#' Matched AUC difference across repeated CV strata
 #'
 #' Computes fixed-direction AUC for two methods on exactly aligned held-out
-#' rows, collapses repeated profiles to their biological/provenance group within
-#' each stratum, and applies [singlesample_corrected_repeated_cv()] to the
-#' stratum-level paired differences. Larger scores must already indicate the
-#' positive class according to a training-frozen orientation.
+#' rows and applies [singlesample_corrected_repeated_cv()] to the stratum-level
+#' paired differences. The default preserves the historical group-collapsed
+#' estimand; `analysis_level = "profile"` gives every held-out profile equal
+#' weight while retaining provenance-group-safe folds. Larger scores must
+#' already indicate the positive class according to a training-frozen
+#' orientation.
 #'
 #' @param y Binary held-out outcome.
 #' @param score_a,score_b Finite held-out scores for methods A and B on the same
@@ -133,6 +137,8 @@ singlesample_corrected_repeated_cv <- function(
 #' @param group_id Biological/provenance group identifier. Group labels must be
 #'   homogeneous.
 #' @param expected_strata Complete prespecified repeated-CV strata.
+#' @param analysis_level Either `"group"` (collapse repeated profiles within
+#'   biological/provenance group) or `"profile"` (equal profile weight).
 #' @param margin Positive relevance margin in AUC units.
 #' @param conf_level Confidence level for the nominal corrected t interval.
 #'
@@ -140,7 +146,9 @@ singlesample_corrected_repeated_cv <- function(
 #' @export
 singlesample_matched_pair_auc <- function(
     y, score_a, score_b, stratum_id, sample_id, group_id, expected_strata,
-    margin = 0.05, conf_level = 0.95) {
+    analysis_level = c("group", "profile"), margin = 0.05,
+    conf_level = 0.95) {
+  analysis_level <- match.arg(analysis_level)
   lengths <- c(length(y), length(score_a), length(score_b),
                length(stratum_id), length(sample_id), length(group_id))
   if (!length(y) || length(unique(lengths)) != 1L) {
@@ -177,50 +185,64 @@ singlesample_matched_pair_auc <- function(
     stop("A biological/provenance group contains both outcome classes.",
          call. = FALSE)
   }
-  total_groups <- length(unique(group_id))
+  total_observations <- if (identical(analysis_level, "group")) {
+    length(unique(group_id))
+  } else {
+    length(unique(sample_id))
+  }
 
   rows <- lapply(expected_strata, function(stratum) {
     index <- which(stratum_id == stratum)
-    groups <- unique(group_id[index])
-    collapsed_y <- integer(length(groups))
-    collapsed_a <- collapsed_b <- numeric(length(groups))
-    for (i in seq_along(groups)) {
-      group_index <- index[group_id[index] == groups[[i]]]
-      values <- unique(y[group_index])
-      if (length(values) != 1L) {
-        stop("A group has discordant labels within a CV stratum.",
-             call. = FALSE)
+    if (identical(analysis_level, "group")) {
+      groups <- unique(group_id[index])
+      analysis_y <- integer(length(groups))
+      analysis_a <- analysis_b <- numeric(length(groups))
+      for (i in seq_along(groups)) {
+        group_index <- index[group_id[index] == groups[[i]]]
+        values <- unique(y[group_index])
+        if (length(values) != 1L) {
+          stop("A group has discordant labels within a CV stratum.",
+               call. = FALSE)
+        }
+        analysis_y[[i]] <- values[[1L]]
+        analysis_a[[i]] <- mean(score_a[group_index])
+        analysis_b[[i]] <- mean(score_b[group_index])
       }
-      collapsed_y[[i]] <- values[[1L]]
-      collapsed_a[[i]] <- mean(score_a[group_index])
-      collapsed_b[[i]] <- mean(score_b[group_index])
+    } else {
+      analysis_y <- y[index]
+      analysis_a <- score_a[index]
+      analysis_b <- score_b[index]
     }
-    if (length(unique(collapsed_y)) != 2L) {
-      stop("A required group-collapsed CV stratum lacks an outcome class.",
+    if (length(unique(analysis_y)) != 2L) {
+      stop("A required CV stratum lacks an outcome class.",
            call. = FALSE)
     }
-    n_test <- length(groups)
-    n_train <- total_groups - n_test
+    n_test <- length(analysis_y)
+    n_train <- total_observations - n_test
     if (n_train <= 0L) {
-      stop("A CV stratum has no remaining training groups.", call. = FALSE)
+      stop("A CV stratum has no remaining training observations.",
+           call. = FALSE)
     }
-    auc_a <- .auc_fast(collapsed_y, collapsed_a)
-    auc_b <- .auc_fast(collapsed_y, collapsed_b)
+    auc_a <- .auc_fast(analysis_y, analysis_a)
+    auc_b <- .auc_fast(analysis_y, analysis_b)
     data.frame(
       stratum_id = stratum,
       auc_a = auc_a,
       auc_b = auc_b,
       effect = auc_a - auc_b,
-      n_test_groups = n_test,
-      n_train_groups = n_train,
+      n_test = n_test,
+      n_train = n_train,
+      analysis_level = analysis_level,
+      n_test_groups = if (identical(analysis_level, "group")) n_test else NA_integer_,
+      n_train_groups = if (identical(analysis_level, "group")) n_train else NA_integer_,
       stringsAsFactors = FALSE
     )
   })
   strata <- do.call(rbind, rows)
   summary <- singlesample_corrected_repeated_cv(
     effect = strata$effect,
-    n_test = strata$n_test_groups,
-    n_train = strata$n_train_groups,
+    n_test = strata$n_test,
+    n_train = strata$n_train,
     stratum_id = strata$stratum_id,
     expected_m = length(expected_strata),
     expected_strata = expected_strata,
