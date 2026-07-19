@@ -2,6 +2,14 @@
 
 ## OmicSelector 2.6.5.9000 (development)
 
+- Add audited `ranktreeEnsemble` 0.24 adapters for random rank forests
+  and boosted rank trees, plus an explicit external-competitor registry.
+  These post-freeze sensitivity routes preserve the 74-row primary
+  roster, construct every learned representation inside training folds,
+  enforce a frozen feature map and use `datrank = FALSE` to avoid the
+  backend’s train/predict representation mismatch. The adapter also
+  confines random-forest screening to its reproducible single-core RNG
+  route and preserves singleton probability array dimensions.
 - Add audited, group-primary inference helpers for fair comparison of
   the full registered single-sample method roster, including corrected
   repeated-CV uncertainty, frozen multiplicity families, and

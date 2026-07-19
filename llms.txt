@@ -866,6 +866,10 @@ Internal functions and helpers (exported for advanced use)
   : Fit REO-MetaKTSP meta-analytic pair-order discriminator
 - [`fit_reo_pairratio()`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_pairratio.md)
   : Fit REO-pairratio within-sample log-ratio discriminator
+- [`fit_reo_rankboost()`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_rankboost.md)
+  : Fit boosted rank trees external competitor
+- [`fit_reo_rankforest()`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_rankforest.md)
+  : Fit a random rank forest external competitor
 - [`fit_reo_singscore()`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_singscore.md)
   : Fit REO-singscore within-sample rank discriminator
 - [`fit_reo_ucell()`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_ucell.md)
@@ -1303,6 +1307,10 @@ Internal functions and helpers (exported for advanced use)
   : Score REO-MetaKTSP within-sample pair-order votes
 - [`score_reo_pairratio()`](https://kstawiski.github.io/OmicSelector/reference/score_reo_pairratio.md)
   : Score REO-pairratio within-sample log-ratio discriminator
+- [`score_reo_rankboost()`](https://kstawiski.github.io/OmicSelector/reference/score_reo_rankboost.md)
+  : Score boosted rank trees one specimen at a time
+- [`score_reo_rankforest()`](https://kstawiski.github.io/OmicSelector/reference/score_reo_rankforest.md)
+  : Score a random rank forest one specimen at a time
 - [`score_reo_singscore()`](https://kstawiski.github.io/OmicSelector/reference/score_reo_singscore.md)
   : Score REO-singscore within-sample rank signature
 - [`score_reo_ucell()`](https://kstawiski.github.io/OmicSelector/reference/score_reo_ucell.md)
@@ -1474,6 +1482,8 @@ Internal functions and helpers (exported for advanced use)
   : Construct fixed eligibility-only complete-support panels
 - [`singlesample_corrected_repeated_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_corrected_repeated_cv.md)
   : Corrected repeated-CV inference for a paired method effect
+- [`singlesample_external_competitor_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_external_competitor_roster.md)
+  : External rank-tree competitor registry
 - [`singlesample_hanley_mcneil_auc_ci()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_hanley_mcneil_auc_ci.md)
   : Hanley-McNeil 1982 AUC confidence interval
 - [`singlesample_holm_correct_familywise()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_holm_correct_familywise.md)

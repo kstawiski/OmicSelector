@@ -220,6 +220,8 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_ktsp.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_metaktsp.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_pairratio.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_rankboost.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_rankforest.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_singscore.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_ucell.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_rin_weighted_reference.html</loc></url>
@@ -436,6 +438,8 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_ktsp.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_metaktsp.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_pairratio.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_rankboost.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_rankforest.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_singscore.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_ucell.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_rin_weighted_score.html</loc></url>
@@ -504,6 +508,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_matched_null.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_complete_support_panels.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_corrected_repeated_cv.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_external_competitor_roster.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_hanley_mcneil_auc_ci.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_holm_correct_familywise.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_is_row_equivariant.html</loc></url>
