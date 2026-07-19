@@ -1,8 +1,8 @@
 Package: OmicSelector
 Type: Package
 Title: Rigorous Biomarker Discovery with Zero-Leakage Machine Learning
-Version: 2.6.5
-Date: 2026-07-17
+Version: 2.6.5.9000
+Date: 2026-07-18
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-6550-3384")),

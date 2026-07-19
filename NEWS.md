@@ -1,3 +1,17 @@
+# OmicSelector 2.6.5.9000 (development)
+
+- Add audited, group-primary inference helpers for fair comparison of the full
+  registered single-sample method roster, including corrected repeated-CV
+  uncertainty, frozen multiplicity families, and outcome-independent
+  complete-support panels.
+- Add an experimental grouped cross-fitted single-sample selector with
+  best-AUC, lower-confidence-limit, and simplex-stack routes. The three routes
+  can share one inner cross-fit pass and return pure-R frozen scoring objects.
+- Add immutable paper-analysis producers for snapshot integration, all-method
+  comparison, fully nested selector tasks, and selector synthesis. These
+  scripts fail closed on provenance, split, support, fit-budget, and manifest
+  inconsistencies.
+
 # OmicSelector 2.6.5 (2026-07-17)
 
 * Reimplemented the exact `os_ktsp_fit()` candidate-pair enumeration as

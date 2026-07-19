@@ -73,7 +73,13 @@ os_make_grouped_stratified_folds <- function(y, group_id = NULL, strata = NULL,
     NULL
   }
   on.exit({
-    if (!is.null(old_seed)) .Random.seed <<- old_seed
+    if (is.null(old_seed)) {
+      if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+        rm(".Random.seed", envir = .GlobalEnv)
+      }
+    } else {
+      assign(".Random.seed", old_seed, envir = .GlobalEnv)
+    }
   }, add = TRUE)
   set.seed(seed)
 

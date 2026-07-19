@@ -38,7 +38,7 @@ test_that("roster routing columns use only the allowed enums", {
                                              "deferred", "m4_decision", "na")))
 })
 
-test_that("negative controls are excluded from the discriminator bank and BY family", {
+test_that("negative controls are excluded from the discriminator bank and labeled", {
   ros <- singlesample_method_roster()
   nc <- ros[ros$is_negative_control, , drop = FALSE]
   expect_equal(nrow(nc), 5L)
