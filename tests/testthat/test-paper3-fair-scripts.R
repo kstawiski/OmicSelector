@@ -407,6 +407,20 @@ test_that("snapshot accepts only a fully passing pinned overlay candidate", {
     package_root, "inst", "scripts",
     "paper3_build_dependency_overlay_candidate.R"
   )
+  if (!file.exists(producer_script)) {
+    installed_producer <- system.file(
+      "scripts", "paper3_build_dependency_overlay_candidate.R",
+      package = "OmicSelector"
+    )
+    expect_true(nzchar(installed_producer) && file.exists(installed_producer))
+    package_root <- file.path(source_root, "producer-package-root")
+    dir.create(file.path(package_root, "inst", "scripts"), recursive = TRUE)
+    producer_script <- file.path(
+      package_root, "inst", "scripts",
+      "paper3_build_dependency_overlay_candidate.R"
+    )
+    expect_true(file.copy(installed_producer, producer_script))
+  }
   manifest <- data.table::data.table(
     file = files, role = role, bytes = file.info(paths)$size,
     sha256 = vapply(paths, digest::digest, character(1L),

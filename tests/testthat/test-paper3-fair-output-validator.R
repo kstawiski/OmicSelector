@@ -64,6 +64,19 @@ test_that("result manifest binds the exact current 18-artifact surface", {
   root <- normalizePath(testthat::test_path("..", ".."))
   runner <- file.path(root, "inst", "scripts",
                       "paper3_fair_method_comparison.R")
+  if (!file.exists(runner)) {
+    installed_runner <- system.file(
+      "scripts", "paper3_fair_method_comparison.R",
+      package = "OmicSelector"
+    )
+    expect_true(nzchar(installed_runner) && file.exists(installed_runner))
+    root <- tempfile("fairqa-source-root-")
+    dir.create(file.path(root, "inst", "scripts"), recursive = TRUE)
+    on.exit(unlink(root, recursive = TRUE), add = TRUE)
+    runner <- file.path(root, "inst", "scripts",
+                        "paper3_fair_method_comparison.R")
+    expect_true(file.copy(installed_runner, runner))
+  }
   manifest <- data.table::data.table(file = required)
   paths <- file.path(td, required)
   manifest[, `:=`(

@@ -150,6 +150,15 @@ dependency_structural_witness_fixture <- function() {
     "..", "..", "inst", "scripts",
     "paper3_build_dependency_structural_witness.R"
   )
+  if (!file.exists(producer_path)) {
+    producer_path <- system.file(
+      "scripts", "paper3_build_dependency_structural_witness.R",
+      package = "OmicSelector"
+    )
+  }
+  if (!nzchar(producer_path) || !file.exists(producer_path)) {
+    stop("Could not locate structural-witness producer.", call. = FALSE)
+  }
   producer_sha <- digest::digest(producer_path, algo = "sha256", file = TRUE)
   fold_engine_sha <- paste(rep("e", 64L), collapse = "")
   witness <- list(

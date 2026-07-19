@@ -206,6 +206,13 @@ test_that("package launcher forwards clean-container attestation via env", {
     "..", "..", "inst", "scripts",
     "paper3_run_ranktree_sensitivity_container.sh"
   )
+  if (!file.exists(launcher)) {
+    launcher <- system.file(
+      "scripts", "paper3_run_ranktree_sensitivity_container.sh",
+      package = "OmicSelector"
+    )
+  }
+  expect_true(nzchar(launcher) && file.exists(launcher))
   td <- tempfile("ranktree-launcher-")
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
