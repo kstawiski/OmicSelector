@@ -85,7 +85,8 @@ Suggests:
     nondetects,
     HTqPCR,
     Biobase,
-    rpart
+    rpart,
+    ranktreeEnsemble
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
