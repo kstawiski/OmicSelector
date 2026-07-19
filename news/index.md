@@ -25,7 +25,8 @@
   optional-dependency benchmark. It verifies the complete
   13-by-five-by-34 task contract, provenance-group folds, result
   cardinality, and package/code pins before atomically emitting one-cell
-  task bundles and a final manifest.
+  task bundles and a final manifest; arbitrary fit, score, dependency,
+  and runtime failures cannot be relabelled as structural ineligibility.
 
 ## OmicSelector 2.6.5 (2026-07-17)
 
