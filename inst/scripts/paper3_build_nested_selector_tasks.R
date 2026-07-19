@@ -49,8 +49,10 @@ suppressPackageStartupMessages({
   if (!is.list(cache) || !identical(names(cache), expected)) {
     stop("Cache does not contain the exact frozen 34-unit roster and order.")
   }
-  required <- c("expr_per_sample", "y_bin", "group_id", "outer_k",
-                "provenance_block", "source_accessions")
+  required <- c(
+    "expr_per_sample", "y_bin", "group_id", "outer_k",
+    "provenance_block", "source_accessions", "modality", "biospecimen"
+  )
   rows <- lapply(names(cache), function(unit_id) {
     z <- cache[[unit_id]]
     missing <- setdiff(required, names(z))
@@ -77,21 +79,38 @@ suppressPackageStartupMessages({
       stop(unit_id, " violates the frozen outer-fold contract.")
     }
     source_accessions <- unique(as.character(z$source_accessions))
+    modality <- as.character(z$modality)
+    biospecimen <- as.character(z$biospecimen)
     if (!length(source_accessions) || anyNA(source_accessions) ||
         any(!nzchar(source_accessions)) ||
         !is.character(z$provenance_block) || length(z$provenance_block) != 1L ||
-        is.na(z$provenance_block) || !nzchar(z$provenance_block)) {
+        is.na(z$provenance_block) || !nzchar(z$provenance_block) ||
+        length(modality) != 1L || is.na(modality) || !nzchar(modality) ||
+        length(biospecimen) != 1L || is.na(biospecimen) || !nzchar(biospecimen)) {
       stop(unit_id, " has incomplete provenance fields.")
+    }
+    primary_unit <- unit_id != "GSE31568"
+    whole_blood <- grepl("whole[ -]?blood", biospecimen, ignore.case = TRUE)
+    if (identical(primary_unit, whole_blood)) {
+      stop(unit_id, " violates the frozen primary/whole-blood sensitivity ",
+           "contract.")
     }
     data.table(
       unit_id = unit_id, outer_k = expected_k, n_profiles = nrow(X),
       n_groups = uniqueN(group_id), n_cases = sum(y == 1L),
       n_controls = sum(y == 0L), n_features = ncol(X),
+      primary_unit = primary_unit, modality = modality,
+      biospecimen = biospecimen,
       provenance_block = z$provenance_block,
       source_accessions = paste(source_accessions, collapse = ";")
     )
   })
-  rbindlist(rows)
+  units <- rbindlist(rows)
+  if (sum(units$primary_unit) != 33L ||
+      !identical(units[primary_unit == FALSE, unit_id], "GSE31568")) {
+    stop("Cache does not reproduce the frozen 33-primary/one-sensitivity contract.")
+  }
+  units
 }
 
 .nested_task_grid <- function(units) {

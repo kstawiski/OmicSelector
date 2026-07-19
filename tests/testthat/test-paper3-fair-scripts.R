@@ -306,6 +306,8 @@ test_that("nested-selector task arguments freeze the registered bootstrap", {
     paste0("--cache-sha256=", paste(rep("a", 64L), collapse = "")),
     "--unit=u1", "--seed=101", "--output-dir=/tmp/out",
     paste0("--package-commit=", paste(rep("b", 40L), collapse = "")),
+    paste0("--runtime-image-sha256=", paste(rep("c", 64L), collapse = "")),
+    paste0("--r-library-snapshot-sha256=", paste(rep("d", 64L), collapse = "")),
     "--inner-folds=5", "--bootstrap-reps=1000", "--verify-base=true"
   )
   parsed <- env$.selector_task_args(args)
@@ -338,7 +340,8 @@ test_that("nested selector task producer freezes the exact 34 by 5 grid", {
       group_id = paste0("g", i, "_", seq_len(n)),
       outer_k = if (expected[[i]] %in% env$.nested_expected_k3()) 3L else 5L,
       provenance_block = paste0("block::", expected[[i]]),
-      source_accessions = expected[[i]]
+      source_accessions = expected[[i]], modality = "microarray",
+      biospecimen = if (expected[[i]] == "GSE31568") "whole blood" else "serum"
     )
   }), expected)
   units <- env$.nested_validate_cache(cache)
@@ -348,6 +351,10 @@ test_that("nested selector task producer freezes the exact 34 by 5 grid", {
   expect_identical(anyDuplicated(tasks[, c("unit_id", "seed")]), 0L)
   expect_setequal(unique(tasks$seed), c(101L, 202L, 303L, 404L, 505L))
   expect_equal(sum(units$outer_k == 3L), 8L)
+  expect_equal(sum(units$primary_unit), 33L)
+  expect_identical(units[primary_unit == FALSE, unit_id], "GSE31568")
+  expect_true(all(nzchar(units$modality)))
+  expect_true(all(nzchar(units$biospecimen)))
 })
 
 test_that("nested-selector synthesis arguments have an explicit run mode", {

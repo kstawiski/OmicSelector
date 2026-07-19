@@ -167,11 +167,17 @@ suppressPackageStartupMessages({
   if (theoretical_max > 169150L) {
     stop("Frozen unit fold counts exceed the registered 169,150-fit maximum.")
   }
-  pin_columns <- c("cache_sha256", "package_version", "package_commit",
-                   "script_sha256")
-  if (any(vapply(pin_columns, function(column) uniqueN(manifest[[column]]) != 1L,
-                 logical(1L)))) {
-    stop("Selector tasks do not share one cache/package pin.")
+  pin_columns <- c(
+    "cache_sha256", "package_version", "package_commit", "script_sha256",
+    "runtime_image_sha256", "r_library_snapshot_sha256", "r_version",
+    "r_platform", "r_libpaths", "runtime_packages"
+  )
+  if (!all(pin_columns %in% names(manifest)) ||
+      any(vapply(pin_columns, function(column) {
+        values <- as.character(manifest[[column]])
+        anyNA(values) || any(!nzchar(values)) || uniqueN(values) != 1L
+      }, logical(1L)))) {
+    stop("Selector tasks do not share one complete cache/package/runtime pin.")
   }
   if (!identical(unique(manifest$package_commit), code_provenance$commit) ||
       !identical(unique(manifest$package_version),

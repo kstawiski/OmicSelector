@@ -17,8 +17,10 @@ suppressPackageStartupMessages({
     key <- gsub("-", "_", sub("^--([^=]+)=.*$", "\\1", arg), fixed = TRUE)
     out[[key]] <- sub("^--[^=]+=", "", arg)
   }
-  required <- c("cache", "cache_sha256", "unit", "seed", "output_dir",
-                "package_commit")
+  required <- c(
+    "cache", "cache_sha256", "unit", "seed", "output_dir",
+    "package_commit", "runtime_image_sha256", "r_library_snapshot_sha256"
+  )
   missing <- required[!required %in% names(out)]
   if (length(missing)) stop("Missing: --", paste(missing, collapse = ", --"))
   out$seed <- as.integer(out$seed)
@@ -36,9 +38,17 @@ suppressPackageStartupMessages({
     stop("Registered tasks require seeds 101/202/303/404/505, five requested ",
          "inner folds, 1,000 bootstraps, and verify_base=true.")
   }
-  if (!grepl("^[0-9a-f]{64}$", tolower(out$cache_sha256)) ||
-      !grepl("^[0-9a-f]{40}$", tolower(out$package_commit))) {
-    stop("cache_sha256/package_commit must be exact 64/40-character hex pins.")
+  hash_fields <- c(
+    "cache_sha256", "runtime_image_sha256", "r_library_snapshot_sha256"
+  )
+  out[hash_fields] <- lapply(out[hash_fields], tolower)
+  out$package_commit <- tolower(out$package_commit)
+  if (any(!vapply(out[hash_fields], function(value) {
+    grepl("^[0-9a-f]{64}$", value)
+  }, logical(1L))) ||
+      !grepl("^[0-9a-f]{40}$", out$package_commit)) {
+    stop("Runtime/cache hashes and package_commit must be exact ",
+         "64/40-character hex pins.")
   }
   out
 }
@@ -258,6 +268,14 @@ suppressPackageStartupMessages({
   manifest_paths <- list.files(temp_dir, full.names = TRUE)
   base_fit_count <- inner_candidate_fit_count + outer_candidate_refit_count +
     baseline_refit_count
+  installed <- as.data.frame(
+    utils::installed.packages(), stringsAsFactors = FALSE
+  )
+  installed <- installed[order(installed$Package, installed$LibPath), , drop = FALSE]
+  runtime_packages <- paste(
+    paste(installed$Package, installed$Version, installed$LibPath, sep = "="),
+    collapse = ";"
+  )
   manifest <- data.table(
     file = basename(manifest_paths), bytes = file.info(manifest_paths)$size,
     sha256 = vapply(manifest_paths, digest::digest, character(1L),
@@ -272,6 +290,11 @@ suppressPackageStartupMessages({
     package_version = as.character(utils::packageVersion("OmicSelector")),
     package_commit = opt$package_commit,
     script_sha256 = code_provenance$script_sha256,
+    runtime_image_sha256 = opt$runtime_image_sha256,
+    r_library_snapshot_sha256 = opt$r_library_snapshot_sha256,
+    r_version = R.version.string, r_platform = R.version$platform,
+    r_libpaths = paste(.libPaths(), collapse = ";"),
+    runtime_packages = runtime_packages,
     created_utc = format(Sys.time(), tz = "UTC", usetz = TRUE)
   )
   data.table::fwrite(manifest, file.path(temp_dir, "task_manifest.tsv"), sep = "\t")
