@@ -24,7 +24,7 @@ dependency_split_fixture <- function() {
     "proto-net", "ssl-vicreg", "tab-tabdpt", "tab-tabicl", "unc-sngp"
   )
   seeds <- c(101L, 202L, 303L, 404L, 505L)
-  cohorts <- sprintf("GSE%06d", seq_len(34L))
+  cohorts <- c("GSE83977", sprintf("GSE%06d", seq_len(33L)))
   tasks <- data.table::CJ(method = methods, seed = seeds, cohort = cohorts)
   tasks[, label := sprintf("%s__seed_%d__%s", method, seed, cohort)]
   method <- "ai-scarf"
@@ -140,18 +140,60 @@ test_that("dependency splitter fails closed on cell and prediction defects", {
 
   structural <- fixture$bundle
   structural$cells <- data.table::copy(structural$cells)
-  first <- structural$cells[1L, .(method, cohort, seed)]
+  first <- structural$cells[cohort == "GSE83977" & seed == 101L,
+                            .(method, cohort, seed)]
+  structural_reason <- paste0(
+    "n_valid_folds=0 < 3; per-fold: ",
+    paste(rep("method/baseline constant or all-NA on test fold", 3L),
+          collapse = "; ")
+  )
   structural$cells[
     method == first$method & cohort == first$cohort & seed == first$seed,
-    `:=`(eligible = FALSE, ineligible_reason = "structurally ineligible",
-         n_eff = NA_integer_, n_valid_folds = 0L,
-         n_group_split_violations = NA_integer_)
+    `:=`(eligible = FALSE, ineligible_reason = structural_reason,
+         n_eff = NA_integer_, n_valid_folds = 0L, outer_k = 3L,
+         n_group_split_violations = 0L)
   ]
   structural$predictions <- data.table::copy(structural$predictions)[
     !(method == first$method & cohort == first$cohort & seed == first$seed)
   ]
   expect_invisible(
     env$.dependency_validate_bundle(structural, tasks, fixture$expected)
+  )
+
+  broken <- structural
+  broken$cells <- data.table::copy(structural$cells)
+  broken$cells[cohort == "GSE83977" & seed == 101L,
+               ineligible_reason := paste0(
+                 "n_valid_folds=0 < 3; per-fold: fit failed: ",
+                 "huggingface_hub.errors.LocalEntryNotFoundError: ",
+                 "checkpoint not found in the local cache"
+               )]
+  expect_error(
+    env$.dependency_validate_bundle(broken, tasks, fixture$expected),
+    "dependency/runtime failure"
+  )
+
+  broken <- structural
+  broken$cells <- data.table::copy(structural$cells)
+  broken$cells[cohort == "GSE83977" & seed == 101L,
+               ineligible_reason := "n_valid_folds=0 < 3; per-fold: fit failed: optimizer error"]
+  expect_error(
+    env$.dependency_validate_bundle(broken, tasks, fixture$expected),
+    "unreviewed ineligibility"
+  )
+
+  broken <- structural
+  broken$cells <- data.table::copy(structural$cells)
+  broken$cells[cohort == "GSE000001" & seed == 101L,
+               `:=`(eligible = FALSE, ineligible_reason = structural_reason,
+                    n_eff = NA_integer_, n_valid_folds = 0L, outer_k = 3L,
+                    n_group_split_violations = 0L)]
+  broken$predictions <- data.table::copy(structural$predictions)[
+    !(cohort == "GSE000001" & seed == 101L)
+  ]
+  expect_error(
+    env$.dependency_validate_bundle(broken, tasks, fixture$expected),
+    "unreviewed ineligibility"
   )
 
   broken <- fixture$bundle
@@ -185,8 +227,10 @@ test_that("dependency splitter fails closed on cell and prediction defects", {
 
   broken <- fixture$bundle
   broken$cells <- data.table::copy(broken$cells)
-  broken$cells[1L, `:=`(eligible = FALSE,
-                        ineligible_reason = "structurally ineligible")]
+  broken$cells[cohort == "GSE83977" & seed == 101L,
+               `:=`(eligible = FALSE, ineligible_reason = structural_reason,
+                    n_eff = NA_integer_, n_valid_folds = 0L, outer_k = 3L,
+                    n_group_split_violations = 0L)]
   expect_error(
     env$.dependency_validate_bundle(broken, tasks, fixture$expected),
     "correspond exactly to eligible"

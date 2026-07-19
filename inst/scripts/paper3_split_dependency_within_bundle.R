@@ -99,6 +99,37 @@ suppressPackageStartupMessages({
   invisible(TRUE)
 }
 
+.dependency_validate_ineligible_cells <- function(cells) {
+  ineligible <- cells[eligible == FALSE]
+  if (!nrow(ineligible)) return(invisible(TRUE))
+
+  gse83977_constant_reason <- paste0(
+    "n_valid_folds=0 < 3; per-fold: ",
+    paste(rep("method/baseline constant or all-NA on test fold", 3L),
+          collapse = "; ")
+  )
+  reviewed_structural <-
+    ineligible$cohort == "GSE83977" &
+    ineligible$seed %in% c(101L, 202L, 303L, 404L, 505L) &
+    ineligible$n_valid_folds == 0L &
+    ineligible$outer_k == 3L &
+    ineligible$n_group_split_violations == 0L &
+    ineligible$ineligible_reason == gse83977_constant_reason
+  reviewed_structural[is.na(reviewed_structural)] <- FALSE
+
+  if (any(!reviewed_structural)) {
+    rejected <- unique(ineligible$ineligible_reason[!reviewed_structural])
+    rejected <- rejected[!is.na(rejected) & nzchar(rejected)]
+    preview <- if (length(rejected)) rejected[[1L]] else "missing reason"
+    stop(
+      "Bundle contains an unreviewed ineligibility, fit/score failure, or ",
+      "dependency/runtime failure: ", preview,
+      call. = FALSE
+    )
+  }
+  invisible(TRUE)
+}
+
 .dependency_validate_predictions <- function(cells, predictions, expected) {
   required <- c(
     "fold", "n_train", "n_test", "sample_idx", "sample_id", "group_id",
@@ -277,6 +308,7 @@ suppressPackageStartupMessages({
     stop("Eligible/ineligible cell accounting is internally inconsistent.",
          call. = FALSE)
   }
+  .dependency_validate_ineligible_cells(cells)
   .dependency_validate_predictions(cells, bundle$predictions, expected)
   invisible(list(cells = cells, predictions = data.table::as.data.table(bundle$predictions),
                  method_tasks = method_tasks))
