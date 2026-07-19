@@ -17,6 +17,10 @@
 - Add a fail-closed 34-by-five nested-selector task-grid producer and
   portable one-task launcher that pin cache bytes, clean package commit,
   runtime inputs, and atomic output paths.
+- Pin nested-selector tasks to exact container and R-library snapshot
+  hashes, record the executing R/package environment, and carry the
+  frozen modality/biospecimen and 33-primary/one-sensitivity unit
+  accounting into synthesis.
 
 ## OmicSelector 2.6.5 (2026-07-17)
 
