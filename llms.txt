@@ -880,6 +880,10 @@ Internal functions and helpers (exported for advanced use)
   single-sample at inference)
 - [`fit_sig_path()`](https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.md)
   : Fit the truncated path-signature single-sample discriminator
+- [`fit_singlesample_selector()`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
+  [`print(`*`<singlesample_selector_set>`*`)`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
+  [`print(`*`<singlesample_selector_ineligible>`*`)`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
+  : Fit a leakage-resistant single-sample method selector
 - [`fit_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_ot_scorer.md)
   : Fit Sinkhorn OT cohort barycenter scorer.
 - [`fit_sinkhorn_single()`](https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_single.md)
@@ -1127,6 +1131,8 @@ Internal functions and helpers (exported for advanced use)
   : Print Method for Signature Selection Result
 - [`print(`*`<singlesample_deployable>`*`)`](https://kstawiski.github.io/OmicSelector/reference/print.singlesample_deployable.md)
   : Print a single-sample deployment object
+- [`print(`*`<singlesample_selector>`*`)`](https://kstawiski.github.io/OmicSelector/reference/print.singlesample_selector.md)
+  : Print a single-sample selector
 - [`print_shap_warnings()`](https://kstawiski.github.io/OmicSelector/reference/print_shap_warnings.md)
   : Print SHAP Warnings Report
 - [`print_xai_summary()`](https://kstawiski.github.io/OmicSelector/reference/print_xai_summary.md)
@@ -1309,6 +1315,8 @@ Internal functions and helpers (exported for advanced use)
 - [`score_sig_path()`](https://kstawiski.github.io/OmicSelector/reference/score_sig_path.md)
   : Score the truncated path-signature discriminator (pure base R,
   row-by-row)
+- [`score_singlesample_selector()`](https://kstawiski.github.io/OmicSelector/reference/score_singlesample_selector.md)
+  : Score specimens with a frozen single-sample selector
 - [`score_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/score_sinkhorn_ot_scorer.md)
   : Score projected samples by summing panel features.
 - [`score_sinkhorn_single()`](https://kstawiski.github.io/OmicSelector/reference/score_sinkhorn_single.md)
@@ -1434,6 +1442,10 @@ Internal functions and helpers (exported for advanced use)
   discriminator
 - [`singlesample-within-sample`](https://kstawiski.github.io/OmicSelector/reference/singlesample-within-sample.md)
   : Single-sample within-sample compositional methods (Module A, P1)
+- [`singlesample_adjust_relevance_by()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_adjust_relevance_by.md)
+  : Adjust the frozen directional relevance family with BY
+- [`singlesample_adjust_zero_by()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_adjust_zero_by.md)
+  : Adjust the frozen zero-difference test family with BY
 - [`os_fit_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_score_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
   [`os_transform_dann_kit_extended()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.md)
@@ -1458,6 +1470,10 @@ Internal functions and helpers (exported for advanced use)
   : Block-aware two-stage BH-FDR for specimen-shared cohort clusters
 - [`singlesample_bh_fdr_correct_matched_null()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_matched_null.md)
   : BH-FDR correction within a matched-null modality family
+- [`singlesample_complete_support_panels()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_complete_support_panels.md)
+  : Construct fixed eligibility-only complete-support panels
+- [`singlesample_corrected_repeated_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_corrected_repeated_cv.md)
+  : Corrected repeated-CV inference for a paired method effect
 - [`singlesample_hanley_mcneil_auc_ci()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_hanley_mcneil_auc_ci.md)
   : Hanley-McNeil 1982 AUC confidence interval
 - [`singlesample_holm_correct_familywise()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_holm_correct_familywise.md)
@@ -1473,6 +1489,8 @@ Internal functions and helpers (exported for advanced use)
   scoring
 - [`singlesample_matched_null_benchmark_cv()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark_cv.md)
   : 5-fold nested-CV matched-null benchmark
+- [`singlesample_matched_pair_auc()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_pair_auc.md)
+  : Matched group-primary AUC difference across repeated CV strata
 - [`singlesample_method_bank()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_bank.md)
   : Single-sample method-bank registry
 - [`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
@@ -1483,8 +1501,12 @@ Internal functions and helpers (exported for advanced use)
   : Register a non-canonical score adapter for a roster method
 - [`singlesample_score_call()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.md)
   : Score a roster method with the canonical single-sample interface
+- [`singlesample_selector_candidates()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_selector_candidates.md)
+  : Eligible methods for the single-sample selector
 - [`singlesample_technology_lift_delong()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_technology_lift_delong.md)
   : Paired DeLong SE for technology-aware transfer lift
+- [`singlesample_within_method_pairs()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_within_method_pairs.md)
+  : Enumerate frozen within-method pairs
 - [`smote_augment()`](https://kstawiski.github.io/OmicSelector/reference/smote_augment.md)
   : SMOTE Augmentation for Omics Data
 - [`stability`](https://kstawiski.github.io/OmicSelector/reference/stability.md)

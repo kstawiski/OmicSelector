@@ -226,6 +226,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_robust_pca_residual.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sel_stablemate.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_ot_scorer.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_single.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_ss_struct_ilr.html</loc></url>
@@ -355,6 +356,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.ReportData.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.SignatureSelectionResult.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.singlesample_deployable.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/print.singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print_shap_warnings.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print_xai_summary.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/provenance_aware_scoring.html</loc></url>
@@ -439,6 +441,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_rin_weighted_score.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sel_stablemate.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sig_path.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/score_singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sinkhorn_ot_scorer.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sinkhorn_single.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_specimen.html</loc></url>
@@ -492,11 +495,15 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample-vicreg.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample-vrex.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample-within-sample.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_adjust_relevance_by.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_adjust_zero_by.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_advanced_scorers.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_method_bank_exports.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_row_equivariant.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_blocked.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_matched_null.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_complete_support_panels.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_corrected_repeated_cv.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_hanley_mcneil_auc_ci.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_holm_correct_familywise.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_is_row_equivariant.html</loc></url>
@@ -504,12 +511,15 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_make_locto_splits.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_null_benchmark_cv.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_matched_pair_auc.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_method_bank.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_paired_auc_diff_se.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_register_score_adapter.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_selector_candidates.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_technology_lift_delong.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_within_method_pairs.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/smote_augment.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/stability.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/stack_omics.html</loc></url>
