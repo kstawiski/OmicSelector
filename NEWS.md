@@ -18,6 +18,10 @@
   record the executing R/package environment, and carry the frozen
   modality/biospecimen and 33-primary/one-sensitivity unit accounting into
   synthesis.
+- Add a fail-closed, serialization-only splitter for the paper's frozen
+  optional-dependency benchmark. It verifies the complete 13-by-five-by-34
+  task contract, provenance-group folds, result cardinality, and package/code
+  pins before atomically emitting one-cell task bundles and a final manifest.
 
 # OmicSelector 2.6.5 (2026-07-17)
 
