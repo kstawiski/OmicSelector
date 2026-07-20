@@ -128,9 +128,76 @@ singlesample_external_competitor_roster <- function() {
   x
 }
 
+.reo_ranktree_dimreduce_quantile <- function(n_features, max_screen_features,
+                                             enabled) {
+  n_features <- .reo_ranktree_positive_integer(
+    n_features, "rank-tree training feature count"
+  )
+  max_screen_features <- .reo_ranktree_positive_integer(
+    max_screen_features, "rank-tree maximum screened features"
+  )
+  if (!.reo_ranktree_flag(enabled, "rank-tree dimension reduction flag")) {
+    return(FALSE)
+  }
+  max(0.75, 1 - max_screen_features / n_features)
+}
+
+.reo_ranktree_backend_pair_names <- function(backend, fn) {
+  pair_names <- if (inherits(backend, "gbm")) {
+    backend$var.names
+  } else if (inherits(backend, "rfsrc")) {
+    backend$xvar.names
+  } else {
+    NULL
+  }
+  if (!is.character(pair_names) || !length(pair_names) ||
+      anyNA(pair_names) || any(!nzchar(pair_names)) ||
+      anyDuplicated(pair_names)) {
+    stop(fn, ": backend does not expose a unique pair-feature contract",
+         call. = FALSE)
+  }
+  pair_names
+}
+
+.reo_ranktree_backend_feature_order <- function(backend, safe_names, fn) {
+  pair_names <- .reo_ranktree_backend_pair_names(backend, fn)
+  parts <- strsplit(pair_names, "_less_than_", fixed = TRUE)
+  if (any(lengths(parts) != 2L)) {
+    stop(fn, ": backend pair-feature names cannot be decoded", call. = FALSE)
+  }
+  edges <- do.call(rbind, parts)
+  features <- unique(as.vector(t(edges)))
+  if (length(features) < 2L || !all(features %in% safe_names) ||
+      nrow(edges) != choose(length(features), 2L) ||
+      anyDuplicated(apply(edges, 1L, function(x) paste(sort(x), collapse = "\r")))) {
+    stop(fn, ": backend pair-feature set is incomplete or inconsistent",
+         call. = FALSE)
+  }
+  incoming <- setNames(integer(length(features)), features)
+  for (feature in edges[, 2L]) incoming[[feature]] <- incoming[[feature]] + 1L
+  if (!setequal(unname(incoming), seq.int(0L, length(features) - 1L))) {
+    stop(fn, ": backend pair directions do not define one feature order",
+         call. = FALSE)
+  }
+  ordered <- names(sort(incoming, method = "radix"))
+  expected <- character(0)
+  for (i in seq_len(length(ordered) - 1L)) {
+    expected <- c(
+      expected,
+      paste0(ordered[[i]], "_less_than_", ordered[(i + 1L):length(ordered)])
+    )
+  }
+  if (!setequal(pair_names, expected)) {
+    stop(fn, ": backend pair-feature names differ from the recovered order",
+         call. = FALSE)
+  }
+  ordered
+}
+
 .reo_rankforest_resolve_hp <- function(hp) {
   if (!is.list(hp)) stop("fit_reo_rankforest: hp must be a list", call. = FALSE)
-  allowed <- c("ntree", "seed", "dimreduce", "class_balance")
+  allowed <- c("ntree", "seed", "dimreduce", "class_balance",
+               "max_screen_features")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown)) {
     stop("fit_reo_rankforest: unknown hp field(s): ",
@@ -147,6 +214,10 @@ singlesample_external_competitor_roster <- function() {
       hp$class_balance %||% TRUE,
       "fit_reo_rankforest: hp$class_balance"
     ),
+    max_screen_features = .reo_ranktree_positive_integer(
+      hp$max_screen_features %||% 128L,
+      "fit_reo_rankforest: hp$max_screen_features"
+    ),
     datrank = FALSE,
     rf_cores = 1L
   )
@@ -155,7 +226,7 @@ singlesample_external_competitor_roster <- function() {
 .reo_rankboost_resolve_hp <- function(hp) {
   if (!is.list(hp)) stop("fit_reo_rankboost: hp must be a list", call. = FALSE)
   allowed <- c("ntree", "seed", "dimreduce", "nodedepth", "nodesize",
-               "shrinkage", "bag_fraction")
+               "shrinkage", "bag_fraction", "max_screen_features")
   unknown <- setdiff(names(hp), allowed)
   if (length(unknown)) {
     stop("fit_reo_rankboost: unknown hp field(s): ",
@@ -180,6 +251,10 @@ singlesample_external_competitor_roster <- function() {
     bag_fraction = .reo_ranktree_probability(
       hp$bag_fraction %||% 0.5, "fit_reo_rankboost: hp$bag_fraction"
     ),
+    max_screen_features = .reo_ranktree_positive_integer(
+      hp$max_screen_features %||% 128L,
+      "fit_reo_rankboost: hp$max_screen_features"
+    ),
     datrank = FALSE
   )
 }
@@ -192,7 +267,7 @@ singlesample_external_competitor_roster <- function() {
 #' predicts from raw within-row pairs, giving different train and deployment
 #' representations. Feature names are replaced by a frozen collision-free map
 #' before the dependency constructs pair indicators. The preliminary
-#' `randomForestSRC` preliminary screen is unweighted because version 0.24
+#' `randomForestSRC` screen is unweighted because version 0.24
 #' exposes no screen-weight hook; the downstream pair forest uses
 #' inverse-frequency case weights, with outcome level `case` (numeric target 1)
 #' as the positive class. Screening is confined to `rf.cores=1` because version
@@ -204,7 +279,11 @@ singlesample_external_competitor_roster <- function() {
 #' @param meta_train Optional training metadata, checked for row alignment and
 #'   otherwise ignored.
 #' @param hp Optional fixed hyperparameters: `ntree` (500), `seed` (1),
-#'   `dimreduce` (`TRUE`) and `class_balance` (`TRUE`).
+#'   `dimreduce` (`TRUE`), `class_balance` (`TRUE`), and
+#'   `max_screen_features` (128). The last value preserves the backend's
+#'   top-quartile importance screen unless it would be expected to materialize
+#'   more than 128 preliminary features before pair expansion. The realized
+#'   count can differ when preliminary importance values are tied.
 #' @return A frozen `reo_rankforest_model` suitable for singleton scoring.
 #' @references Lu M, Yin R, Chen XS. Ensemble methods of rank-based trees for
 #'   single sample classification with gene expression profiles. Journal of
@@ -216,6 +295,9 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
     X_train, y_train, meta_train, "fit_reo_rankforest"
   )
   hp <- .reo_rankforest_resolve_hp(hp)
+  hp$backend_dimreduce_quantile <- .reo_ranktree_dimreduce_quantile(
+    ncol(checked$X), hp$max_screen_features, hp$dimreduce
+  )
   safe <- .reo_ranktree_safe_training_data(checked$X, checked$y)
   case_wt <- NULL
   if (hp$class_balance) {
@@ -224,15 +306,19 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
   }
   backend <- .reo_ranktree_with_seed(hp$seed, {
     ranktreeEnsemble::rforest(
-      outcome ~ ., data = safe$data, dimreduce = hp$dimreduce,
+      outcome ~ ., data = safe$data, dimreduce = hp$backend_dimreduce_quantile,
       datrank = FALSE, ntree = hp$ntree, case.wt = case_wt,
       forest = TRUE, seed = -abs(hp$seed)
     )
   })
+  backend_safe_feature_names <- .reo_ranktree_backend_feature_order(
+    backend, safe$safe_names, "fit_reo_rankforest"
+  )
   model <- list(
     backend = backend,
     feature_names = colnames(checked$X),
     safe_feature_names = safe$safe_names,
+    backend_safe_feature_names = backend_safe_feature_names,
     positive_class = "case",
     backend_package = "ranktreeEnsemble",
     backend_version = backend_version,
@@ -253,7 +339,7 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
 #' @inheritParams fit_reo_rankforest
 #' @param hp Optional fixed hyperparameters: `ntree` (500), `seed` (1),
 #'   `dimreduce` (`TRUE`), `nodedepth` (3), `nodesize` (5), `shrinkage`
-#'   (0.05), and `bag_fraction` (0.5).
+#'   (0.05), `bag_fraction` (0.5), and `max_screen_features` (128).
 #' @return A frozen `reo_rankboost_model` suitable for singleton scoring.
 #' @export
 fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) {
@@ -262,20 +348,27 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
     X_train, y_train, meta_train, "fit_reo_rankboost"
   )
   hp <- .reo_rankboost_resolve_hp(hp)
+  hp$backend_dimreduce_quantile <- .reo_ranktree_dimreduce_quantile(
+    ncol(checked$X), hp$max_screen_features, hp$dimreduce
+  )
   safe <- .reo_ranktree_safe_training_data(checked$X, checked$y)
   backend <- .reo_ranktree_with_seed(hp$seed, {
     ranktreeEnsemble::rboost(
-      outcome ~ ., data = safe$data, dimreduce = hp$dimreduce,
+      outcome ~ ., data = safe$data, dimreduce = hp$backend_dimreduce_quantile,
       datrank = FALSE, ntree = hp$ntree, nodedepth = hp$nodedepth,
       nodesize = hp$nodesize, shrinkage = hp$shrinkage,
       bag.fraction = hp$bag_fraction, train.fraction = 1,
       cv.folds = 1, keep.data = TRUE, verbose = FALSE, n.cores = 1L
     )
   })
+  backend_safe_feature_names <- .reo_ranktree_backend_feature_order(
+    backend, safe$safe_names, "fit_reo_rankboost"
+  )
   model <- list(
     backend = backend,
     feature_names = colnames(checked$X),
     safe_feature_names = safe$safe_names,
+    backend_safe_feature_names = backend_safe_feature_names,
     positive_class = "case",
     backend_package = "ranktreeEnsemble",
     backend_version = backend_version,
@@ -287,14 +380,28 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
 
 .reo_ranktree_score_data <- function(model, X, fn) {
   X <- .reo_check_matrix(X, fn, "X")
-  if (!setequal(colnames(X), model$feature_names) ||
-      ncol(X) != length(model$feature_names)) {
-    stop(fn, ": X must contain the complete frozen training feature universe",
+  selected <- model$backend_safe_feature_names
+  if (!is.character(model$feature_names) ||
+      !is.character(model$safe_feature_names) ||
+      length(model$feature_names) != length(model$safe_feature_names) ||
+      anyDuplicated(model$feature_names) || anyDuplicated(model$safe_feature_names) ||
+      !is.character(selected) || length(selected) < 2L || anyNA(selected) ||
+      any(!selected %in% model$safe_feature_names) || anyDuplicated(selected)) {
+    stop(fn, ": model lacks a valid frozen backend feature subset",
          call. = FALSE)
   }
-  X <- X[, model$feature_names, drop = FALSE]
-  out <- as.data.frame(X, check.names = FALSE, stringsAsFactors = FALSE)
-  names(out) <- model$safe_feature_names
+  selected_index <- match(selected, model$safe_feature_names)
+  required_features <- model$feature_names[selected_index]
+  missing <- setdiff(required_features, colnames(X))
+  if (length(missing)) {
+    stop(fn, ": X lacks frozen backend feature(s): ",
+         paste(missing, collapse = ", "), call. = FALSE)
+  }
+  out <- as.data.frame(
+    X[, required_features, drop = FALSE],
+    check.names = FALSE, stringsAsFactors = FALSE
+  )
+  names(out) <- selected
   out
 }
 
@@ -340,7 +447,8 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
 #' Score a random rank forest one specimen at a time
 #'
 #' @param model A `reo_rankforest_model` returned by [fit_reo_rankforest()].
-#' @param X Numeric matrix of samples by the complete frozen feature universe.
+#' @param X Numeric matrix of samples containing every raw feature selected and
+#'   frozen by the fitted backend. Unselected training features are optional.
 #' @param meta Optional row-aligned metadata, accepted for canonical dispatch
 #'   and otherwise ignored.
 #' @return Numeric case probabilities, one per row of `X`.

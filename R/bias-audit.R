@@ -429,9 +429,11 @@ os_clustered_bootstrap_auc <- function(y, predictions, cluster_id,
 #' @param sample_id Vector of sample IDs.
 #' @param specimen_id Optional explicit internal specimen IDs (preferred).
 #' @param tolerance Numeric tolerance for exact equality on feature vectors.
-#'   Default 0 (bitwise equal).
-#' @param min_features Minimum number of features required to declare a match.
-#'   Default: all.
+#'   Default 0 (numeric equality without rounding).
+#' @param min_features Minimum number of jointly finite features required to
+#'   declare a match. All jointly finite features must agree within
+#'   `tolerance`. Default: all columns, which therefore requires complete
+#'   profiles.
 #'
 #' @return A data frame with columns:
 #'   \code{sample_id_a}, \code{cohort_a}, \code{sample_id_b}, \code{cohort_b},
@@ -442,34 +444,69 @@ os_detect_cross_cohort_duplicates <- function(X, cohort, sample_id,
                                               specimen_id = NULL,
                                               tolerance = 0,
                                               min_features = NULL) {
+  X <- as.matrix(X)
+  if (!is.numeric(X) || ncol(X) < 1L) {
+    stop("X must be a numeric matrix with at least one feature.", call. = FALSE)
+  }
   n <- nrow(X)
   if (length(cohort) != n || length(sample_id) != n) {
     stop("cohort and sample_id must match nrow(X).", call. = FALSE)
   }
+  cohort <- as.character(cohort)
+  sample_id <- as.character(sample_id)
+  if (anyNA(cohort) || any(!nzchar(cohort)) ||
+      anyNA(sample_id) || any(!nzchar(sample_id)) || anyDuplicated(sample_id)) {
+    stop("cohort and sample_id must be non-missing; sample_id must be unique.",
+         call. = FALSE)
+  }
+  if (!is.numeric(tolerance) || length(tolerance) != 1L ||
+      is.na(tolerance) || !is.finite(tolerance) || tolerance < 0) {
+    stop("tolerance must be one finite non-negative number.", call. = FALSE)
+  }
+  if (is.null(min_features)) min_features <- ncol(X)
+  if (!is.numeric(min_features) || length(min_features) != 1L ||
+      is.na(min_features) || !is.finite(min_features) ||
+      min_features != as.integer(min_features) || min_features < 1L ||
+      min_features > ncol(X)) {
+    stop("min_features must be one integer from 1 through ncol(X).",
+         call. = FALSE)
+  }
+  min_features <- as.integer(min_features)
 
   matches <- list()
+  matched_pair_keys <- character(0)
+  pair_key <- function(i, j) paste(sort(c(sample_id[[i]], sample_id[[j]])),
+                                    collapse = "\r")
+  add_match <- function(i, j, specimen, match_type) {
+    key <- pair_key(i, j)
+    if (key %in% matched_pair_keys) return(invisible(FALSE))
+    matches[[length(matches) + 1L]] <<- data.frame(
+      sample_id_a = sample_id[[i]], cohort_a = cohort[[i]],
+      sample_id_b = sample_id[[j]], cohort_b = cohort[[j]],
+      specimen_id = specimen, match_type = match_type,
+      stringsAsFactors = FALSE
+    )
+    matched_pair_keys <<- c(matched_pair_keys, key)
+    invisible(TRUE)
+  }
 
   # (a) Explicit specimen ID crosswalk
   if (!is.null(specimen_id)) {
-    by_spec <- split(seq_len(n), specimen_id)
+    if (length(specimen_id) != n) {
+      stop("specimen_id must match nrow(X).", call. = FALSE)
+    }
+    specimen_id <- trimws(as.character(specimen_id))
+    specimen_id[is.na(specimen_id) | !nzchar(specimen_id)] <- NA_character_
+    by_spec <- split(seq_len(n), specimen_id, drop = TRUE)
     for (sp in names(by_spec)) {
       idx <- by_spec[[sp]]
       if (length(idx) >= 2L) {
-        co <- unique(cohort[idx])
-        if (length(co) >= 2L) {
-          for (i in seq_along(idx)[-length(idx)]) {
-            for (j in (i + 1L):length(idx)) {
-              if (cohort[idx[i]] != cohort[idx[j]]) {
-                matches[[length(matches) + 1L]] <- data.frame(
-                  sample_id_a = sample_id[idx[i]],
-                  cohort_a = cohort[idx[i]],
-                  sample_id_b = sample_id[idx[j]],
-                  cohort_b = cohort[idx[j]],
-                  specimen_id = sp,
-                  match_type = "specimen_id_crosswalk",
-                  stringsAsFactors = FALSE
-                )
-              }
+        for (left in seq_len(length(idx) - 1L)) {
+          for (right in (left + 1L):length(idx)) {
+            i <- idx[[left]]
+            j <- idx[[right]]
+            if (cohort[[i]] != cohort[[j]]) {
+              add_match(i, j, sp, "specimen_id_crosswalk")
             }
           }
         }
@@ -478,38 +515,51 @@ os_detect_cross_cohort_duplicates <- function(X, cohort, sample_id,
   }
 
   # (b) Feature-equality duplicate detection
-  if (is.null(min_features)) min_features <- ncol(X)
-  # Hash rows for O(n) grouping
-  hash_of_row <- apply(X, 1L, function(v) paste(round(v, 8L), collapse = "|"))
-  by_hash <- split(seq_len(n), hash_of_row)
-  for (h in names(by_hash)) {
-    idx <- by_hash[[h]]
-    if (length(idx) >= 2L) {
-      for (i in seq_along(idx)[-length(idx)]) {
-        for (j in (i + 1L):length(idx)) {
-          if (cohort[idx[i]] != cohort[idx[j]]) {
-            already <- FALSE
-            if (length(matches) > 0L) {
-              mat_df <- do.call(rbind, matches)
-              key1 <- paste(sample_id[idx[i]], sample_id[idx[j]])
-              key2 <- paste(sample_id[idx[j]], sample_id[idx[i]])
-              already <- any(paste(mat_df$sample_id_a, mat_df$sample_id_b) %in% c(key1, key2))
-            }
-            if (!already) {
-              matches[[length(matches) + 1L]] <- data.frame(
-                sample_id_a = sample_id[idx[i]],
-                cohort_a = cohort[idx[i]],
-                sample_id_b = sample_id[idx[j]],
-                cohort_b = cohort[idx[j]],
-                specimen_id = if (!is.null(specimen_id)) specimen_id[idx[i]] else NA_character_,
-                match_type = "exact_feature_equality",
-                stringsAsFactors = FALSE
-              )
-            }
+  rows_match <- function(i, j) {
+    usable <- is.finite(X[i, ]) & is.finite(X[j, ])
+    if (sum(usable) < min_features) return(FALSE)
+    all(abs(X[i, usable] - X[j, usable]) <= tolerance)
+  }
+
+  compare_pairs <- function(idx) {
+    if (length(idx) < 2L) return(invisible(NULL))
+    for (left in seq_len(length(idx) - 1L)) {
+      for (right in (left + 1L):length(idx)) {
+        i <- idx[[left]]
+        j <- idx[[right]]
+        if (cohort[[i]] != cohort[[j]] && rows_match(i, j)) {
+          specimen <- if (!is.null(specimen_id) &&
+                          !is.na(specimen_id[[i]]) &&
+                          identical(specimen_id[[i]], specimen_id[[j]])) {
+            specimen_id[[i]]
+          } else {
+            NA_character_
           }
+          add_match(
+            i, j, specimen,
+            if (tolerance == 0) "exact_feature_equality" else
+              "tolerance_feature_equality"
+          )
         }
       }
     }
+    invisible(NULL)
+  }
+
+  # Complete, exact matching is the common large-corpus route. Hash only to
+  # create candidates, then verify numerically so formatting collisions cannot
+  # produce false matches. Missing/tolerant comparisons take the exhaustive,
+  # explicitly requested route.
+  complete_exact <- tolerance == 0 && min_features == ncol(X) && all(is.finite(X))
+  if (complete_exact) {
+    hash_of_row <- apply(X, 1L, function(v) {
+      paste(format(v, digits = 17L, scientific = TRUE, trim = TRUE),
+            collapse = "|")
+    })
+    by_hash <- split(seq_len(n), hash_of_row)
+    for (idx in by_hash[lengths(by_hash) >= 2L]) compare_pairs(idx)
+  } else {
+    compare_pairs(seq_len(n))
   }
 
   if (length(matches) == 0L) {

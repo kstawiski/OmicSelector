@@ -1,5 +1,17 @@
 # OmicSelector 2.6.5.9000 (development)
 
+- Correct `os_detect_cross_cohort_duplicates()` so its documented `tolerance`
+  and `min_features` arguments are enforced. Exact matching no longer rounds
+  profiles to eight decimals, tolerant/partially observed matching is explicit,
+  and malformed identifiers or thresholds fail closed.
+- Bound the external `ranktreeEnsemble` adapters' training-only preliminary
+  importance screen to a fixed 128-feature target before quadratic pair
+  expansion. This preserves the backend's top-quartile default on ordinary
+  panels while preventing protection/C-stack failure on high-dimensional miRNA
+  inputs. Prediction now reconstructs and requires only the exact screened
+  raw-feature subset rather than requiring and expanding all original inputs
+  again; the frozen target, realized backend quantile, and selected feature
+  order are stored in every model.
 - Add audited `ranktreeEnsemble` 0.24 adapters for random rank forests and
   boosted rank trees, plus an explicit external-competitor registry. These
   post-freeze sensitivity routes preserve the 74-row primary roster, construct

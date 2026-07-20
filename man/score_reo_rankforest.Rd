@@ -9,7 +9,8 @@ score_reo_rankforest(model, X, meta = NULL)
 \arguments{
 \item{model}{A `reo_rankforest_model` returned by [fit_reo_rankforest()].}
 
-\item{X}{Numeric matrix of samples by the complete frozen feature universe.}
+\item{X}{Numeric matrix of samples containing every raw feature selected and
+frozen by the fitted backend. Unselected training features are optional.}
 
 \item{meta}{Optional row-aligned metadata, accepted for canonical dispatch
 and otherwise ignored.}

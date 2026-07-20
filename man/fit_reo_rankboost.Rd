@@ -16,7 +16,7 @@ otherwise ignored.}
 
 \item{hp}{Optional fixed hyperparameters: `ntree` (500), `seed` (1),
 `dimreduce` (`TRUE`), `nodedepth` (3), `nodesize` (5), `shrinkage`
-(0.05), and `bag_fraction` (0.5).}
+(0.05), `bag_fraction` (0.5), and `max_screen_features` (128).}
 }
 \value{
 A frozen `reo_rankboost_model` suitable for singleton scoring.

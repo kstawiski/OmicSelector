@@ -167,6 +167,60 @@ test_that("cross-cohort duplicates detected by exact feature equality", {
   expect_true(any(dup$sample_id_a == "S003" | dup$sample_id_b == "S003"))
 })
 
+test_that("cross-cohort duplicate tolerance and feature support are enforced", {
+  X <- rbind(
+    c(1, 2, 3, 4),
+    c(1 + 5e-5, 2 - 5e-5, 99, NA),
+    c(1, 2, 3, 4)
+  )
+  colnames(X) <- paste0("F", 1:4)
+  cohort <- c("A", "B", "B")
+  sample_id <- c("A1", "B1", "B2")
+
+  exact <- os_detect_cross_cohort_duplicates(X, cohort, sample_id)
+  expect_equal(nrow(exact), 1L)
+  expect_setequal(c(exact$sample_id_a, exact$sample_id_b), c("A1", "B2"))
+
+  tolerant <- os_detect_cross_cohort_duplicates(
+    X[, 1:2], cohort, sample_id, tolerance = 1e-4, min_features = 2L
+  )
+  expect_equal(nrow(tolerant), 2L)
+  expect_true("tolerance_feature_equality" %in% tolerant$match_type)
+
+  insufficient <- os_detect_cross_cohort_duplicates(
+    X[1:2, ], cohort[1:2], sample_id[1:2],
+    tolerance = 100, min_features = 4L
+  )
+  expect_equal(nrow(insufficient), 0L)
+
+  expect_error(
+    os_detect_cross_cohort_duplicates(X, cohort, sample_id, tolerance = -1),
+    "non-negative"
+  )
+  expect_error(
+    os_detect_cross_cohort_duplicates(X, cohort, sample_id, min_features = 5L),
+    "1 through ncol"
+  )
+})
+
+test_that("cross-cohort duplicate matching requires unique sample IDs", {
+  X <- matrix(1:8, nrow = 2L)
+  expect_error(
+    os_detect_cross_cohort_duplicates(X, c("A", "B"), c("same", "same")),
+    "sample_id must be unique"
+  )
+})
+
+test_that("feature-only matches do not borrow a discordant specimen ID", {
+  X <- rbind(c(1, 2, 3), c(1, 2, 3))
+  out <- os_detect_cross_cohort_duplicates(
+    X, c("A", "B"), c("A1", "B1"), specimen_id = c("SP1", "SP2")
+  )
+  expect_equal(nrow(out), 1L)
+  expect_true(is.na(out$specimen_id))
+  expect_identical(out$match_type, "exact_feature_equality")
+})
+
 test_that("cross-cohort duplicates via explicit specimen_id crosswalk", {
   X <- matrix(stats::rnorm(15 * 3), 15L, 3L)
   cohort <- c(rep("A", 10), rep("B", 5))

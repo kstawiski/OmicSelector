@@ -15,7 +15,11 @@ fit_reo_rankforest(X_train, y_train, meta_train = NULL, hp = list())
 otherwise ignored.}
 
 \item{hp}{Optional fixed hyperparameters: `ntree` (500), `seed` (1),
-`dimreduce` (`TRUE`) and `class_balance` (`TRUE`).}
+`dimreduce` (`TRUE`), `class_balance` (`TRUE`), and
+`max_screen_features` (128). The last value preserves the backend's
+top-quartile importance screen unless it would be expected to materialize
+more than 128 preliminary features before pair expansion. The realized
+count can differ when preliminary importance values are tied.}
 }
 \value{
 A frozen `reo_rankforest_model` suitable for singleton scoring.
@@ -26,12 +30,13 @@ training-fold data. The audited adapter deliberately fixes `datrank=FALSE`:
 version 0.24 otherwise converts training columns to across-sample ranks but
 predicts from raw within-row pairs, giving different train and deployment
 representations. Feature names are replaced by a frozen collision-free map
-before the dependency constructs pair indicators. The `randomForestSRC`
-preliminary screen is unweighted because version 0.24 exposes no screen-weight
-hook; the downstream pair forest uses inverse-frequency case weights, with
-outcome level `case` (numeric target 1) as the positive class. Screening is
-confined to `rf.cores=1` because version 0.24 does not forward its seed to that
-fit; the caller's prior option is restored.
+before the dependency constructs pair indicators. The preliminary
+`randomForestSRC` screen is unweighted because version 0.24
+exposes no screen-weight hook; the downstream pair forest uses
+inverse-frequency case weights, with outcome level `case` (numeric target 1)
+as the positive class. Screening is confined to `rf.cores=1` because version
+0.24 does not forward its seed to that fit; the caller's prior option is
+restored.
 }
 \references{
 Lu M, Yin R, Chen XS. Ensemble methods of rank-based trees for

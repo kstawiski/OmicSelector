@@ -23,10 +23,12 @@ os_detect_cross_cohort_duplicates(
 \item{specimen_id}{Optional explicit internal specimen IDs (preferred).}
 
 \item{tolerance}{Numeric tolerance for exact equality on feature vectors.
-Default 0 (bitwise equal).}
+Default 0 (numeric equality without rounding).}
 
-\item{min_features}{Minimum number of features required to declare a match.
-Default: all.}
+\item{min_features}{Minimum number of jointly finite features required to
+declare a match. All jointly finite features must agree within
+`tolerance`. Default: all columns, which therefore requires complete
+profiles.}
 }
 \value{
 A data frame with columns:
