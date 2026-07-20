@@ -3,7 +3,7 @@
 ``` r
 
 library(OmicSelector)
-#> OmicSelector 2.6.5.9000 - Leakage-Resistant Biomarker Discovery
+#> OmicSelector 2.6.5.9001 - Leakage-Resistant Biomarker Discovery
 #> Use OmicPipeline$new() to start. Run ?OmicSelector for help.
 ```
 

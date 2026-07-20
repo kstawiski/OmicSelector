@@ -1,6 +1,11 @@
 # Changelog
 
-## OmicSelector 2.6.5.9000 (development)
+## OmicSelector 2.6.5.9001 (development)
+
+- Cache each specimen’s detrended MFDFA window variances once per scale
+  in `frac-mfdfa` and reuse them across q values. This removes sixfold
+  redundant least-squares work under the default q grid while preserving
+  the legacy descriptor exactly.
 
 - Correct
   [`os_detect_cross_cohort_duplicates()`](https://kstawiski.github.io/OmicSelector/reference/os_detect_cross_cohort_duplicates.md)
@@ -8,6 +13,7 @@
   enforced. Exact matching no longer rounds profiles to eight decimals,
   tolerant/partially observed matching is explicit, and malformed
   identifiers or thresholds fail closed.
+
 - Bound the external `ranktreeEnsemble` adapters’ training-only
   preliminary importance screen to a fixed 128-feature target before
   quadratic pair expansion. This preserves the backend’s top-quartile
@@ -17,6 +23,7 @@
   requiring and expanding all original inputs again; the frozen target,
   realized backend quantile, and selected feature order are stored in
   every model.
+
 - Add audited `ranktreeEnsemble` 0.24 adapters for random rank forests
   and boosted rank trees, plus an explicit external-competitor registry.
   These post-freeze sensitivity routes preserve the 74-row primary
@@ -25,6 +32,7 @@
   backend’s train/predict representation mismatch. The adapter also
   confines random-forest screening to its reproducible single-core RNG
   route and preserves singleton probability array dimensions.
+
 - Add audited group-collapsed and profile-weighted inference helpers for
   fair comparison of the full registered single-sample method roster,
   including corrected repeated-CV uncertainty, frozen multiplicity
@@ -32,6 +40,7 @@
   runner uses the group-collapsed estimand as primary when biological
   groups have repeated profiles and reports equal-profile weighting as a
   sensitivity analysis.
+
 - Add an experimental grouped cross-fitted single-sample selector with
   best-AUC, lower-confidence-limit, and simplex-stack routes. The three
   routes can share one inner cross-fit pass and return pure-R frozen
@@ -39,23 +48,28 @@
   and the final simplex affine reduction through the same one-specimen
   arithmetic path, guaranteeing exact batch-versus-singleton equality
   across BLAS implementations.
+
 - Add immutable paper-analysis producers for snapshot integration,
   all-method comparison, fully nested selector tasks, and selector
   synthesis. These scripts fail closed on provenance, split, support,
   fit-budget, and manifest inconsistencies.
+
 - Add a fail-closed 34-by-five nested-selector task-grid producer and
   portable one-task launcher that pin cache bytes, clean package commit,
   runtime inputs, and atomic output paths.
+
 - Pin nested-selector tasks to exact container and R-library snapshot
   hashes, record the executing R/package environment, and carry the
   frozen modality/biospecimen and 33-primary/one-sensitivity unit
   accounting into synthesis.
+
 - Add a fail-closed, serialization-only splitter for the paper’s frozen
   optional-dependency benchmark. It verifies the complete
   13-by-five-by-34 task contract, provenance-group folds, result
   cardinality, and package/code pins before atomically emitting one-cell
   task bundles and a final manifest; arbitrary fit, score, dependency,
   and runtime failures cannot be relabelled as structural ineligibility.
+
 - Add a package-owned structural-witness producer for generic
   ineligibility in that dependency benchmark. It replays only explicitly
   pinned cells from a clean historical package commit, preserves every
@@ -63,6 +77,7 @@
   task, analysis, fold-engine, and producer bytes prove a fold-local
   constant-score limitation rather than a hidden fit, scoring,
   dependency, or runtime error.
+
 - Make the paper’s all-method comparison consume an immutable, fully
   validated dependency-overlay candidate rather than mutable aggregate
   tables. The snapshot now binds every upstream validation row and input
@@ -76,12 +91,14 @@
   method–unit pairs completing all five registered seeds, while
   preserving every partial seed failure and reason in the complete
   cell/eligibility audit.
+
 - Add a package-owned, atomic runtime-receipt producer and shared
   start/end guard for the paper analyses. It pins the immutable image,
   canonical executables, exact R/platform/RNG/BLAS and one-thread state,
   and recursive installed dependency trees rooted at OmicSelector,
   data.table, digest, and metafor; snapshot, runner, and validator
   manifests carry the same receipt and image digests.
+
 - Add a package-owned post-run validator for the fair all-method
   comparison. It verifies the exact artifact inventory, frozen
   dimensions and pair family, common-support held-out joins,
