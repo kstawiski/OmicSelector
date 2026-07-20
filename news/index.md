@@ -7,6 +7,16 @@
   redundant least-squares work under the default q grid while preserving
   the legacy descriptor exactly.
 
+- Clarify the paper benchmark’s held-out support contract so complete
+  finite constant scores are retained as valid midrank-AUC evidence (AUC
+  0.5), while incomplete or non-finite score vectors still fail closed.
+  The external rank-tree runner now applies this rule uniformly, binds
+  both approved design amendments, and resolves its installed dependency
+  closure only within the active R libraries so a pinned `pkgload`
+  source checkout cannot invalidate final runtime re-attestation. The
+  shared paper runtime-receipt producer now uses the same
+  installed-library resolution contract.
+
 - Correct
   [`os_detect_cross_cohort_duplicates()`](https://kstawiski.github.io/OmicSelector/reference/os_detect_cross_cohort_duplicates.md)
   so its documented `tolerance` and `min_features` arguments are
