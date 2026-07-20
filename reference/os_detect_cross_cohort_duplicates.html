@@ -97,12 +97,14 @@ specimen-level train/test leakage and anti-conservative bootstrap CIs
 
 <dt id="arg-tolerance">tolerance<a class="anchor" aria-label="anchor" href="#arg-tolerance"></a></dt>
 <dd><p>Numeric tolerance for exact equality on feature vectors.
-Default 0 (bitwise equal).</p></dd>
+Default 0 (numeric equality without rounding).</p></dd>
 
 
 <dt id="arg-min-features">min_features<a class="anchor" aria-label="anchor" href="#arg-min-features"></a></dt>
-<dd><p>Minimum number of features required to declare a match.
-Default: all.</p></dd>
+<dd><p>Minimum number of jointly finite features required to
+declare a match. All jointly finite features must agree within
+`tolerance`. Default: all columns, which therefore requires complete
+profiles.</p></dd>
 
 </dl></div>
     <div class="section level2">

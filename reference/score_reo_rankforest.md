@@ -16,7 +16,9 @@ score_reo_rankforest(model, X, meta = NULL)
 
 - X:
 
-  Numeric matrix of samples by the complete frozen feature universe.
+  Numeric matrix of samples containing every raw feature selected and
+  frozen by the fitted backend. Unselected training features are
+  optional.
 
 - meta:
 

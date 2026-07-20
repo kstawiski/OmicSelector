@@ -44,11 +44,13 @@ os_detect_cross_cohort_duplicates(
 - tolerance:
 
   Numeric tolerance for exact equality on feature vectors. Default 0
-  (bitwise equal).
+  (numeric equality without rounding).
 
 - min_features:
 
-  Minimum number of features required to declare a match. Default: all.
+  Minimum number of jointly finite features required to declare a match.
+  All jointly finite features must agree within \`tolerance\`. Default:
+  all columns, which therefore requires complete profiles.
 
 ## Value
 

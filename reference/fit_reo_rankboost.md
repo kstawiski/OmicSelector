@@ -31,7 +31,8 @@ fit_reo_rankboost(X_train, y_train, meta_train = NULL, hp = list())
 
   Optional fixed hyperparameters: \`ntree\` (500), \`seed\` (1),
   \`dimreduce\` (\`TRUE\`), \`nodedepth\` (3), \`nodesize\` (5),
-  \`shrinkage\` (0.05), and \`bag_fraction\` (0.5).
+  \`shrinkage\` (0.05), \`bag_fraction\` (0.5), and
+  \`max_screen_features\` (128).
 
 ## Value
 
