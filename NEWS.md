@@ -1,4 +1,9 @@
-# OmicSelector 2.6.5.9000 (development)
+# OmicSelector 2.6.5.9001 (development)
+
+- Cache each specimen's detrended MFDFA window variances once per scale in
+  `frac-mfdfa` and reuse them across q values. This removes sixfold redundant
+  least-squares work under the default q grid while preserving the legacy
+  descriptor exactly.
 
 - Correct `os_detect_cross_cohort_duplicates()` so its documented `tolerance`
   and `min_features` arguments are enforced. Exact matching no longer rounds

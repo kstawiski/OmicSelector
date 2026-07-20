@@ -343,6 +343,21 @@ test_that("frac-mfdfa internal h(q) matches an independent MFDFA recompute", {
 })
 
 
+test_that("frac-mfdfa cached scale windows are bit-identical to the legacy q loop", {
+  hp <- .frac_mfdfa_resolve_hp(.frac_hp(q = c(-5, -3, -1, 0, 2, 3, 5)))
+  inputs <- list(
+    sin(seq(0, 14 * pi, length.out = hp$resample_len)),
+    rep(3, hp$resample_len),
+    seq(-2, 2, length.out = hp$resample_len)^3
+  )
+  for (x in inputs) {
+    cached <- .frac_mfdfa_hq(x, hp$scales, hp$q, hp$m_poly, hp$eps)
+    legacy <- .ind_mfdfa_hq(x, hp$scales, hp$q, hp$m_poly, hp$eps)
+    expect_identical(unname(cached), legacy)
+  }
+})
+
+
 test_that("frac-mfdfa ridge-LDA head solves the normal equations", {
   set.seed(5)
   Phi <- matrix(stats::rnorm(40 * 6), 40, 6)

@@ -397,15 +397,21 @@ score_frac_mfdfa <- function(model, X, meta = NULL) {
 .frac_mfdfa_hq <- function(x, scales, q, m_poly, eps) {
   Y <- cumsum(x - mean(x))
   log_s <- log(scales)
+  # The detrended window variances depend on the specimen, scale, and
+  # polynomial order, but not on q. Cache their logarithms once per scale;
+  # the previous implementation recomputed the same least-squares windows for
+  # every q value, which dominated large-cohort fits without changing h(q).
+  log_f2 <- lapply(scales, function(s) {
+    F2 <- .frac_mfdfa_segment_f2(Y, s, m_poly)
+    log(pmax(F2, eps))
+  })
   h <- numeric(length(q))
   for (qi in seq_along(q)) {
-    log_fq <- vapply(scales, function(s) {
-      F2 <- .frac_mfdfa_segment_f2(Y, s, m_poly)
-      F2 <- pmax(F2, eps)
+    log_fq <- vapply(log_f2, function(log_F2) {
       if (q[qi] == 0) {
-        0.5 * mean(log(F2))
+        0.5 * mean(log_F2)
       } else {
-        a <- (q[qi] / 2) * log(F2)
+        a <- (q[qi] / 2) * log_F2
         amax <- max(a)
         (log(mean(exp(a - amax))) + amax) / q[qi]
       }
