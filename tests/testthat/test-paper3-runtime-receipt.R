@@ -45,7 +45,16 @@ runtime_receipt_fixture <- function() {
     file.path(runtime_receipt_source_dir(), script_names),
     file.path(scripts, script_names)
   )))
-  version <- as.character(utils::packageVersion("OmicSelector"))
+  installed_path <- find.package(
+    "OmicSelector", lib.loc = .libPaths(), quiet = TRUE
+  )
+  if (!nzchar(installed_path)) {
+    stop("Runtime-receipt fixture requires an installed OmicSelector record.",
+         call. = FALSE)
+  }
+  version <- unname(read.dcf(
+    file.path(installed_path, "DESCRIPTION"), fields = "Version"
+  )[1L, "Version"])
   writeLines(c(
     "Package: OmicSelector", paste0("Version: ", version),
     "Title: Runtime Receipt Test Checkout",
@@ -81,6 +90,32 @@ runtime_receipt_fixture <- function() {
     version = version, commit = commit, tree_sha = tree_sha, args = args
   )
 }
+
+test_that("runtime receipt ignores a pkgload source checkout shadow", {
+  env <- new.env(parent = globalenv())
+  source(file.path(
+    runtime_receipt_source_dir(), "paper3_runtime_receipt_common.R"
+  ), local = env)
+  installed_path <- find.package(
+    "OmicSelector", lib.loc = .libPaths(), quiet = TRUE
+  )
+  skip_if(!nzchar(installed_path), "no installed OmicSelector record")
+  source_or_loaded_path <- find.package("OmicSelector", quiet = TRUE)
+  skip_if(identical(normalizePath(source_or_loaded_path),
+                    normalizePath(installed_path)),
+          "test process is not source-shadowed")
+
+  db <- env$.paper3rt_active_installed_db()
+  expect_true("OmicSelector" %in% rownames(db))
+  expect_identical(
+    normalizePath(file.path(db["OmicSelector", "LibPath"], "OmicSelector")),
+    normalizePath(installed_path)
+  )
+  expect_identical(
+    env$paper3_runtime_installed_package_tree_sha256("OmicSelector"),
+    env$.paper3rt_package_tree_sha256(installed_path)
+  )
+})
 
 test_that("runtime receipt is atomic, exact, and guards start/end runtime", {
   skip_if_not_installed("OmicSelector")

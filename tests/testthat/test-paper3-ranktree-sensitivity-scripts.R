@@ -25,6 +25,7 @@ ranktree_pin_fixture <- function() {
     provenance_union_inventory_sha256 = strrep("6", 64L),
     analysis_plan_sha256 = strrep("0", 64L),
     analysis_amendment_sha256 = strrep("a", 64L),
+    analysis_amendment2_sha256 = strrep("b", 64L),
     r_version = "R version 4.5.2 (2025-10-31)",
     analysis_code_id = strrep("5", 16L)
   )
@@ -38,6 +39,7 @@ test_that("rank-tree runner accepts only registered unique method subsets", {
     "--package-root", tempdir(), "--paper-root", tempdir(),
     "--analysis-plan", tempfile(),
     "--analysis-amendment", tempfile(),
+    "--analysis-amendment2", tempfile(),
     "--cache", tempfile(), "--output-dir", tempfile(),
     "--provenance-manifest", tempfile(),
     "--provenance-union-inventory", tempfile(),
@@ -49,6 +51,8 @@ test_that("rank-tree runner accepts only registered unique method subsets", {
     "--expected-analysis-plan-sha256", pin$analysis_plan_sha256,
     "--expected-analysis-amendment-sha256",
     pin$analysis_amendment_sha256,
+    "--expected-analysis-amendment2-sha256",
+    pin$analysis_amendment2_sha256,
     "--expected-package-commit", pin$package_commit,
     "--expected-cache-commit", pin$cache_commit,
     "--expected-cache-sha256", pin$cache_sha256,
@@ -93,6 +97,7 @@ test_that("assembler requires exact plan runtime and provenance pins", {
     "--package-root" = tempdir(), "--paper-root" = tempdir(),
     "--analysis-plan" = tempfile(),
     "--analysis-amendment" = tempfile(),
+    "--analysis-amendment2" = tempfile(),
     "--bundles" = paste(tempfile(rep("bundle", 7L)), collapse = ","),
     "--output-dir" = tempfile(), "--runtime-image" = tempfile(),
     "--runtime-attestation-manifest" = tempfile(),
@@ -100,6 +105,8 @@ test_that("assembler requires exact plan runtime and provenance pins", {
     "--expected-analysis-plan-sha256" = pin$analysis_plan_sha256,
     "--expected-analysis-amendment-sha256" =
       pin$analysis_amendment_sha256,
+    "--expected-analysis-amendment2-sha256" =
+      pin$analysis_amendment2_sha256,
     "--expected-package-commit" = pin$package_commit,
     "--expected-cache-commit" = pin$cache_commit,
     "--expected-cache-sha256" = pin$cache_sha256,
@@ -129,6 +136,8 @@ test_that("assembler requires exact plan runtime and provenance pins", {
                    pin$analysis_plan_sha256)
   expect_identical(parsed$expected_analysis_amendment_sha256,
                    pin$analysis_amendment_sha256)
+  expect_identical(parsed$expected_analysis_amendment2_sha256,
+                   pin$analysis_amendment2_sha256)
   plan_index <- match("--analysis-plan", args)
   expect_error(env$.rta_args(args[-c(plan_index, plan_index + 1L)]),
                "--analysis-plan")
@@ -192,6 +201,18 @@ test_that("approved analysis amendment is canonical, pinned, and fail closed", {
   writeLines(c("# Amendment", "Status: APPROVED", "mutated"), amendment)
   expect_error(env$.ranktree_validate_analysis_amendment(
     amendment, root, sha), "does not match")
+
+  amendment2 <- file.path(
+    root, "plan", "ranktree_external_competitor_amendment2_20260720.md"
+  )
+  writeLines(c("# Amendment 2", "Status: APPROVED", "Frozen repair."),
+             amendment2)
+  sha2 <- env$.ranktree_sha(amendment2)
+  expect_identical(env$.ranktree_validate_analysis_amendment(
+    amendment2, root, sha2, amendment_number = 2L),
+    normalizePath(amendment2))
+  expect_error(env$.ranktree_validate_analysis_amendment(
+    amendment2, root, sha2, amendment_number = 3L), "must be 1 or 2")
 })
 
 test_that("in-process runtime and library bytes must match attestation", {
@@ -227,6 +248,25 @@ test_that("in-process runtime and library bytes must match attestation", {
   expect_error(env$.ranktree_validate_runtime_attestation(
     path, env$.ranktree_sha(path), "wrong R", pin$runtime_image_sha256,
     pin$container_launcher_sha256, current = current), "R version differs")
+})
+
+test_that("installed runtime closure ignores a pkgload source shadow", {
+  env <- ranktree_paper_script_env(
+    "paper3_run_ranktree_sensitivity_bundle.R")
+  installed_path <- find.package(
+    "OmicSelector", lib.loc = .libPaths(), quiet = TRUE
+  )
+  skip_if(!nzchar(installed_path), "no installed OmicSelector record")
+  source_or_loaded_path <- find.package("OmicSelector", quiet = TRUE)
+  skip_if(identical(normalizePath(source_or_loaded_path),
+                    normalizePath(installed_path)),
+          "test process is not source-shadowed")
+  db <- env$.ranktree_installed_db()
+  expect_true("OmicSelector" %in% rownames(db))
+  expect_identical(
+    normalizePath(file.path(db["OmicSelector", "LibPath"], "OmicSelector")),
+    normalizePath(installed_path)
+  )
 })
 
 test_that("package launcher forwards clean-container attestation via env", {
@@ -399,72 +439,22 @@ test_that("runner rejects every non-reviewed ineligibility", {
                "Unreviewed ineligibility")
 })
 
-test_that("GSE83977 actual execution path makes engine errors typed and fatal", {
+test_that("GSE83977 uses the uniform Amendment 2 benchmark path", {
   env <- ranktree_paper_script_env(
     "paper3_run_ranktree_sensitivity_bundle.R")
-  X <- matrix(seq_len(36), nrow = 12,
-              dimnames = list(paste0("s", 1:12), paste0("f", 1:3)))
-  y <- rep(c(0L, 1L), 6L)
-  cohort <- list(expr_per_sample = X, y_bin = y,
-                 group_id = paste0("g", 1:12), min_per_fold = 2L)
-  roster <- data.frame(method_id = "reo-rankforest", fit_fn = "fit_fake",
-                       stringsAsFactors = FALSE)
-  folds <- list(c(1L, 2L, 7L, 8L), c(3L, 4L, 9L, 10L),
-                c(5L, 6L, 11L, 12L))
-  grouped <- function(y, group_id, k, seed) folds
-  baseline_ok <- function(X_train, y_train, X_test, panel_size) {
-    rep(0, nrow(X_test))
-  }
-  fit_ok <- function(fit_fn, X_train, y_train, meta_train, hp) list(ok = TRUE)
-  score_ok <- function(method_id, model, X, meta, roster) {
-    if (nrow(X) == 8L) seq_len(nrow(X)) else rep(1, nrow(X))
-  }
-  direction_ok <- function(score, y) 1
-  run <- function(baseline = baseline_ok, fit = fit_ok, score = score_ok) {
-    td <- tempfile("ranktree-strict-path-")
-    dir.create(td)
-    on.exit(unlink(td, recursive = TRUE), add = TRUE)
-    strict <- function(method, cohort_id, cohort, roster, out_dir, seed,
-                       outer_k) {
-      env$.ranktree_strict_exception_cell(
-        method, cohort_id, cohort, roster, out_dir, seed, outer_k,
-        grouped_fold_fn = grouped,
-        stratified_fold_fn = function(...) stop("unexpected"),
-        baseline_fn = baseline, fit_dispatch = fit,
-        score_dispatch = score, direction_fn = direction_ok
-      )
-    }
-    env$.ranktree_call_benchmark_cell(
-      function(...) stop("generic benchmark must not run for GSE83977"),
-      "reo-rankforest", "GSE83977", cohort, roster, td, 101L, 3L,
-      strict_exception_fn = strict
-    )
-  }
-  result <- run()
-  expect_false(result$eligible)
-  expect_true(result$structural_exception_proven)
-  expect_match(result$structural_exception_proof_sha256,
-               "^[0-9a-f]{64}$")
-  baseline_error <- function(...) stop("injected baseline")
-  expect_error(run(baseline = baseline_error), class = "ranktree_engine_error")
-  expect_error(run(fit = function(...) stop("injected fit")),
-               class = "ranktree_engine_error")
   calls <- 0L
-  training_error <- function(...) {
+  benchmark <- function(method_id, cohort_id, cohort, roster, ...) {
     calls <<- calls + 1L
-    if (calls == 1L) stop("injected training prediction")
-    score_ok(...)
+    list(method_id = method_id, cohort = cohort_id, eligible = TRUE)
   }
-  expect_error(run(score = training_error), class = "ranktree_engine_error")
-  calls <- 0L
-  heldout_error <- function(...) {
-    calls <<- calls + 1L
-    if (calls == 2L) stop("injected heldout prediction")
-    score_ok(...)
-  }
-  error <- tryCatch(run(score = heldout_error), error = identity)
-  expect_s3_class(error, "ranktree_engine_error")
-  expect_identical(error$stage, "heldout_prediction")
+  strict <- function(...) stop("historical strict exception must not run")
+  result <- env$.ranktree_call_benchmark_cell(
+    benchmark, "reo-rankforest", "GSE83977", list(), data.frame(),
+    tempdir(), 101L, 3L, strict_exception_fn = strict
+  )
+  expect_identical(calls, 1L)
+  expect_true(result$eligible)
+  expect_identical(result$cohort, "GSE83977")
 })
 
 test_that("split ids are shared and fail on any held-out mismatch", {
@@ -519,6 +509,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
       pin$provenance_union_inventory_sha256,
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
+    analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
     analysis_code_id = pin$analysis_code_id)
   predictions <- data.table::data.table(
     method = "reo-rankforest", cohort = "u1", seed = 101L,
@@ -538,6 +529,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
       pin$provenance_union_inventory_sha256,
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
+    analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
     analysis_code_id = pin$analysis_code_id)
   split_reference <- predictions[, .(
     fold = as.integer(fold), sample_id = as.character(sample_id),
@@ -574,6 +566,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
           pin$provenance_union_inventory_sha256,
         analysis_plan_sha256 = pin$analysis_plan_sha256,
         analysis_amendment_sha256 = pin$analysis_amendment_sha256,
+        analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
         analysis_code_id = pin$analysis_code_id))
   expect_invisible(env$.rta_validate_bundle(
     bundle, "reo-rankforest", pin, seeds = 101L))
@@ -600,6 +593,27 @@ test_that("assembler bundle validation binds package cache and provenance pins",
   expect_error(env$.rta_validate_bundle(
     broken, "reo-rankforest", pin, seeds = 101L),
     "analysis_amendment_sha256.*exact expected pin")
+  broken <- bundle
+  broken$analysis_amendment2_sha256 <- strrep("c", 64L)
+  expect_error(env$.rta_validate_bundle(
+    broken, "reo-rankforest", pin, seeds = 101L),
+    "analysis_amendment2_sha256.*exact expected pin")
+  broken <- bundle
+  broken$cells$eligible <- FALSE
+  broken$cells$ineligible_reason <- env$.rta_structural_reason()
+  broken$cells$n_eff <- NA_integer_
+  broken$cells$n_valid_folds <- 0L
+  broken$cells$outer_k <- 3L
+  broken$cells$cohort <- "GSE83977"
+  broken$cells$structural_exception_proven <- TRUE
+  broken$cells$structural_exception_basis <- "historical audit replay"
+  broken$cells$structural_exception_proof_sha256 <- strrep("d", 64L)
+  broken$cohorts <- "GSE83977"
+  broken$units$unit_id <- "GSE83977"
+  broken$predictions <- broken$predictions[0]
+  expect_error(env$.rta_validate_bundle(
+    broken, "reo-rankforest", pin, seeds = 101L),
+    "Amendment 2 requires every")
 })
 
 test_that("seven-method family freezes 21 registry-ordered comparisons", {
@@ -718,6 +732,7 @@ ranktree_checkpoint_fixture <- function(env, output_dir,
     r_version = pin$r_version,
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
+    analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
     provenance_script_sha256 = pin$provenance_script_sha256,
     provenance_manifest_sha256 = pin$provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
@@ -748,6 +763,9 @@ test_that("runtime image pin propagates into the checkpoint contract", {
   expect_identical(
     fixture$contract[key == "analysis_amendment_sha256", value],
     fixture$pins$analysis_amendment_sha256)
+  expect_identical(
+    fixture$contract[key == "analysis_amendment2_sha256", value],
+    fixture$pins$analysis_amendment2_sha256)
   expect_identical(
     fixture$contract[key == "provenance_union_inventory_sha256", value],
     fixture$pins$provenance_union_inventory_sha256)

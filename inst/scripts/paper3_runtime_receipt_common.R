@@ -131,7 +131,7 @@ paper3_runtime_required_thread_env <- function() {
 
 paper3_runtime_installed_package_tree_sha256 <- function(
     package = "OmicSelector") {
-  root <- find.package(package, quiet = TRUE)
+  root <- find.package(package, lib.loc = .libPaths(), quiet = TRUE)
   if (!length(root) || !nzchar(root)) {
     stop("Required installed package is unavailable: ", package,
          call. = FALSE)
@@ -145,18 +145,23 @@ paper3_runtime_installed_package_tree_sha256 <- function(
                          colnames(raw))) {
     stop("Could not read the installed-package database.", call. = FALSE)
   }
+  library_order <- unique(vapply(
+    .libPaths(), normalizePath, character(1L), mustWork = TRUE
+  ))
   packages <- unique(as.character(raw[, "Package"]))
   selected <- vapply(packages, function(package) {
-    root <- find.package(package, quiet = TRUE)
-    if (!length(root) || !nzchar(root)) return(NA_integer_)
-    active_library <- normalizePath(dirname(root), mustWork = TRUE)
     candidates <- which(raw[, "Package"] == package)
     candidate_libraries <- vapply(
       raw[candidates, "LibPath"], normalizePath, character(1L),
       mustWork = TRUE
     )
-    matches <- candidates[candidate_libraries == active_library]
-    if (length(matches) == 1L) matches else NA_integer_
+    # Resolve from installed.packages() itself, in active library precedence.
+    # This excludes pkgload source shadows and does not make the complete
+    # receipt depend on find.package() resolving unrelated installed records.
+    priority <- match(candidate_libraries, library_order)
+    if (anyNA(priority)) return(NA_integer_)
+    matches <- candidates[priority == min(priority)]
+    if (length(matches) == 1L) matches[[1L]] else NA_integer_
   }, integer(1L))
   if (anyNA(selected)) {
     stop("Could not resolve exactly one active library record per installed ",

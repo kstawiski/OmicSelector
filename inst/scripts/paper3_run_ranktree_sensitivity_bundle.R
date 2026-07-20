@@ -27,6 +27,7 @@ suppressPackageStartupMessages({
     package_root = "--package-root", paper_root = "--paper-root",
     analysis_plan = "--analysis-plan",
     analysis_amendment = "--analysis-amendment",
+    analysis_amendment2 = "--analysis-amendment2",
     cache = "--cache", output_dir = "--output-dir", methods = "--methods",
     provenance_manifest = "--provenance-manifest",
     provenance_union_inventory = "--provenance-union-inventory",
@@ -38,6 +39,8 @@ suppressPackageStartupMessages({
     expected_analysis_plan_sha256 = "--expected-analysis-plan-sha256",
     expected_analysis_amendment_sha256 =
       "--expected-analysis-amendment-sha256",
+    expected_analysis_amendment2_sha256 =
+      "--expected-analysis-amendment2-sha256",
     expected_package_commit = "--expected-package-commit",
     expected_cache_commit = "--expected-cache-commit",
     expected_cache_sha256 = "--expected-cache-sha256",
@@ -69,6 +72,7 @@ suppressPackageStartupMessages({
   hex <- c(
     expected_analysis_plan_sha256 = 64L,
     expected_analysis_amendment_sha256 = 64L,
+    expected_analysis_amendment2_sha256 = 64L,
     expected_package_commit = 40L, expected_cache_commit = 40L,
     expected_cache_sha256 = 64L, expected_cache_manifest_sha256 = 64L,
     expected_cache_digest_sha256 = 64L,
@@ -135,10 +139,19 @@ suppressPackageStartupMessages({
 }
 
 .ranktree_validate_analysis_amendment <- function(path, paper_root,
-                                                  expected_sha256) {
+                                                  expected_sha256,
+                                                  amendment_number = 1L) {
+  amendment_number <- as.integer(amendment_number)
+  if (length(amendment_number) != 1L || is.na(amendment_number) ||
+      !amendment_number %in% c(1L, 2L)) {
+    stop("Rank-tree amendment number must be 1 or 2.", call. = FALSE)
+  }
   paper_root <- normalizePath(paper_root, mustWork = TRUE)
   canonical <- normalizePath(file.path(
-    paper_root, "plan", "ranktree_external_competitor_amendment1_20260720.md"
+    paper_root, "plan", sprintf(
+      "ranktree_external_competitor_amendment%d_20260720.md",
+      amendment_number
+    )
   ), mustWork = TRUE)
   path <- .ranktree_assert_file_pin(
     path, expected_sha256, "Approved rank-tree analysis amendment"
@@ -211,7 +224,11 @@ suppressPackageStartupMessages({
                       mustWork = TRUE)
   names(lib_paths) <- unique(raw[, "LibPath"])
   selected <- vapply(packages, function(package) {
-    path <- find.package(package, quiet = TRUE)
+    # Restrict resolution to the installed libraries. pkgload::load_all() makes
+    # find.package() without lib.loc prefer the clean source checkout, which is
+    # intentionally not an installed.packages() record and is pinned separately
+    # by Git provenance.
+    path <- find.package(package, lib.loc = .libPaths(), quiet = TRUE)
     if (!nzchar(path)) return(NA_integer_)
     library <- normalizePath(dirname(path), mustWork = TRUE)
     matches <- which(raw[, "Package"] == package &
@@ -760,6 +777,7 @@ suppressPackageStartupMessages({
     r_version = package_pins$r_version,
     analysis_plan_sha256 = package_pins$analysis_plan_sha256,
     analysis_amendment_sha256 = package_pins$analysis_amendment_sha256,
+    analysis_amendment2_sha256 = package_pins$analysis_amendment2_sha256,
     provenance_manifest_sha256 = package_pins$provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
       package_pins$provenance_union_inventory_sha256,
@@ -843,6 +861,10 @@ suppressPackageStartupMessages({
   invisible(lapply(seq_len(nrow(cells)), function(i) {
     .ranktree_validate_cell_result(cells[i])
   }))
+  if (any(!cells$eligible)) {
+    stop("Amendment 2 requires every rank-tree sensitivity cell to satisfy ",
+         "the complete-finite held-out support contract.", call. = FALSE)
+  }
   if (!is.null(runtime_image_sha256) &&
       (!"runtime_image_sha256" %in% names(cells) ||
        !"runtime_image_sha256" %in% names(predictions) ||
@@ -909,12 +931,13 @@ suppressPackageStartupMessages({
       "runtime_attestation_manifest_sha256",
       "container_launcher_sha256",
       "analysis_plan_sha256", "analysis_amendment_sha256",
+      "analysis_amendment2_sha256",
       "provenance_script_sha256",
       "provenance_manifest_sha256", "provenance_union_inventory_sha256",
       "analysis_code_id", "r_version"
     ),
     value = c(
-      "omicselector-paper3-ranktree-checkpoint-v1",
+      "omicselector-paper3-ranktree-checkpoint-v2",
       normalizePath(output_dir, mustWork = FALSE),
       paste(methods, collapse = ","), paste(.ranktree_seeds(), collapse = ","),
       paste(units$unit_id, collapse = ","), pins$version, pins$commit,
@@ -925,6 +948,7 @@ suppressPackageStartupMessages({
       pins$container_launcher_sha256,
       pins$analysis_plan_sha256,
       pins$analysis_amendment_sha256,
+      pins$analysis_amendment2_sha256,
       pins$provenance_script_sha256,
       pins$provenance_manifest_sha256,
       pins$provenance_union_inventory_sha256,
@@ -984,7 +1008,8 @@ suppressPackageStartupMessages({
 }
 
 .ranktree_bundle_artifacts <- function() {
-  c("analysis_plan.md", "analysis_amendment.md", "engine_manifest.tsv", "environment_manifest.tsv",
+  c("analysis_plan.md", "analysis_amendment.md", "analysis_amendment2.md",
+    "engine_manifest.tsv", "environment_manifest.tsv",
     "methods.tsv",
     "provenance_preflight.log", "provenance_resolution.tsv", "report.md",
     "runtime_attestation.tsv",
@@ -1089,11 +1114,9 @@ suppressPackageStartupMessages({
 .ranktree_call_benchmark_cell <- function(
     benchmark_fn, method, cohort_id, cohort, roster, out_dir, seed, outer_k,
     strict_exception_fn = .ranktree_strict_exception_cell) {
-  if (identical(cohort_id, "GSE83977")) {
-    return(strict_exception_fn(
-      method, cohort_id, cohort, roster, out_dir, seed, outer_k
-    ))
-  }
+  # Amendment 2 applies one uniform complete-finite score contract. Constant
+  # held-out scores are valid midrank-AUC evidence, including for GSE83977; the
+  # historical strict-exception helper is retained only for audit replay.
   benchmark_fn(
     method, cohort_id, cohort, roster, out_dir = out_dir, seed = seed,
     outer_k = outer_k, min_valid_folds = outer_k,
@@ -1159,7 +1182,11 @@ suppressPackageStartupMessages({
   )
   analysis_amendment <- .ranktree_validate_analysis_amendment(
     opt$analysis_amendment, paper_root,
-    opt$expected_analysis_amendment_sha256
+    opt$expected_analysis_amendment_sha256, amendment_number = 1L
+  )
+  analysis_amendment2 <- .ranktree_validate_analysis_amendment(
+    opt$analysis_amendment2, paper_root,
+    opt$expected_analysis_amendment2_sha256, amendment_number = 2L
   )
   cache <- .ranktree_assert_file_pin(opt$cache, opt$expected_cache_sha256,
                                     "Cohort cache")
@@ -1186,6 +1213,7 @@ suppressPackageStartupMessages({
     runner_sha, opt$expected_package_commit, opt$expected_cache_sha256,
     opt$expected_analysis_plan_sha256,
     opt$expected_analysis_amendment_sha256,
+    opt$expected_analysis_amendment2_sha256,
     opt$expected_engine_manifest_sha256,
     opt$expected_environment_manifest_sha256,
     opt$expected_runtime_image_sha256,
@@ -1310,6 +1338,8 @@ suppressPackageStartupMessages({
     analysis_plan_sha256 = opt$expected_analysis_plan_sha256,
     analysis_amendment_sha256 =
       opt$expected_analysis_amendment_sha256,
+    analysis_amendment2_sha256 =
+      opt$expected_analysis_amendment2_sha256,
     provenance_script_sha256 = opt$expected_provenance_script_sha256,
     provenance_manifest_sha256 = opt$expected_provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
@@ -1336,22 +1366,11 @@ suppressPackageStartupMessages({
         result$outer_k <- outer_k
         cell <- .ranktree_cell_row(result, seed, pins)
         if (!isTRUE(result$eligible)) {
-          structural_proof <- list(
-            proven = result$structural_exception_proven,
-            basis = result$structural_exception_basis,
-            proof_sha256 = result$structural_exception_proof_sha256
+          stop(
+            "Rank-tree sensitivity cell failed the Amendment 2 complete-finite ",
+            "support contract: ", method, "/", cohort_id, "/seed ", seed,
+            ": ", result$ineligible_reason, call. = FALSE
           )
-          if (!isTRUE(structural_proof$proven) ||
-              !grepl("^[0-9a-f]{64}$", structural_proof$proof_sha256)) {
-            stop("An ineligible cell was not produced by the strict typed ",
-                 "structural-exception path.", call. = FALSE)
-          }
-          cell[, `:=`(
-            structural_exception_proven = structural_proof$proven,
-            structural_exception_basis = structural_proof$basis,
-            structural_exception_proof_sha256 =
-              structural_proof$proof_sha256
-          )]
         }
         .ranktree_validate_cell_result(cell)
         index <- index + 1L
@@ -1375,6 +1394,8 @@ suppressPackageStartupMessages({
             analysis_plan_sha256 = opt$expected_analysis_plan_sha256,
             analysis_amendment_sha256 =
               opt$expected_analysis_amendment_sha256,
+            analysis_amendment2_sha256 =
+              opt$expected_analysis_amendment2_sha256,
             provenance_manifest_sha256 =
               opt$expected_provenance_manifest_sha256,
             provenance_union_inventory_sha256 =
@@ -1423,6 +1444,8 @@ suppressPackageStartupMessages({
     analysis_plan_sha256 = opt$expected_analysis_plan_sha256,
     analysis_amendment_path = analysis_amendment,
     analysis_amendment_sha256 = opt$expected_analysis_amendment_sha256,
+    analysis_amendment2_path = analysis_amendment2,
+    analysis_amendment2_sha256 = opt$expected_analysis_amendment2_sha256,
     provenance_script_sha256 = opt$expected_provenance_script_sha256,
     provenance_manifest_sha256 = opt$expected_provenance_manifest_sha256,
     provenance_union_inventory_path = provenance_union_inventory,
@@ -1457,7 +1480,10 @@ suppressPackageStartupMessages({
   .ranktree_copy(analysis_plan, file.path(stage, "analysis_plan.md"),
                  "approved analysis plan")
   .ranktree_copy(analysis_amendment, file.path(stage, "analysis_amendment.md"),
-                 "approved analysis amendment")
+                 "approved analysis amendment 1")
+  .ranktree_copy(analysis_amendment2,
+                 file.path(stage, "analysis_amendment2.md"),
+                 "approved analysis amendment 2")
   resolution_target <- file.path(stage, "provenance_resolution.tsv")
   if (!identical(normalizePath(provenance$resolution_path, mustWork = TRUE),
                  normalizePath(resolution_target, mustWork = FALSE))) {
@@ -1483,8 +1509,10 @@ suppressPackageStartupMessages({
            opt$expected_provenance_union_inventory_sha256),
     paste0("Approved analysis plan SHA-256: ",
            opt$expected_analysis_plan_sha256),
-    paste0("Approved analysis amendment SHA-256: ",
+    paste0("Approved analysis amendment 1 SHA-256: ",
            opt$expected_analysis_amendment_sha256),
+    paste0("Approved analysis amendment 2 SHA-256: ",
+           opt$expected_analysis_amendment2_sha256),
     "Rank forest contract: unweighted preliminary screen; inverse-frequency ",
     "pair-forest case weights; numeric y=1 (`case`) is the positive target.",
     "Performance is computed as group-collapsed held-out AUC: one mean score ",
@@ -1505,6 +1533,7 @@ suppressPackageStartupMessages({
     .ranktree_sha(cache_digest_path), .ranktree_sha(opt$engine_manifest),
     .ranktree_sha(analysis_plan),
     .ranktree_sha(analysis_amendment),
+    .ranktree_sha(analysis_amendment2),
     .ranktree_sha(opt$environment_manifest), .ranktree_sha(runtime_image),
     .ranktree_sha(runtime_attestation$path), .ranktree_sha(launcher_path),
     .ranktree_sha(provenance_script),
@@ -1516,6 +1545,7 @@ suppressPackageStartupMessages({
     opt$expected_cache_digest_sha256, opt$expected_engine_manifest_sha256,
     opt$expected_analysis_plan_sha256,
     opt$expected_analysis_amendment_sha256,
+    opt$expected_analysis_amendment2_sha256,
     opt$expected_environment_manifest_sha256,
     opt$expected_runtime_image_sha256,
     opt$expected_runtime_attestation_manifest_sha256,
@@ -1541,6 +1571,7 @@ suppressPackageStartupMessages({
     environment_manifest_sha256 = opt$expected_environment_manifest_sha256,
     analysis_plan_sha256 = opt$expected_analysis_plan_sha256,
     analysis_amendment_sha256 = opt$expected_analysis_amendment_sha256,
+    analysis_amendment2_sha256 = opt$expected_analysis_amendment2_sha256,
     runtime_image_sha256 = opt$expected_runtime_image_sha256,
     runtime_attestation_manifest_sha256 =
       opt$expected_runtime_attestation_manifest_sha256,
