@@ -18,7 +18,7 @@ score_reo_rankboost(model, X, meta = NULL)
 
   Numeric matrix of samples containing every raw feature selected and
   frozen by the fitted backend. Unselected training features are
-  optional.
+  optional. An intercept-only state has no selected raw features.
 
 - meta:
 

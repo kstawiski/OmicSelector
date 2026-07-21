@@ -50,9 +50,12 @@ fit_reo_pairratio(X_train, y_train, meta_train = NULL, hp = list())
 
 A plain list of class `reo_pairratio_model` containing `selected_pairs`,
 nonzero `coefficients`, `intercept`, `pseudocount`, `screened_features`,
-`feature_universe`, `lambda`, `lambda_rule`, and resolved `hp`. If the
-chosen lambda yields an intercept-only glmnet model, `selected_pairs`
-has zero rows and scoring returns the intercept for every specimen.
+`feature_universe`, `lambda`, `lambda_rule`, `fit_status`, and resolved
+`hp`. If every training log-ratio is constant, or if the chosen lambda
+yields an intercept-only glmnet model, `selected_pairs` has zero rows
+and scoring returns the intercept for every specimen. The former state
+is recorded as `"intercept_only_zero_variance"` and has no fitted
+lambda.
 
 ## References
 

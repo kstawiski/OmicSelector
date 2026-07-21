@@ -31,8 +31,12 @@ fit_reo_rankboost(X_train, y_train, meta_train = NULL, hp = list())
 
   Optional fixed hyperparameters: \`ntree\` (500), \`seed\` (1),
   \`dimreduce\` (\`TRUE\`), \`nodedepth\` (3), \`nodesize\` (5),
-  \`shrinkage\` (0.05), \`bag_fraction\` (0.5), and
-  \`max_screen_features\` (128).
+  \`shrinkage\` (0.05), requested \`bag_fraction\` (0.5), and
+  \`max_screen_features\` (128). The effective bag fraction applies a
+  conservative training-size-only one-observation margin above the
+  pinned \`gbm\` node-size boundary; both the requested and effective
+  values are retained in the fitted state. A training set with no
+  variable pair ordering returns an exact intercept-only state.
 
 ## Value
 

@@ -111,9 +111,12 @@ reproducible while restoring the global RNG state).</p></dd>
     <p>A plain list of class <code>reo_pairratio_model</code> containing
   <code>selected_pairs</code>, nonzero <code>coefficients</code>, <code>intercept</code>,
   <code>pseudocount</code>, <code>screened_features</code>, <code>feature_universe</code>,
-  <code>lambda</code>, <code>lambda_rule</code>, and resolved <code>hp</code>. If the chosen
+  <code>lambda</code>, <code>lambda_rule</code>, <code>fit_status</code>, and resolved
+  <code>hp</code>. If every training log-ratio is constant, or if the chosen
   lambda yields an intercept-only glmnet model, <code>selected_pairs</code> has
-  zero rows and scoring returns the intercept for every specimen.</p>
+  zero rows and scoring returns the intercept for every specimen. The former
+  state is recorded as <code>"intercept_only_zero_variance"</code> and has no
+  fitted lambda.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

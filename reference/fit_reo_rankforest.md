@@ -42,7 +42,9 @@ fit_reo_rankforest(X_train, y_train, meta_train = NULL, hp = list())
   top-quartile importance screen unless it would be expected to
   materialize more than 128 preliminary features before pair expansion.
   The realized count can differ when preliminary importance values are
-  tied.
+  tied. If no pair-order indicator varies in the training data, fitting
+  returns an exact intercept-only state instead of invoking a backend
+  that cannot split it.
 
 ## Value
 
