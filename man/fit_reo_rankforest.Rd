@@ -19,7 +19,9 @@ otherwise ignored.}
 `max_screen_features` (128). The last value preserves the backend's
 top-quartile importance screen unless it would be expected to materialize
 more than 128 preliminary features before pair expansion. The realized
-count can differ when preliminary importance values are tied.}
+count can differ when preliminary importance values are tied. If no
+pair-order indicator varies in the training data, fitting returns an exact
+intercept-only state instead of invoking a backend that cannot split it.}
 }
 \value{
 A frozen `reo_rankforest_model` suitable for singleton scoring.

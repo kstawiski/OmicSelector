@@ -28,6 +28,7 @@ suppressPackageStartupMessages({
     analysis_plan = "--analysis-plan",
     analysis_amendment = "--analysis-amendment",
     analysis_amendment2 = "--analysis-amendment2",
+    analysis_amendment3 = "--analysis-amendment3",
     cache = "--cache", output_dir = "--output-dir", methods = "--methods",
     provenance_manifest = "--provenance-manifest",
     provenance_union_inventory = "--provenance-union-inventory",
@@ -41,6 +42,8 @@ suppressPackageStartupMessages({
       "--expected-analysis-amendment-sha256",
     expected_analysis_amendment2_sha256 =
       "--expected-analysis-amendment2-sha256",
+    expected_analysis_amendment3_sha256 =
+      "--expected-analysis-amendment3-sha256",
     expected_package_commit = "--expected-package-commit",
     expected_cache_commit = "--expected-cache-commit",
     expected_cache_sha256 = "--expected-cache-sha256",
@@ -73,6 +76,7 @@ suppressPackageStartupMessages({
     expected_analysis_plan_sha256 = 64L,
     expected_analysis_amendment_sha256 = 64L,
     expected_analysis_amendment2_sha256 = 64L,
+    expected_analysis_amendment3_sha256 = 64L,
     expected_package_commit = 40L, expected_cache_commit = 40L,
     expected_cache_sha256 = 64L, expected_cache_manifest_sha256 = 64L,
     expected_cache_digest_sha256 = 64L,
@@ -143,8 +147,8 @@ suppressPackageStartupMessages({
                                                   amendment_number = 1L) {
   amendment_number <- as.integer(amendment_number)
   if (length(amendment_number) != 1L || is.na(amendment_number) ||
-      !amendment_number %in% c(1L, 2L)) {
-    stop("Rank-tree amendment number must be 1 or 2.", call. = FALSE)
+      !amendment_number %in% c(1L, 2L, 3L)) {
+    stop("Rank-tree amendment number must be 1, 2, or 3.", call. = FALSE)
   }
   paper_root <- normalizePath(paper_root, mustWork = TRUE)
   canonical <- normalizePath(file.path(
@@ -778,6 +782,7 @@ suppressPackageStartupMessages({
     analysis_plan_sha256 = package_pins$analysis_plan_sha256,
     analysis_amendment_sha256 = package_pins$analysis_amendment_sha256,
     analysis_amendment2_sha256 = package_pins$analysis_amendment2_sha256,
+    analysis_amendment3_sha256 = package_pins$analysis_amendment3_sha256,
     provenance_manifest_sha256 = package_pins$provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
       package_pins$provenance_union_inventory_sha256,
@@ -932,6 +937,7 @@ suppressPackageStartupMessages({
       "container_launcher_sha256",
       "analysis_plan_sha256", "analysis_amendment_sha256",
       "analysis_amendment2_sha256",
+      "analysis_amendment3_sha256",
       "provenance_script_sha256",
       "provenance_manifest_sha256", "provenance_union_inventory_sha256",
       "analysis_code_id", "r_version"
@@ -949,6 +955,7 @@ suppressPackageStartupMessages({
       pins$analysis_plan_sha256,
       pins$analysis_amendment_sha256,
       pins$analysis_amendment2_sha256,
+      pins$analysis_amendment3_sha256,
       pins$provenance_script_sha256,
       pins$provenance_manifest_sha256,
       pins$provenance_union_inventory_sha256,
@@ -1009,6 +1016,7 @@ suppressPackageStartupMessages({
 
 .ranktree_bundle_artifacts <- function() {
   c("analysis_plan.md", "analysis_amendment.md", "analysis_amendment2.md",
+    "analysis_amendment3.md",
     "engine_manifest.tsv", "environment_manifest.tsv",
     "methods.tsv",
     "provenance_preflight.log", "provenance_resolution.tsv", "report.md",
@@ -1188,6 +1196,10 @@ suppressPackageStartupMessages({
     opt$analysis_amendment2, paper_root,
     opt$expected_analysis_amendment2_sha256, amendment_number = 2L
   )
+  analysis_amendment3 <- .ranktree_validate_analysis_amendment(
+    opt$analysis_amendment3, paper_root,
+    opt$expected_analysis_amendment3_sha256, amendment_number = 3L
+  )
   cache <- .ranktree_assert_file_pin(opt$cache, opt$expected_cache_sha256,
                                     "Cohort cache")
   cache_manifest_path <- file.path(dirname(cache), "cohort_cache_manifest.tsv")
@@ -1214,6 +1226,7 @@ suppressPackageStartupMessages({
     opt$expected_analysis_plan_sha256,
     opt$expected_analysis_amendment_sha256,
     opt$expected_analysis_amendment2_sha256,
+    opt$expected_analysis_amendment3_sha256,
     opt$expected_engine_manifest_sha256,
     opt$expected_environment_manifest_sha256,
     opt$expected_runtime_image_sha256,
@@ -1340,6 +1353,8 @@ suppressPackageStartupMessages({
       opt$expected_analysis_amendment_sha256,
     analysis_amendment2_sha256 =
       opt$expected_analysis_amendment2_sha256,
+    analysis_amendment3_sha256 =
+      opt$expected_analysis_amendment3_sha256,
     provenance_script_sha256 = opt$expected_provenance_script_sha256,
     provenance_manifest_sha256 = opt$expected_provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
@@ -1396,6 +1411,8 @@ suppressPackageStartupMessages({
               opt$expected_analysis_amendment_sha256,
             analysis_amendment2_sha256 =
               opt$expected_analysis_amendment2_sha256,
+            analysis_amendment3_sha256 =
+              opt$expected_analysis_amendment3_sha256,
             provenance_manifest_sha256 =
               opt$expected_provenance_manifest_sha256,
             provenance_union_inventory_sha256 =
@@ -1446,6 +1463,8 @@ suppressPackageStartupMessages({
     analysis_amendment_sha256 = opt$expected_analysis_amendment_sha256,
     analysis_amendment2_path = analysis_amendment2,
     analysis_amendment2_sha256 = opt$expected_analysis_amendment2_sha256,
+    analysis_amendment3_path = analysis_amendment3,
+    analysis_amendment3_sha256 = opt$expected_analysis_amendment3_sha256,
     provenance_script_sha256 = opt$expected_provenance_script_sha256,
     provenance_manifest_sha256 = opt$expected_provenance_manifest_sha256,
     provenance_union_inventory_path = provenance_union_inventory,
@@ -1484,6 +1503,9 @@ suppressPackageStartupMessages({
   .ranktree_copy(analysis_amendment2,
                  file.path(stage, "analysis_amendment2.md"),
                  "approved analysis amendment 2")
+  .ranktree_copy(analysis_amendment3,
+                 file.path(stage, "analysis_amendment3.md"),
+                 "approved analysis amendment 3")
   resolution_target <- file.path(stage, "provenance_resolution.tsv")
   if (!identical(normalizePath(provenance$resolution_path, mustWork = TRUE),
                  normalizePath(resolution_target, mustWork = FALSE))) {
@@ -1513,6 +1535,8 @@ suppressPackageStartupMessages({
            opt$expected_analysis_amendment_sha256),
     paste0("Approved analysis amendment 2 SHA-256: ",
            opt$expected_analysis_amendment2_sha256),
+    paste0("Approved analysis amendment 3 SHA-256: ",
+           opt$expected_analysis_amendment3_sha256),
     "Rank forest contract: unweighted preliminary screen; inverse-frequency ",
     "pair-forest case weights; numeric y=1 (`case`) is the positive target.",
     "Performance is computed as group-collapsed held-out AUC: one mean score ",
@@ -1534,6 +1558,7 @@ suppressPackageStartupMessages({
     .ranktree_sha(analysis_plan),
     .ranktree_sha(analysis_amendment),
     .ranktree_sha(analysis_amendment2),
+    .ranktree_sha(analysis_amendment3),
     .ranktree_sha(opt$environment_manifest), .ranktree_sha(runtime_image),
     .ranktree_sha(runtime_attestation$path), .ranktree_sha(launcher_path),
     .ranktree_sha(provenance_script),
@@ -1546,6 +1571,7 @@ suppressPackageStartupMessages({
     opt$expected_analysis_plan_sha256,
     opt$expected_analysis_amendment_sha256,
     opt$expected_analysis_amendment2_sha256,
+    opt$expected_analysis_amendment3_sha256,
     opt$expected_environment_manifest_sha256,
     opt$expected_runtime_image_sha256,
     opt$expected_runtime_attestation_manifest_sha256,
@@ -1572,6 +1598,7 @@ suppressPackageStartupMessages({
     analysis_plan_sha256 = opt$expected_analysis_plan_sha256,
     analysis_amendment_sha256 = opt$expected_analysis_amendment_sha256,
     analysis_amendment2_sha256 = opt$expected_analysis_amendment2_sha256,
+    analysis_amendment3_sha256 = opt$expected_analysis_amendment3_sha256,
     runtime_image_sha256 = opt$expected_runtime_image_sha256,
     runtime_attestation_manifest_sha256 =
       opt$expected_runtime_attestation_manifest_sha256,

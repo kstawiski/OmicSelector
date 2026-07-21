@@ -94,6 +94,39 @@ test_that("reo-pairratio fitting and scoring are deterministic", {
                    score_seed)
 })
 
+test_that("reo-pairratio returns an exact intercept-only zero-variance fit", {
+  skip_if_not_installed("glmnet")
+  n <- 20L
+  X <- matrix(
+    rep(c(1, 2, 4, 8), each = n), nrow = n,
+    dimnames = list(paste0("s", seq_len(n)), paste0("miR-", 1:4))
+  )
+  y <- rep(c(0L, 1L), each = n / 2L)
+
+  set.seed(712)
+  seed_before <- get(".Random.seed", envir = globalenv(), inherits = FALSE)
+  model <- fit_reo_pairratio(
+    X, y, hp = list(m_features = 4L, nfolds = 5L, seed = 17L)
+  )
+  expect_identical(get(".Random.seed", envir = globalenv(), inherits = FALSE),
+                   seed_before)
+  expect_identical(model$fit_status, "intercept_only_zero_variance")
+  expect_equal(nrow(model$selected_pairs), 0L)
+  expect_length(model$coefficients, 0L)
+  expect_true(is.na(model$lambda))
+  expect_equal(model$intercept, stats::qlogis(mean(y)))
+
+  score <- score_reo_pairratio(model, X[c(7, 1, 7), , drop = FALSE])
+  expect_identical(score, rep(model$intercept, 3L))
+
+  rm(".Random.seed", envir = globalenv())
+  model_without_seed <- fit_reo_pairratio(
+    X, y, hp = list(m_features = 4L, nfolds = 5L, seed = 17L)
+  )
+  expect_false(exists(".Random.seed", envir = globalenv(), inherits = FALSE))
+  expect_identical(model_without_seed, model)
+})
+
 test_that("reo-pairratio fitting leaves the global RNG untouched (no prior seed)", {
   skip_if_not_installed("glmnet")
   dat <- .make_reo_pairratio_data(seed = 37L)

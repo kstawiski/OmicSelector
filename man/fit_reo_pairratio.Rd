@@ -28,9 +28,12 @@ reproducible while restoring the global RNG state).}
 A plain list of class \code{reo_pairratio_model} containing
   \code{selected_pairs}, nonzero \code{coefficients}, \code{intercept},
   \code{pseudocount}, \code{screened_features}, \code{feature_universe},
-  \code{lambda}, \code{lambda_rule}, and resolved \code{hp}. If the chosen
+  \code{lambda}, \code{lambda_rule}, \code{fit_status}, and resolved
+  \code{hp}. If every training log-ratio is constant, or if the chosen
   lambda yields an intercept-only glmnet model, \code{selected_pairs} has
-  zero rows and scoring returns the intercept for every specimen.
+  zero rows and scoring returns the intercept for every specimen. The former
+  state is recorded as \code{"intercept_only_zero_variance"} and has no
+  fitted lambda.
 }
 \description{
 Learns a frozen penalized-logistic discriminator over selected pairwise

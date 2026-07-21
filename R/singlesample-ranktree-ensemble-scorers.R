@@ -142,6 +142,78 @@ singlesample_external_competitor_roster <- function() {
   max(0.75, 1 - max_screen_features / n_features)
 }
 
+.reo_ranktree_pair_order_varies <- function(X) {
+  if (nrow(X) < 2L) return(FALSE)
+  feature_index <- seq_len(ncol(X))
+  # ranktreeEnsemble::convert_genepairs emits one bit for each i < j:
+  # I(X_i < X_j). Sorting by value and breaking ties by decreasing feature
+  # index gives the unique permutation whose pair precedences are exactly those
+  # backend bits: for a tie, j precedes i and the i<j bit remains zero.
+  reference <- order(X[1L, ], -feature_index, method = "radix")
+  for (i in 2:nrow(X)) {
+    signature <- order(X[i, ], -feature_index, method = "radix")
+    if (!identical(signature, reference)) return(TRUE)
+  }
+  FALSE
+}
+
+.reo_rankboost_effective_bag_fraction <- function(n_train, nodesize,
+                                                   requested) {
+  n_train <- .reo_ranktree_positive_integer(
+    n_train, "fit_reo_rankboost: training row count"
+  )
+  nodesize <- .reo_ranktree_positive_integer(
+    nodesize, "fit_reo_rankboost: hp$nodesize"
+  )
+  requested <- .reo_ranktree_probability(
+    requested, "fit_reo_rankboost: hp$bag_fraction"
+  )
+  effective <- max(requested, (2 * nodesize + 2) / n_train)
+  if (effective > 1) {
+    stop(
+      "fit_reo_rankboost: training partition is too small for nodesize=",
+      nodesize, "; need at least ", 2 * nodesize + 2,
+      " rows to satisfy the pinned gbm bagging inequality",
+      call. = FALSE
+    )
+  }
+  effective
+}
+
+.reo_ranktree_intercept_only_model <- function(checked, hp, backend_version,
+                                                model_class) {
+  safe_names <- sprintf("feature_%07d", seq_len(ncol(checked$X)))
+  model <- list(
+    backend = NULL,
+    feature_names = colnames(checked$X),
+    safe_feature_names = safe_names,
+    backend_safe_feature_names = character(0),
+    positive_class = "case",
+    backend_package = "ranktreeEnsemble",
+    backend_version = backend_version,
+    constant_probability = mean(checked$y),
+    fit_status = "intercept_only_constant_pair_order",
+    hp = hp
+  )
+  class(model) <- model_class
+  model
+}
+
+.reo_ranktree_intercept_only_score <- function(model, X, meta, fn) {
+  if (!identical(model$fit_status, "intercept_only_constant_pair_order")) {
+    return(NULL)
+  }
+  X <- .reo_check_matrix(X, fn, "X")
+  .reo_check_meta(meta, nrow(X), fn, "meta")
+  probability <- model$constant_probability
+  if (!is.numeric(probability) || length(probability) != 1L ||
+      !is.finite(probability) || probability < 0 || probability > 1 ||
+      !is.null(model$backend) || length(model$backend_safe_feature_names)) {
+    stop(fn, ": malformed intercept-only rank-tree state", call. = FALSE)
+  }
+  rep(as.numeric(probability), nrow(X))
+}
+
 .reo_ranktree_backend_pair_names <- function(backend, fn) {
   pair_names <- if (inherits(backend, "gbm")) {
     backend$var.names
@@ -283,7 +355,9 @@ singlesample_external_competitor_roster <- function() {
 #'   `max_screen_features` (128). The last value preserves the backend's
 #'   top-quartile importance screen unless it would be expected to materialize
 #'   more than 128 preliminary features before pair expansion. The realized
-#'   count can differ when preliminary importance values are tied.
+#'   count can differ when preliminary importance values are tied. If no
+#'   pair-order indicator varies in the training data, fitting returns an exact
+#'   intercept-only state instead of invoking a backend that cannot split it.
 #' @return A frozen `reo_rankforest_model` suitable for singleton scoring.
 #' @references Lu M, Yin R, Chen XS. Ensemble methods of rank-based trees for
 #'   single sample classification with gene expression profiles. Journal of
@@ -298,6 +372,11 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
   hp$backend_dimreduce_quantile <- .reo_ranktree_dimreduce_quantile(
     ncol(checked$X), hp$max_screen_features, hp$dimreduce
   )
+  if (!.reo_ranktree_pair_order_varies(checked$X)) {
+    return(.reo_ranktree_intercept_only_model(
+      checked, hp, backend_version, "reo_rankforest_model"
+    ))
+  }
   safe <- .reo_ranktree_safe_training_data(checked$X, checked$y)
   case_wt <- NULL
   if (hp$class_balance) {
@@ -322,6 +401,7 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
     positive_class = "case",
     backend_package = "ranktreeEnsemble",
     backend_version = backend_version,
+    fit_status = "backend",
     hp = hp
   )
   class(model) <- "reo_rankforest_model"
@@ -339,7 +419,12 @@ fit_reo_rankforest <- function(X_train, y_train, meta_train = NULL, hp = list())
 #' @inheritParams fit_reo_rankforest
 #' @param hp Optional fixed hyperparameters: `ntree` (500), `seed` (1),
 #'   `dimreduce` (`TRUE`), `nodedepth` (3), `nodesize` (5), `shrinkage`
-#'   (0.05), `bag_fraction` (0.5), and `max_screen_features` (128).
+#'   (0.05), requested `bag_fraction` (0.5), and `max_screen_features` (128).
+#'   The effective bag fraction applies a conservative training-size-only
+#'   one-observation margin above the pinned `gbm` node-size boundary; both the
+#'   requested and effective values are retained in the fitted state. A
+#'   training set with no variable pair ordering returns an exact
+#'   intercept-only state.
 #' @return A frozen `reo_rankboost_model` suitable for singleton scoring.
 #' @export
 fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) {
@@ -351,13 +436,23 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
   hp$backend_dimreduce_quantile <- .reo_ranktree_dimreduce_quantile(
     ncol(checked$X), hp$max_screen_features, hp$dimreduce
   )
+  hp$requested_bag_fraction <- hp$bag_fraction
+  if (!.reo_ranktree_pair_order_varies(checked$X)) {
+    hp$effective_bag_fraction <- NA_real_
+    return(.reo_ranktree_intercept_only_model(
+      checked, hp, backend_version, "reo_rankboost_model"
+    ))
+  }
+  hp$effective_bag_fraction <- .reo_rankboost_effective_bag_fraction(
+    nrow(checked$X), hp$nodesize, hp$requested_bag_fraction
+  )
   safe <- .reo_ranktree_safe_training_data(checked$X, checked$y)
   backend <- .reo_ranktree_with_seed(hp$seed, {
     ranktreeEnsemble::rboost(
       outcome ~ ., data = safe$data, dimreduce = hp$backend_dimreduce_quantile,
       datrank = FALSE, ntree = hp$ntree, nodedepth = hp$nodedepth,
       nodesize = hp$nodesize, shrinkage = hp$shrinkage,
-      bag.fraction = hp$bag_fraction, train.fraction = 1,
+      bag.fraction = hp$effective_bag_fraction, train.fraction = 1,
       cv.folds = 1, keep.data = TRUE, verbose = FALSE, n.cores = 1L
     )
   })
@@ -372,6 +467,7 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
     positive_class = "case",
     backend_package = "ranktreeEnsemble",
     backend_version = backend_version,
+    fit_status = "backend",
     hp = hp
   )
   class(model) <- "reo_rankboost_model"
@@ -449,6 +545,7 @@ fit_reo_rankboost <- function(X_train, y_train, meta_train = NULL, hp = list()) 
 #' @param model A `reo_rankforest_model` returned by [fit_reo_rankforest()].
 #' @param X Numeric matrix of samples containing every raw feature selected and
 #'   frozen by the fitted backend. Unselected training features are optional.
+#'   An intercept-only state has no selected raw features.
 #' @param meta Optional row-aligned metadata, accepted for canonical dispatch
 #'   and otherwise ignored.
 #' @return Numeric case probabilities, one per row of `X`.
@@ -458,6 +555,10 @@ score_reo_rankforest <- function(model, X, meta = NULL) {
     stop("score_reo_rankforest: model must have class reo_rankforest_model",
          call. = FALSE)
   }
+  constant <- .reo_ranktree_intercept_only_score(
+    model, X, meta, "score_reo_rankforest"
+  )
+  if (!is.null(constant)) return(constant)
   .reo_ranktree_require_backend()
   data <- .reo_ranktree_score_data(model, X, "score_reo_rankforest")
   .reo_check_meta(meta, nrow(data), "score_reo_rankforest", "meta")
@@ -478,6 +579,10 @@ score_reo_rankboost <- function(model, X, meta = NULL) {
     stop("score_reo_rankboost: model must have class reo_rankboost_model",
          call. = FALSE)
   }
+  constant <- .reo_ranktree_intercept_only_score(
+    model, X, meta, "score_reo_rankboost"
+  )
+  if (!is.null(constant)) return(constant)
   .reo_ranktree_require_backend()
   data <- .reo_ranktree_score_data(model, X, "score_reo_rankboost")
   .reo_check_meta(meta, nrow(data), "score_reo_rankboost", "meta")

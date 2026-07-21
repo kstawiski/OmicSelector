@@ -54,6 +54,133 @@ test_that("rank-tree hyperparameters freeze deployable datrank=FALSE", {
   )
 })
 
+test_that("rank-tree variability matches backend pair indicators under ties", {
+  exhaustive <- function(X) {
+    any(combn(ncol(X), 2L, function(j) {
+      length(unique(X[, j[1L]] < X[, j[2L]])) > 1L
+    }))
+  }
+  same_weak_order <- rbind(
+    c(1, 1, 3, 7, 7),
+    c(2, 2, 5, 9, 9),
+    c(0, 0, 1, 4, 4)
+  )
+  changed_order <- same_weak_order
+  changed_order[3L, c(1L, 3L)] <- changed_order[3L, c(3L, 1L)]
+
+  expect_false(OmicSelector:::.reo_ranktree_pair_order_varies(same_weak_order))
+  expect_true(OmicSelector:::.reo_ranktree_pair_order_varies(changed_order))
+  expect_identical(
+    OmicSelector:::.reo_ranktree_pair_order_varies(same_weak_order),
+    exhaustive(same_weak_order)
+  )
+  expect_identical(
+    OmicSelector:::.reo_ranktree_pair_order_varies(changed_order),
+    exhaustive(changed_order)
+  )
+
+  # The backend uses only I(feature_i < feature_j): tie and greater-than are
+  # both zero for i < j, whereas tie and less-than differ.
+  tie_to_greater <- rbind(c(5, 5), c(7, 5))
+  tie_to_less <- rbind(c(5, 5), c(4, 5))
+  expect_false(OmicSelector:::.reo_ranktree_pair_order_varies(tie_to_greater))
+  expect_true(OmicSelector:::.reo_ranktree_pair_order_varies(tie_to_less))
+  expect_identical(
+    OmicSelector:::.reo_ranktree_pair_order_varies(tie_to_greater),
+    exhaustive(tie_to_greater)
+  )
+  expect_identical(
+    OmicSelector:::.reo_ranktree_pair_order_varies(tie_to_less),
+    exhaustive(tie_to_less)
+  )
+
+  set.seed(913)
+  for (i in seq_len(20L)) {
+    X <- matrix(sample(0:4, 48L, replace = TRUE), nrow = 8L)
+    expect_identical(
+      OmicSelector:::.reo_ranktree_pair_order_varies(X),
+      exhaustive(X)
+    )
+  }
+
+  # Exhaust every pair of four-feature rows over a three-value alphabet. This
+  # covers 6,561 row pairs and every possible tie/strict-order combination in
+  # that finite domain, rather than relying on a random sample alone.
+  rows <- as.matrix(expand.grid(rep(list(0:2), 4L)))
+  observed <- expected <- logical(nrow(rows)^2L)
+  k <- 0L
+  for (i in seq_len(nrow(rows))) {
+    for (j in seq_len(nrow(rows))) {
+      k <- k + 1L
+      X <- rbind(rows[i, ], rows[j, ])
+      observed[[k]] <- OmicSelector:::.reo_ranktree_pair_order_varies(X)
+      expected[[k]] <- exhaustive(X)
+    }
+  }
+  expect_identical(observed, expected)
+})
+
+test_that("rank-boost bag fraction minimally satisfies the backend boundary", {
+  effective <- OmicSelector:::.reo_rankboost_effective_bag_fraction
+  expect_equal(effective(24L, 5L, 0.5), 0.5)
+  expect_equal(effective(23L, 5L, 0.5), 12 / 23)
+  expect_equal(effective(12L, 5L, 0.5), 1)
+  expect_error(effective(11L, 5L, 0.5), "need at least 12 rows")
+  expect_error(effective(20L, 5L, 0), "must be in")
+})
+
+test_that("rank-tree zero-information fits are finite and row-equivariant", {
+  skip_if_not_installed("ranktreeEnsemble", minimum_version = "0.24")
+  skip_if_not(identical(as.character(utils::packageVersion("ranktreeEnsemble")),
+                        "0.24"))
+  n <- 20L
+  X <- t(vapply(seq_len(n), function(i) {
+    c(1, 1, 3, 5, 8, 8) * (1 + i / 10)
+  }, numeric(6)))
+  colnames(X) <- paste0("miR-", seq_len(ncol(X)))
+  rownames(X) <- paste0("s", seq_len(nrow(X)))
+  y <- rep(c(0L, 1L), each = n / 2L)
+
+  set.seed(914)
+  seed_before <- get(".Random.seed", envir = globalenv(), inherits = FALSE)
+  forest <- fit_reo_rankforest(X, y, hp = list(ntree = 20L, seed = 7L))
+  boost <- fit_reo_rankboost(
+    X, y,
+    hp = list(ntree = 20L, seed = 11L, nodesize = 5L, bag_fraction = 0.5)
+  )
+  expect_identical(get(".Random.seed", envir = globalenv(), inherits = FALSE),
+                   seed_before)
+
+  for (model in list(forest, boost)) {
+    expect_identical(model$fit_status,
+                     "intercept_only_constant_pair_order")
+    expect_null(model$backend)
+    expect_length(model$backend_safe_feature_names, 0L)
+    expect_equal(model$constant_probability, mean(y))
+  }
+  expect_equal(boost$hp$requested_bag_fraction, 0.5)
+  expect_true(is.na(boost$hp$effective_bag_fraction))
+
+  forest_bytes <- serialize(forest, NULL, version = 3L)
+  boost_bytes <- serialize(boost, NULL, version = 3L)
+  expected <- rep(mean(y), 4L)
+  expect_identical(score_reo_rankforest(forest, X[c(7, 1, 7, 2), ]), expected)
+  expect_identical(score_reo_rankboost(boost, X[c(7, 1, 7, 2), ]), expected)
+  expect_identical(
+    vapply(1:4, function(i) score_reo_rankforest(
+      forest, X[c(7, 1, 7, 2)[i], , drop = FALSE]
+    ), numeric(1)),
+    expected
+  )
+  expect_identical(serialize(forest, NULL, version = 3L), forest_bytes)
+  expect_identical(serialize(boost, NULL, version = 3L), boost_bytes)
+
+  malformed <- forest
+  malformed$constant_probability <- NA_real_
+  expect_error(score_reo_rankforest(malformed, X[1, , drop = FALSE]),
+               "malformed intercept-only")
+})
+
 test_that("rank-tree probability extraction preserves singleton array shape", {
   value <- array(
     c(0.8, 0.2), dim = c(1L, 2L, 1L),
@@ -177,6 +304,9 @@ test_that("boosted rank trees are deterministic and singleton-equivariant", {
     dat$X, dat$y,
     hp = list(ntree = 20L, seed = 11L, nodedepth = 2L, nodesize = 3L)
   )
+  expect_equal(model$hp$requested_bag_fraction, 0.5)
+  expect_equal(model$hp$effective_bag_fraction, 0.5)
+  expect_identical(model$fit_status, "backend")
   expect_true(length(model$backend_safe_feature_names) < ncol(dat$X))
   model_bytes <- serialize(model, NULL, version = 3L)
   expect_identical(get(".Random.seed", envir = globalenv()), before)

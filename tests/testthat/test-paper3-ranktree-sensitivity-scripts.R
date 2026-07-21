@@ -26,6 +26,7 @@ ranktree_pin_fixture <- function() {
     analysis_plan_sha256 = strrep("0", 64L),
     analysis_amendment_sha256 = strrep("a", 64L),
     analysis_amendment2_sha256 = strrep("b", 64L),
+    analysis_amendment3_sha256 = strrep("c", 64L),
     r_version = "R version 4.5.2 (2025-10-31)",
     analysis_code_id = strrep("5", 16L)
   )
@@ -40,6 +41,7 @@ test_that("rank-tree runner accepts only registered unique method subsets", {
     "--analysis-plan", tempfile(),
     "--analysis-amendment", tempfile(),
     "--analysis-amendment2", tempfile(),
+    "--analysis-amendment3", tempfile(),
     "--cache", tempfile(), "--output-dir", tempfile(),
     "--provenance-manifest", tempfile(),
     "--provenance-union-inventory", tempfile(),
@@ -53,6 +55,8 @@ test_that("rank-tree runner accepts only registered unique method subsets", {
     pin$analysis_amendment_sha256,
     "--expected-analysis-amendment2-sha256",
     pin$analysis_amendment2_sha256,
+    "--expected-analysis-amendment3-sha256",
+    pin$analysis_amendment3_sha256,
     "--expected-package-commit", pin$package_commit,
     "--expected-cache-commit", pin$cache_commit,
     "--expected-cache-sha256", pin$cache_sha256,
@@ -98,6 +102,7 @@ test_that("assembler requires exact plan runtime and provenance pins", {
     "--analysis-plan" = tempfile(),
     "--analysis-amendment" = tempfile(),
     "--analysis-amendment2" = tempfile(),
+    "--analysis-amendment3" = tempfile(),
     "--bundles" = paste(tempfile(rep("bundle", 7L)), collapse = ","),
     "--output-dir" = tempfile(), "--runtime-image" = tempfile(),
     "--runtime-attestation-manifest" = tempfile(),
@@ -107,6 +112,8 @@ test_that("assembler requires exact plan runtime and provenance pins", {
       pin$analysis_amendment_sha256,
     "--expected-analysis-amendment2-sha256" =
       pin$analysis_amendment2_sha256,
+    "--expected-analysis-amendment3-sha256" =
+      pin$analysis_amendment3_sha256,
     "--expected-package-commit" = pin$package_commit,
     "--expected-cache-commit" = pin$cache_commit,
     "--expected-cache-sha256" = pin$cache_sha256,
@@ -138,6 +145,8 @@ test_that("assembler requires exact plan runtime and provenance pins", {
                    pin$analysis_amendment_sha256)
   expect_identical(parsed$expected_analysis_amendment2_sha256,
                    pin$analysis_amendment2_sha256)
+  expect_identical(parsed$expected_analysis_amendment3_sha256,
+                   pin$analysis_amendment3_sha256)
   plan_index <- match("--analysis-plan", args)
   expect_error(env$.rta_args(args[-c(plan_index, plan_index + 1L)]),
                "--analysis-plan")
@@ -211,8 +220,18 @@ test_that("approved analysis amendment is canonical, pinned, and fail closed", {
   expect_identical(env$.ranktree_validate_analysis_amendment(
     amendment2, root, sha2, amendment_number = 2L),
     normalizePath(amendment2))
+
+  amendment3 <- file.path(
+    root, "plan", "ranktree_external_competitor_amendment3_20260720.md"
+  )
+  writeLines(c("# Amendment 3", "Status: APPROVED", "Frozen repair."),
+             amendment3)
+  sha3 <- env$.ranktree_sha(amendment3)
+  expect_identical(env$.ranktree_validate_analysis_amendment(
+    amendment3, root, sha3, amendment_number = 3L),
+    normalizePath(amendment3))
   expect_error(env$.ranktree_validate_analysis_amendment(
-    amendment2, root, sha2, amendment_number = 3L), "must be 1 or 2")
+    amendment3, root, sha3, amendment_number = 4L), "must be 1, 2, or 3")
 })
 
 test_that("in-process runtime and library bytes must match attestation", {
@@ -510,6 +529,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
     analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
+    analysis_amendment3_sha256 = pin$analysis_amendment3_sha256,
     analysis_code_id = pin$analysis_code_id)
   predictions <- data.table::data.table(
     method = "reo-rankforest", cohort = "u1", seed = 101L,
@@ -530,6 +550,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
     analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
+    analysis_amendment3_sha256 = pin$analysis_amendment3_sha256,
     analysis_code_id = pin$analysis_code_id)
   split_reference <- predictions[, .(
     fold = as.integer(fold), sample_id = as.character(sample_id),
@@ -567,6 +588,7 @@ test_that("assembler bundle validation binds package cache and provenance pins",
         analysis_plan_sha256 = pin$analysis_plan_sha256,
         analysis_amendment_sha256 = pin$analysis_amendment_sha256,
         analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
+        analysis_amendment3_sha256 = pin$analysis_amendment3_sha256,
         analysis_code_id = pin$analysis_code_id))
   expect_invisible(env$.rta_validate_bundle(
     bundle, "reo-rankforest", pin, seeds = 101L))
@@ -598,6 +620,11 @@ test_that("assembler bundle validation binds package cache and provenance pins",
   expect_error(env$.rta_validate_bundle(
     broken, "reo-rankforest", pin, seeds = 101L),
     "analysis_amendment2_sha256.*exact expected pin")
+  broken <- bundle
+  broken$analysis_amendment3_sha256 <- strrep("d", 64L)
+  expect_error(env$.rta_validate_bundle(
+    broken, "reo-rankforest", pin, seeds = 101L),
+    "analysis_amendment3_sha256.*exact expected pin")
   broken <- bundle
   broken$cells$eligible <- FALSE
   broken$cells$ineligible_reason <- env$.rta_structural_reason()
@@ -733,6 +760,7 @@ ranktree_checkpoint_fixture <- function(env, output_dir,
     analysis_plan_sha256 = pin$analysis_plan_sha256,
     analysis_amendment_sha256 = pin$analysis_amendment_sha256,
     analysis_amendment2_sha256 = pin$analysis_amendment2_sha256,
+    analysis_amendment3_sha256 = pin$analysis_amendment3_sha256,
     provenance_script_sha256 = pin$provenance_script_sha256,
     provenance_manifest_sha256 = pin$provenance_manifest_sha256,
     provenance_union_inventory_sha256 =
@@ -766,6 +794,9 @@ test_that("runtime image pin propagates into the checkpoint contract", {
   expect_identical(
     fixture$contract[key == "analysis_amendment2_sha256", value],
     fixture$pins$analysis_amendment2_sha256)
+  expect_identical(
+    fixture$contract[key == "analysis_amendment3_sha256", value],
+    fixture$pins$analysis_amendment3_sha256)
   expect_identical(
     fixture$contract[key == "provenance_union_inventory_sha256", value],
     fixture$pins$provenance_union_inventory_sha256)

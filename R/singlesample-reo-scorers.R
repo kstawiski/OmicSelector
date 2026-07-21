@@ -686,9 +686,12 @@ score_reo_ktsp <- function(model, X, meta = NULL) {
 #' @return A plain list of class \code{reo_pairratio_model} containing
 #'   \code{selected_pairs}, nonzero \code{coefficients}, \code{intercept},
 #'   \code{pseudocount}, \code{screened_features}, \code{feature_universe},
-#'   \code{lambda}, \code{lambda_rule}, and resolved \code{hp}. If the chosen
+#'   \code{lambda}, \code{lambda_rule}, \code{fit_status}, and resolved
+#'   \code{hp}. If every training log-ratio is constant, or if the chosen
 #'   lambda yields an intercept-only glmnet model, \code{selected_pairs} has
-#'   zero rows and scoring returns the intercept for every specimen.
+#'   zero rows and scoring returns the intercept for every specimen. The former
+#'   state is recorded as \code{"intercept_only_zero_variance"} and has no
+#'   fitted lambda.
 #'
 #' @examples
 #' \dontrun{
@@ -746,6 +749,33 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
   pair_map <- .reo_pairratio_pair_map(screened_features)
   pair_map$ratio_id <- paste0("ratio_", seq_len(nrow(pair_map)))
   colnames(R) <- pair_map$ratio_id
+
+  variable_ratio <- vapply(
+    seq_len(ncol(R)),
+    function(j) any(R[, j] != R[1L, j]),
+    logical(1)
+  )
+  if (!any(variable_ratio)) {
+    selected_pairs <- pair_map[
+      FALSE,
+      c("feature_a", "feature_b", "ratio_name", "ratio_id"),
+      drop = FALSE
+    ]
+    model <- list(
+      selected_pairs = selected_pairs,
+      coefficients = stats::setNames(numeric(0), character(0)),
+      intercept = stats::qlogis(mean(y)),
+      pseudocount = hp$pseudocount,
+      screened_features = unname(screened_features),
+      feature_universe = colnames(X_train),
+      lambda = NA_real_,
+      lambda_rule = hp$lambda_rule,
+      fit_status = "intercept_only_zero_variance",
+      hp = hp
+    )
+    class(model) <- "reo_pairratio_model"
+    return(model)
+  }
 
   # RNG hygiene: snapshot/restore the global .Random.seed around ALL RNG-using
   # fitting (seeded folds + cv.glmnet) so fit leaves no global RNG side-effect,
@@ -812,6 +842,7 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
     feature_universe = colnames(X_train),
     lambda = chosen_lambda,
     lambda_rule = hp$lambda_rule,
+    fit_status = "glmnet",
     hp = hp
   )
   class(model) <- "reo_pairratio_model"

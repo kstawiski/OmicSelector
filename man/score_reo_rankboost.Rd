@@ -10,7 +10,8 @@ score_reo_rankboost(model, X, meta = NULL)
 \item{model}{A `reo_rankboost_model` returned by [fit_reo_rankboost()].}
 
 \item{X}{Numeric matrix of samples containing every raw feature selected and
-frozen by the fitted backend. Unselected training features are optional.}
+frozen by the fitted backend. Unselected training features are optional.
+An intercept-only state has no selected raw features.}
 
 \item{meta}{Optional row-aligned metadata, accepted for canonical dispatch
 and otherwise ignored.}

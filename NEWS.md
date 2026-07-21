@@ -14,6 +14,17 @@
   final runtime re-attestation. The shared paper runtime-receipt producer now
   uses the same installed-library resolution contract.
 
+- Return explicit intercept-only frozen states when every training log-ratio
+  is constant for `reo-pairratio`, or when no within-sample pair ordering varies
+  for the external rank-forest and rank-boost routes. These zero-information
+  states score each specimen deterministically, preserve RNG and model state,
+  and expose their fit status instead of failing inside a dependency backend.
+
+- Preserve rank-boost's requested 0.5 bag fraction in the audit state and apply
+  a conservative one-training-observation effective bag-fraction floor for
+  small folds. This avoids the pinned `gbm` node-size boundary; folds that
+  remain mathematically too small at a fraction of one fail explicitly.
+
 - Correct `os_detect_cross_cohort_duplicates()` so its documented `tolerance`
   and `min_features` arguments are enforced. Exact matching no longer rounds
   profiles to eight decimals, tolerant/partially observed matching is explicit,
