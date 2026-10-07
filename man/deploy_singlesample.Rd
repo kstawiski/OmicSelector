@@ -10,7 +10,8 @@ deploy_singlesample(
   method = "ws-balance-ilr",
   meta_train = NULL,
   annotation = NULL,
-  verify = TRUE
+  verify = TRUE,
+  nondetect_limit = 0
 )
 }
 \arguments{
@@ -30,6 +31,10 @@ signature includes an \code{annotation} argument.}
 \code{\link{singlesample_assert_row_equivariant}} on the training rows (or a
 deterministic subset for large inputs) so construction fails loudly when the
 fitted scorer is not single-sample deployable.}
+
+\item{nondetect_limit}{Finite non-negative abundance threshold, frozen at
+deployment construction (default 0). For an assay mapping undetected Ct 40
+to abundance 1, use 1. This threshold must be specified on the input scale.}
 }
 \value{
 An S3 object of class \code{singlesample_deployable} containing the
