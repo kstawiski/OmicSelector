@@ -158,6 +158,9 @@ ws_rclr_trimmed <- function(x,
                       zero_policy = zero_policy,
                       min_centering_size = min_centering_size)
     }))
+    # apply() simplifies a one-feature batch to a vector; restore its column
+    # shape before attaching names (also covers a one-feature frozen panel).
+    dim(out) <- dim(x)
     dimnames(out) <- dimnames(x)
     return(out)
   }
@@ -324,18 +327,47 @@ fit_ws_rclr_panel <- function(X_train, y_train, meta_train = NULL, hp = list()) 
 #' Score specimens with a frozen trimmed-rCLR signed panel
 #'
 #' @description
-#' Applies [ws_rclr_trimmed()] independently to each incoming specimen and sums
-#' the transformed values over the training-frozen feature panel after applying
-#' the training-frozen signs. Extra features are ignored. Missing panel features
-#' fail closed rather than being imputed from a scored batch.
+#' Applies \code{\link{ws_rclr_trimmed}} to each row of the entire supplied
+#' matrix before selecting the frozen panel and summing its signed values.
+#' Background columns can change the centering set and the default
+#' specimen-specific pseudocount, so adding or removing them can change scores
+#' even when every panel feature is present. Use a consistent feature universe
+#' for comparable scores. Missing panel features always fail closed.
 #'
-#' @param model A `ws_rclr_panel_model` returned by [fit_ws_rclr_panel()].
+#' @param model A \code{ws_rclr_panel_model} from \code{\link{fit_ws_rclr_panel}}.
 #' @param X Numeric specimens-by-features matrix.
 #' @param meta Unused; accepted for the canonical roster score contract.
+#' @param strict Logical scalar. The default \code{FALSE} preserves the supplied-
+#'   matrix transform and permits missing non-panel training columns for backward
+#'   compatibility. Set \code{TRUE} to reject any missing column from the frozen
+#'   training feature universe, including background columns. Extra columns are
+#'   still transformed in both modes; strict mode checks absence only.
 #'
-#' @return One finite numeric score per specimen.
+#' @return One finite numeric score per specimen, with a \code{support} data-frame
+#'   attribute containing one row per score. \code{n_available} counts training-
+#'   universe columns present, \code{n_fitted} counts all training-universe columns,
+#'   and \code{full_support} reports whether these counts agree. These are feature
+#'   counts, not pair counts or the number of features retained for centering.
+#'   They describe column availability, not detection or assay quality. A TRUE
+#'   flag does not rule out effects of extra background columns. Save
+#'   \code{attr(score, "support")} before subsetting or numeric coercion, which
+#'   can discard attributes.
+#'
+#' @examples
+#' set.seed(7)
+#' X <- matrix(rexp(20 * 8), 20, dimnames = list(NULL, paste0("f", 1:8)))
+#' model <- fit_ws_rclr_panel(X, rep(0:1, each = 10),
+#'                           hp = list(panel_size = 1, min_centering_size = 1,
+#'                                     trim_upper = 0, trim_lower = 0))
+#' full <- score_ws_rclr_panel(model, X, strict = TRUE)
+#' panel_only <- X[, model$panel, drop = FALSE]
+#' partial <- score_ws_rclr_panel(model, panel_only)
+#' attr(partial, "support")  # 1 available / 8 fitted features; full_support = FALSE
+#' stopifnot(any(abs(as.numeric(full) - as.numeric(partial)) > 1e-8))
+#' tryCatch(score_ws_rclr_panel(model, panel_only, strict = TRUE),
+#'          singlesample_input_error = function(e) e$code)
 #' @export
-score_ws_rclr_panel <- function(model, X, meta = NULL) {
+score_ws_rclr_panel <- function(model, X, meta = NULL, strict = FALSE) {
   if (!inherits(model, "ws_rclr_panel_model")) {
     stop("score_ws_rclr_panel: model must come from fit_ws_rclr_panel().",
          call. = FALSE)
@@ -349,6 +381,16 @@ score_ws_rclr_panel <- function(model, X, meta = NULL) {
     stop("score_ws_rclr_panel: meta must have one row per specimen.",
          call. = FALSE)
   }
+  .ss_check_strict(strict, "score_ws_rclr_panel")
+  .ss_guard_input(X, model$panel, "score_ws_rclr_panel")
+  if (strict) {
+    if (!length(model$feature_universe)) {
+      .ss_input_reject("MISSING_FITTED_UNIVERSE",
+                       "strict scoring requires the frozen training feature universe",
+                       "score_ws_rclr_panel")
+    }
+    .ss_guard_required(model$feature_universe, colnames(X), "score_ws_rclr_panel")
+  }
   missing <- setdiff(model$panel, colnames(X))
   if (length(missing)) {
     stop("score_ws_rclr_panel: missing frozen panel feature(s): ",
@@ -359,7 +401,8 @@ score_ws_rclr_panel <- function(model, X, meta = NULL) {
   if (length(score) != nrow(X) || any(!is.finite(score))) {
     stop("score_ws_rclr_panel: non-finite score produced.", call. = FALSE)
   }
-  score
+  .ss_attach_support(score, sum(model$feature_universe %in% colnames(X)),
+                     length(model$feature_universe))
 }
 
 

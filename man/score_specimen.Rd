@@ -4,7 +4,7 @@
 \alias{score_specimen}
 \title{Score new specimens with a frozen single-sample deployment object}
 \usage{
-score_specimen(deployable, x_new, meta = NULL)
+score_specimen(deployable, x_new, meta = NULL, detected = NULL, strict = FALSE)
 }
 \arguments{
 \item{deployable}{A \code{singlesample_deployable} object from
@@ -14,12 +14,43 @@ score_specimen(deployable, x_new, meta = NULL)
 with one or more specimen rows and feature columns.}
 
 \item{meta}{Optional per-specimen metadata, one row per row of \code{x_new}.}
+
+\item{detected}{Optional logical matrix aligned to \code{x_new} (or a named
+logical vector for one specimen). TRUE means detected before imputation.
+Supply this mask when preprocessing replaces nondetects by positive values
+that cannot be distinguished from measured values. No detection status is
+inferred from scored-batch variation or from a constant specimen profile.}
+
+\item{strict}{Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
+k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
+requires the frozen training feature universe, and balance ILR requires
+every frozen balance member. Other routes and custom adapters reject with
+\code{STRICT_UNSUPPORTED}. Existing input guards apply in both modes.}
 }
 \value{
-Numeric score vector with one value per incoming specimen.
+Numeric score vector with one value per incoming specimen. For k-TSP,
+  pair-ratio, trimmed-rCLR and balance-ILR panels, the scorer's
+  \code{support} attribute is retained; see \code{\link{score_reo_ktsp}},
+  \code{\link{score_reo_pairratio}}, \code{\link{score_ws_rclr_panel}}
+  and \code{\link{score_ws_balance_ilr}}. The default preserves each
+  scorer's missing-feature policy. Use \code{strict = TRUE} here to require
+  complete support. Invalid strict values raise \code{INVALID_STRICT};
+  missing features raise \code{MISSING_REQUIRED_FEATURES}, and absent frozen
+  universe metadata raises \code{MISSING_FITTED_UNIVERSE}.
 }
 \description{
 Scores one or more incoming specimens using only \code{x_new} plus the frozen
 parameters stored in \code{deployable}. No scored batch, co-resident reference
 cohort, or test-time batch statistic is required.
+}
+\details{
+Invalid input raises a \code{singlesample_input_error} with machine-readable
+\code{code} and affected \code{rows}. Codes include \code{EMPTY_INPUT},
+\code{INVALID_FEATURE_NAMES}, \code{ALL_REQUIRED_ABSENT},
+\code{ALL_NONDETECT}, \code{EMPTY_FITTED_SUPPORT},
+\code{CONSTANT_FITTED_SUPPORT}, and \code{NO_USABLE_SUPPORT}.
+A batch containing an invalid row is rejected as a whole. Checks use only
+each specimen and frozen training information. Positive imputation cannot
+be recognized without \code{detected} or an appropriate frozen
+\code{nondetect_limit}. Refit legacy models to record training support status.
 }

@@ -75,13 +75,13 @@ test_that("reo-ktsp equals predict.os_ktsp_model on fully-present features", {
   score <- score_reo_ktsp(model, X_full)
   primitive <- predict(model$ktsp, X_full)
 
-  expect_equal(score, as.numeric(primitive), tolerance = 1e-12)
+  expect_equal(as.numeric(score), as.numeric(primitive), tolerance = 1e-12)
 
   # single-row equivalence: predict.os_ktsp_model is now single-sample safe, so
   # a 1-row specimen scores identically through the wrapper and the primitive.
   one <- score_reo_ktsp(model, X_full[1, , drop = FALSE])
   expect_length(one, 1L)
-  expect_equal(one, as.numeric(predict(model$ktsp, X_full[1, , drop = FALSE])),
+  expect_equal(as.numeric(one), as.numeric(predict(model$ktsp, X_full[1, , drop = FALSE])),
                tolerance = 1e-12)
 })
 
@@ -97,9 +97,9 @@ test_that("reo-ktsp scores correctly with exactly one usable pair", {
   expect_length(s, 6L)
   expect_true(all(is.finite(s)))
   # vote fraction over one pair == that pair's raw within-row vote
-  expect_equal(s, as.numeric(X_1pair[, p1$feature_a] < X_1pair[, p1$feature_b]))
+  expect_equal(as.numeric(s), as.numeric(X_1pair[, p1$feature_a] < X_1pair[, p1$feature_b]))
   # and the single-row case stays scalar and consistent
-  expect_equal(score_reo_ktsp(model, X_1pair[3, , drop = FALSE]), s[3])
+  expect_equal(as.numeric(score_reo_ktsp(model, X_1pair[3, , drop = FALSE])), s[3])
 })
 
 test_that("reo-ktsp scores are deterministic finite numeric vectors", {
@@ -115,7 +115,7 @@ test_that("reo-ktsp scores are deterministic finite numeric vectors", {
   expect_true(all(is.finite(s1)))
 })
 
-test_that("reo-ktsp handles partial overlap and neutral no-pair cases", {
+test_that("reo-ktsp handles partial overlap and rejects no-pair cases", {
   dat <- .make_reo_ktsp_data(seed = 25L)
   model <- fit_reo_ktsp(dat$X, dat$y, hp = list(k = 5L))
   dropped <- model$ktsp$pairs$feature_a[1]
@@ -129,16 +129,15 @@ test_that("reo-ktsp handles partial overlap and neutral no-pair cases", {
   expect_true(any(usable))
 
   row_id <- 5L
-  expect_equal(score_reo_ktsp(model, X_partial[row_id, , drop = FALSE]),
+  expect_equal(as.numeric(score_reo_ktsp(model, X_partial[row_id, , drop = FALSE])),
                score_partial[row_id], tolerance = 1e-12)
 
   X_one <- dat$X[1:6, model$ktsp$pairs$feature_a[1], drop = FALSE]
-  expect_equal(score_reo_ktsp(model, X_one), rep(0.5, nrow(X_one)))
+  expect_error(score_reo_ktsp(model, X_one), "NO_USABLE_SUPPORT")
 
   X_no_shared <- dat$X[1:4, 1:2, drop = FALSE]
   colnames(X_no_shared) <- c("other-a", "other-b")
-  expect_equal(score_reo_ktsp(model, X_no_shared),
-               rep(0.5, nrow(X_no_shared)))
+  expect_error(score_reo_ktsp(model, X_no_shared), "ALL_REQUIRED_ABSENT")
 })
 
 test_that("reo-ktsp input validation errors are explicit", {

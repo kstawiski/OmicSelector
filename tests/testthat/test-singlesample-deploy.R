@@ -140,7 +140,7 @@ test_that("score_specimen gives the same score for singleton and batch rows", {
   delta <- max(abs(single - batch))
 
   expect_lt(delta, 1e-9)
-  expect_equal(single, batch, tolerance = 1e-12)
+  expect_equal(as.numeric(single), batch, tolerance = 1e-12)
 })
 
 test_that("method selection errors are explicit", {

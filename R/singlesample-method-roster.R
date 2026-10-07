@@ -188,15 +188,31 @@ singlesample_register_score_adapter <- function(method_id, fn) {
 #' @param meta Optional per-sample metadata (data frame with `nrow(X)` rows).
 #' @param roster The roster to resolve against; defaults to
 #'   [singlesample_method_roster()].
-#' @return Numeric vector of one score per row of `X`.
+#' @param strict Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
+#'   pass strict checking to built-in k-TSP, pair-ratio, trimmed-rCLR or
+#'   balance-ILR scoring. Other methods, replaced roster scorers, and registered
+#'   custom adapters fail with \code{singlesample_input_error} code
+#'   \code{STRICT_UNSUPPORTED}. See [score_specimen()] for required features.
+#' @return Numeric vector of one score per row of `X`, retaining any
+#'   \code{support} attribute returned by the scorer.
 #' @seealso [singlesample_method_roster()], [singlesample_assert_row_equivariant()]
 #' @export
 singlesample_score_call <- function(method_id, model, X, meta = NULL,
-                              roster = singlesample_method_roster()) {
+                              roster = singlesample_method_roster(),
+                              strict = FALSE) {
+  .ss_check_strict(strict, "singlesample_score_call")
+  strict_fn <- if (strict) .ss_strict_scorer(method_id, "singlesample_score_call")
   row <- roster[roster$method_id == method_id, , drop = FALSE]
   if (nrow(row) != 1L) {
     stop(sprintf("method_id '%s' not found uniquely in roster.", method_id),
          call. = FALSE)
+  }
+  if (strict && (!identical(row$score_fn[[1L]], strict_fn) ||
+      exists(method_id, envir = .singlesample_score_adapter_registry,
+             inherits = FALSE))) {
+    .ss_input_reject("STRICT_UNSUPPORTED",
+                     "strict checking requires the built-in canonical scorer",
+                     "singlesample_score_call")
   }
   X <- .singlesample_as_score_matrix(X)
   if (!is.null(meta)) {
@@ -217,13 +233,13 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
                         "through singlesample_score_call()."),
                  method_id, method_id), call. = FALSE)
   } else {
-    adapter <- .singlesample_canonical_adapter(method_id, row$score_fn[[1]])
+    adapter <- .singlesample_canonical_adapter(method_id, row$score_fn[[1]], strict)
   }
   out <- adapter(model, X, meta)
   .singlesample_validate_score_output(out, nrow(X), method_id)
 }
 
-.singlesample_canonical_adapter <- function(method_id, score_fn_name) {
+.singlesample_canonical_adapter <- function(method_id, score_fn_name, strict = FALSE) {
   if (is.na(score_fn_name) || !nzchar(score_fn_name)) {
     stop(sprintf("method '%s' has no score function declared.", method_id),
          call. = FALSE)
@@ -237,6 +253,7 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
                         "adapter via singlesample_register_score_adapter()."),
                  method_id, score_fn_name), call. = FALSE)
   }
+  if (strict) return(function(model, X, meta) fn(model, X, meta, strict = TRUE))
   function(model, X, meta) fn(model, X, meta)
 }
 
@@ -277,7 +294,9 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
     stop(sprintf(paste0("method '%s' score_call must return a numeric vector ",
                         "(got %s)."), method_id, class(out)[1]), call. = FALSE)
   }
-  out <- as.numeric(out)  # lossless: strips an n-by-1 numeric matrix dim only
+  support <- attr(out, "support", exact = TRUE)
+  out <- as.numeric(out)
+  if (!is.null(support)) attr(out, "support") <- support
   if (length(out) != n) {
     stop(sprintf("method '%s' score_call must return %d numeric scores (got %d).",
                  method_id, n, length(out)), call. = FALSE)

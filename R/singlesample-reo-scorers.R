@@ -552,6 +552,8 @@ fit_reo_ktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     hp = hp
   )
   class(model) <- "reo_ktsp_model"
+  model$support_status <- if (!nrow(ktsp$pairs)) "empty" else
+    .ss_support_status(.reo_ktsp_vote_fraction(X_train, ktsp$pairs))
   model
 }
 
@@ -559,13 +561,18 @@ fit_reo_ktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' @title Score REO-kTSP within-sample pair-order votes
 #'
 #' @description
-#' Scores each row of \code{X} independently with the frozen oriented pairs
-#' learned by \code{\link{fit_reo_ktsp}}. For the pairs whose two features are
-#' present in \code{X}, the score is the k-TSP vote fraction: the mean of
-#' \code{feature_a < feature_b} votes over usable pairs. This is the standard
-#' k-TSP decision statistic and supplies a continuous margin score for DeLong
-#' comparisons. If no retained pair has both features present, the function
-#' returns the neutral vote fraction \code{0.5} for every row.
+#' Scores each specimen using the oriented pairs learned by
+#' \code{\link{fit_reo_ktsp}}. With the default \code{strict = FALSE}, only
+#' pairs with both features present contribute. The score is the mean of
+#' \code{feature_a < feature_b} votes over these available pairs. Missing pairs
+#' reduce the denominator: this is a reduced-support score, not the complete
+#' fitted model's score. Its discrimination and calibration on a reduced panel
+#' are not established by the complete-panel fit.
+#'
+#' Empty or constant fitted support, absence of all required features,
+#' all-nondetect rows, and panels with no complete pair raise a
+#' \code{singlesample_input_error}; see \code{\link{score_specimen}}.
+#' Scoring uses only each specimen and the frozen model.
 #'
 #' @param model A \code{reo_ktsp_model} object returned by
 #'   \code{\link{fit_reo_ktsp}}.
@@ -574,22 +581,32 @@ fit_reo_ktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' @param meta Optional per-sample metadata. Accepted for interface uniformity
 #'   and ignored by this method.
 #'
-#' @return Numeric vector of one finite vote-fraction score per row of
-#'   \code{X}. Scores use only each row's own values plus the frozen model, with
-#'   no scored-batch centering, quantiles, or renormalization. On a fully
-#'   present feature set the result is identical to
-#'   \code{predict(model$ktsp, X)}.
+#' @param strict Logical scalar. The default \code{FALSE} preserves scoring
+#'   over available pairs for backward compatibility. Set \code{TRUE} to reject
+#'   any missing feature from a fitted pair. Unused training features are not
+#'   required. Existing invalid-input and unusable-support checks apply in both
+#'   modes.
+#'
+#' @return Numeric vector of one finite vote-fraction score per row. With all
+#'   fitted-pair features present, numeric values equal \code{predict(model$ktsp, X)}.
+#'   The \code{support} attribute is a data frame with one row per score:
+#'   \code{n_available} counts fitted pairs with both named columns present,
+#'   \code{n_fitted} counts all fitted pairs, and \code{full_support} reports
+#'   whether these counts agree. Counts describe column availability, not
+#'   detection or assay quality. Save \code{attr(score, "support")} before
+#'   subsetting or numeric coercion, which can discard attributes.
 #'
 #' @examples
-#' \dontrun{
-#' X <- matrix(stats::rgamma(40 * 12, shape = 2), nrow = 40,
-#'             dimnames = list(NULL, paste0("miR-", seq_len(12))))
-#' y <- rep(c(0, 1), each = 20)
-#' X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
-#' X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
-#' model <- fit_reo_ktsp(X, y, hp = list(k = 3L))
-#' score_reo_ktsp(model, X[1, , drop = FALSE])
-#' }
+#' # An illustrative frozen two-pair model.
+#' pairs <- data.frame(feature_a = c("a", "c"), feature_b = c("b", "d"))
+#' model <- structure(list(ktsp = list(pairs = pairs)), class = "reo_ktsp_model")
+#' X <- rbind(c(a = 2, b = 1, c = 1, d = 3), c(a = 1, b = 2, c = 4, d = 2))
+#' full <- score_reo_ktsp(model, X, strict = TRUE)
+#' partial <- score_reo_ktsp(model, X[, c("a", "b"), drop = FALSE])
+#' attr(partial, "support")  # 1 available / 2 fitted pairs; full_support = FALSE
+#' stopifnot(identical(as.numeric(partial), c(0, 1)))
+#' tryCatch(score_reo_ktsp(model, X[, c("a", "b"), drop = FALSE], strict = TRUE),
+#'          singlesample_input_error = function(e) e$code)
 #'
 #' @references
 #' Geman D, d'Avignon C, Naiman DQ, Winslow RL. (2004) Classifying gene
@@ -601,23 +618,20 @@ fit_reo_ktsp <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' 21: 3896-3904.
 #'
 #' @export
-score_reo_ktsp <- function(model, X, meta = NULL) {
+score_reo_ktsp <- function(model, X, meta = NULL, strict = FALSE) {
   if (!inherits(model, "reo_ktsp_model")) {
     stop("score_reo_ktsp: model must have class reo_ktsp_model")
   }
+  .ss_guard_pair_input(model, X, model$ktsp$pairs, "score_reo_ktsp", strict)
   X <- .reo_check_matrix(X, "score_reo_ktsp", "X")
   .reo_check_meta(meta, nrow(X), "score_reo_ktsp", "meta")
 
   usable_pairs <- .reo_ktsp_usable_pairs(model$ktsp$pairs, colnames(X))
-  if (nrow(usable_pairs) == 0L) {
-    return(rep(0.5, nrow(X)))
-  }
-
   out <- .reo_ktsp_vote_fraction(X, usable_pairs)
   if (length(out) != nrow(X) || any(!is.finite(out))) {
     stop("score_reo_ktsp: scorer produced non-finite or wrong-length output")
   }
-  out
+  .ss_attach_support(out, nrow(usable_pairs), nrow(model$ktsp$pairs))
 }
 
 .reo_resolve_hp_ktsp <- function(hp, p) {
@@ -771,6 +785,7 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
       lambda = NA_real_,
       lambda_rule = hp$lambda_rule,
       fit_status = "intercept_only_zero_variance",
+      support_status = "constant",
       hp = hp
     )
     class(model) <- "reo_pairratio_model"
@@ -846,6 +861,13 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
     hp = hp
   )
   class(model) <- "reo_pairratio_model"
+  model$support_status <- if (!nrow(selected_pairs)) "empty" else {
+    training_score <- vapply(seq_len(nrow(X_train)), function(i) {
+      .reo_pairratio_score_row(X_train[i, ], selected_pairs, coefficients,
+                               intercept, hp$pseudocount)
+    }, numeric(1L))
+    .ss_support_status(training_score)
+  }
   model
 }
 
@@ -853,17 +875,21 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
 #' @title Score REO-pairratio within-sample log-ratio discriminator
 #'
 #' @description
-#' Scores each row of \code{X} independently with the frozen pairwise
-#' log-ratio coefficients learned by \code{\link{fit_reo_pairratio}}. For one
-#' specimen and each stored pair \code{(a, b)}, if both features are present in
-#' \code{X}, the term is
-#' \code{log(X[i, a] + pseudocount) - log(X[i, b] + pseudocount)}. If either
-#' feature is absent, that pair is dropped for that specimen. The returned
-#' score is the frozen linear predictor, not \code{plogis()} of it.
+#' Scores each specimen with the pairwise log-ratio coefficients learned by
+#' \code{\link{fit_reo_pairratio}}. Each available pair \code{(a, b)} contributes
+#' its frozen coefficient times
+#' \code{log(X[i, a] + pseudocount) - log(X[i, b] + pseudocount)}.
+#' With the default \code{strict = FALSE}, pairs missing either feature are
+#' omitted. The frozen intercept and remaining coefficients are unchanged;
+#' there is no rescaling. This is a reduced-support linear predictor, not the
+#' complete fitted model's score. Its discrimination and calibration on a
+#' reduced panel are not established by the complete-panel fit. The returned
+#' score is the linear predictor, not \code{plogis()} of it.
 #'
-#' If the model is intercept-only, or if none of the stored pairs is usable for
-#' a scored specimen, the score is the intercept. Scoring uses no random numbers
-#' and no scored-batch statistics.
+#' Empty or constant fitted support, absence of all required features,
+#' all-nondetect rows, and panels without a complete pair raise a
+#' \code{singlesample_input_error}; see \code{\link{score_specimen}}.
+#' Scoring uses no random numbers and no scored-batch statistics.
 #'
 #' @param model A \code{reo_pairratio_model} object returned by
 #'   \code{\link{fit_reo_pairratio}}.
@@ -872,20 +898,35 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
 #' @param meta Optional per-sample metadata. Accepted for interface uniformity
 #'   and ignored by this method.
 #'
-#' @return Numeric vector of one finite linear-predictor score per row of
-#'   \code{X}. Larger scores are more case-like.
+#' @param strict Logical scalar. The default \code{FALSE} preserves scoring
+#'   over available pairs for backward compatibility. Set \code{TRUE} to reject
+#'   any missing feature from a fitted pair. Unused training features are not
+#'   required. Existing invalid-input and unusable-support checks apply in both
+#'   modes.
+#'
+#' @return Numeric vector of one finite linear-predictor score per row. Larger
+#'   scores are more case-like.
+#'   The \code{support} attribute is a data frame with one row per score:
+#'   \code{n_available} counts fitted pairs with both named columns present,
+#'   \code{n_fitted} counts all fitted pairs, and \code{full_support} reports
+#'   whether these counts agree. Counts describe column availability, not
+#'   detection or assay quality. Save \code{attr(score, "support")} before
+#'   subsetting or numeric coercion, which can discard attributes.
 #'
 #' @examples
-#' \dontrun{
-#' set.seed(1)
-#' X <- matrix(stats::rgamma(60 * 20, shape = 2), nrow = 60,
-#'             dimnames = list(NULL, paste0("miR-", seq_len(20))))
-#' y <- rep(c(0, 1), each = 30)
-#' X[y == 1, "miR-1"] <- X[y == 1, "miR-1"] + 10
-#' X[y == 0, "miR-2"] <- X[y == 0, "miR-2"] + 10
-#' model <- fit_reo_pairratio(X, y, hp = list(m_features = 8L, nfolds = 5L))
-#' score_reo_pairratio(model, X[1, , drop = FALSE])
-#' }
+#' # An illustrative frozen two-pair model.
+#' pairs <- data.frame(feature_a = c("a", "c"), feature_b = c("b", "d"))
+#' model <- structure(list(selected_pairs = pairs, coefficients = c(2, -1),
+#'                         intercept = 0.25, pseudocount = 0.5),
+#'                    class = "reo_pairratio_model")
+#' X <- rbind(c(a = 2, b = 1, c = 1, d = 3), c(a = 1, b = 2, c = 4, d = 2))
+#' full <- score_reo_pairratio(model, X, strict = TRUE)
+#' partial <- score_reo_pairratio(model, X[, c("a", "b"), drop = FALSE])
+#' attr(partial, "support")  # 1 available / 2 fitted pairs; full_support = FALSE
+#' expected <- 0.25 + 2 * (log(X[, "a"] + 0.5) - log(X[, "b"] + 0.5))
+#' stopifnot(isTRUE(all.equal(as.numeric(partial), expected)))
+#' tryCatch(score_reo_pairratio(model, X[, c("a", "b"), drop = FALSE], strict = TRUE),
+#'          singlesample_input_error = function(e) e$code)
 #'
 #' @references
 #' Aitchison J. (1986) \emph{The Statistical Analysis of Compositional Data}.
@@ -896,10 +937,11 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
 #' Statistical Software} 33: 1-22.
 #'
 #' @export
-score_reo_pairratio <- function(model, X, meta = NULL) {
+score_reo_pairratio <- function(model, X, meta = NULL, strict = FALSE) {
   if (!inherits(model, "reo_pairratio_model")) {
     stop("score_reo_pairratio: model must have class reo_pairratio_model")
   }
+  .ss_guard_pair_input(model, X, model$selected_pairs, "score_reo_pairratio", strict)
   X <- .reo_check_matrix(X, "score_reo_pairratio", "X")
   .reo_check_meta(meta, nrow(X), "score_reo_pairratio", "meta")
 
@@ -920,7 +962,9 @@ score_reo_pairratio <- function(model, X, meta = NULL) {
   if (length(out) != nrow(X) || any(!is.finite(out))) {
     stop("score_reo_pairratio: scorer produced non-finite or wrong-length output")
   }
-  out
+  n_available <- sum(model$selected_pairs$feature_a %in% colnames(X) &
+                       model$selected_pairs$feature_b %in% colnames(X))
+  .ss_attach_support(out, n_available, nrow(model$selected_pairs))
 }
 
 .reo_resolve_hp_pairratio <- function(hp, p, n) {
@@ -1040,6 +1084,8 @@ score_reo_pairratio <- function(model, X, meta = NULL) {
 
 .reo_pairratio_score_row <- function(x, pairs, coefficients, intercept,
                                      pseudocount) {
+  # Missing-feature pairs contribute no term. Retain the frozen intercept and
+  # coefficients without rescaling; partial support is a reduced model score.
   if (nrow(pairs) == 0L) return(intercept)
   usable <- pairs$feature_a %in% names(x) & pairs$feature_b %in% names(x)
   if (!any(usable)) return(intercept)

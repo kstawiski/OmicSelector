@@ -7,7 +7,7 @@
 fit_platt_scaling(probs, labels)
 }
 \arguments{
-\item{probs}{Calibration set predicted probabilities}
+\item{probs}{Calibration set predicted probabilities in [0, 1]}
 
 \item{labels}{Calibration set labels}
 }
@@ -15,12 +15,15 @@ fit_platt_scaling(probs, labels)
 A function that recalibrates probabilities
 }
 \description{
-Fits a logistic regression model to recalibrate probabilities.
+Fits logistic regression on the clipped probability score to recalibrate
+probabilities. The input is a probability in [0, 1], not a log-odds value.
 Parameters should be estimated on a held-out calibration set.
 }
 \details{
-Platt scaling fits: P(y=1|f) = 1 / (1 + exp(A*f + B))
-where f is the original score/probability and A, B are fitted parameters.
+Fits \code{glm(y ~ score, family = binomial())}, where \code{score} is the
+supplied probability clipped to \code{[1e-10, 1 - 1e-10]}. Predictions use
+\code{plogis(intercept + slope * clipped_score)} with the same clipping.
+No log-odds transformation is applied to the input.
 }
 \examples{
 \dontrun{

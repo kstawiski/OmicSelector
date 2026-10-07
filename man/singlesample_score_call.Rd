@@ -9,7 +9,8 @@ singlesample_score_call(
   model,
   X,
   meta = NULL,
-  roster = singlesample_method_roster()
+  roster = singlesample_method_roster(),
+  strict = FALSE
 )
 }
 \arguments{
@@ -23,9 +24,16 @@ singlesample_score_call(
 
 \item{roster}{The roster to resolve against; defaults to
 [singlesample_method_roster()].}
+
+\item{strict}{Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
+pass strict checking to built-in k-TSP, pair-ratio, trimmed-rCLR or
+balance-ILR scoring. Other methods, replaced roster scorers, and registered
+custom adapters fail with \code{singlesample_input_error} code
+\code{STRICT_UNSUPPORTED}. See [score_specimen()] for required features.}
 }
 \value{
-Numeric vector of one score per row of `X`.
+Numeric vector of one score per row of `X`, retaining any
+  \code{support} attribute returned by the scorer.
 }
 \description{
 Resolves a roster method to its score function and invokes it through the

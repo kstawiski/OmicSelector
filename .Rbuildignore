@@ -58,3 +58,7 @@ Rplots.pdf
 ^inst/python/.*\.pyc$
 ^doc$
 ^Meta$
+^tests/input-guards-20261003$
+^tests/policy-hardening-20261005$
+^tests/strict-passthrough-20261006$
+^tests/release-verification-20261006$

@@ -6,7 +6,93 @@
   if (is.null(lhs)) rhs else lhs
 }
 
+# Login home from the passwd database. A relocated HOME (batch runners, some
+# agents) moves Python's user site and the Hugging Face / TabPFN caches away
+# from an already installed interpreter. This does not install software.
+.ss_login_home <- function() {
+  user <- Sys.info()[["user"]]
+  if (is.null(user) || length(user) != 1L || is.na(user) || !nzchar(user)) {
+    return(NA_character_)
+  }
+  line <- tryCatch(
+    system2("getent", c("passwd", user), stdout = TRUE, stderr = FALSE),
+    error = function(e) character()
+  )
+  if (length(line) < 1L || !nzchar(line[[1L]])) return(NA_character_)
+  parts <- strsplit(line[[1L]], ":", fixed = TRUE)[[1L]]
+  if (length(parts) < 6L || !dir.exists(parts[[6L]])) return(NA_character_)
+  parts[[6L]]
+}
+
+.ss_setenv_if_unset <- function(name, value) {
+  if (nzchar(Sys.getenv(name, unset = ""))) return(invisible(FALSE))
+  if (!is.character(value) || length(value) != 1L || !nzchar(value)) {
+    return(invisible(FALSE))
+  }
+  if (!file.exists(value) && !dir.exists(value)) return(invisible(FALSE))
+  args <- list(value)
+  names(args) <- name
+  do.call(Sys.setenv, args)
+  invisible(TRUE)
+}
+
+# Point reticulate at the system Python that already has torch, and at caches
+# that already hold TabPFN / TabICL / TabDPT weights. Explicit caller
+# environment variables are left unchanged. Nothing is installed or downloaded.
+.ss_configure_backend_env <- function() {
+  tryCatch({
+    home <- .ss_login_home()
+    if (!is.na(home)) {
+      torch_dir <- file.path(home, ".local", "lib", "python3.10",
+                             "site-packages", "torch")
+      if (dir.exists(torch_dir)) {
+        .ss_setenv_if_unset("PYTHONUSERBASE", file.path(home, ".local"))
+      }
+      .ss_setenv_if_unset("TABPFN_MODEL_CACHE_DIR",
+                          file.path(home, ".cache", "tabpfn"))
+      .ss_setenv_if_unset("HF_HOME",
+                          file.path(home, ".cache", "huggingface"))
+      .ss_setenv_if_unset("HUGGINGFACE_HUB_CACHE",
+                          file.path(home, ".cache", "huggingface", "hub"))
+    }
+    if (!nzchar(Sys.getenv("RETICULATE_PYTHON", unset = "")) &&
+        file.exists("/usr/bin/python3")) {
+      Sys.setenv(RETICULATE_PYTHON = "/usr/bin/python3")
+    }
+  }, error = function(e) NULL)
+  invisible(TRUE)
+}
+
+# Load one already-installed namespace from a login-home library that is not
+# on .libPaths(). The library is not prepended, so it cannot shadow packages
+# already visible to this session. Used for StableMate (DESCRIPTION License:
+# None); that package is not copied into OmicSelector. Candidate order is
+# R/omicselector, R/library, then the version directories returned by list.dirs.
+# Only the first candidate containing the package is attempted; a load failure
+# returns FALSE. There is no installation or R-version compatibility check.
+.ss_load_installed_namespace <- function(package) {
+  if (isNamespaceLoaded(package)) return(invisible(TRUE))
+  home <- .ss_login_home()
+  if (is.na(home)) return(invisible(FALSE))
+  roots <- c(
+    file.path(home, "R", "omicselector"),
+    file.path(home, "R", "library"),
+    list.dirs(file.path(home, "R", "x86_64-pc-linux-gnu-library"),
+              full.names = TRUE, recursive = FALSE)
+  )
+  roots <- roots[dir.exists(file.path(roots, package))]
+  if (!length(roots)) return(invisible(FALSE))
+  # Search current libraries first, then the library that actually contains it.
+  lib_loc <- unique(c(.libPaths(), roots[[1L]]))
+  ok <- tryCatch({
+    loadNamespace(package, lib.loc = lib_loc)
+    TRUE
+  }, error = function(e) FALSE)
+  invisible(ok)
+}
+
 .onLoad <- function(libname, pkgname) {
+  .ss_configure_backend_env()
   if (!requireNamespace("mlr3", quietly = TRUE)) {
     return(invisible())
   }

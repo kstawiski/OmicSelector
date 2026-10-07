@@ -33,6 +33,14 @@
 #' \pkg{foreach}/SNOW cluster path with independent RNG streams and a namespace
 #' export bug, so it is deliberately NOT used.
 #'
+#' Dependency lookup first uses the active R libraries. If StableMate is not
+#' available there, the fitter tries an already installed namespace in the login
+#' home's \code{R/omicselector}, \code{R/library}, then version directories under
+#' \code{R/x86_64-pc-linux-gnu-library}. It uses the first directory containing
+#' StableMate, after the active libraries in the lookup order. This does not
+#' change \code{.libPaths()}, install a package, or guarantee compatibility
+#' across R versions. If the namespace still cannot load, fitting stops.
+#'
 #' DEGENERATION: if \code{meta_train} is NULL, the cohort column is missing, or
 #' there is a single usable environment, StableMate cannot assess
 #' cross-environment stability. Fitting then degrades GRACEFULLY to a
@@ -97,6 +105,9 @@
 #' @export
 fit_sel_stablemate <- function(X_train, y_train, meta_train = NULL,
                                hp = list()) {
+  if (!requireNamespace("StableMate", quietly = TRUE)) {
+    .ss_load_installed_namespace("StableMate")
+  }
   if (!requireNamespace("StableMate", quietly = TRUE)) {
     stop("fit_sel_stablemate: package 'StableMate' is required for sel-stablemate",
          call. = FALSE)

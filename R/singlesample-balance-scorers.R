@@ -80,6 +80,7 @@ fit_ws_balance_ilr <- function(X_train, y_train, meta_train = NULL,
     min_balance_coverage = hp$min_balance_coverage,
     min_sbp_features = hp$min_sbp_features,
     sign = sign,
+    support_status = .ss_support_status(raw_train),
     sbp_canonical_features = sbp_canonical_features,
     feature_universe = colnames(X_train),
     hp = hp
@@ -95,18 +96,11 @@ fit_ws_balance_ilr <- function(X_train, y_train, meta_train = NULL,
 #' Scores each row of \code{X} independently with the frozen model learned by
 #' \code{\link{fit_ws_balance_ilr}}. The scorer first restricts the specimen
 #' panel to features from the frozen training universe that are present in
-#' \code{X}. If fewer than \code{model$min_sbp_features} canonical SBP features
-#' are present, the specimen/panel receives the documented neutral score
-#' \code{0}. Otherwise, \code{\link{ws_balance_ilr}} computes the ILR balance
-#' matrix and columns with any non-\code{NA} value are summed per row with
-#' \code{na.rm = TRUE}; rows with no valid balance therefore also receive
-#' \code{0}. The stored orientation sign is then applied so higher scores are
-#' more case-like.
-#'
-#' A specimen with fewer than the minimum canonical SBP features has a
-#' degenerate low-information score. This is the single-sample analogue of the
-#' benchmark's panel-coverage ineligibility, surfaced as finite \code{0}
-#' instead of \code{NA} so foundation validators can require finite outputs.
+#' \code{X}. Empty or constant fitted support, absent required features,
+#' all-nondetect rows, insufficient canonical SBP features, and rows with no
+#' valid balance raise a \code{singlesample_input_error}; see
+#' \code{\link{score_specimen}}. Valid balances are summed per row and the
+#' frozen orientation sign is applied so higher scores are more case-like.
 #'
 #' @param model A \code{ws_balance_ilr_model} object returned by
 #'   \code{\link{fit_ws_balance_ilr}}.
@@ -115,9 +109,24 @@ fit_ws_balance_ilr <- function(X_train, y_train, meta_train = NULL,
 #' @param meta Optional per-sample metadata. Accepted for interface uniformity
 #'   and ignored by this method.
 #'
-#' @return Plain finite numeric vector of length \code{nrow(X)}. Scores use
+#' @param strict Logical scalar; defaults to \code{FALSE}, preserving partial
+#'   balance scoring. If \code{TRUE}, every distinct balance member present at
+#'   fitting must be supplied, or \code{MISSING_REQUIRED_FEATURES} is raised.
+#'   Complement and abundance-ranked balances use the entire frozen training
+#'   universe as their member set. Other balances count only their named
+#'   members present at fitting. Missing universe metadata fails closed with
+#'   \code{MISSING_FITTED_UNIVERSE}. Existing input guards apply in both modes.
+#'
+#' @return Finite numeric vector of length \code{nrow(X)}. Scores use
 #'   only each row's own values plus the frozen model, with no scored-batch
-#'   centering, quantiles, or renormalization.
+#'   centering, quantiles, or renormalization. The \code{support} data-frame
+#'   attribute has one row per score: \code{n_available} counts supplied
+#'   distinct frozen balance members, \code{n_fitted} counts all such members,
+#'   and \code{full_support} reports whether these counts agree. This records
+#'   named-column availability, not detection, assay quality or calibration.
+#'   Other training columns can still affect the default specimen pseudocount.
+#'   Save \code{attr(score, "support")} before subsetting or numeric coercion,
+#'   which can discard attributes.
 #'
 #' @examples
 #' \dontrun{
@@ -140,12 +149,24 @@ fit_ws_balance_ilr <- function(X_train, y_train, meta_train = NULL,
 #' 37(7): 795-828.
 #'
 #' @export
-score_ws_balance_ilr <- function(model, X, meta = NULL) {
+score_ws_balance_ilr <- function(model, X, meta = NULL, strict = FALSE) {
   if (!inherits(model, "ws_balance_ilr_model")) {
     stop("score_ws_balance_ilr: model must have class ws_balance_ilr_model")
   }
+  .ss_check_strict(strict, "score_ws_balance_ilr")
+  .ss_guard_support(model, "score_ws_balance_ilr")
+  .ss_guard_input(X, .ss_required_features(model), "score_ws_balance_ilr")
   X <- .reo_check_matrix(X, "score_ws_balance_ilr", "X")
   .reo_check_meta(meta, nrow(X), "score_ws_balance_ilr", "meta")
+  members <- .ws_balance_ilr_members(model)
+  if (strict) {
+    if (is.null(model$feature_universe) || !length(model$feature_universe)) {
+      .ss_input_reject("MISSING_FITTED_UNIVERSE",
+                       "strict scoring requires the frozen training feature universe",
+                       "score_ws_balance_ilr")
+    }
+    .ss_guard_required(members, colnames(X), "score_ws_balance_ilr")
+  }
 
   raw <- .ws_balance_ilr_raw_score(
     X = X,
@@ -161,7 +182,19 @@ score_ws_balance_ilr <- function(model, X, meta = NULL) {
   if (length(out) != nrow(X) || any(!is.finite(out))) {
     stop("score_ws_balance_ilr: scorer produced non-finite or wrong-length output")
   }
-  out
+  .ss_attach_support(out, sum(members %in% colnames(X)), length(members))
+}
+
+# Count distinct fitted feature members once, even when used in several balances.
+# Complement and abundance-ranked balances can use every training feature.
+.ws_balance_ilr_members <- function(model) {
+  spans_universe <- any(vapply(model$sbp, function(b) {
+    (length(b$numerator) == 1L && b$numerator == "TOP_K_BY_ABUNDANCE") ||
+      (length(b$denominator) == 1L &&
+       b$denominator %in% c("ALL_NON_RBC", "ALL_NON_PLT"))
+  }, logical(1L)))
+  if (spans_universe) return(unique(model$feature_universe))
+  intersect(.ws_balance_ilr_canonical_features(model$sbp), model$feature_universe)
 }
 
 .ws_balance_ilr_resolve_hp <- function(hp) {
@@ -260,12 +293,18 @@ score_ws_balance_ilr <- function(model, X, meta = NULL) {
                                       feature_universe = NULL) {
   if (!is.null(feature_universe)) {
     universe_present <- intersect(feature_universe, colnames(X))
-    if (length(universe_present) == 0L) return(rep(0, nrow(X)))
+    if (length(universe_present) == 0L) {
+      .ss_input_reject("ALL_REQUIRED_ABSENT", "all frozen required features are absent",
+                       "ws_balance_ilr")
+    }
     X <- X[, universe_present, drop = FALSE]
   }
 
   n_sbp <- sum(colnames(X) %in% sbp_canonical_features)
-  if (n_sbp < min_sbp_features) return(rep(0, nrow(X)))
+  if (n_sbp < min_sbp_features) {
+    .ss_input_reject("NO_USABLE_SUPPORT", "requires the frozen minimum canonical SBP features",
+                     "ws_balance_ilr")
+  }
 
   B <- ws_balance_ilr(
     X,
@@ -276,11 +315,16 @@ score_ws_balance_ilr <- function(model, X, meta = NULL) {
   )
 
   if (!is.matrix(B)) {
-    if (all(is.na(B))) return(rep(0, nrow(X)))
+    if (all(is.na(B))) {
+      .ss_input_reject("NO_USABLE_SUPPORT", "no valid fitted balance", "ws_balance_ilr")
+    }
     raw <- as.numeric(B)
   } else {
+    empty <- which(rowSums(is.finite(B)) == 0L)
+    if (length(empty)) {
+      .ss_input_reject("NO_USABLE_SUPPORT", "no valid fitted balance", "ws_balance_ilr", empty)
+    }
     valid_cols <- which(colSums(!is.na(B)) > 0L)
-    if (length(valid_cols) == 0L) return(rep(0, nrow(X)))
     raw <- rowSums(B[, valid_cols, drop = FALSE], na.rm = TRUE)
   }
   raw <- as.numeric(raw)

@@ -22,7 +22,7 @@ test_that("canonical rCLR panel matches the benchmark definition", {
 
   expect_identical(model$panel, panel)
   expect_equal(model$weights, weights)
-  expect_equal(score_ws_rclr_panel(model, X), expected)
+  expect_equal(as.numeric(score_ws_rclr_panel(model, X)), expected)
 })
 
 test_that("rCLR panel is row-equivariant and exposed by deployment API", {

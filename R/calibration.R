@@ -290,17 +290,20 @@ decompose_brier <- function(probs, labels) {
 #' @title Platt Scaling (Logistic Calibration)
 #'
 #' @description
-#' Fits a logistic regression model to recalibrate probabilities.
+#' Fits logistic regression on the clipped probability score to recalibrate
+#' probabilities. The input is a probability in [0, 1], not a log-odds value.
 #' Parameters should be estimated on a held-out calibration set.
 #'
-#' @param probs Calibration set predicted probabilities
+#' @param probs Calibration set predicted probabilities in [0, 1]
 #' @param labels Calibration set labels
 #'
 #' @return A function that recalibrates probabilities
 #'
 #' @details
-#' Platt scaling fits: P(y=1|f) = 1 / (1 + exp(A*f + B))
-#' where f is the original score/probability and A, B are fitted parameters.
+#' Fits \code{glm(y ~ score, family = binomial())}, where \code{score} is the
+#' supplied probability clipped to \code{[1e-10, 1 - 1e-10]}. Predictions use
+#' \code{plogis(intercept + slope * clipped_score)} with the same clipping.
+#' No log-odds transformation is applied to the input.
 #'
 #' @examples
 #' \dontrun{
@@ -331,8 +334,7 @@ fit_platt_scaling <- function(probs, labels) {
 
   labels <- as.numeric(labels)
 
-  # Transform probabilities to log-odds for fitting
-  # Clip to avoid -Inf/Inf
+  # Clip the probability score; logistic regression uses it directly.
   probs_clipped <- pmax(pmin(probs, 1 - 1e-10), 1e-10)
 
   # Fit logistic regression

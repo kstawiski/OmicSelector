@@ -23,6 +23,9 @@
 #'   \code{\link{singlesample_assert_row_equivariant}} on the training rows (or a
 #'   deterministic subset for large inputs) so construction fails loudly when the
 #'   fitted scorer is not single-sample deployable.
+#' @param nondetect_limit Finite non-negative abundance threshold, frozen at
+#'   deployment construction (default 0). For an assay mapping undetected Ct 40
+#'   to abundance 1, use 1. This threshold must be specified on the input scale.
 #'
 #' @return An S3 object of class \code{singlesample_deployable} containing the
 #'   frozen \code{model}, \code{method_id}, resolved \code{score_fn},
@@ -37,7 +40,14 @@ deploy_singlesample <- function(X_train, y_train,
                                 method = "ws-balance-ilr",
                                 meta_train = NULL,
                                 annotation = NULL,
-                                verify = TRUE) {
+                                verify = TRUE,
+                                nondetect_limit = 0) {
+  if (!is.numeric(nondetect_limit) || length(nondetect_limit) != 1L ||
+      !is.finite(nondetect_limit) || nondetect_limit < 0) {
+    .ss_input_reject("INVALID_NONDETECT_LIMIT",
+                     "nondetect_limit must be one finite non-negative number",
+                     "deploy_singlesample")
+  }
   roster <- singlesample_method_roster()
   method <- .singlesample_deploy_match_method(method, roster)
   row <- roster[roster$method_id == method, , drop = FALSE]
@@ -52,6 +62,8 @@ deploy_singlesample <- function(X_train, y_train,
   }
 
   X_train <- .singlesample_deploy_as_score_matrix(X_train)
+  .ss_guard_input(X_train, colnames(X_train), "deploy_singlesample",
+                  nondetect_limit = nondetect_limit)
   if (!is.null(meta_train)) {
     meta_train <- .singlesample_deploy_as_meta(
       meta_train, nrow(X_train), "deploy_singlesample", "meta_train"
@@ -90,6 +102,11 @@ deploy_singlesample <- function(X_train, y_train,
       score_fn_name = score_fn_name,
       fit_fn_name = if (has_fit) fit_fn_name else NA_character_,
       score_route = .singlesample_deploy_score_route(has_fit, score_fn),
+      input_guard = list(
+        version = 1L,
+        required_features = .ss_required_features(model, colnames(X_train)),
+        nondetect_limit = nondetect_limit
+      ),
       n_train = nrow(X_train),
       fit_time = fit_time,
       meta = list(
@@ -132,13 +149,44 @@ deploy_singlesample <- function(X_train, y_train,
 #' @param x_new A single named numeric vector, or a numeric matrix/data frame
 #'   with one or more specimen rows and feature columns.
 #' @param meta Optional per-specimen metadata, one row per row of \code{x_new}.
+#' @param detected Optional logical matrix aligned to \code{x_new} (or a named
+#'   logical vector for one specimen). TRUE means detected before imputation.
+#'   Supply this mask when preprocessing replaces nondetects by positive values
+#'   that cannot be distinguished from measured values. No detection status is
+#'   inferred from scored-batch variation or from a constant specimen profile.
+#' @param strict Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
+#'   k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
+#'   requires the frozen training feature universe, and balance ILR requires
+#'   every frozen balance member. Other routes and custom adapters reject with
+#'   \code{STRICT_UNSUPPORTED}. Existing input guards apply in both modes.
 #'
-#' @return Numeric score vector with one value per incoming specimen.
+#' @details
+#' Invalid input raises a \code{singlesample_input_error} with machine-readable
+#' \code{code} and affected \code{rows}. Codes include \code{EMPTY_INPUT},
+#' \code{INVALID_FEATURE_NAMES}, \code{ALL_REQUIRED_ABSENT},
+#' \code{ALL_NONDETECT}, \code{EMPTY_FITTED_SUPPORT},
+#' \code{CONSTANT_FITTED_SUPPORT}, and \code{NO_USABLE_SUPPORT}.
+#' A batch containing an invalid row is rejected as a whole. Checks use only
+#' each specimen and frozen training information. Positive imputation cannot
+#' be recognized without \code{detected} or an appropriate frozen
+#' \code{nondetect_limit}. Refit legacy models to record training support status.
+#'
+#' @return Numeric score vector with one value per incoming specimen. For k-TSP,
+#'   pair-ratio, trimmed-rCLR and balance-ILR panels, the scorer's
+#'   \code{support} attribute is retained; see \code{\link{score_reo_ktsp}},
+#'   \code{\link{score_reo_pairratio}}, \code{\link{score_ws_rclr_panel}}
+#'   and \code{\link{score_ws_balance_ilr}}. The default preserves each
+#'   scorer's missing-feature policy. Use \code{strict = TRUE} here to require
+#'   complete support. Invalid strict values raise \code{INVALID_STRICT};
+#'   missing features raise \code{MISSING_REQUIRED_FEATURES}, and absent frozen
+#'   universe metadata raises \code{MISSING_FITTED_UNIVERSE}.
 #' @export
-score_specimen <- function(deployable, x_new, meta = NULL) {
+score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
+                           strict = FALSE) {
   .singlesample_deploy_assert_object(deployable)
   X <- .singlesample_deploy_as_score_matrix(x_new)
-  .singlesample_deploy_score(deployable, X, meta)
+  .singlesample_deploy_score(deployable, X, meta, detected = detected,
+                             strict = strict)
 }
 
 #' Check whether a deployment scorer is single-sample deployable
@@ -243,6 +291,7 @@ print.singlesample_deployable <- function(x, ...) {
   tryCatch(
     do.call(fit_fn, args),
     error = function(e) {
+      if (inherits(e, "singlesample_input_error")) stop(e)
       detail <- .singlesample_deploy_safe_error_detail(conditionMessage(e))
       msg <- paste0("deploy_singlesample: method '", method, "' requires ",
                     fit_fn_name, "'s backend which is not available or failed ",
@@ -263,13 +312,28 @@ print.singlesample_deployable <- function(x, ...) {
 }
 
 .singlesample_deploy_score <- function(deployable, X, meta = NULL,
-                                       caller = "score_specimen") {
-  out <- .singlesample_deploy_score_raw(deployable, X, meta)
+                                       caller = "score_specimen", detected = NULL,
+                                       strict = FALSE) {
+  .ss_check_strict(strict, caller)
+  if (strict) {
+    .ss_strict_scorer(deployable$method_id, caller)
+    if (!identical(deployable$score_route, "score_call")) {
+      .ss_input_reject("STRICT_UNSUPPORTED",
+                       "strict checking is unavailable for this score route", caller)
+    }
+  }
+  guard <- deployable$input_guard
+  required <- if (is.null(guard)) .ss_required_features(deployable$model) else guard$required_features
+  limit <- if (is.null(guard)) 0 else guard$nondetect_limit
+  .ss_guard_input(X, required, caller, detected, limit)
+  if (is.list(deployable$model)) .ss_guard_support(deployable$model, caller)
+  out <- .singlesample_deploy_score_raw(deployable, X, meta, strict = strict)
   .singlesample_deploy_validate_scores(out, nrow(X), deployable$method_id,
                                        caller)
 }
 
-.singlesample_deploy_score_raw <- function(deployable, X, meta = NULL) {
+.singlesample_deploy_score_raw <- function(deployable, X, meta = NULL,
+                                           strict = FALSE) {
   if (!is.null(meta)) {
     meta <- .singlesample_deploy_as_meta(meta, nrow(X), "score_specimen",
                                          "meta")
@@ -278,7 +342,7 @@ print.singlesample_deployable <- function(x, ...) {
   switch(
     deployable$score_route,
     score_call = singlesample_score_call(deployable$method_id,
-                                         deployable$model, X, meta),
+                                         deployable$model, X, meta, strict = strict),
     direct_model = deployable$score_fn(deployable$model, X, meta),
     direct_x = deployable$score_fn(X),
     stop("score_specimen: unknown score route '", deployable$score_route, "'.",
@@ -288,9 +352,14 @@ print.singlesample_deployable <- function(x, ...) {
 
 .singlesample_deploy_as_score_matrix <- function(x_new) {
   if (is.numeric(x_new) && is.null(dim(x_new))) {
-    if (is.null(names(x_new)) || any(!nzchar(names(x_new)))) {
-      stop("score_specimen: a numeric vector x_new must have feature names.",
-           call. = FALSE)
+    if (!length(x_new)) {
+      .ss_input_reject("EMPTY_INPUT", "x_new must have at least one feature", "score_specimen")
+    }
+    if (is.null(names(x_new)) || anyNA(names(x_new)) ||
+        any(!nzchar(names(x_new))) || anyDuplicated(names(x_new))) {
+      .ss_input_reject("INVALID_FEATURE_NAMES",
+                       "a numeric vector x_new must have unique, non-empty feature names",
+                       "score_specimen")
     }
     X <- matrix(as.numeric(x_new), nrow = 1L,
                 dimnames = list(NULL, names(x_new)))
@@ -302,8 +371,8 @@ print.singlesample_deployable <- function(x, ...) {
          "matrix, or numeric data frame.", call. = FALSE)
   }
   if (nrow(x_new) < 1L || ncol(x_new) < 1L) {
-    stop("score_specimen: x_new must have at least one row and one feature.",
-         call. = FALSE)
+    .ss_input_reject("EMPTY_INPUT", "x_new must have at least one row and one feature",
+                     "score_specimen")
   }
   storage.mode(x_new) <- "double"
   x_new
@@ -342,6 +411,7 @@ print.singlesample_deployable <- function(x, ...) {
     .singlesample_deploy_score(deployable, probe$X, probe$meta,
                                caller = "deploy_singlesample"),
     error = function(e) {
+      if (inherits(e, "singlesample_input_error")) stop(e)
       msg <- conditionMessage(e)
       if (startsWith(msg, "deploy_singlesample:")) {
         stop(msg, call. = FALSE)
@@ -364,7 +434,9 @@ print.singlesample_deployable <- function(x, ...) {
   if (!is.numeric(out)) {
     .singlesample_deploy_stop_bad_scores(out, method_id, caller)
   }
+  support <- attr(out, "support", exact = TRUE)
   out <- as.numeric(out)
+  if (!is.null(support)) attr(out, "support") <- support
   if (length(out) != n) {
     .singlesample_deploy_stop_bad_scores(out, method_id, caller)
   }

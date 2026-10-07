@@ -4,7 +4,7 @@
 \alias{score_ws_balance_ilr}
 \title{Score within-cohort ILR balance discriminator}
 \usage{
-score_ws_balance_ilr(model, X, meta = NULL)
+score_ws_balance_ilr(model, X, meta = NULL, strict = FALSE)
 }
 \arguments{
 \item{model}{A \code{ws_balance_ilr_model} object returned by
@@ -15,28 +15,36 @@ abundance values. Columns must be named feature ids.}
 
 \item{meta}{Optional per-sample metadata. Accepted for interface uniformity
 and ignored by this method.}
+
+\item{strict}{Logical scalar; defaults to \code{FALSE}, preserving partial
+balance scoring. If \code{TRUE}, every distinct balance member present at
+fitting must be supplied, or \code{MISSING_REQUIRED_FEATURES} is raised.
+Complement and abundance-ranked balances use the entire frozen training
+universe as their member set. Other balances count only their named
+members present at fitting. Missing universe metadata fails closed with
+\code{MISSING_FITTED_UNIVERSE}. Existing input guards apply in both modes.}
 }
 \value{
-Plain finite numeric vector of length \code{nrow(X)}. Scores use
+Finite numeric vector of length \code{nrow(X)}. Scores use
   only each row's own values plus the frozen model, with no scored-batch
-  centering, quantiles, or renormalization.
+  centering, quantiles, or renormalization. The \code{support} data-frame
+  attribute has one row per score: \code{n_available} counts supplied
+  distinct frozen balance members, \code{n_fitted} counts all such members,
+  and \code{full_support} reports whether these counts agree. This records
+  named-column availability, not detection, assay quality or calibration.
+  Other training columns can still affect the default specimen pseudocount.
+  Save \code{attr(score, "support")} before subsetting or numeric coercion,
+  which can discard attributes.
 }
 \description{
 Scores each row of \code{X} independently with the frozen model learned by
 \code{\link{fit_ws_balance_ilr}}. The scorer first restricts the specimen
 panel to features from the frozen training universe that are present in
-\code{X}. If fewer than \code{model$min_sbp_features} canonical SBP features
-are present, the specimen/panel receives the documented neutral score
-\code{0}. Otherwise, \code{\link{ws_balance_ilr}} computes the ILR balance
-matrix and columns with any non-\code{NA} value are summed per row with
-\code{na.rm = TRUE}; rows with no valid balance therefore also receive
-\code{0}. The stored orientation sign is then applied so higher scores are
-more case-like.
-
-A specimen with fewer than the minimum canonical SBP features has a
-degenerate low-information score. This is the single-sample analogue of the
-benchmark's panel-coverage ineligibility, surfaced as finite \code{0}
-instead of \code{NA} so foundation validators can require finite outputs.
+\code{X}. Empty or constant fitted support, absent required features,
+all-nondetect rows, insufficient canonical SBP features, and rows with no
+valid balance raise a \code{singlesample_input_error}; see
+\code{\link{score_specimen}}. Valid balances are summed per row and the
+frozen orientation sign is applied so higher scores are more case-like.
 }
 \examples{
 \dontrun{

@@ -94,7 +94,7 @@ test_that("reo-pairratio fitting and scoring are deterministic", {
                    score_seed)
 })
 
-test_that("reo-pairratio returns an exact intercept-only zero-variance fit", {
+test_that("reo-pairratio records zero-variance fits but rejects deployment scores", {
   skip_if_not_installed("glmnet")
   n <- 20L
   X <- matrix(
@@ -116,8 +116,8 @@ test_that("reo-pairratio returns an exact intercept-only zero-variance fit", {
   expect_true(is.na(model$lambda))
   expect_equal(model$intercept, stats::qlogis(mean(y)))
 
-  score <- score_reo_pairratio(model, X[c(7, 1, 7), , drop = FALSE])
-  expect_identical(score, rep(model$intercept, 3L))
+  expect_error(score_reo_pairratio(model, X[c(7, 1, 7), , drop = FALSE]),
+               "CONSTANT_FITTED_SUPPORT")
 
   rm(".Random.seed", envir = globalenv())
   model_without_seed <- fit_reo_pairratio(
@@ -171,22 +171,20 @@ test_that("reo-pairratio handles partial feature overlap", {
   expect_gt(nrow(model$selected_pairs), 0L)
   p1 <- model$selected_pairs[1, ]
 
-  X_partial <- dat$X[1:12, setdiff(colnames(dat$X), p1$feature_a),
-                     drop = FALSE]
+  # Keep a complete fitted pair; missing other features preserves this route.
+  X_partial <- dat$X[1:12, c(p1$feature_a, p1$feature_b), drop = FALSE]
   score_partial <- score_reo_pairratio(model, X_partial)
   expect_length(score_partial, nrow(X_partial))
   expect_true(all(is.finite(score_partial)))
-  expect_equal(score_reo_pairratio(model, X_partial[5, , drop = FALSE]),
+  expect_equal(as.numeric(score_reo_pairratio(model, X_partial[5, , drop = FALSE])),
                score_partial[5], tolerance = 1e-12)
 
   X_one <- dat$X[1:6, p1$feature_a, drop = FALSE]
-  expect_equal(score_reo_pairratio(model, X_one),
-               rep(model$intercept, nrow(X_one)), tolerance = 1e-12)
+  expect_error(score_reo_pairratio(model, X_one), "NO_USABLE_SUPPORT")
 
   X_no_shared <- dat$X[1:4, 1:2, drop = FALSE]
   colnames(X_no_shared) <- c("other-a", "other-b")
-  expect_equal(score_reo_pairratio(model, X_no_shared),
-               rep(model$intercept, nrow(X_no_shared)), tolerance = 1e-12)
+  expect_error(score_reo_pairratio(model, X_no_shared), "ALL_REQUIRED_ABSENT")
 })
 
 test_that("reo-pairratio input validation errors are explicit", {

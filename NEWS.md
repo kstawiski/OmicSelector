@@ -1,3 +1,82 @@
+# OmicSelector 2.6.6.9000 (development)
+
+- Expose `strict = FALSE` through `score_specimen()` and
+  `singlesample_score_call()`. Strict checking reaches k-TSP, pair-ratio,
+  trimmed rCLR and balance ILR. Other routes and custom adapters fail closed
+  with `STRICT_UNSUPPORTED`. Balance ILR rejects missing frozen balance members
+  in strict mode and reports distinct member counts in its `support` attribute.
+  Complement and abundance-ranked balances count the frozen training universe.
+  Default score arithmetic and missing-feature policies are unchanged.
+
+- Narrow the package Title to specimen-local scoring audits and grouped
+  validation; remove the broader "Zero-Leakage" claim.
+- Make partial-panel policy explicit. `score_reo_ktsp()` averages votes over
+  available fitted pairs. `score_reo_pairratio()` retains the frozen intercept
+  and coefficients for available pairs without rescaling. These are reduced-
+  support scores; a complete-panel fit does not establish their discrimination
+  or calibration. `strict = TRUE` rejects any missing fitted-pair feature.
+- `score_ws_rclr_panel()` transforms the entire supplied matrix before selecting
+  its panel. Background columns affect centering and the default pseudocount.
+  Missing panel columns always fail; `strict = TRUE` also requires every frozen
+  training-universe column. Extra columns still enter the transform. Correct
+  the matrix shape for one-column rCLR batches so a one-feature panel remains
+  consistent between singleton and batch scoring.
+- These three scorers default to `strict = FALSE` to preserve existing scoring
+  arithmetic and missing-feature policies. Numeric outputs now have a `support`
+  data-frame attribute with per-score `n_available`, `n_fitted`, and
+  `full_support`. Pair methods count pairs; rCLR counts training-universe
+  features. The flag records column availability, not assay quality or score
+  equivalence. `score_specimen()` preserves this attribute and accepts
+  `strict = TRUE` for complete-support checking. Numeric coercion and
+  subsetting can discard attributes. New rejection codes are `INVALID_STRICT`,
+  `MISSING_REQUIRED_FEATURES`, and `MISSING_FITTED_UNIVERSE`.
+- Clarify `fit_platt_scaling()` as logistic regression on probabilities clipped
+  to [1e-10, 1 - 1e-10], with the same clipping at prediction. It does not take
+  log-odds inputs or transform the predictor to log-odds. Arithmetic is unchanged.
+- Verify the StableMate fallback in `R/zzz.R` and
+  `R/singlesample-sel-stablemate-scorers.R`: when active-library lookup fails,
+  try the first login-home library containing an installed package, in order
+  `R/omicselector`, `R/library`, then version directories under
+  `R/x86_64-pc-linux-gnu-library`. Active libraries remain first in the load
+  search; `.libPaths()` is unchanged. No package is installed. Failed loading
+  ends in an explicit missing-dependency error. This is not restricted to R 4.5.
+  The earlier NEWS wording was too narrow and is corrected. `DEP_AUDIT.md` was
+  absent from the supplied checkout, so its claim could not be compared.
+
+- **Behavior change:** single-specimen deployment rejects empty input, absence
+  of every frozen required feature, and rows with no detected required feature.
+  The k-TSP, pair-ratio, ILR and trimmed-rCLR scorer wrappers apply these input
+  checks directly. Pair and ILR scorers also reject unusable support. k-TSP and
+  pair-ratio fits record empty/constant training support; ILR rejects empty
+  balance coverage at fitting and records constant training scores. These
+  states no longer produce neutral or intercept-only deployment scores.
+- Rejections inherit `singlesample_input_error` and expose `code` and `rows`:
+  `EMPTY_INPUT`, `INVALID_INPUT`, `INVALID_FEATURE_NAMES`,
+  `ALL_REQUIRED_ABSENT`, `ALL_NONDETECT`, `EMPTY_FITTED_SUPPORT`,
+  `CONSTANT_FITTED_SUPPORT`, and `NO_USABLE_SUPPORT`. Invalid detection masks
+  and thresholds use `INVALID_DETECTION_MASK` and `INVALID_NONDETECT_LIMIT`.
+  A batch with any invalid row fails as a whole; row numbers identify
+  all-nondetect rows. No variance or threshold is estimated from a scored batch.
+- `deploy_singlesample(nondetect_limit = 0)` freezes the assay's abundance
+  threshold; use 1 when Ct 40 nondetects are mapped to abundance 1.
+  `score_specimen(detected = ...)` accepts a logical detection mask retained
+  before imputation. Positive imputed values cannot in general be distinguished
+  from measurements without this mask or an appropriate frozen threshold.
+  Uniform positive profiles and constant held-out scores are not automatically
+  invalid. Refit old models to record the training support status; legacy
+  objects still receive input and structurally empty support checks.
+- Valid-input scoring arithmetic is unchanged. Singleton and batch regression
+  checks and the RJ1/RJ6/RJ7 evidence are under `tests/input-guards-20261003/`.
+- When `RETICULATE_PYTHON` is unset, package load points reticulate at
+  `/usr/bin/python3` and, when that login-home user site already contains
+  torch, sets `PYTHONUSERBASE` there. Existing TabPFN and Hugging Face
+  caches under the login home are used when those variables are unset.
+  No Python or R package is installed. `sel-stablemate` can load an
+  already installed StableMate namespace from a login-home R library.
+  StableMate declares `License: None` and is not vendored. `selbal` is
+  GPL-3, is absent from Bioconductor 3.23, and is not vendored. Tier R2
+  methods remain outside `deploy_singlesample()`.
+
 # OmicSelector 2.6.5.9001 (development)
 
 - Cache each specimen's detrended MFDFA window variances once per scale in

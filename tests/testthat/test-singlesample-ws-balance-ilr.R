@@ -379,7 +379,7 @@ test_that("ws-balance-ilr fit/score separates planted ILR balance signal", {
   expect_type(score, "double")
   expect_length(score, length(test))
   expect_true(all(is.finite(score)))
-  expect_equal(score, as.numeric(expected), tolerance = 1e-12)
+  expect_equal(as.numeric(score), as.numeric(expected), tolerance = 1e-12)
   expect_gt(mean(score[dat$y[test] == 1]), mean(score[dat$y[test] == 0]))
   expect_gt(.auc_or_wilcoxon_balance_ilr(dat$y[test], score), 0.7)
 })
@@ -422,18 +422,16 @@ test_that("ws-balance-ilr scores are deterministic finite numeric vectors", {
   expect_true(all(is.finite(s1)))
 })
 
-test_that("ws-balance-ilr handles no-coverage panels as finite neutral scores", {
+test_that("ws-balance-ilr rejects no-coverage panels", {
   dat <- .make_ws_balance_ilr_data(seed = 44L)
   model <- fit_ws_balance_ilr(dat$X, dat$y)
 
   X_noise <- dat$X[1:6, "noise01", drop = FALSE]
-  s_noise <- score_ws_balance_ilr(model, X_noise)
-  expect_equal(s_noise, rep(0, nrow(X_noise)))
+  expect_error(score_ws_balance_ilr(model, X_noise), "ALL_REQUIRED_ABSENT")
 
   X_no_shared <- matrix(1, nrow = 4L, ncol = 1L,
                         dimnames = list(paste0("N", seq_len(4L)), "other"))
-  expect_equal(score_ws_balance_ilr(model, X_no_shared),
-               rep(0, nrow(X_no_shared)))
+  expect_error(score_ws_balance_ilr(model, X_no_shared), "ALL_REQUIRED_ABSENT")
 })
 
 test_that("ws-balance-ilr handles partial SBP overlap without batch coupling", {
@@ -448,7 +446,7 @@ test_that("ws-balance-ilr handles partial SBP overlap without batch coupling", {
   expect_length(s_partial, nrow(X_partial))
   expect_true(all(is.finite(s_partial)))
   expect_true(any(abs(s_partial) > 0))
-  expect_equal(score_ws_balance_ilr(model, X_partial[5, , drop = FALSE]),
+  expect_equal(as.numeric(score_ws_balance_ilr(model, X_partial[5, , drop = FALSE])),
                s_partial[5], tolerance = 1e-12)
 })
 
@@ -506,10 +504,9 @@ test_that("ws-balance-ilr input validation errors are explicit", {
                                      hp = list(sbp = ws_default_sbp())),
                   "ws_balance_ilr_model")
 
-  # an all-zero specimen row scores finite (0), not NaN/NA.
+  # An invalid row rejects the whole scoring call.
   model <- fit_ws_balance_ilr(dat$X, dat$y)
   X_zero <- dat$X[1:3, , drop = FALSE]
   X_zero[1, ] <- 0
-  s_zero <- score_ws_balance_ilr(model, X_zero)
-  expect_true(all(is.finite(s_zero)))
+  expect_error(score_ws_balance_ilr(model, X_zero), "ALL_NONDETECT")
 })
