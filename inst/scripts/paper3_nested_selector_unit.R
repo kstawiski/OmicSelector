@@ -55,6 +55,7 @@ suppressPackageStartupMessages({
 
 .selector_task_code_provenance <- function() {
   file_arg <- grep("^--file=", commandArgs(), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_nested_selector_unit.R"]
   script_path <- if (length(file_arg)) {
     normalizePath(sub("^--file=", "", file_arg[[1L]]), mustWork = TRUE)
   } else normalizePath(sys.frame(1)$ofile, mustWork = TRUE)

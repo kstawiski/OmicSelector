@@ -11,6 +11,7 @@ suppressPackageStartupMessages({
 
 .DEPENDENCY_SPLITTER_PATH <- local({
   file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_split_dependency_within_bundle.R"]
   if (length(file_arg)) {
     candidate <- sub("^--file=", "", file_arg[[1L]])
     if (file.exists(candidate)) return(normalizePath(candidate, mustWork = TRUE))

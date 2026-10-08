@@ -18,6 +18,7 @@ suppressPackageStartupMessages({
     }
   }
   file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_fair_method_comparison.R"]
   if (length(file_arg) && file.exists(sub("^--file=", "", file_arg[[1L]]))) {
     return(normalizePath(sub("^--file=", "", file_arg[[1L]]), mustWork = TRUE))
   }
@@ -100,6 +101,7 @@ sys.source(.FAIR_RUNTIME_HELPER, envir = environment())
 
 .fair_code_provenance <- function() {
   file_arg <- grep("^--file=", commandArgs(), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_fair_method_comparison.R"]
   script_path <- if (length(file_arg)) {
     normalizePath(sub("^--file=", "", file_arg[[1L]]), mustWork = TRUE)
   } else {

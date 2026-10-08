@@ -11,6 +11,7 @@ suppressPackageStartupMessages({
 
 .OVERLAY_PRODUCER_PATH <- local({
   file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_build_dependency_overlay_candidate.R"]
   if (length(file_arg)) {
     candidate <- sub("^--file=", "", file_arg[[1L]])
     if (file.exists(candidate)) return(normalizePath(candidate, mustWork = TRUE))

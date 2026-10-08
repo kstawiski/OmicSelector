@@ -131,6 +131,7 @@ suppressPackageStartupMessages({
 
 .rta_script_path <- function() {
   file_arg <- grep("^--file=", commandArgs(), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_assemble_ranktree_sensitivity.R"]
   if (length(file_arg)) {
     return(normalizePath(sub("^--file=", "", file_arg[[1L]]), mustWork = TRUE))
   }

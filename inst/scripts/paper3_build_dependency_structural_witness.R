@@ -147,6 +147,7 @@ suppressPackageStartupMessages({
 
 .dsw_script_path <- function() {
   file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
+  file_arg <- file_arg[basename(sub("^--file=", "", file_arg)) == "paper3_build_dependency_structural_witness.R"]
   if (length(file_arg)) {
     path <- sub("^--file=", "", file_arg[[1L]])
     if (file.exists(path)) return(normalizePath(path, mustWork = TRUE))
