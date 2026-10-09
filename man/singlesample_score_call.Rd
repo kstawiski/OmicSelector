@@ -29,7 +29,9 @@ singlesample_score_call(
 pass strict checking to built-in k-TSP, pair-ratio, trimmed-rCLR or
 balance-ILR scoring. Other methods, replaced roster scorers, and registered
 custom adapters fail with \code{singlesample_input_error} code
-\code{STRICT_UNSUPPORTED}. See [score_specimen()] for required features.}
+\code{STRICT_UNSUPPORTED}. Required NA or non-finite values raise
+\code{NONFINITE_REQUIRED_VALUE} before dispatch in both modes.
+See [score_specimen()] for required features.}
 }
 \value{
 Numeric vector of one score per row of `X`, retaining any

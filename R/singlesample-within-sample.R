@@ -390,6 +390,7 @@ score_ws_rclr_panel <- function(model, X, meta = NULL, strict = FALSE) {
                        "score_ws_rclr_panel")
     }
     .ss_guard_required(model$feature_universe, colnames(X), "score_ws_rclr_panel")
+    .ss_guard_finite_required(X, model$feature_universe, "score_ws_rclr_panel")
   }
   missing <- setdiff(model$panel, colnames(X))
   if (length(missing)) {

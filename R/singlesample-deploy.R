@@ -13,7 +13,7 @@
 #' intentionally not fitted by this base-R deployment wrapper.
 #'
 #' @param X_train Numeric matrix or data frame of training specimens
-#'   (samples x features).
+#'   (samples x features). With a preprocessor, supply raw measurements.
 #' @param y_train Numeric/integer 0/1 labels aligned to \code{X_train}.
 #' @param method Method identifier from \code{\link{singlesample_method_roster}}.
 #' @param meta_train Optional training metadata, one row per training specimen.
@@ -25,11 +25,17 @@
 #'   fitted scorer is not single-sample deployable.
 #' @param nondetect_limit Finite non-negative abundance threshold, frozen at
 #'   deployment construction (default 0). For an assay mapping undetected Ct 40
-#'   to abundance 1, use 1. This threshold must be specified on the input scale.
+#'   to abundance 1, use 1. This threshold is on the abundance scale after any
+#'   preprocessing. An attached preprocessor also supplies its detection mask.
+#' @param preprocessor Optional frozen \code{singlesample_preprocessor} from
+#'   \code{\link{fit_singlesample_preprocessor}}. The default \code{NULL}
+#'   uses the existing abundance-input path. When supplied, training, scoring
+#'   and behavioural verification all accept raw measurements.
 #'
 #' @return An S3 object of class \code{singlesample_deployable} containing the
 #'   frozen \code{model}, \code{method_id}, resolved \code{score_fn},
-#'   \code{n_train}, \code{fit_time}, and roster \code{meta}. Its value is
+#'   \code{n_train}, \code{fit_time}, roster \code{meta}, and the
+#'   \code{preprocessor} when supplied. Its value is
 #'   deployability: scoring an incoming specimen from that specimen plus frozen
 #'   fit-time parameters only.
 #' @seealso \code{\link{score_specimen}},
@@ -41,7 +47,8 @@ deploy_singlesample <- function(X_train, y_train,
                                 meta_train = NULL,
                                 annotation = NULL,
                                 verify = TRUE,
-                                nondetect_limit = 0) {
+                                nondetect_limit = 0,
+                                preprocessor = NULL) {
   if (!is.numeric(nondetect_limit) || length(nondetect_limit) != 1L ||
       !is.finite(nondetect_limit) || nondetect_limit < 0) {
     .ss_input_reject("INVALID_NONDETECT_LIMIT",
@@ -61,9 +68,16 @@ deploy_singlesample <- function(X_train, y_train,
          "deployment wrapper.", call. = FALSE)
   }
 
-  X_train <- .singlesample_deploy_as_score_matrix(X_train)
+  X_train <- .singlesample_deploy_as_input(X_train, preprocessor)
+  X_raw_train <- X_train
+  train_detected <- NULL
+  if (!is.null(preprocessor)) {
+    converted <- apply_singlesample_preprocessor(preprocessor, X_train)
+    X_train <- converted$abundance
+    train_detected <- converted$detected
+  }
   .ss_guard_input(X_train, colnames(X_train), "deploy_singlesample",
-                  nondetect_limit = nondetect_limit)
+                  detected = train_detected, nondetect_limit = nondetect_limit)
   if (!is.null(meta_train)) {
     meta_train <- .singlesample_deploy_as_meta(
       meta_train, nrow(X_train), "deploy_singlesample", "meta_train"
@@ -121,15 +135,26 @@ deploy_singlesample <- function(X_train, y_train,
     class = "singlesample_deployable"
   )
 
-  .singlesample_deploy_preflight_score(deployable, X_train, meta_train)
+  if (!is.null(preprocessor)) deployable$preprocessor <- preprocessor
+
+  .singlesample_deploy_preflight_score(deployable, X_raw_train, meta_train)
 
   if (isTRUE(verify)) {
-    probe <- .singlesample_deploy_probe(X_train, meta_train)
+    probe <- .singlesample_deploy_probe(X_raw_train, meta_train)
     score_fun <- function(model, X, meta = NULL) {
       deployable$model <- model
       .singlesample_deploy_score(deployable, X, meta)
     }
-    singlesample_assert_row_equivariant(score_fun, model, probe$X, probe$meta)
+    if (is.null(preprocessor)) {
+      singlesample_assert_row_equivariant(score_fun, model, probe$X, probe$meta)
+    } else {
+      # Snapshot the whole deployable, including the frozen preprocessor.
+      singlesample_assert_row_equivariant(
+        function(model, X, meta = NULL) score_specimen(model, X, meta),
+        deployable, probe$X, probe$meta,
+        extreme_transform = .ss_preprocessor_extreme_transform(preprocessor)
+      )
+    }
     deployable$verified <- TRUE
     deployable$verify_n <- nrow(probe$X)
   }
@@ -147,13 +172,17 @@ deploy_singlesample <- function(X_train, y_train,
 #' @param deployable A \code{singlesample_deployable} object from
 #'   \code{\link{deploy_singlesample}}.
 #' @param x_new A single named numeric vector, or a numeric matrix/data frame
-#'   with one or more specimen rows and feature columns.
+#'   with one or more specimen rows and feature columns. With an attached
+#'   preprocessor, supply raw counts or Ct values; Ct character markers are
+#'   accepted and converted to non-detects.
 #' @param meta Optional per-specimen metadata, one row per row of \code{x_new}.
 #' @param detected Optional logical matrix aligned to \code{x_new} (or a named
 #'   logical vector for one specimen). TRUE means detected before imputation.
 #'   Supply this mask when preprocessing replaces nondetects by positive values
 #'   that cannot be distinguished from measured values. No detection status is
 #'   inferred from scored-batch variation or from a constant specimen profile.
+#'   With a preprocessor, align this mask to the raw input, including extra
+#'   columns. It is combined with preprocessing detection by logical AND.
 #' @param strict Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
 #'   k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
 #'   requires the frozen training feature universe, and balance ILR requires
@@ -164,8 +193,12 @@ deploy_singlesample <- function(X_train, y_train,
 #' Invalid input raises a \code{singlesample_input_error} with machine-readable
 #' \code{code} and affected \code{rows}. Codes include \code{EMPTY_INPUT},
 #' \code{INVALID_FEATURE_NAMES}, \code{ALL_REQUIRED_ABSENT},
-#' \code{ALL_NONDETECT}, \code{EMPTY_FITTED_SUPPORT},
+#' \code{ALL_NONDETECT}, \code{NONFINITE_REQUIRED_VALUE},
+#' \code{EMPTY_FITTED_SUPPORT},
 #' \code{CONSTANT_FITTED_SUPPORT}, and \code{NO_USABLE_SUPPORT}.
+#' Required NA, NaN or infinite abundance values are rejected before scoring
+#' in both default and strict modes. Raw Ct missing values are converted to
+#' non-detects when a Ct preprocessor is attached.
 #' A batch containing an invalid row is rejected as a whole. Checks use only
 #' each specimen and frozen training information. Positive imputation cannot
 #' be recognized without \code{detected} or an appropriate frozen
@@ -184,7 +217,7 @@ deploy_singlesample <- function(X_train, y_train,
 score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
                            strict = FALSE) {
   .singlesample_deploy_assert_object(deployable)
-  X <- .singlesample_deploy_as_score_matrix(x_new)
+  X <- .singlesample_deploy_as_input(x_new, deployable$preprocessor)
   .singlesample_deploy_score(deployable, X, meta, detected = detected,
                              strict = strict)
 }
@@ -201,7 +234,9 @@ score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
 #'   \code{\link{deploy_singlesample}}.
 #' @param X_probe Numeric matrix/data frame of probe rows. If \code{NULL}, the
 #'   check cannot be run; callers should supply probe rows from the intended
-#'   panel or validation surface.
+#'   panel or validation surface. Supply raw measurements when a preprocessor
+#'   is attached. Ct verification shifts detected extreme neighbours down by
+#'   \code{log(1e6) / log(ct_base)} cycles, preserving non-detects.
 #'
 #' @return \code{TRUE} when the probe check passes, otherwise \code{FALSE}.
 #' @export
@@ -211,7 +246,14 @@ is_singlesample_deployable <- function(deployable, X_probe = NULL) {
     stop("is_singlesample_deployable: X_probe is required; supply probe rows ",
          "to test singleton scoring against batch scoring.", call. = FALSE)
   }
-  X_probe <- .singlesample_deploy_as_score_matrix(X_probe)
+  X_probe <- .singlesample_deploy_as_input(X_probe, deployable$preprocessor)
+  if (!is.null(deployable$preprocessor)) {
+    return(singlesample_is_row_equivariant(
+      function(model, X, meta = NULL) score_specimen(model, X, meta),
+      deployable, X_probe,
+      extreme_transform = .ss_preprocessor_extreme_transform(deployable$preprocessor)
+    ))
+  }
   score_fun <- function(model, X, meta = NULL) {
     deployable$model <- model
     .singlesample_deploy_score(deployable, X, meta)
@@ -322,6 +364,20 @@ print.singlesample_deployable <- function(x, ...) {
                        "strict checking is unavailable for this score route", caller)
     }
   }
+  if (!is.null(deployable$preprocessor)) {
+    converted <- apply_singlesample_preprocessor(deployable$preprocessor, X)
+    if (!is.null(detected)) {
+      detected <- .ss_detection_mask(detected, X, caller)
+      detected <- detected[, colnames(converted$abundance), drop = FALSE] &
+        converted$detected
+    } else {
+      detected <- converted$detected
+    }
+    X <- converted$abundance
+    if (!ncol(X)) {
+      .ss_input_reject("ALL_REQUIRED_ABSENT", "all frozen required features are absent", caller)
+    }
+  }
   guard <- deployable$input_guard
   required <- if (is.null(guard)) .ss_required_features(deployable$model) else guard$required_features
   limit <- if (is.null(guard)) 0 else guard$nondetect_limit
@@ -348,6 +404,12 @@ print.singlesample_deployable <- function(x, ...) {
     stop("score_specimen: unknown score route '", deployable$score_route, "'.",
          call. = FALSE)
   )
+}
+
+.singlesample_deploy_as_input <- function(X, preprocessor) {
+  if (is.null(preprocessor)) return(.singlesample_deploy_as_score_matrix(X))
+  .ss_check_preprocessor(preprocessor, "score_specimen")
+  .ss_preprocessor_matrix(X, preprocessor$type, "score_specimen")
 }
 
 .singlesample_deploy_as_score_matrix <- function(x_new) {

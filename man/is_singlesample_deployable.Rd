@@ -12,7 +12,9 @@ is_singlesample_deployable(deployable, X_probe = NULL)
 
 \item{X_probe}{Numeric matrix/data frame of probe rows. If \code{NULL}, the
 check cannot be run; callers should supply probe rows from the intended
-panel or validation surface.}
+panel or validation surface. Supply raw measurements when a preprocessor
+is attached. Ct verification shifts detected extreme neighbours down by
+\code{log(1e6) / log(ct_base)} cycles, preserving non-detects.}
 }
 \value{
 \code{TRUE} when the probe check passes, otherwise \code{FALSE}.

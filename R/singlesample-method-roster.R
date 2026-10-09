@@ -192,7 +192,9 @@ singlesample_register_score_adapter <- function(method_id, fn) {
 #'   pass strict checking to built-in k-TSP, pair-ratio, trimmed-rCLR or
 #'   balance-ILR scoring. Other methods, replaced roster scorers, and registered
 #'   custom adapters fail with \code{singlesample_input_error} code
-#'   \code{STRICT_UNSUPPORTED}. See [score_specimen()] for required features.
+#'   \code{STRICT_UNSUPPORTED}. Required NA or non-finite values raise
+#'   \code{NONFINITE_REQUIRED_VALUE} before dispatch in both modes.
+#'   See [score_specimen()] for required features.
 #' @return Numeric vector of one score per row of `X`, retaining any
 #'   \code{support} attribute returned by the scorer.
 #' @seealso [singlesample_method_roster()], [singlesample_assert_row_equivariant()]
@@ -215,6 +217,8 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
                      "singlesample_score_call")
   }
   X <- .singlesample_as_score_matrix(X)
+  .ss_guard_finite_required(X, .ss_required_features(model, colnames(X)),
+                            "singlesample_score_call")
   if (!is.null(meta)) {
     meta <- as.data.frame(meta, stringsAsFactors = FALSE)
     if (nrow(meta) != nrow(X)) {
@@ -343,6 +347,12 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
 #'   custom closure for torch / external-pointer models that do not serialize
 #'   deterministically.
 #' @param seed Random seed for reproducible permutations/subsets.
+#' @param extreme_transform Optional function of a numeric matrix that creates
+#'   extreme neighbours within the input domain, preserving dimensions and names.
+#'   The default \code{NULL} multiplies values by one million. For raw Ct,
+#'   shift detected values down by \code{log(1e6) / log(ct_base)} cycles and
+#'   leave non-detects unchanged. Only neighbours are transformed; target rows
+#'   retain their original measurements.
 #' @return Invisibly `TRUE` on success; otherwise an error naming the failing
 #'   case.
 #' @seealso [singlesample_is_row_equivariant()]
@@ -350,8 +360,12 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
 singlesample_assert_row_equivariant <- function(score_fun, model, X, meta = NULL,
                                           n_perm = 4L, tol = 1e-8,
                                           n_singletons = 4L,
-                                          model_digest = NULL, seed = 1L) {
+                                          model_digest = NULL, seed = 1L,
+                                          extreme_transform = NULL) {
   if (!is.function(score_fun)) stop("score_fun must be a function.", call. = FALSE)
+  if (!is.null(extreme_transform) && !is.function(extreme_transform)) {
+    stop("extreme_transform must be NULL or a function.", call. = FALSE)
+  }
   X <- .singlesample_as_score_matrix(X)
   n <- nrow(X)
   if (n < 4L) {
@@ -412,7 +426,8 @@ singlesample_assert_row_equivariant <- function(score_fun, model, X, meta = NULL
   extreme_adv <- c(FALSE, TRUE, TRUE, rep(FALSE, length(others)))
   .singlesample_assert_batch(score_fun, model, X, meta, base,
                        src = src_adv, extreme = extreme_adv,
-                       tol = tol, where = sprintf("adversarial batch (target %d)", t))
+                       tol = tol, where = sprintf("adversarial batch (target %d)", t),
+                       extreme_transform = extreme_transform)
 
   # (d) no model-state mutation across scoring
   after <- model_digest(model)
@@ -438,10 +453,10 @@ singlesample_assert_row_equivariant <- function(score_fun, model, X, meta = NULL
 singlesample_is_row_equivariant <- function(score_fun, model, X, meta = NULL,
                                       n_perm = 4L, tol = 1e-8,
                                       n_singletons = 4L, model_digest = NULL,
-                                      seed = 1L) {
+                                      seed = 1L, extreme_transform = NULL) {
   ok <- tryCatch({
     singlesample_assert_row_equivariant(score_fun, model, X, meta, n_perm, tol,
-                                  n_singletons, model_digest, seed)
+                                  n_singletons, model_digest, seed, extreme_transform)
     TRUE
   }, error = function(e) FALSE)
   isTRUE(ok)
@@ -451,10 +466,21 @@ singlesample_is_row_equivariant <- function(score_fun, model, X, meta = NULL,
 # and assert every NON-extreme ("anchored") position equals its standalone base
 # score. Extreme positions are noise neighbours whose own scores are not checked.
 .singlesample_assert_batch <- function(score_fun, model, X, meta, base, src, extreme,
-                                 tol, where) {
+                                 tol, where, extreme_transform = NULL) {
   if (length(extreme) == 1L) extreme <- rep(extreme, length(src))
   Xb <- X[src, , drop = FALSE]
-  if (any(extreme)) Xb[extreme, ] <- Xb[extreme, , drop = FALSE] * 1e6
+  if (any(extreme)) {
+    neighbours <- Xb[extreme, , drop = FALSE]
+    transformed <- if (is.null(extreme_transform)) neighbours * 1e6 else
+      extreme_transform(neighbours)
+    if (!is.matrix(transformed) || !is.numeric(transformed) ||
+        !identical(dim(transformed), dim(neighbours)) ||
+        !identical(dimnames(transformed), dimnames(neighbours))) {
+      stop("extreme_transform must preserve numeric matrix dimensions and names.",
+           call. = FALSE)
+    }
+    Xb[extreme, ] <- transformed
+  }
   mb <- .singlesample_subset_meta(meta, src)
   sb <- .singlesample_num_scores(score_fun(model, Xb, mb), length(src), where)
   anchored <- !extreme

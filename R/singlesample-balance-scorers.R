@@ -156,9 +156,10 @@ score_ws_balance_ilr <- function(model, X, meta = NULL, strict = FALSE) {
   .ss_check_strict(strict, "score_ws_balance_ilr")
   .ss_guard_support(model, "score_ws_balance_ilr")
   .ss_guard_input(X, .ss_required_features(model), "score_ws_balance_ilr")
+  members <- .ws_balance_ilr_members(model)
+  .ss_guard_finite_required(as.matrix(X), members, "score_ws_balance_ilr")
   X <- .reo_check_matrix(X, "score_ws_balance_ilr", "X")
   .reo_check_meta(meta, nrow(X), "score_ws_balance_ilr", "meta")
-  members <- .ws_balance_ilr_members(model)
   if (strict) {
     if (is.null(model$feature_universe) || !length(model$feature_universe)) {
       .ss_input_reject("MISSING_FITTED_UNIVERSE",

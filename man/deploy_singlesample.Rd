@@ -11,12 +11,13 @@ deploy_singlesample(
   meta_train = NULL,
   annotation = NULL,
   verify = TRUE,
-  nondetect_limit = 0
+  nondetect_limit = 0,
+  preprocessor = NULL
 )
 }
 \arguments{
 \item{X_train}{Numeric matrix or data frame of training specimens
-(samples x features).}
+(samples x features). With a preprocessor, supply raw measurements.}
 
 \item{y_train}{Numeric/integer 0/1 labels aligned to \code{X_train}.}
 
@@ -34,12 +35,19 @@ fitted scorer is not single-sample deployable.}
 
 \item{nondetect_limit}{Finite non-negative abundance threshold, frozen at
 deployment construction (default 0). For an assay mapping undetected Ct 40
-to abundance 1, use 1. This threshold must be specified on the input scale.}
+to abundance 1, use 1. This threshold is on the abundance scale after any
+preprocessing. An attached preprocessor also supplies its detection mask.}
+
+\item{preprocessor}{Optional frozen \code{singlesample_preprocessor} from
+\code{\link{fit_singlesample_preprocessor}}. The default \code{NULL}
+uses the existing abundance-input path. When supplied, training, scoring
+and behavioural verification all accept raw measurements.}
 }
 \value{
 An S3 object of class \code{singlesample_deployable} containing the
   frozen \code{model}, \code{method_id}, resolved \code{score_fn},
-  \code{n_train}, \code{fit_time}, and roster \code{meta}. Its value is
+  \code{n_train}, \code{fit_time}, roster \code{meta}, and the
+  \code{preprocessor} when supplied. Its value is
   deployability: scoring an incoming specimen from that specimen plus frozen
   fit-time parameters only.
 }

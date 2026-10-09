@@ -30,9 +30,10 @@ test_that("deployment rejects absent, empty, unnamed and nondetect input", {
       bad[2, ] <- blank
       err <- tryCatch(score_specimen(dep, bad), error = identity)
       expect_s3_class(err, "singlesample_input_error")
-      expect_identical(err$code, "ALL_NONDETECT")
+      code <- if (is.finite(blank)) "ALL_NONDETECT" else "NONFINITE_REQUIRED_VALUE"
+      expect_identical(err$code, code)
       expect_identical(err$rows, 2L)
-      expect_error(score_specimen(dep, bad[2, , drop = FALSE]), "ALL_NONDETECT")
+      expect_error(score_specimen(dep, bad[2, , drop = FALSE]), code)
     }
     bad <- x
     bad[, dep$input_guard$required_features] <- 0
