@@ -139,6 +139,40 @@ to require the scorer's complete fitted support. Any supplied `detected` mask
 must match the raw input; it is combined with the preprocessor's mask by
 logical AND. The numerical checks above do not establish clinical performance.
 
+## Register a custom scorer
+
+Registration checks that a specimen has the same finite score alone and in
+different batches, and that scoring leaves the fitted model unchanged. The
+example freezes the training mean of the first feature. It is a software
+example, not a validated clinical score.
+
+```{r custom-scorer}
+fit_custom <- function(X_train, y_train, ...) {
+  list(panel = colnames(X_train)[1L], center = mean(X_train[, 1L]))
+}
+score_custom <- function(model, X, meta = NULL, ...) {
+  as.numeric(X[, model$panel] - model$center)
+}
+register_singlesample_method(
+  "example_centered_feature", fit_custom, score_custom,
+  estimand = "within", probe = list(X = X_train, y = y_train)
+)
+registered_singlesample_methods()[, c("method_id", "row_source", "audited")]
+custom_dep <- deploy_singlesample(
+  X_train, y_train, method = "example_centered_feature"
+)
+stopifnot(is_singlesample_deployable(custom_dep, X_train))
+stopifnot(identical(score_specimen(custom_dep, x_new),
+                    score_specimen(custom_dep, rbind(x_new, X_train))[1L]))
+unregister_singlesample_method("example_centered_feature")
+score_specimen(custom_dep, x_new) # Existing deployments retain their scorer.
+```
+
+Routes are registered for the current R session. Use `estimand = "within"`
+for within-cohort benchmark helpers. Strict requests require a callback that
+accepts `strict` and registration with `strict_support = TRUE`. Probe auditing
+does not establish performance on other panels or clinical readiness.
+
 ## Inspect the method roster, not a ranking
 
 The deployment wrapper is intentionally fail-closed. Roughly 30 rostered

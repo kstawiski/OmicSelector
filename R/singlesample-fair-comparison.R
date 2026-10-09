@@ -252,11 +252,21 @@ singlesample_matched_pair_auc <- function(
   list(strata = strata, summary = summary)
 }
 
+.ss_comparison_estimands_valid <- function(roster, estimand) {
+  user <- if ("row_source" %in% names(roster))
+    !is.na(roster$row_source) & roster$row_source == "user" else
+    rep(FALSE, length(estimand))
+  !anyNA(estimand) && all(nzchar(estimand)) &&
+    all(estimand %in% c("within", "transfer") | user)
+}
+
 #' Enumerate frozen within-method pairs
 #'
 #' Enumerates every unordered pair of methods whose roster estimand is
 #' `"within"`. Pair direction follows roster row order and never depends on an
 #' outcome, score, eligibility, or performance column.
+#' User routes with descriptive estimands other than `"within"` or `"transfer"`
+#' are excluded from these within-cohort pairs.
 #'
 #' @param roster Method roster containing unique `method_id` and `estimand`
 #'   columns. Defaults to [singlesample_method_roster()].
@@ -274,7 +284,7 @@ singlesample_within_method_pairs <- function(
          call. = FALSE)
   }
   estimand <- as.character(roster$estimand)
-  if (anyNA(estimand) || any(!estimand %in% c("within", "transfer"))) {
+  if (!.ss_comparison_estimands_valid(roster, estimand)) {
     stop("roster$estimand must contain only 'within' or 'transfer'.",
          call. = FALSE)
   }
@@ -310,6 +320,8 @@ singlesample_within_method_pairs <- function(
 #' The eligibility table must contain exactly one Boolean cell for every
 #' within-method by primary-unit combination. Additional known transfer methods
 #' or non-primary units are ignored.
+#' Registered user routes with descriptive estimands are also ignored; use
+#' `estimand = "within"` at registration to include them.
 #'
 #' @param eligibility Data frame containing method, unit, and eligibility
 #'   columns.
@@ -353,8 +365,7 @@ singlesample_complete_support_panels <- function(
          call. = FALSE)
   }
   roster_estimand <- as.character(roster$estimand)
-  if (anyNA(roster_estimand) ||
-      any(!roster_estimand %in% c("within", "transfer"))) {
+  if (!.ss_comparison_estimands_valid(roster, roster_estimand)) {
     stop("roster$estimand must contain only 'within' or 'transfer'.",
          call. = FALSE)
   }

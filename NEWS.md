@@ -14,6 +14,11 @@
   `group_train = NULL` retains the existing fitting paths.
 - Correct the roxygen declaration for the `mlr3pipelines` pipe import so the
   generated installed-package namespace loads.
+- Add session-level custom scorer registration, listing and removal. Registered
+  routes use deployment input guards and default probe audits for specimen-local
+  scores and unchanged fitted state. Custom strict support is declared at
+  registration; existing deployment objects retain their resolved callback after
+  registry changes. Built-in roster rows and dispatch are unchanged.
 
 - Expose `strict = FALSE` through `score_specimen()` and
   `singlesample_score_call()`. Strict checking reaches k-TSP, pair-ratio,

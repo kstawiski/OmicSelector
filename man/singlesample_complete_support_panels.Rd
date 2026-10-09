@@ -49,4 +49,6 @@ when fewer than `min_methods` methods or `min_units` units remain.
 The eligibility table must contain exactly one Boolean cell for every
 within-method by primary-unit combination. Additional known transfer methods
 or non-primary units are ignored.
+Registered user routes with descriptive estimands are also ignored; use
+`estimand = "within"` at registration to include them.
 }

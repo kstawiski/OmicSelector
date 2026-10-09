@@ -29,7 +29,9 @@ columns. It is combined with preprocessing detection by logical AND.}
 k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
 requires the frozen training feature universe, and balance ILR requires
 every frozen balance member. Other routes and custom adapters reject with
-\code{STRICT_UNSUPPORTED}. Existing input guards apply in both modes.}
+\code{STRICT_UNSUPPORTED}. Existing input guards apply in both modes.
+Registered custom scorers declaring `strict_support = TRUE` receive the
+flag and apply their documented strict policy.}
 }
 \value{
 Numeric score vector with one value per incoming specimen. For k-TSP,

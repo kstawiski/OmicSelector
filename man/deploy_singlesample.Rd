@@ -12,7 +12,8 @@ deploy_singlesample(
   annotation = NULL,
   verify = TRUE,
   nondetect_limit = 0,
-  preprocessor = NULL
+  preprocessor = NULL,
+  group_train = NULL
 )
 }
 \arguments{
@@ -21,7 +22,8 @@ deploy_singlesample(
 
 \item{y_train}{Numeric/integer 0/1 labels aligned to \code{X_train}.}
 
-\item{method}{Method identifier from \code{\link{singlesample_method_roster}}.}
+\item{method}{Method identifier from \code{\link{singlesample_method_roster}}.
+Custom routes can be added with [register_singlesample_method()].}
 
 \item{meta_train}{Optional training metadata, one row per training specimen.}
 
@@ -42,6 +44,11 @@ preprocessing. An attached preprocessor also supplies its detection mask.}
 \code{\link{fit_singlesample_preprocessor}}. The default \code{NULL}
 uses the existing abundance-input path. When supplied, training, scoring
 and behavioural verification all accept raw measurements.}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 An S3 object of class \code{singlesample_deployable} containing the

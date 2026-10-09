@@ -31,7 +31,9 @@ balance-ILR scoring. Other methods, replaced roster scorers, and registered
 custom adapters fail with \code{singlesample_input_error} code
 \code{STRICT_UNSUPPORTED}. Required NA or non-finite values raise
 \code{NONFINITE_REQUIRED_VALUE} before dispatch in both modes.
-See [score_specimen()] for required features.}
+See [score_specimen()] for required features.
+Session-registered methods declaring `strict_support = TRUE` receive
+the strict flag through their registered callback.}
 }
 \value{
 Numeric vector of one score per row of `X`, retaining any
