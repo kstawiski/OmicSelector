@@ -5,7 +5,7 @@
 #' Guarantees zero data leakage by enforcing all preprocessing, feature selection,
 #' and model training within proper cross-validation folds.
 #'
-#' @importFrom mlr3pipelines `%>>%`
+#' @importFrom mlr3pipelines %>>%
 #'
 #' @details
 #' OmicPipeline is the central class for OmicSelector. It replaces the legacy

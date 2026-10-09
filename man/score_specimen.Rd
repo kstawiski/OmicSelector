@@ -11,7 +11,9 @@ score_specimen(deployable, x_new, meta = NULL, detected = NULL, strict = FALSE)
 \code{\link{deploy_singlesample}}.}
 
 \item{x_new}{A single named numeric vector, or a numeric matrix/data frame
-with one or more specimen rows and feature columns.}
+with one or more specimen rows and feature columns. With an attached
+preprocessor, supply raw counts or Ct values; Ct character markers are
+accepted and converted to non-detects.}
 
 \item{meta}{Optional per-specimen metadata, one row per row of \code{x_new}.}
 
@@ -19,7 +21,9 @@ with one or more specimen rows and feature columns.}
 logical vector for one specimen). TRUE means detected before imputation.
 Supply this mask when preprocessing replaces nondetects by positive values
 that cannot be distinguished from measured values. No detection status is
-inferred from scored-batch variation or from a constant specimen profile.}
+inferred from scored-batch variation or from a constant specimen profile.
+With a preprocessor, align this mask to the raw input, including extra
+columns. It is combined with preprocessing detection by logical AND.}
 
 \item{strict}{Logical scalar; defaults to \code{FALSE}. If \code{TRUE},
 k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
@@ -47,8 +51,12 @@ cohort, or test-time batch statistic is required.
 Invalid input raises a \code{singlesample_input_error} with machine-readable
 \code{code} and affected \code{rows}. Codes include \code{EMPTY_INPUT},
 \code{INVALID_FEATURE_NAMES}, \code{ALL_REQUIRED_ABSENT},
-\code{ALL_NONDETECT}, \code{EMPTY_FITTED_SUPPORT},
+\code{ALL_NONDETECT}, \code{NONFINITE_REQUIRED_VALUE},
+\code{EMPTY_FITTED_SUPPORT},
 \code{CONSTANT_FITTED_SUPPORT}, and \code{NO_USABLE_SUPPORT}.
+Required NA, NaN or infinite abundance values are rejected before scoring
+in both default and strict modes. Raw Ct missing values are converted to
+non-detects when a Ct preprocessor is attached.
 A batch containing an invalid row is rejected as a whole. Checks use only
 each specimen and frozen training information. Positive imputation cannot
 be recognized without \code{detected} or an appropriate frozen

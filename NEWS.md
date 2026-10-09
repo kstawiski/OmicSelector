@@ -1,5 +1,12 @@
 # OmicSelector 2.6.6.9000 (development)
 
+- Add frozen count and Ct preprocessing for `deploy_singlesample()`, with
+  specimen-local conversion, detection masks and raw-input verification.
+  Required NA or non-finite abundance values now raise
+  `NONFINITE_REQUIRED_VALUE` with affected rows before scoring. Raw Ct
+  non-detects, including NA, convert to abundance 1 with detection FALSE.
+  Row-equivariance checks accept an optional domain-specific extreme transform.
+
 - Expose `strict = FALSE` through `score_specimen()` and
   `singlesample_score_call()`. Strict checking reaches k-TSP, pair-ratio,
   trimmed rCLR and balance ILR. Other routes and custom adapters fail closed

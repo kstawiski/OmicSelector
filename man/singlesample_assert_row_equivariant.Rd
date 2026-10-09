@@ -13,7 +13,8 @@ singlesample_assert_row_equivariant(
   tol = 1e-08,
   n_singletons = 4L,
   model_digest = NULL,
-  seed = 1L
+  seed = 1L,
+  extreme_transform = NULL
 )
 }
 \arguments{
@@ -39,6 +40,13 @@ custom closure for torch / external-pointer models that do not serialize
 deterministically.}
 
 \item{seed}{Random seed for reproducible permutations/subsets.}
+
+\item{extreme_transform}{Optional function of a numeric matrix that creates
+extreme neighbours within the input domain, preserving dimensions and names.
+The default \code{NULL} multiplies values by one million. For raw Ct,
+shift detected values down by \code{log(1e6) / log(ct_base)} cycles and
+leave non-detects unchanged. Only neighbours are transformed; target rows
+retain their original measurements.}
 }
 \value{
 Invisibly `TRUE` on success; otherwise an error naming the failing

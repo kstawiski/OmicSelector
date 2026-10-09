@@ -46,22 +46,11 @@
   }
   # An unregistered positive column must not rescue an empty required panel.
   if (!length(required)) present <- features
+  .ss_guard_finite_required(X, present, caller)
   signal <- is.finite(X[, present, drop = FALSE]) &
     X[, present, drop = FALSE] > nondetect_limit
   if (!is.null(detected)) {
-    if (is.logical(detected) && is.null(dim(detected)) && nrow(X) == 1L) {
-      detected <- matrix(detected, nrow = 1L, dimnames = list(NULL, names(detected)))
-    }
-    if (is.data.frame(detected)) detected <- as.matrix(detected)
-    if (!is.matrix(detected) || !is.logical(detected) || anyNA(detected) ||
-        !identical(dim(detected), dim(X)) ||
-        !identical(colnames(detected), features) ||
-        (!is.null(rownames(detected)) && !is.null(rownames(X)) &&
-         !identical(rownames(detected), rownames(X)))) {
-      .ss_input_reject("INVALID_DETECTION_MASK",
-                       "detected must be a non-missing logical mask aligned to x_new, including feature names",
-                       caller)
-    }
+    detected <- .ss_detection_mask(detected, X, caller)
     signal <- signal & detected[, present, drop = FALSE]
   }
   empty <- which(rowSums(signal) == 0L)
@@ -71,6 +60,34 @@
                      caller, empty)
   }
   invisible(TRUE)
+}
+
+.ss_guard_finite_required <- function(X, required, caller) {
+  present <- intersect(required, colnames(X))
+  bad <- which(rowSums(!is.finite(X[, present, drop = FALSE])) > 0L)
+  if (length(bad)) {
+    .ss_input_reject("NONFINITE_REQUIRED_VALUE",
+                     "required features must contain finite numeric values", caller, bad)
+  }
+  invisible(TRUE)
+}
+
+.ss_detection_mask <- function(detected, X, caller) {
+  features <- colnames(X)
+  if (is.logical(detected) && is.null(dim(detected)) && nrow(X) == 1L) {
+    detected <- matrix(detected, nrow = 1L, dimnames = list(NULL, names(detected)))
+  }
+  if (is.data.frame(detected)) detected <- as.matrix(detected)
+  if (!is.matrix(detected) || !is.logical(detected) || anyNA(detected) ||
+      !identical(dim(detected), dim(X)) ||
+      !identical(colnames(detected), features) ||
+      (!is.null(rownames(detected)) && !is.null(rownames(X)) &&
+       !identical(rownames(detected), rownames(X)))) {
+    .ss_input_reject("INVALID_DETECTION_MASK",
+                     "detected must be a non-missing logical mask aligned to x_new, including feature names",
+                     caller)
+  }
+  detected
 }
 
 .ss_support_status <- function(score) {

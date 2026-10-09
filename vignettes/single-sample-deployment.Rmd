@@ -107,6 +107,38 @@ batch, with the frozen model unchanged.
 is_singlesample_deployable(dep, X_probe = X_train)
 ```
 
+## Freeze conversion from raw counts or Ct values
+
+A frozen preprocessor records the feature names and conversion constants.
+Counts are divided by each specimen's own total over available frozen features
+and multiplied by one million. Ct values become `2^(40 - Ct)` by default.
+Missing values, non-numeric Ct markers, and Ct values at or above 40 become
+abundance 1 with detection FALSE. Scoring rejects an all-non-detect specimen.
+
+```{r frozen-preprocessing}
+counts_train <- round(X_train)
+counts_new <- round(x_new)
+count_prep <- fit_singlesample_preprocessor(counts_train, type = "counts")
+count_dep <- deploy_singlesample(counts_train, y_train, method = "reo-ktsp",
+                                preprocessor = count_prep)
+score_specimen(count_dep, counts_new)
+is_singlesample_deployable(count_dep, counts_train)
+
+ct_train <- 40 - log2(X_train)
+ct_new <- 40 - log2(x_new)
+ct_prep <- fit_singlesample_preprocessor(ct_train, type = "ct")
+ct_dep <- deploy_singlesample(ct_train, y_train, method = "reo-ktsp",
+                             preprocessor = ct_prep)
+score_specimen(ct_dep, ct_new)
+is_singlesample_deployable(ct_dep, ct_train)
+```
+
+Extra columns are dropped. Missing frozen columns remain absent; for CPM,
+missing columns change the total used for conversion. Use `strict = TRUE`
+to require the scorer's complete fitted support. Any supplied `detected` mask
+must match the raw input; it is combined with the preprocessor's mask by
+logical AND. The numerical checks above do not establish clinical performance.
+
 ## Inspect the method roster, not a ranking
 
 The deployment wrapper is intentionally fail-closed. Roughly 30 rostered
