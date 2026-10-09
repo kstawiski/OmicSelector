@@ -28,6 +28,13 @@ SEQUENTIAL path (ncore = NULL), which executes under our seed in the
 main process with no parallel RNG streams; the ncore = 1L path is a
 foreach/SNOW cluster path with independent RNG streams and a namespace
 export bug, so it is deliberately NOT used.
+Dependency lookup first uses the active R libraries. If StableMate is not
+available there, the fitter tries an already installed namespace in the login
+home's R/omicselector, R/library, then version directories under
+R/x86_64-pc-linux-gnu-library. It uses the first directory containing
+StableMate, after the active libraries in the lookup order. This does not
+change .libPaths(), install a package, or guarantee compatibility
+across R versions. If the namespace still cannot load, fitting stops.
 DEGENERATION: if meta_train is NULL, the cohort column is missing, or
 there is a single usable environment, StableMate cannot assess
 cross-environment stability. Fitting then degrades GRACEFULLY to a
@@ -66,6 +73,13 @@ SEQUENTIAL path (ncore = NULL), which executes under our seed in the
 main process with no parallel RNG streams; the ncore = 1L path is a
 foreach/SNOW cluster path with independent RNG streams and a namespace
 export bug, so it is deliberately NOT used.
+Dependency lookup first uses the active R libraries. If StableMate is not
+available there, the fitter tries an already installed namespace in the login
+home's R/omicselector, R/library, then version directories under
+R/x86_64-pc-linux-gnu-library. It uses the first directory containing
+StableMate, after the active libraries in the lookup order. This does not
+change .libPaths(), install a package, or guarantee compatibility
+across R versions. If the namespace still cannot load, fitting stops.
 DEGENERATION: if meta_train is NULL, the cohort column is missing, or
 there is a single usable environment, StableMate cannot assess
 cross-environment stability. Fitting then degrades GRACEFULLY to a
@@ -83,7 +97,7 @@ meta-engagement signal: &amp;gt; 1L means env-aware stable selection ran."></hea
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +124,7 @@ meta-engagement signal: &amp;gt; 1L means env-aware stable selection ran."></hea
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit StableMate stable-predictor discriminator (transfer at training, single-sample at inference)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-sel-stablemate-scorers.R" class="external-link"><code>R/singlesample-sel-stablemate-scorers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-sel-stablemate-scorers.R" class="external-link"><code>R/singlesample-sel-stablemate-scorers.R</code></a></small>
       <div class="d-none name"><code>fit_sel_stablemate.Rd</code></div>
     </div>
 
@@ -144,6 +158,13 @@ SEQUENTIAL path (<code>ncore = NULL</code>), which executes under our seed in th
 main process with no parallel RNG streams; the <code>ncore = 1L</code> path is a
 <span class="pkg">foreach</span>/SNOW cluster path with independent RNG streams and a namespace
 export bug, so it is deliberately NOT used.</p>
+<p>Dependency lookup first uses the active R libraries. If StableMate is not
+available there, the fitter tries an already installed namespace in the login
+home's <code>R/omicselector</code>, <code>R/library</code>, then version directories under
+<code>R/x86_64-pc-linux-gnu-library</code>. It uses the first directory containing
+StableMate, after the active libraries in the lookup order. This does not
+change <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>, install a package, or guarantee compatibility
+across R versions. If the namespace still cannot load, fitting stops.</p>
 <p>DEGENERATION: if <code>meta_train</code> is NULL, the cohort column is missing, or
 there is a single usable environment, StableMate cannot assess
 cross-environment stability. Fitting then degrades GRACEFULLY to a
@@ -158,7 +179,13 @@ meta-engagement signal: <code>&gt; 1L</code> means env-aware stable selection ra
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_sel_stablemate</span><span class="op">(</span><span class="va">X_train</span>, <span class="va">y_train</span>, meta_train <span class="op">=</span> <span class="cn">NULL</span>, hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_sel_stablemate</span><span class="op">(</span></span>
+<span>  <span class="va">X_train</span>,</span>
+<span>  <span class="va">y_train</span>,</span>
+<span>  meta_train <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  group_train <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -193,6 +220,15 @@ predictivity/stability selection, default <code>0.9</code>, in <code>(0, 1)</cod
 <code>seed</code> (default <code>1L</code>, used to make the StableMate selection
 reproducible while restoring the global RNG state). Resolved once at fit and
 not tuned inside <code>fit_sel_stablemate()</code>.</p></dd>
+
+
+<dt id="arg-group-train">group_train<a class="anchor" aria-label="anchor" href="#arg-group-train"></a></dt>
+<dd><p>Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.
+The stability objective holds out each environment and removes all groups
+present there from its training complement. Cohort labels are retained.</p></dd>
 
 </dl></div>
     <div class="section level2">

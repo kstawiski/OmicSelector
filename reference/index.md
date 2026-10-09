@@ -389,6 +389,8 @@ Internal functions and helpers (exported for advanced use)
   : Rename miRNA features in a matrix or named vector
 - [`apply_robust_pca_residual()`](https://kstawiski.github.io/OmicSelector/reference/apply_robust_pca_residual.md)
   : Apply MAD-scaled SVD residual filter to new samples
+- [`apply_singlesample_preprocessor()`](https://kstawiski.github.io/OmicSelector/reference/apply_singlesample_preprocessor.md)
+  : Apply a frozen specimen-local preprocessor
 - [`apply_sinkhorn_ot_scorer()`](https://kstawiski.github.io/OmicSelector/reference/apply_sinkhorn_ot_scorer.md)
   : Apply a frozen Sinkhorn OT scorer.
 - [`autoencoder`](https://kstawiski.github.io/OmicSelector/reference/autoencoder.md)
@@ -682,6 +684,8 @@ Internal functions and helpers (exported for advanced use)
   single-sample at inference)
 - [`fit_sig_path()`](https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.md)
   : Fit the truncated path-signature single-sample discriminator
+- [`fit_singlesample_preprocessor()`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_preprocessor.md)
+  : Freeze specimen-local preprocessing for counts or Ct measurements
 - [`fit_singlesample_selector()`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
   [`print(`*`<singlesample_selector_set>`*`)`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
   [`print(`*`<singlesample_selector_ineligible>`*`)`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.md)
@@ -933,6 +937,8 @@ Internal functions and helpers (exported for advanced use)
   : Print Method for Signature Selection Result
 - [`print(`*`<singlesample_deployable>`*`)`](https://kstawiski.github.io/OmicSelector/reference/print.singlesample_deployable.md)
   : Print a single-sample deployment object
+- [`print(`*`<singlesample_preprocessor>`*`)`](https://kstawiski.github.io/OmicSelector/reference/print.singlesample_preprocessor.md)
+  : Print a frozen single-sample preprocessor
 - [`print(`*`<singlesample_selector>`*`)`](https://kstawiski.github.io/OmicSelector/reference/print.singlesample_selector.md)
   : Print a single-sample selector
 - [`print_shap_warnings()`](https://kstawiski.github.io/OmicSelector/reference/print_shap_warnings.md)
@@ -951,6 +957,10 @@ Internal functions and helpers (exported for advanced use)
   : Register CoDA Feature Selection Filters
 - [`register_gof_filters()`](https://kstawiski.github.io/OmicSelector/reference/register_gof_filters.md)
   : Register GOF Filters in mlr3
+- [`register_singlesample_method()`](https://kstawiski.github.io/OmicSelector/reference/register_singlesample_method.md)
+  [`unregister_singlesample_method()`](https://kstawiski.github.io/OmicSelector/reference/register_singlesample_method.md)
+  [`registered_singlesample_methods()`](https://kstawiski.github.io/OmicSelector/reference/register_singlesample_method.md)
+  : Register a custom single-specimen scorer for this R session
 - [`reliability_diagram_data()`](https://kstawiski.github.io/OmicSelector/reference/reliability_diagram_data.md)
   : Create Reliability Diagram Data
 - [`report`](https://kstawiski.github.io/OmicSelector/reference/report.md)

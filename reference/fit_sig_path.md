@@ -13,7 +13,13 @@ dependency and NO external pointer.
 ## Usage
 
 ``` r
-fit_sig_path(X_train, y_train, meta_train = NULL, hp = list())
+fit_sig_path(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 ```
 
 ## Arguments
@@ -44,6 +50,14 @@ fit_sig_path(X_train, y_train, meta_train = NULL, hp = list())
   non-negative finite number), `min_features` (feature-overlap floor at
   scoring, positive integer; default `3L`), and `seed` (integer; default
   `42L`). NO `device` hp — the method is pure base R.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

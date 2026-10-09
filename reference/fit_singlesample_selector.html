@@ -53,7 +53,7 @@ separate outer validation."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@ separate outer validation."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit a leakage-resistant single-sample method selector</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-selector.R" class="external-link"><code>R/singlesample-selector.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-selector.R" class="external-link"><code>R/singlesample-selector.R</code></a></small>
       <div class="d-none name"><code>fit_singlesample_selector.Rd</code></div>
     </div>
 
@@ -122,7 +122,8 @@ separate outer validation.</p>
 <span>  seed <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  bootstrap_reps <span class="op">=</span> <span class="fl">1000L</span>,</span>
 <span>  verify_base <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  stack_stabilizer <span class="op">=</span> <span class="fl">1e-06</span></span>
+<span>  stack_stabilizer <span class="op">=</span> <span class="fl">1e-06</span>,</span>
+<span>  group_train <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'singlesample_selector_set'</span></span>
@@ -192,6 +193,15 @@ equivariance gate for every base fit.</p></dd>
 <dt id="arg-stack-stabilizer">stack_stabilizer<a class="anchor" aria-label="anchor" href="#arg-stack-stabilizer"></a></dt>
 <dd><p>Fixed non-negative L2 numerical stabilizer for the
 simplex stack. It is not tuned from outcomes.</p></dd>
+
+
+<dt id="arg-group-train">group_train<a class="anchor" aria-label="anchor" href="#arg-group-train"></a></dt>
+<dd><p>Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.
+Also supplies `group_id` when that argument is omitted. An explicit
+`group_id` must not divide a biological group across outer partitions.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>

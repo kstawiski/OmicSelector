@@ -49,6 +49,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/apply_logistic_normal_eb.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/apply_mirna_aliases.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/apply_robust_pca_residual.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/apply_singlesample_preprocessor.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/apply_sinkhorn_ot_scorer.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/autoencoder.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/autoencoder_encode.html</loc></url>
@@ -228,6 +229,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_robust_pca_residual.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sel_stablemate.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_preprocessor.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_ot_scorer.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sinkhorn_single.html</loc></url>
@@ -358,6 +360,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.ReportData.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.SignatureSelectionResult.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.singlesample_deployable.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/print.singlesample_preprocessor.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print.singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print_shap_warnings.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/print_xai_summary.html</loc></url>
@@ -367,6 +370,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/ratio-image-cnn.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/register_coda_feature_selection_filters.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/register_gof_filters.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/register_singlesample_method.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/reliability_diagram_data.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/report.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/reset_parallel.html</loc></url>

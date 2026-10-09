@@ -19,7 +19,7 @@ function is not yet implemented raise an explicit not-yet-implemented error.'></
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ function is not yet implemented raise an explicit not-yet-implemented error.'></
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Score a roster method with the canonical single-sample interface</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-method-roster.R" class="external-link"><code>R/singlesample-method-roster.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-method-roster.R" class="external-link"><code>R/singlesample-method-roster.R</code></a></small>
       <div class="d-none name"><code>singlesample_score_call.Rd</code></div>
     </div>
 
@@ -67,7 +67,8 @@ function is not yet implemented raise an explicit not-yet-implemented error.</p>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="va">X</span>,</span>
 <span>  meta <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  roster <span class="op">=</span> <span class="fu"><a href="singlesample_method_roster.html">singlesample_method_roster</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  roster <span class="op">=</span> <span class="fu"><a href="singlesample_method_roster.html">singlesample_method_roster</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  strict <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -95,10 +96,23 @@ function is not yet implemented raise an explicit not-yet-implemented error.</p>
 <dd><p>The roster to resolve against; defaults to
 [singlesample_method_roster()].</p></dd>
 
+
+<dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
+<dd><p>Logical scalar; defaults to <code>FALSE</code>. If <code>TRUE</code>,
+pass strict checking to built-in k-TSP, pair-ratio, trimmed-rCLR or
+balance-ILR scoring. Other methods, replaced roster scorers, and registered
+custom adapters fail with <code>singlesample_input_error</code> code
+<code>STRICT_UNSUPPORTED</code>. Required NA or non-finite values raise
+<code>NONFINITE_REQUIRED_VALUE</code> before dispatch in both modes.
+See [score_specimen()] for required features.
+Session-registered methods declaring `strict_support = TRUE` receive
+the strict flag through their registered callback.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Numeric vector of one score per row of `X`.</p>
+    <p>Numeric vector of one score per row of `X`, retaining any
+  <code>support</code> attribute returned by the scorer.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

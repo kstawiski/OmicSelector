@@ -15,7 +15,7 @@ distribution-free, finite-sample FPR guarantee at level alpha
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ distribution-free, finite-sample FPR guarantee at level alpha
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit a conformal anomaly detector from a Tier R healthy reference cohort</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-outlier-detection.R" class="external-link"><code>R/singlesample-outlier-detection.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-outlier-detection.R" class="external-link"><code>R/singlesample-outlier-detection.R</code></a></small>
       <div class="d-none name"><code>fit_conformal_anomaly.Rd</code></div>
     </div>
 
@@ -61,7 +61,8 @@ distribution-free, finite-sample FPR guarantee at level <code>alpha</code>
 <span>  representation <span class="op">=</span> <span class="va">identity</span>,</span>
 <span>  k <span class="op">=</span> <span class="fl">10L</span>,</span>
 <span>  calibration_split <span class="op">=</span> <span class="fl">0.3</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">42L</span></span>
+<span>  seed <span class="op">=</span> <span class="fl">42L</span>,</span>
+<span>  group_train <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,6 +91,13 @@ Default 0.30.</p></dd>
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Integer - RNG seed for the train/calibration split. Default 42.</p></dd>
+
+
+<dt id="arg-group-train">group_train<a class="anchor" aria-label="anchor" href="#arg-group-train"></a></dt>
+<dd><p>Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.</p></dd>
 
 </dl></div>
     <div class="section level2">

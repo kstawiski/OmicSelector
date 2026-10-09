@@ -42,7 +42,8 @@ fit_singlesample_selector(
   seed = 1L,
   bootstrap_reps = 1000L,
   verify_base = TRUE,
-  stack_stabilizer = 1e-06
+  stack_stabilizer = 1e-06,
+  group_train = NULL
 )
 
 # S3 method for class 'singlesample_selector_set'
@@ -111,6 +112,16 @@ print(x, ...)
 
   Fixed non-negative L2 numerical stabilizer for the simplex stack. It
   is not tuned from outcomes.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`. Also supplies \`group_id\` when that argument is
+  omitted. An explicit \`group_id\` must not divide a biological group
+  across outer partitions.
 
 - x:
 

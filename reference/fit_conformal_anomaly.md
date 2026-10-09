@@ -14,7 +14,8 @@ fit_conformal_anomaly(
   representation = identity,
   k = 10L,
   calibration_split = 0.3,
-  seed = 42L
+  seed = 42L,
+  group_train = NULL
 )
 ```
 
@@ -41,6 +42,14 @@ fit_conformal_anomaly(
 - seed:
 
   Integer - RNG seed for the train/calibration split. Default 42.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

@@ -23,7 +23,9 @@ is_singlesample_deployable(deployable, X_probe = NULL)
 
   Numeric matrix/data frame of probe rows. If `NULL`, the check cannot
   be run; callers should supply probe rows from the intended panel or
-  validation surface.
+  validation surface. Supply raw measurements when a preprocessor is
+  attached. Ct verification shifts detected extreme neighbours down by
+  `log(1e6) / log(ct_base)` cycles, preserving non-detects.
 
 ## Value
 

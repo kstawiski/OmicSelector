@@ -21,7 +21,7 @@ model holds NO python dependency and NO external pointer."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ model holds NO python dependency and NO external pointer."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit the truncated path-signature single-sample discriminator</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-sig-path-scorer.R" class="external-link"><code>R/singlesample-sig-path-scorer.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-sig-path-scorer.R" class="external-link"><code>R/singlesample-sig-path-scorer.R</code></a></small>
       <div class="d-none name"><code>fit_sig_path.Rd</code></div>
     </div>
 
@@ -65,7 +65,13 @@ model holds NO python dependency and NO external pointer.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_sig_path</span><span class="op">(</span><span class="va">X_train</span>, <span class="va">y_train</span>, meta_train <span class="op">=</span> <span class="cn">NULL</span>, hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_sig_path</span><span class="op">(</span></span>
+<span>  <span class="va">X_train</span>,</span>
+<span>  <span class="va">y_train</span>,</span>
+<span>  meta_train <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  group_train <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -98,6 +104,13 @@ deterministic k-fold CV, otherwise a non-negative finite number),
 <code>min_features</code> (feature-overlap floor at scoring, positive integer;
 default <code>3L</code>), and <code>seed</code> (integer; default <code>42L</code>). NO
 <code>device</code> hp — the method is pure base R.</p></dd>
+
+
+<dt id="arg-group-train">group_train<a class="anchor" aria-label="anchor" href="#arg-group-train"></a></dt>
+<dd><p>Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.</p></dd>
 
 </dl></div>
     <div class="section level2">

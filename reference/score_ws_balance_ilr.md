@@ -3,24 +3,18 @@
 Scores each row of `X` independently with the frozen model learned by
 [`fit_ws_balance_ilr`](https://kstawiski.github.io/OmicSelector/reference/fit_ws_balance_ilr.md).
 The scorer first restricts the specimen panel to features from the
-frozen training universe that are present in `X`. If fewer than
-`model$min_sbp_features` canonical SBP features are present, the
-specimen/panel receives the documented neutral score `0`. Otherwise,
-[`ws_balance_ilr`](https://kstawiski.github.io/OmicSelector/reference/ws_balance_ilr.md)
-computes the ILR balance matrix and columns with any non-`NA` value are
-summed per row with `na.rm = TRUE`; rows with no valid balance therefore
-also receive `0`. The stored orientation sign is then applied so higher
-scores are more case-like.
-
-A specimen with fewer than the minimum canonical SBP features has a
-degenerate low-information score. This is the single-sample analogue of
-the benchmark's panel-coverage ineligibility, surfaced as finite `0`
-instead of `NA` so foundation validators can require finite outputs.
+frozen training universe that are present in `X`. Empty or constant
+fitted support, absent required features, all-nondetect rows,
+insufficient canonical SBP features, and rows with no valid balance
+raise a `singlesample_input_error`; see
+[`score_specimen`](https://kstawiski.github.io/OmicSelector/reference/score_specimen.md).
+Valid balances are summed per row and the frozen orientation sign is
+applied so higher scores are more case-like.
 
 ## Usage
 
 ``` r
-score_ws_balance_ilr(model, X, meta = NULL)
+score_ws_balance_ilr(model, X, meta = NULL, strict = FALSE)
 ```
 
 ## Arguments
@@ -40,11 +34,28 @@ score_ws_balance_ilr(model, X, meta = NULL)
   Optional per-sample metadata. Accepted for interface uniformity and
   ignored by this method.
 
+- strict:
+
+  Logical scalar; defaults to `FALSE`, preserving partial balance
+  scoring. If `TRUE`, every distinct balance member present at fitting
+  must be supplied, or `MISSING_REQUIRED_FEATURES` is raised. Complement
+  and abundance-ranked balances use the entire frozen training universe
+  as their member set. Other balances count only their named members
+  present at fitting. Missing universe metadata fails closed with
+  `MISSING_FITTED_UNIVERSE`. Existing input guards apply in both modes.
+
 ## Value
 
-Plain finite numeric vector of length `nrow(X)`. Scores use only each
-row's own values plus the frozen model, with no scored-batch centering,
-quantiles, or renormalization.
+Finite numeric vector of length `nrow(X)`. Scores use only each row's
+own values plus the frozen model, with no scored-batch centering,
+quantiles, or renormalization. The `support` data-frame attribute has
+one row per score: `n_available` counts supplied distinct frozen balance
+members, `n_fitted` counts all such members, and `full_support` reports
+whether these counts agree. This records named-column availability, not
+detection, assay quality or calibration. Other training columns can
+still affect the default specimen pseudocount. Save
+`attr(score, "support")` before subsetting or numeric coercion, which
+can discard attributes.
 
 ## References
 

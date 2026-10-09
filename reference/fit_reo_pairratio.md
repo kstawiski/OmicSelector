@@ -17,7 +17,13 @@ case-like.
 ## Usage
 
 ``` r
-fit_reo_pairratio(X_train, y_train, meta_train = NULL, hp = list())
+fit_reo_pairratio(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 ```
 
 ## Arguments
@@ -45,6 +51,14 @@ fit_reo_pairratio(X_train, y_train, meta_train = NULL, hp = list())
   least 3), `lambda_rule` (default `"1se"`, or `"min"`), and `seed`
   (default `1L`, used only to make fold assignment reproducible while
   restoring the global RNG state).
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

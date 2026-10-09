@@ -15,7 +15,7 @@ when fewer than `min_methods` methods or `min_units` units remain."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ when fewer than `min_methods` methods or `min_units` units remain."></head><body
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Construct fixed eligibility-only complete-support panels</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-fair-comparison.R" class="external-link"><code>R/singlesample-fair-comparison.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-fair-comparison.R" class="external-link"><code>R/singlesample-fair-comparison.R</code></a></small>
       <div class="d-none name"><code>singlesample_complete_support_panels.Rd</code></div>
     </div>
 
@@ -111,7 +111,9 @@ and top-k summaries.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The eligibility table must contain exactly one Boolean cell for every
 within-method by primary-unit combination. Additional known transfer methods
-or non-primary units are ignored.</p>
+or non-primary units are ignored.
+Registered user routes with descriptive estimands are also ignored; use
+`estimand = "within"` at registration to include them.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

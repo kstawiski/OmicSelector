@@ -14,7 +14,13 @@ engagement signal.
 ## Usage
 
 ``` r
-fit_dro_group(X_train, y_train, meta_train = NULL, hp = list())
+fit_dro_group(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 ```
 
 ## Arguments
@@ -44,6 +50,14 @@ fit_dro_group(X_train, y_train, meta_train = NULL, hp = list())
   (`c(0.01, 0.05, 0.10)`), `l2_grid` (`c(0.001, 0.01, 0.10)`),
   `inner_folds` (`3L`), `learning_rate` (`0.05`), `epochs` (`200L`),
   `tune` (`TRUE`), `seed` (`42L`).
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

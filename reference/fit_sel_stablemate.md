@@ -32,6 +32,16 @@ main process with no parallel RNG streams; the `ncore = 1L` path is a
 foreach/SNOW cluster path with independent RNG streams and a namespace
 export bug, so it is deliberately NOT used.
 
+Dependency lookup first uses the active R libraries. If StableMate is
+not available there, the fitter tries an already installed namespace in
+the login home's `R/omicselector`, `R/library`, then version directories
+under `R/x86_64-pc-linux-gnu-library`. It uses the first directory
+containing StableMate, after the active libraries in the lookup order.
+This does not change
+[`.libPaths()`](https://rdrr.io/r/base/libPaths.html), install a
+package, or guarantee compatibility across R versions. If the namespace
+still cannot load, fitting stops.
+
 DEGENERATION: if `meta_train` is NULL, the cohort column is missing, or
 there is a single usable environment, StableMate cannot assess
 cross-environment stability. Fitting then degrades GRACEFULLY to a
@@ -46,7 +56,13 @@ meta-engagement signal: `> 1L` means env-aware stable selection ran.
 ## Usage
 
 ``` r
-fit_sel_stablemate(X_train, y_train, meta_train = NULL, hp = list())
+fit_sel_stablemate(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 ```
 
 ## Arguments
@@ -80,6 +96,16 @@ fit_sel_stablemate(X_train, y_train, meta_train = NULL, hp = list())
   `seed` (default `1L`, used to make the StableMate selection
   reproducible while restoring the global RNG state). Resolved once at
   fit and not tuned inside `fit_sel_stablemate()`.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`. The stability objective holds out each environment
+  and removes all groups present there from its training complement.
+  Cohort labels are retained.
 
 ## Value
 

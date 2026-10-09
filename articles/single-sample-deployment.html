@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
       <h1>Single-sample deployment with OmicSelector</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/vignettes/single-sample-deployment.Rmd" class="external-link"><code>vignettes/single-sample-deployment.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/vignettes/single-sample-deployment.Rmd" class="external-link"><code>vignettes/single-sample-deployment.Rmd</code></a></small>
       <div class="d-none name"><code>single-sample-deployment.Rmd</code></div>
     </div>
 
@@ -71,7 +71,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kstawiski/OmicSelector" class="external-link">OmicSelector</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; OmicSelector 2.6.5.9001 - Leakage-Resistant Biomarker Discovery</span></span>
+<span><span class="co">#&gt; OmicSelector 2.6.6 - Leakage-Resistant Biomarker Discovery</span></span>
 <span><span class="co">#&gt; Use OmicPipeline$new() to start. Run ?OmicSelector for help.</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
@@ -159,7 +159,10 @@ cohort, or test-time batch correction is supplied.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">dep</span>, <span class="va">x_new</span><span class="op">)</span></span>
 <span><span class="va">score</span></span>
-<span><span class="co">#&gt; [1] 8.42726</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 8.42726</span></span>
+<span><span class="co">#&gt; attr(,"support")</span></span>
+<span><span class="co">#&gt;   n_available n_fitted full_support</span></span>
+<span><span class="co">#&gt; 1          30       30         TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="check-the-row-equivariance-guarantee">Check the row-equivariance guarantee<a class="anchor" aria-label="anchor" href="#check-the-row-equivariance-guarantee"></a>
@@ -172,6 +175,85 @@ row in a batch, with the frozen model unchanged.</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="freeze-conversion-from-raw-counts-or-ct-values">Freeze conversion from raw counts or Ct values<a class="anchor" aria-label="anchor" href="#freeze-conversion-from-raw-counts-or-ct-values"></a>
+</h2>
+<p>A frozen preprocessor records the feature names and conversion
+constants. Counts are divided by each specimen’s own total over
+available frozen features and multiplied by one million. Ct values
+become <code>2^(40 - Ct)</code> by default. Missing values, non-numeric
+Ct markers, and Ct values at or above 40 become abundance 1 with
+detection FALSE. Scoring rejects an all-non-detect specimen.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">X_train</span><span class="op">)</span></span>
+<span><span class="va">counts_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">x_new</span><span class="op">)</span></span>
+<span><span class="va">count_prep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_singlesample_preprocessor.html">fit_singlesample_preprocessor</a></span><span class="op">(</span><span class="va">counts_train</span>, type <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span>
+<span><span class="va">count_dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deploy_singlesample.html">deploy_singlesample</a></span><span class="op">(</span><span class="va">counts_train</span>, <span class="va">y_train</span>, method <span class="op">=</span> <span class="st">"reo-ktsp"</span>,</span>
+<span>                                preprocessor <span class="op">=</span> <span class="va">count_prep</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">count_dep</span>, <span class="va">counts_new</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
+<span><span class="co">#&gt; attr(,"support")</span></span>
+<span><span class="co">#&gt;   n_available n_fitted full_support</span></span>
+<span><span class="co">#&gt; 1          11       11         TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_singlesample_deployable.html">is_singlesample_deployable</a></span><span class="op">(</span><span class="va">count_dep</span>, <span class="va">counts_train</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="va">ct_train</span> <span class="op">&lt;-</span> <span class="fl">40</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">X_train</span><span class="op">)</span></span>
+<span><span class="va">ct_new</span> <span class="op">&lt;-</span> <span class="fl">40</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">x_new</span><span class="op">)</span></span>
+<span><span class="va">ct_prep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_singlesample_preprocessor.html">fit_singlesample_preprocessor</a></span><span class="op">(</span><span class="va">ct_train</span>, type <span class="op">=</span> <span class="st">"ct"</span><span class="op">)</span></span>
+<span><span class="va">ct_dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deploy_singlesample.html">deploy_singlesample</a></span><span class="op">(</span><span class="va">ct_train</span>, <span class="va">y_train</span>, method <span class="op">=</span> <span class="st">"reo-ktsp"</span>,</span>
+<span>                             preprocessor <span class="op">=</span> <span class="va">ct_prep</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">ct_dep</span>, <span class="va">ct_new</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
+<span><span class="co">#&gt; attr(,"support")</span></span>
+<span><span class="co">#&gt;   n_available n_fitted full_support</span></span>
+<span><span class="co">#&gt; 1          11       11         TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_singlesample_deployable.html">is_singlesample_deployable</a></span><span class="op">(</span><span class="va">ct_dep</span>, <span class="va">ct_train</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>Extra columns are dropped. Missing frozen columns remain absent; for
+CPM, missing columns change the total used for conversion. Use
+<code>strict = TRUE</code> to require the scorer’s complete fitted
+support. Any supplied <code>detected</code> mask must match the raw
+input; it is combined with the preprocessor’s mask by logical AND. The
+numerical checks above do not establish clinical performance.</p>
+</div>
+<div class="section level2">
+<h2 id="register-a-custom-scorer">Register a custom scorer<a class="anchor" aria-label="anchor" href="#register-a-custom-scorer"></a>
+</h2>
+<p>Registration checks that a specimen has the same finite score alone
+and in different batches, and that scoring leaves the fitted model
+unchanged. The example freezes the training mean of the first feature.
+It is a software example, not a validated clinical score.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_custom</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X_train</span>, <span class="va">y_train</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">X_train</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>, center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">X_train</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">score_custom</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">model</span>, <span class="va">X</span>, <span class="va">meta</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span>, <span class="va">model</span><span class="op">$</span><span class="va">panel</span><span class="op">]</span> <span class="op">-</span> <span class="va">model</span><span class="op">$</span><span class="va">center</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="../reference/register_singlesample_method.html">register_singlesample_method</a></span><span class="op">(</span></span>
+<span>  <span class="st">"example_centered_feature"</span>, <span class="va">fit_custom</span>, <span class="va">score_custom</span>,</span>
+<span>  estimand <span class="op">=</span> <span class="st">"within"</span>, probe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X_train</span>, y <span class="op">=</span> <span class="va">y_train</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/register_singlesample_method.html">registered_singlesample_methods</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"method_id"</span>, <span class="st">"row_source"</span>, <span class="st">"audited"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                  method_id row_source audited</span></span>
+<span><span class="co">#&gt; 1 example_centered_feature       user    TRUE</span></span>
+<span><span class="va">custom_dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deploy_singlesample.html">deploy_singlesample</a></span><span class="op">(</span></span>
+<span>  <span class="va">X_train</span>, <span class="va">y_train</span>, method <span class="op">=</span> <span class="st">"example_centered_feature"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="../reference/is_singlesample_deployable.html">is_singlesample_deployable</a></span><span class="op">(</span><span class="va">custom_dep</span>, <span class="va">X_train</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">custom_dep</span>, <span class="va">x_new</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">custom_dep</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">x_new</span>, <span class="va">X_train</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/register_singlesample_method.html">unregister_singlesample_method</a></span><span class="op">(</span><span class="st">"example_centered_feature"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/score_specimen.html">score_specimen</a></span><span class="op">(</span><span class="va">custom_dep</span>, <span class="va">x_new</span><span class="op">)</span> <span class="co"># Existing deployments retain their scorer.</span></span>
+<span><span class="co">#&gt; [1] 39.19399</span></span></code></pre></div>
+<p>Routes are registered for the current R session. Use
+<code>estimand = "within"</code> for within-cohort benchmark helpers.
+Strict requests require a callback that accepts <code>strict</code> and
+registration with <code>strict_support = TRUE</code>. Probe auditing
+does not establish performance on other panels or clinical
+readiness.</p>
+</div>
+<div class="section level2">
 <h2 id="inspect-the-method-roster-not-a-ranking">Inspect the method roster, not a ranking<a class="anchor" aria-label="anchor" href="#inspect-the-method-roster-not-a-ranking"></a>
 </h2>
 <p>The deployment wrapper is intentionally fail-closed. Roughly 30
@@ -181,7 +263,7 @@ unavailable backends, or non-scalar outputs reject cleanly rather than
 pretending to be singleton-safe. Use
 <code><a href="../reference/singlesample_method_roster.html">singlesample_method_roster()</a></code> to inspect the current roster
 and do not treat the roster order as a performance ranking.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/singlesample_method_roster.html">singlesample_method_roster</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">roster</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"method_id"</span>, <span class="st">"tier"</span>, <span class="st">"dep_route"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             method_id tier dep_route</span></span>

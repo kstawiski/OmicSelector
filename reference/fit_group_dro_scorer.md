@@ -20,7 +20,8 @@ fit_group_dro_scorer(
   epochs = 200L,
   tune = TRUE,
   seed = 42L,
-  ...
+  ...,
+  group_train = NULL
 )
 ```
 
@@ -79,6 +80,14 @@ fit_group_dro_scorer(
 - ...:
 
   Reserved for scorer-interface compatibility.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

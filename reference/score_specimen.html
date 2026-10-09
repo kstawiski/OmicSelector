@@ -11,7 +11,7 @@ cohort, or test-time batch statistic is required."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ cohort, or test-time batch statistic is required."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Score new specimens with a frozen single-sample deployment object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
       <div class="d-none name"><code>score_specimen.Rd</code></div>
     </div>
 
@@ -50,7 +50,7 @@ cohort, or test-time batch statistic is required.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">score_specimen</span><span class="op">(</span><span class="va">deployable</span>, <span class="va">x_new</span>, meta <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">score_specimen</span><span class="op">(</span><span class="va">deployable</span>, <span class="va">x_new</span>, meta <span class="op">=</span> <span class="cn">NULL</span>, detected <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,16 +64,62 @@ cohort, or test-time batch statistic is required.</p>
 
 <dt id="arg-x-new">x_new<a class="anchor" aria-label="anchor" href="#arg-x-new"></a></dt>
 <dd><p>A single named numeric vector, or a numeric matrix/data frame
-with one or more specimen rows and feature columns.</p></dd>
+with one or more specimen rows and feature columns. With an attached
+preprocessor, supply raw counts or Ct values; Ct character markers are
+accepted and converted to non-detects.</p></dd>
 
 
 <dt id="arg-meta">meta<a class="anchor" aria-label="anchor" href="#arg-meta"></a></dt>
 <dd><p>Optional per-specimen metadata, one row per row of <code>x_new</code>.</p></dd>
 
+
+<dt id="arg-detected">detected<a class="anchor" aria-label="anchor" href="#arg-detected"></a></dt>
+<dd><p>Optional logical matrix aligned to <code>x_new</code> (or a named
+logical vector for one specimen). TRUE means detected before imputation.
+Supply this mask when preprocessing replaces nondetects by positive values
+that cannot be distinguished from measured values. No detection status is
+inferred from scored-batch variation or from a constant specimen profile.
+With a preprocessor, align this mask to the raw input, including extra
+columns. It is combined with preprocessing detection by logical AND.</p></dd>
+
+
+<dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
+<dd><p>Logical scalar; defaults to <code>FALSE</code>. If <code>TRUE</code>,
+k-TSP and pair-ratio require every fitted-pair feature, trimmed rCLR
+requires the frozen training feature universe, and balance ILR requires
+every frozen balance member. Other routes and custom adapters reject with
+<code>STRICT_UNSUPPORTED</code>. Existing input guards apply in both modes.
+Registered custom scorers declaring `strict_support = TRUE` receive the
+flag and apply their documented strict policy.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Numeric score vector with one value per incoming specimen.</p>
+    <p>Numeric score vector with one value per incoming specimen. For k-TSP,
+  pair-ratio, trimmed-rCLR and balance-ILR panels, the scorer's
+  <code>support</code> attribute is retained; see <code><a href="score_reo_ktsp.html">score_reo_ktsp</a></code>,
+  <code><a href="score_reo_pairratio.html">score_reo_pairratio</a></code>, <code><a href="score_ws_rclr_panel.html">score_ws_rclr_panel</a></code>
+  and <code><a href="score_ws_balance_ilr.html">score_ws_balance_ilr</a></code>. The default preserves each
+  scorer's missing-feature policy. Use <code>strict = TRUE</code> here to require
+  complete support. Invalid strict values raise <code>INVALID_STRICT</code>;
+  missing features raise <code>MISSING_REQUIRED_FEATURES</code>, and absent frozen
+  universe metadata raises <code>MISSING_FITTED_UNIVERSE</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Invalid input raises a <code>singlesample_input_error</code> with machine-readable
+<code>code</code> and affected <code>rows</code>. Codes include <code>EMPTY_INPUT</code>,
+<code>INVALID_FEATURE_NAMES</code>, <code>ALL_REQUIRED_ABSENT</code>,
+<code>ALL_NONDETECT</code>, <code>NONFINITE_REQUIRED_VALUE</code>,
+<code>EMPTY_FITTED_SUPPORT</code>,
+<code>CONSTANT_FITTED_SUPPORT</code>, and <code>NO_USABLE_SUPPORT</code>.
+Required NA, NaN or infinite abundance values are rejected before scoring
+in both default and strict modes. Raw Ct missing values are converted to
+non-detects when a Ct preprocessor is attached.
+A batch containing an invalid row is rejected as a whole. Checks use only
+each specimen and frozen training information. Positive imputation cannot
+be recognized without <code>detected</code> or an appropriate frozen
+<code>nondetect_limit</code>. Refit legacy models to record training support status.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

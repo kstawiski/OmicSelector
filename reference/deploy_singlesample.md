@@ -21,7 +21,10 @@ deploy_singlesample(
   method = "ws-balance-ilr",
   meta_train = NULL,
   annotation = NULL,
-  verify = TRUE
+  verify = TRUE,
+  nondetect_limit = 0,
+  preprocessor = NULL,
+  group_train = NULL
 )
 ```
 
@@ -30,7 +33,7 @@ deploy_singlesample(
 - X_train:
 
   Numeric matrix or data frame of training specimens (samples x
-  features).
+  features). With a preprocessor, supply raw measurements.
 
 - y_train:
 
@@ -40,6 +43,7 @@ deploy_singlesample(
 
   Method identifier from
   [`singlesample_method_roster`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md).
+  Custom routes can be added with \[register_singlesample_method()\].
 
 - meta_train:
 
@@ -58,12 +62,37 @@ deploy_singlesample(
   construction fails loudly when the fitted scorer is not single-sample
   deployable.
 
+- nondetect_limit:
+
+  Finite non-negative abundance threshold, frozen at deployment
+  construction (default 0). For an assay mapping undetected Ct 40 to
+  abundance 1, use 1. This threshold is on the abundance scale after any
+  preprocessing. An attached preprocessor also supplies its detection
+  mask.
+
+- preprocessor:
+
+  Optional frozen `singlesample_preprocessor` from
+  [`fit_singlesample_preprocessor`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_preprocessor.md).
+  The default `NULL` uses the existing abundance-input path. When
+  supplied, training, scoring and behavioural verification all accept
+  raw measurements.
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
+
 ## Value
 
 An S3 object of class `singlesample_deployable` containing the frozen
-`model`, `method_id`, resolved `score_fn`, `n_train`, `fit_time`, and
-roster `meta`. Its value is deployability: scoring an incoming specimen
-from that specimen plus frozen fit-time parameters only.
+`model`, `method_id`, resolved `score_fn`, `n_train`, `fit_time`, roster
+`meta`, and the `preprocessor` when supplied. Its value is
+deployability: scoring an incoming specimen from that specimen plus
+frozen fit-time parameters only.
 
 ## See also
 

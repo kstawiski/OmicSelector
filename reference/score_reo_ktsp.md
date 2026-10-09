@@ -1,19 +1,24 @@
 # Score REO-kTSP within-sample pair-order votes
 
-Scores each row of `X` independently with the frozen oriented pairs
-learned by
+Scores each specimen using the oriented pairs learned by
 [`fit_reo_ktsp`](https://kstawiski.github.io/OmicSelector/reference/fit_reo_ktsp.md).
-For the pairs whose two features are present in `X`, the score is the
-k-TSP vote fraction: the mean of `feature_a < feature_b` votes over
-usable pairs. This is the standard k-TSP decision statistic and supplies
-a continuous margin score for DeLong comparisons. If no retained pair
-has both features present, the function returns the neutral vote
-fraction `0.5` for every row.
+With the default `strict = FALSE`, only pairs with both features present
+contribute. The score is the mean of `feature_a < feature_b` votes over
+these available pairs. Missing pairs reduce the denominator: this is a
+reduced-support score, not the complete fitted model's score. Its
+discrimination and calibration on a reduced panel are not established by
+the complete-panel fit.
+
+Empty or constant fitted support, absence of all required features,
+all-nondetect rows, and panels with no complete pair raise a
+`singlesample_input_error`; see
+[`score_specimen`](https://kstawiski.github.io/OmicSelector/reference/score_specimen.md).
+Scoring uses only each specimen and the frozen model.
 
 ## Usage
 
 ``` r
-score_reo_ktsp(model, X, meta = NULL)
+score_reo_ktsp(model, X, meta = NULL, strict = FALSE)
 ```
 
 ## Arguments
@@ -33,12 +38,24 @@ score_reo_ktsp(model, X, meta = NULL)
   Optional per-sample metadata. Accepted for interface uniformity and
   ignored by this method.
 
+- strict:
+
+  Logical scalar. The default `FALSE` preserves scoring over available
+  pairs for backward compatibility. Set `TRUE` to reject any missing
+  feature from a fitted pair. Unused training features are not required.
+  Existing invalid-input and unusable-support checks apply in both
+  modes.
+
 ## Value
 
-Numeric vector of one finite vote-fraction score per row of `X`. Scores
-use only each row's own values plus the frozen model, with no
-scored-batch centering, quantiles, or renormalization. On a fully
-present feature set the result is identical to `predict(model$ktsp, X)`.
+Numeric vector of one finite vote-fraction score per row. With all
+fitted-pair features present, numeric values equal
+`predict(model$ktsp, X)`. The `support` attribute is a data frame with
+one row per score: `n_available` counts fitted pairs with both named
+columns present, `n_fitted` counts all fitted pairs, and `full_support`
+reports whether these counts agree. Counts describe column availability,
+not detection or assay quality. Save `attr(score, "support")` before
+subsetting or numeric coercion, which can discard attributes.
 
 ## References
 
@@ -53,13 +70,18 @@ rules for classifying human cancers from gene expression profiles.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-X <- matrix(stats::rgamma(40 * 12, shape = 2), nrow = 40,
-            dimnames = list(NULL, paste0("miR-", seq_len(12))))
-y <- rep(c(0, 1), each = 20)
-X[y == 0, "miR-1"] <- X[y == 0, "miR-1"] + 5
-X[y == 1, "miR-2"] <- X[y == 1, "miR-2"] + 5
-model <- fit_reo_ktsp(X, y, hp = list(k = 3L))
-score_reo_ktsp(model, X[1, , drop = FALSE])
-} # }
+# An illustrative frozen two-pair model.
+pairs <- data.frame(feature_a = c("a", "c"), feature_b = c("b", "d"))
+model <- structure(list(ktsp = list(pairs = pairs)), class = "reo_ktsp_model")
+X <- rbind(c(a = 2, b = 1, c = 1, d = 3), c(a = 1, b = 2, c = 4, d = 2))
+full <- score_reo_ktsp(model, X, strict = TRUE)
+partial <- score_reo_ktsp(model, X[, c("a", "b"), drop = FALSE])
+attr(partial, "support")  # 1 available / 2 fitted pairs; full_support = FALSE
+#>   n_available n_fitted full_support
+#> 1           1        2        FALSE
+#> 2           1        2        FALSE
+stopifnot(identical(as.numeric(partial), c(0, 1)))
+tryCatch(score_reo_ktsp(model, X[, c("a", "b"), drop = FALSE], strict = TRUE),
+         singlesample_input_error = function(e) e$code)
+#> [1] "MISSING_REQUIRED_FEATURES"
 ```

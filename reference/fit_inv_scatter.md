@@ -14,7 +14,13 @@ pointer – score rebuilds `ScatteringTorch1D` from the stored config.
 ## Usage
 
 ``` r
-fit_inv_scatter(X_train, y_train, meta_train = NULL, hp = list())
+fit_inv_scatter(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 ```
 
 ## Arguments
@@ -45,6 +51,14 @@ fit_inv_scatter(X_train, y_train, meta_train = NULL, hp = list())
   (feature-overlap floor at scoring, positive integer; default `3L`),
   `device` (`"cpu"` (default), `"cuda"`, or `"auto"`; `"cuda"`/`"auto"`
   fall back to CPU with no GPU), and `seed` (integer; default `42L`).
+
+- group_train:
+
+  Optional biological-group identifiers, one per training row, without
+  missing values. Whole groups stay together in inner resampling.
+  \`NULL\` preserves the original row-based fit. Invalid or infeasible
+  groups raise \`singlesample_input_error\` with code
+  \`INVALID_GROUPS\`.
 
 ## Value
 

@@ -13,7 +13,7 @@ Sinkhorn plan) is *not* row-equivariant."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ Sinkhorn plan) is *not* row-equivariant."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Test whether a scorer is row-equivariant (non-throwing)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-method-roster.R" class="external-link"><code>R/singlesample-method-roster.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-method-roster.R" class="external-link"><code>R/singlesample-method-roster.R</code></a></small>
       <div class="d-none name"><code>singlesample_is_row_equivariant.Rd</code></div>
     </div>
 
@@ -62,7 +62,8 @@ Sinkhorn plan) is *not* row-equivariant.</p>
 <span>  tol <span class="op">=</span> <span class="fl">1e-08</span>,</span>
 <span>  n_singletons <span class="op">=</span> <span class="fl">4L</span>,</span>
 <span>  model_digest <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">1L</span></span>
+<span>  seed <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  extreme_transform <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,6 +110,15 @@ deterministically.</p></dd>
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Random seed for reproducible permutations/subsets.</p></dd>
+
+
+<dt id="arg-extreme-transform">extreme_transform<a class="anchor" aria-label="anchor" href="#arg-extreme-transform"></a></dt>
+<dd><p>Optional function of a numeric matrix that creates
+extreme neighbours within the input domain, preserving dimensions and names.
+The default <code>NULL</code> multiplies values by one million. For raw Ct,
+shift detected values down by <code>log(1e6) / log(ct_base)</code> cycles and
+leave non-detects unchanged. Only neighbours are transformed; target rows
+retain their original measurements.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -3,7 +3,7 @@
 ``` r
 
 library(OmicSelector)
-#> OmicSelector 2.6.5.9001 - Leakage-Resistant Biomarker Discovery
+#> OmicSelector 2.6.6 - Leakage-Resistant Biomarker Discovery
 #> Use OmicPipeline$new() to start. Run ?OmicSelector for help.
 ```
 
@@ -98,6 +98,9 @@ correction is supplied.
 score <- score_specimen(dep, x_new)
 score
 #> [1] 8.42726
+#> attr(,"support")
+#>   n_available n_fitted full_support
+#> 1          30       30         TRUE
 ```
 
 ## Check the row-equivariance guarantee
@@ -111,6 +114,90 @@ row in a batch, with the frozen model unchanged.
 is_singlesample_deployable(dep, X_probe = X_train)
 #> [1] TRUE
 ```
+
+## Freeze conversion from raw counts or Ct values
+
+A frozen preprocessor records the feature names and conversion
+constants. Counts are divided by each specimen’s own total over
+available frozen features and multiplied by one million. Ct values
+become `2^(40 - Ct)` by default. Missing values, non-numeric Ct markers,
+and Ct values at or above 40 become abundance 1 with detection FALSE.
+Scoring rejects an all-non-detect specimen.
+
+``` r
+
+counts_train <- round(X_train)
+counts_new <- round(x_new)
+count_prep <- fit_singlesample_preprocessor(counts_train, type = "counts")
+count_dep <- deploy_singlesample(counts_train, y_train, method = "reo-ktsp",
+                                preprocessor = count_prep)
+score_specimen(count_dep, counts_new)
+#> [1] 1
+#> attr(,"support")
+#>   n_available n_fitted full_support
+#> 1          11       11         TRUE
+is_singlesample_deployable(count_dep, counts_train)
+#> [1] TRUE
+
+ct_train <- 40 - log2(X_train)
+ct_new <- 40 - log2(x_new)
+ct_prep <- fit_singlesample_preprocessor(ct_train, type = "ct")
+ct_dep <- deploy_singlesample(ct_train, y_train, method = "reo-ktsp",
+                             preprocessor = ct_prep)
+score_specimen(ct_dep, ct_new)
+#> [1] 1
+#> attr(,"support")
+#>   n_available n_fitted full_support
+#> 1          11       11         TRUE
+is_singlesample_deployable(ct_dep, ct_train)
+#> [1] TRUE
+```
+
+Extra columns are dropped. Missing frozen columns remain absent; for
+CPM, missing columns change the total used for conversion. Use
+`strict = TRUE` to require the scorer’s complete fitted support. Any
+supplied `detected` mask must match the raw input; it is combined with
+the preprocessor’s mask by logical AND. The numerical checks above do
+not establish clinical performance.
+
+## Register a custom scorer
+
+Registration checks that a specimen has the same finite score alone and
+in different batches, and that scoring leaves the fitted model
+unchanged. The example freezes the training mean of the first feature.
+It is a software example, not a validated clinical score.
+
+``` r
+
+fit_custom <- function(X_train, y_train, ...) {
+  list(panel = colnames(X_train)[1L], center = mean(X_train[, 1L]))
+}
+score_custom <- function(model, X, meta = NULL, ...) {
+  as.numeric(X[, model$panel] - model$center)
+}
+register_singlesample_method(
+  "example_centered_feature", fit_custom, score_custom,
+  estimand = "within", probe = list(X = X_train, y = y_train)
+)
+registered_singlesample_methods()[, c("method_id", "row_source", "audited")]
+#>                  method_id row_source audited
+#> 1 example_centered_feature       user    TRUE
+custom_dep <- deploy_singlesample(
+  X_train, y_train, method = "example_centered_feature"
+)
+stopifnot(is_singlesample_deployable(custom_dep, X_train))
+stopifnot(identical(score_specimen(custom_dep, x_new),
+                    score_specimen(custom_dep, rbind(x_new, X_train))[1L]))
+unregister_singlesample_method("example_centered_feature")
+score_specimen(custom_dep, x_new) # Existing deployments retain their scorer.
+#> [1] 39.19399
+```
+
+Routes are registered for the current R session. Use
+`estimand = "within"` for within-cohort benchmark helpers. Strict
+requests require a callback that accepts `strict` and registration with
+`strict_support = TRUE`. Probe auditing does not establish performance
+on other panels or clinical readiness.
 
 ## Inspect the method roster, not a ranking
 

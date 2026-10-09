@@ -17,7 +17,8 @@ singlesample_score_call(
   model,
   X,
   meta = NULL,
-  roster = singlesample_method_roster()
+  roster = singlesample_method_roster(),
+  strict = FALSE
 )
 ```
 
@@ -44,9 +45,21 @@ singlesample_score_call(
   The roster to resolve against; defaults to
   \[singlesample_method_roster()\].
 
+- strict:
+
+  Logical scalar; defaults to `FALSE`. If `TRUE`, pass strict checking
+  to built-in k-TSP, pair-ratio, trimmed-rCLR or balance-ILR scoring.
+  Other methods, replaced roster scorers, and registered custom adapters
+  fail with `singlesample_input_error` code `STRICT_UNSUPPORTED`.
+  Required NA or non-finite values raise `NONFINITE_REQUIRED_VALUE`
+  before dispatch in both modes. See \[score_specimen()\] for required
+  features. Session-registered methods declaring \`strict_support =
+  TRUE\` receive the strict flag through their registered callback.
+
 ## Value
 
-Numeric vector of one score per row of \`X\`.
+Numeric vector of one score per row of \`X\`, retaining any `support`
+attribute returned by the scorer.
 
 ## See also
 

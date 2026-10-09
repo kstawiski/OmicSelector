@@ -12,16 +12,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kstawiski/OmicSelector/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kstawiski/OmicSelector/blob/v2.6.6/DESCRIPTION)
 
-Stawiski K, Kaszkowiak M, Mikulski D (2026). *OmicSelector: Rigorous
-Biomarker Discovery with Zero-Leakage Machine Learning*. R package
-version 2.6.5.9001, <https://github.com/kstawiski/OmicSelector>.
+Stawiski K, Kaszkowiak M, Mikulski D (2026). *OmicSelector: Biomarker
+Discovery with Specimen-Local Scoring Audits and Grouped Validation*. R
+package version 2.6.6, <https://github.com/kstawiski/OmicSelector>.
 
     @Manual{,
-      title = {OmicSelector: Rigorous Biomarker Discovery with Zero-Leakage Machine Learning},
+      title = {OmicSelector: Biomarker Discovery with Specimen-Local Scoring Audits and Grouped Validation},
       author = {Konrad Stawiski and Marcin Kaszkowiak and Damian Mikulski},
       year = {2026},
-      note = {R package version 2.6.5.9001},
+      note = {R package version 2.6.6},
       url = {https://github.com/kstawiski/OmicSelector},
     }

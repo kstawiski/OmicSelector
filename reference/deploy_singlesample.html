@@ -23,7 +23,7 @@ intentionally not fitted by this base-R deployment wrapper.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ intentionally not fitted by this base-R deployment wrapper.'></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Build a frozen single-sample deployment scorer</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
       <div class="d-none name"><code>deploy_singlesample.Rd</code></div>
     </div>
 
@@ -74,7 +74,10 @@ intentionally not fitted by this base-R deployment wrapper.</p>
 <span>  method <span class="op">=</span> <span class="st">"ws-balance-ilr"</span>,</span>
 <span>  meta_train <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  annotation <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  verify <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  verify <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  nondetect_limit <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  preprocessor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_train <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,7 +87,7 @@ intentionally not fitted by this base-R deployment wrapper.</p>
 
 <dl><dt id="arg-x-train">X_train<a class="anchor" aria-label="anchor" href="#arg-x-train"></a></dt>
 <dd><p>Numeric matrix or data frame of training specimens
-(samples x features).</p></dd>
+(samples x features). With a preprocessor, supply raw measurements.</p></dd>
 
 
 <dt id="arg-y-train">y_train<a class="anchor" aria-label="anchor" href="#arg-y-train"></a></dt>
@@ -92,7 +95,8 @@ intentionally not fitted by this base-R deployment wrapper.</p>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Method identifier from <code><a href="singlesample_method_roster.html">singlesample_method_roster</a></code>.</p></dd>
+<dd><p>Method identifier from <code><a href="singlesample_method_roster.html">singlesample_method_roster</a></code>.
+Custom routes can be added with [register_singlesample_method()].</p></dd>
 
 
 <dt id="arg-meta-train">meta_train<a class="anchor" aria-label="anchor" href="#arg-meta-train"></a></dt>
@@ -110,12 +114,34 @@ signature includes an <code>annotation</code> argument.</p></dd>
 deterministic subset for large inputs) so construction fails loudly when the
 fitted scorer is not single-sample deployable.</p></dd>
 
+
+<dt id="arg-nondetect-limit">nondetect_limit<a class="anchor" aria-label="anchor" href="#arg-nondetect-limit"></a></dt>
+<dd><p>Finite non-negative abundance threshold, frozen at
+deployment construction (default 0). For an assay mapping undetected Ct 40
+to abundance 1, use 1. This threshold is on the abundance scale after any
+preprocessing. An attached preprocessor also supplies its detection mask.</p></dd>
+
+
+<dt id="arg-preprocessor">preprocessor<a class="anchor" aria-label="anchor" href="#arg-preprocessor"></a></dt>
+<dd><p>Optional frozen <code>singlesample_preprocessor</code> from
+<code><a href="fit_singlesample_preprocessor.html">fit_singlesample_preprocessor</a></code>. The default <code>NULL</code>
+uses the existing abundance-input path. When supplied, training, scoring
+and behavioural verification all accept raw measurements.</p></dd>
+
+
+<dt id="arg-group-train">group_train<a class="anchor" aria-label="anchor" href="#arg-group-train"></a></dt>
+<dd><p>Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>singlesample_deployable</code> containing the
   frozen <code>model</code>, <code>method_id</code>, resolved <code>score_fn</code>,
-  <code>n_train</code>, <code>fit_time</code>, and roster <code>meta</code>. Its value is
+  <code>n_train</code>, <code>fit_time</code>, roster <code>meta</code>, and the
+  <code>preprocessor</code> when supplied. Its value is
   deployability: scoring an incoming specimen from that specimen plus frozen
   fit-time parameters only.</p>
     </div>
