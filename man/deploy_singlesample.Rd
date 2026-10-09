@@ -20,7 +20,8 @@ deploy_singlesample(
 
 \item{y_train}{Numeric/integer 0/1 labels aligned to \code{X_train}.}
 
-\item{method}{Method identifier from \code{\link{singlesample_method_roster}}.}
+\item{method}{Method identifier from \code{\link{singlesample_method_roster}}.
+Custom routes can be added with [register_singlesample_method()].}
 
 \item{meta_train}{Optional training metadata, one row per training specimen.}
 

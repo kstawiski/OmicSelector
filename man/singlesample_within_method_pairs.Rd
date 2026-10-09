@@ -18,4 +18,6 @@ A data frame with one row per unordered pair and columns `pair_id`,
 Enumerates every unordered pair of methods whose roster estimand is
 `"within"`. Pair direction follows roster row order and never depends on an
 outcome, score, eligibility, or performance column.
+User routes with descriptive estimands other than `"within"` or `"transfer"`
+are excluded from these within-cohort pairs.
 }

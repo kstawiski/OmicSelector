@@ -318,6 +318,8 @@ export(qpcr_nondetect_impute)
 export(qpcr_nondetect_lod_fallback)
 export(register_coda_feature_selection_filters)
 export(register_gof_filters)
+export(register_singlesample_method)
+export(registered_singlesample_methods)
 export(reliability_diagram_data)
 export(reset_parallel)
 export(resolve_hsa_to_mimat)
@@ -444,6 +446,7 @@ export(train_codacore)
 export(train_ratio_cnn)
 export(train_ratio_cnn_multiseed)
 export(train_weighted_clr_mlp)
+export(unregister_singlesample_method)
 export(validate_omics_input)
 export(validate_synthetic)
 export(weighted_clr_transform)
@@ -473,32 +476,35 @@ importFrom(R6,R6Class)
 importFrom(data.table,as.data.table)
 importFrom(methods,new)
 importFrom(mlr3pipelines,"%>>%")
-importFrom(mlr3pipelines,`%>>%`)
-importFrom(stats,.lm.fit)
-importFrom(stats,aggregate)
-importFrom(stats,aov)
-importFrom(stats,as.stepfun)
-importFrom(stats,binomial)
-importFrom(stats,coef)
-importFrom(stats,cor)
-importFrom(stats,glm)
-importFrom(stats,isoreg)
-importFrom(stats,mad)
-importFrom(stats,median)
-importFrom(stats,optimize)
-importFrom(stats,p.adjust)
-importFrom(stats,pnorm)
-importFrom(stats,predict)
-importFrom(stats,qnorm)
-importFrom(stats,quantile)
-importFrom(stats,rbinom)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
-importFrom(stats,sd)
-importFrom(stats,setNames)
-importFrom(stats,weighted.mean)
-importFrom(utils,capture.output)
-importFrom(utils,head)
-importFrom(utils,modifyList)
-importFrom(utils,sessionInfo)
-importFrom(utils,tail)
+importFrom(stats,
+  .lm.fit,
+  aggregate,
+  aov,
+  as.stepfun,
+  binomial,
+  coef,
+  cor,
+  glm,
+  isoreg,
+  mad,
+  median,
+  optimize,
+  p.adjust,
+  pnorm,
+  predict,
+  qnorm,
+  quantile,
+  rbinom,
+  rnorm,
+  runif,
+  sd,
+  setNames,
+  weighted.mean
+)
+importFrom(utils,
+  capture.output,
+  head,
+  modifyList,
+  sessionInfo,
+  tail
+)

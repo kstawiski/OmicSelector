@@ -7,7 +7,7 @@
 singlesample_method_roster()
 }
 \value{
-A data frame with one row per frozen-roster method.
+A data frame with one row per built-in or session-registered method.
 }
 \description{
 Returns the frozen 74-row method roster for the OmicSelector single-sample
@@ -40,6 +40,11 @@ analysis instrument read one authoritative artifact. Each row carries:
 }
 plus derived `single_sample_gate`, `is_discriminator`, and
 `is_negative_control` columns.
+
+Session-registered routes from [register_singlesample_method()] are appended
+with `row_source = "user"`. Built-in rows and columns are unchanged. User
+fit/score names are registry labels, not namespace exports; use
+[deploy_singlesample()] to fit and [singlesample_score_call()] to score them.
 }
 \seealso{
 [singlesample_method_bank()], [singlesample_score_call()],

@@ -16,6 +16,7 @@
 #'   (samples x features).
 #' @param y_train Numeric/integer 0/1 labels aligned to \code{X_train}.
 #' @param method Method identifier from \code{\link{singlesample_method_roster}}.
+#'   Custom routes can be added with [register_singlesample_method()].
 #' @param meta_train Optional training metadata, one row per training specimen.
 #' @param annotation Optional feature annotation passed only to methods whose fit
 #'   signature includes an \code{annotation} argument.
@@ -51,6 +52,7 @@ deploy_singlesample <- function(X_train, y_train,
   roster <- singlesample_method_roster()
   method <- .singlesample_deploy_match_method(method, roster)
   row <- roster[roster$method_id == method, , drop = FALSE]
+  custom <- .ss_registered_method(method)
 
   dep_route <- row$dep_route[[1]]
   tier <- row$tier[[1]]
@@ -121,6 +123,11 @@ deploy_singlesample <- function(X_train, y_train,
     class = "singlesample_deployable"
   )
 
+  if (!is.null(custom)) {
+    deployable$score_route <- "registered"
+    deployable$strict_support <- custom$strict_support
+  }
+
   .singlesample_deploy_preflight_score(deployable, X_train, meta_train)
 
   if (isTRUE(verify)) {
@@ -159,6 +166,8 @@ deploy_singlesample <- function(X_train, y_train,
 #'   requires the frozen training feature universe, and balance ILR requires
 #'   every frozen balance member. Other routes and custom adapters reject with
 #'   \code{STRICT_UNSUPPORTED}. Existing input guards apply in both modes.
+#'   Registered custom scorers declaring `strict_support = TRUE` receive the
+#'   flag and apply their documented strict policy.
 #'
 #' @details
 #' Invalid input raises a \code{singlesample_input_error} with machine-readable
@@ -184,7 +193,12 @@ deploy_singlesample <- function(X_train, y_train,
 score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
                            strict = FALSE) {
   .singlesample_deploy_assert_object(deployable)
-  X <- .singlesample_deploy_as_score_matrix(x_new)
+  X <- if (identical(deployable$score_route, "registered")) {
+    tryCatch(.singlesample_deploy_as_score_matrix(x_new), error = function(e) {
+      if (inherits(e, "singlesample_input_error")) stop(e)
+      .ss_input_reject("INVALID_INPUT", conditionMessage(e), "score_specimen")
+    })
+  } else .singlesample_deploy_as_score_matrix(x_new)
   .singlesample_deploy_score(deployable, X, meta, detected = detected,
                              strict = strict)
 }
@@ -256,6 +270,8 @@ print.singlesample_deployable <- function(x, ...) {
 }
 
 .singlesample_deploy_resolve_fn <- function(fn_name, field, method) {
+  custom <- .ss_registered_method(method)
+  if (!is.null(custom)) return(custom[[field]])
   if (is.na(fn_name) || !nzchar(fn_name)) {
     stop("deploy_singlesample: method '", method, "' requires a declared ",
          field, ", but none is listed in singlesample_method_roster().",
@@ -315,7 +331,9 @@ print.singlesample_deployable <- function(x, ...) {
                                        caller = "score_specimen", detected = NULL,
                                        strict = FALSE) {
   .ss_check_strict(strict, caller)
-  if (strict) {
+  if (identical(deployable$score_route, "registered")) {
+    .ss_registered_strict(deployable, strict, caller)
+  } else if (strict) {
     .ss_strict_scorer(deployable$method_id, caller)
     if (!identical(deployable$score_route, "score_call")) {
       .ss_input_reject("STRICT_UNSUPPORTED",
@@ -334,13 +352,16 @@ print.singlesample_deployable <- function(x, ...) {
 
 .singlesample_deploy_score_raw <- function(deployable, X, meta = NULL,
                                            strict = FALSE) {
-  if (!is.null(meta)) {
+  if (!is.null(meta) && !identical(deployable$score_route, "registered")) {
     meta <- .singlesample_deploy_as_meta(meta, nrow(X), "score_specimen",
                                          "meta")
   }
 
   switch(
     deployable$score_route,
+    registered = .ss_registered_score(deployable, deployable$model, X, meta,
+                                       strict, deployable$method_id,
+                                       caller = "score_specimen"),
     score_call = singlesample_score_call(deployable$method_id,
                                          deployable$model, X, meta, strict = strict),
     direct_model = deployable$score_fn(deployable$model, X, meta),

@@ -1,5 +1,11 @@
 # OmicSelector 2.6.6.9000 (development)
 
+- Add session-level custom scorer registration, listing and removal. Registered
+  routes use deployment input guards and default probe audits for specimen-local
+  scores and unchanged fitted state. Custom strict support is declared at
+  registration; existing deployment objects retain their resolved callback after
+  registry changes. Built-in roster rows and dispatch are unchanged.
+
 - Expose `strict = FALSE` through `score_specimen()` and
   `singlesample_score_call()`. Strict checking reaches k-TSP, pair-ratio,
   trimmed rCLR and balance ILR. Other routes and custom adapters fail closed

@@ -30,11 +30,26 @@
 #' plus derived `single_sample_gate`, `is_discriminator`, and
 #' `is_negative_control` columns.
 #'
-#' @return A data frame with one row per frozen-roster method.
+#' Session-registered routes from [register_singlesample_method()] are appended
+#' with `row_source = "user"`. Built-in rows and columns are unchanged. User
+#' fit/score names are registry labels, not namespace exports; use
+#' [deploy_singlesample()] to fit and [singlesample_score_call()] to score them.
+#'
+#' @return A data frame with one row per built-in or session-registered method.
 #' @seealso [singlesample_method_bank()], [singlesample_score_call()],
 #'   [singlesample_assert_row_equivariant()]
 #' @export
 singlesample_method_roster <- function() {
+  m <- .singlesample_builtin_method_roster()
+  ids <- ls(.singlesample_method_registry, all.names = TRUE)
+  if (!length(ids)) return(m)
+  rows <- lapply(ids, function(id) .ss_registered_method(id)$row)
+  out <- do.call(rbind, c(list(m), rows))
+  rownames(out) <- NULL
+  out
+}
+
+.singlesample_builtin_method_roster <- function() {
   path <- system.file("extdata", "singlesample_method_manifest.csv",
                       package = "OmicSelector")
   if (!nzchar(path) || !file.exists(path)) {
@@ -193,6 +208,8 @@ singlesample_register_score_adapter <- function(method_id, fn) {
 #'   balance-ILR scoring. Other methods, replaced roster scorers, and registered
 #'   custom adapters fail with \code{singlesample_input_error} code
 #'   \code{STRICT_UNSUPPORTED}. See [score_specimen()] for required features.
+#'   Session-registered methods declaring `strict_support = TRUE` receive
+#'   the strict flag through their registered callback.
 #' @return Numeric vector of one score per row of `X`, retaining any
 #'   \code{support} attribute returned by the scorer.
 #' @seealso [singlesample_method_roster()], [singlesample_assert_row_equivariant()]
@@ -201,6 +218,19 @@ singlesample_score_call <- function(method_id, model, X, meta = NULL,
                               roster = singlesample_method_roster(),
                               strict = FALSE) {
   .ss_check_strict(strict, "singlesample_score_call")
+  entry <- .ss_registered_method(method_id)
+  if (!is.null(entry)) {
+    row <- roster[roster$method_id == method_id, , drop = FALSE]
+    if (nrow(row) != 1L) {
+      stop(sprintf("method_id '%s' not found uniquely in roster.", method_id),
+           call. = FALSE)
+    }
+    if (!identical(row$score_fn[[1L]], entry$row$score_fn[[1L]]) ||
+        !identical(row$row_source[[1L]], "user")) {
+      stop("custom method roster row does not match its registered route.", call. = FALSE)
+    }
+    return(.ss_registered_score(entry, model, X, meta, strict, method_id))
+  }
   strict_fn <- if (strict) .ss_strict_scorer(method_id, "singlesample_score_call")
   row <- roster[roster$method_id == method_id, , drop = FALSE]
   if (nrow(row) != 1L) {
