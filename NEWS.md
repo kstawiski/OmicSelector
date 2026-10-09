@@ -1,4 +1,4 @@
-# OmicSelector 2.6.6.9000 (development)
+# OmicSelector 2.6.6
 
 - Add frozen count and Ct preprocessing for `deploy_singlesample()`, with
   specimen-local conversion, detection masks and raw-input verification.

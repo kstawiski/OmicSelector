@@ -1,8 +1,8 @@
 Package: OmicSelector
 Type: Package
 Title: Biomarker Discovery with Specimen-Local Scoring Audits and Grouped Validation
-Version: 2.6.6.9000
-Date: 2026-07-20
+Version: 2.6.6
+Date: 2026-10-09
 Authors@R: c(
     person("Konrad", "Stawiski", , "konrad.stawiski@umed.lodz.pl", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-6550-3384")),
