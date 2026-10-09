@@ -4,7 +4,13 @@
 \alias{fit_sig_path}
 \title{Fit the truncated path-signature single-sample discriminator}
 \usage{
-fit_sig_path(X_train, y_train, meta_train = NULL, hp = list())
+fit_sig_path(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -26,6 +32,11 @@ deterministic k-fold CV, otherwise a non-negative finite number),
 \code{min_features} (feature-overlap floor at scoring, positive integer;
 default \code{3L}), and \code{seed} (integer; default \code{42L}). NO
 \code{device} hp --- the method is pure base R.}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 Object of class \code{sig_path_model}: a list with

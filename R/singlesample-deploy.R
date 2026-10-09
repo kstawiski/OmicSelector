@@ -35,13 +35,21 @@
 #' @seealso \code{\link{score_specimen}},
 #'   \code{\link{is_singlesample_deployable}},
 #'   \code{\link{singlesample_method_roster}}
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
 deploy_singlesample <- function(X_train, y_train,
                                 method = "ws-balance-ilr",
                                 meta_train = NULL,
                                 annotation = NULL,
                                 verify = TRUE,
-                                nondetect_limit = 0) {
+                                nondetect_limit = 0,
+                                group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "deploy_singlesample")
+  }
   if (!is.numeric(nondetect_limit) || length(nondetect_limit) != 1L ||
       !is.finite(nondetect_limit) || nondetect_limit < 0) {
     .ss_input_reject("INVALID_NONDETECT_LIMIT",
@@ -88,7 +96,8 @@ deploy_singlesample <- function(X_train, y_train,
         X_train = X_train,
         y_train = y_train,
         meta_train = meta_train,
-        annotation = annotation
+        annotation = annotation,
+        group_train = group_train
       )
     })
     fit_time <- unname(timing[["elapsed"]])
@@ -271,7 +280,8 @@ print.singlesample_deployable <- function(x, ...) {
 }
 
 .singlesample_deploy_fit <- function(fit_fn, fit_fn_name, method, X_train,
-                                     y_train, meta_train, annotation) {
+                                     y_train, meta_train, annotation,
+                                     group_train = NULL, hp = NULL) {
   fml <- names(formals(fit_fn))
   data_arg <- intersect(c("X_train", "x_train", "X", "x"), fml)
   if (length(data_arg) == 0L) {
@@ -287,6 +297,11 @@ print.singlesample_deployable <- function(x, ...) {
   if ("meta_train" %in% fml) args$meta_train <- meta_train
   if ("annotation" %in% fml) args$annotation <- annotation
   if ("meta" %in% fml) args$meta <- meta_train
+  if (!is.null(hp) && "hp" %in% fml) args$hp <- hp
+  if (!is.null(group_train) && "group_train" %in% fml) {
+    args$group_train <- .ss_validate_groups(group_train, nrow(X_train),
+                                           "deploy_singlesample")
+  }
 
   tryCatch(
     do.call(fit_fn, args),

@@ -4,7 +4,13 @@
 \alias{fit_dro_group}
 \title{Fit the Group-DRO kit x biofluid robust discriminator}
 \usage{
-fit_dro_group(X_train, y_train, meta_train = NULL, hp = list())
+fit_dro_group(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -25,6 +31,11 @@ primitive-matching defaults: \code{kit_col} (\code{"kit_family"}),
 (\code{c(0.001, 0.01, 0.10)}), \code{inner_folds} (\code{3L}),
 \code{learning_rate} (\code{0.05}), \code{epochs} (\code{200L}), \code{tune}
 (\code{TRUE}), \code{seed} (\code{42L}).}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 Object of class \code{dro_group_model}: a list with the frozen

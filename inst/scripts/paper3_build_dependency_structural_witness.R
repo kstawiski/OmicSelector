@@ -202,12 +202,14 @@ suppressPackageStartupMessages({
                              outer_k = cohort$outer_k,
                              min_pos_per_fold = cohort$min_per_fold,
                              min_neg_per_fold = cohort$min_per_fold,
-                             panel_size = 20L, assay_panel_size = Inf) {
+                             panel_size = 20L, assay_panel_size = Inf,
+                             group_train = NULL) {
   X <- cohort$expr_per_sample
   y <- as.integer(cohort$y_bin)
   group_id <- cohort$group_id
   if (!is.matrix(X)) X <- as.matrix(X)
   n <- nrow(X)
+  group_train <- OmicSelector:::.ss_validate_groups(group_train, n, ".dsw_replay_cell")
   if (n < 4L || length(y) != n || anyNA(y) || !all(y %in% c(0L, 1L)) ||
       is.null(rownames(X)) || anyNA(rownames(X)) || any(!nzchar(rownames(X))) ||
       anyDuplicated(rownames(X))) {
@@ -287,7 +289,9 @@ suppressPackageStartupMessages({
     )
     model <- .dsw_stage(
       "fit", method, cohort_id, seed, fold,
-      fit_call_fn(row$fit_fn[[1L]], X_train, y_train, NULL, list())
+      OmicSelector:::.ss_fit_benchmark_route(
+        fit_call_fn, row$fit_fn[[1L]], X_train, y_train, NULL, list(),
+        group_train = if (is.null(group_train)) NULL else group_train[train])
     )
     if (is.null(model)) {
       stop("Structural replay fit returned NULL [", method, " / ", cohort_id,

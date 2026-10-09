@@ -231,8 +231,16 @@ NULL
 #' Networks for Group Shifts. \emph{ICLR}. arXiv:1911.08731.
 #'
 #' @seealso \code{\link{score_dro_group}}, \code{\link{fit_group_dro_scorer}}
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
-fit_dro_group <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+fit_dro_group <- function(X_train, y_train, meta_train = NULL, hp = list(),
+                            group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_dro_group")
+  }
   X_train <- .reo_check_matrix(X_train, "fit_dro_group", "X_train")
   y <- .reo_check_labels(y_train, nrow(X_train), "fit_dro_group")
   hp <- .dro_group_resolve_hp(hp)
@@ -270,7 +278,7 @@ fit_dro_group <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     learning_rate = hp$learning_rate,
     epochs = hp$epochs,
     tune = hp$tune,
-    seed = hp$seed)
+    seed = hp$seed, group_train = group_train)
 
   n_groups <- as.integer(fit$n_groups)
   model <- list(

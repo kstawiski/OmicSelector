@@ -405,7 +405,10 @@ NULL
 # Deterministic class-stratified k-fold assignment (NO RNG): within each class,
 # rows are dealt to folds round-robin in their existing order. Guarantees each
 # fold sees both classes when both are present and k <= min class size.
-.inv_scatter_cv_folds <- function(y, k) {
+.inv_scatter_cv_folds <- function(y, k, group_train = NULL, seed = 1L) {
+  if (!is.null(group_train)) {
+    return(.ss_grouped_inner_folds(y, group_train, k, seed))
+  }
   fold <- integer(length(y))
   for (cl in c(0L, 1L)) {
     idx <- which(y == cl)
@@ -420,11 +423,11 @@ NULL
 # log-spaced grid, scoring each lambda by mean held-out binomial deviance (lower =
 # better). Fully deterministic (no RNG): folds are class-stratified round-robin.
 # Returns the chosen lambda (a scalar from the grid).
-.inv_scatter_cv_lambda <- function(Xs, y, seed) {
+.inv_scatter_cv_lambda <- function(Xs, y, seed, group_train = NULL) {
   grid <- 10^seq(-3, 3, by = 0.5)                    # 13 candidate ridge penalties
   n <- nrow(Xs)
   k <- max(2L, min(5L, sum(y == 1L), sum(y == 0L)))  # <= smaller class size, >= 2
-  fold <- .inv_scatter_cv_folds(y, k)
+  fold <- .inv_scatter_cv_folds(y, k, group_train, seed)
   dev_of <- function(lambda) {
     tot <- 0
     cnt <- 0L
@@ -508,8 +511,16 @@ NULL
 #' Anden J, Mallat S. (2014) Deep Scattering Spectrum. \emph{IEEE TSP}
 #' 62(16):4114-4128.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
-fit_inv_scatter <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+fit_inv_scatter <- function(X_train, y_train, meta_train = NULL, hp = list(),
+                              group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_inv_scatter")
+  }
   X_train <- .reo_check_matrix(X_train, "fit_inv_scatter", "X_train")
   .reo_check_meta(meta_train, nrow(X_train), "fit_inv_scatter", "meta_train")
   y <- .reo_check_labels(y_train, nrow(X_train), "fit_inv_scatter")
@@ -573,7 +584,7 @@ fit_inv_scatter <- function(X_train, y_train, meta_train = NULL, hp = list()) {
   Cs <- .inv_scatter_standardize_apply(C, std$coef_mean, std$coef_sd)
 
   lambda <- hp$lambda
-  if (is.null(lambda)) lambda <- .inv_scatter_cv_lambda(Cs, y, hp$seed)
+  if (is.null(lambda)) lambda <- .inv_scatter_cv_lambda(Cs, y, hp$seed, group_train)
   head <- .inv_scatter_ridge_logit(Cs, y, lambda)
 
   model <- list(

@@ -285,7 +285,11 @@ if (!exists("%||%", mode = "function")) {
   c(se = se, low = max(0, auc - 1.96 * se), high = min(1, auc + 1.96 * se))
 }
 
-.gdro_stratified_folds <- function(y, k = 3L, seed = 42L) {
+.gdro_stratified_folds <- function(y, k = 3L, seed = 42L,
+                                    group_train = NULL) {
+  if (!is.null(group_train)) {
+    return(.ss_grouped_inner_folds(y, group_train, k, seed))
+  }
   y <- .gdro_as_binary(y)
   k <- min(as.integer(k), max(2L, min(table(y))))
   set.seed(seed)
@@ -325,9 +329,10 @@ if (!exists("%||%", mode = "function")) {
                             inner_folds = 3L,
                             learning_rate = 0.05,
                             epochs = 120L,
-                            seed = 42L) {
+                            seed = 42L, group_train = NULL) {
   y <- .gdro_as_binary(y)
-  fold <- .gdro_stratified_folds(y, k = inner_folds, seed = seed)
+  fold <- .gdro_stratified_folds(y, k = inner_folds, seed = seed,
+                                 group_train = group_train)
   grid <- expand.grid(eta = eta_grid, l2 = l2_grid)
   grid$mean_worst_group_auc <- NA_real_
   grid$mean_auc <- NA_real_

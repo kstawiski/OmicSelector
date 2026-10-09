@@ -11,7 +11,8 @@ deploy_singlesample(
   meta_train = NULL,
   annotation = NULL,
   verify = TRUE,
-  nondetect_limit = 0
+  nondetect_limit = 0,
+  group_train = NULL
 )
 }
 \arguments{
@@ -35,6 +36,11 @@ fitted scorer is not single-sample deployable.}
 \item{nondetect_limit}{Finite non-negative abundance threshold, frozen at
 deployment construction (default 0). For an assay mapping undetected Ct 40
 to abundance 1, use 1. This threshold must be specified on the input scale.}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 An S3 object of class \code{singlesample_deployable} containing the

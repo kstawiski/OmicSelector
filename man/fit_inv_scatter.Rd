@@ -4,7 +4,13 @@
 \alias{fit_inv_scatter}
 \title{Fit the 1D wavelet-scattering single-sample discriminator}
 \usage{
-fit_inv_scatter(X_train, y_train, meta_train = NULL, hp = list())
+fit_inv_scatter(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -26,6 +32,11 @@ number), \code{min_features} (feature-overlap floor at scoring, positive
 integer; default \code{3L}), \code{device} (\code{"cpu"} (default),
 \code{"cuda"}, or \code{"auto"}; \code{"cuda"}/\code{"auto"} fall back to CPU
 with no GPU), and \code{seed} (integer; default \code{42L}).}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 Object of class \code{inv_scatter_model}: a list with

@@ -1,5 +1,14 @@
 # OmicSelector 2.6.6.9000 (development)
 
+- Add optional `group_train` to deployment, selector fits, and routes with inner
+  resampling. Pair-ratio, group-DRO, scattering, and path-signature tuning keep
+  groups in one fold; conformal anomaly calibration and prototype episodes
+  keep groups on one side; StableMate excludes held-out biological groups from
+  its environment-training complement. Invalid groups raise `INVALID_GROUPS`.
+  `group_train = NULL` retains the existing fitting paths.
+- Correct the roxygen declaration for the `mlr3pipelines` pipe import so the
+  generated installed-package namespace loads.
+
 - Expose `strict = FALSE` through `score_specimen()` and
   `singlesample_score_call()`. Strict checking reaches k-TSP, pair-ratio,
   trimmed rCLR and balance ILR. Other routes and custom adapters fail closed
