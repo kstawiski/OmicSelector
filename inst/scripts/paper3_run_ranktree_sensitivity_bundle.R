@@ -581,7 +581,8 @@ suppressPackageStartupMessages({
     baseline_fn = get(".srb_rclr_panel_score", envir = .GlobalEnv),
     fit_dispatch = get(".srb_call_fit", envir = .GlobalEnv),
     score_dispatch = OmicSelector::singlesample_score_call,
-    direction_fn = get(".srb_training_direction", envir = .GlobalEnv)) {
+    direction_fn = get(".srb_training_direction", envir = .GlobalEnv),
+    group_train = NULL) {
   if (!identical(cohort_id, "GSE83977") || !identical(as.integer(outer_k), 3L) ||
       !as.integer(seed) %in% .ranktree_seeds()) {
     stop("Structural proof is restricted to the registered GSE83977/3-fold ",
@@ -590,6 +591,8 @@ suppressPackageStartupMessages({
   X <- cohort$expr_per_sample
   y <- as.integer(cohort$y_bin)
   group_id <- cohort$group_id
+  group_train <- OmicSelector:::.ss_validate_groups(
+    group_train, nrow(X), ".ranktree_prove_structural_exception")
   if (!is.matrix(X) || nrow(X) != length(y) ||
       any(!y %in% c(0L, 1L)) || length(unique(y)) != 2L) {
     stop("Structural-proof cohort inputs are invalid.", call. = FALSE)
@@ -647,7 +650,9 @@ suppressPackageStartupMessages({
         )
       }
       model <- .ranktree_strict_engine_call(
-        fit_dispatch, list(fit_name, X_train, y_train, NULL, list()),
+        OmicSelector:::.ss_fit_benchmark_route,
+        list(fit_dispatch, fit_name, X_train, y_train, NULL, list(),
+             group_train = if (is.null(group_train)) NULL else group_train[train]),
         "fit", method, cohort_id, seed, fold
       )
       training_score <- .ranktree_strict_engine_call(

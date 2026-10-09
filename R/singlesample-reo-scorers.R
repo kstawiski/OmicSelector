@@ -727,9 +727,16 @@ score_reo_ktsp <- function(model, X, meta = NULL, strict = FALSE) {
 #' generalized linear models via coordinate descent. \emph{Journal of
 #' Statistical Software} 33: 1-22.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
 fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
-                              hp = list()) {
+                              hp = list(), group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_reo_pairratio")
+  }
   if (!requireNamespace("glmnet", quietly = TRUE)) {
     stop("fit_reo_pairratio: package 'glmnet' is required for reo-pairratio",
          call. = FALSE)
@@ -809,7 +816,7 @@ fit_reo_pairratio <- function(X_train, y_train, meta_train = NULL,
     }
   }, add = TRUE)
 
-  foldid <- .reo_pairratio_foldid(y, hp$nfolds, hp$seed)
+  foldid <- .reo_pairratio_foldid(y, hp$nfolds, hp$seed, group_train)
   cv_fit <- tryCatch(
     glmnet::cv.glmnet(
       x = R,
@@ -1068,7 +1075,10 @@ score_reo_pairratio <- function(model, X, meta = NULL, strict = FALSE) {
   do.call(rbind, out)
 }
 
-.reo_pairratio_foldid <- function(y, nfolds, seed) {
+.reo_pairratio_foldid <- function(y, nfolds, seed, group_train = NULL) {
+  if (!is.null(group_train)) {
+    return(.ss_grouped_inner_folds(y, group_train, nfolds, seed, min_folds = 3L))
+  }
   # Seeded, class-stratified fold assignment. The CALLER (fit_reo_pairratio)
   # owns the global-.Random.seed snapshot/restore that spans this call and the
   # subsequent cv.glmnet, so this helper only sets the seed and assigns folds.

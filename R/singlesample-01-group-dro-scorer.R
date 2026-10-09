@@ -27,6 +27,11 @@ if (!exists(".gdro_as_matrix", mode = "function")) {
 #' @param ... Reserved for scorer-interface compatibility.
 #' @return A frozen Group-DRO fit object consumed by
 #'   `score_group_dro_scorer()`.
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
+
 fit_group_dro_scorer <- function(expr_matrix,
                                  y,
                                  sample_meta,
@@ -41,7 +46,10 @@ fit_group_dro_scorer <- function(expr_matrix,
                                  epochs = 200L,
                                  tune = TRUE,
                                  seed = 42L,
-                                 ...) {
+                                 ..., group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(expr_matrix), "fit_group_dro_scorer")
+  }
   x <- .gdro_as_matrix(expr_matrix)
   y <- .gdro_as_binary(y)
   if (length(y) != nrow(x)) stop("y length must match expr_matrix rows.")
@@ -56,7 +64,8 @@ fit_group_dro_scorer <- function(expr_matrix,
       x, y, meta, kit_col, biofluid_col,
       eta_grid = eta_grid, l2_grid = l2_grid, panel_size = panel_size,
       inner_folds = inner_folds, learning_rate = learning_rate,
-      epochs = max(30L, floor(epochs / 2L)), seed = seed)
+      epochs = max(30L, floor(epochs / 2L)), seed = seed,
+      group_train = group_train)
     eta <- tuned$best$eta[1L]
     l2 <- tuned$best$l2[1L]
   }
@@ -237,7 +246,11 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
 }
 
 .gdro_eval_fold <- function(held, obj, panel_size, eta_grid, l2_grid,
-                            inner_folds, learning_rate, epochs, seed) {
+                            inner_folds, learning_rate, epochs, seed,
+                            group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(obj$x), ".gdro_eval_fold")
+  }
   test <- obj$meta$accession == held
   train <- !test
   y_train <- obj$y[train]
@@ -274,7 +287,8 @@ score_group_dro_scorer <- function(fit, expr_matrix, sample_meta = NULL, ...) {
     kit_col = "kit_family", biofluid_col = "biofluid",
     panel_features = base$panel_features, panel_size = panel_size,
     eta_grid = eta_grid, l2_grid = l2_grid, inner_folds = inner_folds,
-    learning_rate = learning_rate, epochs = epochs, tune = TRUE, seed = seed)
+    learning_rate = learning_rate, epochs = epochs, tune = TRUE, seed = seed,
+    group_train = if (is.null(group_train)) NULL else group_train[train])
   dro_score <- score_group_dro_scorer(dro, obj$x[test, , drop = FALSE], obj$meta[test])
 
   mk <- function(method, score, extra_status = "") {
@@ -450,7 +464,7 @@ run_group_dro_benchmark <- function(
     learning_rate = as.numeric(Sys.getenv("GDRO_LR", "0.05")),
     epochs = as.integer(Sys.getenv("GDRO_EPOCHS", "160")),
     boot_B = as.integer(Sys.getenv("GDRO_BOOT_B", "500")),
-    seed = 42L) {
+    seed = 42L, group_train = NULL) {
   if (!requireNamespace("data.table", quietly = TRUE)) stop("data.table is required.")
   set.seed(seed)
   if (is.null(out_tsv)) out_tsv <- .singlesample_default_output(output_dir, "table_S54_group_dro_benchmarks.tsv")
@@ -464,6 +478,9 @@ run_group_dro_benchmark <- function(
     primary22 = .gdro_load_primary22(log_fun),
     stop("Unknown GDRO_BENCHMARK_MODE: ", mode)
   )
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(obj$x), "run_group_dro_benchmark")
+  }
   log_fun(sprintf("Universe=%s cohorts=%d samples=%d features=%d",
                   obj$universe, length(obj$cohorts), nrow(obj$x), ncol(obj$x)))
   fold_rows <- list()
@@ -472,7 +489,8 @@ run_group_dro_benchmark <- function(
     held <- obj$cohorts[i]
     log_fun(sprintf("LOCO %02d/%02d held_out=%s", i, length(obj$cohorts), held))
     rows <- .gdro_eval_fold(held, obj, panel_size, eta_grid, l2_grid,
-                            inner_folds, learning_rate, epochs, seed + i)
+                            inner_folds, learning_rate, epochs, seed + i,
+                            group_train = group_train)
     sample_rows[[held]] <- attr(rows, "sample_scores")
     attr(rows, "sample_scores") <- NULL
     fold_rows[[held]] <- rows

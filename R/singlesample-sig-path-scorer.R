@@ -346,7 +346,10 @@ NULL
 # Deterministic class-stratified k-fold assignment (NO RNG): within each class,
 # rows are dealt to folds round-robin in their existing order. Guarantees each
 # fold sees both classes when both are present and k <= min class size.
-.sig_path_cv_folds <- function(y, k) {
+.sig_path_cv_folds <- function(y, k, group_train = NULL, seed = 1L) {
+  if (!is.null(group_train)) {
+    return(.ss_grouped_inner_folds(y, group_train, k, seed))
+  }
   fold <- integer(length(y))
   for (cl in c(0L, 1L)) {
     idx <- which(y == cl)
@@ -361,10 +364,10 @@ NULL
 # log-spaced grid, scoring each lambda by mean held-out binomial deviance (lower =
 # better). Fully deterministic (no RNG): folds are class-stratified round-robin.
 # Returns the chosen lambda (a scalar from the grid).
-.sig_path_cv_lambda <- function(Xs, y, seed) {
+.sig_path_cv_lambda <- function(Xs, y, seed, group_train = NULL) {
   grid <- 10^seq(-3, 3, by = 0.5)                    # 13 candidate ridge penalties
   k <- max(2L, min(5L, sum(y == 1L), sum(y == 0L)))  # <= smaller class size, >= 2
-  fold <- .sig_path_cv_folds(y, k)
+  fold <- .sig_path_cv_folds(y, k, group_train, seed)
   dev_of <- function(lambda) {
     tot <- 0
     cnt <- 0L
@@ -446,8 +449,16 @@ NULL
 #' Chevyrev I, Kormilitzin A. (2016) A primer on the signature method in machine
 #' learning. \emph{arXiv:1603.03788}.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
-fit_sig_path <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+fit_sig_path <- function(X_train, y_train, meta_train = NULL, hp = list(),
+                              group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_sig_path")
+  }
   X_train <- .reo_check_matrix(X_train, "fit_sig_path", "X_train")
   .reo_check_meta(meta_train, nrow(X_train), "fit_sig_path", "meta_train")
   y <- .reo_check_labels(y_train, nrow(X_train), "fit_sig_path")
@@ -489,7 +500,7 @@ fit_sig_path <- function(X_train, y_train, meta_train = NULL, hp = list()) {
   Cs <- .sig_path_standardize_apply(C, std$coef_mean, std$coef_sd)
 
   lambda <- hp$lambda
-  if (is.null(lambda)) lambda <- .sig_path_cv_lambda(Cs, y, hp$seed)
+  if (is.null(lambda)) lambda <- .sig_path_cv_lambda(Cs, y, hp$seed, group_train)
   head <- .sig_path_ridge_logit(Cs, y, lambda)
 
   model <- list(

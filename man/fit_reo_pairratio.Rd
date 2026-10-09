@@ -4,7 +4,13 @@
 \alias{fit_reo_pairratio}
 \title{Fit REO-pairratio within-sample log-ratio discriminator}
 \usage{
-fit_reo_pairratio(X_train, y_train, meta_train = NULL, hp = list())
+fit_reo_pairratio(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of
@@ -23,6 +29,11 @@ uniformity and ignored by this method.}
 3), \code{lambda_rule} (default \code{"1se"}, or \code{"min"}), and
 \code{seed} (default \code{1L}, used only to make fold assignment
 reproducible while restoring the global RNG state).}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.}
 }
 \value{
 A plain list of class \code{reo_pairratio_model} containing

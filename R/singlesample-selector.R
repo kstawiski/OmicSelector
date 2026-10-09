@@ -73,13 +73,22 @@ singlesample_selector_candidates <- function(roster = singlesample_method_roster
 #'   `singlesample_selector_ineligible` object with an explicit audit when the
 #'   requested route cannot be fitted.
 #' @seealso [score_singlesample_selector()], [deploy_singlesample()]
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
+#'   Also supplies `group_id` when that argument is omitted. An explicit
+#'   `group_id` must not divide a biological group across outer partitions.
 #' @export
 fit_singlesample_selector <- function(
     X_train, y_train, methods = NULL,
     route = c("best_auc", "lower_auc_ci", "simplex_stack", "all"),
     group_id = NULL, meta_train = NULL, annotation = NULL,
     inner_folds = 5L, seed = 1L, bootstrap_reps = 1000L,
-    verify_base = TRUE, stack_stabilizer = 1e-6) {
+    verify_base = TRUE, stack_stabilizer = 1e-6, group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_singlesample_selector")
+  }
   route <- match.arg(route)
   X_train <- .singlesample_deploy_as_score_matrix(X_train)
   y_train <- .os_binary_y(y_train)
@@ -90,12 +99,19 @@ fit_singlesample_selector <- function(
   if (length(unique(y_train)) != 2L) {
     stop("`y_train` must contain both outcome classes.", call. = FALSE)
   }
+  if (is.null(group_id) && !is.null(group_train)) group_id <- group_train
   if (is.null(group_id)) group_id <- seq_len(n)
   if (length(group_id) != n || anyNA(group_id)) {
     stop("`group_id` must contain one non-missing value per training row.",
          call. = FALSE)
   }
   group_id <- as.character(group_id)
+  if (!is.null(group_train) && any(vapply(split(group_id, group_train),
+      function(z) length(unique(z)) > 1L, logical(1L)))) {
+    .ss_input_reject("INVALID_GROUPS",
+                     "group_id must keep each group_train group together",
+                     "fit_singlesample_selector")
+  }
   if (!is.null(meta_train)) {
     meta_train <- .singlesample_deploy_as_meta(
       meta_train, n, "fit_singlesample_selector", "meta_train"
@@ -197,7 +213,8 @@ fit_singlesample_selector <- function(
             X_train[train, , drop = FALSE], y_train[train], method = method,
             meta_train = if (is.null(meta_train)) NULL else
               meta_train[train, , drop = FALSE],
-            annotation = annotation, verify = verify_base
+            annotation = annotation, verify = verify_base,
+            group_train = if (is.null(group_train)) NULL else group_train[train]
           ),
           error = identity
         )
@@ -382,7 +399,7 @@ fit_singlesample_selector <- function(
     fitted <- tryCatch(
       deploy_singlesample(
         X_train, y_train, method = method, meta_train = meta_train,
-        annotation = annotation, verify = verify_base
+        annotation = annotation, verify = verify_base, group_train = group_train
       ),
       error = identity
     )

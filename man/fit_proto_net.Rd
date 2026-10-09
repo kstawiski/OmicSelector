@@ -4,7 +4,13 @@
 \alias{fit_proto_net}
 \title{Fit the prototypical-network single-sample discriminator}
 \usage{
-fit_proto_net(X_train, y_train, meta_train = NULL, hp = list())
+fit_proto_net(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of non-negative
@@ -31,6 +37,13 @@ episode, positive integer; default \code{5L}), \code{min_features}
 (integer; default \code{42L}). \code{n_support}/\code{n_query} are clamped per
 class so each episode is feasible (disjoint support/query, \eqn{\geq 1} of each
 per class).}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.
+With groups, support and query sizes are row-count targets: the final whole
+group can exceed the target. Each side must contain both outcomes.}
 }
 \value{
 Object of class \code{proto_net_model}: a list with

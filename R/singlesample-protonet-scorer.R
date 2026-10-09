@@ -319,7 +319,10 @@ NULL
 # minimum of 1 support and 1 query when m >= 2). A class with a single row
 # contributes that row to BOTH support and query for that episode (degenerate but
 # valid: prototype == the query, distance 0).
-.proto_net_episode_plan <- function(idx_case, idx_ctrl, hp) {
+.proto_net_episode_plan <- function(idx_case, idx_ctrl, hp, group_train = NULL) {
+  if (!is.null(group_train)) {
+    return(.ss_grouped_episode_plan(idx_case, idx_ctrl, hp, group_train))
+  }
   classes <- list(`0` = idx_ctrl, `1` = idx_case)
   n_sup_req <- hp$n_support
   n_qry_req <- hp$n_query
@@ -545,8 +548,18 @@ NULL
 #' Snell J, Swersky K, Zemel R. (2017) Prototypical Networks for Few-shot Learning.
 #' \emph{NeurIPS} 30. arXiv:1703.05175.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
+#'   With groups, support and query sizes are row-count targets: the final whole
+#'   group can exceed the target. Each side must contain both outcomes.
 #' @export
-fit_proto_net <- function(X_train, y_train, meta_train = NULL, hp = list()) {
+fit_proto_net <- function(X_train, y_train, meta_train = NULL, hp = list(),
+                            group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_proto_net")
+  }
   X_train <- .reo_check_matrix(X_train, "fit_proto_net", "X_train")
   .reo_check_meta(meta_train, nrow(X_train), "fit_proto_net", "meta_train")
   y <- .reo_check_labels(y_train, nrow(X_train), "fit_proto_net")
@@ -584,7 +597,7 @@ fit_proto_net <- function(X_train, y_train, meta_train = NULL, hp = list()) {
   set.seed(as.integer(hp$seed))
   idx_case <- which(y == 1L)
   idx_ctrl <- which(y == 0L)
-  plan <- .proto_net_episode_plan(idx_case, idx_ctrl, hp)
+  plan <- .proto_net_episode_plan(idx_case, idx_ctrl, hp, group_train)
 
   device <- .proto_net_resolve_device(hp$device)
   weights <- .proto_net_train_export(Z_in, y, plan, hp, device)

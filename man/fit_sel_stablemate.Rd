@@ -5,7 +5,13 @@
 \title{Fit StableMate stable-predictor discriminator (transfer at training,
   single-sample at inference)}
 \usage{
-fit_sel_stablemate(X_train, y_train, meta_train = NULL, hp = list())
+fit_sel_stablemate(
+  X_train,
+  y_train,
+  meta_train = NULL,
+  hp = list(),
+  group_train = NULL
+)
 }
 \arguments{
 \item{X_train}{Numeric matrix (samples \eqn{\times} features) of
@@ -29,6 +35,13 @@ predictivity/stability selection, default \code{0.9}, in \code{(0, 1)}); and
 \code{seed} (default \code{1L}, used to make the StableMate selection
 reproducible while restoring the global RNG state). Resolved once at fit and
 not tuned inside \code{fit_sel_stablemate()}.}
+
+\item{group_train}{Optional biological-group identifiers, one per training
+row, without missing values. Whole groups stay together in inner resampling.
+`NULL` preserves the original row-based fit. Invalid or infeasible groups
+raise `singlesample_input_error` with code `INVALID_GROUPS`.
+The stability objective holds out each environment and removes all groups
+present there from its training complement. Cohort labels are retained.}
 }
 \value{
 A plain list of class \code{sel_stablemate_model} containing the frozen

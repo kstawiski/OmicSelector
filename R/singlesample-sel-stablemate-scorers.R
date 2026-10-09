@@ -102,9 +102,18 @@
 #' Aitchison J. (1986) \emph{The Statistical Analysis of Compositional Data}.
 #' Chapman and Hall.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
+#'   The stability objective holds out each environment and removes all groups
+#'   present there from its training complement. Cohort labels are retained.
 #' @export
 fit_sel_stablemate <- function(X_train, y_train, meta_train = NULL,
-                               hp = list()) {
+                               hp = list(), group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_train), "fit_sel_stablemate")
+  }
   if (!requireNamespace("StableMate", quietly = TRUE)) {
     .ss_load_installed_namespace("StableMate")
   }
@@ -129,7 +138,7 @@ fit_sel_stablemate <- function(X_train, y_train, meta_train = NULL,
   env_info <- .sel_stablemate_environment(meta_train, y, hp$cohort_col)
 
   selected <- .sel_stablemate_select(Z_train, y, env_info,
-                                     hp$K, hp$sigthresh, hp$seed)
+                                     hp$K, hp$sigthresh, hp$seed, group_train)
 
   degenerate <- length(selected) == 0L
   intercept <- 0
@@ -381,7 +390,8 @@ score_sel_stablemate <- function(model, X, meta = NULL) {
 # errors on a single-level env -- so selection gracefully degrades to a
 # predictivity-only st2e ensemble (no env, BIC-logit objective), the same
 # StableMate engine without the stability machinery.
-.sel_stablemate_select <- function(Z_train, y, env_info, K, sigthresh, seed) {
+.sel_stablemate_select <- function(Z_train, y, env_info, K, sigthresh, seed,
+                                   group_train = NULL) {
   had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
   old_seed <- if (had_seed) {
     get(".Random.seed", envir = globalenv(), inherits = FALSE)
@@ -398,12 +408,20 @@ score_sel_stablemate <- function(model, X, meta = NULL) {
   set.seed(seed)
 
   if (env_info$n_environments > 1L) {
+    stability_control <- NULL
+    if (!is.null(group_train)) {
+      splits <- .ss_grouped_environment_splits(env_info$env, group_train)
+      stability_control <- list(obj_fun = function(Y, X, env, pred_in) {
+        .sel_stablemate_grouped_pss(Y, X, env, pred_in, splits)
+      })
+    }
     fit <- tryCatch(
       suppressWarnings(suppressMessages(
         StableMate::stablemate(
           Y = y,
           X = Z_train,
           env = env_info$env,
+          stab_st2_ctrl = stability_control,
           K = K,
           ret_mod = TRUE,
           ret_imp = TRUE,

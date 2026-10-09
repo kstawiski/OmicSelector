@@ -290,12 +290,19 @@ apply_compositional_mahalanobis <- function(fit, x_test, return_pvalue = TRUE) {
 #' Vovk V, Gammerman A, Shafer G. (2005) Algorithmic Learning in a Random
 #' World. Springer.
 #'
+#' @param group_train Optional biological-group identifiers, one per training
+#'   row, without missing values. Whole groups stay together in inner resampling.
+#'   `NULL` preserves the original row-based fit. Invalid or infeasible groups
+#'   raise `singlesample_input_error` with code `INVALID_GROUPS`.
 #' @export
 fit_conformal_anomaly <- function(X_ref,
                                    representation = identity,
                                    k = 10L,
                                    calibration_split = 0.30,
-                                   seed = 42L) {
+                                   seed = 42L, group_train = NULL) {
+  if (!is.null(group_train)) {
+    group_train <- .ss_validate_groups(group_train, nrow(X_ref), "fit_conformal_anomaly")
+  }
   X <- as.matrix(X_ref)
   X_repr <- representation(X)
   if (is.vector(X_repr)) X_repr <- matrix(X_repr, nrow = nrow(X))
@@ -303,8 +310,18 @@ fit_conformal_anomaly <- function(X_ref,
 
   set.seed(seed)
   n <- nrow(X_repr)
-  cal_idx <- sample(seq_len(n), size = floor(calibration_split * n))
+  cal_idx <- if (is.null(group_train)) {
+    sample(seq_len(n), size = floor(calibration_split * n))
+  } else {
+    .ss_grouped_calibration_indices(group_train, calibration_split,
+                                    min_reference = k)
+  }
   ref_idx <- setdiff(seq_len(n), cal_idx)
+  if (!is.null(group_train) && length(ref_idx) < k) {
+    .ss_input_reject("INVALID_GROUPS",
+                     "grouped calibration leaves fewer than k reference rows",
+                     "fit_conformal_anomaly")
+  }
   X_ref_manifold <- X_repr[ref_idx, , drop = FALSE]
   X_calibration  <- X_repr[cal_idx, , drop = FALSE]
 
