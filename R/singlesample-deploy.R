@@ -9,14 +9,33 @@
 #' single-sample method out-discriminates a batch-corrected pipeline; validate
 #' the method choice on your own data.
 #'
-#' Reticulate methods (roster tier R2; require a Python backend / venv) are
-#' intentionally not fitted by this base-R deployment wrapper.
+#' Tier R2 methods require an importable Python backend; an unavailable backend
+#' raises `PYTHON_BACKEND_UNAVAILABLE`. Exported R weights remain frozen. Live
+#' Python models run in evaluation mode without gradients, using a fixed seed
+#' and one query specimen per forward pass against the frozen training context.
+#' State verification includes Python parameters, buffers and context.
+#'
+#' Legacy matrix transforms use a training-selected signed panel (up to 20
+#' features); scalar negative controls retain their original anomaly scores.
+#' Metadata routes require kit, biofluid, technology or rin, as applicable.
+#' Missing values and unseen levels raise `MISSING_METADATA` and
+#' `UNSEEN_METADATA_LEVEL`; invalid numeric metadata raises `INVALID_METADATA`.
+#' Hemolysis residual scoring accepts `meta$hemo_score` or derives the log-ratio
+#' from the frozen miR-451a and miR-23a-3p anchors. Absent anchors with no supplied
+#' score raise `MISSING_HEMOLYSIS_ANCHORS`. All legacy deployment adapters require
+#' the complete training feature universe, preserving frozen feature order.
+#'
+#' Python-held estimators are copied for each query against the frozen training
+#' context. Prediction caches in that private copy are discarded after scoring.
+#' The retained fitted estimator is fingerprinted in full.
 #'
 #' @param X_train Numeric matrix or data frame of training specimens
 #'   (samples x features). With a preprocessor, supply raw measurements.
 #' @param y_train Numeric/integer 0/1 labels aligned to \code{X_train}.
 #' @param method Method identifier from \code{\link{singlesample_method_roster}}.
 #'   Custom routes can be added with [register_singlesample_method()].
+#' @param hp Optional named hyperparameters passed to canonical fit functions.
+#'   Defaults are unchanged. Legacy adapters reject non-empty lists.
 #' @param meta_train Optional training metadata, one row per training specimen.
 #' @param annotation Optional feature annotation passed only to methods whose fit
 #'   signature includes an \code{annotation} argument.
@@ -54,7 +73,8 @@ deploy_singlesample <- function(X_train, y_train,
                                 verify = TRUE,
                                 nondetect_limit = 0,
                                 preprocessor = NULL,
-                                group_train = NULL) {
+                                group_train = NULL,
+                                hp = list()) {
   if (!is.null(group_train)) {
     group_train <- .ss_validate_groups(group_train, nrow(X_train), "deploy_singlesample")
   }
@@ -71,12 +91,7 @@ deploy_singlesample <- function(X_train, y_train,
 
   dep_route <- row$dep_route[[1]]
   tier <- row$tier[[1]]
-  if (identical(tier, "R2")) {
-    stop("deploy_singlesample: method '", method, "' uses dep_route '",
-         dep_route, "' (roster tier R2). Reticulate methods (roster tier R2; ",
-         "require a Python backend / venv) are out of scope for this base-R ",
-         "deployment wrapper.", call. = FALSE)
-  }
+  if (identical(tier, "R2")) .ss_python_backend_check(dep_route)
 
   X_train <- .singlesample_deploy_as_input(X_train, preprocessor)
   X_raw_train <- X_train
@@ -100,9 +115,23 @@ deploy_singlesample <- function(X_train, y_train,
   fit_fn_name <- row$fit_fn[[1]]
   has_fit <- !is.na(fit_fn_name) && nzchar(fit_fn_name)
 
+  if (!is.list(hp) || (length(hp) && (is.null(names(hp)) || any(!nzchar(names(hp))) || anyDuplicated(names(hp)))))
+    stop("deploy_singlesample: hp must be a list with unique non-empty names.", call. = FALSE)
+  legacy <- is.null(custom) && method %in% .ss_legacy_ids()
+  if (legacy && length(hp)) stop("deploy_singlesample: legacy adapters do not accept hp.", call. = FALSE)
   model <- NULL
   fit_time <- 0
-  if (has_fit) {
+  if (legacy) {
+    fit_fn <- if (has_fit) .singlesample_deploy_resolve_fn(fit_fn_name, "fit_fn", method) else NULL
+    timing <- system.time(model <- tryCatch(.ss_legacy_fit(method, X_train, y_train,
+      meta_train, fit_fn, group_train), error = function(e) {
+        if (inherits(e, "singlesample_input_error")) stop(e)
+        stop("deploy_singlesample: method '", method,
+             "' requires supported training data. Original error: ",
+             conditionMessage(e), call. = FALSE)
+      }))
+    fit_time <- unname(timing[["elapsed"]])
+  } else if (has_fit) {
     fit_fn <- .singlesample_deploy_resolve_fn(fit_fn_name, "fit_fn", method)
     timing <- system.time({
       model <- .singlesample_deploy_fit(
@@ -113,7 +142,8 @@ deploy_singlesample <- function(X_train, y_train,
         y_train = y_train,
         meta_train = meta_train,
         annotation = annotation,
-        group_train = group_train
+        group_train = group_train,
+        hp = hp
       )
     })
     fit_time <- unname(timing[["elapsed"]])
@@ -146,6 +176,11 @@ deploy_singlesample <- function(X_train, y_train,
     class = "singlesample_deployable"
   )
 
+  if (legacy) deployable$score_route <- "legacy"
+  if (identical(tier, "R2")) {
+    .ss_python_freeze(model)
+    if (length(.ss_python_objects(model))) deployable$score_route <- "python_singleton"
+  }
   if (!is.null(preprocessor)) deployable$preprocessor <- preprocessor
   if (!is.null(custom)) {
     deployable$score_route <- "registered"
@@ -191,6 +226,10 @@ deploy_singlesample <- function(X_train, y_train,
 #'   preprocessor, supply raw counts or Ct values; Ct character markers are
 #'   accepted and converted to non-detects.
 #' @param meta Optional per-specimen metadata, one row per row of \code{x_new}.
+#'   Legacy metadata routes require their training metadata field (kit, biofluid,
+#'   technology or rin). Missing values raise `MISSING_METADATA`; unseen
+#'   categorical levels raise `UNSEEN_METADATA_LEVEL`. Hemolysis residuals accept
+#'   a finite `hemo_score` or require both frozen hemolysis anchors.
 #' @param detected Optional logical matrix aligned to \code{x_new} (or a named
 #'   logical vector for one specimen). TRUE means detected before imputation.
 #'   Supply this mask when preprocessing replaces nondetects by positive values
@@ -255,6 +294,7 @@ score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
 #'
 #' @param deployable A \code{singlesample_deployable} object from
 #'   \code{\link{deploy_singlesample}}.
+#' @param meta Optional metadata aligned to the probe specimens.
 #' @param X_probe Numeric matrix/data frame of probe rows. If \code{NULL}, the
 #'   check cannot be run; callers should supply probe rows from the intended
 #'   panel or validation surface. Supply raw measurements when a preprocessor
@@ -263,7 +303,7 @@ score_specimen <- function(deployable, x_new, meta = NULL, detected = NULL,
 #'
 #' @return \code{TRUE} when the probe check passes, otherwise \code{FALSE}.
 #' @export
-is_singlesample_deployable <- function(deployable, X_probe = NULL) {
+is_singlesample_deployable <- function(deployable, X_probe = NULL, meta = NULL) {
   .singlesample_deploy_assert_object(deployable)
   if (is.null(X_probe)) {
     stop("is_singlesample_deployable: X_probe is required; supply probe rows ",
@@ -273,7 +313,7 @@ is_singlesample_deployable <- function(deployable, X_probe = NULL) {
   if (!is.null(deployable$preprocessor)) {
     return(singlesample_is_row_equivariant(
       function(model, X, meta = NULL) score_specimen(model, X, meta),
-      deployable, X_probe,
+      deployable, X_probe, meta,
       extreme_transform = .ss_preprocessor_extreme_transform(deployable$preprocessor)
     ))
   }
@@ -281,7 +321,7 @@ is_singlesample_deployable <- function(deployable, X_probe = NULL) {
     deployable$model <- model
     .singlesample_deploy_score(deployable, X, meta)
   }
-  singlesample_is_row_equivariant(score_fun, deployable$model, X_probe)
+  singlesample_is_row_equivariant(score_fun, deployable$model, X_probe, meta)
 }
 
 #' Print a single-sample deployment object
@@ -355,6 +395,8 @@ print.singlesample_deployable <- function(x, ...) {
   if ("meta_train" %in% fml) args$meta_train <- meta_train
   if ("annotation" %in% fml) args$annotation <- annotation
   if ("meta" %in% fml) args$meta <- meta_train
+  if (length(hp) && !"hp" %in% fml) stop(
+    "deploy_singlesample: method '", method, "' does not accept hp.", call. = FALSE)
   if (!is.null(hp) && "hp" %in% fml) args$hp <- hp
   if (!is.null(group_train) && "group_train" %in% fml) {
     args$group_train <- .ss_validate_groups(group_train, nrow(X_train),
@@ -430,6 +472,8 @@ print.singlesample_deployable <- function(x, ...) {
 
   switch(
     deployable$score_route,
+    legacy = .ss_legacy_score(deployable$model, X, meta),
+    python_singleton = .ss_python_score(deployable, X, meta, strict),
     registered = .ss_registered_score(deployable, deployable$model, X, meta,
                                        strict, deployable$method_id,
                                        caller = "score_specimen"),
@@ -516,7 +560,7 @@ print.singlesample_deployable <- function(x, ...) {
       }
       stop("deploy_singlesample: method '", deployable$method_id,
            "' is not directly deployable via deploy_singlesample(); its ",
-           "scorer failed on a training probe. See ",
+           "scorer failed on a training probe: ", msg, ". See ",
            "singlesample_method_roster().", call. = FALSE)
     }
   )

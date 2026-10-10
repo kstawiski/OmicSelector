@@ -4,7 +4,7 @@
 \alias{is_singlesample_deployable}
 \title{Check whether a deployment scorer is single-sample deployable}
 \usage{
-is_singlesample_deployable(deployable, X_probe = NULL)
+is_singlesample_deployable(deployable, X_probe = NULL, meta = NULL)
 }
 \arguments{
 \item{deployable}{A \code{singlesample_deployable} object from
@@ -15,6 +15,8 @@ check cannot be run; callers should supply probe rows from the intended
 panel or validation surface. Supply raw measurements when a preprocessor
 is attached. Ct verification shifts detected extreme neighbours down by
 \code{log(1e6) / log(ct_base)} cycles, preserving non-detects.}
+
+\item{meta}{Optional metadata aligned to the probe specimens.}
 }
 \value{
 \code{TRUE} when the probe check passes, otherwise \code{FALSE}.

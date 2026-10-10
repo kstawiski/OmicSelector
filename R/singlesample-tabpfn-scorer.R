@@ -233,8 +233,8 @@ NULL
 
 # Build a TabPFN-v2 (ungated ModelVersion.V2) classifier with the frozen device,
 # seed, and n_estimators, and fit it on the frozen rCLR context. Returns the
-# live (non-serialisable) python classifier; it is NEVER part of the model
-# digest. `Z_ctx` is the n_ctx x p numeric rCLR context, `y_ctx` the integer
+# live (non-serialisable) python classifier; it is included in the deterministic Python state
+# fingerprint. `Z_ctx` is the n_ctx x p numeric rCLR context, `y_ctx` the integer
 # 0/1 labels. Saves/restores the torch RNG state around fit so the global torch
 # RNG is not perturbed.
 .tabpfn_build_and_fit <- function(Z_ctx, y_ctx, device, seed, n_estimators) {
@@ -311,8 +311,8 @@ NULL
 #' for TabPFN, simply loads the context into the model -- no gradient training).
 #' The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 #' feature universe, class order, device/config, hp) is stored on the model; the
-#' live python classifier is also kept for scoring but is NEVER part of the model
-#' digest.
+#' live python classifier is also kept for scoring but is included in the deterministic Python state
+#' fingerprint.
 #' TabPFN-v2 is applied to the full rCLR feature universe; cohorts with
 #' \eqn{>500} features, including approximately 2540-2565-feature high-plex
 #' miRNA panels, exceed TabPFN's nominal 500-feature ceiling, so its documented
@@ -352,7 +352,7 @@ NULL
 #'   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
 #'   \code{model_version} (\code{"v2"}),
 #'   \code{ignore_pretraining_limits} (\code{TRUE}), \code{hp}, and the live
-#'   python classifier \code{clf} (excluded from the digest).
+#'   python classifier \code{clf} (included by content in the state fingerprint).
 #'
 #' @examples
 #' \dontrun{
@@ -574,29 +574,7 @@ score_tabpfn <- function(model, X, meta = NULL) {
 
 
 # ----------------------------------------------------------------------------
-# Stable model digest for the equivariance harness
-# ----------------------------------------------------------------------------
-
-# Hash ONLY the frozen score-determining R-side state (rCLR training context,
-# labels, feature universe, class order, device/config, hp). The live python
-# TabPFN classifier (model$clf, a non-serialisable external pointer) is
-# deliberately EXCLUDED, so the digest is a deterministic snapshot suitable as
-# the `model_digest` for singlesample_assert_row_equivariant() (clause (d): the
-# bytes must be identical before and after scoring). Scoring never mutates this
-# frozen state (TabPFN inference is read-only over the frozen context).
+# Stable state digest includes Python parameters, buffers and training context.
 .tabpfn_model_digest <- function(model) {
-  hp <- model$hp
-  hp$score_batch <- NULL
-  state <- list(
-    context_rclr = model$context_rclr,
-    context_y = model$context_y,
-    feature_universe = model$feature_universe,
-    classes = model$classes,
-    case_col = model$case_col,
-    n_context = model$n_context,
-    device = model$device,
-    model_version = model$model_version,
-    hp = hp
-  )
-  digest::digest(state, algo = "xxhash64")
+  singlesample_state_fingerprint(model)
 }

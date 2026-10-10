@@ -1,3 +1,16 @@
+# OmicSelector 2.6.7
+
+- Enable Python-tier deployment when its backend imports. Live Python models
+  use frozen evaluation state and one query per forward pass with fixed seeds.
+  Query-specific estimator copies discard prediction-cache writes.
+  Optional `hp` exposes existing fitter settings without changing defaults.
+- Add SHA-256 state fingerprints that include Python parameters, buffers,
+  preprocessing and frozen context in deployment verification.
+- Adapt legacy matrix, anomaly and metadata interfaces to specimen scoring.
+  Freeze training panels and metadata levels. Reject missing/unseen metadata
+  and absent hemolysis anchors with machine-readable codes.
+- Extend the deployability probe helper to accept specimen metadata.
+
 # OmicSelector 2.6.6
 
 - Add frozen count and Ct preprocessing for `deploy_singlesample()`, with

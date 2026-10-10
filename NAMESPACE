@@ -511,3 +511,5 @@ importFrom(utils,
   sessionInfo,
   tail
 )
+
+export(singlesample_state_fingerprint)

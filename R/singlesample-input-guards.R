@@ -10,6 +10,7 @@
 }
 
 .ss_required_features <- function(model, fallback = character()) {
+  if (inherits(model, "singlesample_legacy_model")) return(model$feature_universe)
   if (inherits(model, "reo_ktsp_model")) {
     return(unique(c(model$ktsp$pairs$feature_a, model$ktsp$pairs$feature_b)))
   }

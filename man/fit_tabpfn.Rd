@@ -33,7 +33,7 @@ Object of class \code{tabpfn_model}: a list with \code{context_rclr}
   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
   \code{model_version} (\code{"v2"}),
   \code{ignore_pretraining_limits} (\code{TRUE}), \code{hp}, and the live
-  python classifier \code{clf} (excluded from the digest).
+  python classifier \code{clf} (included by content in the state fingerprint).
 }
 \description{
 Freezes the training context for TabPFN-v2 in-context classification. The
@@ -45,8 +45,8 @@ classifier is constructed and \code{fit()} on that frozen rCLR context (which,
 for TabPFN, simply loads the context into the model -- no gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
-live python classifier is also kept for scoring but is NEVER part of the model
-digest.
+live python classifier is also kept for scoring but is included in the deterministic Python state
+fingerprint.
 TabPFN-v2 is applied to the full rCLR feature universe; cohorts with
 \eqn{>500} features, including approximately 2540-2565-feature high-plex
 miRNA panels, exceed TabPFN's nominal 500-feature ceiling, so its documented

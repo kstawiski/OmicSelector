@@ -32,7 +32,7 @@ Object of class \code{tabicl_model}: a list with \code{context_rclr}
   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
   \code{checkpoint} (pinned checkpoint version), \code{hp}, and the live python
-  classifier \code{clf} (excluded from the digest).
+  classifier \code{clf} (included by content in the state fingerprint).
 }
 \description{
 Freezes the training context for TabICL in-context classification. The
@@ -44,8 +44,8 @@ checkpoint) is constructed and \code{fit()} on that frozen rCLR context (which,
 for TabICL, simply loads the context into the model -- no gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
-live python classifier is also kept for scoring but is NEVER part of the model
-digest.
+live python classifier is also kept for scoring but is included in the deterministic Python state
+fingerprint.
 }
 \examples{
 \dontrun{

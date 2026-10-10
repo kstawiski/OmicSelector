@@ -22,7 +22,8 @@ expect_clean_deploy_outcome <- function(X, y, method) {
   res <- tryCatch(
     list(ok = TRUE,
          value = suppressWarnings(
-           deploy_singlesample(X, y, method = method, verify = FALSE)
+           deploy_singlesample(X, y, method = method, verify = FALSE,
+             hp = if (method %in% c("ai-tabpfn", "tab-tabicl")) list(n_estimators = 1L) else list())
          )),
     error = function(e) list(ok = FALSE, message = conditionMessage(e))
   )
@@ -57,7 +58,8 @@ classify_singlesample_deploy_smoke <- function(X, y) {
     res <- tryCatch(
       list(ok = TRUE,
            value = suppressWarnings(
-             deploy_singlesample(X, y, method = method, verify = FALSE)
+             deploy_singlesample(X, y, method = method, verify = FALSE,
+             hp = if (method %in% c("ai-tabpfn", "tab-tabicl")) list(n_estimators = 1L) else list())
            )),
       error = function(e) list(ok = FALSE, message = conditionMessage(e))
     )
@@ -152,26 +154,14 @@ test_that("method selection errors are explicit", {
     "Available methods:.*ws-balance-ilr"
   )
 
-  roster <- singlesample_method_roster()
-  torch_method <- roster$method_id[grepl("torch", roster$dep_route,
-                                         ignore.case = TRUE)][1L]
-  expect_false(is.na(torch_method))
-  expect_error(
-    deploy_singlesample(dat$X, dat$y, method = torch_method,
-                        verify = FALSE),
-    "tier R2.*Python backend / venv.*out of scope"
-  )
 })
 
-test_that("tier R2 reticulate methods are rejected before Python fitting", {
-  dat <- make_singlesample_deploy_data()
-
-  for (method in c("ai-tabpfn", "tab-tabicl")) {
-    expect_error(
-      deploy_singlesample(dat$X, dat$y, method = method, verify = FALSE),
-      "tier R2.*Reticulate methods.*Python backend / venv"
-    )
-  }
+test_that("missing Python backends have a machine-readable rejection", {
+  skip_if_not_installed("reticulate")
+  err <- tryCatch(.ss_python_backend_check("reticulate-tabpfn",
+    importer = function(module) stop("backend unavailable for test")), error = identity)
+  expect_s3_class(err, "singlesample_input_error")
+  expect_identical(err$code, "PYTHON_BACKEND_UNAVAILABLE")
 })
 
 test_that("non-canonical fit signatures do not leak unused-argument errors", {
@@ -283,7 +273,7 @@ test_that("all roster methods deploy or fail with deploy-specific errors", {
 })
 
 test_that("deploy guard invariant: tier=='R2' is exactly the reticulate dep_route set", {
-  # deploy_singlesample() rejects roster tier 'R2' as the reticulate/Python-backend
+  # deploy_singlesample() checks roster tier 'R2' as the reticulate/Python-backend
   # set; this invariant locks the docstring + guard against future manifest drift
   # (an R2 non-reticulate row, or an R1 reticulate row, would silently break both).
   m <- singlesample_method_roster()

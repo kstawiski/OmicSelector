@@ -518,6 +518,7 @@ singlesample_is_row_equivariant <- function(score_fun, model, X, meta = NULL,
 }
 
 .singlesample_default_model_digest <- function(model) {
+  model <- .ss_python_snapshot(model)
   # serialize() is blind to external-pointer (torch/reticulate) state: it writes
   # a placeholder for an externalptr, so two models differing only in their
   # libtorch C++ buffer (e.g. a BatchNorm running-stat update) would produce

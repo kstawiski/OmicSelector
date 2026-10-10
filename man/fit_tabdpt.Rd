@@ -34,7 +34,7 @@ Object of class \code{tabdpt_model}: a list with \code{context_rclr}
   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
   \code{checkpoint} (pinned checkpoint version), \code{hp}, and the live python
-  classifier \code{clf} (excluded from the digest).
+  classifier \code{clf} (included by content in the state fingerprint).
 }
 \description{
 Freezes the training context for TabDPT in-context classification. The

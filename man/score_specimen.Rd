@@ -15,7 +15,11 @@ with one or more specimen rows and feature columns. With an attached
 preprocessor, supply raw counts or Ct values; Ct character markers are
 accepted and converted to non-detects.}
 
-\item{meta}{Optional per-specimen metadata, one row per row of \code{x_new}.}
+\item{meta}{Optional per-specimen metadata, one row per row of \code{x_new}.
+Legacy metadata routes require their training metadata field (kit, biofluid,
+technology or rin). Missing values raise `MISSING_METADATA`; unseen
+categorical levels raise `UNSEEN_METADATA_LEVEL`. Hemolysis residuals accept
+a finite `hemo_score` or require both frozen hemolysis anchors.}
 
 \item{detected}{Optional logical matrix aligned to \code{x_new} (or a named
 logical vector for one specimen). TRUE means detected before imputation.

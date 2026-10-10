@@ -375,7 +375,7 @@ NULL
 #'   (frozen rCLR context matrix), \code{context_y}, \code{feature_universe},
 #'   \code{classes}, \code{case_col}, \code{n_context}, \code{device} (resolved),
 #'   \code{checkpoint} (pinned checkpoint version), \code{hp}, and the live python
-#'   classifier \code{clf} (excluded from the digest).
+#'   classifier \code{clf} (included by content in the state fingerprint).
 #'
 #' @examples
 #' \dontrun{
@@ -599,29 +599,7 @@ score_tabdpt <- function(model, X, meta = NULL) {
 
 
 # ----------------------------------------------------------------------------
-# Stable model digest for the equivariance harness
-# ----------------------------------------------------------------------------
-
-# Hash ONLY the frozen score-determining R-side state (rCLR training context,
-# labels, feature universe, class order, device/config, hp). The live python
-# TabDPT classifier (model$clf, a non-serialisable external pointer) is
-# deliberately EXCLUDED, so the digest is a deterministic snapshot suitable as
-# the `model_digest` for singlesample_assert_row_equivariant() (clause (d): the
-# bytes must be identical before and after scoring). Scoring never mutates this
-# frozen state (TabDPT inference is read-only over the frozen context).
+# Stable state digest includes Python parameters, buffers and training context.
 .tabdpt_model_digest <- function(model) {
-  hp <- model$hp
-  hp$score_batch <- NULL
-  state <- list(
-    context_rclr = model$context_rclr,
-    context_y = model$context_y,
-    feature_universe = model$feature_universe,
-    classes = model$classes,
-    case_col = model$case_col,
-    n_context = model$n_context,
-    device = model$device,
-    checkpoint = model$checkpoint,
-    hp = hp
-  )
-  digest::digest(state, algo = "xxhash64")
+  singlesample_state_fingerprint(model)
 }
