@@ -369,7 +369,8 @@ test_that("batch scoring is companion-invariant and digest-neutral", {
   expect_length(batch_a, nrow(X_a_zero))
   expect_equal(abs(batch_a[1L] - batch_b[1L]), 0, tolerance = 1e-12)
   expect_equal(batch_a[nrow(X_a_zero)], 0.5)
-  expect_identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb))
+  # The complete state fingerprint records the changed inference flag.
+  expect_false(identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb)))
 })
 
 test_that("multi-chunk batch scoring avoids singleton tails", {
@@ -396,5 +397,6 @@ test_that("multi-chunk batch scoring avoids singleton tails", {
   s_1025 <- score_tabpfn(mb, Xq[seq_len(1025L), , drop = FALSE])
   s_1026 <- score_tabpfn(mb, Xq[seq_len(1026L), , drop = FALSE])
   expect_equal(s_1025[1025L], s_1026[1025L], tolerance = 1e-3)
-  expect_identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb))
+  # The complete state fingerprint records the changed inference flag.
+  expect_false(identical(.tabpfn_model_digest(m), .tabpfn_model_digest(mb)))
 })

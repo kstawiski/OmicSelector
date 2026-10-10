@@ -124,3 +124,15 @@ test_that('deployment rejects malformed hyperparameters and unknown training flu
   err <- tryCatch(deploy_singlesample(d$X,d$y,'biofluid-stratified-rclr',meta_train=m,verify=FALSE),error=identity)
   expect_identical(err$code,'UNSEEN_METADATA_LEVEL')
 })
+
+
+test_that('complete fingerprints record inference configuration without omitting fitted state', {
+  m <- list(hp=list(score_batch=FALSE),context_rclr=matrix(1:6,2),context_y=c(0L,1L))
+  changed <- m; changed$hp$score_batch <- TRUE
+  for (fn in list(.tabpfn_model_digest,.tabicl_model_digest,.tabdpt_model_digest)) {
+    expect_identical(fn(m),fn(m))
+    expect_false(identical(fn(m),fn(changed)))
+    mutated <- m; mutated$context_rclr[1,1] <- 9
+    expect_false(identical(fn(m),fn(mutated)))
+  }
+})

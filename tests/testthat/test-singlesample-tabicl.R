@@ -336,7 +336,8 @@ test_that("legacy batch flag uses the exact row-by-row path (>500 features)", {
   expect_identical(batch, row)
   expect_equal(batch[nrow(Xq)], 0.5)
   expect_gt(.auc_mw_tabicl(yq, batch[seq_along(yq)]), 0.5)
-  expect_identical(.tabicl_model_digest(m), .tabicl_model_digest(mb))
+  # The complete state fingerprint records the changed inference flag.
+  expect_false(identical(.tabicl_model_digest(m), .tabicl_model_digest(mb)))
 })
 
 test_that("multi-chunk batch scoring avoids singleton tails", {
@@ -363,5 +364,6 @@ test_that("multi-chunk batch scoring avoids singleton tails", {
   s_1025 <- score_tabicl(mb, Xq[seq_len(1025L), , drop = FALSE])
   s_1026 <- score_tabicl(mb, Xq[seq_len(1026L), , drop = FALSE])
   expect_identical(unname(s_1025[1025L]), unname(s_1026[1025L]))
-  expect_identical(.tabicl_model_digest(m), .tabicl_model_digest(mb))
+  # The complete state fingerprint records the changed inference flag.
+  expect_false(identical(.tabicl_model_digest(m), .tabicl_model_digest(mb)))
 })
