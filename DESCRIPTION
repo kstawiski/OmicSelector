@@ -8,6 +8,10 @@ Authors@R: c(
       comment = c(ORCID = "0000-0002-6550-3384")),
     person("Marcin", "Kaszkowiak", role = "aut"),
     person("Damian", "Mikulski", role = "aut"))
+Author: Konrad Stawiski [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-6550-3384>),
+    Marcin Kaszkowiak [aut],
+    Damian Mikulski [aut]
 Maintainer: Konrad Stawiski <konrad.stawiski@umed.lodz.pl>
 Description: A toolkit for biomarker discovery from high-dimensional omics
     data. Enforces nested cross-validation with leakage-resistant feature
