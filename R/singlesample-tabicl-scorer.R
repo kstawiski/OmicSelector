@@ -506,7 +506,9 @@ score_tabicl <- function(model, X, meta = NULL) {
   }
 
   np <- reticulate::import("numpy", delay_load = FALSE)
-  clf <- model$clf
+  # Prediction writes backend caches. Reuse deployment's private estimator copy
+  # so these writes are discarded while the inference arithmetic stays intact.
+  clf <- .ss_python_clone(model$clf, .ss_python_state_module())
   case_col <- model$case_col
 
   # Always force the n = 1 forward path. The score_batch field remains part of

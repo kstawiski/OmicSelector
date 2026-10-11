@@ -255,6 +255,17 @@ NULL
 
   .tabpfn_with_torch_rng(seed, function() clf$fit(x_py, y_py))
 
+  # Wall-clock telemetry is not fitted state. Initialize its fit-time counter
+  # deterministically before returning the frozen estimator; prediction timing
+  # is then recorded only on the private scoring copy. Keep the fingerprint
+  # complete, including these fields, so later mutations remain detectable.
+  if (reticulate::py_has_attr(clf$executor_, "_speed_metrics")) {
+    metrics <- reticulate::py_get_attr(clf$executor_, "_speed_metrics")
+    if ("fit_preprocessing_seconds" %in% names(reticulate::py_to_r(metrics))) {
+      reticulate::py_set_item(metrics, "fit_preprocessing_seconds", 0)
+    }
+  }
+
   classes <- as.integer(reticulate::py_to_r(clf$classes_))
   case_col <- match(1L, classes)
   if (is.na(case_col)) {
@@ -533,7 +544,9 @@ score_tabpfn <- function(model, X, meta = NULL) {
   }
 
   np <- reticulate::import("numpy", delay_load = FALSE)
-  clf <- model$clf
+  # Prediction writes backend caches. Reuse deployment's private estimator copy
+  # so these writes are discarded while the inference arithmetic stays intact.
+  clf <- .ss_python_clone(model$clf, .ss_python_state_module())
   case_col <- model$case_col
 
   if (isTRUE(model$hp$score_batch)) {

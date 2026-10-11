@@ -551,7 +551,9 @@ score_tabdpt <- function(model, X, meta = NULL) {
     return(out)
   }
 
-  clf <- model$clf
+  # Prediction writes backend caches. Reuse deployment's private estimator copy
+  # so these writes are discarded while the inference arithmetic stays intact.
+  clf <- .ss_python_clone(model$clf, .ss_python_state_module())
   case_col <- model$case_col
   temperature <- model$hp$temperature
 
