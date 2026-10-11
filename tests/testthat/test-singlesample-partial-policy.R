@@ -126,8 +126,12 @@ test_that("all three policies reject invalid strict options and preserve specime
 })
 
 test_that("the published partial-panel examples execute and report their support", {
+  # Source checkouts read man/; R CMD check reads the installed Rd database.
+  man_dir <- test_path("..", "..", "man")
+  rd_db <- if (dir.exists(man_dir)) NULL else tools::Rd_db("OmicSelector")
   for (name in c("score_reo_ktsp", "score_reo_pairratio", "score_ws_rclr_panel")) {
-    rd <- tools::parse_Rd(test_path("..", "..", "man", paste0(name, ".Rd")))
+    rd <- if (is.null(rd_db)) tools::parse_Rd(file.path(man_dir, paste0(name, ".Rd"))) else
+      rd_db[[paste0(name, ".Rd")]]
     con <- textConnection("code", "w", local = TRUE)
     tools::Rd2ex(rd, out = con)
     close(con)
