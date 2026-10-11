@@ -9,7 +9,7 @@ fit_cross_tech_harmonized_rclr(
   train_meta,
   panel,
   technology_col = "technology",
-  required_technologies = c("NGS", "Toray", "qPCR", "NanoString"),
+  required_technologies = NULL,
   min_detection_rate = 0.05,
   n_anchor = 20L,
   pseudocount = NULL
@@ -24,7 +24,12 @@ fit_cross_tech_harmonized_rclr(
 
 \item{technology_col}{Column identifying technology class.}
 
-\item{required_technologies}{Technology classes required for selection.}
+\item{required_technologies}{Technology classes required for selection.
+`NULL` (default) uses the known classes present in training metadata after
+alias mapping, excluding `unknown`. Fewer than two known classes raises
+`singlesample_input_error` with code `INSUFFICIENT_TECHNOLOGY_CLASSES`.
+An explicit vector retains the requested classes, including absent classes
+(which prevent anchor selection); an explicit single class remains allowed.}
 
 \item{min_detection_rate}{Minimum per-technology detection rate.}
 

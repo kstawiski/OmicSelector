@@ -18,7 +18,7 @@ test_that('unsupported metadata scorers raise input codes, not NA score vectors'
     list(id = 'tech-residualized-alr', code = 'INSUFFICIENT_ALR_PIVOTS'))
   for (case in cases) {
     X <- d$X; meta <- d$meta
-    if (case$id == 'cross-tech-harmonized-rclr') meta$technology <- 'NGS'
+    if (case$id == 'cross-tech-harmonized-rclr') X[, 3:ncol(X)] <- 0
     if (case$id == 'biofluid-anchor-rclr') meta$biofluid <- 'serum-clot'
     if (case$id == 'tech-residualized-alr') X <- X[, -c(3:6), drop = FALSE]
     err <- tryCatch(deploy_singlesample(X, d$y, case$id, meta_train = meta,

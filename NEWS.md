@@ -1,11 +1,20 @@
 # OmicSelector 2.6.7
 
+- Accept documented qPCR, small-RNA/miRNA sequencing, HTG EdgeSeq count and
+  3D-Gene technology aliases without changing kit or biofluid metadata.
+  Unrecognized technology strings still raise `UNSEEN_METADATA_LEVEL` in
+  deployment. Generic microarrays and mixed-platform labels remain unsupported.
+- Cross-technology anchor selection, fitting, scoring and deployment now default
+  to the known technology classes present in training after alias mapping.
+  At least two are required (`INSUFFICIENT_TECHNOLOGY_CLASSES`); `unknown` does
+  not count. Explicit `required_technologies` vectors retain their meaning.
+  The resolved default is frozen in the fit and never inferred from test data.
+
 - Reject insufficient frozen support in cross-technology rCLR, biofluid-anchor
   rCLR and technology-residualized ALR with `INSUFFICIENT_CROSS_TECH_ANCHORS`,
   `INSUFFICIENT_BIOFLUID_ANCHORS` and `INSUFFICIENT_ALR_PIVOTS`, respectively.
   These input errors replace all-NA vectors that deployment misreported as
-  non-scalar scorers. Anchor selection, required metadata levels, pivot minima
-  and arithmetic for supported inputs are unchanged.
+  non-scalar scorers. Pivot minima and arithmetic for supported inputs are unchanged.
 
 - Enable Python-tier deployment when its backend imports. Live Python models
   use frozen evaluation state and one query per forward pass with fixed seeds.

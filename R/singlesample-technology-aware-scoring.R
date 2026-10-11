@@ -2,8 +2,23 @@
 #'
 #' These scorers keep the platform technology axis separate from kit labels.
 #' `technology_col` must identify one of `NGS`, `Toray`, `qPCR`,
-#' `NanoString`, or `unknown` for every sample. Training helpers fit only on
-#' the supplied training pool; prediction helpers do not read test labels.
+#' `NanoString`, or `unknown` for every sample, including the aliases below.
+#' Training helpers fit only on the supplied training pool; prediction helpers
+#' do not read test labels.
+#'
+#' Alias matching ignores case and surrounding whitespace. TaqMan, TLDA,
+#' OpenArray, Exiqon/LNA, SYBR and relative-quantity or delta-delta-Ct qPCR
+#' labels map to `qPCR`. Small-RNA/miRNA sequencing and HTG EdgeSeq counts map
+#' to `NGS`; 3D-Gene arrays map to `Toray`. These are assay classes, not claims
+#' that measurement scales are interchangeable. No abundance conversion is
+#' performed here. Kit and biofluid labels are not changed.
+#'
+#' The package has no general microarray class: `microarray`, `Affymetrix miRNA
+#' microarray` and `five-platform repeated assay` are refused. The historical
+#' `array-other` alias for `NanoString` is retained only for compatibility; it
+#' does not classify other array labels. Other unrecognized labels are also
+#' refused (deployment code `UNSEEN_METADATA_LEVEL`). Direct helpers retain
+#' the `unknown` sentinel for missing labels; deployment requires known metadata.
 #'
 #' @name technology_aware_scoring
 NULL
@@ -13,6 +28,37 @@ if (!exists("%||%", mode = "function")) {
 }
 
 .ta_allowed_technologies <- c("NGS", "Toray", "qPCR", "NanoString", "unknown")
+
+# Exact aliases only: an arbitrary string containing "qPCR" or "seq" is not
+# evidence of a supported assay. Keep this map auditable and fail closed.
+.ta_technology_aliases <- c(
+  "ngs" = "NGS", "mirna-seq" = "NGS", "mirna_seq" = "NGS",
+  "small-rna-seq" = "NGS", "small_rna_seq" = "NGS",
+  "small rna-seq" = "NGS", "small rna sequencing" = "NGS",
+  "small-rna sequencing" = "NGS", "mirna sequencing" = "NGS",
+  "mirna-sequencing" = "NGS", "microrna sequencing" = "NGS",
+  "htg edgeseq" = "NGS", "htg edgeseq counts" = "NGS",
+  "htg edgeseq mirna counts" = "NGS", "htg edgeseq mirna wta counts" = "NGS",
+  "toray" = "Toray", "array-toray3d" = "Toray",
+  "array_toray3d" = "Toray", "toray-3dgene" = "Toray",
+  "3d-gene" = "Toray", "3d-gene array" = "Toray",
+  "3d-gene arrays" = "Toray", "3d-gene mirna microarray" = "Toray",
+  "toray 3d-gene" = "Toray", "toray 3d-gene mirna microarray" = "Toray",
+  "qpcr" = "qPCR", "q-pcr" = "qPCR", "rt-pcr" = "qPCR",
+  "rt-qpcr" = "qPCR", "taqman" = "qPCR", "taqman qpcr" = "qPCR",
+  "tlda" = "qPCR", "tlda qpcr" = "qPCR", "taqman tlda" = "qPCR",
+  "taqman tlda qpcr" = "qPCR", "openarray" = "qPCR",
+  "openarray qpcr" = "qPCR", "taqman openarray" = "qPCR",
+  "taqman openarray qpcr" = "qPCR", "exiqon" = "qPCR",
+  "exiqon qpcr" = "qPCR", "lna qpcr" = "qPCR", "exiqon lna qpcr" = "qPCR",
+  "exiqon/lna qpcr" = "qPCR", "sybr" = "qPCR", "sybr qpcr" = "qPCR",
+  "sybr green qpcr" = "qPCR", "relative-quantity qpcr" = "qPCR",
+  "relative quantity qpcr" = "qPCR", "ddct qpcr" = "qPCR",
+  "delta-delta-ct qpcr" = "qPCR", "delta delta ct qpcr" = "qPCR",
+  "\u03b4\u03b4ct qpcr" = "qPCR", "\u0394\u0394ct qpcr" = "qPCR",
+  "nanostring" = "NanoString", "nano-string" = "NanoString",
+  "array-other" = "NanoString"
+)
 
 .ta_check_expr_meta <- function(expr, meta) {
   expr <- as.matrix(expr)
@@ -39,17 +85,9 @@ if (!exists("%||%", mode = "function")) {
 .ta_clean_technology <- function(x) {
   out <- trimws(as.character(x))
   out[is.na(out) | !nzchar(out)] <- "unknown"
-  map <- c(
-    "ngs" = "NGS", "mirna-seq" = "NGS", "mirna_seq" = "NGS",
-    "small-rna-seq" = "NGS", "small_rna_seq" = "NGS",
-    "toray" = "Toray", "array-toray3d" = "Toray",
-    "array_toray3d" = "Toray", "toray-3dgene" = "Toray",
-    "qpcr" = "qPCR", "q-pcr" = "qPCR", "rt-pcr" = "qPCR",
-    "nanostring" = "NanoString", "nano-string" = "NanoString",
-    "array-other" = "NanoString"
-  )
   key <- tolower(out)
-  out <- ifelse(key %in% names(map), unname(map[key]), out)
+  out <- ifelse(key %in% names(.ta_technology_aliases),
+                unname(.ta_technology_aliases[key]), out)
   out[!(out %in% .ta_allowed_technologies)] <- NA_character_
   if (anyNA(out)) {
     bad <- unique(trimws(as.character(x))[is.na(out)])
@@ -59,6 +97,18 @@ if (!exists("%||%", mode = "function")) {
          paste(.ta_allowed_technologies, collapse = ", "))
   }
   out
+}
+
+.ta_required_technologies <- function(technology, required_technologies) {
+  if (!is.null(required_technologies)) return(required_technologies)
+  required <- setdiff(.ta_allowed_technologies, "unknown")
+  required <- required[required %in% technology]
+  if (length(required) < 2L) {
+    .ss_input_reject("INSUFFICIENT_TECHNOLOGY_CLASSES",
+      "default cross-technology anchor selection requires at least two known training technology classes",
+      "select_cross_tech_anchor_features")
+  }
+  required
 }
 
 .ta_get_technology <- function(meta, technology_col) {
@@ -190,26 +240,32 @@ score_tech_stratified_rclr <- function(expr, meta, panel,
 
 #' Select cross-technology anchor features on a training pool
 #'
-#' A selected anchor must be detected in every required technology class present
-#' in `required_technologies`. Selection is based only on `train_expr` and
+#' A selected anchor must be detected in every required technology class.
+#' Selection is based only on `train_expr` and
 #' `train_meta`; held-out samples should never be passed here.
 #'
 #' @param train_expr Numeric matrix, samples x features, training pool.
 #' @param train_meta Data frame aligned to `train_expr`.
 #' @param technology_col Column identifying technology class.
 #' @param required_technologies Technology classes required for selection.
+#'   `NULL` (default) uses the known classes present in training metadata after
+#'   alias mapping, excluding `unknown`. Fewer than two known classes raises
+#'   `singlesample_input_error` with code `INSUFFICIENT_TECHNOLOGY_CLASSES`.
+#'   An explicit vector retains the requested classes, including absent classes
+#'   (which prevent anchor selection); an explicit single class remains allowed.
 #' @param min_detection_rate Minimum per-technology detection rate.
 #' @param n_anchor Maximum number of anchors to select.
 #' @return Data frame with detection rates and `selected_yes`.
 #' @export
 select_cross_tech_anchor_features <- function(
     train_expr, train_meta, technology_col = "technology",
-    required_technologies = c("NGS", "Toray", "qPCR", "NanoString"),
+    required_technologies = NULL,
     min_detection_rate = 0.05, n_anchor = 20L) {
   checked <- .ta_check_expr_meta(train_expr, train_meta)
   train_expr <- checked$expr
   train_meta <- checked$meta
   technology <- .ta_get_technology(train_meta, technology_col)
+  required_technologies <- .ta_required_technologies(technology, required_technologies)
   req <- intersect(required_technologies, .ta_allowed_technologies)
   if (length(req) == 0L) stop("required_technologies has no valid technology labels")
   det <- lapply(req, function(tech) {
@@ -260,12 +316,14 @@ select_cross_tech_anchor_features <- function(
 #' @export
 fit_cross_tech_harmonized_rclr <- function(
     train_expr, train_meta, panel, technology_col = "technology",
-    required_technologies = c("NGS", "Toray", "qPCR", "NanoString"),
+    required_technologies = NULL,
     min_detection_rate = 0.05, n_anchor = 20L, pseudocount = NULL) {
   checked <- .ta_check_expr_meta(train_expr, train_meta)
   train_expr <- checked$expr
   train_meta <- checked$meta
   panel <- .ta_panel(train_expr, panel)
+  required_technologies <- .ta_required_technologies(
+    .ta_get_technology(train_meta, technology_col), required_technologies)
   anchors <- select_cross_tech_anchor_features(
     train_expr, train_meta, technology_col = technology_col,
     required_technologies = required_technologies,
@@ -322,7 +380,7 @@ predict_cross_tech_harmonized_rclr <- function(
 #' Score cross-technology harmonized rCLR
 #'
 #' @inheritParams score_tech_stratified_rclr
-#' @param required_technologies Technology classes required for anchor selection.
+#' @inheritParams select_cross_tech_anchor_features
 #' @param min_detection_rate Minimum per-technology detection rate.
 #' @param n_anchor Maximum number of anchors to select.
 #' @return Numeric score vector.
@@ -330,7 +388,7 @@ predict_cross_tech_harmonized_rclr <- function(
 score_cross_tech_harmonized_rclr <- function(
     expr, meta, panel, technology_col = "technology", fit = NULL,
     train_expr = NULL, train_meta = NULL,
-    required_technologies = c("NGS", "Toray", "qPCR", "NanoString"),
+    required_technologies = NULL,
     min_detection_rate = 0.05, n_anchor = 20L, pseudocount = NULL) {
   if (is.null(fit)) {
     if (is.null(train_expr) || is.null(train_meta)) {
