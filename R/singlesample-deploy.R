@@ -16,7 +16,9 @@
 #' State verification includes Python parameters, buffers and context.
 #'
 #' Legacy matrix transforms use a training-selected signed panel (up to 20
-#' features); scalar negative controls retain their original anomaly scores.
+#' features), ranked by absolute standardized mean difference and signed by
+#' training medians. Scalar scorers use the benchmark's training-median direction.
+#' Hemolysis anchor log-ratios use the benchmark pseudocount of 0.5.
 #' Metadata routes require kit, biofluid, technology or rin, as applicable.
 #' Missing values and unseen levels raise `MISSING_METADATA` and
 #' `UNSEEN_METADATA_LEVEL`; invalid numeric metadata raises `INVALID_METADATA`.
@@ -180,6 +182,15 @@ deploy_singlesample <- function(X_train, y_train,
   if (identical(tier, "R2")) {
     .ss_python_freeze(model)
     if (length(.ss_python_objects(model))) deployable$score_route <- "python_singleton"
+  }
+  # The harness orients canonical and legacy scalar scores on training data.
+  # Matrix-transform panels and the rCLR baseline already define their signs.
+  oriented <- !legacy || method %in% c("ws-dominance", "nc-mahalanobis",
+                                      "nc-conformal-anom", "nc-isoforest")
+  if (is.null(custom) && oriented && method != "ws-rclr-trimmed") {
+    train_score <- if (legacy) .ss_legacy_score(model, X_train, meta_train) else
+      singlesample_score_call(method, model, X_train, meta_train)
+    deployable$score_direction <- .ss_deploy_training_direction(train_score, y_train)
   }
   if (!is.null(preprocessor)) deployable$preprocessor <- preprocessor
   if (!is.null(custom)) {
@@ -470,7 +481,7 @@ print.singlesample_deployable <- function(x, ...) {
                                          "meta")
   }
 
-  switch(
+  out <- switch(
     deployable$score_route,
     legacy = .ss_legacy_score(deployable$model, X, meta),
     python_singleton = .ss_python_score(deployable, X, meta, strict),
@@ -484,6 +495,8 @@ print.singlesample_deployable <- function(x, ...) {
     stop("score_specimen: unknown score route '", deployable$score_route, "'.",
          call. = FALSE)
   )
+  if (!is.null(deployable$score_direction)) out <- deployable$score_direction * out
+  out
 }
 
 .singlesample_deploy_as_input <- function(X, preprocessor) {

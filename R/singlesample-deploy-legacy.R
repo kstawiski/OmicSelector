@@ -61,8 +61,8 @@
 .ss_legacy_hemo <- function(X, meta, anchors = NULL, training = FALSE) {
   caller <- if (training) "deploy_singlesample" else "score_specimen"
   if (is.null(anchors)) anchors <- c(
-    .ad_find_feature(colnames(X), c("hsa-miR-451a", "MIMAT0001631")),
-    .ad_find_feature(colnames(X), c("hsa-miR-23a-3p", "MIMAT0000078")))
+    colnames(X)[which(colnames(X) %in% c("hsa-miR-451a", "MIMAT0001631"))[1L]],
+    colnames(X)[which(colnames(X) %in% c("hsa-miR-23a-3p", "MIMAT0000078"))[1L]])
   if (!is.null(meta$hemo_score)) {
     h <- meta$hemo_score
     if (!is.numeric(h) || length(h) != nrow(X) || any(!is.finite(h)))
@@ -71,7 +71,7 @@
     if (length(anchors) != 2L || anyNA(anchors) || any(!anchors %in% colnames(X)))
       .ss_input_reject("MISSING_HEMOLYSIS_ANCHORS",
         "requires hemo_score or the frozen miR-451a and miR-23a-3p anchors", caller)
-    L <- log(X + 1e-6 * rowSums(X))
+    L <- log(X + 0.5)
     h <- as.numeric(L[, anchors[1L]] - L[, anchors[2L]])
   }
   list(score = h, anchors = anchors)
@@ -118,7 +118,7 @@
   transforms <- c("ws-alr-pivot", "ws-mad-logratio", "frozen-ruv", "robust-pca-resid", "hemolysis-resid")
   if (method %in% transforms) {
     Z <- .ss_legacy_transform(model, X, meta)
-    model$weights <- .ka_select_panel_from_matrix(Z, y)
+    model$weights <- .ss_deploy_signed_panel(Z, y)
     model$panel <- names(model$weights)
   }
   class(model) <- "singlesample_legacy_model"
@@ -127,7 +127,7 @@
 
 .ss_legacy_transform <- function(model, X, meta) {
   switch(model$method,
-    `ws-alr-pivot` = ws_alr_pivot(X),
+    `ws-alr-pivot` = ws_alr_pivot(X, allow_global_fallback = TRUE),
     `ws-mad-logratio` = ws_mad_logratio(X),
     `frozen-ruv` = apply_frozen_ruv(X, model$fit),
     `robust-pca-resid` = apply_robust_pca_residual(model$fit, X),
@@ -147,7 +147,7 @@
     return(as.numeric(Z[, model$panel, drop = FALSE] %*% model$weights))
   }
   if (method == "ws-dominance") return(ws_dominance_score(X, top_k = fit$top_k, pseudocount = fit$pseudocount %||% 0.5))
-  if (method == "nc-mahalanobis") return(apply_compositional_mahalanobis(fit, X)$distance_sq)
+  if (method == "nc-mahalanobis") return(apply_compositional_mahalanobis(fit, X)$distance)
   if (method == "nc-isoforest") return(apply_isolation_forest_logratio(fit, X)$score)
   if (method == "nc-conformal-anom") return(os_conformal_anomaly(X, fit)$score)
   fn <- .singlesample_deploy_resolve_fn(model$score_fn_name, "score_fn", method)
@@ -162,4 +162,33 @@
   if ("kit_col" %in% fml) args$kit_col <- "kit"
   if ("rin_col" %in% fml) args$rin_col <- "rin"
   as.numeric(do.call(fn, args))
+}
+
+# Deployment copies of the benchmark aggregation contract. Keep the benchmark
+# and its package primitives unchanged; learn these quantities only at fit time.
+.ss_deploy_signed_panel <- function(Z, y, panel_size = 20L) {
+  common <- colnames(Z)
+  if (length(common) < 2L) stop("fewer than two common transformed features")
+  effect <- vapply(common, function(j) {
+    x <- Z[, j]; ok <- is.finite(x) & !is.na(y)
+    den <- stats::sd(x[ok])
+    if (sum(ok) < 5L || !is.finite(den) || den <= 0) return(0)
+    abs(mean(x[ok & y == 1L]) - mean(x[ok & y == 0L])) / den
+  }, numeric(1L))
+  panel <- common[order(effect, decreasing = TRUE)[seq_len(min(panel_size, length(common)))]]
+  vapply(panel, function(j) {
+    d <- stats::median(Z[y == 1L, j], na.rm = TRUE) -
+      stats::median(Z[y == 0L, j], na.rm = TRUE)
+    if (is.finite(d) && d < 0) -1 else 1
+  }, numeric(1L))
+}
+
+.ss_deploy_training_direction <- function(score, y) {
+  y <- .reo_check_labels(y, length(score), "deploy_singlesample")
+  ok <- is.finite(score) & !is.na(y)
+  d <- if (sum(ok) >= 4L && length(unique(y[ok])) == 2L)
+    stats::median(score[ok & y == 1L], na.rm = TRUE) -
+      stats::median(score[ok & y == 0L], na.rm = TRUE) else NA_real_
+  if (!is.finite(d)) stop("deploy_singlesample: training-only score direction unavailable", call. = FALSE)
+  if (d < 0) -1 else 1
 }

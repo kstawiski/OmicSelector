@@ -78,7 +78,9 @@ and one query specimen per forward pass against the frozen training context.
 State verification includes Python parameters, buffers and context.
 
 Legacy matrix transforms use a training-selected signed panel (up to 20
-features); scalar negative controls retain their original anomaly scores.
+features), ranked by absolute standardized mean difference and signed by
+training medians. Scalar scorers use the benchmark's training-median direction.
+Hemolysis anchor log-ratios use the benchmark pseudocount of 0.5.
 Metadata routes require kit, biofluid, technology or rin, as applicable.
 Missing values and unseen levels raise `MISSING_METADATA` and
 `UNSEEN_METADATA_LEVEL`; invalid numeric metadata raises `INVALID_METADATA`.

@@ -37,7 +37,7 @@ test_that('all legacy routes score each specimen using frozen state and aligned 
 
 test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   d <- .make_all_routes_data()
-  h <- hemolysis_index_blondal(log(d$X+1e-6*rowSums(d$X)))
+  h <- hemolysis_index_blondal(log(d$X+0.5))
   derived <- deploy_singlesample(d$X,d$y,'hemolysis-resid',verify=FALSE)
   supplied <- deploy_singlesample(d$X,d$y,'hemolysis-resid',meta_train=data.frame(hemo_score=h),verify=FALSE)
   expect_identical(score_specimen(derived,d$X[1:4,]),score_specimen(supplied,d$X[1:4,],data.frame(hemo_score=h[1:4])))
@@ -51,16 +51,19 @@ test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   expect_identical(err$code,'MISSING_HEMOLYSIS_ANCHORS')
 })
 
-test_that('legacy scalar adapters retain the original anomaly and dominance values', {
+test_that('legacy scalar adapters freeze the training-median direction', {
   d <- .make_all_routes_data()
   for (id in c('ws-dominance','nc-mahalanobis','nc-conformal-anom','nc-isoforest')) {
     dep <- suppressWarnings(deploy_singlesample(d$X,d$y,id,verify=FALSE))
     X <- d$X[1:4,]; fit <- dep$model$fit
-    reference <- switch(id, `ws-dominance`=ws_dominance_score(X),
-      `nc-mahalanobis`=apply_compositional_mahalanobis(fit,X)$distance_sq,
+    raw <- function(X) switch(id, `ws-dominance`=ws_dominance_score(X),
+      `nc-mahalanobis`=apply_compositional_mahalanobis(fit,X)$distance,
       `nc-conformal-anom`=os_conformal_anomaly(X,fit)$score,
       `nc-isoforest`=apply_isolation_forest_logratio(fit,X)$score)
-    expect_identical(score_specimen(dep,X),as.numeric(reference),info=id)
+    train <- raw(d$X)
+    direction <- if (median(train[d$y == 1]) < median(train[d$y == 0])) -1 else 1
+    expect_identical(dep$score_direction, direction, info=id)
+    expect_identical(score_specimen(dep,X),as.numeric(direction * raw(X)),info=id)
   }
 })
 
