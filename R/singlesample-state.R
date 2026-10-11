@@ -36,10 +36,10 @@
   invisible(model)
 }
 
-.ss_python_clone <- function(x, mod) {
-  if (inherits(x, "python.builtin.object")) return(mod$clone_for_inference(x))
+.ss_python_clone <- function(x, mod, freeze_state = TRUE) {
+  if (inherits(x, "python.builtin.object")) return(mod$clone_for_inference(x, freeze_state = freeze_state))
   if (is.list(x)) {
-    out <- lapply(x, .ss_python_clone, mod = mod)
+    out <- lapply(x, .ss_python_clone, mod = mod, freeze_state = freeze_state)
     attributes(out) <- attributes(x)
     return(out)
   }

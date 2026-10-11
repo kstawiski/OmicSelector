@@ -546,7 +546,7 @@ score_tabpfn <- function(model, X, meta = NULL) {
   np <- reticulate::import("numpy", delay_load = FALSE)
   # Prediction writes backend caches. Reuse deployment's private estimator copy
   # so these writes are discarded while the inference arithmetic stays intact.
-  clf <- .ss_python_clone(model$clf, .ss_python_state_module())
+  clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE)
   case_col <- model$case_col
 
   if (isTRUE(model$hp$score_batch)) {

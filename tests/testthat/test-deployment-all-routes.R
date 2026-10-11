@@ -128,6 +128,25 @@ test_that('deployment rejects malformed hyperparameters and unknown training flu
   expect_identical(err$code,'UNSEEN_METADATA_LEVEL')
 })
 
+test_that('estimator copies can preserve inference flags without sharing state', {
+  skip_if_not_installed('reticulate')
+  skip_if_not(reticulate::py_module_available('torch'))
+  torch <- reticulate::import('torch',convert=FALSE)
+  model <- list(net=torch$nn$BatchNorm1d(2L))
+  before <- singlesample_state_fingerprint(model)
+  mod <- .ss_python_state_module()
+  preserved <- .ss_python_clone(model,mod,freeze_state=FALSE)
+  frozen <- .ss_python_clone(model,mod)
+  expect_true(reticulate::py_to_r(preserved$net$training))
+  expect_true(reticulate::py_to_r(preserved$net$weight$requires_grad))
+  expect_false(reticulate::py_to_r(frozen$net$training))
+  expect_false(reticulate::py_to_r(frozen$net$weight$requires_grad))
+  expect_identical(singlesample_state_fingerprint(preserved),before)
+  preserved$net$running_mean$add_(7)
+  expect_identical(singlesample_state_fingerprint(model),before)
+  expect_false(identical(singlesample_state_fingerprint(preserved),before))
+})
+
 
 test_that('complete fingerprints record inference configuration without omitting fitted state', {
   m <- list(hp=list(score_batch=FALSE),context_rclr=matrix(1:6,2),context_y=c(0L,1L))
