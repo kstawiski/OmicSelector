@@ -531,7 +531,7 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' Foundation Models. arXiv:2410.18164.
 #'
 #' @export
-score_tabdpt <- function(model, X, meta = NULL) {
+score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
   if (!inherits(model, "tabdpt_model")) {
     stop("score_tabdpt: model must have class tabdpt_model")
   }
@@ -597,7 +597,7 @@ score_tabdpt <- function(model, X, meta = NULL) {
     stop("score_tabdpt: scorer produced invalid output")
   }
   out
-}
+})
 
 
 # ----------------------------------------------------------------------------

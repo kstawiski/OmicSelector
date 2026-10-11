@@ -119,6 +119,94 @@ test_that('prediction copies discard Python cache and buffer writes', {
   expect_error(singlesample_state_fingerprint(list(opaque=builtins$object())), 'Unsupported state types')
 })
 
+test_that('estimator reconstruction restores torch RNG on success and error', {
+  skip_if_not_installed('reticulate')
+  skip_if_not(reticulate::py_module_available('torch'))
+  mod <- .ss_python_state_module()
+  probe <- reticulate::py_run_string("
+import copy
+import torch
+
+class ReconstructedEstimator:
+    def __init__(self, fail=False):
+        self.fail = fail
+
+    def __deepcopy__(self, memo):
+        cloned = type(self)(self.fail)
+        cloned.cpu_draw = torch.rand(3)
+        cloned.cuda_draws = [torch.rand(3, device=i)
+                             for i in range(torch.cuda.device_count())]
+        if self.fail:
+            raise RuntimeError('reconstruction failed after RNG draw')
+        return cloned
+
+def check_clone_rng(module, freeze_state, fail):
+    cpu = torch.random.get_rng_state()
+    cuda = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []
+    try:
+        if fail:
+            try:
+                module.clone_for_inference(ReconstructedEstimator(True), freeze_state)
+            except RuntimeError as exc:
+                assert str(exc) == 'reconstruction failed after RNG draw'
+            else:
+                raise AssertionError('copy error was suppressed')
+        else:
+            expected = copy.deepcopy(ReconstructedEstimator())
+            torch.random.set_rng_state(cpu)
+            if cuda:
+                torch.cuda.set_rng_state_all(cuda)
+            actual = module.clone_for_inference(ReconstructedEstimator(), freeze_state)
+            assert torch.equal(expected.cpu_draw, actual.cpu_draw)
+            assert all(torch.equal(a, b) for a, b in
+                       zip(expected.cuda_draws, actual.cuda_draws))
+        assert torch.equal(cpu, torch.random.get_rng_state())
+        assert all(torch.equal(a, b) for a, b in
+                   zip(cuda, torch.cuda.get_rng_state_all() if cuda else []))
+        return True
+    finally:
+        torch.random.set_rng_state(cpu)
+        if cuda:
+            torch.cuda.set_rng_state_all(cuda)
+", local=FALSE, convert=FALSE)
+  set.seed(99L)
+  before <- .Random.seed
+  for (freeze_state in c(FALSE, TRUE)) {
+    for (fail in c(FALSE, TRUE)) {
+      expect_true(reticulate::py_to_r(probe$check_clone_rng(mod, freeze_state, fail)))
+      expect_identical(.Random.seed, before)
+    }
+  }
+})
+
+test_that('R RNG guards restore existing and absent state on success and error', {
+  for (seeded in c(FALSE, TRUE)) {
+    for (fail in c(FALSE, TRUE)) {
+      set.seed(99L)
+      before <- .Random.seed
+      if (!seeded) rm('.Random.seed', envir=globalenv())
+      result <- tryCatch(.ss_with_r_rng({
+        runif(1)
+        if (fail) stop('RNG guard error')
+        7L
+      }), error=identity)
+      present <- exists('.Random.seed', envir=globalenv(), inherits=FALSE)
+      expect_identical(present, seeded)
+      if (seeded) expect_identical(.Random.seed, before)
+      if (fail) expect_match(conditionMessage(result), 'RNG guard error') else expect_identical(result, 7L)
+    }
+  }
+  early_return <- function() .ss_with_r_rng({ runif(1); return(8L) })
+  expect_identical(early_return(), 8L)
+  expect_identical(.Random.seed, before)
+  skip_if_not_installed('reticulate')
+  skip_if_not(reticulate::py_module_available('torch'))
+  net <- reticulate::import('torch',convert=FALSE)$nn$Linear(2L,2L)
+  rm('.Random.seed', envir=globalenv())
+  clone <- .ss_python_clone(net,.ss_python_state_module())
+  expect_false(exists('.Random.seed', envir=globalenv(), inherits=FALSE))
+})
+
 test_that('deployment rejects malformed hyperparameters and unknown training fluid', {
   d <- .make_all_routes_data()
   expect_error(deploy_singlesample(d$X,d$y,hp=list(1)), 'unique non-empty names')

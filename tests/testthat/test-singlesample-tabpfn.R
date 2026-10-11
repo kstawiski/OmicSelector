@@ -214,6 +214,10 @@ test_that("scoring does not mutate the global torch / R RNG state", {
   after_t <- torch_py$random$get_rng_state()
   expect_identical(before_r, after_r)
   expect_true(isTRUE(reticulate::py_to_r(torch_py$equal(before_t, after_t))))
+  rm(".Random.seed", envir = globalenv())
+  invisible(score_tabpfn(m, X[1L, , drop = FALSE]))
+  expect_false(exists(".Random.seed", envir = globalenv(), inherits = FALSE))
+  assign(".Random.seed", before_r, envir = globalenv())
   # Scoring must also leave the CUDA RNG byte-unchanged on a GPU (same guard
   # wrapper as fit); no-op assertion on CPU-only hosts.
   if (cuda_ok) {

@@ -105,15 +105,21 @@ def freeze(obj):
 
 
 def clone_for_inference(obj, freeze_state=True):
+    import torch
     # Estimator prediction can populate caches or write query-specific fields.
     # A private copy retains fitted parameters/context and discards these writes.
-    cloned = copy.deepcopy(obj)
-    # Low-level estimators keep their existing evaluation/gradient flags so
-    # copying cannot select a different prediction path. Deployment explicitly
-    # freezes its copies and supplies the no-grad inference context.
-    if freeze_state:
-        freeze(cloned)
-    return cloned
+    # deepcopy can call backend __setstate__: TabICL reconstructs a randomly
+    # initialized network before loading checkpoint weights. Preserve all torch
+    # generators even if copying/freezing fails, without reseeding the copy.
+    devices = list(range(torch.cuda.device_count())) if torch.cuda.is_available() else []
+    with torch.random.fork_rng(devices=devices):
+        cloned = copy.deepcopy(obj)
+        # Low-level estimators keep their existing evaluation/gradient flags so
+        # copying cannot select a different prediction path. Deployment explicitly
+        # freezes its copies and supplies the no-grad inference context.
+        if freeze_state:
+            freeze(cloned)
+        return cloned
 
 
 @contextmanager

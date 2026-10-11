@@ -523,7 +523,7 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' foundation model. \emph{Nature} 637:319-326.
 #'
 #' @export
-score_tabpfn <- function(model, X, meta = NULL) {
+score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
   if (!inherits(model, "tabpfn_model")) {
     stop("score_tabpfn: model must have class tabpfn_model")
   }
@@ -583,7 +583,7 @@ score_tabpfn <- function(model, X, meta = NULL) {
     stop("score_tabpfn: scorer produced invalid output")
   }
   out
-}
+})
 
 
 # ----------------------------------------------------------------------------

@@ -485,7 +485,7 @@ fit_tabicl <- function(X_train, y_train, meta_train = NULL, hp = list()) {
 #' arXiv:2502.05564.
 #'
 #' @export
-score_tabicl <- function(model, X, meta = NULL) {
+score_tabicl <- function(model, X, meta = NULL) .ss_with_r_rng({
   if (!inherits(model, "tabicl_model")) {
     stop("score_tabicl: model must have class tabicl_model")
   }
@@ -531,7 +531,7 @@ score_tabicl <- function(model, X, meta = NULL) {
     stop("score_tabicl: scorer produced invalid output")
   }
   out
-}
+})
 
 
 # ----------------------------------------------------------------------------

@@ -3,6 +3,20 @@
     path = system.file("python", package = "OmicSelector"), convert = FALSE)
 }
 
+.ss_with_r_rng <- function(expr) {
+  # Reticulate calls can create .Random.seed even without drawing R randomness.
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  state <- if (had_seed) get(".Random.seed", envir = globalenv(), inherits = FALSE) else NULL
+  on.exit({
+    if (had_seed) {
+      assign(".Random.seed", state, envir = globalenv())
+    } else if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+      rm(".Random.seed", envir = globalenv())
+    }
+  }, add = TRUE)
+  force(expr)
+}
+
 .ss_python_backend_check <- function(dep_route, importer = function(module) {
   reticulate::import(module, delay_load = FALSE)
 }) {
@@ -36,7 +50,7 @@
   invisible(model)
 }
 
-.ss_python_clone <- function(x, mod, freeze_state = TRUE) {
+.ss_python_clone <- function(x, mod, freeze_state = TRUE) .ss_with_r_rng({
   if (inherits(x, "python.builtin.object")) return(mod$clone_for_inference(x, freeze_state = freeze_state))
   if (is.list(x)) {
     out <- lapply(x, .ss_python_clone, mod = mod, freeze_state = freeze_state)
@@ -44,9 +58,9 @@
     return(out)
   }
   x
-}
+})
 
-.ss_python_score <- function(deployable, X, meta, strict) {
+.ss_python_score <- function(deployable, X, meta, strict) .ss_with_r_rng({
   # A fixed seed and one forward pass per specimen give the same inference
   # path for singleton and batch inputs, including in-context classifiers.
   mod <- .ss_python_state_module()
@@ -57,7 +71,7 @@
     singlesample_score_call(deployable$method_id, .ss_python_clone(deployable$model, mod),
       X[i, , drop = FALSE], .singlesample_subset_meta(meta, i), strict = strict)[[1L]]
   }, numeric(1L))
-}
+})
 
 .ss_python_snapshot <- function(x) {
   if (inherits(x, "python.builtin.object")) return(list(
