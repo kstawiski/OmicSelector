@@ -26,3 +26,5 @@ Numeric score vector with pivot and model audit attributes.
 \description{
 Predict technology-residualized ALR scores
 }
+
+\details{Insufficient frozen pivot support raises a \code{singlesample_input_error} with code \code{INSUFFICIENT_ALR_PIVOTS}, instead of an all-NA score vector.}

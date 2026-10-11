@@ -30,3 +30,5 @@ Numeric score vector with attribute `n_anchors_present`.
 \description{
 Predict cross-technology harmonized rCLR scores
 }
+
+\details{Insufficient frozen anchor support raises a \code{singlesample_input_error} with code \code{INSUFFICIENT_CROSS_TECH_ANCHORS}, instead of an all-NA score vector.}

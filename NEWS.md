@@ -1,5 +1,12 @@
 # OmicSelector 2.6.7
 
+- Reject insufficient frozen support in cross-technology rCLR, biofluid-anchor
+  rCLR and technology-residualized ALR with `INSUFFICIENT_CROSS_TECH_ANCHORS`,
+  `INSUFFICIENT_BIOFLUID_ANCHORS` and `INSUFFICIENT_ALR_PIVOTS`, respectively.
+  These input errors replace all-NA vectors that deployment misreported as
+  non-scalar scorers. Anchor selection, required metadata levels, pivot minima
+  and arithmetic for supported inputs are unchanged.
+
 - Enable Python-tier deployment when its backend imports. Live Python models
   use frozen evaluation state and one query per forward pass with fixed seeds.
   Query-specific estimator copies discard prediction-cache writes.

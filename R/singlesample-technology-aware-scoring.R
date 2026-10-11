@@ -290,7 +290,9 @@ fit_cross_tech_harmonized_rclr <- function(
 #'   not used to select anchors.
 #' @param technology_col Column identifying technology class.
 #' @param min_anchors_present Minimum anchors required in `expr`.
-#' @return Numeric score vector with attribute `n_anchors_present`.
+#' @return Numeric score vector with attribute `n_anchors_present`. Insufficient
+#'   frozen anchor support raises a `singlesample_input_error` with code
+#'   `INSUFFICIENT_CROSS_TECH_ANCHORS`; it never returns an all-NA score vector.
 #' @export
 predict_cross_tech_harmonized_rclr <- function(
     fit, expr, meta, technology_col = fit$technology_col,
@@ -303,10 +305,11 @@ predict_cross_tech_harmonized_rclr <- function(
   anchors <- intersect(fit$anchor_features, colnames(expr))
   min_anchors_present <- as.integer(min_anchors_present)
   if (length(anchors) < min_anchors_present) {
-    out <- rep(NA_real_, nrow(expr))
-    attr(out, "n_anchors_present") <- length(anchors)
-    attr(out, "failure_reason") <- "insufficient_cross_technology_anchors"
-    return(out)
+    .ss_input_reject("INSUFFICIENT_CROSS_TECH_ANCHORS",
+      paste0("requires at least ", min_anchors_present,
+             " frozen cross-technology anchors; found ", length(anchors),
+             ". Check required_technologies and training detection support."),
+      "predict_cross_tech_harmonized_rclr")
   }
   log_expr <- .ta_log_expr(expr, fit$pseudocount)
   center <- rowMeans(log_expr[, anchors, drop = FALSE], na.rm = TRUE)
@@ -462,7 +465,9 @@ fit_tech_residualized_alr <- function(
 #' @param expr Numeric matrix, samples x features.
 #' @param meta Data frame aligned to `expr`; disease labels are not used.
 #' @param technology_col Column identifying technology class.
-#' @return Numeric score vector with pivot and model audit attributes.
+#' @return Numeric score vector with pivot and model audit attributes. Insufficient
+#'   frozen pivot support raises a `singlesample_input_error` with code
+#'   `INSUFFICIENT_ALR_PIVOTS`; it never returns an all-NA score vector.
 #' @export
 predict_tech_residualized_alr <- function(
     fit, expr, meta, technology_col = fit$technology_col) {
@@ -473,11 +478,11 @@ predict_tech_residualized_alr <- function(
   panel <- .ta_panel(expr, fit$panel)
   pivots <- intersect(fit$pivot_features, colnames(expr))
   if (length(pivots) < fit$min_pivot_present) {
-    out <- rep(NA_real_, nrow(expr))
-    attr(out, "n_pivots_present") <- length(pivots)
-    attr(out, "pivot_source") <- fit$pivot_source
-    attr(out, "failure_reason") <- "insufficient_alr_pivots"
-    return(out)
+    .ss_input_reject("INSUFFICIENT_ALR_PIVOTS",
+      paste0("requires at least ", fit$min_pivot_present,
+             " frozen ALR pivots; found ", length(pivots),
+             " (", fit$pivot_source, ")."),
+      "predict_tech_residualized_alr")
   }
   features <- unique(c(panel, pivots))
   log_expr <- .ta_log_expr(expr, fit$pseudocount)

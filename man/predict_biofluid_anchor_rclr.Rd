@@ -26,3 +26,5 @@ predict_biofluid_anchor_rclr(
 \description{
 Predict biofluid-stable anchor rCLR scores
 }
+
+\details{Insufficient frozen anchor support raises a \code{singlesample_input_error} with code \code{INSUFFICIENT_BIOFLUID_ANCHORS}, instead of an all-NA score vector.}

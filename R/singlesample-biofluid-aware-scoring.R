@@ -323,6 +323,9 @@ fit_biofluid_anchor_rclr <- function(train_expr, train_meta, panel,
 
 #' Predict biofluid-stable anchor rCLR scores
 #'
+#' Insufficient frozen anchor support raises a `singlesample_input_error` with
+#' code `INSUFFICIENT_BIOFLUID_ANCHORS`, instead of an all-NA score vector.
+#'
 #' @param fit Object from `fit_biofluid_anchor_rclr()`.
 #' @param expr Numeric matrix, samples x features.
 #' @param meta Data frame aligned to `expr`.
@@ -338,9 +341,11 @@ predict_biofluid_anchor_rclr <- function(fit, expr, meta,
   logp <- .bfa_log_proportions(expr, fit$pseudocount)
   anchors <- intersect(fit$anchor_features, colnames(logp))
   if (length(anchors) < fit$min_anchor_n) {
-    out <- rep(NA_real_, nrow(expr))
-    attr(out, "n_anchor_present") <- length(anchors)
-    return(out)
+    .ss_input_reject("INSUFFICIENT_BIOFLUID_ANCHORS",
+      paste0("requires at least ", fit$min_anchor_n,
+             " frozen biofluid anchors; found ", length(anchors),
+             ". Training must support between-biofluid anchor selection."),
+      "predict_biofluid_anchor_rclr")
   }
   center <- rowMeans(logp[, anchors, drop = FALSE], na.rm = TRUE)
   z <- sweep(logp[, panel, drop = FALSE], 1L, center, "-")
