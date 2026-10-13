@@ -6,7 +6,7 @@
 #' classifies a query row by \emph{in-context learning}: a forward pass of a
 #' frozen pretrained transformer conditions on a provided labelled TRAINING
 #' context and emits the query's class posterior. There is no per-dataset
-#' gradient training -- "fitting" only loads the training context into the model.
+#' gradient training. Fitting loads the training context and builds its cache.
 #' This scorer is the direct sibling of \code{\link{fit_tabpfn}}, swapping the
 #' TabPFN forward calls for TabICL's.
 #'
@@ -27,6 +27,12 @@
 #' compatibility but deliberately uses this same row-by-row path. GPU matrix
 #' kernels can otherwise produce small batch-size-dependent floating-point
 #' differences even when queries are conditionally independent.
+#'
+#' \strong{Cached full-precision context.} On every device the classifier uses
+#' \code{offload_mode = FALSE}, \code{kv_cache = TRUE} and
+#' \code{use_amp = FALSE}. Fit builds the context cache in full precision.
+#' The state fingerprint includes its tensors, and scoring uses a private copy
+#' so prediction cannot modify the fitted cache.
 #'
 #' \strong{Single-sample transform.} Each specimen is mapped to the
 #' self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive
@@ -241,6 +247,9 @@ NULL
     checkpoint_version = .TABICL_CHECKPOINT,
     allow_auto_download = TRUE,
     device = device,
+    offload_mode = FALSE,
+    kv_cache = TRUE,
+    use_amp = FALSE,
     random_state = as.integer(seed)
   )
   x_py <- np$asarray(Z_ctx, dtype = "float64")
@@ -301,11 +310,12 @@ NULL
 #' \code{hp$max_context} rows it is reduced to a deterministic, seeded,
 #' class-stratified subsample. A TabICLv2 classifier (pinned token-free
 #' checkpoint) is constructed and \code{fit()} on that frozen rCLR context (which,
-#' for TabICL, simply loads the context into the model -- no gradient training).
+#' for TabICL, builds a full-precision context cache without gradient training).
 #' The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 #' feature universe, class order, device/config, hp) is stored on the model; the
 #' live python classifier is also kept for scoring but is included in the deterministic Python state
-#' fingerprint.
+#' fingerprint, including the context cache built at fit. Offloading and automatic
+#' mixed precision are disabled on every device.
 #'
 #' @param X_train Numeric matrix (samples \eqn{\times} features) of non-negative
 #'   abundances with unique, non-empty feature names (colnames).
@@ -506,8 +516,9 @@ score_tabicl <- function(model, X, meta = NULL) .ss_with_r_rng({
   }
 
   np <- reticulate::import("numpy", delay_load = FALSE)
-  # Prediction writes backend caches. Reuse deployment's private estimator copy
-  # so these writes are discarded while the inference arithmetic stays intact.
+  # Copy the fitted full-precision context cache with the estimator. Backend
+  # prediction writes stay private; the fitted cache and its fingerprint remain
+  # unchanged, including on the first score call.
   clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE)
   case_col <- model$case_col
 

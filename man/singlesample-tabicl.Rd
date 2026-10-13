@@ -9,7 +9,7 @@ pretrained tabular foundation model of Qu et al. (2025). Like TabPFN, TabICL
 classifies a query row by \emph{in-context learning}: a forward pass of a
 frozen pretrained transformer conditions on a provided labelled TRAINING
 context and emits the query's class posterior. There is no per-dataset
-gradient training -- "fitting" only loads the training context into the model.
+gradient training. Fitting loads the training context and builds its cache.
 This scorer is the direct sibling of \code{\link{fit_tabpfn}}, swapping the
 TabPFN forward calls for TabICL's.
 
@@ -30,6 +30,12 @@ scoring batch. The legacy \code{score_batch} option is accepted for model
 compatibility but deliberately uses this same row-by-row path. GPU matrix
 kernels can otherwise produce small batch-size-dependent floating-point
 differences even when queries are conditionally independent.
+
+\strong{Cached full-precision context.} On every device the classifier uses
+\code{offload_mode = FALSE}, \code{kv_cache = TRUE} and
+\code{use_amp = FALSE}. Fit builds the context cache in full precision.
+The state fingerprint includes its tensors, and scoring uses a private copy
+so prediction cannot modify the fitted cache.
 
 \strong{Single-sample transform.} Each specimen is mapped to the
 self-contained per-sample robust CLR (rCLR) over its OWN strictly-positive

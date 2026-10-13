@@ -1,5 +1,10 @@
 # OmicSelector 2.6.7
 
+- TabICL now builds a full-precision context cache at fit on every device
+  (`offload_mode = FALSE`, `kv_cache = TRUE`, `use_amp = FALSE`). Scoring
+  retains the single-row path and RNG guard, with private copies protecting
+  the fitted cache covered by the state fingerprint.
+
 - Accept documented qPCR, small-RNA/miRNA sequencing, HTG EdgeSeq count and
   3D-Gene technology aliases without changing kit or biofluid metadata.
   Unrecognized technology strings still raise `UNSEEN_METADATA_LEVEL` in

@@ -41,11 +41,12 @@ universe (\code{colnames(X_train)}); if the context exceeds
 \code{hp$max_context} rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabICLv2 classifier (pinned token-free
 checkpoint) is constructed and \code{fit()} on that frozen rCLR context (which,
-for TabICL, simply loads the context into the model -- no gradient training).
+for TabICL, builds a full-precision context cache without gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is included in the deterministic Python state
-fingerprint.
+fingerprint, including the context cache built at fit. Offloading and automatic
+mixed precision are disabled on every device.
 }
 \examples{
 \dontrun{

@@ -371,3 +371,51 @@ test_that("multi-chunk batch scoring avoids singleton tails", {
   # The complete state fingerprint records the changed inference flag.
   expect_false(identical(.tabicl_model_digest(m), .tabicl_model_digest(mb)))
 })
+
+
+test_that("fit cache is full precision, fingerprinted and unchanged by scoring", {
+  skip_if_no_tabicl()
+  f <- .fit_small_tabicl()
+  m <- f$model
+  expect_false(reticulate::py_to_r(m$clf$offload_mode))
+  expect_true(reticulate::py_to_r(m$clf$kv_cache))
+  expect_false(reticulate::py_to_r(m$clf$use_amp))
+  # Inspect actual cache tensors before the first score, including nested caches.
+  helpers <- reticulate::py_run_string("
+import torch
+def cache_tensors(x):
+    if isinstance(x, torch.Tensor):
+        return [x]
+    if isinstance(x, dict):
+        return [t for v in x.values() for t in cache_tensors(v)]
+    if isinstance(x, (list, tuple)):
+        return [t for v in x for t in cache_tensors(v)]
+    if hasattr(x, '__dict__'):
+        return cache_tensors(vars(x))
+    return []
+def full_precision_cache(clf):
+    tensors = cache_tensors(clf.model_kv_cache_)
+    return bool(tensors) and all(t.dtype == torch.float32 for t in tensors if t.is_floating_point())
+def alter_cache(clf):
+    t = next(t for t in cache_tensors(clf.model_kv_cache_) if t.is_floating_point())
+    with torch.no_grad():
+        t[(0,) * t.ndim] += 1.0
+", convert = FALSE)
+  expect_true(reticulate::py_to_r(helpers$full_precision_cache(m$clf)))
+  before <- .tabicl_model_digest(m)
+  s <- score_tabicl(m, f$data$X[1:3, , drop = FALSE])
+  expect_identical(before, .tabicl_model_digest(m))
+  expect_identical(s, score_tabicl(m, f$data$X[1:3, , drop = FALSE]))
+  expect_identical(before, .tabicl_model_digest(m))
+  private <- .ss_python_clone(m$clf, .ss_python_state_module(), freeze_state = FALSE)
+  helpers$alter_cache(private)
+  changed <- m
+  changed$clf <- private
+  expect_false(identical(before, .tabicl_model_digest(changed)))
+  expect_error(singlesample_assert_row_equivariant(function(model, X, meta) {
+    helpers$alter_cache(model$clf)
+    rep(0.5, nrow(X))
+  }, changed, f$data$X[1:4, , drop = FALSE],
+  model_digest = .tabicl_model_digest), "model state changed")
+  expect_identical(before, .tabicl_model_digest(m))
+})
