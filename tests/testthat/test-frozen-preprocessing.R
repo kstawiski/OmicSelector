@@ -135,15 +135,18 @@ for (.frozen_type in c("counts", "ct")) {
         state <- serialize(dep, NULL)
         rng <- .Random.seed
         extreme <- if (type == "ct") function(X) X - log2(1e6) else NULL
+        # Optimized BLAS libraries (for example OpenBLAS) may evaluate a matrix product for one row and for many
+        # rows with different kernels, so batch and singleton scores can differ by rounding (about 1e-15).
+        # Compare within 1e-12, far below the 1e-10 audit tolerance; reference BLAS gives exact equality.
         for (strict in c(FALSE, TRUE)) {
           score_fun <- function(model, X, meta = NULL) score_specimen(model, X, meta, strict = strict)
           expect_invisible(singlesample_assert_row_equivariant(
-            score_fun, dep, raw, tol = 0, n_singletons = nrow(raw),
+            score_fun, dep, raw, tol = 1e-12, n_singletons = nrow(raw),
             extreme_transform = extreme))
           batch <- score_specimen(dep, raw, strict = strict)
           singles <- vapply(seq_len(nrow(raw)), function(i)
             as.numeric(score_specimen(dep, raw[i, ], strict = strict)), numeric(1))
-          expect_identical(as.numeric(batch), singles)
+          expect_equal(as.numeric(batch), singles, tolerance = 1e-12)
           expect_identical(batch, score_specimen(dep, as.data.frame(raw), strict = strict))
           expect_identical(batch, score_specimen(dep, raw[, ncol(raw):1], strict = strict))
           expect_identical(batch, score_specimen(dep, cbind(raw, unknown = 1e9), strict = strict))
