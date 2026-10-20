@@ -1,8 +1,8 @@
-# OmicSelector 2.6.1
+# OmicSelector 2.6.7
 
 **Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
 
-Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample compositional scoring layer, frozen-reference denoising add-ons, qPCR non-detect imputation, a matched-null benchmark, and a provenance pre-flight gate.
+Release 2.6.7 registers 73 single-sample scoring methods (50 for use within one cohort and 23 for transfer between cohorts), deploys each as a frozen object that scores one specimen at a time, audits any scoring function for dependence on companion specimens, and refuses unusable inputs with documented codes. See `NEWS.md` for the changes in each release since 2.6.0.
 
 [![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
 
@@ -10,7 +10,7 @@ Release 2.6.0 adds single-sample deployment wrappers on top of the within-sample
 
 ## Single-sample deployment (what's distinctive)
 
-OmicSelector 2.6.0 can freeze a rostered within-sample scorer and later score
+OmicSelector can freeze a rostered single-sample scorer and later score
 one incoming specimen without a co-resident test batch, reference cohort, or
 test-time batch-correction step. This is a deployability feature, not a
 superiority claim: it does not assert that any single-sample method
@@ -53,10 +53,10 @@ OmicSelector is an R package for biomarker discovery that enforces methodologica
 - **Feature Stability**: Nogueira Stability Index for reproducible biomarker sets
 - **Multi-Objective Selection**: Balance performance, stability, and parsimony
 
-## Single-sample scoring methods (2.6.0)
+## Single-sample scoring methods
 
-Release 2.6.0 exposes the within-sample, reference-free scoring layer as
-exported, documented R functions:
+The within-sample, reference-free scoring layer, introduced in 2.6.0, is
+exported as documented R functions:
 
 1. Five within-sample compositional scoring methods:
    [`ws_rclr_trimmed`](man/ws_rclr_trimmed.Rd),
@@ -116,7 +116,7 @@ exported, documented R functions:
 
 ## Within-Sample Biomarker Panel Classification
 
-OmicSelector 2.6.0 adds within-sample classification methods for
+Since 2.6.0, OmicSelector has provided within-sample classification methods for
 reference-cohort-free biomarker panels and provenance-aware validation helpers:
 
 - Four image encodings: `encode_simple_grid()`, `encode_corr_grid()`,
@@ -152,7 +152,10 @@ mlr3::lrn("classif.clr_mlp", backend = "glm", verbose = FALSE)
 ## Installation
 
 ```r
-# Install from GitHub
+# Install the release described in the accompanying article
+remotes::install_github("kstawiski/OmicSelector@v2.6.7")
+
+# Or install the current development version
 remotes::install_github("kstawiski/OmicSelector")
 
 # Load the package
