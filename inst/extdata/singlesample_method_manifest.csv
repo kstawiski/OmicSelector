@@ -67,7 +67,6 @@ lrt-deepmaha,N,within,discriminator,R2,reticulate-torch-plus-R,fit_lrt_deepmaha,
 coda-codacore,O,within,discriminator,R2,reticulate-torch-plus-R,fit_coda_codacore,score_coda_codacore,new-secondary,sparse log-ratio balances (CoDaCoRe continuous relaxation; torch backend at fit; pure-R discrete-balance score),per_cohort_rows,within_cohort
 dg-fishr,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dg_fishr,score_dg_fishr,new,Fishr invariant gradient variances,transfer_fold_rows,m4_decision
 dg-ibirm,N,transfer,discriminator,R2,reticulate-torch-plus-R,fit_dg_ibirm,score_dg_ibirm,new,IB-IRM,transfer_fold_rows,m4_decision
-sel-stablemate,N,transfer,discriminator,R1,StableMate-github,fit_sel_stablemate,score_sel_stablemate,new,StableMate stable-predictor selection,transfer_fold_rows,m4_decision
 nc-mahalanobis,NC,within,negative_control,R1,base-R,fit_compositional_mahalanobis,apply_compositional_mahalanobis,present,frozen MCD; EXCLUDE batch-coupled os_mahalanobis_score,per_cohort_rows,na
 nc-conformal-anom,NC,within,negative_control,R1,base-R,fit_conformal_anomaly,os_conformal_anomaly,present,one-class atypicality frozen-fit $score; EXCLUDE batch-coupled os_conformal_anomaly_score,per_cohort_rows,na
 nc-isoforest,NC,within,negative_control,R1,isotree-or-base,fit_isolation_forest_logratio,apply_isolation_forest_logratio,present,one-class atypicality,per_cohort_rows,na

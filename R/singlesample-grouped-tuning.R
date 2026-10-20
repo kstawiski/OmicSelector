@@ -91,23 +91,6 @@
   which(group_train %in% groups[take])
 }
 
-# Keep every held-out environment intact and exclude its biological groups
-# from the training complement, including groups observed in other environments.
-.ss_grouped_environment_splits <- function(env, group_train) {
-  groups <- .ss_validate_groups(group_train, length(env), "fit_sel_stablemate")
-  out <- lapply(sort(unique(as.character(env))), function(e) {
-    test <- which(env == e)
-    train <- which(!groups %in% groups[test])
-    if (!length(train)) {
-      .ss_input_reject("INVALID_GROUPS",
-                       "an environment holdout leaves no independent training groups",
-                       "fit_sel_stablemate")
-    }
-    list(train = train, test = test)
-  })
-  out
-}
-
 # Prototypical episodes use whole groups on either the support or query side.
 # Row-count targets can be exceeded by the last selected group.
 .ss_grouped_episode_plan <- function(idx_case, idx_ctrl, hp, group_train) {
@@ -137,35 +120,4 @@
     query <- take(which(fold == 2L), hp$n_query)
     list(support = support, query = query, query_label = y[query])
   })
-}
-
-# StableMate's weighted squared-error stability objective, with biological
-# groups excluded from each environment's training complement. In-sample terms
-# follow obj_pss; only the held-out training indices change.
-.sel_stablemate_grouped_pss <- function(Y, X, env, pred_in, splits) {
-  env_tab <- table(env)
-  w <- as.numeric(1 / env_tab[as.character(env)])
-  w <- w / sum(w) * length(Y)
-  design <- cbind(1, X[, pred_in == 1L, drop = FALSE])
-  fit_predict <- function(train, test) {
-    if (sum(pred_in) == 0L) {
-      return(rep(sum(w[train] * Y[train]) / sum(w[train]), length(test)))
-    }
-    mod <- stats::lm.wfit(design[train, , drop = FALSE], Y[train], w[train])
-    beta <- mod$coefficients
-    beta[is.na(beta)] <- 0
-    as.vector(design[test, , drop = FALSE] %*% beta)
-  }
-  pss <- 0
-  for (split in splits) {
-    test <- if (length(env_tab) > 2L) split$test else seq_along(Y)
-    pred <- fit_predict(split$train, test)
-    pss <- pss + sum(w[test] * (pred - Y[test])^2)
-    if (length(env_tab) > 2L) {
-      test <- split$test
-      pred <- fit_predict(test, test)
-      pss <- pss + sum(w[test] * (pred - Y[test])^2)
-    }
-  }
-  pss
 }

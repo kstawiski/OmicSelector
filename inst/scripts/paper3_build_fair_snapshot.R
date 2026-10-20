@@ -798,7 +798,10 @@ sys.source(.SNAPSHOT_RUNTIME_HELPER, envir = environment())
   )]
   transfer_key <- c("disease", "held_out", "seed", "method")
   target <- unique(transfer_cells[, .(disease, held_out)])
-  transfer_methods <- roster[estimand == "transfer", method_id]
+  # The archived transfer analysis also ran the sel-stablemate route, which was
+  # later removed from the package because StableMate declares no licence. The
+  # archived grid is validated as recorded.
+  transfer_methods <- c(roster[estimand == "transfer", method_id], "sel-stablemate")
   expected_transfer <- data.table::rbindlist(lapply(seq_len(nrow(target)),
     function(i) cbind(
       target[i],

@@ -30,8 +30,7 @@ still yields a valid single-sample model -- but the run is then mathematically
 ERM, not group-robust. To never silently mislabel the estimand, the model records
 \code{n_groups} (the number of distinct kit x biofluid groups actually engaged)
 and the logical \code{groups_engaged} (\code{n_groups > 1}); these mirror the
-\code{n_cohorts} / \code{n_environments} engagement signals exposed by
-\code{reo-metaktsp} and \code{sel-stablemate}.
+\code{n_cohorts} engagement signal exposed by \code{reo-metaktsp}.
 
 \strong{Orientation.} \code{score_group_dro_scorer} returns the logistic
 probability of the case class, so larger already means more case-like; the

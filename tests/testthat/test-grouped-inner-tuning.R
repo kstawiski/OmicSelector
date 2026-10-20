@@ -88,33 +88,10 @@ test_that("calibration and prototype episodes keep whole groups on each side", {
   }
 })
 
-test_that("StableMate excludes groups crossing environment boundaries", {
-  groups <- c("shared", "a", "b", "shared", "c", "d", "e", "f", "g")
-  env <- rep(c("one", "two", "three"), each = 3)
-  splits <- OmicSelector:::.ss_grouped_environment_splits(env, groups)
-  for (s in splits) {
-    expect_length(intersect(groups[s$train], groups[s$test]), 0L)
-    expect_setequal(s$train, which(!groups %in% groups[s$test]))
-  }
-  expect_false(4L %in% splits[[1]]$train)
-  expect_error(OmicSelector:::.ss_grouped_environment_splits(env, rep("a", 9)),
-               class = "singlesample_input_error")
-  skip_if_not_installed("StableMate")
-  X <- matrix(seq_len(18), 9, 2)
-  y <- rep(0:1, length.out = 9)
-  for (e in list(env, rep(c("one", "two"), c(4, 5)))) {
-    s <- OmicSelector:::.ss_grouped_environment_splits(e, seq_along(e))
-    for (pred in list(c(0, 0), c(1, 0), c(1, 1))) {
-      expect_equal(OmicSelector:::.sel_stablemate_grouped_pss(y, X, e, pred, s),
-                   StableMate::obj_pss(y, X, e, pred), tolerance = 1e-12)
-    }
-  }
-})
-
 test_that("group errors have the documented code and adapters tolerate legacy fits", {
   d <- .grouped_inner_data()
   fits <- c("fit_reo_pairratio", "fit_dro_group", "fit_sig_path", "fit_inv_scatter",
-            "fit_proto_net", "fit_sel_stablemate", "fit_singlesample_selector",
+            "fit_proto_net", "fit_singlesample_selector",
             "deploy_singlesample")
   for (fn in fits) {
     for (g in list(1:3, c(rep("a", 47), NA), matrix(1:48, 48))) {

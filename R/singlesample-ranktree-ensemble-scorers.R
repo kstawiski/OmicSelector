@@ -3,7 +3,7 @@
 #' Returns the two maintained `ranktreeEnsemble` algorithms evaluated as a
 #' separately multiplicity-controlled external-competitor sensitivity for the
 #' OmicSelector paper. They are deliberately not appended to
-#' [singlesample_method_roster()], whose 74 rows and 50-route within-cohort
+#' [singlesample_method_roster()], whose 73 rows and 50-route within-cohort
 #' family were frozen before this direct competitor was identified.
 #'
 #' @return A data frame with one row per external competitor and executable

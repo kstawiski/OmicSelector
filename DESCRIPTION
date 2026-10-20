@@ -81,7 +81,6 @@ Suggests:
     vdiffr,
     Rtsne,
     selbal,
-    StableMate,
     rvinecopulib,
     robustbase,
     matrixStats,

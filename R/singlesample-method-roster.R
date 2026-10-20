@@ -1,6 +1,6 @@
 #' Amendment #4 method roster (frozen expansion)
 #'
-#' Returns the frozen 74-row method roster for the OmicSelector single-sample
+#' Returns the frozen 73-row method roster for the OmicSelector single-sample
 #' method-bank expansion (Statistical Analysis Plan Amendment #4, extended by
 #' Amendment #5 which adds the Student-t-copula method `lrt-tcopula` and
 #' Amendment #6 which adds the KDE naive-Bayes method `lrt-nbkde`). Unlike
@@ -77,7 +77,7 @@ singlesample_method_roster <- function() {
 
 #' Frozen Amendment #4 roster identifiers
 #'
-#' Independent enumeration of the 74 pre-specified method identifiers,
+#' Independent enumeration of the 73 pre-specified method identifiers,
 #' transcribed from the prespecification (SAP Amendment #4 sections 4.1-4.4 and
 #' the round-2 survey, section B; plus Amendment #5's `lrt-tcopula`). Kept
 #' separate from the shipped manifest so a
@@ -85,7 +85,7 @@ singlesample_method_roster <- function() {
 #' (`setequal`): editing the CSV without editing this vector (or vice versa)
 #' fails the gate.
 #'
-#' @return Character vector of 74 method identifiers.
+#' @return Character vector of 73 method identifiers.
 #' @keywords internal
 .singlesample_frozen_roster_ids <- function() {
   baseline <- "ws-rclr-trimmed"
@@ -109,9 +109,9 @@ singlesample_method_roster <- function() {
     "coda-deepcoda", "tab-tabicl", "tab-tabdpt", "inv-glcm", "inv-fdaqf",
     "inv-css", "lrt-vinecopula", "proto-net", "lrt-deepmaha", "coda-codacore")
   within_conditional <- "ai-tabpfn"                      # +1 conditional within
-  transfer_new <- c(                                     # 7 new transfer disc
+  transfer_new <- c(                                     # 6 new transfer disc
     "reo-metaktsp", "dro-group", "dro-vrex", "moe-gated",
-    "dg-fishr", "dg-ibirm", "sel-stablemate")
+    "dg-fishr", "dg-ibirm")
   negative_controls <- c(                                # 5 negative controls
     "nc-mahalanobis", "nc-conformal-anom", "nc-isoforest",
     "nc-ecod-copod", "nc-sinkhorn-single")

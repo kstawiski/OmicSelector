@@ -52,11 +52,11 @@ jobs:
           options(repos = c(RSPM = rspm, CRAN = "https://cloud.r-project.org"))
           install.packages(c("remotes", "rcmdcheck", "knitr", "rmarkdown"))
           # Install every declared dependency (hard + Suggests) that is actually
-          # available on the repo, skipping only the three non-CRAN Suggests
-          # (catboost, selbal, StableMate) that cannot be resolved in CI. This keeps
+          # available on the repo, skipping only the two non-CRAN Suggests
+          # (catboost, selbal) that cannot be resolved in CI. This keeps
           # test and example coverage for all resolvable Suggests (glmnet, pROC,
           # torch, ...); requesting the full closure with install_deps(dependencies
-          # = TRUE) instead aborts because the three are unavailable, and
+          # = TRUE) instead aborts because the two are unavailable, and
           # _R_CHECK_FORCE_SUGGESTS_=false lets the check tolerate their absence.
           deps <- remotes::local_package_deps(dependencies = TRUE)
           avail <- rownames(available.packages())

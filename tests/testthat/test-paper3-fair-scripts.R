@@ -233,9 +233,10 @@ test_that("snapshot accepts only a fully passing pinned overlay candidate", {
                      file.path(td, "within_predictions.tsv.gz"), sep = "\t",
                      compress = "gzip")
 
-  transfer_methods <- data.table::as.data.table(singlesample_method_roster())[
+  # The archived transfer grid includes the removed sel-stablemate route.
+  transfer_methods <- c(data.table::as.data.table(singlesample_method_roster())[
     estimand == "transfer", method_id
-  ]
+  ], "sel-stablemate")
   targets <- data.table::data.table(
     disease = paste0("d", seq_len(18L)),
     held_out = paste0("h", seq_len(18L))

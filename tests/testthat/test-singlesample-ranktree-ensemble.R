@@ -12,7 +12,7 @@ ranktree_example <- function() {
 test_that("external rank-tree registry cannot expand the frozen primary roster", {
   primary <- singlesample_method_roster()
   external <- singlesample_external_competitor_roster()
-  expect_equal(nrow(primary), 74L)
+  expect_equal(nrow(primary), 73L)
   expect_equal(nrow(external), 2L)
   expect_setequal(external$method_id, c("reo-rankforest", "reo-rankboost"))
   expect_true(all(!external$primary_family))

@@ -1,6 +1,5 @@
 # icp implements INVARIANT CAUSAL PREDICTION (Peters et al. 2016): base-R, no
-# torch/reticulate. It is the structural twin of sel-stablemate with the
-# StableMate selection swapped for an explicit per-feature ICP screen
+# torch/reticulate. Features are selected by an explicit per-feature ICP screen
 # (predictivity Wald p < alpha_pred AND Cochran's-Q invariance p > alpha_inv).
 
 # Planted multi-environment data. Stable features (miR-1, miR-2, miR-3) are

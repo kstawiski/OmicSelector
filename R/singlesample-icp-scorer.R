@@ -16,10 +16,8 @@
 #' over the selected features evaluated on one specimen's own rCLR vector. The
 #' transfer aspect is entirely in the SELECTION.
 #'
-#' icp is the structural twin of \code{\link{fit_sel_stablemate}} with ONE
-#' change: the feature-SELECTION step. Where sel-stablemate calls StableMate's
-#' predictivity+stability bootstrap ensembles, icp selects features by an
-#' explicit, tractable per-feature ICP invariance screen:
+#' icp selects features by an explicit, tractable per-feature ICP invariance
+#' screen:
 #' \enumerate{
 #'   \item PREDICTIVITY screen: a pooled marginal logistic
 #'     \code{glm(y ~ rclr_j, binomial)} over ALL training rows; feature \eqn{j}
@@ -44,7 +42,7 @@
 #' through deterministic IRLS (it does not), but the whole fit is nevertheless
 #' wrapped in a global-\code{.Random.seed} save/restore guard with
 #' \code{set.seed(hp$seed)} inside it, so fitting is deterministic and leaves the
-#' caller's RNG state byte-unchanged --- mirroring the sel-stablemate contract.
+#' caller's RNG state byte-unchanged.
 #'
 #' DEGENERATION (icp ALWAYS produces a usable, non-empty head):
 #' \itemize{
@@ -63,10 +61,8 @@
 #'     all), take the single most-predictive feature. This guarantees a usable
 #'     non-empty head while keeping the relaxation auditable.
 #' }
-#' Unlike sel-stablemate (a stability method that honestly returns the EMPTY set
-#' when nothing is stable), icp's brief mandates an always-non-empty head; the
-#' relaxation taken is therefore recorded in \code{model$selection_mode} rather
-#' than left empty.
+#' icp always returns a non-empty head; the relaxation taken is recorded in
+#' \code{model$selection_mode} rather than left empty.
 #'
 #' @param X_train Numeric matrix (samples \eqn{\times} features) of
 #'   non-negative abundance values. Columns must be uniquely named feature ids.
@@ -401,8 +397,8 @@ score_icp <- function(model, X, meta = NULL) {
 
 # ICP feature selection under a global-.Random.seed save/restore guard so the
 # selection leaves the caller's RNG state byte-unchanged (the glm IRLS used here
-# consumes no RNG, but the guard mirrors the sel-stablemate contract and is
-# robust to any future RNG-touching internals). Returns the selected feature
+# consumes no RNG, but the guard is robust to any future RNG-touching
+# internals). Returns the selected feature
 # names and the selection_mode tag.
 #
 # With >= 2 valid environments the full ICP screen runs (predictivity AND
@@ -565,8 +561,6 @@ score_icp <- function(model, X, meta = NULL) {
 # Non-finite/dropped coefficients (rank deficiency, perfect separation) are
 # removed so only finite linear terms are frozen. If glm fails or no finite
 # coefficient survives, the model degenerates (empty selection -> neutral 0).
-# (Identical to the sel-stablemate calibration; the only icp departure is the
-# selection step upstream.)
 .icp_calibrate <- function(Z_train, y, selected) {
   present <- intersect(selected, colnames(Z_train))
   if (length(present) == 0L) {

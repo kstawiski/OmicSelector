@@ -1,5 +1,9 @@
 # OmicSelector 2.6.7
 
+- Remove the `sel-stablemate` transfer route and the optional StableMate
+  dependency, which declares no licence. The roster has 73 methods: 50 for
+  use within one cohort and 23 for transfer.
+
 - TabICL now builds a full-precision context cache at fit on every device
   (`offload_mode = FALSE`, `kv_cache = TRUE`, `use_amp = FALSE`). Scoring
   retains the single-row path and RNG guard, with private copies protecting

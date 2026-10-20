@@ -38,7 +38,7 @@ jobs:
           # The website builds from hard deps alone: the sole evaluated vignette uses
           # only the deployment API, and every non-\dontrun reference example runs on
           # base/hard-dep code paths. This avoids resolving the non-CRAN Suggests
-          # (catboost, selbal, StableMate) whose failed lookup previously aborted the
+          # (catboost, selbal) whose failed lookup previously aborted the
           # whole pak solve and left the site frozen.
           dependencies: '"hard"'
           extra-packages: any::pkgdown, local::.

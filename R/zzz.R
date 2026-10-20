@@ -63,34 +63,6 @@
   invisible(TRUE)
 }
 
-# Load one already-installed namespace from a login-home library that is not
-# on .libPaths(). The library is not prepended, so it cannot shadow packages
-# already visible to this session. Used for StableMate (DESCRIPTION License:
-# None); that package is not copied into OmicSelector. Candidate order is
-# R/omicselector, R/library, then the version directories returned by list.dirs.
-# Only the first candidate containing the package is attempted; a load failure
-# returns FALSE. There is no installation or R-version compatibility check.
-.ss_load_installed_namespace <- function(package) {
-  if (isNamespaceLoaded(package)) return(invisible(TRUE))
-  home <- .ss_login_home()
-  if (is.na(home)) return(invisible(FALSE))
-  roots <- c(
-    file.path(home, "R", "omicselector"),
-    file.path(home, "R", "library"),
-    list.dirs(file.path(home, "R", "x86_64-pc-linux-gnu-library"),
-              full.names = TRUE, recursive = FALSE)
-  )
-  roots <- roots[dir.exists(file.path(roots, package))]
-  if (!length(roots)) return(invisible(FALSE))
-  # Search current libraries first, then the library that actually contains it.
-  lib_loc <- unique(c(.libPaths(), roots[[1L]]))
-  ok <- tryCatch({
-    loadNamespace(package, lib.loc = lib_loc)
-    TRUE
-  }, error = function(e) FALSE)
-  invisible(ok)
-}
-
 .onLoad <- function(libname, pkgname) {
   .ss_configure_backend_env()
   if (!requireNamespace("mlr3", quietly = TRUE)) {
