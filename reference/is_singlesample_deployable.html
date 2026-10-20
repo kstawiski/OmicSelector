@@ -13,7 +13,7 @@ the model state unchanged during scoring."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ the model state unchanged during scoring."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Check whether a deployment scorer is single-sample deployable</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-deploy.R" class="external-link"><code>R/singlesample-deploy.R</code></a></small>
       <div class="d-none name"><code>is_singlesample_deployable.Rd</code></div>
     </div>
 
@@ -53,7 +53,7 @@ the model state unchanged during scoring.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_singlesample_deployable</span><span class="op">(</span><span class="va">deployable</span>, X_probe <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_singlesample_deployable</span><span class="op">(</span><span class="va">deployable</span>, X_probe <span class="op">=</span> <span class="cn">NULL</span>, meta <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,6 +71,10 @@ check cannot be run; callers should supply probe rows from the intended
 panel or validation surface. Supply raw measurements when a preprocessor
 is attached. Ct verification shifts detected extreme neighbours down by
 <code>log(1e6) / log(ct_base)</code> cycles, preserving non-detects.</p></dd>
+
+
+<dt id="arg-meta">meta<a class="anchor" aria-label="anchor" href="#arg-meta"></a></dt>
+<dd><p>Optional metadata aligned to the probe specimens.</p></dd>
 
 </dl></div>
     <div class="section level2">

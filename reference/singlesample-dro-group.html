@@ -24,8 +24,7 @@ still yields a valid single-sample model – but the run is then mathematically
 ERM, not group-robust. To never silently mislabel the estimand, the model records
 n_groups (the number of distinct kit x biofluid groups actually engaged)
 and the logical groups_engaged (n_groups &amp;gt; 1); these mirror the
-n_cohorts / n_environments engagement signals exposed by
-reo-metaktsp and sel-stablemate.
+n_cohorts engagement signal exposed by reo-metaktsp.
 Orientation. score_group_dro_scorer returns the logistic
 probability of the case class, so larger already means more case-like; the
 wrapper preserves this orientation unchanged.
@@ -57,8 +56,7 @@ still yields a valid single-sample model – but the run is then mathematically
 ERM, not group-robust. To never silently mislabel the estimand, the model records
 n_groups (the number of distinct kit x biofluid groups actually engaged)
 and the logical groups_engaged (n_groups &amp;gt; 1); these mirror the
-n_cohorts / n_environments engagement signals exposed by
-reo-metaktsp and sel-stablemate.
+n_cohorts engagement signal exposed by reo-metaktsp.
 Orientation. score_group_dro_scorer returns the logistic
 probability of the case class, so larger already means more case-like; the
 wrapper preserves this orientation unchanged.
@@ -73,7 +71,7 @@ finite numeric vector before return."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +98,7 @@ finite numeric vector before return."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Group-DRO kit x biofluid robust discriminator (canonical single-sample wrapper)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-dro-group-wrapper.R" class="external-link"><code>R/singlesample-dro-group-wrapper.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-dro-group-wrapper.R" class="external-link"><code>R/singlesample-dro-group-wrapper.R</code></a></small>
       <div class="d-none name"><code>singlesample-dro-group.Rd</code></div>
     </div>
 
@@ -130,8 +128,7 @@ still yields a valid single-sample model – but the run is then mathematically
 ERM, not group-robust. To never silently mislabel the estimand, the model records
 <code>n_groups</code> (the number of distinct kit x biofluid groups actually engaged)
 and the logical <code>groups_engaged</code> (<code>n_groups &gt; 1</code>); these mirror the
-<code>n_cohorts</code> / <code>n_environments</code> engagement signals exposed by
-<code>reo-metaktsp</code> and <code>sel-stablemate</code>.</p>
+<code>n_cohorts</code> engagement signal exposed by <code>reo-metaktsp</code>.</p>
 <p><strong>Orientation.</strong> <code>score_group_dro_scorer</code> returns the logistic
 probability of the case class, so larger already means more case-like; the
 wrapper preserves this orientation unchanged.</p>

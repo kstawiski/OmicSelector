@@ -6,11 +6,13 @@ feature universe (`colnames(X_train)`); if the context exceeds
 `hp$max_context` rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabICLv2 classifier (pinned token-free
 checkpoint) is constructed and `fit()` on that frozen rCLR context
-(which, for TabICL, simply loads the context into the model – no
+(which, for TabICL, builds a full-precision context cache without
 gradient training). The frozen R-side state needed to reproduce scores
 (the rCLR context, labels, feature universe, class order, device/config,
 hp) is stored on the model; the live python classifier is also kept for
-scoring but is NEVER part of the model digest.
+scoring but is included in the deterministic Python state fingerprint,
+including the context cache built at fit. Offloading and automatic mixed
+precision are disabled on every device.
 
 ## Usage
 
@@ -53,8 +55,8 @@ fit_tabicl(X_train, y_train, meta_train = NULL, hp = list())
 Object of class `tabicl_model`: a list with `context_rclr` (frozen rCLR
 context matrix), `context_y`, `feature_universe`, `classes`, `case_col`,
 `n_context`, `device` (resolved), `checkpoint` (pinned checkpoint
-version), `hp`, and the live python classifier `clf` (excluded from the
-digest).
+version), `hp`, and the live python classifier `clf` (included by
+content in the state fingerprint).
 
 ## References
 

@@ -26,7 +26,12 @@ score_specimen(deployable, x_new, meta = NULL, detected = NULL, strict = FALSE)
 
 - meta:
 
-  Optional per-specimen metadata, one row per row of `x_new`.
+  Optional per-specimen metadata, one row per row of `x_new`. Legacy
+  metadata routes require their training metadata field (kit, biofluid,
+  technology or rin). Missing values raise \`MISSING_METADATA\`; unseen
+  categorical levels raise \`UNSEEN_METADATA_LEVEL\`. Hemolysis
+  residuals accept a finite \`hemo_score\` or require both frozen
+  hemolysis anchors.
 
 - detected:
 

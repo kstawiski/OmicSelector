@@ -12,10 +12,8 @@ method at TRAINING (selection uses the cross-environment structure), but its
 deployment is fully SINGLE-SAMPLE: the frozen model is a linear logistic score
 over the selected features evaluated on one specimen's own rCLR vector. The
 transfer aspect is entirely in the SELECTION.
-icp is the structural twin of fit_sel_stablemate with ONE
-change: the feature-SELECTION step. Where sel-stablemate calls StableMate's
-predictivity+stability bootstrap ensembles, icp selects features by an
-explicit, tractable per-feature ICP invariance screen:
+icp selects features by an explicit, tractable per-feature ICP invariance
+screen:
 PREDICTIVITY screen: a pooled marginal logistic
     glm(y ~ rclr_j, binomial) over ALL training rows; feature \(j\)
     is PREDICTIVE if the Wald p-value of its slope \(&amp;lt; \alpha_{pred}\)
@@ -38,7 +36,7 @@ coefficients are stored. The per-cohort glm sweep can touch the RNG only
 through deterministic IRLS (it does not), but the whole fit is nevertheless
 wrapped in a global-.Random.seed save/restore guard with
 set.seed(hp$seed) inside it, so fitting is deterministic and leaves the
-caller's RNG state byte-unchanged — mirroring the sel-stablemate contract.
+caller's RNG state byte-unchanged.
 DEGENERATION (icp ALWAYS produces a usable, non-empty head):
 If meta_train is NULL, the cohort column is missing, or there
     are \(&amp;lt; 2\) VALID cohorts, the invariance screen cannot be evaluated and
@@ -54,10 +52,8 @@ If no feature passes both screens, the selection RELAXES (documented in
     min(5, n_predictive)); if still empty (no predictive feature at
     all), take the single most-predictive feature. This guarantees a usable
     non-empty head while keeping the relaxation auditable.
-Unlike sel-stablemate (a stability method that honestly returns the EMPTY set
-when nothing is stable), icp's brief mandates an always-non-empty head; the
-relaxation taken is therefore recorded in model$selection_mode rather
-than left empty."><meta property="og:description" content="Learns a frozen logistic discriminator over the subset of robust-CLR (rCLR)
+icp always returns a non-empty head; the relaxation taken is recorded in
+model$selection_mode rather than left empty."><meta property="og:description" content="Learns a frozen logistic discriminator over the subset of robust-CLR (rCLR)
 features that are both PREDICTIVE of the label and INVARIANT (cohort-stable)
 across the training environments (cohorts) named by
 meta_train[[cohort_col]], following the Invariant Causal Prediction
@@ -70,10 +66,8 @@ method at TRAINING (selection uses the cross-environment structure), but its
 deployment is fully SINGLE-SAMPLE: the frozen model is a linear logistic score
 over the selected features evaluated on one specimen's own rCLR vector. The
 transfer aspect is entirely in the SELECTION.
-icp is the structural twin of fit_sel_stablemate with ONE
-change: the feature-SELECTION step. Where sel-stablemate calls StableMate's
-predictivity+stability bootstrap ensembles, icp selects features by an
-explicit, tractable per-feature ICP invariance screen:
+icp selects features by an explicit, tractable per-feature ICP invariance
+screen:
 PREDICTIVITY screen: a pooled marginal logistic
     glm(y ~ rclr_j, binomial) over ALL training rows; feature \(j\)
     is PREDICTIVE if the Wald p-value of its slope \(&amp;lt; \alpha_{pred}\)
@@ -96,7 +90,7 @@ coefficients are stored. The per-cohort glm sweep can touch the RNG only
 through deterministic IRLS (it does not), but the whole fit is nevertheless
 wrapped in a global-.Random.seed save/restore guard with
 set.seed(hp$seed) inside it, so fitting is deterministic and leaves the
-caller's RNG state byte-unchanged — mirroring the sel-stablemate contract.
+caller's RNG state byte-unchanged.
 DEGENERATION (icp ALWAYS produces a usable, non-empty head):
 If meta_train is NULL, the cohort column is missing, or there
     are \(&amp;lt; 2\) VALID cohorts, the invariance screen cannot be evaluated and
@@ -112,10 +106,8 @@ If no feature passes both screens, the selection RELAXES (documented in
     min(5, n_predictive)); if still empty (no predictive feature at
     all), take the single most-predictive feature. This guarantees a usable
     non-empty head while keeping the relaxation auditable.
-Unlike sel-stablemate (a stability method that honestly returns the EMPTY set
-when nothing is stable), icp's brief mandates an always-non-empty head; the
-relaxation taken is therefore recorded in model$selection_mode rather
-than left empty."></head><body>
+icp always returns a non-empty head; the relaxation taken is recorded in
+model$selection_mode rather than left empty."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -123,7 +115,7 @@ than left empty."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,7 +142,7 @@ than left empty."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit Invariant Causal Prediction discriminator (transfer at training, single-sample at inference)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-icp-scorer.R" class="external-link"><code>R/singlesample-icp-scorer.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-icp-scorer.R" class="external-link"><code>R/singlesample-icp-scorer.R</code></a></small>
       <div class="d-none name"><code>fit_icp.Rd</code></div>
     </div>
 
@@ -168,10 +160,8 @@ method at TRAINING (selection uses the cross-environment structure), but its
 deployment is fully SINGLE-SAMPLE: the frozen model is a linear logistic score
 over the selected features evaluated on one specimen's own rCLR vector. The
 transfer aspect is entirely in the SELECTION.</p>
-<p>icp is the structural twin of <code><a href="fit_sel_stablemate.html">fit_sel_stablemate</a></code> with ONE
-change: the feature-SELECTION step. Where sel-stablemate calls StableMate's
-predictivity+stability bootstrap ensembles, icp selects features by an
-explicit, tractable per-feature ICP invariance screen:</p><ol><li><p>PREDICTIVITY screen: a pooled marginal logistic
+<p>icp selects features by an explicit, tractable per-feature ICP invariance
+screen:</p><ol><li><p>PREDICTIVITY screen: a pooled marginal logistic
     <code>glm(y ~ rclr_j, binomial)</code> over ALL training rows; feature \(j\)
     is PREDICTIVE if the Wald p-value of its slope \(&lt; \alpha_{pred}\)
     (default <code>0.05</code>).</p></li>
@@ -193,7 +183,7 @@ coefficients are stored. The per-cohort glm sweep can touch the RNG only
 through deterministic IRLS (it does not), but the whole fit is nevertheless
 wrapped in a global-<code>.Random.seed</code> save/restore guard with
 <code>set.seed(hp$seed)</code> inside it, so fitting is deterministic and leaves the
-caller's RNG state byte-unchanged — mirroring the sel-stablemate contract.</p>
+caller's RNG state byte-unchanged.</p>
 <p>DEGENERATION (icp ALWAYS produces a usable, non-empty head):</p><ul><li><p>If <code>meta_train</code> is NULL, the cohort column is missing, or there
     are \(&lt; 2\) VALID cohorts, the invariance screen cannot be evaluated and
     selection degrades GRACEFULLY to the PREDICTIVITY-ONLY screen (the pooled
@@ -208,10 +198,8 @@ caller's RNG state byte-unchanged — mirroring the sel-stablemate contract.</p>
     <code>min(5, n_predictive)</code>); if still empty (no predictive feature at
     all), take the single most-predictive feature. This guarantees a usable
     non-empty head while keeping the relaxation auditable.</p></li>
-</ul><p>Unlike sel-stablemate (a stability method that honestly returns the EMPTY set
-when nothing is stable), icp's brief mandates an always-non-empty head; the
-relaxation taken is therefore recorded in <code>model$selection_mode</code> rather
-than left empty.</p>
+</ul><p>icp always returns a non-empty head; the relaxation taken is recorded in
+<code>model$selection_mode</code> rather than left empty.</p>
     </div>
 
     <div class="section level2">

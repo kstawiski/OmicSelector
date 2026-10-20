@@ -9,7 +9,7 @@ batch, with the model state unchanged during scoring.
 ## Usage
 
 ``` r
-is_singlesample_deployable(deployable, X_probe = NULL)
+is_singlesample_deployable(deployable, X_probe = NULL, meta = NULL)
 ```
 
 ## Arguments
@@ -26,6 +26,10 @@ is_singlesample_deployable(deployable, X_probe = NULL)
   validation surface. Supply raw measurements when a preprocessor is
   attached. Ct verification shifts detected extreme neighbours down by
   `log(1e6) / log(ct_base)` cycles, preserving non-detects.
+
+- meta:
+
+  Optional metadata aligned to the probe specimens.
 
 ## Value
 

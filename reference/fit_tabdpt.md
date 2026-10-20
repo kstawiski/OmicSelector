@@ -56,8 +56,8 @@ fit_tabdpt(X_train, y_train, meta_train = NULL, hp = list())
 Object of class `tabdpt_model`: a list with `context_rclr` (frozen rCLR
 context matrix), `context_y`, `feature_universe`, `classes`, `case_col`,
 `n_context`, `device` (resolved), `checkpoint` (pinned checkpoint
-version), `hp`, and the live python classifier `clf` (excluded from the
-digest).
+version), `hp`, and the live python classifier `clf` (included by
+content in the state fingerprint).
 
 ## References
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit cross-technology harmonized rCLR anchors</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-technology-aware-scoring.R" class="external-link"><code>R/singlesample-technology-aware-scoring.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-technology-aware-scoring.R" class="external-link"><code>R/singlesample-technology-aware-scoring.R</code></a></small>
       <div class="d-none name"><code>fit_cross_tech_harmonized_rclr.Rd</code></div>
     </div>
 
@@ -49,7 +49,7 @@
 <span>  <span class="va">train_meta</span>,</span>
 <span>  <span class="va">panel</span>,</span>
 <span>  technology_col <span class="op">=</span> <span class="st">"technology"</span>,</span>
-<span>  required_technologies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NGS"</span>, <span class="st">"Toray"</span>, <span class="st">"qPCR"</span>, <span class="st">"NanoString"</span><span class="op">)</span>,</span>
+<span>  required_technologies <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  min_detection_rate <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  n_anchor <span class="op">=</span> <span class="fl">20L</span>,</span>
 <span>  pseudocount <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -77,7 +77,12 @@
 
 
 <dt id="arg-required-technologies">required_technologies<a class="anchor" aria-label="anchor" href="#arg-required-technologies"></a></dt>
-<dd><p>Technology classes required for selection.</p></dd>
+<dd><p>Technology classes required for selection.
+`NULL` (default) uses the known classes present in training metadata after
+alias mapping, excluding `unknown`. Fewer than two known classes raises
+`singlesample_input_error` with code `INSUFFICIENT_TECHNOLOGY_CLASSES`.
+An explicit vector retains the requested classes, including absent classes
+(which prevent anchor selection); an explicit single class remains allowed.</p></dd>
 
 
 <dt id="arg-min-detection-rate">min_detection_rate<a class="anchor" aria-label="anchor" href="#arg-min-detection-rate"></a></dt>

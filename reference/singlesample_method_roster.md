@@ -1,6 +1,6 @@
 # Amendment \#4 method roster (frozen expansion)
 
-Returns the frozen 74-row method roster for the OmicSelector
+Returns the frozen 73-row method roster for the OmicSelector
 single-sample method-bank expansion (Statistical Analysis Plan Amendment
 \#4, extended by Amendment \#5 which adds the Student-t-copula method
 \`lrt-tcopula\` and Amendment \#6 which adds the KDE naive-Bayes method

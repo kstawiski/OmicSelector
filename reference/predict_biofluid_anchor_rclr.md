@@ -35,3 +35,9 @@ predict_biofluid_anchor_rclr(
 - feature_weights:
 
   Optional named numeric panel weights.
+
+## Details
+
+Insufficient frozen anchor support raises a `singlesample_input_error`
+with code `INSUFFICIENT_BIOFLUID_ANCHORS`, instead of an all-NA score
+vector.

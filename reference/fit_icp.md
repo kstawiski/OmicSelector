@@ -15,11 +15,8 @@ the frozen model is a linear logistic score over the selected features
 evaluated on one specimen's own rCLR vector. The transfer aspect is
 entirely in the SELECTION.
 
-icp is the structural twin of
-[`fit_sel_stablemate`](https://kstawiski.github.io/OmicSelector/reference/fit_sel_stablemate.md)
-with ONE change: the feature-SELECTION step. Where sel-stablemate calls
-StableMate's predictivity+stability bootstrap ensembles, icp selects
-features by an explicit, tractable per-feature ICP invariance screen:
+icp selects features by an explicit, tractable per-feature ICP
+invariance screen:
 
 1.  PREDICTIVITY screen: a pooled marginal logistic
     `glm(y ~ rclr_j, binomial)` over ALL training rows; feature \\j\\ is
@@ -46,8 +43,7 @@ per-feature coefficients are stored. The per-cohort glm sweep can touch
 the RNG only through deterministic IRLS (it does not), but the whole fit
 is nevertheless wrapped in a global-`.Random.seed` save/restore guard
 with `set.seed(hp$seed)` inside it, so fitting is deterministic and
-leaves the caller's RNG state byte-unchanged — mirroring the
-sel-stablemate contract.
+leaves the caller's RNG state byte-unchanged.
 
 DEGENERATION (icp ALWAYS produces a usable, non-empty head):
 
@@ -67,9 +63,7 @@ DEGENERATION (icp ALWAYS produces a usable, non-empty head):
   all), take the single most-predictive feature. This guarantees a
   usable non-empty head while keeping the relaxation auditable.
 
-Unlike sel-stablemate (a stability method that honestly returns the
-EMPTY set when nothing is stable), icp's brief mandates an
-always-non-empty head; the relaxation taken is therefore recorded in
+icp always returns a non-empty head; the relaxation taken is recorded in
 `model$selection_mode` rather than left empty.
 
 ## Usage

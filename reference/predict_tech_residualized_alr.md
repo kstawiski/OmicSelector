@@ -34,3 +34,8 @@ predict_tech_residualized_alr(
 ## Value
 
 Numeric score vector with pivot and model audit attributes.
+
+## Details
+
+Insufficient frozen pivot support raises a `singlesample_input_error`
+with code `INSUFFICIENT_ALR_PIVOTS`, instead of an all-NA score vector.

@@ -227,7 +227,6 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_reo_ucell.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_rin_weighted_reference.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_robust_pca_residual.html</loc></url>
-<url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sel_stablemate.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_preprocessor.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_selector.html</loc></url>
@@ -447,7 +446,6 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_singscore.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_reo_ucell.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_rin_weighted_score.html</loc></url>
-<url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sel_stablemate.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sig_path.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_singlesample_selector.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/score_sinkhorn_ot_scorer.html</loc></url>
@@ -527,6 +525,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_register_score_adapter.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_selector_candidates.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_state_fingerprint.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_technology_lift_delong.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/singlesample_within_method_pairs.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/smote_augment.html</loc></url>

@@ -9,8 +9,29 @@ certified winner. It does not assert that any single-sample method
 out-discriminates a batch-corrected pipeline; validate the method choice
 on your own data.
 
-Reticulate methods (roster tier R2; require a Python backend / venv) are
-intentionally not fitted by this base-R deployment wrapper.
+Tier R2 methods require an importable Python backend; an unavailable
+backend raises \`PYTHON_BACKEND_UNAVAILABLE\`. Exported R weights remain
+frozen. Live Python models run in evaluation mode without gradients,
+using a fixed seed and one query specimen per forward pass against the
+frozen training context. State verification includes Python parameters,
+buffers and context.
+
+Legacy matrix transforms use a training-selected signed panel (up to 20
+features), ranked by absolute standardized mean difference and signed by
+training medians. Scalar scorers use the benchmark's training-median
+direction. Hemolysis anchor log-ratios use the benchmark pseudocount of
+0.5. Metadata routes require kit, biofluid, technology or rin, as
+applicable. Missing values and unseen levels raise \`MISSING_METADATA\`
+and \`UNSEEN_METADATA_LEVEL\`; invalid numeric metadata raises
+\`INVALID_METADATA\`. Hemolysis residual scoring accepts
+\`meta\$hemo_score\` or derives the log-ratio from the frozen miR-451a
+and miR-23a-3p anchors. Absent anchors with no supplied score raise
+\`MISSING_HEMOLYSIS_ANCHORS\`. All legacy deployment adapters require
+the complete training feature universe, preserving frozen feature order.
+
+Python-held estimators are copied for each query against the frozen
+training context. Prediction caches in that private copy are discarded
+after scoring. The retained fitted estimator is fingerprinted in full.
 
 ## Usage
 
@@ -24,7 +45,8 @@ deploy_singlesample(
   verify = TRUE,
   nondetect_limit = 0,
   preprocessor = NULL,
-  group_train = NULL
+  group_train = NULL,
+  hp = list()
 )
 ```
 
@@ -85,6 +107,11 @@ deploy_singlesample(
   \`NULL\` preserves the original row-based fit. Invalid or infeasible
   groups raise \`singlesample_input_error\` with code
   \`INVALID_GROUPS\`.
+
+- hp:
+
+  Optional named hyperparameters passed to canonical fit functions.
+  Defaults are unchanged. Legacy adapters reject non-empty lists.
 
 ## Value
 

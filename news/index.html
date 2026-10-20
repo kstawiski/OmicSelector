@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,21 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.6.7" id="omicselector-267">OmicSelector 2.6.7<a class="anchor" aria-label="anchor" href="#omicselector-267"></a></h2>
+<ul><li><p>Remove the <code>sel-stablemate</code> transfer route and the optional StableMate dependency, which declares no licence. The roster has 73 methods: 50 for use within one cohort and 23 for transfer.</p></li>
+<li><p>TabICL now builds a full-precision context cache at fit on every device (<code>offload_mode = FALSE</code>, <code>kv_cache = TRUE</code>, <code>use_amp = FALSE</code>). Scoring retains the single-row path and RNG guard, with private copies protecting the fitted cache covered by the state fingerprint.</p></li>
+<li><p>Accept documented qPCR, small-RNA/miRNA sequencing, HTG EdgeSeq count and 3D-Gene technology aliases without changing kit or biofluid metadata. Unrecognized technology strings still raise <code>UNSEEN_METADATA_LEVEL</code> in deployment. Generic microarrays and mixed-platform labels remain unsupported.</p></li>
+<li><p>Cross-technology anchor selection, fitting, scoring and deployment now default to the known technology classes present in training after alias mapping. At least two are required (<code>INSUFFICIENT_TECHNOLOGY_CLASSES</code>); <code>unknown</code> does not count. Explicit <code>required_technologies</code> vectors retain their meaning. The resolved default is frozen in the fit and never inferred from test data.</p></li>
+<li><p>Reject insufficient frozen support in cross-technology rCLR, biofluid-anchor rCLR and technology-residualized ALR with <code>INSUFFICIENT_CROSS_TECH_ANCHORS</code>, <code>INSUFFICIENT_BIOFLUID_ANCHORS</code> and <code>INSUFFICIENT_ALR_PIVOTS</code>, respectively. These input errors replace all-NA vectors that deployment misreported as non-scalar scorers. Pivot minima and arithmetic for supported inputs are unchanged.</p></li>
+<li><p>Enable Python-tier deployment when its backend imports. Live Python models use frozen evaluation state and one query per forward pass with fixed seeds. Query-specific estimator copies discard prediction-cache writes. Optional <code>hp</code> exposes existing fitter settings without changing defaults.</p></li>
+<li><p>Add SHA-256 state fingerprints that include Python parameters, buffers, preprocessing and frozen context in deployment verification.</p></li>
+<li><p>Adapt legacy matrix, anomaly and metadata interfaces to specimen scoring. Freeze training panels and metadata levels. Reject missing/unseen metadata and absent hemolysis anchors with machine-readable codes.</p></li>
+<li><p>Extend the deployability probe helper to accept specimen metadata.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.6.6" id="omicselector-266">OmicSelector 2.6.6<a class="anchor" aria-label="anchor" href="#omicselector-266"></a></h2>
 <ul><li><p>Add frozen count and Ct preprocessing for <code><a href="../reference/deploy_singlesample.html">deploy_singlesample()</a></code>, with specimen-local conversion, detection masks and raw-input verification. Required NA or non-finite abundance values now raise <code>NONFINITE_REQUIRED_VALUE</code> with affected rows before scoring. Raw Ct non-detects, including NA, convert to abundance 1 with detection FALSE. Row-equivariance checks accept an optional domain-specific extreme transform.</p></li>

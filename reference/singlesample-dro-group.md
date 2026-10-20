@@ -30,8 +30,7 @@ model – but the run is then mathematically ERM, not group-robust. To
 never silently mislabel the estimand, the model records `n_groups` (the
 number of distinct kit x biofluid groups actually engaged) and the
 logical `groups_engaged` (`n_groups > 1`); these mirror the `n_cohorts`
-/ `n_environments` engagement signals exposed by `reo-metaktsp` and
-`sel-stablemate`.
+engagement signal exposed by `reo-metaktsp`.
 
 **Orientation.** `score_group_dro_scorer` returns the logistic
 probability of the case class, so larger already means more case-like;

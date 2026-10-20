@@ -5,21 +5,23 @@ universe (colnames(X_train)); if the context exceeds
 hp$max_context rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabICLv2 classifier (pinned token-free
 checkpoint) is constructed and fit() on that frozen rCLR context (which,
-for TabICL, simply loads the context into the model – no gradient training).
+for TabICL, builds a full-precision context cache without gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
-live python classifier is also kept for scoring but is NEVER part of the model
-digest."><meta property="og:description" content="Freezes the training context for TabICL in-context classification. The
+live python classifier is also kept for scoring but is included in the deterministic Python state
+fingerprint, including the context cache built at fit. Offloading and automatic
+mixed precision are disabled on every device."><meta property="og:description" content="Freezes the training context for TabICL in-context classification. The
 training matrix is mapped to the per-sample robust CLR over the frozen feature
 universe (colnames(X_train)); if the context exceeds
 hp$max_context rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabICLv2 classifier (pinned token-free
 checkpoint) is constructed and fit() on that frozen rCLR context (which,
-for TabICL, simply loads the context into the model – no gradient training).
+for TabICL, builds a full-precision context cache without gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
-live python classifier is also kept for scoring but is NEVER part of the model
-digest."></head><body>
+live python classifier is also kept for scoring but is included in the deterministic Python state
+fingerprint, including the context cache built at fit. Offloading and automatic
+mixed precision are disabled on every device."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -27,7 +29,7 @@ digest."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +56,7 @@ digest."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit the TabICL in-context discriminator (freeze the training context)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.6/R/singlesample-tabicl-scorer.R" class="external-link"><code>R/singlesample-tabicl-scorer.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/singlesample-tabicl-scorer.R" class="external-link"><code>R/singlesample-tabicl-scorer.R</code></a></small>
       <div class="d-none name"><code>fit_tabicl.Rd</code></div>
     </div>
 
@@ -65,11 +67,12 @@ universe (<code>colnames(X_train)</code>); if the context exceeds
 <code>hp$max_context</code> rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabICLv2 classifier (pinned token-free
 checkpoint) is constructed and <code>fit()</code> on that frozen rCLR context (which,
-for TabICL, simply loads the context into the model – no gradient training).
+for TabICL, builds a full-precision context cache without gradient training).
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
-live python classifier is also kept for scoring but is NEVER part of the model
-digest.</p>
+live python classifier is also kept for scoring but is included in the deterministic Python state
+fingerprint, including the context cache built at fit. Offloading and automatic
+mixed precision are disabled on every device.</p>
     </div>
 
     <div class="section level2">
@@ -115,7 +118,7 @@ integer, default <code>3L</code>), <code>seed</code> (integer; default <code>42L
   (frozen rCLR context matrix), <code>context_y</code>, <code>feature_universe</code>,
   <code>classes</code>, <code>case_col</code>, <code>n_context</code>, <code>device</code> (resolved),
   <code>checkpoint</code> (pinned checkpoint version), <code>hp</code>, and the live python
-  classifier <code>clf</code> (excluded from the digest).</p>
+  classifier <code>clf</code> (included by content in the state fingerprint).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

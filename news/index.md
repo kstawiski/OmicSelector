@@ -1,5 +1,53 @@
 # Changelog
 
+## OmicSelector 2.6.7
+
+- Remove the `sel-stablemate` transfer route and the optional StableMate
+  dependency, which declares no licence. The roster has 73 methods: 50
+  for use within one cohort and 23 for transfer.
+
+- TabICL now builds a full-precision context cache at fit on every
+  device (`offload_mode = FALSE`, `kv_cache = TRUE`, `use_amp = FALSE`).
+  Scoring retains the single-row path and RNG guard, with private copies
+  protecting the fitted cache covered by the state fingerprint.
+
+- Accept documented qPCR, small-RNA/miRNA sequencing, HTG EdgeSeq count
+  and 3D-Gene technology aliases without changing kit or biofluid
+  metadata. Unrecognized technology strings still raise
+  `UNSEEN_METADATA_LEVEL` in deployment. Generic microarrays and
+  mixed-platform labels remain unsupported.
+
+- Cross-technology anchor selection, fitting, scoring and deployment now
+  default to the known technology classes present in training after
+  alias mapping. At least two are required
+  (`INSUFFICIENT_TECHNOLOGY_CLASSES`); `unknown` does not count.
+  Explicit `required_technologies` vectors retain their meaning. The
+  resolved default is frozen in the fit and never inferred from test
+  data.
+
+- Reject insufficient frozen support in cross-technology rCLR,
+  biofluid-anchor rCLR and technology-residualized ALR with
+  `INSUFFICIENT_CROSS_TECH_ANCHORS`, `INSUFFICIENT_BIOFLUID_ANCHORS` and
+  `INSUFFICIENT_ALR_PIVOTS`, respectively. These input errors replace
+  all-NA vectors that deployment misreported as non-scalar scorers.
+  Pivot minima and arithmetic for supported inputs are unchanged.
+
+- Enable Python-tier deployment when its backend imports. Live Python
+  models use frozen evaluation state and one query per forward pass with
+  fixed seeds. Query-specific estimator copies discard prediction-cache
+  writes. Optional `hp` exposes existing fitter settings without
+  changing defaults.
+
+- Add SHA-256 state fingerprints that include Python parameters,
+  buffers, preprocessing and frozen context in deployment verification.
+
+- Adapt legacy matrix, anomaly and metadata interfaces to specimen
+  scoring. Freeze training panels and metadata levels. Reject
+  missing/unseen metadata and absent hemolysis anchors with
+  machine-readable codes.
+
+- Extend the deployability probe helper to accept specimen metadata.
+
 ## OmicSelector 2.6.6
 
 - Add frozen count and Ct preprocessing for

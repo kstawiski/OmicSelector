@@ -679,9 +679,6 @@ Internal functions and helpers (exported for advanced use)
   only.
 - [`fit_robust_pca_residual()`](https://kstawiski.github.io/OmicSelector/reference/fit_robust_pca_residual.md)
   : Fit a MAD-scaled SVD residual filter for batch correction
-- [`fit_sel_stablemate()`](https://kstawiski.github.io/OmicSelector/reference/fit_sel_stablemate.md)
-  : Fit StableMate stable-predictor discriminator (transfer at training,
-  single-sample at inference)
 - [`fit_sig_path()`](https://kstawiski.github.io/OmicSelector/reference/fit_sig_path.md)
   : Fit the truncated path-signature single-sample discriminator
 - [`fit_singlesample_preprocessor()`](https://kstawiski.github.io/OmicSelector/reference/fit_singlesample_preprocessor.md)
@@ -1126,8 +1123,6 @@ Internal functions and helpers (exported for advanced use)
 - [`score_rin_weighted_score()`](https://kstawiski.github.io/OmicSelector/reference/score_rin_weighted_score.md)
   : Score a panel against a RIN-weighted frozen training reference
   profile.
-- [`score_sel_stablemate()`](https://kstawiski.github.io/OmicSelector/reference/score_sel_stablemate.md)
-  : Score StableMate stable-predictor discriminator (single-sample)
 - [`score_sig_path()`](https://kstawiski.github.io/OmicSelector/reference/score_sig_path.md)
   : Score the truncated path-signature discriminator (pure base R,
   row-by-row)
@@ -1321,6 +1316,9 @@ Internal functions and helpers (exported for advanced use)
   : Score a roster method with the canonical single-sample interface
 - [`singlesample_selector_candidates()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_selector_candidates.md)
   : Eligible methods for the single-sample selector
+- [`singlesample_state_fingerprint()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_state_fingerprint.md)
+  : Fingerprint frozen fitted state, including Python parameters and
+  buffers
 - [`singlesample_technology_lift_delong()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_technology_lift_delong.md)
   : Paired DeLong SE for technology-aware transfer lift
 - [`singlesample_within_method_pairs()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_within_method_pairs.md)

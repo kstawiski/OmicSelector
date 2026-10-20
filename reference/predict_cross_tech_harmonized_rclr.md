@@ -40,3 +40,9 @@ predict_cross_tech_harmonized_rclr(
 ## Value
 
 Numeric score vector with attribute \`n_anchors_present\`.
+
+## Details
+
+Insufficient frozen anchor support raises a `singlesample_input_error`
+with code `INSUFFICIENT_CROSS_TECH_ANCHORS`, instead of an all-NA score
+vector.
