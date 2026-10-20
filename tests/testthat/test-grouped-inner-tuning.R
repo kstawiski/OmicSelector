@@ -144,8 +144,9 @@ test_that("grouped deployment passes behavioural verification", {
     before <- serialize(m, NULL, version = 3)
     score <- score_specimen(m, d$X)
     expect_true(all(is.finite(score)))
-    expect_identical(as.numeric(score_specimen(m, d$X[1, , drop = FALSE])),
-                     as.numeric(score[1]))
+    # One row and many rows can take different BLAS kernels; compare within rounding.
+    expect_equal(as.numeric(score_specimen(m, d$X[1, , drop = FALSE])),
+                 as.numeric(score[1]), tolerance = 1e-12)
     expect_identical(serialize(m, NULL, version = 3), before)
   }
 })

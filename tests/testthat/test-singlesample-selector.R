@@ -69,7 +69,7 @@ test_that("best-AUC selector uses grouped cross-fitting and scores independently
   singleton <- vapply(seq_len(nrow(probe)), function(i) {
     score_singlesample_selector(fit, probe[i, , drop = FALSE])
   }, numeric(1L))
-  expect_equal(batch, singleton, tolerance = 0)
+  expect_equal(batch, singleton, tolerance = 1e-12)  # BLAS kernels may differ for one row and many rows
   expect_equal(
     score_singlesample_selector(fit, probe[c(6, 2, 2, 1), , drop = FALSE]),
     batch[c(6, 2, 2, 1)], tolerance = 0

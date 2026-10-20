@@ -112,11 +112,12 @@ test_that("valid inputs preserve exact singleton/batch arithmetic and frozen sta
     rng <- .Random.seed
     batch <- score_specimen(dep, x)
     single <- vapply(seq_len(nrow(x)), function(i) score_specimen(dep, x[i, ]), numeric(1L))
-    expect_identical(as.numeric(batch), single)
+    # One row and many rows can take different BLAS kernels; compare within rounding.
+    expect_equal(as.numeric(batch), single, tolerance = 1e-12)
     expect_identical(batch, score_specimen(dep, as.data.frame(x)))
     expect_identical(batch, score_specimen(dep, x[, rev(seq_len(ncol(x))), drop = FALSE]))
-    expect_identical(batch[c(3, 1, 2)], as.numeric(score_specimen(dep, x[c(3, 1, 2), , drop = FALSE])))
-    expect_identical(as.numeric(score_specimen(dep, x[rep(1, 3), , drop = FALSE])), rep(batch[1], 3))
+    expect_equal(batch[c(3, 1, 2)], as.numeric(score_specimen(dep, x[c(3, 1, 2), , drop = FALSE])), tolerance = 1e-12)
+    expect_equal(as.numeric(score_specimen(dep, x[rep(1, 3), , drop = FALSE])), rep(batch[1], 3), tolerance = 1e-12)
     expect_identical(batch, dep$score_fn(dep$model, x))
     expect_identical(state, serialize(dep, NULL))
     expect_identical(rng, .Random.seed)
