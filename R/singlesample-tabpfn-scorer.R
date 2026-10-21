@@ -242,6 +242,9 @@ NULL
   constants <- reticulate::import("tabpfn.constants", delay_load = FALSE)
   np <- reticulate::import("numpy", delay_load = FALSE)
   v2 <- constants$ModelVersion$V2
+  # Freeze one data-dependent policy for every device. Small contexts do not
+  # benefit from attention chunking; large row or feature counts need it.
+  memory_saving <- nrow(Z_ctx) > 512L || ncol(Z_ctx) > 512L
 
   clf <- tabpfn$TabPFNClassifier$create_default_for_version(
     v2,
@@ -251,7 +254,7 @@ NULL
     ignore_pretraining_limits = TRUE,
     inference_precision = reticulate::import("torch", convert = FALSE)$float32,
     fit_mode = "fit_preprocessors",
-    memory_saving_mode = TRUE,
+    memory_saving_mode = memory_saving,
     n_preprocessing_jobs = 1L,
     inference_config = list(ENABLE_GPU_PREPROCESSING = FALSE)
   )
@@ -280,7 +283,8 @@ NULL
     stop("fit_tabpfn: fitted TabPFN classes_ does not contain the case label 1",
          call. = FALSE)
   }
-  list(clf = clf, classes = classes, case_col = case_col)
+  list(clf = clf, classes = classes, case_col = case_col,
+       memory_saving = memory_saving)
 }
 
 # Run `fn()` with the torch RNG seeded to `seed`, restoring the torch RNG state
@@ -429,7 +433,8 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     device = device,
     model_version = "v2",
     inference_settings = list(precision = "float32", fit_mode = "fit_preprocessors",
-      memory_saving_mode = TRUE, n_preprocessing_jobs = 1L,
+      memory_saving_mode = fitted$memory_saving,
+      memory_saving_policy = "training_rows_or_features_gt_512", n_preprocessing_jobs = 1L,
       preprocessing_seed = hp$seed, encoder_device = "cpu",
       column_embedding_device = "cpu", gpu_preprocessing = FALSE,
       attention = "math", allow_tf32 = FALSE),

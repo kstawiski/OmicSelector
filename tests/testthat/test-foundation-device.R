@@ -57,7 +57,9 @@ for (.method in c("tabpfn", "tabdpt")) local({
       expect_identical(model$inference_settings$projection_device, "cpu")
       expect_equal(nrow(model$projection), 140L)
     } else {
-      expect_true(model$inference_settings$memory_saving_mode)
+      expect_false(model$inference_settings$memory_saving_mode)
+      expect_identical(model$inference_settings$memory_saving_policy,
+        "training_rows_or_features_gt_512")
       expect_identical(model$inference_settings$encoder_device, "cpu")
       expect_identical(model$inference_settings$column_embedding_device, "cpu")
       expect_false(model$inference_settings$gpu_preprocessing)
