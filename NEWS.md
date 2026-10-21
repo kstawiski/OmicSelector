@@ -1,7 +1,9 @@
 # OmicSelector 2.6.8
 
 - TabPFN inference explicitly uses float32 on CPU and CUDA, cached training
-  preprocessing, a fixed preprocessing seed, and a fixed memory-saving policy.
+  preprocessing, a fixed preprocessing seed, and memory-saving kernels enabled on both devices.
+  Internal normalization and frozen column embeddings use CPU arithmetic on
+  every inference device.
 - TabDPT disables flash attention on both devices and fits its projection with
   an explicitly seeded CPU generator. The frozen CPU projection and projected
   context are reused when scoring, including after moving the model.

@@ -251,13 +251,17 @@ NULL
     ignore_pretraining_limits = TRUE,
     inference_precision = reticulate::import("torch", convert = FALSE)$float32,
     fit_mode = "fit_preprocessors",
-    memory_saving_mode = FALSE,
-    n_preprocessing_jobs = 1L
+    memory_saving_mode = TRUE,
+    n_preprocessing_jobs = 1L,
+    inference_config = list(ENABLE_GPU_PREPROCESSING = FALSE)
   )
   x_py <- np$asarray(Z_ctx, dtype = "float64")
   y_py <- np$asarray(as.integer(y_ctx), dtype = "int64")
 
   .tabpfn_with_torch_rng(seed, function() clf$fit(x_py, y_py))
+  frozen <- reticulate::import_from_path("tabpfn_frozen",
+    path = system.file("python", package = "OmicSelector"), convert = FALSE)
+  clf <- frozen$freeze(clf)
 
   # Wall-clock telemetry is not fitted state. Initialize its fit-time counter
   # deterministically before returning the frozen estimator; prediction timing
@@ -425,8 +429,10 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     device = device,
     model_version = "v2",
     inference_settings = list(precision = "float32", fit_mode = "fit_preprocessors",
-      memory_saving_mode = FALSE, n_preprocessing_jobs = 1L,
-      preprocessing_seed = hp$seed, attention = "math", allow_tf32 = FALSE),
+      memory_saving_mode = TRUE, n_preprocessing_jobs = 1L,
+      preprocessing_seed = hp$seed, encoder_device = "cpu",
+      column_embedding_device = "cpu", gpu_preprocessing = FALSE,
+      attention = "math", allow_tf32 = FALSE),
     ignore_pretraining_limits = TRUE,
     hp = hp,
     clf = fitted$clf
