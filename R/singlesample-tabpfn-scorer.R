@@ -435,7 +435,7 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     inference_settings = list(precision = "float32", fit_mode = "fit_preprocessors",
       memory_saving_mode = fitted$memory_saving,
       memory_saving_policy = "training_rows_or_features_gt_512", n_preprocessing_jobs = 1L,
-      preprocessing_seed = hp$seed, encoder_device = "cpu",
+      preprocessing_seed = hp$seed, query_preprocessing = "singleton", encoder_device = "cpu",
       column_embedding_device = "cpu", gpu_preprocessing = FALSE,
       attention = "math", allow_tf32 = FALSE),
     ignore_pretraining_limits = TRUE,

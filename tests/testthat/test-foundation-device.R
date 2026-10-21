@@ -63,7 +63,16 @@ for (.method in c("tabpfn", "tabdpt")) local({
       expect_identical(model$inference_settings$encoder_device, "cpu")
       expect_identical(model$inference_settings$column_embedding_device, "cpu")
       expect_false(model$inference_settings$gpu_preprocessing)
+      expect_identical(model$inference_settings$query_preprocessing, "singleton")
       expect_identical(model$inference_settings$fit_mode, "fit_preprocessors")
+    }
+    if (method == "tabpfn") {
+      np <- reticulate::import("numpy", convert = FALSE)
+      z <- np$array(.tabpfn_rclr_matrix(d$X[1:2, model$feature_universe, drop = FALSE]), dtype = "float64", copy = TRUE)
+      member <- reticulate::py_get_item(model$clf$executor_$ensemble_members, 0L)
+      batched <- member$transform_X_test(z)
+      one <- member$transform_X_test(np$array(.tabpfn_rclr_matrix(d$X[1, model$feature_universe, drop = FALSE]), dtype = "float64", copy = TRUE))
+      expect_identical(reticulate::py_to_r(batched)[1, ], as.numeric(reticulate::py_to_r(one)))
     }
     before <- singlesample_state_fingerprint(model)
     model$clf$to("cpu")

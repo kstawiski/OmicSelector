@@ -4,7 +4,8 @@
   preprocessing, a fixed preprocessing seed, and a memory-saving choice based
   only on frozen training dimensions, shared by CPU and CUDA.
   Internal normalization and frozen column embeddings use CPU arithmetic on
-  every inference device.
+  every inference device. Query preprocessing uses the singleton path before
+  batched neural inference, preventing batch-dependent fingerprint hashes.
 - TabDPT disables flash attention on both devices and fits its projection with
   an explicitly seeded CPU generator. The frozen CPU projection and projected
   context are reused when scoring, including after moving the model.

@@ -1,8 +1,25 @@
 """Canonical CPU encoders and column embeddings for the pinned TabPFN-v2 model."""
 import torch
 import inspect
+import numpy as np
+from tabpfn.preprocessing.ensemble import TabPFNEnsembleMember
 from tabpfn.architectures.base.attention.full_attention import MultiHeadAttention
 from tabpfn.architectures.base.transformer import PerFeatureTransformer
+
+
+class FrozenEnsembleMember(TabPFNEnsembleMember):
+    """Canonicalize query preprocessing before its floating-point row hash.
+
+    PCA/polynomial transforms can differ below 1e-12 with the query batch shape.
+    TabPFN hashes those values into a fingerprint, amplifying tiny differences.
+    Use exactly the singleton preprocessing path, then batch neural inference.
+    """
+    def transform_X_test(self, X):
+        if X.shape[0] <= 1:
+            return super().transform_X_test(X)
+        rows = [super(FrozenEnsembleMember, self).transform_X_test(X[i:i + 1])
+                for i in range(X.shape[0])]
+        return torch.cat(rows, dim=0) if isinstance(rows[0], torch.Tensor) else np.concatenate(rows, axis=0)
 
 
 # TabPFN 8.0.8's memory decorator checks .requires_grad on optional None
@@ -80,6 +97,8 @@ class FrozenPerFeatureTransformer(PerFeatureTransformer):
 
 def freeze(clf):
     """Freeze every ensemble's CPU-derived encoder and positional feature state."""
+    for member in clf.executor_.ensemble_members:
+        member.__class__ = FrozenEnsembleMember
     for model in clf.models_:
         if not isinstance(model, PerFeatureTransformer):
             raise TypeError("Expected the pinned TabPFN-v2 PerFeatureTransformer")
