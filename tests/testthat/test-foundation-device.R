@@ -22,14 +22,14 @@ test_that("TabDPT CPU projection is deterministic and leaves RNG untouched", {
   torch <- .foundation_torch()
   mod <- .ss_foundation_module()
   X <- matrix(seq_len(24 * 140) %% 137, 24, 140)
-  before <- reticulate::py_to_r(torch$random$get_rng_state()$numpy())
+  before <- torch$random$get_rng_state()$clone()
   a <- mod$cpu_projection(X, 128L, 17L)
   torch$manual_seed(819L)
   other <- reticulate::py_to_r(torch$random$get_rng_state()$numpy())
   b <- mod$cpu_projection(X, 128L, 17L)
   expect_identical(reticulate::py_to_r(a$numpy()), reticulate::py_to_r(b$numpy()))
   expect_identical(other, reticulate::py_to_r(torch$random$get_rng_state()$numpy()))
-  torch$random$set_rng_state(torch$as_tensor(before, dtype = torch$uint8))
+  torch$random$set_rng_state(before)
   expect_equal(dim(reticulate::py_to_r(a$numpy())), c(140L, 24L))
 })
 
@@ -86,4 +86,24 @@ for (.method in c("tabpfn", "tabdpt")) local({
     cpu$clf$to("cpu")
     expect_identical(singlesample_state_fingerprint(cpu), before)
   })
+})
+
+test_that("foundation copies isolate buffers while retaining parameter values", {
+  torch <- .foundation_torch()
+  probe <- reticulate::py_run_string("
+import torch
+
+def check_foundation_copy(module):
+    net = torch.nn.Sequential(torch.nn.Linear(3, 3), torch.nn.BatchNorm1d(3)).eval()
+    cloned = module.private_copy(net)
+    assert torch.equal(net[0].weight, cloned[0].weight)
+    assert net[0].weight.data_ptr() == cloned[0].weight.data_ptr()
+    assert net[1].running_mean.data_ptr() != cloned[1].running_mean.data_ptr()
+    cloned[1].running_mean.add_(7)
+    assert torch.equal(net[1].running_mean, torch.zeros(3))
+    assert net[0].weight.requires_grad
+    assert not cloned[0].weight.requires_grad
+    return True
+", convert = FALSE)
+  expect_true(reticulate::py_to_r(probe$check_foundation_copy(.ss_foundation_module())))
 })

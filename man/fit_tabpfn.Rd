@@ -43,6 +43,9 @@ universe (\code{colnames(X_train)}); if the context exceeds
 class-stratified subsample. A TabPFN-v2 (ungated \code{ModelVersion.V2})
 classifier is constructed and \code{fit()} on that frozen rCLR context (which,
 for TabPFN, simply loads the context into the model -- no gradient training).
+Inference uses float32, math attention, fixed training preprocessing and a
+fixed memory-saving policy on CPU and CUDA. These settings are recorded in
+\code{inference_settings}.
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is included in the deterministic Python state

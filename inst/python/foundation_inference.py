@@ -6,23 +6,20 @@ import numpy as np
 
 
 def cpu_projection(x, max_features, seed):
-    """Fit randomized PCA with an isolated, explicitly seeded CPU generator.
+    """Fit PCA on CPU with an isolated, explicitly seeded CPU generator.
 
-    The QR/SVD construction is the same range-finder used by pca_lowrank.
-    Neither the global generator nor a CUDA generator supplies random draws.
+    pca_lowrank has no generator argument. Install the private CPU generator's
+    state only for this call, then restore the caller's CPU RNG byte for byte.
+    No CUDA generator supplies draws, and the original CPU algorithm is retained.
     """
     import torch
     x = torch.as_tensor(np.array(x, copy=True), device="cpu", dtype=torch.float32)
     q = min(x.shape[0], x.shape[1], int(max_features))
-    centered = x - x.mean(dim=0, keepdim=True)
     generator = torch.Generator(device="cpu").manual_seed(int(seed))
-    probe = torch.randn(x.shape[1], q, generator=generator, device="cpu", dtype=x.dtype)
-    basis = torch.linalg.qr(centered @ probe, mode="reduced").Q
-    for _ in range(2):
-        basis = torch.linalg.qr(centered.T @ basis, mode="reduced").Q
-        basis = torch.linalg.qr(centered @ basis, mode="reduced").Q
-    _, _, vh = torch.linalg.svd(basis.T @ centered, full_matrices=False)
-    return vh.T.contiguous()
+    with torch.random.fork_rng(devices=[]):
+        torch.random.set_rng_state(generator.get_state())
+        _, _, projection = torch.pca_lowrank(x, q=q, center=True, niter=2)
+    return projection.contiguous()
 
 
 @contextmanager

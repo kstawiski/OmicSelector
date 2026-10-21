@@ -348,7 +348,9 @@ NULL
 #' class-stratified subsample. A TabDPT classifier (pinned token-free checkpoint)
 #' is constructed and \code{fit()} on that frozen rCLR context (which, for TabDPT,
 #' simply loads the context into the model and fits the preprocessing scaler /
-#' optional PCA -- no gradient training). The frozen R-side state needed to
+#' optional PCA -- no gradient training). PCA uses an explicitly seeded CPU
+#' generator and the fitted projection remains on CPU when the network moves
+#' between devices. Flash attention and mixed precision are disabled. The frozen R-side state needed to
 #' reproduce scores (the rCLR context, labels, feature universe, class order,
 #' device/config, hp) is stored on the model; the live python classifier is also
 #' kept for scoring but is NEVER part of the model digest.
@@ -433,8 +435,8 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     inference_settings = list(precision = "float32", use_flash = FALSE,
       attention = "math", allow_tf32 = FALSE, projection_device = "cpu",
       projection_seed = hp$seed),
-    projection = if (reticulate::is_py_object(fitted$clf$V))
-      reticulate::py_to_r(fitted$clf$V$cpu()$numpy()) else NULL,
+    projection = if (is.null(reticulate::py_to_r(fitted$clf$V))) NULL else
+      reticulate::py_to_r(fitted$clf$V$cpu()$numpy()),
     hp = hp,
     clf = fitted$clf
   )
@@ -557,8 +559,8 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
     return(out)
   }
 
-  # Prediction writes backend caches. Reuse deployment's private estimator copy
-  # so these writes are discarded while the inference arithmetic stays intact.
+  # Copy mutable caches and buffers once; neural parameter storage is read-only.
+  # The original estimator remains unchanged after scoring.
   clf <- .ss_foundation_module()$private_copy(model$clf)
   case_col <- model$case_col
   temperature <- model$hp$temperature

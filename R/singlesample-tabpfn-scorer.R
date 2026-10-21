@@ -324,6 +324,9 @@ NULL
 #' class-stratified subsample. A TabPFN-v2 (ungated \code{ModelVersion.V2})
 #' classifier is constructed and \code{fit()} on that frozen rCLR context (which,
 #' for TabPFN, simply loads the context into the model -- no gradient training).
+#' Inference uses float32, math attention, fixed training preprocessing and a
+#' fixed memory-saving policy on CPU and CUDA. These settings are recorded in
+#' \code{inference_settings}.
 #' The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 #' feature universe, class order, device/config, hp) is stored on the model; the
 #' live python classifier is also kept for scoring but is included in the deterministic Python state
@@ -551,8 +554,8 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
   }
 
   np <- reticulate::import("numpy", delay_load = FALSE)
-  # Prediction writes backend caches. Reuse deployment's private estimator copy
-  # so these writes are discarded while the inference arithmetic stays intact.
+  # Copy mutable caches and buffers once; neural parameter storage is read-only.
+  # The original estimator remains unchanged after scoring.
   clf <- .ss_foundation_module()$private_copy(model$clf)
   case_col <- model$case_col
 

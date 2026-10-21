@@ -44,7 +44,9 @@ universe (\code{colnames(X_train)}); if the context exceeds
 class-stratified subsample. A TabDPT classifier (pinned token-free checkpoint)
 is constructed and \code{fit()} on that frozen rCLR context (which, for TabDPT,
 simply loads the context into the model and fits the preprocessing scaler /
-optional PCA -- no gradient training). The frozen R-side state needed to
+optional PCA -- no gradient training). PCA uses an explicitly seeded CPU
+generator and the fitted projection remains on CPU when the network moves
+between devices. Flash attention and mixed precision are disabled. The frozen R-side state needed to
 reproduce scores (the rCLR context, labels, feature universe, class order,
 device/config, hp) is stored on the model; the live python classifier is also
 kept for scoring but is NEVER part of the model digest.
