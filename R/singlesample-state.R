@@ -1,3 +1,8 @@
+.ss_foundation_module <- function() {
+  reticulate::import_from_path("foundation_inference",
+    path = system.file("python", package = "OmicSelector"), convert = FALSE)
+}
+
 .ss_python_state_module <- function() {
   reticulate::import_from_path("singlesample_state",
     path = system.file("python", package = "OmicSelector"), convert = FALSE)
@@ -64,11 +69,15 @@
   # A fixed seed and one forward pass per specimen give the same inference
   # path for singleton and batch inputs, including in-context classifiers.
   mod <- .ss_python_state_module()
+  # These scorers create one private copy themselves. Avoid a second complete
+  # estimator copy in the deployment wrapper, retaining all input/RNG guards.
+  foundation <- inherits(deployable$model, c("tabpfn_model", "tabdpt_model"))
   vapply(seq_len(nrow(X)), function(i) {
     context <- mod$inference(as.integer(deployable$model$hp$seed %||% 1L))
     context$`__enter__`()
     on.exit(context$`__exit__`(NULL, NULL, NULL), add = TRUE)
-    singlesample_score_call(deployable$method_id, .ss_python_clone(deployable$model, mod),
+    singlesample_score_call(deployable$method_id,
+      if (foundation) deployable$model else .ss_python_clone(deployable$model, mod),
       X[i, , drop = FALSE], .singlesample_subset_meta(meta, i), strict = strict)[[1L]]
   }, numeric(1L))
 })

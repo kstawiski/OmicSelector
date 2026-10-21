@@ -2,6 +2,8 @@
 name: R-CMD-check
 
 on:
+  push:
+    tags: [v*]
   pull_request:
     branches: [main, master]
   workflow_dispatch:

@@ -271,21 +271,22 @@ NULL
 }
 
 .tabdpt_build_and_fit <- function(Z_ctx, y_ctx, device, seed, normalizer) {
-  tabdpt <- reticulate::import("tabdpt", delay_load = FALSE)
+  tabdpt <- reticulate::import_from_path("tabdpt_frozen",
+    path = system.file("python", package = "OmicSelector"), convert = FALSE)
 
-  clf <- tabdpt$TabDPTClassifier(
+  clf <- tabdpt$FrozenTabDPTClassifier(
     device = device,
     normalizer = normalizer,
     context_reduction = "subsample",
     feature_reduction = "pca",
     compile = FALSE,
-    use_flash = identical(device, "cuda"),
+    use_flash = FALSE,
     verbose = FALSE
   )
   x_py <- .tabdpt_writable_array(Z_ctx, dtype = "float64")
   y_py <- .tabdpt_writable_array(as.integer(y_ctx), dtype = "int64")
 
-  .tabdpt_with_torch_rng(seed, function() clf$fit(x_py, y_py))
+  .tabdpt_with_torch_rng(seed, function() clf$fit(x_py, y_py, seed = as.integer(seed)))
 
   # TabDPT has no classes_ attribute: predict_proba returns one column per class
   # in ascending label order (the model is conditioned on the integer labels and
@@ -429,6 +430,11 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     n_context = nrow(Z_ctx),
     device = device,
     checkpoint = .TABDPT_CHECKPOINT,
+    inference_settings = list(precision = "float32", use_flash = FALSE,
+      attention = "math", allow_tf32 = FALSE, projection_device = "cpu",
+      projection_seed = hp$seed),
+    projection = if (reticulate::is_py_object(fitted$clf$V))
+      reticulate::py_to_r(fitted$clf$V$cpu()$numpy()) else NULL,
     hp = hp,
     clf = fitted$clf
   )
@@ -553,7 +559,7 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
 
   # Prediction writes backend caches. Reuse deployment's private estimator copy
   # so these writes are discarded while the inference arithmetic stays intact.
-  clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE)
+  clf <- .ss_foundation_module()$private_copy(model$clf)
   case_col <- model$case_col
   temperature <- model$hp$temperature
 
@@ -564,7 +570,7 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
       .tabdpt_with_torch_rng(model$hp$seed, function() {
         for (idx in .tabdpt_score_chunks(score_idx, chunk_size = 1024L)) {
           pr <- reticulate::py_to_r(
-            clf$predict_proba(.tabdpt_writable_array(Z[idx, , drop = FALSE], "float64"),
+            .ss_foundation_module()$predict(clf, .tabdpt_writable_array(Z[idx, , drop = FALSE], "float64"),
                               temperature = temperature)
           )
           out[idx] <<- as.numeric(pr[, case_col])
@@ -583,7 +589,7 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
         if (all(z == 0)) next                          # all-zero specimen: neutral
         zi <- matrix(z, nrow = 1L)
         pr <- reticulate::py_to_r(
-          clf$predict_proba(.tabdpt_writable_array(zi, "float64"),
+          .ss_foundation_module()$predict(clf, .tabdpt_writable_array(zi, "float64"),
                             temperature = temperature)
         )
         out[i] <<- as.numeric(pr[1, case_col])

@@ -1,3 +1,18 @@
+# OmicSelector 2.6.8
+
+- TabPFN inference explicitly uses float32 on CPU and CUDA, cached training
+  preprocessing, a fixed preprocessing seed, and a fixed memory-saving policy.
+- TabDPT disables flash attention on both devices and fits its projection with
+  an explicitly seeded CPU generator. The frozen CPU projection and projected
+  context are reused when scoring, including after moving the model.
+- Foundation-model scoring selects full-precision math attention and disables
+  TF32, restoring the caller's settings afterwards. Deployment retains its
+  singleton scoring contract and input guards.
+- Avoid a duplicate estimator copy during deployment. Private prediction copies
+  share read-only neural parameter storage; buffers and query state stay private.
+- Repair the Docker release workflow to build Dockerfile, smoke-test the package,
+  tag images with the package version, and push only with registry credentials.
+
 # OmicSelector 2.6.7
 
 - Remove the `sel-stablemate` transfer route and the optional StableMate

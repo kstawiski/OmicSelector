@@ -248,7 +248,11 @@ NULL
     device = device,
     random_state = as.integer(seed),
     n_estimators = as.integer(n_estimators),
-    ignore_pretraining_limits = TRUE
+    ignore_pretraining_limits = TRUE,
+    inference_precision = reticulate::import("torch", convert = FALSE)$float32,
+    fit_mode = "fit_preprocessors",
+    memory_saving_mode = FALSE,
+    n_preprocessing_jobs = 1L
   )
   x_py <- np$asarray(Z_ctx, dtype = "float64")
   y_py <- np$asarray(as.integer(y_ctx), dtype = "int64")
@@ -417,6 +421,9 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     n_context = nrow(Z_ctx),
     device = device,
     model_version = "v2",
+    inference_settings = list(precision = "float32", fit_mode = "fit_preprocessors",
+      memory_saving_mode = FALSE, n_preprocessing_jobs = 1L,
+      preprocessing_seed = hp$seed, attention = "math", allow_tf32 = FALSE),
     ignore_pretraining_limits = TRUE,
     hp = hp,
     clf = fitted$clf
@@ -546,7 +553,7 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
   np <- reticulate::import("numpy", delay_load = FALSE)
   # Prediction writes backend caches. Reuse deployment's private estimator copy
   # so these writes are discarded while the inference arithmetic stays intact.
-  clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE)
+  clf <- .ss_foundation_module()$private_copy(model$clf)
   case_col <- model$case_col
 
   if (isTRUE(model$hp$score_batch)) {
@@ -556,7 +563,7 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
       .tabpfn_with_torch_rng(model$hp$seed, function() {
         for (idx in .tabpfn_score_chunks(score_idx, chunk_size = 1024L)) {
           pr <- reticulate::py_to_r(
-            clf$predict_proba(np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
+            .ss_foundation_module()$predict(clf, np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
           )
           out[idx] <<- as.numeric(pr[, case_col])
         }
@@ -571,7 +578,7 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
         z <- .tabpfn_rclr(X_use[i, ])
         if (all(z == 0)) next                          # all-zero specimen: neutral
         zi <- matrix(z, nrow = 1L)
-        pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
+        pr <- reticulate::py_to_r(.ss_foundation_module()$predict(clf, np$asarray(zi, dtype = "float64")))
         out[i] <<- as.numeric(pr[1, case_col])
       }
     })
