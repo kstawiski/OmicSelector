@@ -36,8 +36,8 @@
   held 3.22 GiB of unique tensor storage: 2.95 GiB for the training-context
   cache and 0.24 GiB for parameters. Total live tensor storage reached
   6.17 GiB after training-set scoring during deployment. Process RSS was
-  4.6-7.9 GiB during 100 deployed singleton calls, with a 15.8 GiB peak
-  across fitting and deployment. RSS fell by 554 MB between calls 1 and 100.
+  4.6-7.9 GiB across 100 deployed singleton calls and final memory cleanup,
+  with a 15.8 GiB peak across fitting and deployment. RSS fell by 554 MB between calls 1 and 100.
   These CPU measurements used c3cd24a7 in a 32 GiB job; an independent
   reference fit was released before deployment. Provision headroom above
   the observed peak; model tensor storage alone is not a process memory budget.
