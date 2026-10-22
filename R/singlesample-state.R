@@ -75,7 +75,15 @@
   vapply(seq_len(nrow(X)), function(i) {
     context <- mod$inference(as.integer(deployable$model$hp$seed %||% 1L))
     context$`__enter__`()
-    on.exit(context$`__exit__`(NULL, NULL, NULL), add = TRUE)
+    on.exit({
+      context$`__exit__`(NULL, NULL, NULL)
+      # Reticulate owns the scorer's private estimator through small R external
+      # pointers. R's allocation threshold does not see their Python tensor
+      # storage, so successive specimens can retain whole training caches until
+      # an unrelated R collection. The scorer has returned (also on errors):
+      # finalize those unreachable wrappers before accepting another specimen.
+      if (foundation) gc(verbose = FALSE)
+    }, add = TRUE)
     singlesample_score_call(deployable$method_id,
       if (foundation) deployable$model else .ss_python_clone(deployable$model, mod),
       X[i, , drop = FALSE], .singlesample_subset_meta(meta, i), strict = strict)[[1L]]

@@ -20,6 +20,10 @@
 - Release temporary inference-copy and fingerprint references immediately,
   including on errors. Recursive Python helper closures previously retained
   estimators and context tensors until cyclic garbage collection.
+- Collect unreachable reticulate wrappers after each deployed TabPFN or TabDPT
+  specimen. Their Python training-context buffers are invisible to R's memory
+  threshold and could otherwise accumulate across successive calls. Fitted
+  caches, score calculations and direct benchmark scoring are unchanged.
 - CPU context-cache measurements on shared s8 hardware reduced GSE117063
   singleton scoring from 15.842 to 3.10175 seconds at deployed defaults and
   6.905 to 1.2235 seconds with four threads (four timed specimens per stage).
