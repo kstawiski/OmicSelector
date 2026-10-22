@@ -20,17 +20,37 @@
 - Release temporary inference-copy and fingerprint references immediately,
   including on errors. Recursive Python helper closures previously retained
   estimators and context tensors until cyclic garbage collection.
-- Collect unreachable reticulate wrappers after each deployed TabPFN or TabDPT
-  specimen. Their Python training-context buffers are invisible to R's memory
-  threshold and could otherwise accumulate across successive calls. Fitted
-  caches, score calculations and direct benchmark scoring are unchanged.
+- Release private Python estimator copies after every Python-backed scoring
+  call, including errors, through both `singlesample_score_call()` and deployed
+  `score_specimen()`. This includes TabPFN, TabDPT and TabICL. R's memory
+  threshold does not account for their Python tensor buffers. All 38 measured
+  routes retained zero private copies after each call; 940 before/after scores
+  were identical. Fitted caches and score calculations are unchanged.
+  In separate-process measurements from c3cd24a7 to a55f6c2b, mean per-call time
+  changed by -2.0% to +10.8% across the six TabPFN/TabDPT/TabICL routes
+  (-21.0 to +39.8 ms). Across all 38 routes the range was -36.8% to +10.8%;
+  the other routes took 2.25-23.75 ms after the fix. These timings include process
+  and load variability.
+- Allow memory for the fitted TabPFN context and temporary scoring buffers.
+  On Toray with 1,600 training specimens and 79 features, the fitted model
+  held 3.22 GiB of unique tensor storage: 2.95 GiB for the training-context
+  cache and 0.24 GiB for parameters. Total live tensor storage reached
+  6.17 GiB after training-set scoring during deployment. Process RSS was
+  4.6-7.9 GiB during 100 deployed singleton calls, with a 15.8 GiB peak
+  across fitting and deployment. RSS fell by 554 MB between calls 1 and 100.
+  These CPU measurements used c3cd24a7 in a 32 GiB job; an independent
+  reference fit was released before deployment. Provision headroom above
+  the observed peak; model tensor storage alone is not a process memory budget.
 - CPU context-cache measurements on shared s8 hardware reduced GSE117063
   singleton scoring from 15.842 to 3.10175 seconds at deployed defaults and
   6.905 to 1.2235 seconds with four threads (four timed specimens per stage).
   With 1,600 Toray training specimens, corresponding times were 1,014.722 to
   11.999 seconds (one timed specimen) and 490.62925 to 6.44125 seconds (four
   timed specimens). Each stage followed a warm-up; the comparison disabled
-  only the context cache, and maximum score differences were below 1e-6.
+  only the context cache, and maximum score differences were below 1e-6,
+  with unchanged calls. These measurements used 1b526ed5, before the
+  reference-release fixes; they measure the cache effect. The per-call
+  measurements above assess the later release fix.
 - Repair the Docker release workflow to build Dockerfile, smoke-test the package,
   tag images with the package version, and push only with registry credentials.
 
