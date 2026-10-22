@@ -165,7 +165,8 @@ class FrozenCacheKV(InferenceEngineCacheKV):
 def cache_context(clf):
     """Build one immutable transformer context per already-frozen ensemble."""
     from copy import deepcopy
-    from tabpfn.inference import SingleDeviceInferenceEngine
+    from tabpfn.inference import SingleDeviceInferenceEngine, DEFAULT_SAVE_PEAK_MEMORY_FACTOR
+    from dataclasses import replace
     from tabpfn.preprocessing.datamodel import FeatureModality
     old = clf.executor_
     if isinstance(old, FrozenCacheKV):
@@ -179,7 +180,11 @@ def cache_context(clf):
             x = torch.as_tensor(member.X_train, dtype=torch.float32, device="cpu").unsqueeze(1)
             y = torch.as_tensor(member.y_train, dtype=torch.float32, device="cpu")
             cats = [member.feature_schema.indices_for(FeatureModality.CATEGORICAL)]
-            model(x, y, only_return_standard_out=True, categorical_inds=cats)
+            options = replace(model.get_default_performance_options(),
+                save_peak_memory_factor=DEFAULT_SAVE_PEAK_MEMORY_FACTOR
+                if old.save_peak_mem else None)
+            model(x, y, only_return_standard_out=True, categorical_inds=cats,
+                  performance_options=options)
             models.append(model)
     SingleDeviceInferenceEngine.__init__(engine, models=models,
         save_peak_mem=old.save_peak_mem, dtype_byte_size=old.dtype_byte_size,
