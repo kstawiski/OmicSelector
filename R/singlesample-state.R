@@ -55,13 +55,21 @@
   invisible(model)
 }
 
+.ss_python_copy_scope <- new.env(parent = emptyenv())
+
 .ss_with_python_copies <- function(fn) {
   mod <- .ss_python_state_module()
-  scope <- mod$CopyTracker()
+  scope <- .ss_python_copy_scope$current
+  outermost <- is.null(scope)
+  if (outermost) {
+    scope <- mod$CopyTracker()
+    .ss_python_copy_scope$current <- scope
+  }
   complete <- FALSE
-  on.exit({
-    # The scoring frame has unwound before collection. Usually all wrappers
-    # are young; weak references detect promotion during a long prediction.
+  if (outermost) on.exit({
+    .ss_python_copy_scope$current <- NULL
+    # Collect nested copies together. Collecting an inner scorer first would
+    # promote the still-live deployment copy and force a full collection.
     gc(verbose = FALSE, full = FALSE)
     if (!complete || reticulate::py_to_r(scope$pending())) {
       gc(verbose = FALSE)
@@ -69,8 +77,7 @@
     }
   }, add = TRUE)
   result <- tryCatch(fn(scope), error = function(e) {
-    # Reticulate preserves Python tracebacks. Keep their stack/message, but
-    # discard unwound frame locals that can otherwise own the private model.
+    # Keep traceback diagnostics, but discard unwound locals owning copies.
     if (inherits(e, "python.builtin.BaseException")) mod$clear_exception_frames(e)
     stop(e)
   })
