@@ -561,50 +561,53 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
 
   # Copy mutable caches and buffers once; neural parameter storage is read-only.
   # The original estimator remains unchanged after scoring.
-  clf <- .ss_foundation_module()$private_copy(model$clf)
-  case_col <- model$case_col
-  temperature <- model$hp$temperature
+  .ss_with_python_copies(function(scope) {
+    clf <- .ss_foundation_module()$private_copy(model$clf)
+    scope$track(clf)
+    case_col <- model$case_col
+    temperature <- model$hp$temperature
 
-  if (isTRUE(model$hp$score_batch)) {
-    Z <- .tabdpt_rclr_matrix(X_use)
-    score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
-    if (length(score_idx) > 0L) {
+    if (isTRUE(model$hp$score_batch)) {
+      Z <- .tabdpt_rclr_matrix(X_use)
+      score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
+      if (length(score_idx) > 0L) {
+        .tabdpt_with_torch_rng(model$hp$seed, function() {
+          for (idx in .tabdpt_score_chunks(score_idx, chunk_size = 1024L)) {
+            pr <- reticulate::py_to_r(
+              .ss_foundation_module()$predict(clf, .tabdpt_writable_array(Z[idx, , drop = FALSE], "float64"),
+                                temperature = temperature)
+            )
+            out[idx] <<- as.numeric(pr[, case_col])
+          }
+        })
+      }
+    } else {
+      # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly.
+      # context_size is left NULL (= infinite -> full frozen context), so every
+      # query conditions on the identical full frozen context. The torch RNG is
+      # restored around the whole loop (TabDPT's predict does not advance it, but
+      # the guard makes RNG-safety robust to build differences and to CUDA).
       .tabdpt_with_torch_rng(model$hp$seed, function() {
-        for (idx in .tabdpt_score_chunks(score_idx, chunk_size = 1024L)) {
+        for (i in seq_len(nrow(X_use))) {
+          z <- .tabdpt_rclr(X_use[i, ])
+          if (all(z == 0)) next                          # all-zero specimen: neutral
+          zi <- matrix(z, nrow = 1L)
           pr <- reticulate::py_to_r(
-            .ss_foundation_module()$predict(clf, .tabdpt_writable_array(Z[idx, , drop = FALSE], "float64"),
+            .ss_foundation_module()$predict(clf, .tabdpt_writable_array(zi, "float64"),
                               temperature = temperature)
           )
-          out[idx] <<- as.numeric(pr[, case_col])
+          out[i] <<- as.numeric(pr[1, case_col])
         }
       })
     }
-  } else {
-    # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly.
-    # context_size is left NULL (= infinite -> full frozen context), so every
-    # query conditions on the identical full frozen context. The torch RNG is
-    # restored around the whole loop (TabDPT's predict does not advance it, but
-    # the guard makes RNG-safety robust to build differences and to CUDA).
-    .tabdpt_with_torch_rng(model$hp$seed, function() {
-      for (i in seq_len(nrow(X_use))) {
-        z <- .tabdpt_rclr(X_use[i, ])
-        if (all(z == 0)) next                          # all-zero specimen: neutral
-        zi <- matrix(z, nrow = 1L)
-        pr <- reticulate::py_to_r(
-          .ss_foundation_module()$predict(clf, .tabdpt_writable_array(zi, "float64"),
-                            temperature = temperature)
-        )
-        out[i] <<- as.numeric(pr[1, case_col])
-      }
-    })
-  }
 
-  out <- as.numeric(out)
-  if (length(out) != nrow(X) || any(!is.finite(out)) ||
-      any(out < 0 | out > 1)) {
-    stop("score_tabdpt: scorer produced invalid output")
-  }
-  out
+    out <- as.numeric(out)
+    if (length(out) != nrow(X) || any(!is.finite(out)) ||
+        any(out < 0 | out > 1)) {
+      stop("score_tabdpt: scorer produced invalid output")
+    }
+    out
+  })
 })
 
 

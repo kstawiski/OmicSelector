@@ -141,3 +141,40 @@ def inference(seed):
     finally:
         random.setstate(r); np.random.set_state(n); torch.random.set_rng_state(cpu)
         if cuda is not None: torch.cuda.set_rng_state_all(cuda)
+
+
+class CopyTracker:
+    """Weak ownership audit for one R scoring frame, including nested models."""
+    def __init__(self):
+        self.references = []
+        self.untrackable = False
+
+    def track(self, obj):
+        import weakref
+        try:
+            self.references.append(weakref.ref(obj))
+        except TypeError:
+            # General Python-backed deployments may include non-weakrefable
+            # containers. They require the conservative full R collection.
+            self.untrackable = True
+
+    def pending(self):
+        return self.untrackable or any(ref() is not None for ref in self.references)
+
+    def collect_cycles(self):
+        import gc
+        gc.collect()
+
+
+def clear_exception_frames(error):
+    """Keep exception diagnostics without retaining failed inference locals."""
+    import traceback
+    seen = set()
+    pending = [error]
+    while pending:
+        error = pending.pop()
+        if error is None or id(error) in seen:
+            continue
+        seen.add(id(error))
+        traceback.clear_frames(error.__traceback__)
+        pending.extend((error.__cause__, error.__context__))

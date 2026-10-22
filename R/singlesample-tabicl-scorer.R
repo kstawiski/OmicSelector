@@ -519,29 +519,31 @@ score_tabicl <- function(model, X, meta = NULL) .ss_with_r_rng({
   # Copy the fitted full-precision context cache with the estimator. Backend
   # prediction writes stay private; the fitted cache and its fingerprint remain
   # unchanged, including on the first score call.
-  clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE)
-  case_col <- model$case_col
+  .ss_with_python_copies(function(scope) {
+    clf <- .ss_python_clone(model$clf, .ss_python_state_module(), freeze_state = FALSE, scope = scope)
+    case_col <- model$case_col
 
-  # Always force the n = 1 forward path. The score_batch field remains part of
-  # the accepted hp schema only for backward compatibility; using a fused GPU
-  # batch path caused small but real batch-size-dependent prediction differences.
-  # The torch RNG guard also makes this robust to backend changes.
-  .tabicl_with_torch_rng(model$hp$seed, function() {
-    for (i in seq_len(nrow(X_use))) {
-      z <- .tabicl_rclr(X_use[i, ])
-      if (all(z == 0)) next                            # all-zero specimen: neutral
-      zi <- matrix(z, nrow = 1L)
-      pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
-      out[i] <<- as.numeric(pr[1, case_col])
+    # Always force the n = 1 forward path. The score_batch field remains part of
+    # the accepted hp schema only for backward compatibility; using a fused GPU
+    # batch path caused small but real batch-size-dependent prediction differences.
+    # The torch RNG guard also makes this robust to backend changes.
+    .tabicl_with_torch_rng(model$hp$seed, function() {
+      for (i in seq_len(nrow(X_use))) {
+        z <- .tabicl_rclr(X_use[i, ])
+        if (all(z == 0)) next                            # all-zero specimen: neutral
+        zi <- matrix(z, nrow = 1L)
+        pr <- reticulate::py_to_r(clf$predict_proba(np$asarray(zi, dtype = "float64")))
+        out[i] <<- as.numeric(pr[1, case_col])
+      }
+    })
+
+    out <- as.numeric(out)
+    if (length(out) != nrow(X) || any(!is.finite(out)) ||
+        any(out < 0 | out > 1)) {
+      stop("score_tabicl: scorer produced invalid output")
     }
+    out
   })
-
-  out <- as.numeric(out)
-  if (length(out) != nrow(X) || any(!is.finite(out)) ||
-      any(out < 0 | out > 1)) {
-    stop("score_tabicl: scorer produced invalid output")
-  }
-  out
 })
 
 

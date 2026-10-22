@@ -570,43 +570,46 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
   np <- reticulate::import("numpy", delay_load = FALSE)
   # Copy mutable caches and buffers once; neural parameter storage is read-only.
   # The original estimator remains unchanged after scoring.
-  clf <- .ss_foundation_module()$private_copy(model$clf)
-  case_col <- model$case_col
+  .ss_with_python_copies(function(scope) {
+    clf <- .ss_foundation_module()$private_copy(model$clf)
+    scope$track(clf)
+    case_col <- model$case_col
 
-  if (isTRUE(model$hp$score_batch)) {
-    Z <- .tabpfn_rclr_matrix(X_use)
-    score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
-    if (length(score_idx) > 0L) {
+    if (isTRUE(model$hp$score_batch)) {
+      Z <- .tabpfn_rclr_matrix(X_use)
+      score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
+      if (length(score_idx) > 0L) {
+        .tabpfn_with_torch_rng(model$hp$seed, function() {
+          for (idx in .tabpfn_score_chunks(score_idx, chunk_size = 1024L)) {
+            pr <- reticulate::py_to_r(
+              .ss_foundation_module()$predict(clf, np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
+            )
+            out[idx] <<- as.numeric(pr[, case_col])
+          }
+        })
+      }
+    } else {
+      # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly.
+      # The torch RNG is restored around the whole loop (predict advances it but
+      # the result is deterministic regardless of the torch seed).
       .tabpfn_with_torch_rng(model$hp$seed, function() {
-        for (idx in .tabpfn_score_chunks(score_idx, chunk_size = 1024L)) {
-          pr <- reticulate::py_to_r(
-            .ss_foundation_module()$predict(clf, np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
-          )
-          out[idx] <<- as.numeric(pr[, case_col])
+        for (i in seq_len(nrow(X_use))) {
+          z <- .tabpfn_rclr(X_use[i, ])
+          if (all(z == 0)) next                          # all-zero specimen: neutral
+          zi <- matrix(z, nrow = 1L)
+          pr <- reticulate::py_to_r(.ss_foundation_module()$predict(clf, np$asarray(zi, dtype = "float64")))
+          out[i] <<- as.numeric(pr[1, case_col])
         }
       })
     }
-  } else {
-    # Forced row-by-row predict_proba: the n = 1 forward path is used uniformly.
-    # The torch RNG is restored around the whole loop (predict advances it but
-    # the result is deterministic regardless of the torch seed).
-    .tabpfn_with_torch_rng(model$hp$seed, function() {
-      for (i in seq_len(nrow(X_use))) {
-        z <- .tabpfn_rclr(X_use[i, ])
-        if (all(z == 0)) next                          # all-zero specimen: neutral
-        zi <- matrix(z, nrow = 1L)
-        pr <- reticulate::py_to_r(.ss_foundation_module()$predict(clf, np$asarray(zi, dtype = "float64")))
-        out[i] <<- as.numeric(pr[1, case_col])
-      }
-    })
-  }
 
-  out <- as.numeric(out)
-  if (length(out) != nrow(X) || any(!is.finite(out)) ||
-      any(out < 0 | out > 1)) {
-    stop("score_tabpfn: scorer produced invalid output")
-  }
-  out
+    out <- as.numeric(out)
+    if (length(out) != nrow(X) || any(!is.finite(out)) ||
+        any(out < 0 | out > 1)) {
+      stop("score_tabpfn: scorer produced invalid output")
+    }
+    out
+  })
 })
 
 

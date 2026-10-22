@@ -55,10 +55,37 @@
   invisible(model)
 }
 
-.ss_python_clone <- function(x, mod, freeze_state = TRUE) .ss_with_r_rng({
-  if (inherits(x, "python.builtin.object")) return(mod$clone_for_inference(x, freeze_state = freeze_state))
+.ss_with_python_copies <- function(fn) {
+  mod <- .ss_python_state_module()
+  scope <- mod$CopyTracker()
+  complete <- FALSE
+  on.exit({
+    # The scoring frame has unwound before collection. Usually all wrappers
+    # are young; weak references detect promotion during a long prediction.
+    gc(verbose = FALSE, full = FALSE)
+    if (!complete || reticulate::py_to_r(scope$pending())) {
+      gc(verbose = FALSE)
+      if (!complete || reticulate::py_to_r(scope$pending())) scope$collect_cycles()
+    }
+  }, add = TRUE)
+  result <- tryCatch(fn(scope), error = function(e) {
+    # Reticulate preserves Python tracebacks. Keep their stack/message, but
+    # discard unwound frame locals that can otherwise own the private model.
+    if (inherits(e, "python.builtin.BaseException")) mod$clear_exception_frames(e)
+    stop(e)
+  })
+  complete <- TRUE
+  result
+}
+
+.ss_python_clone <- function(x, mod, freeze_state = TRUE, scope = NULL) .ss_with_r_rng({
+  if (inherits(x, "python.builtin.object")) {
+    cloned <- mod$clone_for_inference(x, freeze_state = freeze_state)
+    if (!is.null(scope)) scope$track(cloned)
+    return(cloned)
+  }
   if (is.list(x)) {
-    out <- lapply(x, .ss_python_clone, mod = mod, freeze_state = freeze_state)
+    out <- lapply(x, .ss_python_clone, mod = mod, freeze_state = freeze_state, scope = scope)
     attributes(out) <- attributes(x)
     return(out)
   }
@@ -84,9 +111,11 @@
       # finalize those unreachable wrappers before accepting another specimen.
       if (foundation) gc(verbose = FALSE)
     }, add = TRUE)
-    singlesample_score_call(deployable$method_id,
-      if (foundation) deployable$model else .ss_python_clone(deployable$model, mod),
+    score <- function(model) singlesample_score_call(deployable$method_id, model,
       X[i, , drop = FALSE], .singlesample_subset_meta(meta, i), strict = strict)[[1L]]
+    if (foundation) score(deployable$model) else .ss_with_python_copies(function(scope) {
+      score(.ss_python_clone(deployable$model, mod, scope = scope))
+    })
   }, numeric(1L))
 })
 
