@@ -1,5 +1,8 @@
 # OmicSelector 2.6.8
 
+- TabPFN caches the frozen transformer training context once on CPU. Singleton
+  scoring reuses this float32 context on CPU or CUDA, including after device
+  round trips; the complete cache remains in the frozen-state fingerprint.
 - TabPFN inference explicitly uses float32 on CPU and CUDA, cached training
   preprocessing, a fixed preprocessing seed, and a memory-saving choice based
   only on frozen training dimensions, shared by CPU and CUDA.

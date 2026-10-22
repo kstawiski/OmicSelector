@@ -264,7 +264,7 @@ NULL
   .tabpfn_with_torch_rng(seed, function() clf$fit(x_py, y_py))
   frozen <- reticulate::import_from_path("tabpfn_frozen",
     path = system.file("python", package = "OmicSelector"), convert = FALSE)
-  clf <- frozen$freeze(clf)
+  clf <- frozen$cache_context(frozen$freeze(clf))
 
   # Wall-clock telemetry is not fitted state. Initialize its fit-time counter
   # deterministically before returning the frozen estimator; prediction timing
@@ -332,6 +332,8 @@ NULL
 #' class-stratified subsample. A TabPFN-v2 (ungated \code{ModelVersion.V2})
 #' classifier is constructed and \code{fit()} on that frozen rCLR context (which,
 #' for TabPFN, simply loads the context into the model -- no gradient training).
+#' The transformer training context is cached once in float32 on CPU and reused
+#' on every scoring device. The cache is included in the state fingerprint.
 #' Inference uses float32, math attention, fixed training preprocessing and a
 #' fixed memory-saving policy on CPU and CUDA. These settings are recorded in
 #' \code{inference_settings}.
@@ -432,7 +434,8 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     n_context = nrow(Z_ctx),
     device = device,
     model_version = "v2",
-    inference_settings = list(precision = "float32", fit_mode = "fit_preprocessors",
+    inference_settings = list(precision = "float32", fit_mode = "fit_with_cache",
+      context_cache_device = "cpu", context_cache_precision = "float32",
       memory_saving_mode = fitted$memory_saving,
       memory_saving_policy = "training_rows_or_features_gt_512", n_preprocessing_jobs = 1L,
       preprocessing_seed = hp$seed, query_preprocessing = "singleton", encoder_device = "cpu",

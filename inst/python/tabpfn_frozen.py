@@ -3,6 +3,8 @@ import torch
 import inspect
 import numpy as np
 from tabpfn.preprocessing.ensemble import TabPFNEnsembleMember
+from tabpfn.inference import InferenceEngineCacheKV
+from foundation_inference import full_precision
 from tabpfn.architectures.base.attention.full_attention import MultiHeadAttention
 from tabpfn.architectures.base.transformer import PerFeatureTransformer
 
@@ -122,4 +124,68 @@ def freeze(clf):
                     num_features=count * model.features_per_group, seq_len=1)
                 model.cpu_column_embeddings[count] = result[0, 0].clone()
         model.__class__ = FrozenPerFeatureTransformer
+    return clf
+
+
+class FrozenCacheKV(InferenceEngineCacheKV):
+    """Canonical CPU-built context cache with an explicit inference device.
+
+    Cached tensors are registered attention buffers; fitted encoder statistics
+    stay on CPU. Device changes select where private prediction copies execute.
+    """
+    def iter_outputs(self, X, *, autocast, task_type, only_return_standard_out=True):
+        # OmicSelector freezes CPU preprocessing before building this cache.
+        # The upstream cache engine requests a GPU-preprocessing cache even
+        # when GPU preprocessing is disabled; use the fitted CPU schema here.
+        from dataclasses import replace
+        from tabpfn.preprocessing.datamodel import FeatureModality
+        from tabpfn.inference import DEFAULT_SAVE_PEAK_MEMORY_FACTOR
+        if autocast:
+            raise ValueError("Frozen TabPFN context requires float32 inference")
+        for member, model in zip(self.ensemble_members, self.models, strict=True):
+            model.to(self.device)
+            x = torch.as_tensor(member.transform_X_test(X), dtype=torch.float32,
+                                device=self.device).unsqueeze(1)
+            cats = [member.feature_schema.indices_for(FeatureModality.CATEGORICAL)]
+            options = replace(model.get_default_performance_options(),
+                save_peak_memory_factor=DEFAULT_SAVE_PEAK_MEMORY_FACTOR
+                if self.save_peak_mem else None)
+            with torch.inference_mode():
+                output = model(x, y=None, only_return_standard_out=only_return_standard_out,
+                               categorical_inds=cats, performance_options=options)
+            model.cpu()
+            yield output if isinstance(output, dict) else output.squeeze(1), member.config
+
+    def _move_models_to_devices(self, devices):
+        self.device = devices[0]
+        # Keep the retained context canonical. iter_outputs moves only the
+        # scorer's private copies, and returns their neural buffers to CPU.
+
+
+def cache_context(clf):
+    """Build one immutable transformer context per already-frozen ensemble."""
+    from copy import deepcopy
+    from tabpfn.inference import SingleDeviceInferenceEngine
+    from tabpfn.preprocessing.datamodel import FeatureModality
+    old = clf.executor_
+    if isinstance(old, FrozenCacheKV):
+        return clf
+    engine = FrozenCacheKV.__new__(FrozenCacheKV)
+    models = []
+    with full_precision(), torch.inference_mode():
+        for member in old.ensemble_members:
+            model = deepcopy(clf.models_[member.config._model_index]).cpu().float()
+            model.cache_trainset_representation = True
+            x = torch.as_tensor(member.X_train, dtype=torch.float32, device="cpu").unsqueeze(1)
+            y = torch.as_tensor(member.y_train, dtype=torch.float32, device="cpu")
+            cats = [member.feature_schema.indices_for(FeatureModality.CATEGORICAL)]
+            model(x, y, only_return_standard_out=True, categorical_inds=cats)
+            models.append(model)
+    SingleDeviceInferenceEngine.__init__(engine, models=models,
+        save_peak_mem=old.save_peak_mem, dtype_byte_size=old.dtype_byte_size,
+        force_inference_dtype=old.force_inference_dtype)
+    engine.ensemble_members = old.ensemble_members
+    engine.device = clf.devices_[0]
+    clf.executor_ = engine
+    clf.fit_mode = "fit_with_cache"
     return clf

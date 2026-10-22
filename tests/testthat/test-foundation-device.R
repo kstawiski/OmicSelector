@@ -64,7 +64,7 @@ for (.method in c("tabpfn", "tabdpt")) local({
       expect_identical(model$inference_settings$column_embedding_device, "cpu")
       expect_false(model$inference_settings$gpu_preprocessing)
       expect_identical(model$inference_settings$query_preprocessing, "singleton")
-      expect_identical(model$inference_settings$fit_mode, "fit_preprocessors")
+      expect_identical(model$inference_settings$fit_mode, "fit_with_cache")
     }
     if (method == "tabpfn") {
       np <- reticulate::import("numpy", convert = FALSE)
@@ -120,4 +120,47 @@ def check_foundation_copy(module):
     return True
 ", convert = FALSE)
   expect_true(reticulate::py_to_r(probe$check_foundation_copy(.ss_foundation_module())))
+})
+
+
+test_that("TabPFN cached and uncached frozen contexts give equal scores", {
+  .foundation_backend("tabpfn")
+  d <- .foundation_data()
+  cached <- fit_tabpfn(d$X, d$y, hp = list(device = "cpu"))
+  expect_identical(cached$inference_settings$context_cache_device, "cpu")
+  expect_identical(cached$inference_settings$context_cache_precision, "float32")
+  frozen <- reticulate::import_from_path("tabpfn_frozen",
+    path = system.file("python", package = "OmicSelector"), convert = FALSE)
+  probe <- reticulate::py_run_string("
+from unittest.mock import patch
+def without_context_cache(module):
+    return patch.object(module, 'cache_context', lambda clf: clf)
+def change_cached_tensor(clf):
+    for module in clf.executor_.models[0].modules():
+        for name, value in module.named_buffers(recurse=False):
+            if name in ('_k_cache', '_v_cache', '_kv_cache') and value is not None:
+                import torch
+                with torch.inference_mode():
+                    value.reshape(-1)[0] += 1
+                return True
+    return False
+", convert = FALSE)
+  ctx <- probe$without_context_cache(frozen)
+  ctx$`__enter__`()
+  uncached <- tryCatch(fit_tabpfn(d$X, d$y, hp = list(device = "cpu")),
+    finally = ctx$`__exit__`(NULL, NULL, NULL))
+  q <- d$X[1:3, , drop = FALSE]
+  a <- score_tabpfn(uncached, q)
+  b <- score_tabpfn(cached, q)
+  expect_lt(max(abs(a - b)), 1e-5)
+  expect_identical(a >= .5, b >= .5)
+  before <- singlesample_state_fingerprint(cached)
+  cached$clf$to("cpu")
+  expect_identical(singlesample_state_fingerprint(cached), before)
+  cached$hp$score_batch <- TRUE
+  expect_equal(score_tabpfn(cached, q), b, tolerance = 1e-5)
+  cached$hp$score_batch <- FALSE
+  expect_identical(singlesample_state_fingerprint(cached), before)
+  expect_true(reticulate::py_to_r(probe$change_cached_tensor(cached$clf)))
+  expect_false(identical(singlesample_state_fingerprint(cached), before))
 })
