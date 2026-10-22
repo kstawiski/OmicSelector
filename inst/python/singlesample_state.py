@@ -80,10 +80,16 @@ def state_fingerprint(obj):
             put(str(x)); return
         unsupported.add(type(x).__module__ + '.' + type(x).__qualname__)
 
-    walk(obj)
-    if unsupported:
-        raise TypeError('Unsupported state types: ' + ', '.join(sorted(unsupported)))
-    return h.hexdigest()
+    try:
+        walk(obj)
+        if unsupported:
+            raise TypeError('Unsupported state types: ' + ', '.join(sorted(unsupported)))
+        return h.hexdigest()
+    finally:
+        # walk's recursive closure survives until cyclic GC. Its keepalive list
+        # must not retain a fitted estimator or tensor storage after hashing.
+        keepalive.clear()
+        seen.clear()
 
 
 def freeze(obj):

@@ -69,8 +69,15 @@ def private_copy(estimator):
         elif hasattr(x, "__dict__") and not isinstance(x, (type, types.ModuleType, types.FunctionType)):
             for v in vars(x).values():
                 visit(v)
-    visit(estimator)
-    return copy.deepcopy(estimator, memo)
+    try:
+        visit(estimator)
+        return copy.deepcopy(estimator, memo)
+    finally:
+        # The recursive closure forms a cycle. deepcopy fills memo with the
+        # entire estimator graph, including large context tensors. Release it
+        # now rather than retaining original and private models until cyclic GC.
+        memo.clear()
+        seen.clear()
 
 
 def predict(estimator, x, **kwargs):

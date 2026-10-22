@@ -17,6 +17,16 @@
   singleton scoring contract and input guards.
 - Avoid a duplicate estimator copy during deployment. Private prediction copies
   share read-only neural parameter storage; buffers and query state stay private.
+- Release temporary inference-copy and fingerprint references immediately,
+  including on errors. Recursive Python helper closures previously retained
+  estimators and context tensors until cyclic garbage collection.
+- CPU context-cache measurements on shared s8 hardware reduced GSE117063
+  singleton scoring from 15.842 to 3.10175 seconds at deployed defaults and
+  6.905 to 1.2235 seconds with four threads (four timed specimens per stage).
+  With 1,600 Toray training specimens, corresponding times were 1,014.722 to
+  11.999 seconds (one timed specimen) and 490.62925 to 6.44125 seconds (four
+  timed specimens). Each stage followed a warm-up; the comparison disabled
+  only the context cache, and maximum score differences were below 1e-6.
 - Repair the Docker release workflow to build Dockerfile, smoke-test the package,
   tag images with the package version, and push only with registry credentials.
 

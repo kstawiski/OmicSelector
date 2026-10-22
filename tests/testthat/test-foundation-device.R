@@ -122,6 +122,55 @@ def check_foundation_copy(module):
   expect_true(reticulate::py_to_r(probe$check_foundation_copy(.ss_foundation_module())))
 })
 
+test_that("copying and fingerprinting release estimator storage without cyclic GC", {
+  .foundation_torch()
+  probe <- reticulate::py_run_string("
+import gc
+import weakref
+import torch
+
+def check_immediate_release(foundation, state):
+    enabled = gc.isenabled()
+    gc.collect()
+    gc.disable()
+    try:
+        net = torch.nn.Linear(3, 3)
+        net.register_buffer('context', torch.ones(1024))
+        before = state.state_fingerprint(net)
+        cloned = foundation.private_copy(net)
+        cloned_ref = weakref.ref(cloned)
+        buffer_ref = weakref.ref(cloned.context)
+        del cloned
+        assert cloned_ref() is None, 'private estimator retained after scoring'
+        assert buffer_ref() is None, 'private context storage retained after scoring'
+        assert state.state_fingerprint(net) == before
+        net_ref = weakref.ref(net)
+        context_ref = weakref.ref(net.context)
+        del net
+        assert net_ref() is None, 'fingerprint retained the fitted estimator'
+        assert context_ref() is None, 'fingerprint retained context storage'
+
+        # Fail-closed hashing must release objects on the error path too.
+        tensor = torch.ones(1024)
+        tensor_ref = weakref.ref(tensor)
+        invalid = {'context': tensor, 'unsupported': iter([])}
+        try:
+            state.state_fingerprint(invalid)
+        except TypeError:
+            pass
+        else:
+            raise AssertionError('unsupported state was accepted')
+        del tensor, invalid
+        assert tensor_ref() is None, 'failed fingerprint retained context storage'
+        return True
+    finally:
+        if enabled:
+            gc.enable()
+", convert = FALSE)
+  expect_true(reticulate::py_to_r(probe$check_immediate_release(
+    .ss_foundation_module(), .ss_python_state_module())))
+})
+
 
 test_that("TabPFN cached and uncached frozen contexts give equal scores", {
   .foundation_backend("tabpfn")
