@@ -5,6 +5,7 @@ import numpy as np
 from tabpfn.preprocessing.ensemble import TabPFNEnsembleMember
 from tabpfn.inference import InferenceEngineCacheKV
 from foundation_inference import full_precision
+from tabpfn_memory import query_limit
 from tabpfn.architectures.base.attention.full_attention import MultiHeadAttention
 from tabpfn.architectures.base.transformer import PerFeatureTransformer
 
@@ -191,6 +192,20 @@ def cache_context(clf):
         force_inference_dtype=old.force_inference_dtype)
     engine.ensemble_members = old.ensemble_members
     engine.device = clf.devices_[0]
+    # Cached inference disables the upstream attention memory-saving factor.
+    # Bound its dense query-by-context workspace using the actual frozen KV
+    # layouts. Keep the original R chunk partition whenever it already fits.
+    layouts = []
+    for model in models:
+        for module in model.modules():
+            if isinstance(module, MultiHeadAttention):
+                cache = next((getattr(module, name, None)
+                              for name in ("_kv_cache", "_k_cache")
+                              if isinstance(getattr(module, name, None), torch.Tensor)), None)
+                if cache is not None:
+                    layouts.append((cache.shape[0], cache.shape[1],
+                                    module._nhead, cache.element_size()))
+    engine.query_chunk_size = query_limit(layouts)
     clf.executor_ = engine
     clf.fit_mode = "fit_with_cache"
     return clf

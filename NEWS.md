@@ -1,5 +1,13 @@
 # OmicSelector 2.6.8
 
+- Bound TabPFN batch scoring by a 4 GiB float32 math-attention workspace
+  budget, estimated from the fitted key/value cache dimensions with room for
+  three dense attention matrices. CPU and CUDA use the same limit. Existing
+  balanced query chunks remain unchanged when they fit; larger batches use
+  smaller balanced chunks. An informative error reports a context that cannot
+  fit even one query. The budget excludes retained context, parameters and
+  other process memory. The default training context is capped at 4,096 rows;
+  scoring 15,313 training rows does not create a 15,313-row fitted context.
 - TabPFN caches the frozen transformer training context once on CPU. Singleton
   scoring reuses this float32 context on CPU or CUDA, including after device
   round trips; the complete cache remains in the frozen-state fingerprint.

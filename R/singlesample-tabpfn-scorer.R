@@ -438,6 +438,7 @@ fit_tabpfn <- function(X_train, y_train, meta_train = NULL, hp = list()) {
       context_cache_device = "cpu", context_cache_precision = "float32",
       memory_saving_mode = fitted$memory_saving,
       memory_saving_policy = "training_rows_or_features_gt_512", n_preprocessing_jobs = 1L,
+      query_workspace_budget_bytes = 4 * 1024^3,
       preprocessing_seed = hp$seed, query_preprocessing = "singleton", encoder_device = "cpu",
       column_embedding_device = "cpu", gpu_preprocessing = FALSE,
       attention = "math", allow_tf32 = FALSE),
@@ -579,8 +580,14 @@ score_tabpfn <- function(model, X, meta = NULL) .ss_with_r_rng({
       Z <- .tabpfn_rclr_matrix(X_use)
       score_idx <- which(rowSums(Z != 0) > 0L)          # all-zero rCLR stays neutral
       if (length(score_idx) > 0L) {
+        chunk_size <- 1024L
+        if (reticulate::py_has_attr(clf, "executor_") &&
+            reticulate::py_has_attr(clf$executor_, "query_chunk_size")) {
+          chunk_size <- min(chunk_size, as.integer(reticulate::py_to_r(
+            clf$executor_$query_chunk_size)))
+        }
         .tabpfn_with_torch_rng(model$hp$seed, function() {
-          for (idx in .tabpfn_score_chunks(score_idx, chunk_size = 1024L)) {
+          for (idx in .tabpfn_score_chunks(score_idx, chunk_size = chunk_size)) {
             pr <- reticulate::py_to_r(
               .ss_foundation_module()$predict(clf, np$asarray(Z[idx, , drop = FALSE], dtype = "float64"))
             )
