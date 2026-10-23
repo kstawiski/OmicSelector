@@ -7,7 +7,9 @@ are preserved, including empty values.}
 \details{
 The defaults are \code{ATEN_CPU_CAPABILITY=avx2},
 \code{MKL_ENABLE_INSTRUCTIONS=AVX2}, \code{ONEDNN_MAX_CPU_ISA=AVX2},
-\code{DNNL_MAX_CPU_ISA=AVX2}, and \code{OPENBLAS_CORETYPE=Zen}.
+and \code{DNNL_MAX_CPU_ISA=AVX2}. On Linux hosts whose \file{/proc/cpuinfo}
+reports AVX-512, \code{OPENBLAS_CORETYPE=Zen} selects the validated AVX2
+OpenBLAS implementation. Other hosts retain native OpenBLAS dispatch.
 They require an AVX2-capable x86-64 CPU. Other architectures retain their native
 dispatch. Library versions, thread counts and other numerical settings still
 need to match for reproducible scores.

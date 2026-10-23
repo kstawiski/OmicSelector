@@ -1,7 +1,9 @@
 # OmicSelector 2.6.8
 
 - On x86-64, set AVX2 CPU dispatch defaults before Python backend imports,
-  preserving explicit environment settings. TabPFN, TabDPT and TabICL record
+  preserving explicit environment settings and native OpenBLAS dispatch on
+  AVX2 hosts. Linux AVX-512 hosts use OpenBLAS Zen by default.
+  TabPFN, TabDPT and TabICL record
   the active torch CPU capability and dispatch settings in fitted provenance.
   Scoring warns on a mismatch; `options(OmicSelector.cpu_dispatch_strict = TRUE)`
   makes it an error. These checks do not alter score arithmetic.
