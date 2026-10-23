@@ -430,7 +430,6 @@ fit_tabdpt <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     classes = fitted$classes,
     case_col = fitted$case_col,
     n_context = nrow(Z_ctx),
-    provenance = list(cpu_dispatch = .ss_cpu_dispatch_provenance()),
     device = device,
     checkpoint = .TABDPT_CHECKPOINT,
     inference_settings = list(precision = "float32", use_flash = FALSE,
@@ -546,7 +545,6 @@ score_tabdpt <- function(model, X, meta = NULL) .ss_with_r_rng({
   }
   X <- .reo_check_matrix(X, "score_tabdpt", "X")
   .reo_check_meta(meta, nrow(X), "score_tabdpt", "meta")
-  .ss_check_cpu_dispatch(model)
 
   feat_order <- model$feature_universe
   present <- intersect(feat_order, colnames(X))
