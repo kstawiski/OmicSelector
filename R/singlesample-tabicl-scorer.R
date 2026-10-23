@@ -391,6 +391,7 @@ fit_tabicl <- function(X_train, y_train, meta_train = NULL, hp = list()) {
     classes = fitted$classes,
     case_col = fitted$case_col,
     n_context = nrow(Z_ctx),
+    provenance = list(cpu_dispatch = .ss_cpu_dispatch_provenance()),
     device = device,
     checkpoint = .TABICL_CHECKPOINT,
     hp = hp,
@@ -501,6 +502,7 @@ score_tabicl <- function(model, X, meta = NULL) .ss_with_r_rng({
   }
   X <- .reo_check_matrix(X, "score_tabicl", "X")
   .reo_check_meta(meta, nrow(X), "score_tabicl", "meta")
+  .ss_check_cpu_dispatch(model)
 
   feat_order <- model$feature_universe
   present <- intersect(feat_order, colnames(X))

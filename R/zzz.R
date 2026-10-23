@@ -64,6 +64,7 @@
 }
 
 .onLoad <- function(libname, pkgname) {
+  .ss_configure_cpu_dispatch()
   .ss_configure_backend_env()
   if (!requireNamespace("mlr3", quietly = TRUE)) {
     return(invisible())
