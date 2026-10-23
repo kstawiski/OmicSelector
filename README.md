@@ -114,6 +114,42 @@ exported as documented R functions:
     leave-one-cohort-out and leave-one-cancer-type-out splits with same
     provenance-block exclusion.
 
+## Reproducible scores across machines
+
+Set CPU dispatch before starting R or Rscript. Some numerical libraries read
+these settings when loaded. Use the same package, Python environment, model
+weights, seeds, thread counts and `OPENBLAS_CORETYPE` on every machine.
+The validated Linux x86-64 environment used this recipe:
+
+```sh
+export ATEN_CPU_CAPABILITY=avx2
+export MKL_ENABLE_INSTRUCTIONS=AVX2
+export ONEDNN_MAX_CPU_ISA=AVX2
+export DNNL_MAX_CPU_ISA=AVX2
+export OPENBLAS_CORETYPE=Zen
+export OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 MKL_NUM_THREADS=4
+export NUMEXPR_NUM_THREADS=4 NUMBA_NUM_THREADS=4
+Rscript analysis.R
+```
+
+`OPENBLAS_CORETYPE=Zen` must be supported by the OpenBLAS build in use; the
+measured environment used the same build on all hosts. Record these variables,
+the host CPU, library versions, device and thread counts with the results.
+
+Under these matched startup settings, measured TabPFN and TabDPT scores on
+s8, s5, cpd and AVX-512 Argos nodes agreed within 8.05e-7, with zero changed
+classifications and zero AUC differences. Without matched dispatch, AVX-512
+scores differed by up to 0.030 for TabDPT and 0.0003 for TabPFN. Repeated CPU
+TabICL runs differed by up to 5.96e-7. A fixed seed alone does not guarantee
+bitwise equality across machines. These are computational checks of the
+specified environment and datasets; they do not establish clinical validity.
+
+TabPFN also bounds query batches using a 4 GiB float32 attention-workspace
+estimate for three dense query-by-context matrices. CPU and CUDA use the same
+bound. It excludes fitted context, model parameters and other process memory.
+The default training context is capped at 4,096 rows. Allow additional memory
+for fitting and scoring; the workspace bound is not a total memory limit.
+
 ## Within-Sample Biomarker Panel Classification
 
 Since 2.6.0, OmicSelector has provided within-sample classification methods for

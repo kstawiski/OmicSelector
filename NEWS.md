@@ -1,5 +1,16 @@
 # OmicSelector 2.6.8
 
+- For reproducible foundation-model scores across machines, set CPU dispatch
+  in the process environment before R starts: `ATEN_CPU_CAPABILITY=avx2`,
+  `MKL_ENABLE_INSTRUCTIONS=AVX2`, `ONEDNN_MAX_CPU_ISA=AVX2`,
+  `DNNL_MAX_CPU_ISA=AVX2`, and a matched `OPENBLAS_CORETYPE` (`Zen` in the
+  measured environment). Match numerical-library versions and thread counts.
+  With these launcher settings, measured TabPFN/TabDPT scores on s8, s5,
+  cpd and AVX-512 Argos nodes agreed within 8.05e-7, with no changed calls
+  or AUC differences. Without matched dispatch, AVX-512 differences reached
+  0.030 for TabDPT and 0.0003 for TabPFN. Repeated CPU TabICL runs differed
+  by up to 5.96e-7. These measurements do not establish bitwise identity
+  across machines. See the README for the startup recipe.
 - Bound TabPFN batch scoring by a 4 GiB float32 math-attention workspace
   budget, estimated from the fitted key/value cache dimensions with room for
   three dense attention matrices. CPU and CUDA use the same limit. Existing
