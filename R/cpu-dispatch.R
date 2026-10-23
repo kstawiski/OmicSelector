@@ -1,21 +1,12 @@
 # Set before any OmicSelector backend imports torch or NumPy. Explicit caller
 # settings, including empty strings, take precedence. AVX2 names are x86-only.
-.ss_cpu_has_avx512 <- function() {
-  if (!file.exists("/proc/cpuinfo")) return(FALSE)
-  info <- tryCatch(readLines("/proc/cpuinfo", n = 100L, warn = FALSE),
-                   error = function(e) character())
-  any(grepl("\\bavx512f\\b", info, ignore.case = TRUE))
-}
-
-.ss_configure_cpu_dispatch <- function(avx512 = .ss_cpu_has_avx512()) {
+.ss_configure_cpu_dispatch <- function() {
   if (!tolower(Sys.info()[["machine"]]) %in% c("x86_64", "amd64")) {
     return(invisible(FALSE))
   }
   defaults <- c(ATEN_CPU_CAPABILITY = "avx2", MKL_ENABLE_INSTRUCTIONS = "AVX2",
-    ONEDNN_MAX_CPU_ISA = "AVX2", DNNL_MAX_CPU_ISA = "AVX2")
-  # Native AVX2 OpenBLAS kernels must remain unchanged on AVX2 hosts. On
-  # Linux AVX-512 hosts, Zen selects the validated AVX2 implementation.
-  if (isTRUE(avx512)) defaults <- c(defaults, OPENBLAS_CORETYPE = "Zen")
+    ONEDNN_MAX_CPU_ISA = "AVX2", DNNL_MAX_CPU_ISA = "AVX2",
+    OPENBLAS_CORETYPE = "Zen")
   missing <- is.na(Sys.getenv(names(defaults), unset = NA_character_))
   if (any(missing)) do.call(Sys.setenv, as.list(defaults[missing]))
   invisible(TRUE)
