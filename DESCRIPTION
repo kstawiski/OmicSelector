@@ -43,6 +43,7 @@ Imports:
     future,
     future.apply
 Suggests:
+    withr,
     knitr,
     rmarkdown,
     shiny,
