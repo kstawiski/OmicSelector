@@ -6,6 +6,11 @@ hp$max_context rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabPFN-v2 (ungated ModelVersion.V2)
 classifier is constructed and fit() on that frozen rCLR context (which,
 for TabPFN, simply loads the context into the model – no gradient training).
+The transformer training context is cached once in float32 on CPU and reused
+on every scoring device. The cache is included in the state fingerprint.
+Inference uses float32, math attention, fixed training preprocessing and a
+fixed memory-saving policy on CPU and CUDA. These settings are recorded in
+inference_settings.
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is included in the deterministic Python state
@@ -32,6 +37,11 @@ hp$max_context rows it is reduced to a deterministic, seeded,
 class-stratified subsample. A TabPFN-v2 (ungated ModelVersion.V2)
 classifier is constructed and fit() on that frozen rCLR context (which,
 for TabPFN, simply loads the context into the model – no gradient training).
+The transformer training context is cached once in float32 on CPU and reused
+on every scoring device. The cache is included in the state fingerprint.
+Inference uses float32, math attention, fixed training preprocessing and a
+fixed memory-saving policy on CPU and CUDA. These settings are recorded in
+inference_settings.
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is included in the deterministic Python state
@@ -59,7 +69,7 @@ a companion sensitivity analysis (the prespecified out-of-regime control)."></he
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,6 +108,11 @@ universe (<code>colnames(X_train)</code>); if the context exceeds
 class-stratified subsample. A TabPFN-v2 (ungated <code>ModelVersion.V2</code>)
 classifier is constructed and <code>fit()</code> on that frozen rCLR context (which,
 for TabPFN, simply loads the context into the model – no gradient training).
+The transformer training context is cached once in float32 on CPU and reused
+on every scoring device. The cache is included in the state fingerprint.
+Inference uses float32, math attention, fixed training preprocessing and a
+fixed memory-saving policy on CPU and CUDA. These settings are recorded in
+<code>inference_settings</code>.
 The frozen R-side state needed to reproduce scores (the rCLR context, labels,
 feature universe, class order, device/config, hp) is stored on the model; the
 live python classifier is also kept for scoring but is included in the deterministic Python state

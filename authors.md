@@ -16,12 +16,12 @@ Source:
 
 Stawiski K, Kaszkowiak M, Mikulski D (2026). *OmicSelector: Biomarker
 Discovery with Specimen-Local Scoring Audits and Grouped Validation*. R
-package version 2.6.7, <https://github.com/kstawiski/OmicSelector>.
+package version 2.6.8, <https://github.com/kstawiski/OmicSelector>.
 
     @Manual{,
       title = {OmicSelector: Biomarker Discovery with Specimen-Local Scoring Audits and Grouped Validation},
       author = {Konrad Stawiski and Marcin Kaszkowiak and Damian Mikulski},
       year = {2026},
-      note = {R package version 2.6.7},
+      note = {R package version 2.6.8},
       url = {https://github.com/kstawiski/OmicSelector},
     }

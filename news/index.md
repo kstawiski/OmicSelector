@@ -1,5 +1,94 @@
 # Changelog
 
+## OmicSelector 2.6.8
+
+- For reproducible foundation-model scores across machines, set CPU
+  dispatch in the process environment before R starts:
+  `ATEN_CPU_CAPABILITY=avx2`, `MKL_ENABLE_INSTRUCTIONS=AVX2`,
+  `ONEDNN_MAX_CPU_ISA=AVX2`, `DNNL_MAX_CPU_ISA=AVX2`, and a matched
+  `OPENBLAS_CORETYPE` (`Zen` in the measured environment). Match
+  numerical-library versions and thread counts. With these launcher
+  settings, measured TabPFN/TabDPT scores on s8, s5, cpd and AVX-512
+  Argos nodes agreed within 8.05e-7, with no changed calls or AUC
+  differences. Without matched dispatch, AVX-512 differences reached
+  0.030 for TabDPT and 0.0003 for TabPFN. Repeated CPU TabICL runs
+  differed by up to 5.96e-7. These measurements do not establish bitwise
+  identity across machines. See the README for the startup recipe.
+- Bound TabPFN batch scoring by a 4 GiB float32 math-attention workspace
+  budget, estimated from the fitted key/value cache dimensions with room
+  for three dense attention matrices. CPU and CUDA use the same limit.
+  Existing balanced query chunks remain unchanged when they fit; larger
+  batches use smaller balanced chunks. An informative error reports a
+  context that cannot fit even one query. The budget excludes retained
+  context, parameters and other process memory. The default training
+  context is capped at 4,096 rows; scoring 15,313 training rows does not
+  create a 15,313-row fitted context.
+- TabPFN caches the frozen transformer training context once on CPU.
+  Singleton scoring reuses this float32 context on CPU or CUDA,
+  including after device round trips; the complete cache remains in the
+  frozen-state fingerprint.
+- TabPFN inference explicitly uses float32 on CPU and CUDA, cached
+  training preprocessing, a fixed preprocessing seed, and a
+  memory-saving choice based only on frozen training dimensions, shared
+  by CPU and CUDA. Internal normalization and frozen column embeddings
+  use CPU arithmetic on every inference device. Query preprocessing uses
+  the singleton path before batched neural inference, preventing
+  batch-dependent fingerprint hashes.
+- TabDPT disables flash attention on both devices and fits its
+  projection with an explicitly seeded CPU generator. The frozen CPU
+  projection and projected context are reused when scoring, including
+  after moving the model.
+- Foundation-model scoring selects full-precision math attention and
+  disables TF32, restoring the caller’s settings afterwards. Deployment
+  retains its singleton scoring contract and input guards.
+- Avoid a duplicate estimator copy during deployment. Private prediction
+  copies share read-only neural parameter storage; buffers and query
+  state stay private.
+- Release temporary inference-copy and fingerprint references
+  immediately, including on errors. Recursive Python helper closures
+  previously retained estimators and context tensors until cyclic
+  garbage collection.
+- Release private Python estimator copies after every Python-backed
+  scoring call, including errors, through both
+  [`singlesample_score_call()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_score_call.md)
+  and deployed
+  [`score_specimen()`](https://kstawiski.github.io/OmicSelector/reference/score_specimen.md).
+  This includes TabPFN, TabDPT and TabICL. R’s memory threshold does not
+  account for their Python tensor buffers. All 38 measured routes
+  retained zero private copies after each call; 940 before/after scores
+  were identical. Fitted caches and score calculations are unchanged. In
+  separate-process measurements from c3cd24a7 to a55f6c2b, mean per-call
+  time changed by -2.0% to +10.8% across the six TabPFN/TabDPT/TabICL
+  routes (-21.0 to +39.8 ms). Across all 38 routes the range was -36.8%
+  to +10.8%; the other routes took 2.25-23.75 ms after the fix. These
+  timings include process and load variability.
+- Allow memory for the fitted TabPFN context and temporary scoring
+  buffers. On Toray with 1,600 training specimens and 79 features, the
+  fitted model held 3.22 GiB of unique tensor storage: 2.95 GiB for the
+  training-context cache and 0.24 GiB for parameters. Total live tensor
+  storage reached 6.17 GiB after training-set scoring during deployment.
+  Process RSS was 4.6-7.9 GiB across 100 deployed singleton calls and
+  final memory cleanup, with a 15.8 GiB peak across fitting and
+  deployment. RSS fell by 554 MB between calls 1 and 100. These CPU
+  measurements used c3cd24a7 in a 32 GiB job; an independent reference
+  fit was released before deployment. Provision headroom above the
+  observed peak; model tensor storage alone is not a process memory
+  budget.
+- CPU context-cache measurements on shared s8 hardware reduced GSE117063
+  singleton scoring from 15.842 to 3.10175 seconds at deployed defaults
+  and 6.905 to 1.2235 seconds with four threads (four timed specimens
+  per stage). With 1,600 Toray training specimens, corresponding times
+  were 1,014.722 to 11.999 seconds (one timed specimen) and 490.62925 to
+  6.44125 seconds (four timed specimens). Each stage followed a warm-up;
+  the comparison disabled only the context cache, and maximum score
+  differences were below 1e-6, with unchanged calls. These measurements
+  used 1b526ed5, before the reference-release fixes; they measure the
+  cache effect. The per-call measurements above assess the later release
+  fix.
+- Repair the Docker release workflow to build Dockerfile, smoke-test the
+  package, tag images with the package version, and push only with
+  registry credentials.
+
 ## OmicSelector 2.6.7
 
 - Remove the `sel-stablemate` transfer route and the optional StableMate
