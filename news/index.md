@@ -1,5 +1,22 @@
 # Changelog
 
+## OmicSelector 2.6.9
+
+- Undetermined projection directions and arbitrary signs made TabDPT
+  fits with more than 128 features depend on CPU thread count. Scores,
+  AUC and classifications could change. Version 2.6.9 uses exact float64
+  CPU SVD, keeps only directions the training data determine, and makes
+  the largest absolute loading in each direction positive. Numerical
+  rank uses the NumPy default tolerance: largest singular value ×
+  max(rows, features) × float64 machine precision. It retains at most
+  128 directions as float32. Each fitted projection records its
+  numerical rank, retained dimension, rank tolerance, smallest retained
+  singular value divided by that tolerance, and minimum gap between the
+  two largest absolute loadings. A zero gap indicates a tied sign
+  decision. Fitting rejects fewer than two rows. Every TabDPT fit with
+  more than 128 features changes relative to 2.6.8. Fits with at most
+  128 features, TabPFN and TabICL keep their existing paths.
+
 ## OmicSelector 2.6.8
 
 - For reproducible foundation-model scores across machines, set CPU
