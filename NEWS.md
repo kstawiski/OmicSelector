@@ -1,3 +1,13 @@
+# OmicSelector 2.6.9
+
+- TabDPT now limits centered PCA to `min(n_train - 1, p, 128)` directions.
+  With more than 128 features and at most 128 training rows, the previous
+  rule requested one direction that the centered data could not determine.
+  That direction could change with CPU thread count and alter scores and AUC.
+  The projection retains its isolated seeded CPU generator and two power
+  iterations. Fitting rejects fewer than two training rows. TabDPT paths with
+  at most 128 features or at least 129 training rows are unchanged.
+
 # OmicSelector 2.6.8
 
 - For reproducible foundation-model scores across machines, set CPU dispatch

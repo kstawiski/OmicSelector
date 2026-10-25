@@ -14,7 +14,10 @@ def cpu_projection(x, max_features, seed):
     """
     import torch
     x = torch.as_tensor(np.array(x, copy=True), device="cpu", dtype=torch.float32)
-    q = min(x.shape[0], x.shape[1], int(max_features))
+    if x.shape[0] < 2:
+        raise ValueError("Centered PCA requires at least two training rows")
+    # Centering removes one degree of freedom from the training rows.
+    q = min(x.shape[0] - 1, x.shape[1], int(max_features))
     generator = torch.Generator(device="cpu").manual_seed(int(seed))
     with torch.random.fork_rng(devices=[]):
         torch.random.set_rng_state(generator.get_state())

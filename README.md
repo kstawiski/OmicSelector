@@ -189,7 +189,7 @@ mlr3::lrn("classif.clr_mlp", backend = "glm", verbose = FALSE)
 
 ```r
 # Install the release described in the accompanying article
-remotes::install_github("kstawiski/OmicSelector@v2.6.7")
+remotes::install_github("kstawiski/OmicSelector@v2.6.9")
 
 # Or install the current development version
 remotes::install_github("kstawiski/OmicSelector")

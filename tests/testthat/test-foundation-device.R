@@ -30,7 +30,53 @@ test_that("TabDPT CPU projection is deterministic and leaves RNG untouched", {
   expect_identical(reticulate::py_to_r(a$numpy()), reticulate::py_to_r(b$numpy()))
   expect_identical(other, reticulate::py_to_r(torch$random$get_rng_state()$numpy()))
   torch$random$set_rng_state(before)
-  expect_equal(dim(reticulate::py_to_r(a$numpy())), c(140L, 24L))
+  expect_equal(dim(reticulate::py_to_r(a$numpy())), c(140L, 23L))
+})
+
+test_that("centered projection respects training rank across CPU thread counts", {
+  .foundation_torch()
+  probe <- reticulate::py_run_string("
+import numpy as np
+import torch
+from unittest.mock import patch
+
+def check_projection_rank(module):
+    previous_threads = torch.get_num_threads()
+    rng = torch.random.get_rng_state().clone()
+    x = np.random.default_rng(912).normal(size=(24, 140)).astype(np.float32)
+    try:
+        projections = []
+        for threads in (1, 2, 4, 8):
+            torch.set_num_threads(threads)
+            with patch.object(torch, 'pca_lowrank', wraps=torch.pca_lowrank) as pca:
+                v = module.cpu_projection(x, 128, 17)
+                assert pca.call_args.kwargs == dict(q=23, center=True, niter=2)
+            assert tuple(v.shape) == (140, 23)
+            assert torch.equal(rng, torch.random.get_rng_state())
+            projections.append(v)
+        for v in projections[1:]:
+            torch.testing.assert_close(v, projections[0], rtol=0, atol=1e-5)
+        for n, p, q in ((129, 140, 128), (150, 140, 128), (24, 10, 10)):
+            z = np.random.default_rng(81).normal(size=(n, p)).astype(np.float32)
+            v = module.cpu_projection(z, 128, 17)
+            with torch.random.fork_rng(devices=[]):
+                torch.random.set_rng_state(torch.Generator(device='cpu').manual_seed(17).get_state())
+                old = torch.pca_lowrank(torch.as_tensor(z), q=min(n,p,128), center=True, niter=2)[2]
+            assert tuple(v.shape) == (p, q)
+            assert torch.equal(v, old)
+        for n in (0, 1):
+            try:
+                module.cpu_projection(np.zeros((n, 140)), 128, 17)
+            except ValueError as error:
+                assert 'at least two training rows' in str(error)
+            else:
+                raise AssertionError('insufficient training rows accepted')
+        return True
+    finally:
+        torch.set_num_threads(previous_threads)
+        torch.random.set_rng_state(rng)
+", convert = FALSE)
+  expect_true(reticulate::py_to_r(probe$check_projection_rank(.ss_foundation_module())))
 })
 
 test_that("full precision restores the caller's kernel policy", {
