@@ -33,7 +33,7 @@ test_that("TabDPT CPU projection is deterministic and leaves RNG untouched", {
   expect_equal(dim(reticulate::py_to_r(a$numpy())), c(140L, 23L))
 })
 
-test_that("centered projection respects training rank across CPU thread counts", {
+test_that("centered projection fixes rank and signs across CPU thread counts", {
   .foundation_torch()
   probe <- reticulate::py_run_string("
 import numpy as np
@@ -48,10 +48,17 @@ def check_projection_rank(module):
         projections = []
         for threads in (1, 2, 4, 8):
             torch.set_num_threads(threads)
-            with patch.object(torch, 'pca_lowrank', wraps=torch.pca_lowrank) as pca:
-                v = module.cpu_projection(x, 128, 17)
-                assert pca.call_args.kwargs == dict(q=23, center=True, niter=2)
+            with patch.object(torch.linalg, 'svd', wraps=torch.linalg.svd) as svd:
+                v, margin = module.cpu_projection(x, 128, 17, return_sign_margin=True)
+                assert svd.call_args.kwargs == dict(full_matrices=False)
+                assert svd.call_args.args[0].dtype == torch.float64
+                torch.testing.assert_close(svd.call_args.args[0].mean(dim=0), torch.zeros(140, dtype=torch.float64), rtol=0, atol=1e-15)
             assert tuple(v.shape) == (140, 23)
+            anchors = v.abs().argmax(dim=0)
+            assert (v[anchors, torch.arange(v.shape[1])] >= 0).all()
+            top = v.abs().topk(2, dim=0).values
+            assert margin == float((top[0] - top[1]).min())
+            assert margin > 0
             assert torch.equal(rng, torch.random.get_rng_state())
             projections.append(v)
         for v in projections[1:]:
@@ -59,11 +66,49 @@ def check_projection_rank(module):
         for n, p, q in ((129, 140, 128), (150, 140, 128), (24, 10, 10)):
             z = np.random.default_rng(81).normal(size=(n, p)).astype(np.float32)
             v = module.cpu_projection(z, 128, 17)
-            with torch.random.fork_rng(devices=[]):
-                torch.random.set_rng_state(torch.Generator(device='cpu').manual_seed(17).get_state())
-                old = torch.pca_lowrank(torch.as_tensor(z), q=min(n,p,128), center=True, niter=2)[2]
+            centered = torch.as_tensor(z, dtype=torch.float64)
+            centered = centered - centered.mean(dim=0, keepdim=True)
+            old = torch.linalg.svd(centered, full_matrices=False)[2][:q].T.float()
             assert tuple(v.shape) == (p, q)
-            assert torch.equal(v, old)
+            anchors = old.abs().argmax(dim=0)
+            signs = torch.where(old[anchors, torch.arange(old.shape[1])] < 0, -1.0, 1.0)
+            assert torch.equal(v, old * signs)
+            assert torch.equal(v, module.cpu_projection(z, 128, 999))
+        # A duplicate training row removes another determined direction.
+        duplicate = x.copy()
+        duplicate[-1] = duplicate[0]
+        reference = None
+        for threads in (1, 2, 4, 8):
+            torch.set_num_threads(threads)
+            v, info = module.cpu_projection(duplicate, 128, 17, return_metadata=True)
+            assert info['rank'] == info['q'] == 22
+            assert v.shape == (140, 22) and info['min_retained_ratio'] > 1
+            assert info['sign_min_margin'] > 0
+            if reference is not None:
+                torch.testing.assert_close(v, reference, rtol=0, atol=1e-5)
+            reference = v
+        # Constant data have rank zero; no arbitrary direction is retained.
+        v, info = module.cpu_projection(np.ones((4, 140)), 128, 17, return_metadata=True)
+        assert v.shape == (140, 0) and info['rank'] == info['q'] == 0
+        assert info['min_retained_ratio'] is None
+        # An exactly rank-two matrix with dependent rows and columns.
+        z = np.arange(12, dtype=float).reshape(4, 3)
+        z = np.column_stack((z, np.array([0., 1., 0., 1.])))
+        v, info = module.cpu_projection(z, 128, 17, return_metadata=True)
+        assert info['rank'] == info['q'] == np.linalg.matrix_rank(z - z.mean(axis=0)) == 2
+        original_svd = torch.linalg.svd
+        def reversed_svd(*args, **kwargs):
+            u, singular, vh = original_svd(*args, **kwargs)
+            return -u, singular, -vh
+        baseline = module.cpu_projection(x, 128, 17)
+        with patch.object(torch.linalg, 'svd', side_effect=reversed_svd):
+            assert torch.equal(baseline, module.cpu_projection(x, 128, 17))
+        # A loading tie uses the first feature; the reported margin is zero.
+        def tied_svd(*args, **kwargs):
+            return None, torch.tensor([1.0], dtype=torch.float64), torch.tensor([[-0.5, 0.5]], dtype=torch.float64)
+        with patch.object(torch.linalg, 'svd', side_effect=tied_svd):
+            v, margin = module.cpu_projection(np.ones((2, 2)), 1, 17, return_sign_margin=True)
+            assert torch.equal(v[:, 0], torch.tensor([0.5, -0.5])) and margin == 0
         for n in (0, 1):
             try:
                 module.cpu_projection(np.zeros((n, 140)), 128, 17)

@@ -5,24 +5,41 @@ import types
 import numpy as np
 
 
-def cpu_projection(x, max_features, seed):
-    """Fit PCA on CPU with an isolated, explicitly seeded CPU generator.
+def cpu_projection(x, max_features, seed, return_sign_margin=False,
+                   return_metadata=False):
+    """Fit centered PCA by exact float64 CPU SVD with canonical column signs.
 
-    pca_lowrank has no generator argument. Install the private CPU generator's
-    state only for this call, then restore the caller's CPU RNG byte for byte.
-    No CUDA generator supplies draws, and the original CPU algorithm is retained.
+    The seed argument is retained for callers; exact SVD consumes no random
+    draws. Numerical rank uses the default NumPy matrix_rank tolerance.
+    Return float32 directions and optionally their sign margin or diagnostics.
     """
     import torch
-    x = torch.as_tensor(np.array(x, copy=True), device="cpu", dtype=torch.float32)
+    x = torch.as_tensor(np.array(x, copy=True), device="cpu", dtype=torch.float64)
     if x.shape[0] < 2:
         raise ValueError("Centered PCA requires at least two training rows")
-    # Centering removes one degree of freedom from the training rows.
-    q = min(x.shape[0] - 1, x.shape[1], int(max_features))
-    generator = torch.Generator(device="cpu").manual_seed(int(seed))
-    with torch.random.fork_rng(devices=[]):
-        torch.random.set_rng_state(generator.get_state())
-        _, _, projection = torch.pca_lowrank(x, q=q, center=True, niter=2)
-    return projection.contiguous()
+    _, singular, vh = torch.linalg.svd(
+        x - x.mean(dim=0, keepdim=True), full_matrices=False)
+    tolerance = float(singular[0]) * max(x.shape) * torch.finfo(torch.float64).eps
+    rank = int((singular > tolerance).sum())
+    q = min(rank, x.shape[1], int(max_features))
+    projection = vh[:q].T.to(dtype=torch.float32)
+    # Orient each direction by its largest absolute loading. argmax chooses
+    # the first feature in an exact tie, independent of the initial SVD sign.
+    magnitudes = projection.abs()
+    anchors = magnitudes.argmax(dim=0)
+    columns = torch.arange(projection.shape[1])
+    signs = torch.where(projection[anchors, columns] < 0, -1.0, 1.0)
+    projection = (projection * signs).contiguous()
+    largest = magnitudes.topk(min(2, projection.shape[0]), dim=0).values
+    margins = largest[0] - largest[1] if largest.shape[0] == 2 else largest[0]
+    # No retained direction means there is no sign decision to resolve.
+    margin = float(margins.min()) if q else float("inf")
+    metadata = dict(rank=rank, q=q, sign_min_margin=margin,
+                    rank_tolerance=tolerance,
+                    min_retained_ratio=float(singular[q - 1]) / tolerance if q else None)
+    if return_metadata:
+        return projection, metadata
+    return (projection, margin) if return_sign_margin else projection
 
 
 @contextmanager

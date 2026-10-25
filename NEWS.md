@@ -1,12 +1,18 @@
 # OmicSelector 2.6.9
 
-- TabDPT now limits centered PCA to `min(n_train - 1, p, 128)` directions.
-  With more than 128 features and at most 128 training rows, the previous
-  rule requested one direction that the centered data could not determine.
-  That direction could change with CPU thread count and alter scores and AUC.
-  The projection retains its isolated seeded CPU generator and two power
-  iterations. Fitting rejects fewer than two training rows. TabDPT paths with
-  at most 128 features or at least 129 training rows are unchanged.
+- Undetermined projection directions and arbitrary signs made TabDPT fits
+  with more than 128 features depend on CPU thread count. Scores, AUC and
+  classifications could change. Version 2.6.9 uses exact float64 CPU SVD,
+  keeps only directions the training data determine, and makes the largest
+  absolute loading in each direction positive. Numerical rank uses the
+  NumPy default tolerance: largest singular value × max(rows, features) ×
+  float64 machine precision. It retains at most 128 directions as float32.
+  Each fitted projection records its numerical rank, retained dimension,
+  rank tolerance, smallest retained singular value divided by that tolerance,
+  and minimum gap between the two largest absolute loadings. A zero gap
+  indicates a tied sign decision. Fitting rejects fewer than two rows.
+  Every TabDPT fit with more than 128 features changes relative to 2.6.8.
+  Fits with at most 128 features, TabPFN and TabICL keep their existing paths.
 
 # OmicSelector 2.6.8
 

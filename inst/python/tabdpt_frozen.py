@@ -16,8 +16,17 @@ class FrozenTabDPTClassifier(TabDPTClassifier):
             self.scaler.set_params(random_state=int(seed))
         super().fit(X, y)
         self.feature_reduction = "pca"
-        self.V = (cpu_projection(self.X_train, self.max_features, seed)
-                  if self.n_features > self.max_features else None)
+        if self.n_features > self.max_features:
+            self.V, diagnostics = cpu_projection(
+                self.X_train, self.max_features, seed, return_metadata=True)
+            for name, value in diagnostics.items():
+                setattr(self, "projection_" + name, value)
+        else:
+            self.V = None
+            for name in ("rank", "q", "sign_min_margin", "rank_tolerance",
+                         "min_retained_ratio"):
+                if hasattr(self, "projection_" + name):
+                    delattr(self, "projection_" + name)
         self.projection_seed = int(seed)
         self.projection_device = "cpu"
         self.inference_precision = "float32"
