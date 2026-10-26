@@ -1,0 +1,74 @@
+method_id	family_name	r_packages	optional_r_packages	python_modules	model_weights	gpu	requirements_source
+ws-rclr-trimmed	Compositional within-sample baselines					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ws-alr-pivot	Compositional within-sample baselines					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ws-mad-logratio	Compositional within-sample baselines					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ws-dominance	Compositional within-sample baselines					not used	v2.6.9 registry and dependency guards; PB1 source audit
+frozen-ruv	Frozen denoisers					not used	v2.6.9 registry and dependency guards; PB1 source audit
+robust-pca-resid	Frozen denoisers					not used	v2.6.9 registry and dependency guards; PB1 source audit
+hemolysis-resid	Frozen denoisers					not used	v2.6.9 registry and dependency guards; PB1 source audit
+kit-stratified-rclr	Kit-aware transfer		matrixStats			not used	v2.6.9 registry and dependency guards; PB1 source audit
+kit-fe-adjusted-alr	Kit-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+kit-orthogonal-ilr	Kit-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+kit-residual-mad	Kit-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+kit-stable-anchor-rclr	Anchor/reference denoising transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+hemolysis-kit-dual-anchor	Anchor/reference denoising transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+rin-weighted-score	Anchor/reference denoising transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+tech-stratified-rclr	Technology-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+cross-tech-harmonized-rclr	Technology-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+tech-residualized-alr	Technology-aware transfer		lme4			not used	v2.6.9 registry and dependency guards; PB1 source audit
+biofluid-stratified-rclr	Biofluid-aware transfer		matrixStats			not used	v2.6.9 registry and dependency guards; PB1 source audit
+biofluid-anchor-rclr	Biofluid-aware transfer					not used	v2.6.9 registry and dependency guards; PB1 source audit
+biofluid-residualized-alr	Biofluid-aware transfer		lme4			not used	v2.6.9 registry and dependency guards; PB1 source audit
+blood-cell-marker-excl-rclr	Biofluid-aware transfer		matrixStats			not used	v2.6.9 registry and dependency guards; PB1 source audit
+dann	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+cvae	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+icp	Neural, domain generalisation and self-supervision					not used	v2.6.9 registry and dependency guards; PB1 source audit
+reo-ktsp	Rank and balance					not used	v2.6.9 registry and dependency guards; PB1 source audit
+reo-pairratio	Rank and balance	glmnet				not used	v2.6.9 registry and dependency guards; PB1 source audit
+reo-singscore	Rank and balance					not used	v2.6.9 registry and dependency guards; PB1 source audit
+reo-ucell	Rank and balance					not used	v2.6.9 registry and dependency guards; PB1 source audit
+reo-metaktsp	Rank and balance					not used	v2.6.9 registry and dependency guards; PB1 source audit
+bal-selbal	Rank and balance	selbal				not used	v2.6.9 registry and dependency guards; PB1 source audit
+ws-balance-ilr	Rank and balance					not used	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-bw	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-nbkde	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-copula	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-tcopula	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+conf-mondrian	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ai-scarf	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+ai-tabpfn	Foundation models and nonlinear compositional	reticulate		numpy;torch;tabpfn;huggingface_hub	tabpfn-v2-classifier-finetuned-zk73skhh.ckpt	optional	v2.6.9 registry and dependency guards; PB1 source audit
+dro-group	Neural, domain generalisation and self-supervision		matrixStats			not used	v2.6.9 registry and dependency guards; PB1 source audit
+dro-vrex	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+moe-gated	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+inv-scatter	Image, invariance and signal descriptors	reticulate		numpy;torch;kymatio.scattering1d.frontend.torch_frontend		optional	v2.6.9 registry and dependency guards; PB1 source audit
+inv-olbp	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+tda-ph	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+sig-path	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+frac-mfdfa	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+img-gasfcnn	Image, invariance and signal descriptors	reticulate		numpy;torch;torchvision		optional	v2.6.9 registry and dependency guards; PB1 source audit
+ot-lot	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ot-slicedlrt	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+kme-witness	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+ig-fisherrao	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+dre-ulsif	Likelihood, transport, kernel and density					not used	v2.6.9 registry and dependency guards; PB1 source audit
+gsp-gft	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+man-nystrom	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+unc-sngp	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+ssl-vicreg	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+coda-deepcoda	Foundation models and nonlinear compositional	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+tab-tabicl	Foundation models and nonlinear compositional	reticulate		numpy;torch;tabicl;huggingface_hub	tabicl-classifier-v2-20260212.ckpt	optional	v2.6.9 registry and dependency guards; PB1 source audit
+tab-tabdpt	Foundation models and nonlinear compositional	reticulate		numpy;torch;tabdpt;huggingface_hub	tabdpt1_2.safetensors	optional	v2.6.9 registry and dependency guards; PB1 source audit
+inv-glcm	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+inv-fdaqf	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+inv-css	Image, invariance and signal descriptors					not used	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-vinecopula	Likelihood, transport, kernel and density	rvinecopulib				not used	v2.6.9 registry and dependency guards; PB1 source audit
+proto-net	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+lrt-deepmaha	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+coda-codacore	Foundation models and nonlinear compositional	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+dg-fishr	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+dg-ibirm	Neural, domain generalisation and self-supervision	reticulate		numpy;torch		optional	v2.6.9 registry and dependency guards; PB1 source audit
+nc-mahalanobis	Negative controls		robustbase			not used	v2.6.9 registry and dependency guards; PB1 source audit
+nc-conformal-anom	Negative controls					not used	v2.6.9 registry and dependency guards; PB1 source audit
+nc-isoforest	Negative controls		isotree			not used	v2.6.9 registry and dependency guards; PB1 source audit
+nc-ecod-copod	Negative controls	reticulate		numpy;pyod		not used	v2.6.9 registry and dependency guards; PB1 source audit
+nc-sinkhorn-single	Negative controls					not used	v2.6.9 registry and dependency guards; PB1 source audit

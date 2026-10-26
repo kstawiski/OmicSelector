@@ -8,7 +8,7 @@ FROM rocker/rstudio:4.4.0
 LABEL maintainer="OmicSelector Team"
 LABEL org.opencontainers.image.title="OmicSelector 2.0"
 LABEL org.opencontainers.image.description="Shiny WebUI + RStudio Server for OmicSelector"
-ARG VERSION=2.6.8
+ARG VERSION=2.6.10
 LABEL org.opencontainers.image.version="${VERSION}"
 
 ENV LANG=C.UTF-8

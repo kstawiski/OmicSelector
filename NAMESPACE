@@ -511,3 +511,7 @@ importFrom(utils,
 )
 
 export(singlesample_state_fingerprint)
+
+export(method_requirements)
+export(available_methods)
+export(install_method_dependencies)
