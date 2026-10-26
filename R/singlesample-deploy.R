@@ -183,10 +183,12 @@ deploy_singlesample <- function(X_train, y_train,
     .ss_python_freeze(model)
     if (length(.ss_python_objects(model))) deployable$score_route <- "python_singleton"
   }
-  # The harness orients canonical and legacy scalar scores on training data.
-  # Matrix-transform panels and the rCLR baseline already define their signs.
-  oriented <- !legacy || method %in% c("ws-dominance", "nc-mahalanobis",
-                                      "nc-conformal-anom", "nc-isoforest")
+  # The within-cohort harness orients canonical and selected legacy scores.
+  # S14 also orients every transfer route, including legacy metadata adapters.
+  # Freeze that direction once, using training outcomes only.
+  oriented <- !legacy || identical(row$estimand[[1]], "transfer") ||
+    method %in% c("ws-dominance", "nc-mahalanobis",
+                  "nc-conformal-anom", "nc-isoforest")
   if (is.null(custom) && oriented && method != "ws-rclr-trimmed") {
     train_score <- if (legacy) .ss_legacy_score(model, X_train, meta_train) else
       singlesample_score_call(method, model, X_train, meta_train)

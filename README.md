@@ -1134,3 +1134,7 @@ Department of Biostatistics and Translational Medicine, Medical University of Lo
 - [Documentation](https://kstawiski.github.io/OmicSelector/)
 - [Issues & Bug Reports](https://github.com/kstawiski/OmicSelector/issues)
 - [Source Code](https://github.com/kstawiski/OmicSelector)
+
+### Reproducing the benchmark folds
+
+Use `os_make_benchmark_folds(y, group_id, k = 5L, seed = 101L)` with the archived row order and seed to reproduce the benchmark partitions. It shuffles groups within outcome and assigns them round-robin. `os_make_grouped_stratified_folds()` retains its existing row-count balancing algorithm and produces different partitions.

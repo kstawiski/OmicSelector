@@ -36,3 +36,5 @@ or other grouping unit in the same fold. This is intended for public-omics
 audits where duplicated specimens, repeated aliquots, or reused biological IDs
 can otherwise leak across resampling splits.
 }
+
+\seealso{\code{\link{os_make_benchmark_folds}} reproduces the benchmark harness partitions using first-row group order and round-robin assignment. This helper retains row-count balancing.}

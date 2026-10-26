@@ -1,5 +1,13 @@
 # OmicSelector 2.6.10
 
+- Deployment now freezes the training-median direction for every transfer route,
+  matching the benchmark harness without changing the fitted model or harness scores.
+- Fitted Python state fingerprints use numerical content and canonical reload
+  defaults; checkpoint serialization and shared-object references do not define identity.
+- `os_make_benchmark_folds()` reproduces archived benchmark partitions. The existing
+  grouped stratified fold helper retains its row-count balancing behavior.
+
+
 - Skip tests and examples that require unavailable suggested packages, while
   retaining checks for routes that do not need them.
 
