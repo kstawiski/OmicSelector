@@ -37,8 +37,10 @@ row and the frozen model and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_dann(X, y, meta_train = meta)
-score_dann(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dann(X, y, meta_train = meta)
+  score_dann(model, X[1, , drop = FALSE])
+}
 }
 
 }

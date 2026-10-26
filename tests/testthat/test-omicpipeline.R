@@ -2,6 +2,7 @@ library(OmicSelector)
 
 test_that("OmicPipeline$new builds a task and features", {
   skip_if_not_installed("mlr3")
+  testthat::skip_if_not_installed("mlr3learners")
 
   df <- data.frame(
     x1 = rnorm(20),

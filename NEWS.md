@@ -1,3 +1,8 @@
+# OmicSelector 2.6.9.9000 (development)
+
+- Skip tests and examples that require unavailable suggested packages, while
+  retaining checks for routes that do not need them.
+
 # OmicSelector 2.6.9
 
 - Undetermined projection directions and arbitrary signs made TabDPT fits

@@ -37,28 +37,33 @@ and monitoring capabilities.
 }
 \examples{
 \dontrun{
-library(vetiver)
-library(pins)
+if (requireNamespace("vetiver", quietly = TRUE) &&
+    requireNamespace("pins", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE)) {
+  library(vetiver)
+  library(pins)
 
-# Train model
-task <- tsk("iris")
-learner <- lrn("classif.ranger", predict_type = "prob")
-learner$train(task)
+  # Train model
+  task <- tsk("iris")
+  learner <- lrn("classif.ranger", predict_type = "prob")
+  learner$train(task)
 
-# Export as vetiver
-v <- export_vetiver(
-  learner = learner,
-  model_name = "iris_classifier",
-  task = task,
-  description = "Random Forest classifier for iris dataset"
-)
+  # Export as vetiver
+  v <- export_vetiver(
+    learner = learner,
+    model_name = "iris_classifier",
+    task = task,
+    description = "Random Forest classifier for iris dataset"
+  )
 
-# Pin to a board
-board <- board_folder("models", versioned = TRUE)
-vetiver_pin_write(board, v)
+  # Pin to a board
+  board <- board_folder("models", versioned = TRUE)
+  vetiver_pin_write(board, v)
 
-# Or export and pin in one step
-export_vetiver(learner, "iris_classifier", task, board = board)
+  # Or export and pin in one step
+  export_vetiver(learner, "iris_classifier", task, board = board)
+}
 }
 
 }

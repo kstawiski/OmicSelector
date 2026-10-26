@@ -43,8 +43,10 @@ row-by-row single-specimen deployment path is unchanged.
 }
 \examples{
 \dontrun{
-model <- fit_tabdpt(X, y)
-score_tabdpt(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_tabdpt(X, y)
+  score_tabdpt(model, X[1, , drop = FALSE])
+}
 }
 
 }

@@ -42,11 +42,13 @@ through a denoising process and can generate realistic synthetic samples.
 }
 \examples{
 \dontrun{
-synthetic <- tabddpm_generate(
-  data = training_data,
-  target = "outcome",
-  n_synthetic = 100
-)
+if (requireNamespace("torch", quietly = TRUE)) {
+  synthetic <- tabddpm_generate(
+    data = training_data,
+    target = "outcome",
+    n_synthetic = 100
+  )
+}
 }
 
 }

@@ -59,16 +59,18 @@ if fewer than two valid environments remain (including \code{NULL}/absent
 }
 \examples{
 \dontrun{
-set.seed(1)
-n <- 120; p <- 30; k <- 8
-L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
-            dimnames = list(NULL, paste0("miR-", seq_len(p))))
-y <- rep(c(0, 1), each = n / 2)
-L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
-X <- exp(L)
-meta <- data.frame(accession = rep(paste0("GSE", 1:3), length.out = n))
-model <- fit_dg_fishr(X, y, meta_train = meta)
-score_dg_fishr(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  set.seed(1)
+  n <- 120; p <- 30; k <- 8
+  L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
+              dimnames = list(NULL, paste0("miR-", seq_len(p))))
+  y <- rep(c(0, 1), each = n / 2)
+  L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
+  X <- exp(L)
+  meta <- data.frame(accession = rep(paste0("GSE", 1:3), length.out = n))
+  model <- fit_dg_fishr(X, y, meta_train = meta)
+  score_dg_fishr(model, X[1, , drop = FALSE])
+}
 }
 
 }

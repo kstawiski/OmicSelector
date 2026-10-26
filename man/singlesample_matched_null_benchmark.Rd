@@ -82,15 +82,17 @@ uses the name \code{singlesample_matched_null_benchmark} to avoid collision.
 }
 \examples{
 \dontrun{
-set.seed(42)
-X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
-            dimnames = list(NULL, paste0("mir-", seq_len(50))))
-y <- rbinom(100, 1, 0.5)
-panel <- paste0("mir-", 1:10)
-res <- singlesample_matched_null_benchmark(X, y, panel,
-         scoring_fn = function(M) rowSums(log(M + 1)),
-         K = 200L)
-res$p_emp
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(42)
+  X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
+              dimnames = list(NULL, paste0("mir-", seq_len(50))))
+  y <- rbinom(100, 1, 0.5)
+  panel <- paste0("mir-", 1:10)
+  res <- singlesample_matched_null_benchmark(X, y, panel,
+           scoring_fn = function(M) rowSums(log(M + 1)),
+           K = 200L)
+  res$p_emp
+}
 }
 
 }

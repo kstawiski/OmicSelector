@@ -38,8 +38,10 @@ scored-batch statistics, and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_coda_codacore(X, y)
-score_coda_codacore(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_coda_codacore(X, y)
+  score_coda_codacore(model, X[1, , drop = FALSE])
+}
 }
 
 }

@@ -134,10 +134,10 @@ test_that("group errors have the documented code and adapters tolerate legacy fi
       old_adapter("fit_frozen_ruv", d$X, d$y, meta, list(k = 2L)))
 })
 
-test_that("grouped deployment passes behavioural verification", {
-  d <- .grouped_inner_data()
-  for (route in c("reo-ktsp", "sig-path", "reo-pairratio", "dro-group")) {
-    if (route == "reo-pairratio") skip_if_not_installed("glmnet")
+for (route in c("reo-ktsp", "sig-path", "reo-pairratio", "dro-group")) {
+  test_that(paste(route, "grouped deployment passes behavioural verification"), {
+    if (route == "reo-pairratio") testthat::skip_if_not_installed("glmnet")
+    d <- .grouped_inner_data()
     m <- suppressWarnings(deploy_singlesample(d$X, d$y, method = route,
                                                group_train = d$groups))
     expect_true(m$verified)
@@ -148,8 +148,8 @@ test_that("grouped deployment passes behavioural verification", {
     expect_equal(as.numeric(score_specimen(m, d$X[1, , drop = FALSE])),
                  as.numeric(score[1]), tolerance = 1e-12)
     expect_identical(serialize(m, NULL, version = 3), before)
-  }
-})
+  })
+}
 
 test_that("selector forwards aligned groups through inner and final fits", {
   d <- .grouped_inner_data()

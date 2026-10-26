@@ -37,8 +37,10 @@ row and the frozen model and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_cvae(X, y)
-score_cvae(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_cvae(X, y)
+  score_cvae(model, X[1, , drop = FALSE])
+}
 }
 
 }

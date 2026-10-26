@@ -44,8 +44,10 @@ path is unchanged.
 }
 \examples{
 \dontrun{
-model <- fit_tabpfn(X, y)
-score_tabpfn(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_tabpfn(X, y)
+  score_tabpfn(model, X[1, , drop = FALSE])
+}
 }
 
 }

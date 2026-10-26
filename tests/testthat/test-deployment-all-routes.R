@@ -9,10 +9,11 @@
   list(X=X,y=y,meta=meta)
 }
 
-test_that('all legacy routes score each specimen using frozen state and aligned metadata', {
-  dat <- .make_all_routes_data()
-  probe <- c(1L,6L,11L,16L,40L,80L)
-  for (id in .ss_legacy_ids()) {
+for (id in .ss_legacy_ids()) {
+  test_that(paste(id, 'scores each specimen using frozen state and aligned metadata'), {
+    if (id == 'nc-mahalanobis') testthat::skip_if_not_installed('robustbase')
+    dat <- .make_all_routes_data()
+    probe <- c(1L,6L,11L,16L,40L,80L)
     dep <- suppressWarnings(deploy_singlesample(dat$X,dat$y,id,meta_train=dat$meta,verify=FALSE))
     before <- singlesample_state_fingerprint(dep)
     expect_true(is_singlesample_deployable(dep,dat$X[probe,],dat$meta[probe,]), info=id)
@@ -32,8 +33,8 @@ test_that('all legacy routes score each specimen using frozen state and aligned 
       err <- tryCatch(score_specimen(dep,dat$X[1,,drop=FALSE],m),error=identity)
       expect_identical(err$code,if(nm=='rin')'INVALID_METADATA' else 'UNSEEN_METADATA_LEVEL',info=id)
     }
-  }
-})
+  })
+}
 
 test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   d <- .make_all_routes_data()
@@ -51,9 +52,10 @@ test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   expect_identical(err$code,'MISSING_HEMOLYSIS_ANCHORS')
 })
 
-test_that('legacy scalar adapters freeze the training-median direction', {
-  d <- .make_all_routes_data()
-  for (id in c('ws-dominance','nc-mahalanobis','nc-conformal-anom','nc-isoforest')) {
+for (id in c('ws-dominance','nc-mahalanobis','nc-conformal-anom','nc-isoforest')) {
+  test_that(paste(id, 'scalar adapter freezes the training-median direction'), {
+    if (id == 'nc-mahalanobis') testthat::skip_if_not_installed('robustbase')
+    d <- .make_all_routes_data()
     dep <- suppressWarnings(deploy_singlesample(d$X,d$y,id,verify=FALSE))
     X <- d$X[1:4,]; fit <- dep$model$fit
     raw <- function(X) switch(id, `ws-dominance`=ws_dominance_score(X),
@@ -64,8 +66,8 @@ test_that('legacy scalar adapters freeze the training-median direction', {
     direction <- if (median(train[d$y == 1]) < median(train[d$y == 0])) -1 else 1
     expect_identical(dep$score_direction, direction, info=id)
     expect_identical(score_specimen(dep,X),as.numeric(direction * raw(X)),info=id)
-  }
-})
+  })
+}
 
 test_that('Python fingerprint observes parameters, buffers and context mutation', {
   skip_if_not_installed('reticulate')

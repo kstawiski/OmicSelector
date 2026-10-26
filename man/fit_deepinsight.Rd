@@ -33,8 +33,10 @@ Requires \code{Rtsne} package.
 }
 \examples{
 \dontrun{
-X_train <- matrix(rnorm(70), nrow = 10, ncol = 7)
-layout <- fit_deepinsight(X_train, grid_size = 7, seed = 1)
+if (requireNamespace("Rtsne", quietly = TRUE)) {
+  X_train <- matrix(rnorm(70), nrow = 10, ncol = 7)
+  layout <- fit_deepinsight(X_train, grid_size = 7, seed = 1)
+}
 }
 
 }

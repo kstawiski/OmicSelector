@@ -46,9 +46,11 @@ training fold and evaluated on a perturbed copy of the held-out fold.
 }
 \examples{
 \dontrun{
-task <- mlr3::tsk("sonar")
-learners <- list("classif.rpart", "classif.clr_mlp")
-ws_perturbation_benchmark(task, learners, seed = 1)
+if (requireNamespace("rpart", quietly = TRUE)) {
+  task <- mlr3::tsk("sonar")
+  learners <- list("classif.rpart", "classif.clr_mlp")
+  ws_perturbation_benchmark(task, learners, seed = 1)
+}
 }
 
 }

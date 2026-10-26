@@ -47,6 +47,7 @@ library(testthat)
 }
 
 test_that("lrt-vinecopula fit/score roundtrip has the right shape and types", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data()
   model <- fit_lrt_vinecopula(dat$X, dat$y,
                               hp = list(max_anchors_per_class = 40L, seed = 7L,
@@ -69,6 +70,7 @@ test_that("lrt-vinecopula fit/score roundtrip has the right shape and types", {
 })
 
 test_that("lrt-vinecopula separates a dependence-only contrast (matched marginals)", {
+  testthat::skip_if_not_installed("rvinecopulib")
   # The decisive value-add test: case vs control differ ONLY in the dependence
   # structure among the top features (identical per-feature marginals). A naive-
   # Bayes / independent-marginal scorer cannot separate these; the vine copula can.
@@ -87,6 +89,7 @@ test_that("lrt-vinecopula separates a dependence-only contrast (matched marginal
 })
 
 test_that("lrt-vinecopula passes the canonical row-equivariance gate", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 43L)
   model <- fit_lrt_vinecopula(dat$X[1:120, ], dat$y[1:120],
                               hp = list(max_anchors_per_class = 30L, seed = 13L,
@@ -98,6 +101,7 @@ test_that("lrt-vinecopula passes the canonical row-equivariance gate", {
 })
 
 test_that("lrt-vinecopula scoring is exactly invariant to per-sample scaling", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 44L)
   model <- fit_lrt_vinecopula(dat$X, dat$y, hp = list(n_vine_features = 8L))
   row <- dat$X[3, , drop = FALSE]
@@ -123,6 +127,7 @@ test_that("lrt-vinecopula scoring is exactly invariant to per-sample scaling", {
 })
 
 test_that("lrt-vinecopula handles partial feature overlap (consistent + single-row)", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 45L)
   model <- fit_lrt_vinecopula(dat$X, dat$y, hp = list(n_vine_features = 8L))
   # Present = intersect(universe, colnames) keeps the frozen feature-universe order,
@@ -142,6 +147,7 @@ test_that("lrt-vinecopula handles partial feature overlap (consistent + single-r
 })
 
 test_that("lrt-vinecopula matches the canonical dispatch", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 46L)
   model <- fit_lrt_vinecopula(dat$X[1:120, ], dat$y[1:120],
                               hp = list(max_anchors_per_class = 30L, seed = 17L,
@@ -178,6 +184,7 @@ test_that("lrt-vinecopula matches the canonical dispatch", {
 })
 
 test_that("lrt-vinecopula returns the neutral 0 below the feature-overlap floor", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 47L)
   model <- fit_lrt_vinecopula(dat$X, dat$y,
                               hp = list(min_features = 3L, n_vine_features = 8L))
@@ -193,6 +200,7 @@ test_that("lrt-vinecopula returns the neutral 0 below the feature-overlap floor"
 })
 
 test_that("lrt-vinecopula fitting/scoring is deterministic and RNG-safe", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 48L)
   hp <- list(max_anchors_per_class = 25L, seed = 23L, n_vine_features = 8L)
 
@@ -216,6 +224,7 @@ test_that("lrt-vinecopula fitting/scoring is deterministic and RNG-safe", {
 })
 
 test_that("lrt-vinecopula fitting leaves the global RNG untouched with no prior seed", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 49L)
   if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
     rm(".Random.seed", envir = globalenv())
@@ -236,6 +245,7 @@ test_that("lrt-vinecopula fitting leaves the global RNG untouched with no prior 
 })
 
 test_that("lrt-vinecopula leaves no RNG state when subsampling fits in a fresh session", {
+  testthat::skip_if_not_installed("rvinecopulib")
   # Exercises the anchor-subsampling RNG save/restore: a class EXCEEDS the cap so
   # set.seed() IS called inside the fit. With no prior global seed, the on.exit
   # restore must rm() the .Random.seed that set.seed() created.
@@ -257,6 +267,7 @@ test_that("lrt-vinecopula leaves no RNG state when subsampling fits in a fresh s
 })
 
 test_that("lrt-vinecopula handles a constant/degenerate training feature without NA", {
+  testthat::skip_if_not_installed("rvinecopulib")
   # A feature that is zero across ALL anchors of a class has a constant (all-zero)
   # rCLR column. Its empirical marginal collapses to a SINGLE knot (PIT -> the knot
   # plotting position) and its near-constant pseudo-observation column carries no
@@ -282,6 +293,7 @@ test_that("lrt-vinecopula handles a constant/degenerate training feature without
 })
 
 test_that("lrt-vinecopula hyperparameter validation is strict", {
+  testthat::skip_if_not_installed("rvinecopulib")
   dat <- .make_lrt_vine_data(seed = 50L)
   # Unnamed and duplicate hp fields are rejected BEFORE the allowed-list check.
   expect_error(fit_lrt_vinecopula(dat$X, dat$y, hp = list(8L)),
@@ -336,6 +348,7 @@ test_that("lrt-vinecopula hyperparameter validation is strict", {
 })
 
 test_that("lrt-vinecopula score is the case-minus-control vine log-density ratio", {
+  testthat::skip_if_not_installed("rvinecopulib")
   # The score equals log dvinecop(u_case, vine_case) - log dvinecop(u_ctrl,
   # vine_control), recomputed here independently from the model's stored vines.
   dat <- .make_lrt_vine_data(seed = 55L)

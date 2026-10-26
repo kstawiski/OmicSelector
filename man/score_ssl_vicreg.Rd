@@ -36,8 +36,10 @@ row and the frozen model and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_ssl_vicreg(X, y)
-score_ssl_vicreg(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_ssl_vicreg(X, y)
+  score_ssl_vicreg(model, X[1, , drop = FALSE])
+}
 }
 
 }

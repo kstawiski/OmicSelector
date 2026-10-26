@@ -20,22 +20,25 @@ Key features:
 }
 \examples{
 \dontrun{
-# Create pipeline from data
-pipeline <- OmicPipeline$new(
-  data = my_data,
-  target = "outcome",
-  positive = "Case"
-)
+if (requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE)) {
+  # Create pipeline from data
+  pipeline <- OmicPipeline$new(
+    data = my_data,
+    target = "outcome",
+    positive = "Case"
+  )
 
-# Create a graph learner with feature selection
-learner <- pipeline$create_graph_learner(
-  filter = "anova",
-  model = "ranger",
-  n_features = 20
-)
+  # Create a graph learner with feature selection
+  learner <- pipeline$create_graph_learner(
+    filter = "anova",
+    model = "ranger",
+    n_features = 20
+  )
 
-# Run nested cross-validation
-result <- pipeline$benchmark(learner, outer_folds = 5, inner_folds = 3)
+  # Run nested cross-validation
+  result <- pipeline$benchmark(learner, outer_folds = 5, inner_folds = 3)
+}
 }
 
 }

@@ -37,9 +37,12 @@ Runs the full explainability pipeline: importance, PDPs, SHAP, correlations.
 }
 \examples{
 \dontrun{
-results <- xai_pipeline(learner, task, top_k = 10)
-plot(results$importance)
-print(results$correlations$high_cor_pairs)
+if (requireNamespace("DALEX", quietly = TRUE) &&
+    requireNamespace("ggplot2", quietly = TRUE)) {
+  results <- xai_pipeline(learner, task, top_k = 10)
+  plot(results$importance)
+  print(results$correlations$high_cor_pairs)
+}
 }
 
 }

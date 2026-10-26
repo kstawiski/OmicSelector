@@ -42,8 +42,10 @@ can have LOWER predicted probabilities, inverting the AUC to 1 - true_AUC.
 }
 \examples{
 \dontrun{
-roc_obj <- safe_roc(y_true, y_pred)
-auc_val <- as.numeric(pROC::auc(roc_obj))
+if (requireNamespace("pROC", quietly = TRUE)) {
+  roc_obj <- safe_roc(y_true, y_pred)
+  auc_val <- as.numeric(pROC::auc(roc_obj))
+}
 }
 
 }
