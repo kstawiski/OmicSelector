@@ -67,7 +67,7 @@ NULL
 #'
 #' @return A list with class \code{"os_bias_floor"}:
 #'   \item{apparent_auc}{Logistic regression AUC on the training data
-#'     (upper bound — optimistic by design)}
+#'     (upper bound -- optimistic by design)}
 #'   \item{cv_auc}{Cross-validated AUC, if requested}
 #'   \item{per_cohort}{Data frame: cohort, n, case rate, mean predicted probability}
 #'   \item{interpretation}{Character string summarizing the floor}

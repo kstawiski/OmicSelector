@@ -62,14 +62,16 @@ case-like.
 }
 \examples{
 \dontrun{
-set.seed(1)
-X <- matrix(stats::rgamma(60 * 20, shape = 2), nrow = 60,
-            dimnames = list(NULL, paste0("miR-", seq_len(20))))
-y <- rep(c(0, 1), each = 30)
-X[y == 1, "miR-1"] <- X[y == 1, "miR-1"] + 10
-X[y == 0, "miR-2"] <- X[y == 0, "miR-2"] + 10
-model <- fit_reo_pairratio(X, y, hp = list(m_features = 8L, nfolds = 5L))
-score <- score_reo_pairratio(model, X)
+if (requireNamespace("glmnet", quietly = TRUE)) {
+  set.seed(1)
+  X <- matrix(stats::rgamma(60 * 20, shape = 2), nrow = 60,
+              dimnames = list(NULL, paste0("miR-", seq_len(20))))
+  y <- rep(c(0, 1), each = 30)
+  X[y == 1, "miR-1"] <- X[y == 1, "miR-1"] + 10
+  X[y == 0, "miR-2"] <- X[y == 0, "miR-2"] + 10
+  model <- fit_reo_pairratio(X, y, hp = list(m_features = 8L, nfolds = 5L))
+  score <- score_reo_pairratio(model, X)
+}
 }
 
 }

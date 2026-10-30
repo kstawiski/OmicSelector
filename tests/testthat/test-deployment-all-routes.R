@@ -9,10 +9,11 @@
   list(X=X,y=y,meta=meta)
 }
 
-test_that('all legacy routes score each specimen using frozen state and aligned metadata', {
-  dat <- .make_all_routes_data()
-  probe <- c(1L,6L,11L,16L,40L,80L)
-  for (id in .ss_legacy_ids()) {
+for (id in .ss_legacy_ids()) {
+  test_that(paste(id, 'scores each specimen using frozen state and aligned metadata'), {
+    if (id == 'nc-mahalanobis') testthat::skip_if_not_installed('robustbase')
+    dat <- .make_all_routes_data()
+    probe <- c(1L,6L,11L,16L,40L,80L)
     dep <- suppressWarnings(deploy_singlesample(dat$X,dat$y,id,meta_train=dat$meta,verify=FALSE))
     before <- singlesample_state_fingerprint(dep)
     expect_true(is_singlesample_deployable(dep,dat$X[probe,],dat$meta[probe,]), info=id)
@@ -32,8 +33,8 @@ test_that('all legacy routes score each specimen using frozen state and aligned 
       err <- tryCatch(score_specimen(dep,dat$X[1,,drop=FALSE],m),error=identity)
       expect_identical(err$code,if(nm=='rin')'INVALID_METADATA' else 'UNSEEN_METADATA_LEVEL',info=id)
     }
-  }
-})
+  })
+}
 
 test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   d <- .make_all_routes_data()
@@ -51,9 +52,10 @@ test_that('hemolysis anchors are frozen and absent anchors fail with a code', {
   expect_identical(err$code,'MISSING_HEMOLYSIS_ANCHORS')
 })
 
-test_that('legacy scalar adapters freeze the training-median direction', {
-  d <- .make_all_routes_data()
-  for (id in c('ws-dominance','nc-mahalanobis','nc-conformal-anom','nc-isoforest')) {
+for (id in c('ws-dominance','nc-mahalanobis','nc-conformal-anom','nc-isoforest')) {
+  test_that(paste(id, 'scalar adapter freezes the training-median direction'), {
+    if (id == 'nc-mahalanobis') testthat::skip_if_not_installed('robustbase')
+    d <- .make_all_routes_data()
     dep <- suppressWarnings(deploy_singlesample(d$X,d$y,id,verify=FALSE))
     X <- d$X[1:4,]; fit <- dep$model$fit
     raw <- function(X) switch(id, `ws-dominance`=ws_dominance_score(X),
@@ -64,8 +66,8 @@ test_that('legacy scalar adapters freeze the training-median direction', {
     direction <- if (median(train[d$y == 1]) < median(train[d$y == 0])) -1 else 1
     expect_identical(dep$score_direction, direction, info=id)
     expect_identical(score_specimen(dep,X),as.numeric(direction * raw(X)),info=id)
-  }
-})
+  })
+}
 
 test_that('Python fingerprint observes parameters, buffers and context mutation', {
   skip_if_not_installed('reticulate')
@@ -245,4 +247,56 @@ test_that('complete fingerprints record inference configuration without omitting
     mutated <- m; mutated$context_rclr[1,1] <- 9
     expect_false(identical(fn(m),fn(mutated)))
   }
+})
+
+test_that('every legacy transfer route freezes the harness training direction', {
+  d <- .make_all_routes_data()
+  r <- singlesample_method_roster()
+  ids <- intersect(.ss_legacy_ids(),r$method_id[r$estimand=='transfer'])
+  for (id in ids) {
+    dep <- suppressWarnings(deploy_singlesample(d$X,d$y,id,meta_train=d$meta,verify=FALSE))
+    train <- .ss_legacy_score(dep$model,d$X,d$meta)
+    direction <- if(median(train[d$y==1])<median(train[d$y==0])) -1 else 1
+    expect_identical(dep$score_direction,direction,info=id)
+    raw <- .ss_legacy_score(dep$model,d$X[1:4,],d$meta[1:4,])
+    expect_equal(as.numeric(score_specimen(dep,d$X[1:4,],d$meta[1:4,])),direction*as.numeric(raw),tolerance=0,info=id)
+  }
+})
+
+test_that('numerical fingerprints survive tensor reloads and reference duplication', {
+  skip_if_not_installed('reticulate')
+  skip_if_not(reticulate::py_module_available('torch'))
+  .ss_python_state_module()
+  reticulate::py_run_string("
+import copy, pickle, torch
+import singlesample_state as state
+net = torch.nn.BatchNorm1d(3).eval()
+state.freeze(net)
+before = state.state_fingerprint(net)
+assert state.state_fingerprint(pickle.loads(pickle.dumps(net))) == before
+# Equivalent tensor contents need not share Python object identities.
+x = torch.tensor([1.0, 2.0])
+assert state.state_fingerprint([x, x]) == state.state_fingerprint([x, x.clone()])
+# Reloaded autograd ownership is immaterial to frozen inference.
+net.weight.requires_grad_(True)
+assert state.state_fingerprint(net) == before
+net.train()
+assert state.state_fingerprint(net) != before
+net.eval()
+net.running_mean.add_(1)
+assert state.state_fingerprint(net) != before
+")
+  succeed()
+})
+
+test_that('R closure fingerprints survive serialization and retain captured state', {
+  original <- local({weight <- 2; function(x) weight*x}, envir = new.env(parent = baseenv()))
+  wrapped <- .method_dependency_wrapper(original,'example')
+  before <- singlesample_state_fingerprint(list(score=wrapped))
+  restored <- unserialize(serialize(wrapped,NULL))
+  expect_identical(singlesample_state_fingerprint(list(score=restored)),before)
+  environment(restored)$original <- compiler::cmpfun(environment(restored)$original)
+  expect_identical(singlesample_state_fingerprint(list(score=restored)),before)
+  environment(environment(restored)$original)$weight <- 3
+  expect_false(identical(singlesample_state_fingerprint(list(score=restored)),before))
 })

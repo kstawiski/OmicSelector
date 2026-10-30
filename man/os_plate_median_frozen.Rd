@@ -22,7 +22,7 @@ with biological covariates and an empirical-Bayes shrinkage is desirable.
 \section{Public methods}{
 
 \describe{
-  \item{\code{$new(scale)}}{Constructor; \code{scale} ∈ \{"none", "iqr", "mad"\}.}
+  \item{\code{$new(scale)}}{Constructor; \code{scale} is one of "none", "iqr" or "mad".}
   \item{\code{$fit(data, plate)}}{Learn per-plate medians (and optional scales)
         from training data only.}
   \item{\code{$transform(data, plate)}}{Apply frozen parameters to new data.

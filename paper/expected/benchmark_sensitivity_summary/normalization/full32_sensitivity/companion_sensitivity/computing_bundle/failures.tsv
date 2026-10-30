@@ -1,0 +1,14 @@
+dataset	part	seed	fold	arm	stage	message	repetition	batch	fraction
+"GSE198834"	"A"	NA	NA	"ALL"	"reproduction_gate"	"Gate failed; no new arms fitted"	NA	NA	NA
+"GSE204951"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	1	NA	NA
+"GSE204951"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	2	NA	NA
+"GSE204951"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	4	NA	NA
+"GSE204951"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	5	NA	NA
+"GSE210329"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	1	NA	NA
+"GSE210329"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	4	NA	NA
+"GSE279209"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	1	NA	NA
+"GSE279209"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	3	NA	NA
+"GSE64591"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	2	NA	NA
+"GSE64591"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	3	NA	NA
+"GSE64591"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	4	NA	NA
+"GSE64591"	"B"	NA	NA	"reo-pairratio"	"fit"	"score_reo_pairratio: [EMPTY_FITTED_SUPPORT] requires non-empty fitted pair/balance support"	5	NA	NA

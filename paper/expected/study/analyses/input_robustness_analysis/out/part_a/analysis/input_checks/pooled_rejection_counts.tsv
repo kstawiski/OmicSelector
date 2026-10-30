@@ -1,0 +1,10 @@
+scenario	reference_implementation_attempts	reference_implementation_rejections	reference_implementation_silent_scores	release_attempts	release_rejections	release_silent_scores
+RJ1_all_required_absent	5080	1380	3700	4580	4580	0
+RJ2_one_required_absent	5080	1380	3700	4580	1590	2990
+RJ3_one_required_nonfinite	5080	5080	0	4580	4580	0
+RJ4_half_nonrequired_absent	5440	0	5440	4580	0	4580
+RJ5_extra_unregistered_features	5440	0	5440	4580	0	4580
+RJ6_all_nondetect_specimen	5440	0	5440	4580	1140	3440
+RJ7_unnamed_vector	5440	5440	0	4580	4580	0
+RJ8_single_row_benchmark_preproc_required_missing	629	186	443	629	226	403
+RJ9_nondeployable_A_route_deploy	105	105	0	105	0	105

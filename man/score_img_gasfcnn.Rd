@@ -39,8 +39,10 @@ row and the frozen model, and is exactly invariant to per-specimen positive scal
 }
 \examples{
 \dontrun{
-model <- fit_img_gasfcnn(X, y)
-score_img_gasfcnn(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_img_gasfcnn(X, y)
+  score_img_gasfcnn(model, X[1, , drop = FALSE])
+}
 }
 
 }

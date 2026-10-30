@@ -1,0 +1,6 @@
+{
+  "./analyses/benchmark/summary_payload/changed/": "analyses/benchmark/summary_payload/changed/",
+  "./analyses/benchmark/public-summary/project/": "",
+  "./analyses/benchmark/public-summary/": "./analyses/benchmark/out/",
+  "./analyses/benchmark/summary_payload/": "./analyses/benchmark/staging/synthesis/payload/"
+}

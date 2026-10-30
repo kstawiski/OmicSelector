@@ -1,0 +1,4 @@
+analysis	method	performance_path
+Foundation model seed tied to CV seed; all three methods	ai-tabpfn	evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/ai-tabpfn_performance.tsv
+Foundation model seed tied to CV seed; all three methods	tab-tabicl	evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabicl_performance.tsv
+Foundation model seed tied to CV seed; all three methods	tab-tabdpt	evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabdpt_performance.tsv

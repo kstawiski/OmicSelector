@@ -1,0 +1,17 @@
+unit	analysis	metric	estimate	standard_error	ci_lo	ci_hi	status	source_file	class	comparison_instance	contrast_direction
+GSE198834	Within-cohort reference AUC	ws-rclr-trimmed	0.564197722567288	0.0389444454580741	0.487866609469463	0.640528835665113	ok	analyses/benchmark/out/synthesis/method_cohort_performance.tsv	a	1	
+GSE198834	Part A	CN-STD minus FZ-STD	0	0	0	0	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-STD minus FZ-STD
+GSE198834	Part A	CN-QN minus FZ-QN	0.0010934265010352	0.0218106837335645	-0.0439216122847924	0.0461084652868628	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-QN minus FZ-QN
+GSE198834	Part A	CN-COMBAT minus FZ-RAW	0.000745341614906834	0.00200711875548718	-0.00339714789755979	0.00488783112737345	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-COMBAT minus FZ-RAW
+GSE198834	Part A	TBC minus R	0	0	0	0	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	TBC minus R
+GSE198834	Part A	SS-CLR minus CN-STD	0.0112487060041408	0.0219693087646304	-0.0340937187551418	0.0565911307634234	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	SS-CLR minus CN-STD
+GSE198834	Part A	SS-CLR minus CN-QN	-0.0165877329192547	0.0401371441413539	-0.0994267269804516	0.0662512611419423	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	SS-CLR minus CN-QN
+GSE198834	Part A	SS-CLR minus CN-COMBAT	0.00723796583850932	0.0170796018225481	-0.028012599796227	0.0424885314732457	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	SS-CLR minus CN-COMBAT
+GSE198834	Part A	FZ-STD minus R	-0.0468245341614907	0.0627966315905516	-0.176430411776315	0.0827813434533337	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	FZ-STD minus R
+GSE198834	Part A	CN-STD minus R	-0.0468245341614907	0.0627966315905516	-0.176430411776315	0.0827813434533337	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-STD minus R
+GSE198834	Part A	FZ-QN minus R	-0.0200815217391304	0.0654219631345983	-0.15510581735151	0.114942773873249	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	FZ-QN minus R
+GSE198834	Part A	CN-QN minus R	-0.0189880952380952	0.0659839754911255	-0.155172327344728	0.117196136868538	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-QN minus R
+GSE198834	Part A	FZ-RAW minus R	-0.0435591356107661	0.0641008266149304	-0.175856739460488	0.0887384682389563	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	FZ-RAW minus R
+GSE198834	Part A	CN-COMBAT minus R	-0.0428137939958592	0.0642414886330276	-0.175401709982408	0.0897741219906896	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	CN-COMBAT minus R
+GSE198834	Part A	TBC minus R	0	0	0	0	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	2	TBC minus R
+GSE198834	Part A	SS-CLR minus R	-0.0355758281573499	0.0685634948691878	-0.177083926598057	0.105932270283357	ok	analyses/benchmark/summary_payload/changed/normalization/partA_contrasts_dataset.tsv	a	1	SS-CLR minus R

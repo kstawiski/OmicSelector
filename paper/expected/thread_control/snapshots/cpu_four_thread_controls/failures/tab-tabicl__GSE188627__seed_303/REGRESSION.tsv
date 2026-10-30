@@ -1,0 +1,2 @@
+method	cohort	seed	model_seed	eligible_old	eligible_new	valid_folds_old	valid_folds_new	reason
+tab-tabicl	GSE188627	303	42	TRUE	FALSE	5	4	n_valid_folds=4 < 5; per-fold: ok; ok; ok; ok; fit failed: RuntimeError: [enforce fail at alloc_cpu.cpp:127] err == 0. DefaultCPUAllocator: can't allocate memory: you tried to allocate 1177067520 bytes. Error code 12 (Cannot allocate memory) Run `reticulate::py_last_error()` for details.

@@ -24,7 +24,7 @@ A \code{data.frame} with columns: \code{cohort_idx},
   \code{q_block_BH_textbook}, \code{q_cohort_within_block}.
 }
 \description{
-Naïve BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
+Naive BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
 Toray clusters with \eqn{\sim 94.5\%} specimen reuse) as independent tests,
 which is anti-conservative due to strongly correlated test statistics. This
 function implements a two-stage correction:

@@ -1,0 +1,94 @@
+phase	method	metric	value	denominator	definition
+after	ALL	registered_methods	23		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	all_method_target_seed_cells	1955		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	structurally_eligible_target_seed_cells	55		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	structurally_eligible_method_target_seed_cells	1265		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	method_target_seed_cells_with_heldout_scores	625		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	target_seed_cells_with_any_heldout_scores	50		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	ALL	structural_exclusions	690		Cell counts include all refusals. Structurally eligible targets have at least two source cohorts.
+after	blood-cell-marker-excl-rclr	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	blood-cell-marker-excl-rclr	median_target_auc	0.451281360689535	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	blood-cell-marker-excl-rclr	median_paired_difference_from_rclr	0.01545468701339145	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	cvae	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	cvae	median_target_auc	0.5339338604957338	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	cvae	median_paired_difference_from_rclr	0.09315982248520709	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dann	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dann	median_target_auc	0.5180120161290325	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dann	median_paired_difference_from_rclr	0.03160962643955739	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-fishr	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-fishr	median_target_auc	0.513907196969697	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-fishr	median_paired_difference_from_rclr	0.06103591447379078	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-ibirm	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-ibirm	median_target_auc	0.5484657894736842	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dg-ibirm	median_paired_difference_from_rclr	0.06748138524425129	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-group	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-group	median_target_auc	0.5120402003006299	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-group	median_paired_difference_from_rclr	0.02274881656426158	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-vrex	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-vrex	median_target_auc	0.5477347488038278	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	dro-vrex	median_paired_difference_from_rclr	0.07157055032796315	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	icp	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	icp	median_target_auc	0.46422371395405704	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	icp	median_paired_difference_from_rclr	0.006584131064963852	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	moe-gated	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	moe-gated	median_target_auc	0.4940416427038503	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	moe-gated	median_paired_difference_from_rclr	0.06855717712659028	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	reo-metaktsp	targets_scored	10	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	reo-metaktsp	median_target_auc	0.557344399132454	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	reo-metaktsp	median_paired_difference_from_rclr	0.045540316962730795	11	Target estimates are arithmetic means across all five eligible seeds. Medians give each target equal weight.
+after	biofluid-anchor-rclr	refusal_cells:INSUFFICIENT_BIOFLUID_ANCHORS	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-anchor-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-anchor-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	15		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-residualized-alr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-residualized-alr	refusal_cells:UNSEEN_METADATA_LEVEL	20		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-stratified-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	biofluid-stratified-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	20		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	blood-cell-marker-excl-rclr	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	blood-cell-marker-excl-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	cross-tech-harmonized-rclr	refusal_cells:INSUFFICIENT_TECHNOLOGY_CLASSES	10		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	cross-tech-harmonized-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	cross-tech-harmonized-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	35		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	cvae	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	cvae	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dann	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dann	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dg-fishr	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dg-fishr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dg-ibirm	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dg-ibirm	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dro-group	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dro-group	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dro-vrex	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	dro-vrex	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	hemolysis-kit-dual-anchor	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	hemolysis-kit-dual-anchor	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	icp	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	icp	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-fe-adjusted-alr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-fe-adjusted-alr	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-orthogonal-ilr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-orthogonal-ilr	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-residual-mad	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-residual-mad	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-stable-anchor-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-stable-anchor-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-stratified-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	kit-stratified-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	moe-gated	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	moe-gated	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	reo-metaktsp	refusal_cells:ALL_NONDETECT	5		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	reo-metaktsp	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	rin-weighted-score	refusal_cells:MISSING_METADATA	55		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	rin-weighted-score	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	tech-residualized-alr	refusal_cells:INSUFFICIENT_ALR_PIVOTS	25		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	tech-residualized-alr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	tech-residualized-alr	refusal_cells:UNSEEN_METADATA_LEVEL	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	tech-stratified-rclr	refusal_cells:STRUCTURAL_INELIGIBLE	30		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	tech-stratified-rclr	refusal_cells:UNSEEN_METADATA_LEVEL	45		Non-evaluable method-target-seed cells include structural exclusions and uncoded outcomes.
+after	ALL	refusal_cells:ALL_NONDETECT	50		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:INSUFFICIENT_ALR_PIVOTS	25		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:INSUFFICIENT_BIOFLUID_ANCHORS	5		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:INSUFFICIENT_TECHNOLOGY_CLASSES	10		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:MISSING_METADATA	55		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:STRUCTURAL_INELIGIBLE	690		All methods use specimen metadata without imputation.
+after	ALL	refusal_cells:UNSEEN_METADATA_LEVEL	495		All methods use specimen metadata without imputation.

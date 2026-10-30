@@ -12,7 +12,7 @@ encode_deepinsight(x, layout)
 \item{layout}{Output of \code{fit_deepinsight}}
 }
 \value{
-A grid_size × grid_size numeric matrix
+A grid_size  x  grid_size numeric matrix
 }
 \description{
 Encode with DeepInsight Layout

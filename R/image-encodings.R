@@ -5,7 +5,7 @@
 #' suitable for CNN classification. Four encoding methods are supported:
 #'
 #' \enumerate{
-#'   \item \code{encode_simple_grid}: Fixed row-major layout in rows×cols grid
+#'   \item \code{encode_simple_grid}: Fixed row-major layout in rows x cols grid
 #'   \item \code{encode_corr_grid}: Features ordered by hierarchical correlation clustering
 #'   \item \code{encode_deepinsight}: Feature positions learned via t-SNE on training data
 #'     (Sharma et al., 2019, Scientific Reports)
@@ -36,13 +36,13 @@ NULL
 #'
 #' @description
 #' Places feature values in a rectangular grid in row-major order. Simple
-#' reshape with zero-padding if (rows × cols) > p.
+#' reshape with zero-padding if (rows  x  cols) > p.
 #'
 #' @param x Numeric vector of feature values (length p)
 #' @param rows Number of rows in the grid (default: ceiling(sqrt(p)))
 #' @param cols Number of columns (default: ceiling(p / rows))
 #'
-#' @return A rows × cols numeric matrix
+#' @return A rows  x  cols numeric matrix
 #'
 #' @examples
 #' encode_simple_grid(1:6, rows = 2, cols = 3)
@@ -79,7 +79,7 @@ encode_simple_grid <- function(x, rows = NULL, cols = NULL) {
 #'
 #' Must be FIT on training data only to avoid leakage.
 #'
-#' @param X_train Numeric matrix (n_train × p features) for fitting the order
+#' @param X_train Numeric matrix (n_train  x  p features) for fitting the order
 #' @param method Linkage method for \code{hclust} (default: "average")
 #'
 #' @return Integer vector of length p, the feature order to use for encoding
@@ -112,7 +112,7 @@ fit_corr_order <- function(X_train, method = "average") {
 #' @param cols Number of columns in the output grid. Defaults to
 #'   \code{ceiling(length(x) / rows)}.
 #'
-#' @return A rows × cols numeric matrix
+#' @return A rows  x  cols numeric matrix
 #'
 #' @examples
 #' encode_corr_grid(1:6, order = c(6, 5, 4, 3, 2, 1), rows = 2, cols = 3)
@@ -140,14 +140,14 @@ encode_corr_grid <- function(x, order, rows = NULL, cols = NULL) {
 #'
 #' Requires \code{Rtsne} package.
 #'
-#' @param X_train Numeric matrix (n_train × p features)
+#' @param X_train Numeric matrix (n_train  x  p features)
 #' @param grid_size Integer, size of the square output grid (default: 14)
 #' @param perplexity t-SNE perplexity; if NULL, auto-chosen as min(5, p-1)
 #' @param seed Random seed for reproducibility
 #'
 #' @return A list with:
 #'   \itemize{
-#'     \item \code{positions}: p × 2 integer matrix of (row, col) per feature
+#'     \item \code{positions}: p  x  2 integer matrix of (row, col) per feature
 #'     \item \code{grid_size}: the grid dimension
 #'   }
 #'
@@ -223,7 +223,7 @@ fit_deepinsight <- function(X_train, grid_size = 14L, perplexity = NULL, seed = 
 #' @param x Numeric feature vector (length p)
 #' @param layout Output of \code{fit_deepinsight}
 #'
-#' @return A grid_size × grid_size numeric matrix
+#' @return A grid_size  x  grid_size numeric matrix
 #'
 #' @examples
 #' layout <- list(positions = matrix(c(1, 1, 1, 2, 2, 1), ncol = 2, byrow = TRUE), grid_size = 2L)
@@ -253,13 +253,13 @@ encode_deepinsight <- function(x, layout) {
 #' Convenience wrapper that applies an encoding method to every row of an
 #' expression matrix, returning a 3D array suitable as CNN input.
 #'
-#' @param X Numeric matrix (n × p)
+#' @param X Numeric matrix (n  x  p)
 #' @param method One of "simple", "corr", "deepinsight", "ratio"
 #' @param fit_params For "corr" or "deepinsight": the fitted order/layout.
 #'   For "simple" or "ratio": ignored.
 #' @param ... Additional arguments passed to the encoding function
 #'
-#' @return A 3D array (n × height × width)
+#' @return A 3D array (n  x  height  x  width)
 #'
 #' @examples
 #' X <- matrix(rnorm(28), nrow = 4, ncol = 7)

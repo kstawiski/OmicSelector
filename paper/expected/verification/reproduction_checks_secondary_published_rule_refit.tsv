@@ -1,0 +1,4 @@
+family	field	n	max_absolute_error	tolerance	pass
+published_rule	weighted_cancer_score	107	0	1e-10	TRUE
+published_rule	weighted_noncancer_score	107	0	1e-10	TRUE
+published_rule	reconciled_call	107	0	1e-10	TRUE

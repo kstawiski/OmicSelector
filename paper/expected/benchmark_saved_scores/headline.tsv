@@ -1,0 +1,822 @@
+metric	method	cohort	value	source_file	source_rows_or_filter	source_column
+planned_method_cohort_cells			1700	synthesis/method_cohort_performance.tsv	all rows	
+evaluable_method_cohort_cells			1555	synthesis/method_cohort_performance.tsv	complete and finite AUC	
+pending_method_seed_cohort_cells			0	synthesis/evidence/pending_cells.tsv	all rows	
+estimable_methods			48	synthesis/pooled_effects.tsv	finite pooled estimates	
+BY_above_zero			0	synthesis/pooled_effects.tsv	BY-adjusted P < 0.05	
+BY_above_005			0	synthesis/pooled_effects.tsv	BY-adjusted P above 0.05 margin < 0.05	
+CI_wholly_below_zero			29	synthesis/pooled_effects.tsv	upper CI < 0	
+CI_wholly_below_zero_methods			coda-codacore;conf-mondrian;dre-ulsif;frac-mfdfa;frozen-ruv;gsp-gft;ig-fisherrao;img-gasfcnn;inv-css;inv-fdaqf;inv-glcm;inv-olbp;lrt-copula;lrt-nbkde;lrt-tcopula;lrt-vinecopula;nc-conformal-anom;nc-ecod-copod;nc-isoforest;ot-lot;ot-slicedlrt;robust-pca-resid;sig-path;ssl-vicreg;tda-ph;unc-sngp;ws-balance-ilr;ws-dominance;ws-mad-logratio	synthesis/pooled_effects.tsv	upper CI < 0	
+CI_wholly_above_zero			2	synthesis/pooled_effects.tsv	lower CI > 0	
+CI_upper_below_005			48	synthesis/pooled_effects.tsv	upper CI < 0.05	
+shared_pairratio_reference_cohorts			15	synthesis/evidence/shared_cohort_auc.tsv	all rows	
+pairratio_shared_median_AUC			0.953426837796246	synthesis/evidence/shared_cohort_auc.tsv	all rows	
+reference_shared_median_AUC			0.946812237518387	synthesis/evidence/shared_cohort_auc.tsv	all rows	
+shared_median_paired_AUC_difference			0.0	synthesis/evidence/shared_cohort_auc.tsv	all rows	
+largest_pooled_gain	ai-tabpfn		0.024096380567909	synthesis/evidence/pooled.tsv	2	pooled_lift
+largest_CI_upper	tab-tabicl		0.0483620721415553	synthesis/evidence/pooled.tsv	43	ci_hi
+largest_PI_upper	lrt-tcopula		0.324976315133209	synthesis/evidence/pooled.tsv	24	pi_hi
+k	ai-scarf		30	synthesis/evidence/pooled.tsv	1	k
+pooled_lift	ai-scarf		0.0004751496934962	synthesis/evidence/pooled.tsv	1	pooled_lift
+ci_lo	ai-scarf		-0.0031326528769176	synthesis/evidence/pooled.tsv	1	ci_lo
+ci_hi	ai-scarf		0.0040829522639102	synthesis/evidence/pooled.tsv	1	ci_hi
+pi_lo	ai-scarf		-0.0039627858571002	synthesis/evidence/pooled.tsv	1	pi_lo
+pi_hi	ai-scarf		0.0049130852440927	synthesis/evidence/pooled.tsv	1	pi_hi
+p_lift_gt_zero_BY	ai-scarf		1.0	synthesis/evidence/pooled.tsv	1	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ai-scarf		1.0	synthesis/evidence/pooled.tsv	1	p_lift_gt_margin_0_05_BY
+I2	ai-scarf		0.842150330655431	synthesis/evidence/pooled.tsv	1	I2
+k	ai-tabpfn		30	synthesis/evidence/pooled.tsv	2	k
+pooled_lift	ai-tabpfn		0.024096380567909	synthesis/evidence/pooled.tsv	2	pooled_lift
+ci_lo	ai-tabpfn		0.0076123694142584	synthesis/evidence/pooled.tsv	2	ci_lo
+ci_hi	ai-tabpfn		0.0405803917215595	synthesis/evidence/pooled.tsv	2	ci_hi
+pi_lo	ai-tabpfn		-0.0271448317268307	synthesis/evidence/pooled.tsv	2	pi_lo
+pi_hi	ai-tabpfn		0.0753375928626487	synthesis/evidence/pooled.tsv	2	pi_hi
+p_lift_gt_zero_BY	ai-tabpfn		0.603750064609275	synthesis/evidence/pooled.tsv	2	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ai-tabpfn		1.0	synthesis/evidence/pooled.tsv	2	p_lift_gt_margin_0_05_BY
+I2	ai-tabpfn		79.1370797837753	synthesis/evidence/pooled.tsv	2	I2
+k	bal-selbal		19	synthesis/evidence/pooled.tsv	3	k
+pooled_lift	bal-selbal		0.0079362640867197	synthesis/evidence/pooled.tsv	3	pooled_lift
+ci_lo	bal-selbal		-0.0239691113657217	synthesis/evidence/pooled.tsv	3	ci_lo
+ci_hi	bal-selbal		0.0398416395391611	synthesis/evidence/pooled.tsv	3	ci_hi
+pi_lo	bal-selbal		-0.0672471391842204	synthesis/evidence/pooled.tsv	3	pi_lo
+pi_hi	bal-selbal		0.0831196673576598	synthesis/evidence/pooled.tsv	3	pi_hi
+p_lift_gt_zero_BY	bal-selbal		1.0	synthesis/evidence/pooled.tsv	3	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	bal-selbal		1.0	synthesis/evidence/pooled.tsv	3	p_lift_gt_margin_0_05_BY
+I2	bal-selbal		50.7388880544929	synthesis/evidence/pooled.tsv	3	I2
+k	coda-codacore		31	synthesis/evidence/pooled.tsv	4	k
+pooled_lift	coda-codacore		-0.0317104450367683	synthesis/evidence/pooled.tsv	4	pooled_lift
+ci_lo	coda-codacore		-0.0531307473731222	synthesis/evidence/pooled.tsv	4	ci_lo
+ci_hi	coda-codacore		-0.0102901427004145	synthesis/evidence/pooled.tsv	4	ci_hi
+pi_lo	coda-codacore		-0.0912724160491564	synthesis/evidence/pooled.tsv	4	pi_lo
+pi_hi	coda-codacore		0.0278515259756198	synthesis/evidence/pooled.tsv	4	pi_hi
+p_lift_gt_zero_BY	coda-codacore		1.0	synthesis/evidence/pooled.tsv	4	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	coda-codacore		1.0	synthesis/evidence/pooled.tsv	4	p_lift_gt_margin_0_05_BY
+I2	coda-codacore		52.584217507401	synthesis/evidence/pooled.tsv	4	I2
+k	coda-deepcoda		30	synthesis/evidence/pooled.tsv	5	k
+pooled_lift	coda-deepcoda		-0.0045673805811019	synthesis/evidence/pooled.tsv	5	pooled_lift
+ci_lo	coda-deepcoda		-0.0237303194055645	synthesis/evidence/pooled.tsv	5	ci_lo
+ci_hi	coda-deepcoda		0.0145955582433606	synthesis/evidence/pooled.tsv	5	ci_hi
+pi_lo	coda-deepcoda		-0.0724883170759488	synthesis/evidence/pooled.tsv	5	pi_lo
+pi_hi	coda-deepcoda		0.0633535559137449	synthesis/evidence/pooled.tsv	5	pi_hi
+p_lift_gt_zero_BY	coda-deepcoda		1.0	synthesis/evidence/pooled.tsv	5	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	coda-deepcoda		1.0	synthesis/evidence/pooled.tsv	5	p_lift_gt_margin_0_05_BY
+I2	coda-deepcoda		79.7183774747636	synthesis/evidence/pooled.tsv	5	I2
+k	conf-mondrian		31	synthesis/evidence/pooled.tsv	6	k
+pooled_lift	conf-mondrian		-0.0342911129329406	synthesis/evidence/pooled.tsv	6	pooled_lift
+ci_lo	conf-mondrian		-0.0500121876662067	synthesis/evidence/pooled.tsv	6	ci_lo
+ci_hi	conf-mondrian		-0.0185700381996744	synthesis/evidence/pooled.tsv	6	ci_hi
+pi_lo	conf-mondrian		-0.0873857322823197	synthesis/evidence/pooled.tsv	6	pi_lo
+pi_hi	conf-mondrian		0.0188035064164386	synthesis/evidence/pooled.tsv	6	pi_hi
+p_lift_gt_zero_BY	conf-mondrian		1.0	synthesis/evidence/pooled.tsv	6	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	conf-mondrian		1.0	synthesis/evidence/pooled.tsv	6	p_lift_gt_margin_0_05_BY
+I2	conf-mondrian		51.8345523916159	synthesis/evidence/pooled.tsv	6	I2
+k	dre-ulsif		30	synthesis/evidence/pooled.tsv	7	k
+pooled_lift	dre-ulsif		-0.113007602051903	synthesis/evidence/pooled.tsv	7	pooled_lift
+ci_lo	dre-ulsif		-0.154499437099954	synthesis/evidence/pooled.tsv	7	ci_lo
+ci_hi	dre-ulsif		-0.0715157670038524	synthesis/evidence/pooled.tsv	7	ci_hi
+pi_lo	dre-ulsif		-0.307876386780225	synthesis/evidence/pooled.tsv	7	pi_lo
+pi_hi	dre-ulsif		0.0818611826764189	synthesis/evidence/pooled.tsv	7	pi_hi
+p_lift_gt_zero_BY	dre-ulsif		1.0	synthesis/evidence/pooled.tsv	7	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	dre-ulsif		1.0	synthesis/evidence/pooled.tsv	7	p_lift_gt_margin_0_05_BY
+I2	dre-ulsif		87.9930497386186	synthesis/evidence/pooled.tsv	7	I2
+k	frac-mfdfa		21	synthesis/evidence/pooled.tsv	8	k
+pooled_lift	frac-mfdfa		-0.126888186546268	synthesis/evidence/pooled.tsv	8	pooled_lift
+ci_lo	frac-mfdfa		-0.185721537906711	synthesis/evidence/pooled.tsv	8	ci_lo
+ci_hi	frac-mfdfa		-0.0680548351858246	synthesis/evidence/pooled.tsv	8	ci_hi
+pi_lo	frac-mfdfa		-0.347437766559115	synthesis/evidence/pooled.tsv	8	pi_lo
+pi_hi	frac-mfdfa		0.0936613934665799	synthesis/evidence/pooled.tsv	8	pi_hi
+p_lift_gt_zero_BY	frac-mfdfa		1.0	synthesis/evidence/pooled.tsv	8	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	frac-mfdfa		1.0	synthesis/evidence/pooled.tsv	8	p_lift_gt_margin_0_05_BY
+I2	frac-mfdfa		85.1036700715059	synthesis/evidence/pooled.tsv	8	I2
+k	frozen-ruv		31	synthesis/evidence/pooled.tsv	9	k
+pooled_lift	frozen-ruv		-0.124057628365946	synthesis/evidence/pooled.tsv	9	pooled_lift
+ci_lo	frozen-ruv		-0.164903246194482	synthesis/evidence/pooled.tsv	9	ci_lo
+ci_hi	frozen-ruv		-0.0832120105374096	synthesis/evidence/pooled.tsv	9	ci_hi
+pi_lo	frozen-ruv		-0.249621969184645	synthesis/evidence/pooled.tsv	9	pi_lo
+pi_hi	frozen-ruv		0.0015067124527537	synthesis/evidence/pooled.tsv	9	pi_hi
+p_lift_gt_zero_BY	frozen-ruv		1.0	synthesis/evidence/pooled.tsv	9	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	frozen-ruv		1.0	synthesis/evidence/pooled.tsv	9	p_lift_gt_margin_0_05_BY
+I2	frozen-ruv		51.9048700097016	synthesis/evidence/pooled.tsv	9	I2
+k	gsp-gft		30	synthesis/evidence/pooled.tsv	10	k
+pooled_lift	gsp-gft		-0.0225422072070122	synthesis/evidence/pooled.tsv	10	pooled_lift
+ci_lo	gsp-gft		-0.0394969026202957	synthesis/evidence/pooled.tsv	10	ci_lo
+ci_hi	gsp-gft		-0.0055875117937286	synthesis/evidence/pooled.tsv	10	ci_hi
+pi_lo	gsp-gft		-0.0674028772970178	synthesis/evidence/pooled.tsv	10	pi_lo
+pi_hi	gsp-gft		0.0223184628829935	synthesis/evidence/pooled.tsv	10	pi_hi
+p_lift_gt_zero_BY	gsp-gft		1.0	synthesis/evidence/pooled.tsv	10	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	gsp-gft		1.0	synthesis/evidence/pooled.tsv	10	p_lift_gt_margin_0_05_BY
+I2	gsp-gft		49.7768824914149	synthesis/evidence/pooled.tsv	10	I2
+k	hemolysis-resid		18	synthesis/evidence/pooled.tsv	11	k
+pooled_lift	hemolysis-resid		-0.0176005924661907	synthesis/evidence/pooled.tsv	11	pooled_lift
+ci_lo	hemolysis-resid		-0.0356187856481288	synthesis/evidence/pooled.tsv	11	ci_lo
+ci_hi	hemolysis-resid		0.0004176007157473	synthesis/evidence/pooled.tsv	11	ci_hi
+pi_lo	hemolysis-resid		-0.056483804482609	synthesis/evidence/pooled.tsv	11	pi_lo
+pi_hi	hemolysis-resid		0.0212826195502276	synthesis/evidence/pooled.tsv	11	pi_hi
+p_lift_gt_zero_BY	hemolysis-resid		1.0	synthesis/evidence/pooled.tsv	11	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	hemolysis-resid		1.0	synthesis/evidence/pooled.tsv	11	p_lift_gt_margin_0_05_BY
+I2	hemolysis-resid		28.8252983166787	synthesis/evidence/pooled.tsv	11	I2
+k	ig-fisherrao		30	synthesis/evidence/pooled.tsv	12	k
+pooled_lift	ig-fisherrao		-0.0399634543113253	synthesis/evidence/pooled.tsv	12	pooled_lift
+ci_lo	ig-fisherrao		-0.0658128691884873	synthesis/evidence/pooled.tsv	12	ci_lo
+ci_hi	ig-fisherrao		-0.0141140394341633	synthesis/evidence/pooled.tsv	12	ci_hi
+pi_lo	ig-fisherrao		-0.140479938312237	synthesis/evidence/pooled.tsv	12	pi_lo
+pi_hi	ig-fisherrao		0.0605530296895865	synthesis/evidence/pooled.tsv	12	pi_hi
+p_lift_gt_zero_BY	ig-fisherrao		1.0	synthesis/evidence/pooled.tsv	12	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ig-fisherrao		1.0	synthesis/evidence/pooled.tsv	12	p_lift_gt_margin_0_05_BY
+I2	ig-fisherrao		80.1847960600462	synthesis/evidence/pooled.tsv	12	I2
+k	img-gasfcnn		31	synthesis/evidence/pooled.tsv	13	k
+pooled_lift	img-gasfcnn		-0.1351356965348	synthesis/evidence/pooled.tsv	13	pooled_lift
+ci_lo	img-gasfcnn		-0.182160544177479	synthesis/evidence/pooled.tsv	13	ci_lo
+ci_hi	img-gasfcnn		-0.0881108488921207	synthesis/evidence/pooled.tsv	13	ci_hi
+pi_lo	img-gasfcnn		-0.351939471972342	synthesis/evidence/pooled.tsv	13	pi_lo
+pi_hi	img-gasfcnn		0.0816680789027423	synthesis/evidence/pooled.tsv	13	pi_hi
+p_lift_gt_zero_BY	img-gasfcnn		1.0	synthesis/evidence/pooled.tsv	13	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	img-gasfcnn		1.0	synthesis/evidence/pooled.tsv	13	p_lift_gt_margin_0_05_BY
+I2	img-gasfcnn		85.4832974065847	synthesis/evidence/pooled.tsv	13	I2
+k	inv-css		30	synthesis/evidence/pooled.tsv	14	k
+pooled_lift	inv-css		-0.15110827005464	synthesis/evidence/pooled.tsv	14	pooled_lift
+ci_lo	inv-css		-0.202155517372797	synthesis/evidence/pooled.tsv	14	ci_lo
+ci_hi	inv-css		-0.100061022736483	synthesis/evidence/pooled.tsv	14	ci_hi
+pi_lo	inv-css		-0.370092736038702	synthesis/evidence/pooled.tsv	14	pi_lo
+pi_hi	inv-css		0.067876195929422	synthesis/evidence/pooled.tsv	14	pi_hi
+p_lift_gt_zero_BY	inv-css		1.0	synthesis/evidence/pooled.tsv	14	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	inv-css		1.0	synthesis/evidence/pooled.tsv	14	p_lift_gt_margin_0_05_BY
+I2	inv-css		89.745111984115	synthesis/evidence/pooled.tsv	14	I2
+k	inv-fdaqf		30	synthesis/evidence/pooled.tsv	15	k
+pooled_lift	inv-fdaqf		-0.105466884383063	synthesis/evidence/pooled.tsv	15	pooled_lift
+ci_lo	inv-fdaqf		-0.140121035911957	synthesis/evidence/pooled.tsv	15	ci_lo
+ci_hi	inv-fdaqf		-0.070812732854168	synthesis/evidence/pooled.tsv	15	ci_hi
+pi_lo	inv-fdaqf		-0.24829676958233	synthesis/evidence/pooled.tsv	15	pi_lo
+pi_hi	inv-fdaqf		0.0373630008162047	synthesis/evidence/pooled.tsv	15	pi_hi
+p_lift_gt_zero_BY	inv-fdaqf		1.0	synthesis/evidence/pooled.tsv	15	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	inv-fdaqf		1.0	synthesis/evidence/pooled.tsv	15	p_lift_gt_margin_0_05_BY
+I2	inv-fdaqf		83.2863222712932	synthesis/evidence/pooled.tsv	15	I2
+k	inv-glcm		30	synthesis/evidence/pooled.tsv	16	k
+pooled_lift	inv-glcm		-0.124297155055741	synthesis/evidence/pooled.tsv	16	pooled_lift
+ci_lo	inv-glcm		-0.170728968901982	synthesis/evidence/pooled.tsv	16	ci_lo
+ci_hi	inv-glcm		-0.0778653412094995	synthesis/evidence/pooled.tsv	16	ci_hi
+pi_lo	inv-glcm		-0.327288011237476	synthesis/evidence/pooled.tsv	16	pi_lo
+pi_hi	inv-glcm		0.0786937011259954	synthesis/evidence/pooled.tsv	16	pi_hi
+p_lift_gt_zero_BY	inv-glcm		1.0	synthesis/evidence/pooled.tsv	16	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	inv-glcm		1.0	synthesis/evidence/pooled.tsv	16	p_lift_gt_margin_0_05_BY
+I2	inv-glcm		91.5146196838182	synthesis/evidence/pooled.tsv	16	I2
+k	inv-olbp		30	synthesis/evidence/pooled.tsv	17	k
+pooled_lift	inv-olbp		-0.142258865105026	synthesis/evidence/pooled.tsv	17	pooled_lift
+ci_lo	inv-olbp		-0.185864305274745	synthesis/evidence/pooled.tsv	17	ci_lo
+ci_hi	inv-olbp		-0.0986534249353076	synthesis/evidence/pooled.tsv	17	ci_hi
+pi_lo	inv-olbp		-0.33614665693793	synthesis/evidence/pooled.tsv	17	pi_lo
+pi_hi	inv-olbp		0.0516289267278769	synthesis/evidence/pooled.tsv	17	pi_hi
+p_lift_gt_zero_BY	inv-olbp		1.0	synthesis/evidence/pooled.tsv	17	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	inv-olbp		1.0	synthesis/evidence/pooled.tsv	17	p_lift_gt_margin_0_05_BY
+I2	inv-olbp		85.9242604443946	synthesis/evidence/pooled.tsv	17	I2
+k	inv-scatter		30	synthesis/evidence/pooled.tsv	18	k
+pooled_lift	inv-scatter		-0.0067173210542927	synthesis/evidence/pooled.tsv	18	pooled_lift
+ci_lo	inv-scatter		-0.0244178750133103	synthesis/evidence/pooled.tsv	18	ci_lo
+ci_hi	inv-scatter		0.0109832329047249	synthesis/evidence/pooled.tsv	18	ci_hi
+pi_lo	inv-scatter		-0.0693269002094793	synthesis/evidence/pooled.tsv	18	pi_lo
+pi_hi	inv-scatter		0.0558922581008939	synthesis/evidence/pooled.tsv	18	pi_hi
+p_lift_gt_zero_BY	inv-scatter		1.0	synthesis/evidence/pooled.tsv	18	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	inv-scatter		1.0	synthesis/evidence/pooled.tsv	18	p_lift_gt_margin_0_05_BY
+I2	inv-scatter		66.3997421271896	synthesis/evidence/pooled.tsv	18	I2
+k	kme-witness		30	synthesis/evidence/pooled.tsv	19	k
+pooled_lift	kme-witness		-0.0046443389279296	synthesis/evidence/pooled.tsv	19	pooled_lift
+ci_lo	kme-witness		-0.0226704601264402	synthesis/evidence/pooled.tsv	19	ci_lo
+ci_hi	kme-witness		0.0133817822705808	synthesis/evidence/pooled.tsv	19	ci_hi
+pi_lo	kme-witness		-0.0523434642953209	synthesis/evidence/pooled.tsv	19	pi_lo
+pi_hi	kme-witness		0.0430547864394616	synthesis/evidence/pooled.tsv	19	pi_hi
+p_lift_gt_zero_BY	kme-witness		1.0	synthesis/evidence/pooled.tsv	19	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	kme-witness		1.0	synthesis/evidence/pooled.tsv	19	p_lift_gt_margin_0_05_BY
+I2	kme-witness		68.9409297148892	synthesis/evidence/pooled.tsv	19	I2
+k	lrt-bw		30	synthesis/evidence/pooled.tsv	20	k
+pooled_lift	lrt-bw		0.0024606623096672	synthesis/evidence/pooled.tsv	20	pooled_lift
+ci_lo	lrt-bw		-0.010481372950437	synthesis/evidence/pooled.tsv	20	ci_lo
+ci_hi	lrt-bw		0.0154026975697716	synthesis/evidence/pooled.tsv	20	ci_hi
+pi_lo	lrt-bw		-0.0330955747136148	synthesis/evidence/pooled.tsv	20	pi_lo
+pi_hi	lrt-bw		0.0380168993329494	synthesis/evidence/pooled.tsv	20	pi_hi
+p_lift_gt_zero_BY	lrt-bw		1.0	synthesis/evidence/pooled.tsv	20	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-bw		1.0	synthesis/evidence/pooled.tsv	20	p_lift_gt_margin_0_05_BY
+I2	lrt-bw		51.6074065750882	synthesis/evidence/pooled.tsv	20	I2
+k	lrt-copula		30	synthesis/evidence/pooled.tsv	21	k
+pooled_lift	lrt-copula		-0.0568157819788466	synthesis/evidence/pooled.tsv	21	pooled_lift
+ci_lo	lrt-copula		-0.0857907147902783	synthesis/evidence/pooled.tsv	21	ci_lo
+ci_hi	lrt-copula		-0.0278408491674148	synthesis/evidence/pooled.tsv	21	ci_hi
+pi_lo	lrt-copula		-0.191653183157718	synthesis/evidence/pooled.tsv	21	pi_lo
+pi_hi	lrt-copula		0.0780216192000251	synthesis/evidence/pooled.tsv	21	pi_hi
+p_lift_gt_zero_BY	lrt-copula		1.0	synthesis/evidence/pooled.tsv	21	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-copula		1.0	synthesis/evidence/pooled.tsv	21	p_lift_gt_margin_0_05_BY
+I2	lrt-copula		84.3392006211841	synthesis/evidence/pooled.tsv	21	I2
+k	lrt-deepmaha		30	synthesis/evidence/pooled.tsv	22	k
+pooled_lift	lrt-deepmaha		-0.0111127263802419	synthesis/evidence/pooled.tsv	22	pooled_lift
+ci_lo	lrt-deepmaha		-0.0391774559061676	synthesis/evidence/pooled.tsv	22	ci_lo
+ci_hi	lrt-deepmaha		0.0169520031456838	synthesis/evidence/pooled.tsv	22	ci_hi
+pi_lo	lrt-deepmaha		-0.102970138029262	synthesis/evidence/pooled.tsv	22	pi_lo
+pi_hi	lrt-deepmaha		0.0807446852687782	synthesis/evidence/pooled.tsv	22	pi_hi
+p_lift_gt_zero_BY	lrt-deepmaha		1.0	synthesis/evidence/pooled.tsv	22	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-deepmaha		1.0	synthesis/evidence/pooled.tsv	22	p_lift_gt_margin_0_05_BY
+I2	lrt-deepmaha		77.6472943688721	synthesis/evidence/pooled.tsv	22	I2
+k	lrt-nbkde		30	synthesis/evidence/pooled.tsv	23	k
+pooled_lift	lrt-nbkde		-0.0793361540559908	synthesis/evidence/pooled.tsv	23	pooled_lift
+ci_lo	lrt-nbkde		-0.115707122930951	synthesis/evidence/pooled.tsv	23	ci_lo
+ci_hi	lrt-nbkde		-0.0429651851810303	synthesis/evidence/pooled.tsv	23	ci_hi
+pi_lo	lrt-nbkde		-0.23445355753953	synthesis/evidence/pooled.tsv	23	pi_lo
+pi_hi	lrt-nbkde		0.0757812494275482	synthesis/evidence/pooled.tsv	23	pi_hi
+p_lift_gt_zero_BY	lrt-nbkde		1.0	synthesis/evidence/pooled.tsv	23	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-nbkde		1.0	synthesis/evidence/pooled.tsv	23	p_lift_gt_margin_0_05_BY
+I2	lrt-nbkde		86.379945495464	synthesis/evidence/pooled.tsv	23	I2
+k	lrt-tcopula		31	synthesis/evidence/pooled.tsv	24	k
+pooled_lift	lrt-tcopula		-0.263264240935412	synthesis/evidence/pooled.tsv	24	pooled_lift
+ci_lo	lrt-tcopula		-0.370443011256892	synthesis/evidence/pooled.tsv	24	ci_lo
+ci_hi	lrt-tcopula		-0.156085470613931	synthesis/evidence/pooled.tsv	24	ci_hi
+pi_lo	lrt-tcopula		-0.851504797004032	synthesis/evidence/pooled.tsv	24	pi_lo
+pi_hi	lrt-tcopula		0.324976315133209	synthesis/evidence/pooled.tsv	24	pi_hi
+p_lift_gt_zero_BY	lrt-tcopula		1.0	synthesis/evidence/pooled.tsv	24	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-tcopula		1.0	synthesis/evidence/pooled.tsv	24	p_lift_gt_margin_0_05_BY
+I2	lrt-tcopula		96.3593392361479	synthesis/evidence/pooled.tsv	24	I2
+k	lrt-vinecopula		31	synthesis/evidence/pooled.tsv	25	k
+pooled_lift	lrt-vinecopula		-0.149203038058818	synthesis/evidence/pooled.tsv	25	pooled_lift
+ci_lo	lrt-vinecopula		-0.192320405106095	synthesis/evidence/pooled.tsv	25	ci_lo
+ci_hi	lrt-vinecopula		-0.106085671011541	synthesis/evidence/pooled.tsv	25	ci_hi
+pi_lo	lrt-vinecopula		-0.334048688426708	synthesis/evidence/pooled.tsv	25	pi_lo
+pi_hi	lrt-vinecopula		0.0356426123090725	synthesis/evidence/pooled.tsv	25	pi_hi
+p_lift_gt_zero_BY	lrt-vinecopula		1.0	synthesis/evidence/pooled.tsv	25	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	lrt-vinecopula		1.0	synthesis/evidence/pooled.tsv	25	p_lift_gt_margin_0_05_BY
+I2	lrt-vinecopula		61.6425844838823	synthesis/evidence/pooled.tsv	25	I2
+k	man-nystrom		30	synthesis/evidence/pooled.tsv	26	k
+pooled_lift	man-nystrom		0.0037444712465196	synthesis/evidence/pooled.tsv	26	pooled_lift
+ci_lo	man-nystrom		-0.0066044364180242	synthesis/evidence/pooled.tsv	26	ci_lo
+ci_hi	man-nystrom		0.0140933789110635	synthesis/evidence/pooled.tsv	26	ci_hi
+pi_lo	man-nystrom		-0.0242893535062542	synthesis/evidence/pooled.tsv	26	pi_lo
+pi_hi	man-nystrom		0.0317782959992934	synthesis/evidence/pooled.tsv	26	pi_hi
+p_lift_gt_zero_BY	man-nystrom		1.0	synthesis/evidence/pooled.tsv	26	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	man-nystrom		1.0	synthesis/evidence/pooled.tsv	26	p_lift_gt_margin_0_05_BY
+I2	man-nystrom		39.1373910750779	synthesis/evidence/pooled.tsv	26	I2
+k	nc-conformal-anom		31	synthesis/evidence/pooled.tsv	27	k
+pooled_lift	nc-conformal-anom		-0.175069917743585	synthesis/evidence/pooled.tsv	27	pooled_lift
+ci_lo	nc-conformal-anom		-0.227217301598409	synthesis/evidence/pooled.tsv	27	ci_lo
+ci_hi	nc-conformal-anom		-0.122922533888762	synthesis/evidence/pooled.tsv	27	ci_hi
+pi_lo	nc-conformal-anom		-0.4312240988064	synthesis/evidence/pooled.tsv	27	pi_lo
+pi_hi	nc-conformal-anom		0.0810842633192294	synthesis/evidence/pooled.tsv	27	pi_hi
+p_lift_gt_zero_BY	nc-conformal-anom		1.0	synthesis/evidence/pooled.tsv	27	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	nc-conformal-anom		1.0	synthesis/evidence/pooled.tsv	27	p_lift_gt_margin_0_05_BY
+I2	nc-conformal-anom		87.4601681320108	synthesis/evidence/pooled.tsv	27	I2
+k	nc-ecod-copod		30	synthesis/evidence/pooled.tsv	28	k
+pooled_lift	nc-ecod-copod		-0.131191534531042	synthesis/evidence/pooled.tsv	28	pooled_lift
+ci_lo	nc-ecod-copod		-0.180899187285245	synthesis/evidence/pooled.tsv	28	ci_lo
+ci_hi	nc-ecod-copod		-0.081483881776839	synthesis/evidence/pooled.tsv	28	ci_hi
+pi_lo	nc-ecod-copod		-0.352516073698146	synthesis/evidence/pooled.tsv	28	pi_lo
+pi_hi	nc-ecod-copod		0.0901330046360621	synthesis/evidence/pooled.tsv	28	pi_hi
+p_lift_gt_zero_BY	nc-ecod-copod		1.0	synthesis/evidence/pooled.tsv	28	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	nc-ecod-copod		1.0	synthesis/evidence/pooled.tsv	28	p_lift_gt_margin_0_05_BY
+I2	nc-ecod-copod		88.5853821921404	synthesis/evidence/pooled.tsv	28	I2
+k	nc-isoforest		31	synthesis/evidence/pooled.tsv	29	k
+pooled_lift	nc-isoforest		-0.206569599846477	synthesis/evidence/pooled.tsv	29	pooled_lift
+ci_lo	nc-isoforest		-0.266084324682359	synthesis/evidence/pooled.tsv	29	ci_lo
+ci_hi	nc-isoforest		-0.147054875010595	synthesis/evidence/pooled.tsv	29	ci_hi
+pi_lo	nc-isoforest		-0.480993511992766	synthesis/evidence/pooled.tsv	29	pi_lo
+pi_hi	nc-isoforest		0.0678543122998119	synthesis/evidence/pooled.tsv	29	pi_hi
+p_lift_gt_zero_BY	nc-isoforest		1.0	synthesis/evidence/pooled.tsv	29	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	nc-isoforest		1.0	synthesis/evidence/pooled.tsv	29	p_lift_gt_margin_0_05_BY
+I2	nc-isoforest		86.695241297228	synthesis/evidence/pooled.tsv	29	I2
+k	nc-mahalanobis		4	synthesis/evidence/pooled.tsv	30	k
+pooled_lift	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	pooled_lift
+ci_lo	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	ci_lo
+ci_hi	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	ci_hi
+pi_lo	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	pi_lo
+pi_hi	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	pi_hi
+p_lift_gt_zero_BY	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	p_lift_gt_margin_0_05_BY
+I2	nc-mahalanobis			synthesis/evidence/pooled.tsv	30	I2
+k	nc-sinkhorn-single		30	synthesis/evidence/pooled.tsv	31	k
+pooled_lift	nc-sinkhorn-single		0.0018250743750144	synthesis/evidence/pooled.tsv	31	pooled_lift
+ci_lo	nc-sinkhorn-single		-0.0119141139336744	synthesis/evidence/pooled.tsv	31	ci_lo
+ci_hi	nc-sinkhorn-single		0.0155642626837032	synthesis/evidence/pooled.tsv	31	ci_hi
+pi_lo	nc-sinkhorn-single		-0.0413132491545515	synthesis/evidence/pooled.tsv	31	pi_lo
+pi_hi	nc-sinkhorn-single		0.0449633979045803	synthesis/evidence/pooled.tsv	31	pi_hi
+p_lift_gt_zero_BY	nc-sinkhorn-single		1.0	synthesis/evidence/pooled.tsv	31	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	nc-sinkhorn-single		1.0	synthesis/evidence/pooled.tsv	31	p_lift_gt_margin_0_05_BY
+I2	nc-sinkhorn-single		67.9977737129874	synthesis/evidence/pooled.tsv	31	I2
+k	ot-lot		30	synthesis/evidence/pooled.tsv	32	k
+pooled_lift	ot-lot		-0.116654125786857	synthesis/evidence/pooled.tsv	32	pooled_lift
+ci_lo	ot-lot		-0.156342618006587	synthesis/evidence/pooled.tsv	32	ci_lo
+ci_hi	ot-lot		-0.0769656335671269	synthesis/evidence/pooled.tsv	32	ci_hi
+pi_lo	ot-lot		-0.282626507210693	synthesis/evidence/pooled.tsv	32	pi_lo
+pi_hi	ot-lot		0.0493182556369796	synthesis/evidence/pooled.tsv	32	pi_hi
+p_lift_gt_zero_BY	ot-lot		1.0	synthesis/evidence/pooled.tsv	32	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ot-lot		1.0	synthesis/evidence/pooled.tsv	32	p_lift_gt_margin_0_05_BY
+I2	ot-lot		88.256130059706	synthesis/evidence/pooled.tsv	32	I2
+k	ot-slicedlrt		30	synthesis/evidence/pooled.tsv	33	k
+pooled_lift	ot-slicedlrt		-0.0538492963085821	synthesis/evidence/pooled.tsv	33	pooled_lift
+ci_lo	ot-slicedlrt		-0.08246186065797	synthesis/evidence/pooled.tsv	33	ci_lo
+ci_hi	ot-slicedlrt		-0.0252367319591942	synthesis/evidence/pooled.tsv	33	ci_hi
+pi_lo	ot-slicedlrt		-0.160423295841021	synthesis/evidence/pooled.tsv	33	pi_lo
+pi_hi	ot-slicedlrt		0.052724703223857	synthesis/evidence/pooled.tsv	33	pi_hi
+p_lift_gt_zero_BY	ot-slicedlrt		1.0	synthesis/evidence/pooled.tsv	33	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ot-slicedlrt		1.0	synthesis/evidence/pooled.tsv	33	p_lift_gt_margin_0_05_BY
+I2	ot-slicedlrt		85.6756230149149	synthesis/evidence/pooled.tsv	33	I2
+k	proto-net		30	synthesis/evidence/pooled.tsv	34	k
+pooled_lift	proto-net		0.0053462681036644	synthesis/evidence/pooled.tsv	34	pooled_lift
+ci_lo	proto-net		-0.008635955039081	synthesis/evidence/pooled.tsv	34	ci_lo
+ci_hi	proto-net		0.0193284912464099	synthesis/evidence/pooled.tsv	34	ci_hi
+pi_lo	proto-net		-0.0371495820282431	synthesis/evidence/pooled.tsv	34	pi_lo
+pi_hi	proto-net		0.0478421182355719	synthesis/evidence/pooled.tsv	34	pi_hi
+p_lift_gt_zero_BY	proto-net		1.0	synthesis/evidence/pooled.tsv	34	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	proto-net		1.0	synthesis/evidence/pooled.tsv	34	p_lift_gt_margin_0_05_BY
+I2	proto-net		60.1473783176909	synthesis/evidence/pooled.tsv	34	I2
+k	reo-ktsp		26	synthesis/evidence/pooled.tsv	35	k
+pooled_lift	reo-ktsp		0.0042328948805136	synthesis/evidence/pooled.tsv	35	pooled_lift
+ci_lo	reo-ktsp		-0.0055012565111304	synthesis/evidence/pooled.tsv	35	ci_lo
+ci_hi	reo-ktsp		0.0139670462721577	synthesis/evidence/pooled.tsv	35	ci_hi
+pi_lo	reo-ktsp		-0.0095835540908432	synthesis/evidence/pooled.tsv	35	pi_lo
+pi_hi	reo-ktsp		0.0180493438518705	synthesis/evidence/pooled.tsv	35	pi_hi
+p_lift_gt_zero_BY	reo-ktsp		1.0	synthesis/evidence/pooled.tsv	35	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	reo-ktsp		1.0	synthesis/evidence/pooled.tsv	35	p_lift_gt_margin_0_05_BY
+I2	reo-ktsp		10.1340217221623	synthesis/evidence/pooled.tsv	35	I2
+k	reo-pairratio		14	synthesis/evidence/pooled.tsv	36	k
+pooled_lift	reo-pairratio		0.0082005628031166	synthesis/evidence/pooled.tsv	36	pooled_lift
+ci_lo	reo-pairratio		0.000745640190643	synthesis/evidence/pooled.tsv	36	ci_lo
+ci_hi	reo-pairratio		0.0156554854155901	synthesis/evidence/pooled.tsv	36	ci_hi
+pi_lo	reo-pairratio		-0.0007691085549255	synthesis/evidence/pooled.tsv	36	pi_lo
+pi_hi	reo-pairratio		0.0171702341611588	synthesis/evidence/pooled.tsv	36	pi_hi
+p_lift_gt_zero_BY	reo-pairratio		1.0	synthesis/evidence/pooled.tsv	36	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	reo-pairratio		1.0	synthesis/evidence/pooled.tsv	36	p_lift_gt_margin_0_05_BY
+I2	reo-pairratio		1.90498187989535	synthesis/evidence/pooled.tsv	36	I2
+k	reo-singscore		30	synthesis/evidence/pooled.tsv	37	k
+pooled_lift	reo-singscore		-0.0067583338632049	synthesis/evidence/pooled.tsv	37	pooled_lift
+ci_lo	reo-singscore		-0.0173357005241005	synthesis/evidence/pooled.tsv	37	ci_lo
+ci_hi	reo-singscore		0.0038190327976905	synthesis/evidence/pooled.tsv	37	ci_hi
+pi_lo	reo-singscore		-0.0336379820354076	synthesis/evidence/pooled.tsv	37	pi_lo
+pi_hi	reo-singscore		0.0201213143089977	synthesis/evidence/pooled.tsv	37	pi_hi
+p_lift_gt_zero_BY	reo-singscore		1.0	synthesis/evidence/pooled.tsv	37	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	reo-singscore		1.0	synthesis/evidence/pooled.tsv	37	p_lift_gt_margin_0_05_BY
+I2	reo-singscore		48.8856053026203	synthesis/evidence/pooled.tsv	37	I2
+k	reo-ucell		30	synthesis/evidence/pooled.tsv	38	k
+pooled_lift	reo-ucell		-0.006158087972163	synthesis/evidence/pooled.tsv	38	pooled_lift
+ci_lo	reo-ucell		-0.0173590985435975	synthesis/evidence/pooled.tsv	38	ci_lo
+ci_hi	reo-ucell		0.0050429225992714	synthesis/evidence/pooled.tsv	38	ci_hi
+pi_lo	reo-ucell		-0.0350760424767487	synthesis/evidence/pooled.tsv	38	pi_lo
+pi_hi	reo-ucell		0.0227598665324226	synthesis/evidence/pooled.tsv	38	pi_hi
+p_lift_gt_zero_BY	reo-ucell		1.0	synthesis/evidence/pooled.tsv	38	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	reo-ucell		1.0	synthesis/evidence/pooled.tsv	38	p_lift_gt_margin_0_05_BY
+I2	reo-ucell		50.1479574595155	synthesis/evidence/pooled.tsv	38	I2
+k	robust-pca-resid		31	synthesis/evidence/pooled.tsv	39	k
+pooled_lift	robust-pca-resid		-0.0691506787841421	synthesis/evidence/pooled.tsv	39	pooled_lift
+ci_lo	robust-pca-resid		-0.111964145469591	synthesis/evidence/pooled.tsv	39	ci_lo
+ci_hi	robust-pca-resid		-0.0263372120986935	synthesis/evidence/pooled.tsv	39	ci_hi
+pi_lo	robust-pca-resid		-0.267016225437778	synthesis/evidence/pooled.tsv	39	pi_lo
+pi_hi	robust-pca-resid		0.128714867869493	synthesis/evidence/pooled.tsv	39	pi_hi
+p_lift_gt_zero_BY	robust-pca-resid		1.0	synthesis/evidence/pooled.tsv	39	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	robust-pca-resid		1.0	synthesis/evidence/pooled.tsv	39	p_lift_gt_margin_0_05_BY
+I2	robust-pca-resid		79.1301647159037	synthesis/evidence/pooled.tsv	39	I2
+k	sig-path		30	synthesis/evidence/pooled.tsv	40	k
+pooled_lift	sig-path		-0.131968452739165	synthesis/evidence/pooled.tsv	40	pooled_lift
+ci_lo	sig-path		-0.183719154568461	synthesis/evidence/pooled.tsv	40	ci_lo
+ci_hi	sig-path		-0.0802177509098682	synthesis/evidence/pooled.tsv	40	ci_hi
+pi_lo	sig-path		-0.385651348510895	synthesis/evidence/pooled.tsv	40	pi_lo
+pi_hi	sig-path		0.121714443032565	synthesis/evidence/pooled.tsv	40	pi_hi
+p_lift_gt_zero_BY	sig-path		1.0	synthesis/evidence/pooled.tsv	40	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	sig-path		1.0	synthesis/evidence/pooled.tsv	40	p_lift_gt_margin_0_05_BY
+I2	sig-path		94.7308032294075	synthesis/evidence/pooled.tsv	40	I2
+k	ssl-vicreg		31	synthesis/evidence/pooled.tsv	41	k
+pooled_lift	ssl-vicreg		-0.0050317970023225	synthesis/evidence/pooled.tsv	41	pooled_lift
+ci_lo	ssl-vicreg		-0.0085970887152388	synthesis/evidence/pooled.tsv	41	ci_lo
+ci_hi	ssl-vicreg		-0.0014665052894061	synthesis/evidence/pooled.tsv	41	ci_hi
+pi_lo	ssl-vicreg		-0.0106948301958567	synthesis/evidence/pooled.tsv	41	pi_lo
+pi_hi	ssl-vicreg		0.0006312361912116	synthesis/evidence/pooled.tsv	41	pi_hi
+p_lift_gt_zero_BY	ssl-vicreg		1.0	synthesis/evidence/pooled.tsv	41	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ssl-vicreg		1.0	synthesis/evidence/pooled.tsv	41	p_lift_gt_margin_0_05_BY
+I2	ssl-vicreg		4.13301096319707	synthesis/evidence/pooled.tsv	41	I2
+k	tab-tabdpt		30	synthesis/evidence/pooled.tsv	42	k
+pooled_lift	tab-tabdpt		-0.0038792962751365	synthesis/evidence/pooled.tsv	42	pooled_lift
+ci_lo	tab-tabdpt		-0.0263763988712917	synthesis/evidence/pooled.tsv	42	ci_lo
+ci_hi	tab-tabdpt		0.0186178063210186	synthesis/evidence/pooled.tsv	42	ci_hi
+pi_lo	tab-tabdpt		-0.0837917891337701	synthesis/evidence/pooled.tsv	42	pi_lo
+pi_hi	tab-tabdpt		0.076033196583497	synthesis/evidence/pooled.tsv	42	pi_hi
+p_lift_gt_zero_BY	tab-tabdpt		1.0	synthesis/evidence/pooled.tsv	42	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	tab-tabdpt		1.0	synthesis/evidence/pooled.tsv	42	p_lift_gt_margin_0_05_BY
+I2	tab-tabdpt		80.7822787457869	synthesis/evidence/pooled.tsv	42	I2
+k	tab-tabicl		29	synthesis/evidence/pooled.tsv	43	k
+pooled_lift	tab-tabicl		0.022598400023406	synthesis/evidence/pooled.tsv	43	pooled_lift
+ci_lo	tab-tabicl		-0.0031652720947432	synthesis/evidence/pooled.tsv	43	ci_lo
+ci_hi	tab-tabicl		0.0483620721415553	synthesis/evidence/pooled.tsv	43	ci_hi
+pi_lo	tab-tabicl		-0.0577704486680029	synthesis/evidence/pooled.tsv	43	pi_lo
+pi_hi	tab-tabicl		0.102967248714815	synthesis/evidence/pooled.tsv	43	pi_hi
+p_lift_gt_zero_BY	tab-tabicl		1.0	synthesis/evidence/pooled.tsv	43	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	tab-tabicl		1.0	synthesis/evidence/pooled.tsv	43	p_lift_gt_margin_0_05_BY
+I2	tab-tabicl		84.8650591581535	synthesis/evidence/pooled.tsv	43	I2
+k	tda-ph		30	synthesis/evidence/pooled.tsv	44	k
+pooled_lift	tda-ph		-0.0628692198492835	synthesis/evidence/pooled.tsv	44	pooled_lift
+ci_lo	tda-ph		-0.101604134505237	synthesis/evidence/pooled.tsv	44	ci_lo
+ci_hi	tda-ph		-0.0241343051933304	synthesis/evidence/pooled.tsv	44	ci_hi
+pi_lo	tda-ph		-0.203947322883342	synthesis/evidence/pooled.tsv	44	pi_lo
+pi_hi	tda-ph		0.0782088831847748	synthesis/evidence/pooled.tsv	44	pi_hi
+p_lift_gt_zero_BY	tda-ph		1.0	synthesis/evidence/pooled.tsv	44	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	tda-ph		1.0	synthesis/evidence/pooled.tsv	44	p_lift_gt_margin_0_05_BY
+I2	tda-ph		76.7230897990896	synthesis/evidence/pooled.tsv	44	I2
+k	unc-sngp		30	synthesis/evidence/pooled.tsv	45	k
+pooled_lift	unc-sngp		-0.0324933426665155	synthesis/evidence/pooled.tsv	45	pooled_lift
+ci_lo	unc-sngp		-0.0565496807715305	synthesis/evidence/pooled.tsv	45	ci_lo
+ci_hi	unc-sngp		-0.0084370045615006	synthesis/evidence/pooled.tsv	45	ci_hi
+pi_lo	unc-sngp		-0.12809561685643	synthesis/evidence/pooled.tsv	45	pi_lo
+pi_hi	unc-sngp		0.0631089315233988	synthesis/evidence/pooled.tsv	45	pi_hi
+p_lift_gt_zero_BY	unc-sngp		1.0	synthesis/evidence/pooled.tsv	45	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	unc-sngp		1.0	synthesis/evidence/pooled.tsv	45	p_lift_gt_margin_0_05_BY
+I2	unc-sngp		81.467080074759	synthesis/evidence/pooled.tsv	45	I2
+k	ws-alr-pivot		30	synthesis/evidence/pooled.tsv	46	k
+pooled_lift	ws-alr-pivot		-0.0025108159061183	synthesis/evidence/pooled.tsv	46	pooled_lift
+ci_lo	ws-alr-pivot		-0.0127540343156979	synthesis/evidence/pooled.tsv	46	ci_lo
+ci_hi	ws-alr-pivot		0.0077324025034612	synthesis/evidence/pooled.tsv	46	ci_hi
+pi_lo	ws-alr-pivot		-0.0325802843500113	synthesis/evidence/pooled.tsv	46	pi_lo
+pi_hi	ws-alr-pivot		0.0275586525377746	synthesis/evidence/pooled.tsv	46	pi_hi
+p_lift_gt_zero_BY	ws-alr-pivot		1.0	synthesis/evidence/pooled.tsv	46	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ws-alr-pivot		1.0	synthesis/evidence/pooled.tsv	46	p_lift_gt_margin_0_05_BY
+I2	ws-alr-pivot		57.6223944168129	synthesis/evidence/pooled.tsv	46	I2
+k	ws-balance-ilr		21	synthesis/evidence/pooled.tsv	47	k
+pooled_lift	ws-balance-ilr		-0.234142119950823	synthesis/evidence/pooled.tsv	47	pooled_lift
+ci_lo	ws-balance-ilr		-0.302782758670112	synthesis/evidence/pooled.tsv	47	ci_lo
+ci_hi	ws-balance-ilr		-0.165501481231534	synthesis/evidence/pooled.tsv	47	ci_hi
+pi_lo	ws-balance-ilr		-0.520798074667733	synthesis/evidence/pooled.tsv	47	pi_lo
+pi_hi	ws-balance-ilr		0.0525138347660872	synthesis/evidence/pooled.tsv	47	pi_hi
+p_lift_gt_zero_BY	ws-balance-ilr		1.0	synthesis/evidence/pooled.tsv	47	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ws-balance-ilr		1.0	synthesis/evidence/pooled.tsv	47	p_lift_gt_margin_0_05_BY
+I2	ws-balance-ilr		95.7806668791151	synthesis/evidence/pooled.tsv	47	I2
+k	ws-dominance		31	synthesis/evidence/pooled.tsv	48	k
+pooled_lift	ws-dominance		-0.154630092729492	synthesis/evidence/pooled.tsv	48	pooled_lift
+ci_lo	ws-dominance		-0.210490245554508	synthesis/evidence/pooled.tsv	48	ci_lo
+ci_hi	ws-dominance		-0.0987699399044766	synthesis/evidence/pooled.tsv	48	ci_hi
+pi_lo	ws-dominance		-0.420454250861112	synthesis/evidence/pooled.tsv	48	pi_lo
+pi_hi	ws-dominance		0.111194065402128	synthesis/evidence/pooled.tsv	48	pi_hi
+p_lift_gt_zero_BY	ws-dominance		1.0	synthesis/evidence/pooled.tsv	48	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ws-dominance		1.0	synthesis/evidence/pooled.tsv	48	p_lift_gt_margin_0_05_BY
+I2	ws-dominance		89.8375328603158	synthesis/evidence/pooled.tsv	48	I2
+k	ws-mad-logratio		31	synthesis/evidence/pooled.tsv	49	k
+pooled_lift	ws-mad-logratio		-0.0258434179536426	synthesis/evidence/pooled.tsv	49	pooled_lift
+ci_lo	ws-mad-logratio		-0.0472334727753149	synthesis/evidence/pooled.tsv	49	ci_lo
+ci_hi	ws-mad-logratio		-0.0044533631319702	synthesis/evidence/pooled.tsv	49	ci_hi
+pi_lo	ws-mad-logratio		-0.106177352105558	synthesis/evidence/pooled.tsv	49	pi_lo
+pi_hi	ws-mad-logratio		0.0544905161982724	synthesis/evidence/pooled.tsv	49	pi_hi
+p_lift_gt_zero_BY	ws-mad-logratio		1.0	synthesis/evidence/pooled.tsv	49	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ws-mad-logratio		1.0	synthesis/evidence/pooled.tsv	49	p_lift_gt_margin_0_05_BY
+I2	ws-mad-logratio		75.4218112834012	synthesis/evidence/pooled.tsv	49	I2
+k	ws-rclr-trimmed		0	synthesis/evidence/pooled.tsv	50	k
+pooled_lift	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	pooled_lift
+ci_lo	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	ci_lo
+ci_hi	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	ci_hi
+pi_lo	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	pi_lo
+pi_hi	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	pi_hi
+p_lift_gt_zero_BY	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	p_lift_gt_zero_BY
+p_lift_gt_margin_0_05_BY	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	p_lift_gt_margin_0_05_BY
+I2	ws-rclr-trimmed			synthesis/evidence/pooled.tsv	50	I2
+Toray_weight_percent	ai-scarf	TORAY_PUBLIC_CANONICAL	82.8270403976879	synthesis/evidence/cohort_weights.tsv	30	weight_percent
+Toray_weight_percent	ai-tabpfn	TORAY_PUBLIC_CANONICAL	9.77148189303925	synthesis/evidence/cohort_weights.tsv	60	weight_percent
+Toray_weight_percent	bal-selbal	TORAY_PUBLIC_CANONICAL	16.5055934163156	synthesis/evidence/cohort_weights.tsv	79	weight_percent
+Toray_weight_percent	coda-codacore	TORAY_PUBLIC_CANONICAL	13.3892785333215	synthesis/evidence/cohort_weights.tsv	110	weight_percent
+Toray_weight_percent	coda-deepcoda	TORAY_PUBLIC_CANONICAL	8.43601621497498	synthesis/evidence/cohort_weights.tsv	140	weight_percent
+Toray_weight_percent	conf-mondrian	TORAY_PUBLIC_CANONICAL	11.7828049016781	synthesis/evidence/cohort_weights.tsv	171	weight_percent
+Toray_weight_percent	dre-ulsif	TORAY_PUBLIC_CANONICAL	5.33908312147092	synthesis/evidence/cohort_weights.tsv	201	weight_percent
+Toray_weight_percent	frozen-ruv	TORAY_PUBLIC_CANONICAL	9.45849841050061	synthesis/evidence/cohort_weights.tsv	253	weight_percent
+Toray_weight_percent	gsp-gft	TORAY_PUBLIC_CANONICAL	14.3253637187177	synthesis/evidence/cohort_weights.tsv	283	weight_percent
+Toray_weight_percent	ig-fisherrao	TORAY_PUBLIC_CANONICAL	7.19408669270191	synthesis/evidence/cohort_weights.tsv	331	weight_percent
+Toray_weight_percent	img-gasfcnn	TORAY_PUBLIC_CANONICAL	5.09259083502491	synthesis/evidence/cohort_weights.tsv	362	weight_percent
+Toray_weight_percent	inv-css	TORAY_PUBLIC_CANONICAL	5.35389404206737	synthesis/evidence/cohort_weights.tsv	392	weight_percent
+Toray_weight_percent	inv-fdaqf	TORAY_PUBLIC_CANONICAL	6.74796903769333	synthesis/evidence/cohort_weights.tsv	422	weight_percent
+Toray_weight_percent	inv-glcm	TORAY_PUBLIC_CANONICAL	5.55865801775711	synthesis/evidence/cohort_weights.tsv	452	weight_percent
+Toray_weight_percent	inv-olbp	TORAY_PUBLIC_CANONICAL	5.73615700828748	synthesis/evidence/cohort_weights.tsv	482	weight_percent
+Toray_weight_percent	inv-scatter	TORAY_PUBLIC_CANONICAL	10.1136915636905	synthesis/evidence/cohort_weights.tsv	512	weight_percent
+Toray_weight_percent	kme-witness	TORAY_PUBLIC_CANONICAL	10.0300228630275	synthesis/evidence/cohort_weights.tsv	542	weight_percent
+Toray_weight_percent	lrt-bw	TORAY_PUBLIC_CANONICAL	14.3965803125973	synthesis/evidence/cohort_weights.tsv	572	weight_percent
+Toray_weight_percent	lrt-copula	TORAY_PUBLIC_CANONICAL	5.58112732021411	synthesis/evidence/cohort_weights.tsv	602	weight_percent
+Toray_weight_percent	lrt-deepmaha	TORAY_PUBLIC_CANONICAL	8.1989932985168	synthesis/evidence/cohort_weights.tsv	632	weight_percent
+Toray_weight_percent	lrt-nbkde	TORAY_PUBLIC_CANONICAL	6.46743981991239	synthesis/evidence/cohort_weights.tsv	662	weight_percent
+Toray_weight_percent	lrt-tcopula	TORAY_PUBLIC_CANONICAL	3.56513459959668	synthesis/evidence/cohort_weights.tsv	693	weight_percent
+Toray_weight_percent	lrt-vinecopula	TORAY_PUBLIC_CANONICAL	5.76497495457775	synthesis/evidence/cohort_weights.tsv	724	weight_percent
+Toray_weight_percent	man-nystrom	TORAY_PUBLIC_CANONICAL	16.1297098393468	synthesis/evidence/cohort_weights.tsv	754	weight_percent
+Toray_weight_percent	nc-conformal-anom	TORAY_PUBLIC_CANONICAL	4.81766592075154	synthesis/evidence/cohort_weights.tsv	785	weight_percent
+Toray_weight_percent	nc-ecod-copod	TORAY_PUBLIC_CANONICAL	5.29124164939601	synthesis/evidence/cohort_weights.tsv	815	weight_percent
+Toray_weight_percent	nc-isoforest	TORAY_PUBLIC_CANONICAL	4.74009999875458	synthesis/evidence/cohort_weights.tsv	846	weight_percent
+Toray_weight_percent	nc-sinkhorn-single	TORAY_PUBLIC_CANONICAL	12.0201943326144	synthesis/evidence/cohort_weights.tsv	876	weight_percent
+Toray_weight_percent	ot-lot	TORAY_PUBLIC_CANONICAL	6.30130455045231	synthesis/evidence/cohort_weights.tsv	906	weight_percent
+Toray_weight_percent	ot-slicedlrt	TORAY_PUBLIC_CANONICAL	6.83620810586154	synthesis/evidence/cohort_weights.tsv	936	weight_percent
+Toray_weight_percent	proto-net	TORAY_PUBLIC_CANONICAL	12.1413952409425	synthesis/evidence/cohort_weights.tsv	966	weight_percent
+Toray_weight_percent	reo-ktsp	TORAY_PUBLIC_CANONICAL	39.6595287826961	synthesis/evidence/cohort_weights.tsv	992	weight_percent
+Toray_weight_percent	reo-pairratio	TORAY_PUBLIC_CANONICAL	75.8100671202686	synthesis/evidence/cohort_weights.tsv	1006	weight_percent
+Toray_weight_percent	reo-singscore	TORAY_PUBLIC_CANONICAL	16.2168209388703	synthesis/evidence/cohort_weights.tsv	1036	weight_percent
+Toray_weight_percent	reo-ucell	TORAY_PUBLIC_CANONICAL	15.4059935832307	synthesis/evidence/cohort_weights.tsv	1066	weight_percent
+Toray_weight_percent	robust-pca-resid	TORAY_PUBLIC_CANONICAL	5.37281494177468	synthesis/evidence/cohort_weights.tsv	1097	weight_percent
+Toray_weight_percent	sig-path	TORAY_PUBLIC_CANONICAL	4.64535000353715	synthesis/evidence/cohort_weights.tsv	1127	weight_percent
+Toray_weight_percent	ssl-vicreg	TORAY_PUBLIC_CANONICAL	55.9326976906081	synthesis/evidence/cohort_weights.tsv	1158	weight_percent
+Toray_weight_percent	tab-tabdpt	TORAY_PUBLIC_CANONICAL	8.14755981224536	synthesis/evidence/cohort_weights.tsv	1188	weight_percent
+Toray_weight_percent	tab-tabicl	TORAY_PUBLIC_CANONICAL	8.03226606524703	synthesis/evidence/cohort_weights.tsv	1217	weight_percent
+Toray_weight_percent	tda-ph	TORAY_PUBLIC_CANONICAL	7.11265217981753	synthesis/evidence/cohort_weights.tsv	1247	weight_percent
+Toray_weight_percent	unc-sngp	TORAY_PUBLIC_CANONICAL	8.48269484766599	synthesis/evidence/cohort_weights.tsv	1277	weight_percent
+Toray_weight_percent	ws-alr-pivot	TORAY_PUBLIC_CANONICAL	13.0519110102924	synthesis/evidence/cohort_weights.tsv	1307	weight_percent
+Toray_weight_percent	ws-balance-ilr	TORAY_PUBLIC_CANONICAL	6.30665385710962	synthesis/evidence/cohort_weights.tsv	1328	weight_percent
+Toray_weight_percent	ws-dominance	TORAY_PUBLIC_CANONICAL	4.51329527666926	synthesis/evidence/cohort_weights.tsv	1359	weight_percent
+Toray_weight_percent	ws-mad-logratio	TORAY_PUBLIC_CANONICAL	6.72286813787485	synthesis/evidence/cohort_weights.tsv	1390	weight_percent
+leave_Toray_out_pooled_lift	ai-scarf		-0.0099374423915762	synthesis/evidence/sensitivity_pooled.tsv	246	pooled_lift
+leave_Toray_out_ci_lo	ai-scarf		-0.0232800485946165	synthesis/evidence/sensitivity_pooled.tsv	246	ci_lo
+leave_Toray_out_ci_hi	ai-scarf		0.003405163811464	synthesis/evidence/sensitivity_pooled.tsv	246	ci_hi
+leave_Toray_out_pi_lo	ai-scarf		-0.0424546804987603	synthesis/evidence/sensitivity_pooled.tsv	246	pi_lo
+leave_Toray_out_pi_hi	ai-scarf		0.0225797957156078	synthesis/evidence/sensitivity_pooled.tsv	246	pi_hi
+leave_Toray_out_I2	ai-scarf		31.0882756214358	synthesis/evidence/sensitivity_pooled.tsv	246	I2
+leave_Toray_out_pooled_lift	ai-tabpfn		0.0203816356472436	synthesis/evidence/sensitivity_pooled.tsv	247	pooled_lift
+leave_Toray_out_ci_lo	ai-tabpfn		0.0038196699864127	synthesis/evidence/sensitivity_pooled.tsv	247	ci_lo
+leave_Toray_out_ci_hi	ai-tabpfn		0.0369436013080744	synthesis/evidence/sensitivity_pooled.tsv	247	ci_hi
+leave_Toray_out_pi_lo	ai-tabpfn		-0.02583784789472	synthesis/evidence/sensitivity_pooled.tsv	247	pi_lo
+leave_Toray_out_pi_hi	ai-tabpfn		0.0666011191892071	synthesis/evidence/sensitivity_pooled.tsv	247	pi_hi
+leave_Toray_out_I2	ai-tabpfn		58.3341793696321	synthesis/evidence/sensitivity_pooled.tsv	247	I2
+leave_Toray_out_pooled_lift	bal-selbal		0.0042216620618949	synthesis/evidence/sensitivity_pooled.tsv	248	pooled_lift
+leave_Toray_out_ci_lo	bal-selbal		-0.0326999323287369	synthesis/evidence/sensitivity_pooled.tsv	248	ci_lo
+leave_Toray_out_ci_hi	bal-selbal		0.0411432564525268	synthesis/evidence/sensitivity_pooled.tsv	248	ci_hi
+leave_Toray_out_pi_lo	bal-selbal		-0.0843915313974536	synthesis/evidence/sensitivity_pooled.tsv	248	pi_lo
+leave_Toray_out_pi_hi	bal-selbal		0.0928348555212435	synthesis/evidence/sensitivity_pooled.tsv	248	pi_hi
+leave_Toray_out_I2	bal-selbal		40.6811598702504	synthesis/evidence/sensitivity_pooled.tsv	248	I2
+leave_Toray_out_pooled_lift	coda-codacore		-0.0361175379357541	synthesis/evidence/sensitivity_pooled.tsv	249	pooled_lift
+leave_Toray_out_ci_lo	coda-codacore		-0.0585730601842502	synthesis/evidence/sensitivity_pooled.tsv	249	ci_lo
+leave_Toray_out_ci_hi	coda-codacore		-0.0136620156872579	synthesis/evidence/sensitivity_pooled.tsv	249	ci_hi
+leave_Toray_out_pi_lo	coda-codacore		-0.0928485214719756	synthesis/evidence/sensitivity_pooled.tsv	249	pi_lo
+leave_Toray_out_pi_hi	coda-codacore		0.0206134456004674	synthesis/evidence/sensitivity_pooled.tsv	249	pi_hi
+leave_Toray_out_I2	coda-codacore		29.2629859450705	synthesis/evidence/sensitivity_pooled.tsv	249	I2
+leave_Toray_out_pooled_lift	coda-deepcoda		-0.0078674261424833	synthesis/evidence/sensitivity_pooled.tsv	250	pooled_lift
+leave_Toray_out_ci_lo	coda-deepcoda		-0.026421126566801	synthesis/evidence/sensitivity_pooled.tsv	250	ci_lo
+leave_Toray_out_ci_hi	coda-deepcoda		0.0106862742818343	synthesis/evidence/sensitivity_pooled.tsv	250	ci_hi
+leave_Toray_out_pi_lo	coda-deepcoda		-0.065783380018126	synthesis/evidence/sensitivity_pooled.tsv	250	pi_lo
+leave_Toray_out_pi_hi	coda-deepcoda		0.0500485277331593	synthesis/evidence/sensitivity_pooled.tsv	250	pi_hi
+leave_Toray_out_I2	coda-deepcoda		56.9614946173168	synthesis/evidence/sensitivity_pooled.tsv	250	I2
+leave_Toray_out_pooled_lift	conf-mondrian		-0.0373215989112063	synthesis/evidence/sensitivity_pooled.tsv	251	pooled_lift
+leave_Toray_out_ci_lo	conf-mondrian		-0.0521050767175512	synthesis/evidence/sensitivity_pooled.tsv	251	ci_lo
+leave_Toray_out_ci_hi	conf-mondrian		-0.0225381211048614	synthesis/evidence/sensitivity_pooled.tsv	251	ci_hi
+leave_Toray_out_pi_lo	conf-mondrian		-0.078601191272638	synthesis/evidence/sensitivity_pooled.tsv	251	pi_lo
+leave_Toray_out_pi_hi	conf-mondrian		0.0039579934502254	synthesis/evidence/sensitivity_pooled.tsv	251	pi_hi
+leave_Toray_out_I2	conf-mondrian		25.6058254633193	synthesis/evidence/sensitivity_pooled.tsv	251	I2
+leave_Toray_out_pooled_lift	dre-ulsif		-0.118795735280913	synthesis/evidence/sensitivity_pooled.tsv	252	pooled_lift
+leave_Toray_out_ci_lo	dre-ulsif		-0.16115301473048	synthesis/evidence/sensitivity_pooled.tsv	252	ci_lo
+leave_Toray_out_ci_hi	dre-ulsif		-0.0764384558313457	synthesis/evidence/sensitivity_pooled.tsv	252	ci_hi
+leave_Toray_out_pi_lo	dre-ulsif		-0.312292008570738	synthesis/evidence/sensitivity_pooled.tsv	252	pi_lo
+leave_Toray_out_pi_hi	dre-ulsif		0.0747005380089119	synthesis/evidence/sensitivity_pooled.tsv	252	pi_hi
+leave_Toray_out_I2	dre-ulsif		77.8759961073766	synthesis/evidence/sensitivity_pooled.tsv	252	I2
+leave_Toray_out_pooled_lift	frac-mfdfa		-0.126888186546268	synthesis/evidence/sensitivity_pooled.tsv	253	pooled_lift
+leave_Toray_out_ci_lo	frac-mfdfa		-0.185721537906711	synthesis/evidence/sensitivity_pooled.tsv	253	ci_lo
+leave_Toray_out_ci_hi	frac-mfdfa		-0.0680548351858246	synthesis/evidence/sensitivity_pooled.tsv	253	ci_hi
+leave_Toray_out_pi_lo	frac-mfdfa		-0.347437766559115	synthesis/evidence/sensitivity_pooled.tsv	253	pi_lo
+leave_Toray_out_pi_hi	frac-mfdfa		0.0936613934665799	synthesis/evidence/sensitivity_pooled.tsv	253	pi_hi
+leave_Toray_out_I2	frac-mfdfa		85.1036700715059	synthesis/evidence/sensitivity_pooled.tsv	253	I2
+leave_Toray_out_pooled_lift	frozen-ruv		-0.125757585770875	synthesis/evidence/sensitivity_pooled.tsv	254	pooled_lift
+leave_Toray_out_ci_lo	frozen-ruv		-0.170483262352281	synthesis/evidence/sensitivity_pooled.tsv	254	ci_lo
+leave_Toray_out_ci_hi	frozen-ruv		-0.0810319091894697	synthesis/evidence/sensitivity_pooled.tsv	254	ci_hi
+leave_Toray_out_pi_lo	frozen-ruv		-0.270666235005064	synthesis/evidence/sensitivity_pooled.tsv	254	pi_lo
+leave_Toray_out_pi_hi	frozen-ruv		0.0191510634633134	synthesis/evidence/sensitivity_pooled.tsv	254	pi_hi
+leave_Toray_out_I2	frozen-ruv		45.1393857700913	synthesis/evidence/sensitivity_pooled.tsv	254	I2
+leave_Toray_out_pooled_lift	gsp-gft		-0.0210819783107959	synthesis/evidence/sensitivity_pooled.tsv	255	pooled_lift
+leave_Toray_out_ci_lo	gsp-gft		-0.0399973934947438	synthesis/evidence/sensitivity_pooled.tsv	255	ci_lo
+leave_Toray_out_ci_hi	gsp-gft		-0.002166563126848	synthesis/evidence/sensitivity_pooled.tsv	255	ci_hi
+leave_Toray_out_pi_lo	gsp-gft		-0.0692883498610045	synthesis/evidence/sensitivity_pooled.tsv	255	pi_lo
+leave_Toray_out_pi_hi	gsp-gft		0.0271243932394126	synthesis/evidence/sensitivity_pooled.tsv	255	pi_hi
+leave_Toray_out_I2	gsp-gft		35.4793093886145	synthesis/evidence/sensitivity_pooled.tsv	255	I2
+leave_Toray_out_pooled_lift	hemolysis-resid		-0.0176005924661907	synthesis/evidence/sensitivity_pooled.tsv	256	pooled_lift
+leave_Toray_out_ci_lo	hemolysis-resid		-0.0356187856481288	synthesis/evidence/sensitivity_pooled.tsv	256	ci_lo
+leave_Toray_out_ci_hi	hemolysis-resid		0.0004176007157473	synthesis/evidence/sensitivity_pooled.tsv	256	ci_hi
+leave_Toray_out_pi_lo	hemolysis-resid		-0.056483804482609	synthesis/evidence/sensitivity_pooled.tsv	256	pi_lo
+leave_Toray_out_pi_hi	hemolysis-resid		0.0212826195502276	synthesis/evidence/sensitivity_pooled.tsv	256	pi_hi
+leave_Toray_out_I2	hemolysis-resid		28.8252983166787	synthesis/evidence/sensitivity_pooled.tsv	256	I2
+leave_Toray_out_pooled_lift	ig-fisherrao		-0.043595331710257	synthesis/evidence/sensitivity_pooled.tsv	257	pooled_lift
+leave_Toray_out_ci_lo	ig-fisherrao		-0.0704602510797345	synthesis/evidence/sensitivity_pooled.tsv	257	ci_lo
+leave_Toray_out_ci_hi	ig-fisherrao		-0.0167304123407795	synthesis/evidence/sensitivity_pooled.tsv	257	ci_hi
+leave_Toray_out_pi_lo	ig-fisherrao		-0.14492624688911	synthesis/evidence/sensitivity_pooled.tsv	257	pi_lo
+leave_Toray_out_pi_hi	ig-fisherrao		0.0577355834685956	synthesis/evidence/sensitivity_pooled.tsv	257	pi_hi
+leave_Toray_out_I2	ig-fisherrao		65.2638181906353	synthesis/evidence/sensitivity_pooled.tsv	257	I2
+leave_Toray_out_pooled_lift	img-gasfcnn		-0.13998715053699	synthesis/evidence/sensitivity_pooled.tsv	258	pooled_lift
+leave_Toray_out_ci_lo	img-gasfcnn		-0.188487800721855	synthesis/evidence/sensitivity_pooled.tsv	258	ci_lo
+leave_Toray_out_ci_hi	img-gasfcnn		-0.0914865003521243	synthesis/evidence/sensitivity_pooled.tsv	258	ci_hi
+leave_Toray_out_pi_lo	img-gasfcnn		-0.359080235725216	synthesis/evidence/sensitivity_pooled.tsv	258	pi_lo
+leave_Toray_out_pi_hi	img-gasfcnn		0.0791059346512365	synthesis/evidence/sensitivity_pooled.tsv	258	pi_hi
+leave_Toray_out_I2	img-gasfcnn		74.3506625157873	synthesis/evidence/sensitivity_pooled.tsv	258	I2
+leave_Toray_out_pooled_lift	inv-css		-0.152201906968354	synthesis/evidence/sensitivity_pooled.tsv	259	pooled_lift
+leave_Toray_out_ci_lo	inv-css		-0.205905412921686	synthesis/evidence/sensitivity_pooled.tsv	259	ci_lo
+leave_Toray_out_ci_hi	inv-css		-0.0984984010150219	synthesis/evidence/sensitivity_pooled.tsv	259	ci_hi
+leave_Toray_out_pi_lo	inv-css		-0.3818902952044	synthesis/evidence/sensitivity_pooled.tsv	259	pi_lo
+leave_Toray_out_pi_hi	inv-css		0.0774864812676917	synthesis/evidence/sensitivity_pooled.tsv	259	pi_hi
+leave_Toray_out_I2	inv-css		80.4946066853522	synthesis/evidence/sensitivity_pooled.tsv	259	I2
+leave_Toray_out_pooled_lift	inv-fdaqf		-0.10749203567422	synthesis/evidence/sensitivity_pooled.tsv	260	pooled_lift
+leave_Toray_out_ci_lo	inv-fdaqf		-0.144121071580359	synthesis/evidence/sensitivity_pooled.tsv	260	ci_lo
+leave_Toray_out_ci_hi	inv-fdaqf		-0.070862999768082	synthesis/evidence/sensitivity_pooled.tsv	260	ci_hi
+leave_Toray_out_pi_lo	inv-fdaqf		-0.258454526353909	synthesis/evidence/sensitivity_pooled.tsv	260	pi_lo
+leave_Toray_out_pi_hi	inv-fdaqf		0.043470455005468	synthesis/evidence/sensitivity_pooled.tsv	260	pi_hi
+leave_Toray_out_I2	inv-fdaqf		69.5166497684328	synthesis/evidence/sensitivity_pooled.tsv	260	I2
+leave_Toray_out_pooled_lift	inv-glcm		-0.125706928384388	synthesis/evidence/sensitivity_pooled.tsv	261	pooled_lift
+leave_Toray_out_ci_lo	inv-glcm		-0.174541700597215	synthesis/evidence/sensitivity_pooled.tsv	261	ci_lo
+leave_Toray_out_ci_hi	inv-glcm		-0.0768721561715615	synthesis/evidence/sensitivity_pooled.tsv	261	ci_hi
+leave_Toray_out_pi_lo	inv-glcm		-0.338302602843189	synthesis/evidence/sensitivity_pooled.tsv	261	pi_lo
+leave_Toray_out_pi_hi	inv-glcm		0.0868887460744123	synthesis/evidence/sensitivity_pooled.tsv	261	pi_hi
+leave_Toray_out_I2	inv-glcm		84.6227194317809	synthesis/evidence/sensitivity_pooled.tsv	261	I2
+leave_Toray_out_pooled_lift	inv-olbp		-0.13996615734716	synthesis/evidence/sensitivity_pooled.tsv	262	pooled_lift
+leave_Toray_out_ci_lo	inv-olbp		-0.185566574481263	synthesis/evidence/sensitivity_pooled.tsv	262	ci_lo
+leave_Toray_out_ci_hi	inv-olbp		-0.0943657402130568	synthesis/evidence/sensitivity_pooled.tsv	262	ci_hi
+leave_Toray_out_pi_lo	inv-olbp		-0.339921239469872	synthesis/evidence/sensitivity_pooled.tsv	262	pi_lo
+leave_Toray_out_pi_hi	inv-olbp		0.0599889247755524	synthesis/evidence/sensitivity_pooled.tsv	262	pi_hi
+leave_Toray_out_I2	inv-olbp		76.7524960337843	synthesis/evidence/sensitivity_pooled.tsv	262	I2
+leave_Toray_out_pooled_lift	inv-scatter		-0.0101724978846653	synthesis/evidence/sensitivity_pooled.tsv	263	pooled_lift
+leave_Toray_out_ci_lo	inv-scatter		-0.0278525040780193	synthesis/evidence/sensitivity_pooled.tsv	263	ci_lo
+leave_Toray_out_ci_hi	inv-scatter		0.0075075083086888	synthesis/evidence/sensitivity_pooled.tsv	263	ci_hi
+leave_Toray_out_pi_lo	inv-scatter		-0.0661992743879286	synthesis/evidence/sensitivity_pooled.tsv	263	pi_lo
+leave_Toray_out_pi_hi	inv-scatter		0.0458542786185981	synthesis/evidence/sensitivity_pooled.tsv	263	pi_hi
+leave_Toray_out_I2	inv-scatter		42.1418386820023	synthesis/evidence/sensitivity_pooled.tsv	263	I2
+leave_Toray_out_pooled_lift	kme-witness		-0.0073775259961325	synthesis/evidence/sensitivity_pooled.tsv	264	pooled_lift
+leave_Toray_out_ci_lo	kme-witness		-0.0279268615228409	synthesis/evidence/sensitivity_pooled.tsv	264	ci_lo
+leave_Toray_out_ci_hi	kme-witness		0.0131718095305758	synthesis/evidence/sensitivity_pooled.tsv	264	ci_hi
+leave_Toray_out_pi_lo	kme-witness		-0.0645371175476797	synthesis/evidence/sensitivity_pooled.tsv	264	pi_lo
+leave_Toray_out_pi_hi	kme-witness		0.0497820655554146	synthesis/evidence/sensitivity_pooled.tsv	264	pi_hi
+leave_Toray_out_I2	kme-witness		60.0072942776295	synthesis/evidence/sensitivity_pooled.tsv	264	I2
+leave_Toray_out_pooled_lift	lrt-bw		-0.0012361987397285	synthesis/evidence/sensitivity_pooled.tsv	265	pooled_lift
+leave_Toray_out_ci_lo	lrt-bw		-0.0163978568185627	synthesis/evidence/sensitivity_pooled.tsv	265	ci_lo
+leave_Toray_out_ci_hi	lrt-bw		0.0139254593391055	synthesis/evidence/sensitivity_pooled.tsv	265	ci_hi
+leave_Toray_out_pi_lo	lrt-bw		-0.0458349899988176	synthesis/evidence/sensitivity_pooled.tsv	265	pi_lo
+leave_Toray_out_pi_hi	lrt-bw		0.0433625925193604	synthesis/evidence/sensitivity_pooled.tsv	265	pi_hi
+leave_Toray_out_I2	lrt-bw		45.8216215492099	synthesis/evidence/sensitivity_pooled.tsv	265	I2
+leave_Toray_out_pooled_lift	lrt-copula		-0.0361050681620469	synthesis/evidence/sensitivity_pooled.tsv	266	pooled_lift
+leave_Toray_out_ci_lo	lrt-copula		-0.0552070557375286	synthesis/evidence/sensitivity_pooled.tsv	266	ci_lo
+leave_Toray_out_ci_hi	lrt-copula		-0.0170030805865652	synthesis/evidence/sensitivity_pooled.tsv	266	ci_hi
+leave_Toray_out_pi_lo	lrt-copula		-0.0952960094824372	synthesis/evidence/sensitivity_pooled.tsv	266	pi_lo
+leave_Toray_out_pi_hi	lrt-copula		0.0230858731583435	synthesis/evidence/sensitivity_pooled.tsv	266	pi_hi
+leave_Toray_out_I2	lrt-copula		48.4858617242704	synthesis/evidence/sensitivity_pooled.tsv	266	I2
+leave_Toray_out_pooled_lift	lrt-deepmaha		-0.015020526609328	synthesis/evidence/sensitivity_pooled.tsv	267	pooled_lift
+leave_Toray_out_ci_lo	lrt-deepmaha		-0.043742534904692	synthesis/evidence/sensitivity_pooled.tsv	267	ci_lo
+leave_Toray_out_ci_hi	lrt-deepmaha		0.013701481686036	synthesis/evidence/sensitivity_pooled.tsv	267	ci_hi
+leave_Toray_out_pi_lo	lrt-deepmaha		-0.102306517086275	synthesis/evidence/sensitivity_pooled.tsv	267	pi_lo
+leave_Toray_out_pi_hi	lrt-deepmaha		0.0722654638676192	synthesis/evidence/sensitivity_pooled.tsv	267	pi_hi
+leave_Toray_out_I2	lrt-deepmaha		59.3912337483041	synthesis/evidence/sensitivity_pooled.tsv	267	I2
+leave_Toray_out_pooled_lift	lrt-nbkde		-0.0855358852168321	synthesis/evidence/sensitivity_pooled.tsv	268	pooled_lift
+leave_Toray_out_ci_lo	lrt-nbkde		-0.122556791567338	synthesis/evidence/sensitivity_pooled.tsv	268	ci_lo
+leave_Toray_out_ci_hi	lrt-nbkde		-0.0485149788663264	synthesis/evidence/sensitivity_pooled.tsv	268	ci_hi
+leave_Toray_out_pi_lo	lrt-nbkde		-0.236610123430915	synthesis/evidence/sensitivity_pooled.tsv	268	pi_lo
+leave_Toray_out_pi_hi	lrt-nbkde		0.0655383529972505	synthesis/evidence/sensitivity_pooled.tsv	268	pi_hi
+leave_Toray_out_I2	lrt-nbkde		74.1163842088894	synthesis/evidence/sensitivity_pooled.tsv	268	I2
+leave_Toray_out_pooled_lift	lrt-tcopula		-0.266047414699638	synthesis/evidence/sensitivity_pooled.tsv	269	pooled_lift
+leave_Toray_out_ci_lo	lrt-tcopula		-0.376975319109353	synthesis/evidence/sensitivity_pooled.tsv	269	ci_lo
+leave_Toray_out_ci_hi	lrt-tcopula		-0.155119510289923	synthesis/evidence/sensitivity_pooled.tsv	269	ci_hi
+leave_Toray_out_pi_lo	lrt-tcopula		-0.865546214613601	synthesis/evidence/sensitivity_pooled.tsv	269	pi_lo
+leave_Toray_out_pi_hi	lrt-tcopula		0.333451385214325	synthesis/evidence/sensitivity_pooled.tsv	269	pi_hi
+leave_Toray_out_I2	lrt-tcopula		94.6631617679711	synthesis/evidence/sensitivity_pooled.tsv	269	I2
+leave_Toray_out_pooled_lift	lrt-vinecopula		-0.151819691022438	synthesis/evidence/sensitivity_pooled.tsv	270	pooled_lift
+leave_Toray_out_ci_lo	lrt-vinecopula		-0.196889095947216	synthesis/evidence/sensitivity_pooled.tsv	270	ci_lo
+leave_Toray_out_ci_hi	lrt-vinecopula		-0.106750286097661	synthesis/evidence/sensitivity_pooled.tsv	270	ci_hi
+leave_Toray_out_pi_lo	lrt-vinecopula		-0.344426101463327	synthesis/evidence/sensitivity_pooled.tsv	270	pi_lo
+leave_Toray_out_pi_hi	lrt-vinecopula		0.0407867194184504	synthesis/evidence/sensitivity_pooled.tsv	270	pi_hi
+leave_Toray_out_I2	lrt-vinecopula		58.0837821352828	synthesis/evidence/sensitivity_pooled.tsv	270	I2
+leave_Toray_out_pooled_lift	man-nystrom		0.0001588780443785	synthesis/evidence/sensitivity_pooled.tsv	271	pooled_lift
+leave_Toray_out_ci_lo	man-nystrom		-0.0079818890488013	synthesis/evidence/sensitivity_pooled.tsv	271	ci_lo
+leave_Toray_out_ci_hi	man-nystrom		0.0082996451375584	synthesis/evidence/sensitivity_pooled.tsv	271	ci_hi
+leave_Toray_out_pi_lo	man-nystrom		-0.0079819021481079	synthesis/evidence/sensitivity_pooled.tsv	271	pi_lo
+leave_Toray_out_pi_hi	man-nystrom		0.008299658236865	synthesis/evidence/sensitivity_pooled.tsv	271	pi_hi
+leave_Toray_out_I2	man-nystrom		1.02479003578341e-05	synthesis/evidence/sensitivity_pooled.tsv	271	I2
+leave_Toray_out_pooled_lift	nc-conformal-anom		-0.182878553776768	synthesis/evidence/sensitivity_pooled.tsv	272	pooled_lift
+leave_Toray_out_ci_lo	nc-conformal-anom		-0.235658950198091	synthesis/evidence/sensitivity_pooled.tsv	272	ci_lo
+leave_Toray_out_ci_hi	nc-conformal-anom		-0.130098157355446	synthesis/evidence/sensitivity_pooled.tsv	272	ci_hi
+leave_Toray_out_pi_lo	nc-conformal-anom		-0.434276535723356	synthesis/evidence/sensitivity_pooled.tsv	272	pi_lo
+leave_Toray_out_pi_hi	nc-conformal-anom		0.0685194281698191	synthesis/evidence/sensitivity_pooled.tsv	272	pi_hi
+leave_Toray_out_I2	nc-conformal-anom		76.3727508829997	synthesis/evidence/sensitivity_pooled.tsv	272	I2
+leave_Toray_out_pooled_lift	nc-ecod-copod		-0.117141305908884	synthesis/evidence/sensitivity_pooled.tsv	273	pooled_lift
+leave_Toray_out_ci_lo	nc-ecod-copod		-0.163816428685533	synthesis/evidence/sensitivity_pooled.tsv	273	ci_lo
+leave_Toray_out_ci_hi	nc-ecod-copod		-0.0704661831322348	synthesis/evidence/sensitivity_pooled.tsv	273	ci_hi
+leave_Toray_out_pi_lo	nc-ecod-copod		-0.30128885620137	synthesis/evidence/sensitivity_pooled.tsv	273	pi_lo
+leave_Toray_out_pi_hi	nc-ecod-copod		0.067006244383602	synthesis/evidence/sensitivity_pooled.tsv	273	pi_hi
+leave_Toray_out_I2	nc-ecod-copod		70.9665890934865	synthesis/evidence/sensitivity_pooled.tsv	273	I2
+leave_Toray_out_pooled_lift	nc-isoforest		-0.2087824754331	synthesis/evidence/sensitivity_pooled.tsv	274	pooled_lift
+leave_Toray_out_ci_lo	nc-isoforest		-0.270955819699372	synthesis/evidence/sensitivity_pooled.tsv	274	ci_lo
+leave_Toray_out_ci_hi	nc-isoforest		-0.146609131166828	synthesis/evidence/sensitivity_pooled.tsv	274	ci_hi
+leave_Toray_out_pi_lo	nc-isoforest		-0.493559639837663	synthesis/evidence/sensitivity_pooled.tsv	274	pi_lo
+leave_Toray_out_pi_hi	nc-isoforest		0.0759946889714623	synthesis/evidence/sensitivity_pooled.tsv	274	pi_hi
+leave_Toray_out_I2	nc-isoforest		80.0049906274084	synthesis/evidence/sensitivity_pooled.tsv	274	I2
+leave_Toray_out_pooled_lift	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	pooled_lift
+leave_Toray_out_ci_lo	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	ci_lo
+leave_Toray_out_ci_hi	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	ci_hi
+leave_Toray_out_pi_lo	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	pi_lo
+leave_Toray_out_pi_hi	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	pi_hi
+leave_Toray_out_I2	nc-mahalanobis			synthesis/evidence/sensitivity_pooled.tsv	275	I2
+leave_Toray_out_pooled_lift	nc-sinkhorn-single		-0.0006309005548487	synthesis/evidence/sensitivity_pooled.tsv	276	pooled_lift
+leave_Toray_out_ci_lo	nc-sinkhorn-single		-0.0123609724964969	synthesis/evidence/sensitivity_pooled.tsv	276	ci_lo
+leave_Toray_out_ci_hi	nc-sinkhorn-single		0.0110991713867994	synthesis/evidence/sensitivity_pooled.tsv	276	ci_hi
+leave_Toray_out_pi_lo	nc-sinkhorn-single		-0.027743650545776	synthesis/evidence/sensitivity_pooled.tsv	276	pi_lo
+leave_Toray_out_pi_hi	nc-sinkhorn-single		0.0264818494360785	synthesis/evidence/sensitivity_pooled.tsv	276	pi_hi
+leave_Toray_out_I2	nc-sinkhorn-single		24.6112212975642	synthesis/evidence/sensitivity_pooled.tsv	276	I2
+leave_Toray_out_pooled_lift	ot-lot		-0.12049799680408	synthesis/evidence/sensitivity_pooled.tsv	277	pooled_lift
+leave_Toray_out_ci_lo	ot-lot		-0.162177534007048	synthesis/evidence/sensitivity_pooled.tsv	277	ci_lo
+leave_Toray_out_ci_hi	ot-lot		-0.0788184596011114	synthesis/evidence/sensitivity_pooled.tsv	277	ci_hi
+leave_Toray_out_pi_lo	ot-lot		-0.293949701397285	synthesis/evidence/sensitivity_pooled.tsv	277	pi_lo
+leave_Toray_out_pi_hi	ot-lot		0.0529537077891261	synthesis/evidence/sensitivity_pooled.tsv	277	pi_hi
+leave_Toray_out_I2	ot-lot		77.3021860075634	synthesis/evidence/sensitivity_pooled.tsv	277	I2
+leave_Toray_out_pooled_lift	ot-slicedlrt		-0.058133912399872	synthesis/evidence/sensitivity_pooled.tsv	278	pooled_lift
+leave_Toray_out_ci_lo	ot-slicedlrt		-0.0875022497247443	synthesis/evidence/sensitivity_pooled.tsv	278	ci_lo
+leave_Toray_out_ci_hi	ot-slicedlrt		-0.0287655750749997	synthesis/evidence/sensitivity_pooled.tsv	278	ci_hi
+leave_Toray_out_pi_lo	ot-slicedlrt		-0.163696258746813	synthesis/evidence/sensitivity_pooled.tsv	278	pi_lo
+leave_Toray_out_pi_hi	ot-slicedlrt		0.0474284339470693	synthesis/evidence/sensitivity_pooled.tsv	278	pi_hi
+leave_Toray_out_I2	ot-slicedlrt		71.717279582521	synthesis/evidence/sensitivity_pooled.tsv	278	I2
+leave_Toray_out_pooled_lift	proto-net		0.0020892944651428	synthesis/evidence/sensitivity_pooled.tsv	279	pooled_lift
+leave_Toray_out_ci_lo	proto-net		-0.0071749301972591	synthesis/evidence/sensitivity_pooled.tsv	279	ci_lo
+leave_Toray_out_ci_hi	proto-net		0.0113535191275448	synthesis/evidence/sensitivity_pooled.tsv	279	ci_hi
+leave_Toray_out_pi_lo	proto-net		-0.0071749301972591	synthesis/evidence/sensitivity_pooled.tsv	279	pi_lo
+leave_Toray_out_pi_hi	proto-net		0.0113535191275448	synthesis/evidence/sensitivity_pooled.tsv	279	pi_hi
+leave_Toray_out_I2	proto-net		0.0	synthesis/evidence/sensitivity_pooled.tsv	279	I2
+leave_Toray_out_pooled_lift	reo-ktsp		0.0005382163495536	synthesis/evidence/sensitivity_pooled.tsv	280	pooled_lift
+leave_Toray_out_ci_lo	reo-ktsp		-0.0091654330213051	synthesis/evidence/sensitivity_pooled.tsv	280	ci_lo
+leave_Toray_out_ci_hi	reo-ktsp		0.0102418657204125	synthesis/evidence/sensitivity_pooled.tsv	280	ci_hi
+leave_Toray_out_pi_lo	reo-ktsp		-0.0091654332707843	synthesis/evidence/sensitivity_pooled.tsv	280	pi_lo
+leave_Toray_out_pi_hi	reo-ktsp		0.0102418659698917	synthesis/evidence/sensitivity_pooled.tsv	280	pi_hi
+leave_Toray_out_I2	reo-ktsp		2.1262935808263e-07	synthesis/evidence/sensitivity_pooled.tsv	280	I2
+leave_Toray_out_pooled_lift	reo-pairratio		0.0127528181445652	synthesis/evidence/sensitivity_pooled.tsv	281	pooled_lift
+leave_Toray_out_ci_lo	reo-pairratio		-0.0037903660251683	synthesis/evidence/sensitivity_pooled.tsv	281	ci_lo
+leave_Toray_out_ci_hi	reo-pairratio		0.0292960023142987	synthesis/evidence/sensitivity_pooled.tsv	281	ci_hi
+leave_Toray_out_pi_lo	reo-pairratio		-0.0102651051176034	synthesis/evidence/sensitivity_pooled.tsv	281	pi_lo
+leave_Toray_out_pi_hi	reo-pairratio		0.0357707414067338	synthesis/evidence/sensitivity_pooled.tsv	281	pi_hi
+leave_Toray_out_I2	reo-pairratio		8.71963172854045	synthesis/evidence/sensitivity_pooled.tsv	281	I2
+leave_Toray_out_pooled_lift	reo-singscore		-0.0024104685515526	synthesis/evidence/sensitivity_pooled.tsv	282	pooled_lift
+leave_Toray_out_ci_lo	reo-singscore		-0.0096890720889626	synthesis/evidence/sensitivity_pooled.tsv	282	ci_lo
+leave_Toray_out_ci_hi	reo-singscore		0.0048681349858573	synthesis/evidence/sensitivity_pooled.tsv	282	ci_hi
+leave_Toray_out_pi_lo	reo-singscore		-0.0096890751695952	synthesis/evidence/sensitivity_pooled.tsv	282	pi_lo
+leave_Toray_out_pi_hi	reo-singscore		0.0048681380664898	synthesis/evidence/sensitivity_pooled.tsv	282	pi_hi
+leave_Toray_out_I2	reo-singscore		3.09268406968245e-06	synthesis/evidence/sensitivity_pooled.tsv	282	I2
+leave_Toray_out_pooled_lift	reo-ucell		-0.0019443744903953	synthesis/evidence/sensitivity_pooled.tsv	283	pooled_lift
+leave_Toray_out_ci_lo	reo-ucell		-0.009793159851812	synthesis/evidence/sensitivity_pooled.tsv	283	ci_lo
+leave_Toray_out_ci_hi	reo-ucell		0.0059044108710214	synthesis/evidence/sensitivity_pooled.tsv	283	ci_hi
+leave_Toray_out_pi_lo	reo-ucell		-0.0097931636324312	synthesis/evidence/sensitivity_pooled.tsv	283	pi_lo
+leave_Toray_out_pi_hi	reo-ucell		0.0059044146516405	synthesis/evidence/sensitivity_pooled.tsv	283	pi_hi
+leave_Toray_out_I2	reo-ucell		3.66845331314141e-06	synthesis/evidence/sensitivity_pooled.tsv	283	I2
+leave_Toray_out_pooled_lift	robust-pca-resid		-0.05795316886722	synthesis/evidence/sensitivity_pooled.tsv	284	pooled_lift
+leave_Toray_out_ci_lo	robust-pca-resid		-0.0987018477470772	synthesis/evidence/sensitivity_pooled.tsv	284	ci_lo
+leave_Toray_out_ci_hi	robust-pca-resid		-0.0172044899873628	synthesis/evidence/sensitivity_pooled.tsv	284	ci_hi
+leave_Toray_out_pi_lo	robust-pca-resid		-0.223781112500587	synthesis/evidence/sensitivity_pooled.tsv	284	pi_lo
+leave_Toray_out_pi_hi	robust-pca-resid		0.107874774766147	synthesis/evidence/sensitivity_pooled.tsv	284	pi_hi
+leave_Toray_out_I2	robust-pca-resid		57.6765978789934	synthesis/evidence/sensitivity_pooled.tsv	284	I2
+leave_Toray_out_pooled_lift	sig-path		-0.135887135230908	synthesis/evidence/sensitivity_pooled.tsv	285	pooled_lift
+leave_Toray_out_ci_lo	sig-path		-0.189483832529664	synthesis/evidence/sensitivity_pooled.tsv	285	ci_lo
+leave_Toray_out_ci_hi	sig-path		-0.0822904379321517	synthesis/evidence/sensitivity_pooled.tsv	285	ci_hi
+leave_Toray_out_pi_lo	sig-path		-0.395118037722081	synthesis/evidence/sensitivity_pooled.tsv	285	pi_lo
+leave_Toray_out_pi_hi	sig-path		0.123343767260266	synthesis/evidence/sensitivity_pooled.tsv	285	pi_hi
+leave_Toray_out_I2	sig-path		87.1998323700302	synthesis/evidence/sensitivity_pooled.tsv	285	I2
+leave_Toray_out_pooled_lift	ssl-vicreg		-0.0026530926646085	synthesis/evidence/sensitivity_pooled.tsv	286	pooled_lift
+leave_Toray_out_ci_lo	ssl-vicreg		-0.0075280821778394	synthesis/evidence/sensitivity_pooled.tsv	286	ci_lo
+leave_Toray_out_ci_hi	ssl-vicreg		0.0022218968486223	synthesis/evidence/sensitivity_pooled.tsv	286	ci_hi
+leave_Toray_out_pi_lo	ssl-vicreg		-0.0075280821778394	synthesis/evidence/sensitivity_pooled.tsv	286	pi_lo
+leave_Toray_out_pi_hi	ssl-vicreg		0.0022218968486223	synthesis/evidence/sensitivity_pooled.tsv	286	pi_hi
+leave_Toray_out_I2	ssl-vicreg		0.0	synthesis/evidence/sensitivity_pooled.tsv	286	I2
+leave_Toray_out_pooled_lift	tab-tabdpt		-0.0079413504521526	synthesis/evidence/sensitivity_pooled.tsv	287	pooled_lift
+leave_Toray_out_ci_lo	tab-tabdpt		-0.0297412013128774	synthesis/evidence/sensitivity_pooled.tsv	287	ci_lo
+leave_Toray_out_ci_hi	tab-tabdpt		0.013858500408572	synthesis/evidence/sensitivity_pooled.tsv	287	ci_hi
+leave_Toray_out_pi_lo	tab-tabdpt		-0.0743744278919407	synthesis/evidence/sensitivity_pooled.tsv	287	pi_lo
+leave_Toray_out_pi_hi	tab-tabdpt		0.0584917269876353	synthesis/evidence/sensitivity_pooled.tsv	287	pi_hi
+leave_Toray_out_I2	tab-tabdpt		56.2682841897704	synthesis/evidence/sensitivity_pooled.tsv	287	I2
+leave_Toray_out_pooled_lift	tab-tabicl		0.0205819797093342	synthesis/evidence/sensitivity_pooled.tsv	288	pooled_lift
+leave_Toray_out_ci_lo	tab-tabicl		-0.0074561872502243	synthesis/evidence/sensitivity_pooled.tsv	288	ci_lo
+leave_Toray_out_ci_hi	tab-tabicl		0.0486201466688926	synthesis/evidence/sensitivity_pooled.tsv	288	ci_hi
+leave_Toray_out_pi_lo	tab-tabicl		-0.0671701449340961	synthesis/evidence/sensitivity_pooled.tsv	288	pi_lo
+leave_Toray_out_pi_hi	tab-tabicl		0.108334104352764	synthesis/evidence/sensitivity_pooled.tsv	288	pi_hi
+leave_Toray_out_I2	tab-tabicl		75.5829697567694	synthesis/evidence/sensitivity_pooled.tsv	288	I2
+leave_Toray_out_pooled_lift	tda-ph		-0.0686420328431261	synthesis/evidence/sensitivity_pooled.tsv	289	pooled_lift
+leave_Toray_out_ci_lo	tda-ph		-0.108266164287108	synthesis/evidence/sensitivity_pooled.tsv	289	ci_lo
+leave_Toray_out_ci_hi	tda-ph		-0.0290179013991443	synthesis/evidence/sensitivity_pooled.tsv	289	ci_hi
+leave_Toray_out_pi_lo	tda-ph		-0.204602033826547	synthesis/evidence/sensitivity_pooled.tsv	289	pi_lo
+leave_Toray_out_pi_hi	tda-ph		0.0673179681402951	synthesis/evidence/sensitivity_pooled.tsv	289	pi_hi
+leave_Toray_out_I2	tda-ph		58.8784815893027	synthesis/evidence/sensitivity_pooled.tsv	289	I2
+leave_Toray_out_pooled_lift	unc-sngp		-0.0374672595739034	synthesis/evidence/sensitivity_pooled.tsv	290	pooled_lift
+leave_Toray_out_ci_lo	unc-sngp		-0.0614269256366672	synthesis/evidence/sensitivity_pooled.tsv	290	ci_lo
+leave_Toray_out_ci_hi	unc-sngp		-0.0135075935111396	synthesis/evidence/sensitivity_pooled.tsv	290	ci_hi
+leave_Toray_out_pi_lo	unc-sngp		-0.127823455471863	synthesis/evidence/sensitivity_pooled.tsv	290	pi_lo
+leave_Toray_out_pi_hi	unc-sngp		0.0528889363240565	synthesis/evidence/sensitivity_pooled.tsv	290	pi_hi
+leave_Toray_out_I2	unc-sngp		63.3853562098015	synthesis/evidence/sensitivity_pooled.tsv	290	I2
+leave_Toray_out_pooled_lift	ws-alr-pivot		0.0032255938899738	synthesis/evidence/sensitivity_pooled.tsv	291	pooled_lift
+leave_Toray_out_ci_lo	ws-alr-pivot		-0.0039251141569595	synthesis/evidence/sensitivity_pooled.tsv	291	ci_lo
+leave_Toray_out_ci_hi	ws-alr-pivot		0.0103763019369071	synthesis/evidence/sensitivity_pooled.tsv	291	ci_hi
+leave_Toray_out_pi_lo	ws-alr-pivot		-0.0066265935293706	synthesis/evidence/sensitivity_pooled.tsv	291	pi_lo
+leave_Toray_out_pi_hi	ws-alr-pivot		0.0130777813093183	synthesis/evidence/sensitivity_pooled.tsv	291	pi_hi
+leave_Toray_out_I2	ws-alr-pivot		3.43135441530653	synthesis/evidence/sensitivity_pooled.tsv	291	I2
+leave_Toray_out_pooled_lift	ws-balance-ilr		-0.219977008720661	synthesis/evidence/sensitivity_pooled.tsv	292	pooled_lift
+leave_Toray_out_ci_lo	ws-balance-ilr		-0.288649046186886	synthesis/evidence/sensitivity_pooled.tsv	292	ci_lo
+leave_Toray_out_ci_hi	ws-balance-ilr		-0.151304971254436	synthesis/evidence/sensitivity_pooled.tsv	292	ci_hi
+leave_Toray_out_pi_lo	ws-balance-ilr		-0.490437373310752	synthesis/evidence/sensitivity_pooled.tsv	292	pi_lo
+leave_Toray_out_pi_hi	ws-balance-ilr		0.0504833558694302	synthesis/evidence/sensitivity_pooled.tsv	292	pi_hi
+leave_Toray_out_I2	ws-balance-ilr		86.2191340779855	synthesis/evidence/sensitivity_pooled.tsv	292	I2
+leave_Toray_out_pooled_lift	ws-dominance		-0.143085933604442	synthesis/evidence/sensitivity_pooled.tsv	293	pooled_lift
+leave_Toray_out_ci_lo	ws-dominance		-0.196966137596392	synthesis/evidence/sensitivity_pooled.tsv	293	ci_lo
+leave_Toray_out_ci_hi	ws-dominance		-0.0892057296124928	synthesis/evidence/sensitivity_pooled.tsv	293	ci_hi
+leave_Toray_out_pi_lo	ws-dominance		-0.380556328884382	synthesis/evidence/sensitivity_pooled.tsv	293	pi_lo
+leave_Toray_out_pi_hi	ws-dominance		0.0943844616754973	synthesis/evidence/sensitivity_pooled.tsv	293	pi_hi
+leave_Toray_out_I2	ws-dominance		78.3167235195527	synthesis/evidence/sensitivity_pooled.tsv	293	I2
+leave_Toray_out_pooled_lift	ws-mad-logratio		-0.0232636475446964	synthesis/evidence/sensitivity_pooled.tsv	294	pooled_lift
+leave_Toray_out_ci_lo	ws-mad-logratio		-0.0455022101981548	synthesis/evidence/sensitivity_pooled.tsv	294	ci_lo
+leave_Toray_out_ci_hi	ws-mad-logratio		-0.0010250848912379	synthesis/evidence/sensitivity_pooled.tsv	294	ci_hi
+leave_Toray_out_pi_lo	ws-mad-logratio		-0.103900038883878	synthesis/evidence/sensitivity_pooled.tsv	294	pi_lo
+leave_Toray_out_pi_hi	ws-mad-logratio		0.0573727437944848	synthesis/evidence/sensitivity_pooled.tsv	294	pi_hi
+leave_Toray_out_I2	ws-mad-logratio		72.4749764207655	synthesis/evidence/sensitivity_pooled.tsv	294	I2
+available_chunks			250	synthesis/chunk_sources.tsv	same original metric definition	
+pending_chunks			0	synthesis/chunk_sources.tsv	same original metric definition	
+reference_evaluable_pairratio_unavailable			16	synthesis/evidence/within_performance.tsv	same original metric definition	
+newly_estimable_methods			13	synthesis/evidence/v6/pooled.tsv; synthesis/evidence/pooled.tsv	same original metric definition	
+no_longer_estimable_methods			0	synthesis/evidence/v6/pooled.tsv; synthesis/evidence/pooled.tsv	same original metric definition	
+maximum_absolute_grouped_tuning_change			0.0010589992761311	synthesis/evidence/grouped_changes.tsv	same original metric definition	
+datasets			34	synthesis/evidence/within_performance.tsv	same original metric definition	
+profiles			23192	synthesis/evidence/within_performance.tsv	same original metric definition	
+recorded_groups			22938	synthesis/evidence/within_performance.tsv	same original metric definition	
+source_accessions			47	synthesis/evidence/within_performance.tsv	same original metric definition	
+Toray_profiles			19143	synthesis/evidence/within_performance.tsv	same original metric definition	
+Toray_corpus_percentage			82.54139358399448	synthesis/evidence/within_performance.tsv	same original metric definition	
+S6_changed_rows			1522	out/changes.tsv	R1b baseline; changed values in existing columns	
+S7_changed_columns			23	out/changes.tsv	R1b baseline; changed or added S7 columns	

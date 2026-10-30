@@ -1,0 +1,239 @@
+unit_id	method_id	eligible	eligible_seeds	expected_seeds	reason	auc	n_strata	primary_unit	n_deposited_profiles	n_unique_groups
+GSE109319	reo-ktsp	TRUE	5	5	eligible	0.894404761904762	25	TRUE	55	55
+GSE109319	reo-pairratio	FALSE	2	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; ok; ok; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	55	55
+GSE109319	reo-rankboost	TRUE	5	5	eligible	0.937595238095238	25	TRUE	55	55
+GSE109319	reo-rankforest	TRUE	5	5	eligible	0.929142857142857	25	TRUE	55	55
+GSE109319	reo-singscore	TRUE	5	5	eligible	0.895523809523809	25	TRUE	55	55
+GSE109319	reo-ucell	TRUE	5	5	eligible	0.896952380952381	25	TRUE	55	55
+GSE109319	ws-rclr-trimmed	TRUE	5	5	eligible	0.865	25	TRUE	55	55
+GSE117063	reo-ktsp	TRUE	5	5	eligible	0.968333333333333	15	TRUE	31	31
+GSE117063	reo-pairratio	TRUE	5	5	eligible	0.985555555555556	15	TRUE	31	31
+GSE117063	reo-rankboost	TRUE	5	5	eligible	0.988888888888889	15	TRUE	31	31
+GSE117063	reo-rankforest	TRUE	5	5	eligible	0.997777777777778	15	TRUE	31	31
+GSE117063	reo-singscore	TRUE	5	5	eligible	0.995555555555556	15	TRUE	31	31
+GSE117063	reo-ucell	TRUE	5	5	eligible	0.995555555555556	15	TRUE	31	31
+GSE117063	ws-rclr-trimmed	TRUE	5	5	eligible	0.997777777777778	15	TRUE	31	31
+GSE122488	reo-ktsp	TRUE	5	5	eligible	0.813666666666667	25	TRUE	38	38
+GSE122488	reo-pairratio	TRUE	5	5	eligible	0.902	25	TRUE	38	38
+GSE122488	reo-rankboost	TRUE	5	5	eligible	0.88	25	TRUE	38	38
+GSE122488	reo-rankforest	TRUE	5	5	eligible	0.842	25	TRUE	38	38
+GSE122488	reo-singscore	TRUE	5	5	eligible	0.924	25	TRUE	38	38
+GSE122488	reo-ucell	TRUE	5	5	eligible	0.924	25	TRUE	38	38
+GSE122488	ws-rclr-trimmed	TRUE	5	5	eligible	0.932666666666666	25	TRUE	38	38
+GSE130654	reo-ktsp	TRUE	5	5	eligible	0.702777777777778	15	TRUE	48	48
+GSE130654	reo-pairratio	FALSE	2	5	n_valid_folds=2 < 3; per-fold: training-only score direction unavailable; ok; ok | n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable		0	TRUE	48	48
+GSE130654	reo-rankboost	TRUE	5	5	eligible	0.795833333333334	15	TRUE	48	48
+GSE130654	reo-rankforest	TRUE	5	5	eligible	0.700694444444444	15	TRUE	48	48
+GSE130654	reo-singscore	TRUE	5	5	eligible	0.743055555555556	15	TRUE	48	48
+GSE130654	reo-ucell	TRUE	5	5	eligible	0.744444444444445	15	TRUE	48	48
+GSE130654	ws-rclr-trimmed	TRUE	5	5	eligible	0.573611111111111	15	TRUE	48	48
+GSE137109	reo-ktsp	TRUE	5	5	eligible	0.532735969387755	25	TRUE	78	78
+GSE137109	reo-pairratio	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	78	78
+GSE137109	reo-rankboost	TRUE	5	5	eligible	0.529668367346939	25	TRUE	78	78
+GSE137109	reo-rankforest	TRUE	5	5	eligible	0.497735969387755	25	TRUE	78	78
+GSE137109	reo-singscore	TRUE	5	5	eligible	0.5653125	25	TRUE	78	78
+GSE137109	reo-ucell	TRUE	5	5	eligible	0.5590625	25	TRUE	78	78
+GSE137109	ws-rclr-trimmed	TRUE	5	5	eligible	0.64781887755102	25	TRUE	78	78
+GSE145176	reo-ktsp	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; method/baseline score is not a complete finite held-out vector | n_valid_folds=1 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	240	120
+GSE145176	reo-pairratio	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	240	120
+GSE145176	reo-rankboost	TRUE	5	5	eligible	0.946295648795649	25	TRUE	240	120
+GSE145176	reo-rankforest	TRUE	5	5	eligible	0.920567210567211	25	TRUE	240	120
+GSE145176	reo-singscore	TRUE	5	5	eligible	0.747542735042735	25	TRUE	240	120
+GSE145176	reo-ucell	TRUE	5	5	eligible	0.754747474747475	25	TRUE	240	120
+GSE145176	ws-rclr-trimmed	TRUE	5	5	eligible	0.769265734265734	25	TRUE	240	120
+GSE186595	reo-ktsp	TRUE	5	5	eligible	0.433833333333333	25	TRUE	49	49
+GSE186595	reo-pairratio	FALSE	2	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; ok | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	49	49
+GSE186595	reo-rankboost	TRUE	5	5	eligible	0.394333333333333	25	TRUE	49	49
+GSE186595	reo-rankforest	TRUE	5	5	eligible	0.394166666666667	25	TRUE	49	49
+GSE186595	reo-singscore	TRUE	5	5	eligible	0.488833333333333	25	TRUE	49	49
+GSE186595	reo-ucell	TRUE	5	5	eligible	0.488833333333333	25	TRUE	49	49
+GSE186595	ws-rclr-trimmed	TRUE	5	5	eligible	0.349333333333333	25	TRUE	49	49
+GSE188232	reo-ktsp	TRUE	5	5	eligible	0.832648915187377	25	TRUE	190	190
+GSE188232	reo-pairratio	TRUE	5	5	eligible	0.826370019723866	25	TRUE	190	190
+GSE188232	reo-rankboost	TRUE	5	5	eligible	0.83976449704142	25	TRUE	190	190
+GSE188232	reo-rankforest	TRUE	5	5	eligible	0.84102899408284	25	TRUE	190	190
+GSE188232	reo-singscore	TRUE	5	5	eligible	0.795374753451677	25	TRUE	190	190
+GSE188232	reo-ucell	TRUE	5	5	eligible	0.795374753451677	25	TRUE	190	190
+GSE188232	ws-rclr-trimmed	TRUE	5	5	eligible	0.848085207100592	25	TRUE	190	190
+GSE188627	reo-ktsp	TRUE	5	5	eligible	0.931531901649549	25	TRUE	192	192
+GSE188627	reo-pairratio	TRUE	5	5	eligible	0.952804544039838	25	TRUE	192	192
+GSE188627	reo-rankboost	TRUE	5	5	eligible	0.951297852474323	25	TRUE	192	192
+GSE188627	reo-rankforest	TRUE	5	5	eligible	0.937299875505758	25	TRUE	192	192
+GSE188627	reo-singscore	TRUE	5	5	eligible	0.888646903205727	25	TRUE	192	192
+GSE188627	reo-ucell	TRUE	5	5	eligible	0.888591347650171	25	TRUE	192	192
+GSE188627	ws-rclr-trimmed	TRUE	5	5	eligible	0.928215063803299	25	TRUE	192	192
+GSE200489	reo-ktsp	TRUE	5	5	eligible	1	15	TRUE	32	32
+GSE200489	reo-pairratio	TRUE	5	5	eligible	0.963492063492063	15	TRUE	32	32
+GSE200489	reo-rankboost	TRUE	5	5	eligible	0.984126984126984	15	TRUE	32	32
+GSE200489	reo-rankforest	TRUE	5	5	eligible	0.993650793650794	15	TRUE	32	32
+GSE200489	reo-singscore	TRUE	5	5	eligible	0.973809523809524	15	TRUE	32	32
+GSE200489	reo-ucell	TRUE	5	5	eligible	0.973809523809524	15	TRUE	32	32
+GSE200489	ws-rclr-trimmed	TRUE	5	5	eligible	0.922420634920635	15	TRUE	32	32
+GSE204951	reo-ktsp	TRUE	5	5	eligible	0.934722222222222	15	TRUE	115	23
+GSE204951	reo-pairratio	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok		0	TRUE	115	23
+GSE204951	reo-rankboost	TRUE	5	5	eligible	0.881944444444445	15	TRUE	115	23
+GSE204951	reo-rankforest	TRUE	5	5	eligible	0.920833333333334	15	TRUE	115	23
+GSE204951	reo-singscore	TRUE	5	5	eligible	0.873611111111111	15	TRUE	115	23
+GSE204951	reo-ucell	TRUE	5	5	eligible	0.873611111111111	15	TRUE	115	23
+GSE204951	ws-rclr-trimmed	TRUE	5	5	eligible	0.752777777777778	15	TRUE	115	23
+GSE210329	reo-ktsp	TRUE	5	5	eligible	0.756496012348855	23	TRUE	130	130
+GSE210329	reo-pairratio	FALSE	4	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; ok		0	TRUE	130	130
+GSE210329	reo-rankboost	TRUE	5	5	eligible	0.798343195266272	25	TRUE	130	130
+GSE210329	reo-rankforest	TRUE	5	5	eligible	0.787218934911243	25	TRUE	130	130
+GSE210329	reo-singscore	TRUE	5	5	eligible	0.752544378698225	25	TRUE	130	130
+GSE210329	reo-ucell	TRUE	5	5	eligible	0.752544378698225	25	TRUE	130	130
+GSE210329	ws-rclr-trimmed	TRUE	5	5	eligible	0.724023668639053	25	TRUE	130	130
+GSE210546	reo-ktsp	TRUE	5	5	eligible	0.518634259259259	15	TRUE	39	39
+GSE210546	reo-pairratio	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	39	39
+GSE210546	reo-rankboost	TRUE	5	5	eligible	0.44375	15	TRUE	39	39
+GSE210546	reo-rankforest	TRUE	5	5	eligible	0.346828703703704	15	TRUE	39	39
+GSE210546	reo-singscore	TRUE	5	5	eligible	0.558333333333334	15	TRUE	39	39
+GSE210546	reo-ucell	TRUE	5	5	eligible	0.558333333333334	15	TRUE	39	39
+GSE210546	ws-rclr-trimmed	TRUE	5	5	eligible	0.595092592592593	15	TRUE	39	39
+GSE221088	reo-ktsp	TRUE	5	5	eligible	0.594010416666667	24	TRUE	80	41
+GSE221088	reo-pairratio	FALSE	2	5	n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; ok		0	TRUE	80	41
+GSE221088	reo-rankboost	TRUE	5	5	eligible	0.5155	25	TRUE	80	41
+GSE221088	reo-rankforest	TRUE	5	5	eligible	0.5125	25	TRUE	80	41
+GSE221088	reo-singscore	TRUE	5	5	eligible	0.5345	25	TRUE	80	41
+GSE221088	reo-ucell	TRUE	5	5	eligible	0.5295	25	TRUE	80	41
+GSE221088	ws-rclr-trimmed	TRUE	5	5	eligible	0.601	25	TRUE	80	41
+GSE227778	reo-ktsp	FALSE	4	5	n_valid_folds=2 < 3; per-fold: ok; ok; method/baseline score is not a complete finite held-out vector		0	TRUE	30	30
+GSE227778	reo-pairratio	FALSE	0	5	n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=2 < 3; per-fold: training-only score direction unavailable; ok; ok | n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: method/baseline score is not a complete finite held-out vector; ok; training-only score direction unavailable | n_valid_folds=2 < 3; per-fold: ok; training-only score direction unavailable; ok		0	TRUE	30	30
+GSE227778	reo-rankboost	TRUE	5	5	eligible	0.90026455026455	15	TRUE	30	30
+GSE227778	reo-rankforest	TRUE	5	5	eligible	0.789021164021164	15	TRUE	30	30
+GSE227778	reo-singscore	TRUE	5	5	eligible	0.918253968253968	15	TRUE	30	30
+GSE227778	reo-ucell	TRUE	5	5	eligible	0.918253968253968	15	TRUE	30	30
+GSE227778	ws-rclr-trimmed	TRUE	5	5	eligible	0.868783068783069	15	TRUE	30	30
+GSE259327_DIAGNOSTIC	reo-ktsp	TRUE	5	5	eligible	0.940297303921569	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	reo-pairratio	TRUE	5	5	eligible	0.960451715686274	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	reo-rankboost	TRUE	5	5	eligible	0.961921568627451	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	reo-rankforest	TRUE	5	5	eligible	0.956164705882353	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	reo-singscore	TRUE	5	5	eligible	0.94305	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	reo-ucell	TRUE	5	5	eligible	0.944733333333333	25	TRUE	203	203
+GSE259327_DIAGNOSTIC	ws-rclr-trimmed	TRUE	5	5	eligible	0.924534068627451	25	TRUE	203	203
+GSE266859	reo-ktsp	TRUE	5	5	eligible	0.963174019607843	15	TRUE	61	61
+GSE266859	reo-pairratio	TRUE	5	5	eligible	0.841544117647059	15	TRUE	61	61
+GSE266859	reo-rankboost	TRUE	5	5	eligible	0.988970588235294	15	TRUE	61	61
+GSE266859	reo-rankforest	TRUE	5	5	eligible	0.983946078431373	15	TRUE	61	61
+GSE266859	reo-singscore	TRUE	5	5	eligible	0.989031862745098	15	TRUE	61	61
+GSE266859	reo-ucell	TRUE	5	5	eligible	0.987990196078431	15	TRUE	61	61
+GSE266859	ws-rclr-trimmed	TRUE	5	5	eligible	0.993075980392157	15	TRUE	61	61
+GSE270497	reo-ktsp	TRUE	5	5	eligible	0.958333333333334	25	TRUE	180	180
+GSE270497	reo-pairratio	TRUE	5	5	eligible	0.978472222222222	25	TRUE	180	180
+GSE270497	reo-rankboost	TRUE	5	5	eligible	0.981111111111111	25	TRUE	180	180
+GSE270497	reo-rankforest	TRUE	5	5	eligible	0.983263888888889	25	TRUE	180	180
+GSE270497	reo-singscore	TRUE	5	5	eligible	0.957361111111111	25	TRUE	180	180
+GSE270497	reo-ucell	TRUE	5	5	eligible	0.964861111111111	25	TRUE	180	180
+GSE270497	ws-rclr-trimmed	TRUE	5	5	eligible	0.971805555555556	25	TRUE	180	180
+GSE279209	reo-ktsp	TRUE	5	5	eligible	0.477490082244799	25	TRUE	333	333
+GSE279209	reo-pairratio	FALSE	0	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; ok; ok; training-only score direction unavailable | n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; ok		0	TRUE	333	333
+GSE279209	reo-rankboost	TRUE	5	5	eligible	0.507703400373212	25	TRUE	333	333
+GSE279209	reo-rankforest	TRUE	5	5	eligible	0.446899163729352	25	TRUE	333	333
+GSE279209	reo-singscore	TRUE	5	5	eligible	0.509947888589398	25	TRUE	333	333
+GSE279209	reo-ucell	TRUE	5	5	eligible	0.50997950791347	25	TRUE	333	333
+GSE279209	ws-rclr-trimmed	TRUE	5	5	eligible	0.552752159789896	25	TRUE	333	333
+GSE304572	reo-ktsp	TRUE	5	5	eligible	0.572552447552448	22	TRUE	85	85
+GSE304572	reo-pairratio	FALSE	3	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; ok; ok; training-only score direction unavailable		0	TRUE	85	85
+GSE304572	reo-rankboost	TRUE	5	5	eligible	0.577692307692308	25	TRUE	85	85
+GSE304572	reo-rankforest	TRUE	5	5	eligible	0.537307692307692	25	TRUE	85	85
+GSE304572	reo-singscore	TRUE	5	5	eligible	0.552307692307692	25	TRUE	85	85
+GSE304572	reo-ucell	TRUE	5	5	eligible	0.552307692307692	25	TRUE	85	85
+GSE304572	ws-rclr-trimmed	TRUE	5	5	eligible	0.593076923076923	25	TRUE	85	85
+GSE31568	reo-ktsp	TRUE	5	5	eligible	0.735509294626942	25	FALSE	238	238
+GSE31568	reo-pairratio	TRUE	5	5	eligible	0.861461675579323	25	FALSE	238	238
+GSE31568	reo-rankboost	TRUE	5	5	eligible	0.857478991596639	25	FALSE	238	238
+GSE31568	reo-rankforest	TRUE	5	5	eligible	0.854525082760377	25	FALSE	238	238
+GSE31568	reo-singscore	TRUE	5	5	eligible	0.720588235294118	25	FALSE	238	238
+GSE31568	reo-ucell	TRUE	5	5	eligible	0.720588235294118	25	FALSE	238	238
+GSE31568	ws-rclr-trimmed	TRUE	5	5	eligible	0.76022154316272	25	FALSE	238	238
+GSE320031	reo-ktsp	TRUE	5	5	eligible	0.750838316544567	25	TRUE	444	444
+GSE320031	reo-pairratio	TRUE	5	5	eligible	0.777868711843712	25	TRUE	444	444
+GSE320031	reo-rankboost	TRUE	5	5	eligible	0.710780418192918	25	TRUE	444	444
+GSE320031	reo-rankforest	TRUE	5	5	eligible	0.715105013736264	25	TRUE	444	444
+GSE320031	reo-singscore	TRUE	5	5	eligible	0.707155357142857	25	TRUE	444	444
+GSE320031	reo-ucell	TRUE	5	5	eligible	0.707131318681319	25	TRUE	444	444
+GSE320031	ws-rclr-trimmed	TRUE	5	5	eligible	0.696913141025641	25	TRUE	444	444
+GSE41922	reo-ktsp	TRUE	5	5	eligible	0.977142857142857	25	TRUE	54	54
+GSE41922	reo-pairratio	TRUE	5	5	eligible	0.997714285714286	25	TRUE	54	54
+GSE41922	reo-rankboost	TRUE	5	5	eligible	0.966904761904762	25	TRUE	54	54
+GSE41922	reo-rankforest	TRUE	5	5	eligible	0.972428571428571	25	TRUE	54	54
+GSE41922	reo-singscore	TRUE	5	5	eligible	0.963666666666667	25	TRUE	54	54
+GSE41922	reo-ucell	TRUE	5	5	eligible	0.963666666666667	25	TRUE	54	54
+GSE41922	ws-rclr-trimmed	TRUE	5	5	eligible	0.984904761904762	25	TRUE	54	54
+GSE50013	reo-ktsp	TRUE	5	5	eligible	0.81875	25	TRUE	40	40
+GSE50013	reo-pairratio	FALSE	4	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; ok; ok		0	TRUE	40	40
+GSE50013	reo-rankboost	TRUE	5	5	eligible	0.67	25	TRUE	40	40
+GSE50013	reo-rankforest	TRUE	5	5	eligible	0.7475	25	TRUE	40	40
+GSE50013	reo-singscore	TRUE	5	5	eligible	0.455	25	TRUE	40	40
+GSE50013	reo-ucell	TRUE	5	5	eligible	0.455	25	TRUE	40	40
+GSE50013	ws-rclr-trimmed	TRUE	5	5	eligible	0.6375	25	TRUE	40	40
+GSE64591	reo-ktsp	TRUE	5	5	eligible	0.7029	25	TRUE	200	200
+GSE64591	reo-pairratio	FALSE	3	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	200	200
+GSE64591	reo-rankboost	TRUE	5	5	eligible	0.6472	25	TRUE	200	200
+GSE64591	reo-rankforest	TRUE	5	5	eligible	0.6812	25	TRUE	200	200
+GSE64591	reo-singscore	TRUE	5	5	eligible	0.61195	25	TRUE	200	200
+GSE64591	reo-ucell	TRUE	5	5	eligible	0.61185	25	TRUE	200	200
+GSE64591	ws-rclr-trimmed	TRUE	5	5	eligible	0.5584	25	TRUE	200	200
+GSE65071	reo-ktsp	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	reo-pairratio	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	reo-rankboost	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	reo-rankforest	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	reo-singscore	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	reo-ucell	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE65071	ws-rclr-trimmed	TRUE	5	5	eligible	1	25	TRUE	35	35
+GSE70080	reo-ktsp	TRUE	5	5	eligible	0.995565476190476	25	TRUE	54	54
+GSE70080	reo-pairratio	TRUE	5	5	eligible	0.964702380952381	25	TRUE	54	54
+GSE70080	reo-rankboost	TRUE	5	5	eligible	0.990535714285714	25	TRUE	54	54
+GSE70080	reo-rankforest	TRUE	5	5	eligible	0.990238095238095	25	TRUE	54	54
+GSE70080	reo-singscore	TRUE	5	5	eligible	0.993035714285714	25	TRUE	54	54
+GSE70080	reo-ucell	TRUE	5	5	eligible	0.993035714285714	25	TRUE	54	54
+GSE70080	ws-rclr-trimmed	TRUE	5	5	eligible	0.996190476190476	25	TRUE	54	54
+GSE71008	reo-ktsp	TRUE	5	5	eligible	0.729004926108375	25	TRUE	192	192
+GSE71008	reo-pairratio	TRUE	5	5	eligible	0.644142857142857	25	TRUE	192	192
+GSE71008	reo-rankboost	TRUE	5	5	eligible	0.667945812807882	25	TRUE	192	192
+GSE71008	reo-rankforest	TRUE	5	5	eligible	0.528133004926108	25	TRUE	192	192
+GSE71008	reo-singscore	TRUE	5	5	eligible	0.600871921182266	25	TRUE	192	192
+GSE71008	reo-ucell	TRUE	5	5	eligible	0.596022167487685	25	TRUE	192	192
+GSE71008	ws-rclr-trimmed	TRUE	5	5	eligible	0.67651724137931	25	TRUE	192	192
+GSE83977	reo-ktsp	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	31	31
+GSE83977	reo-pairratio	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	31	31
+GSE83977	reo-rankboost	TRUE	5	5	eligible	0.5	15	TRUE	31	31
+GSE83977	reo-rankforest	TRUE	5	5	eligible	0.5	15	TRUE	31	31
+GSE83977	reo-singscore	TRUE	5	5	eligible	0.5	15	TRUE	31	31
+GSE83977	reo-ucell	TRUE	5	5	eligible	0.5	15	TRUE	31	31
+GSE83977	ws-rclr-trimmed	TRUE	5	5	eligible	0.5	15	TRUE	31	31
+GSE85589	reo-ktsp	TRUE	5	5	eligible	0.929607843137255	25	TRUE	107	107
+GSE85589	reo-pairratio	TRUE	5	5	eligible	0.934019607843137	25	TRUE	107	107
+GSE85589	reo-rankboost	TRUE	5	5	eligible	0.985424836601307	25	TRUE	107	107
+GSE85589	reo-rankforest	TRUE	5	5	eligible	0.971388888888889	25	TRUE	107	107
+GSE85589	reo-singscore	TRUE	5	5	eligible	0.976830065359477	25	TRUE	107	107
+GSE85589	reo-ucell	TRUE	5	5	eligible	0.985424836601307	25	TRUE	107	107
+GSE85589	ws-rclr-trimmed	TRUE	5	5	eligible	0.967941176470588	25	TRUE	107	107
+GSE94533_PUBLIC	reo-ktsp	TRUE	5	5	eligible	0.751128095975232	25	TRUE	174	174
+GSE94533_PUBLIC	reo-pairratio	TRUE	5	5	eligible	0.7042566727648	22	TRUE	174	174
+GSE94533_PUBLIC	reo-rankboost	TRUE	5	5	eligible	0.74484649122807	25	TRUE	174	174
+GSE94533_PUBLIC	reo-rankforest	TRUE	5	5	eligible	0.762741658066736	25	TRUE	174	174
+GSE94533_PUBLIC	reo-singscore	TRUE	5	5	eligible	0.710268317853457	25	TRUE	174	174
+GSE94533_PUBLIC	reo-ucell	TRUE	5	5	eligible	0.70953431372549	25	TRUE	174	174
+GSE94533_PUBLIC	ws-rclr-trimmed	TRUE	5	5	eligible	0.791059081527348	25	TRUE	174	174
+PRJEB30542	reo-ktsp	TRUE	5	5	eligible	0.779119825708061	25	TRUE	116	116
+PRJEB30542	reo-pairratio	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable		0	TRUE	116	116
+PRJEB30542	reo-rankboost	TRUE	5	5	eligible	0.864518518518519	25	TRUE	116	116
+PRJEB30542	reo-rankforest	TRUE	5	5	eligible	0.833542483660131	25	TRUE	116	116
+PRJEB30542	reo-singscore	TRUE	5	5	eligible	0.811860566448802	25	TRUE	116	116
+PRJEB30542	reo-ucell	TRUE	5	5	eligible	0.811860566448802	25	TRUE	116	116
+PRJEB30542	ws-rclr-trimmed	TRUE	5	5	eligible	0.830039215686275	25	TRUE	116	116
+TORAY_PUBLIC_CANONICAL	reo-ktsp	TRUE	5	5	eligible	0.955517641127772	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	reo-pairratio	TRUE	5	5	eligible	0.953426837796246	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	reo-rankboost	TRUE	5	5	eligible	0.992257863594027	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	reo-rankforest	TRUE	5	5	eligible	0.989160502527041	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	reo-singscore	TRUE	5	5	eligible	0.924019879121682	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	reo-ucell	TRUE	5	5	eligible	0.924017908931971	25	TRUE	19143	19143
+TORAY_PUBLIC_CANONICAL	ws-rclr-trimmed	TRUE	5	5	eligible	0.946812237518387	25	TRUE	19143	19143
+GSE198834	reo-ktsp	FALSE	3	5	n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; ok; training-only score direction unavailable		0	TRUE	155	155
+GSE198834	reo-pairratio	FALSE	0	5	n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok		0	TRUE	155	155
+GSE198834	reo-rankboost	FALSE	0	5	n_valid_folds=0 < 4; per-fold: fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.		0	TRUE	155	155
+GSE198834	reo-rankforest	FALSE	0	5	n_valid_folds=0 < 4; per-fold: fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.		0	TRUE	155	155
+GSE198834	reo-singscore	TRUE	5	5	eligible	0.504518633540373	25	TRUE	155	155
+GSE198834	reo-ucell	TRUE	5	5	eligible	0.504518633540373	25	TRUE	155	155
+GSE198834	ws-rclr-trimmed	TRUE	5	5	eligible	0.564197722567288	25	TRUE	155	155

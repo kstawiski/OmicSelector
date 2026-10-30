@@ -57,7 +57,7 @@ A list with:
     \item{\code{summary}}{data.frame: pipeline, mean_auc, mean_ci_lo,
           mean_ci_hi (across seeds).}
     \item{\code{oof_predictions}}{Named list of length \code{length(seeds)}
-          — each element is a named list of OOF score vectors keyed by
+          -- each element is a named list of OOF score vectors keyed by
           pipeline.}
     \item{\code{pairwise_delong}}{data.frame of paired DeLong results vs
           \code{reference} per seed (NULL if \code{reference} is NULL).}

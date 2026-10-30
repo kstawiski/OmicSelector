@@ -1,0 +1,11 @@
+method	fold	n	labels_match	sample_ids_match	auc_benchmark_error	auc_deployed_error	max_abs_difference_error
+ai-tabpfn	1	32	True	True	0.0	0.0	0.0
+ai-tabpfn	2	32	True	True	0.0	0.0	0.0
+ai-tabpfn	3	31	True	True	0.0	0.0	0.0
+ai-tabpfn	4	30	True	True	0.0	0.0	0.0
+ai-tabpfn	5	30	True	True	0.0	0.0	0.0
+tab-tabdpt	1	32	True	True	0.0	0.0	0.0
+tab-tabdpt	2	32	True	True	0.0	0.0	0.0
+tab-tabdpt	3	31	True	True	0.0	0.0	0.0
+tab-tabdpt	4	30	True	True	0.0	0.0	0.0
+tab-tabdpt	5	30	True	True	0.0	0.0	0.0

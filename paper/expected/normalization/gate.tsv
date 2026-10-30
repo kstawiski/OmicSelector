@@ -1,0 +1,2 @@
+dataset	rows_compared	max_absolute_score_difference	recomputed_reference_auc	synthesis_reference_auc	auc_difference	pass	reason
+"GSE117063"	155	5.6843418860808e-14	0.997777777777778	0.997777777777778	-2.22044604925031e-16	TRUE	""

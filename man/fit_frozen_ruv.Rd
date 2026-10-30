@@ -20,7 +20,7 @@ non-cancer-relevant (empirical negative controls). Default = a curated set
 of stably-expressed serum/plasma miRNAs.}
 
 \item{k}{Integer or integer vector (range). Number of unwanted factors to
-estimate. Default \code{2:6} — BIC selects within this range.}
+estimate. Default \code{2:6} -- BIC selects within this range.}
 
 \item{select}{Method for selecting \code{k}. \code{"BIC"} (default),
 \code{"fixed"} (uses the smallest value in \code{k}), or \code{"explicit"}
@@ -57,5 +57,5 @@ fit$k_selected
 \references{
 Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq data
 using factor analysis of control genes or samples.
-\emph{Nature Biotechnology} 32(9): 896–902.
+\emph{Nature Biotechnology} 32(9): 896-902.
 }

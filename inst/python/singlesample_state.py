@@ -10,86 +10,103 @@ import numpy as np
 
 
 def state_fingerprint(obj):
-    # Traverse estimator state, including nested torch parameters/buffers,
-    # preprocessing and training context. Never hash pointer addresses or pickle
-    # storage IDs. Repeated references and cycles retain deterministic indices.
+    # Hash content, not the alias graph reconstructed by pickle. Memoized
+    # subtree hashes avoid repeatedly reading shared tensor storage; a repeated
+    # reference contributes the same hash as an equal independent value.
     import torch
-    h = hashlib.sha256()
-    seen = {}
-    keepalive = []  # Prevent temporary state_dict object IDs from being reused.
-    unsupported = set()
-
-    def put(value):
-        data = value if isinstance(value, bytes) else str(value).encode('utf-8')
-        h.update(len(data).to_bytes(8, 'big'))
-        h.update(data)
+    memo, active, keepalive, unsupported = {}, {}, [], set()
 
     def walk(x):
-        put(type(x).__module__ + '.' + type(x).__qualname__)
-        if x is None or isinstance(x, (str, bytes, bool, int, float, complex, np.generic)):
-            put(repr(x)); return
-        if isinstance(x, (types.ModuleType, types.FunctionType, types.BuiltinFunctionType, type)):
-            put(getattr(x, '__module__', '')); put(getattr(x, '__qualname__', getattr(x, '__name__', ''))); return
-        if isinstance(x, np.dtype):
-            put(x.str); walk(x.descr); return
         ident = id(x)
-        if ident in seen:
-            put('reference'); put(seen[ident]); return
-        seen[ident] = len(seen)
+        if ident in active:
+            return hashlib.sha256(('cycle:' + str(len(active) - active[ident])).encode()).digest()
+        if ident in memo:
+            return memo[ident]
+        h = hashlib.sha256()
+        def put(value):
+            data = value if isinstance(value, bytes) else str(value).encode('utf-8')
+            h.update(len(data).to_bytes(8, 'big')); h.update(data)
+        def child(value):
+            put(walk(value))
+        put(type(x).__module__ + '.' + type(x).__qualname__)
+        active[ident] = len(active)
         keepalive.append(x)
-        if isinstance(x, torch.Tensor):
-            put(str(x.dtype)); put(tuple(x.shape)); put(x.requires_grad)
-            a = x.detach().cpu().contiguous()
-            if a.is_sparse:
-                a = a.to_dense()
-            put(a.reshape(-1).view(torch.uint8).numpy().tobytes()); return
-        if isinstance(x, np.ndarray):
-            put(str(x.dtype)); put(x.shape)
-            if x.dtype.hasobject:
-                walk(x.tolist())
+        try:
+            if x is None or isinstance(x, (str, bytes, bool, int, float, complex, np.generic)):
+                put(repr(x))
+            elif isinstance(x, (types.ModuleType, types.FunctionType, types.BuiltinFunctionType, type)):
+                put(getattr(x, '__module__', ''))
+                put(getattr(x, '__qualname__', getattr(x, '__name__', '')))
+            elif isinstance(x, np.dtype):
+                put(x.str); child(x.descr)
+            elif isinstance(x, torch.Tensor):
+                put(str(x.dtype)); put(tuple(x.shape))
+                # Autograd ownership is reconstructed on load and does not
+                # change frozen inference. Evaluation/training flags below do.
+                a = x.detach().cpu()
+                if a.is_sparse:
+                    a = a.to_dense()
+                put(a.contiguous().reshape(-1).view(torch.uint8).numpy().tobytes())
+            elif isinstance(x, np.ndarray):
+                put(str(x.dtype)); put(x.shape)
+                if x.dtype.hasobject:
+                    child(x.tolist())
+                else:
+                    put(np.ascontiguousarray(x).tobytes())
+            elif isinstance(x, dict):
+                for key in sorted(x, key=lambda k: (type(k).__name__, str(k))):
+                    child(key); child(x[key])
+            elif isinstance(x, (list, tuple)):
+                for item in x: child(item)
+            elif isinstance(x, (set, frozenset)):
+                for value in sorted(walk(item) for item in x): put(value)
+            elif isinstance(x, torch.nn.Module):
+                child(x.state_dict())
+                child([(name, m.training) for name, m in x.named_modules()])
+                attributes = {k: v for k, v in vars(x).items()
+                              if k not in ('_parameters', '_modules', '_buffers')}
+                # TabPFN's PerFeatureEncoderLayer.__setstate__ inserts this
+                # backward-compatibility default even when it was absent at fit.
+                if (type(x).__module__ == 'tabpfn.architectures.base.layer'
+                        and type(x).__name__ == 'PerFeatureEncoderLayer'):
+                    attributes.setdefault('save_peak_mem_factor', None)
+                child(attributes)
+                child(x._buffers)
+                for name, module in x.named_children(): put(name); child(module)
+            elif isinstance(x, np.random.RandomState): child(x.get_state())
+            elif isinstance(x, np.random.Generator): child(x.bit_generator.state)
+            elif isinstance(x, torch.Generator): child(x.get_state())
+            elif (type(x).__module__ == 'tabicl._model.inference'
+                  and type(x).__name__ == 'InferenceManager'):
+                # Reconfigured before every TabICL forward pass from the
+                # estimator's inference_config_ (which is hashed separately).
+                # Buffer pools, device streams and memory probes are runtime
+                # workspaces, not the frozen context/KV cache or model weights.
+                child({key: getattr(x, key) for key in ('enc_name', 'out_dim', 'out_no_seq')})
+            elif (type(x).__module__.startswith('tabicl._sklearn.')
+                  and type(x).__name__ in ('TabICLClassifier', 'TabICLRegressor')):
+                # Only checkpoint provenance: __setstate__ either rebuilds this
+                # host-specific path or loads the embedded, fully hashed weights.
+                child({k: v for k, v in vars(x).items() if k != 'model_path_'})
+            elif hasattr(x, '__dict__'): child(vars(x))
+            elif isinstance(x, (slice, range, PurePath, torch.device, torch.dtype)):
+                put(str(x))
             else:
-                put(np.ascontiguousarray(x).tobytes())
-            return
-        if isinstance(x, dict):
-            for key in sorted(x, key=lambda k: (type(k).__name__, str(k))):
-                walk(key); walk(x[key])
-            return
-        if isinstance(x, (list, tuple)):
-            for item in x: walk(item)
-            return
-        if isinstance(x, (set, frozenset)):
-            for item in sorted(x, key=str): walk(item)
-            return
-        if isinstance(x, torch.nn.Module):
-            walk(x.state_dict())
-            walk([(name, m.training) for name, m in x.named_modules()])
-            # Architecture/configuration and non-persistent buffers also affect
-            # inference. Include ordinary attributes, avoiding duplicate graph.
-            walk({k: v for k, v in vars(x).items() if k not in ('_parameters', '_modules', '_buffers')})
-            walk(x._buffers)
-            for name, child in x.named_children(): put(name); walk(child)
-            return
-        if isinstance(x, np.random.RandomState): walk(x.get_state()); return
-        if isinstance(x, np.random.Generator): walk(x.bit_generator.state); return
-        if isinstance(x, torch.Generator): walk(x.get_state()); return
-        if hasattr(x, '__dict__'):
-            walk(vars(x)); return
-        # Immutable configuration types have stable text, but unknown opaque
-        # objects must fail closed rather than pretending their state was read.
-        if isinstance(x, (slice, range, PurePath, torch.device, torch.dtype)):
-            put(str(x)); return
-        unsupported.add(type(x).__module__ + '.' + type(x).__qualname__)
+                unsupported.add(type(x).__module__ + '.' + type(x).__qualname__)
+            result = h.digest()
+            memo[ident] = result
+            return result
+        finally:
+            active.pop(ident, None)
 
     try:
-        walk(obj)
+        result = walk(obj)
         if unsupported:
             raise TypeError('Unsupported state types: ' + ', '.join(sorted(unsupported)))
-        return h.hexdigest()
+        return result.hex()
     finally:
-        # walk's recursive closure survives until cyclic GC. Its keepalive list
-        # must not retain a fitted estimator or tensor storage after hashing.
-        keepalive.clear()
-        seen.clear()
+        # Recursive closures must not retain estimator/tensor storage until GC.
+        keepalive.clear(); memo.clear(); active.clear()
 
 
 def freeze(obj):

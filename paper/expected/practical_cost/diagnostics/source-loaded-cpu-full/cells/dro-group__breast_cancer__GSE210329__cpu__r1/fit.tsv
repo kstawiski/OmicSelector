@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"dro-group"	"breast_cancer__GSE210329"	1	"cpu"	1.14711809158325	0.925000000000001	0.0203222036361694	0.0216616868972778	0	1e-05	TRUE	678	26	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

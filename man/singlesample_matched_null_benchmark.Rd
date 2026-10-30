@@ -28,19 +28,19 @@ Should be the full feature pool, not just the observed panel.}
 \item{scoring_fn}{Function \code{function(X_subset)} returning a per-sample
 numeric score.}
 
-\item{K}{Integer — number of null panels. Default 10,000 (per plan v0.3.3).}
+\item{K}{Integer -- number of null panels. Default 10,000 (per plan v0.3.3).}
 
-\item{feature_pool}{Character vector — full feature pool. Defaults to
+\item{feature_pool}{Character vector -- full feature pool. Defaults to
 \code{colnames(X)}.}
 
-\item{exclude_features}{Character — feature names to exclude from the
+\item{exclude_features}{Character -- feature names to exclude from the
 candidate pool (e.g., hemolysis markers). Default \code{character(0)}.}
 
 \item{post_hemolysis_corrected}{Logical. If \code{TRUE}, prepends the
 canonical hemolysis-marker list to \code{exclude_features}. Default
 \code{FALSE}.}
 
-\item{seed}{Integer — RNG seed. Default 42.}
+\item{seed}{Integer -- RNG seed. Default 42.}
 
 \item{auc_ci_method}{Character; one of \code{"hanley_mcneil"} (default;
 closed-form Hanley-McNeil 1982 standard error), \code{"delong"}
@@ -82,15 +82,17 @@ uses the name \code{singlesample_matched_null_benchmark} to avoid collision.
 }
 \examples{
 \dontrun{
-set.seed(42)
-X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
-            dimnames = list(NULL, paste0("mir-", seq_len(50))))
-y <- rbinom(100, 1, 0.5)
-panel <- paste0("mir-", 1:10)
-res <- singlesample_matched_null_benchmark(X, y, panel,
-         scoring_fn = function(M) rowSums(log(M + 1)),
-         K = 200L)
-res$p_emp
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(42)
+  X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
+              dimnames = list(NULL, paste0("mir-", seq_len(50))))
+  y <- rbinom(100, 1, 0.5)
+  panel <- paste0("mir-", 1:10)
+  res <- singlesample_matched_null_benchmark(X, y, panel,
+           scoring_fn = function(M) rowSums(log(M + 1)),
+           K = 200L)
+  res$p_emp
+}
 }
 
 }

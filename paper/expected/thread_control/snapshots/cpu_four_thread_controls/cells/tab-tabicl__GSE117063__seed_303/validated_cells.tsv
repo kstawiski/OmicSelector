@@ -1,0 +1,2 @@
+method	cohort	seed	eligible	ineligible_reason	auc_method	auc_baseline	lift	lift_se	n_eff	n_valid_folds	min_pos	min_neg	outer_k	grouping_policy	n_group_split_violations	package_version	package_commit	cache_package_commit	analysis_code_id	model_seed	model_seed_policy	device	score_batch	threads	preparation	host	physical_gpu	physical_gpu_uuid
+tab-tabicl	GSE117063	303	TRUE		1	1	0	0	31	3	5	4	3	groupKFold	0	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e	cc483baf93c63159a4cf22039f4269c0aaa33bbb	f804883b63c36ae6	42	package_default	cpu	TRUE	4	unaffected	argos2	none	""

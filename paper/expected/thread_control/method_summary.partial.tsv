@@ -1,0 +1,3 @@
+method	n_completed	n_expected	n_eligible	seed_effect_min	seed_effect_max	thread_effect_min	thread_effect_max	max_score_difference_seed	max_score_difference_thread	changed_calls_seed	changed_calls_thread	final
+ai-tabpfn	88	137	88	-0.05	0.0423280423280426	-0.002	0.000380952380952038	0.272028148174286	0.0970944762229919	200	8	FALSE
+tab-tabicl	65	140	65	-0.0555555555555558	0.0833333333333334	-5.55111512312578e-16	4.44089209850063e-16	0.533047452569008	1.50203704833984e-05	363	0	FALSE

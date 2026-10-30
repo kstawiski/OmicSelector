@@ -1,0 +1,239 @@
+method_id	unit_id	eligible	eligible_seeds	expected_seeds	reason
+ws-rclr-trimmed	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE109319	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE117063	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE122488	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE130654	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE137109	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE145176	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE186595	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE188232	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE188627	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE200489	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE204951	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE210329	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE210546	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE221088	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE227778	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE266859	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE270497	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE279209	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE304572	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE31568	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE320031	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE41922	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE50013	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE64591	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE65071	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE70080	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE71008	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE83977	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE85589	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE94533_PUBLIC	TRUE	5	5	eligible
+ws-rclr-trimmed	PRJEB30542	TRUE	5	5	eligible
+reo-ktsp	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-ktsp	GSE109319	TRUE	5	5	eligible
+reo-ktsp	GSE117063	TRUE	5	5	eligible
+reo-ktsp	GSE122488	TRUE	5	5	eligible
+reo-ktsp	GSE130654	TRUE	5	5	eligible
+reo-ktsp	GSE137109	TRUE	5	5	eligible
+reo-ktsp	GSE145176	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; method/baseline score is not a complete finite held-out vector | n_valid_folds=1 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-ktsp	GSE186595	TRUE	5	5	eligible
+reo-ktsp	GSE188232	TRUE	5	5	eligible
+reo-ktsp	GSE188627	TRUE	5	5	eligible
+reo-ktsp	GSE200489	TRUE	5	5	eligible
+reo-ktsp	GSE204951	TRUE	5	5	eligible
+reo-ktsp	GSE210329	TRUE	5	5	eligible
+reo-ktsp	GSE210546	TRUE	5	5	eligible
+reo-ktsp	GSE221088	TRUE	5	5	eligible
+reo-ktsp	GSE227778	FALSE	4	5	n_valid_folds=2 < 3; per-fold: ok; ok; method/baseline score is not a complete finite held-out vector
+reo-ktsp	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-ktsp	GSE266859	TRUE	5	5	eligible
+reo-ktsp	GSE270497	TRUE	5	5	eligible
+reo-ktsp	GSE279209	TRUE	5	5	eligible
+reo-ktsp	GSE304572	TRUE	5	5	eligible
+reo-ktsp	GSE31568	TRUE	5	5	eligible
+reo-ktsp	GSE320031	TRUE	5	5	eligible
+reo-ktsp	GSE41922	TRUE	5	5	eligible
+reo-ktsp	GSE50013	TRUE	5	5	eligible
+reo-ktsp	GSE64591	TRUE	5	5	eligible
+reo-ktsp	GSE65071	TRUE	5	5	eligible
+reo-ktsp	GSE70080	TRUE	5	5	eligible
+reo-ktsp	GSE71008	TRUE	5	5	eligible
+reo-ktsp	GSE83977	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-ktsp	GSE85589	TRUE	5	5	eligible
+reo-ktsp	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-ktsp	PRJEB30542	TRUE	5	5	eligible
+reo-pairratio	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-pairratio	GSE109319	FALSE	2	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; ok; ok; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE117063	TRUE	5	5	eligible
+reo-pairratio	GSE122488	TRUE	5	5	eligible
+reo-pairratio	GSE130654	FALSE	2	5	n_valid_folds=2 < 3; per-fold: training-only score direction unavailable; ok; ok | n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable
+reo-pairratio	GSE137109	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE145176	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE186595	FALSE	2	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; ok | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE188232	TRUE	5	5	eligible
+reo-pairratio	GSE188627	TRUE	5	5	eligible
+reo-pairratio	GSE200489	TRUE	5	5	eligible
+reo-pairratio	GSE204951	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok
+reo-pairratio	GSE210329	FALSE	4	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; ok
+reo-pairratio	GSE210546	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE221088	FALSE	2	5	n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable; ok
+reo-pairratio	GSE227778	FALSE	0	5	n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=2 < 3; per-fold: training-only score direction unavailable; ok; ok | n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 3; per-fold: method/baseline score is not a complete finite held-out vector; ok; training-only score direction unavailable | n_valid_folds=2 < 3; per-fold: ok; training-only score direction unavailable; ok
+reo-pairratio	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-pairratio	GSE266859	TRUE	5	5	eligible
+reo-pairratio	GSE270497	TRUE	5	5	eligible
+reo-pairratio	GSE279209	FALSE	0	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; ok; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; ok; ok; training-only score direction unavailable | n_valid_folds=3 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; ok
+reo-pairratio	GSE304572	FALSE	3	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok | n_valid_folds=3 < 4; per-fold: ok; training-only score direction unavailable; ok; ok; training-only score direction unavailable
+reo-pairratio	GSE31568	TRUE	5	5	eligible
+reo-pairratio	GSE320031	TRUE	5	5	eligible
+reo-pairratio	GSE41922	TRUE	5	5	eligible
+reo-pairratio	GSE50013	FALSE	4	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; ok; ok
+reo-pairratio	GSE64591	FALSE	3	5	n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE65071	TRUE	5	5	eligible
+reo-pairratio	GSE70080	TRUE	5	5	eligible
+reo-pairratio	GSE71008	TRUE	5	5	eligible
+reo-pairratio	GSE83977	FALSE	0	5	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-pairratio	GSE85589	TRUE	5	5	eligible
+reo-pairratio	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-pairratio	PRJEB30542	FALSE	0	5	n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable
+reo-singscore	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-singscore	GSE109319	TRUE	5	5	eligible
+reo-singscore	GSE117063	TRUE	5	5	eligible
+reo-singscore	GSE122488	TRUE	5	5	eligible
+reo-singscore	GSE130654	TRUE	5	5	eligible
+reo-singscore	GSE137109	TRUE	5	5	eligible
+reo-singscore	GSE145176	TRUE	5	5	eligible
+reo-singscore	GSE186595	TRUE	5	5	eligible
+reo-singscore	GSE188232	TRUE	5	5	eligible
+reo-singscore	GSE188627	TRUE	5	5	eligible
+reo-singscore	GSE200489	TRUE	5	5	eligible
+reo-singscore	GSE204951	TRUE	5	5	eligible
+reo-singscore	GSE210329	TRUE	5	5	eligible
+reo-singscore	GSE210546	TRUE	5	5	eligible
+reo-singscore	GSE221088	TRUE	5	5	eligible
+reo-singscore	GSE227778	TRUE	5	5	eligible
+reo-singscore	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-singscore	GSE266859	TRUE	5	5	eligible
+reo-singscore	GSE270497	TRUE	5	5	eligible
+reo-singscore	GSE279209	TRUE	5	5	eligible
+reo-singscore	GSE304572	TRUE	5	5	eligible
+reo-singscore	GSE31568	TRUE	5	5	eligible
+reo-singscore	GSE320031	TRUE	5	5	eligible
+reo-singscore	GSE41922	TRUE	5	5	eligible
+reo-singscore	GSE50013	TRUE	5	5	eligible
+reo-singscore	GSE64591	TRUE	5	5	eligible
+reo-singscore	GSE65071	TRUE	5	5	eligible
+reo-singscore	GSE70080	TRUE	5	5	eligible
+reo-singscore	GSE71008	TRUE	5	5	eligible
+reo-singscore	GSE83977	TRUE	5	5	eligible
+reo-singscore	GSE85589	TRUE	5	5	eligible
+reo-singscore	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-singscore	PRJEB30542	TRUE	5	5	eligible
+reo-ucell	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-ucell	GSE109319	TRUE	5	5	eligible
+reo-ucell	GSE117063	TRUE	5	5	eligible
+reo-ucell	GSE122488	TRUE	5	5	eligible
+reo-ucell	GSE130654	TRUE	5	5	eligible
+reo-ucell	GSE137109	TRUE	5	5	eligible
+reo-ucell	GSE145176	TRUE	5	5	eligible
+reo-ucell	GSE186595	TRUE	5	5	eligible
+reo-ucell	GSE188232	TRUE	5	5	eligible
+reo-ucell	GSE188627	TRUE	5	5	eligible
+reo-ucell	GSE200489	TRUE	5	5	eligible
+reo-ucell	GSE204951	TRUE	5	5	eligible
+reo-ucell	GSE210329	TRUE	5	5	eligible
+reo-ucell	GSE210546	TRUE	5	5	eligible
+reo-ucell	GSE221088	TRUE	5	5	eligible
+reo-ucell	GSE227778	TRUE	5	5	eligible
+reo-ucell	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-ucell	GSE266859	TRUE	5	5	eligible
+reo-ucell	GSE270497	TRUE	5	5	eligible
+reo-ucell	GSE279209	TRUE	5	5	eligible
+reo-ucell	GSE304572	TRUE	5	5	eligible
+reo-ucell	GSE31568	TRUE	5	5	eligible
+reo-ucell	GSE320031	TRUE	5	5	eligible
+reo-ucell	GSE41922	TRUE	5	5	eligible
+reo-ucell	GSE50013	TRUE	5	5	eligible
+reo-ucell	GSE64591	TRUE	5	5	eligible
+reo-ucell	GSE65071	TRUE	5	5	eligible
+reo-ucell	GSE70080	TRUE	5	5	eligible
+reo-ucell	GSE71008	TRUE	5	5	eligible
+reo-ucell	GSE83977	TRUE	5	5	eligible
+reo-ucell	GSE85589	TRUE	5	5	eligible
+reo-ucell	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-ucell	PRJEB30542	TRUE	5	5	eligible
+reo-rankforest	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-rankforest	GSE109319	TRUE	5	5	eligible
+reo-rankforest	GSE117063	TRUE	5	5	eligible
+reo-rankforest	GSE122488	TRUE	5	5	eligible
+reo-rankforest	GSE130654	TRUE	5	5	eligible
+reo-rankforest	GSE137109	TRUE	5	5	eligible
+reo-rankforest	GSE145176	TRUE	5	5	eligible
+reo-rankforest	GSE186595	TRUE	5	5	eligible
+reo-rankforest	GSE188232	TRUE	5	5	eligible
+reo-rankforest	GSE188627	TRUE	5	5	eligible
+reo-rankforest	GSE200489	TRUE	5	5	eligible
+reo-rankforest	GSE204951	TRUE	5	5	eligible
+reo-rankforest	GSE210329	TRUE	5	5	eligible
+reo-rankforest	GSE210546	TRUE	5	5	eligible
+reo-rankforest	GSE221088	TRUE	5	5	eligible
+reo-rankforest	GSE227778	TRUE	5	5	eligible
+reo-rankforest	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-rankforest	GSE266859	TRUE	5	5	eligible
+reo-rankforest	GSE270497	TRUE	5	5	eligible
+reo-rankforest	GSE279209	TRUE	5	5	eligible
+reo-rankforest	GSE304572	TRUE	5	5	eligible
+reo-rankforest	GSE31568	TRUE	5	5	eligible
+reo-rankforest	GSE320031	TRUE	5	5	eligible
+reo-rankforest	GSE41922	TRUE	5	5	eligible
+reo-rankforest	GSE50013	TRUE	5	5	eligible
+reo-rankforest	GSE64591	TRUE	5	5	eligible
+reo-rankforest	GSE65071	TRUE	5	5	eligible
+reo-rankforest	GSE70080	TRUE	5	5	eligible
+reo-rankforest	GSE71008	TRUE	5	5	eligible
+reo-rankforest	GSE83977	TRUE	5	5	eligible
+reo-rankforest	GSE85589	TRUE	5	5	eligible
+reo-rankforest	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-rankforest	PRJEB30542	TRUE	5	5	eligible
+reo-rankboost	TORAY_PUBLIC_CANONICAL	TRUE	5	5	eligible
+reo-rankboost	GSE109319	TRUE	5	5	eligible
+reo-rankboost	GSE117063	TRUE	5	5	eligible
+reo-rankboost	GSE122488	TRUE	5	5	eligible
+reo-rankboost	GSE130654	TRUE	5	5	eligible
+reo-rankboost	GSE137109	TRUE	5	5	eligible
+reo-rankboost	GSE145176	TRUE	5	5	eligible
+reo-rankboost	GSE186595	TRUE	5	5	eligible
+reo-rankboost	GSE188232	TRUE	5	5	eligible
+reo-rankboost	GSE188627	TRUE	5	5	eligible
+reo-rankboost	GSE200489	TRUE	5	5	eligible
+reo-rankboost	GSE204951	TRUE	5	5	eligible
+reo-rankboost	GSE210329	TRUE	5	5	eligible
+reo-rankboost	GSE210546	TRUE	5	5	eligible
+reo-rankboost	GSE221088	TRUE	5	5	eligible
+reo-rankboost	GSE227778	TRUE	5	5	eligible
+reo-rankboost	GSE259327_DIAGNOSTIC	TRUE	5	5	eligible
+reo-rankboost	GSE266859	TRUE	5	5	eligible
+reo-rankboost	GSE270497	TRUE	5	5	eligible
+reo-rankboost	GSE279209	TRUE	5	5	eligible
+reo-rankboost	GSE304572	TRUE	5	5	eligible
+reo-rankboost	GSE31568	TRUE	5	5	eligible
+reo-rankboost	GSE320031	TRUE	5	5	eligible
+reo-rankboost	GSE41922	TRUE	5	5	eligible
+reo-rankboost	GSE50013	TRUE	5	5	eligible
+reo-rankboost	GSE64591	TRUE	5	5	eligible
+reo-rankboost	GSE65071	TRUE	5	5	eligible
+reo-rankboost	GSE70080	TRUE	5	5	eligible
+reo-rankboost	GSE71008	TRUE	5	5	eligible
+reo-rankboost	GSE83977	TRUE	5	5	eligible
+reo-rankboost	GSE85589	TRUE	5	5	eligible
+reo-rankboost	GSE94533_PUBLIC	TRUE	5	5	eligible
+reo-rankboost	PRJEB30542	TRUE	5	5	eligible
+reo-ktsp	GSE198834	FALSE	3	5	n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; ok | n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; ok; ok; ok; training-only score direction unavailable
+reo-pairratio	GSE198834	FALSE	0	5	n_valid_folds=0 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=1 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable | n_valid_folds=2 < 4; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable; ok; training-only score direction unavailable | n_valid_folds=3 < 4; per-fold: training-only score direction unavailable; training-only score direction unavailable; ok; ok; ok
+reo-rankboost	GSE198834	FALSE	0	5	n_valid_folds=0 < 4; per-fold: fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.
+reo-rankforest	GSE198834	FALSE	0	5	n_valid_folds=0 < 4; per-fold: fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.; fit failed: ranktreeEnsemble 0.24 is required; install it from CRAN to use the rank-tree external competitors.
+reo-singscore	GSE198834	TRUE	5	5	eligible
+reo-ucell	GSE198834	TRUE	5	5	eligible
+ws-rclr-trimmed	GSE198834	TRUE	5	5	eligible

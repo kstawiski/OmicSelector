@@ -30,7 +30,7 @@ NULL
 #' of finite values, with a warning.
 #'
 #' @param x Numeric matrix (features \eqn{\times} samples, or samples
-#'   \eqn{\times} features — the function operates element-wise). Both
+#'   \eqn{\times} features -- the function operates element-wise). Both
 #'   orientations are accepted; the transform is purely element-wise.
 #' @param base Numeric. The log base used by the deposit. Default 2
 #'   (Toray 3D-Gene standard). Use 10 for log10 deposits.
@@ -53,7 +53,7 @@ NULL
 #' }
 #'
 #' @references
-#' Toray Industries, Inc. (3D-Gene microRNA chip) — data format specification.
+#' Toray Industries, Inc. (3D-Gene microRNA chip) -- data format specification.
 #'
 #' @export
 preprocess_inverse_log <- function(x, base = 2, pseudo = 0) {

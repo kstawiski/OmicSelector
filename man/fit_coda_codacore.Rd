@@ -44,15 +44,17 @@ and DISCARDS the python module. The fitted model holds no external pointer.
 }
 \examples{
 \dontrun{
-set.seed(1)
-n <- 120; p <- 16; k <- 3
-X <- matrix(stats::rgamma(n * p, shape = 30, rate = 2), nrow = n,
-            dimnames = list(NULL, paste0("f", sprintf("\%02d", seq_len(p)))))
-y <- rep(c(0, 1), each = n / 2)
-X[y == 1, 1:k] <- X[y == 1, 1:k] * 1.8
-X[y == 1, (p - k + 1):p] <- X[y == 1, (p - k + 1):p] / 1.8
-model <- fit_coda_codacore(X, y)
-score_coda_codacore(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  set.seed(1)
+  n <- 120; p <- 16; k <- 3
+  X <- matrix(stats::rgamma(n * p, shape = 30, rate = 2), nrow = n,
+              dimnames = list(NULL, paste0("f", sprintf("\%02d", seq_len(p)))))
+  y <- rep(c(0, 1), each = n / 2)
+  X[y == 1, 1:k] <- X[y == 1, 1:k] * 1.8
+  X[y == 1, (p - k + 1):p] <- X[y == 1, (p - k + 1):p] / 1.8
+  model <- fit_coda_codacore(X, y)
+  score_coda_codacore(model, X[1, , drop = FALSE])
+}
 }
 
 }

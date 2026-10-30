@@ -1,0 +1,35 @@
+unit_id	disease	modality	biospecimen	provenance_block	source_accessions	outer_k	primary_unit	n_deposited_profiles	n_unique_groups	min_valid_folds
+TORAY_PUBLIC_CANONICAL	multiple cancers	3D-Gene miRNA microarray	serum	toray-ncc-tokyo::canonical_deduplicated	GSE106817;GSE110317;GSE112264;GSE113486;GSE113740;GSE122497;GSE137140;GSE139031;GSE164174;GSE211692	5	TRUE	19143	19143	4
+GSE109319	pancreatic and biliary tract cancers	small-RNA-seq	serum	audited_independent::GSE109319	GSE109319	5	TRUE	55	55	4
+GSE117063	diffuse large B-cell lymphoma	Exiqon qPCR	plasma	audited_independent::GSE117063	GSE117063	3	TRUE	31	31	3
+GSE122488	glioma	small-RNA-seq	serum extracellular vesicles	audited_independent::GSE122488	GSE122488	5	TRUE	38	38	4
+GSE130654	gastric cancer	small-RNA-seq	serum extracellular vesicles	audited_independent::GSE130654	GSE130654	3	TRUE	48	48	3
+GSE137109	oropharyngeal squamous cell carcinoma	TaqMan OpenArray qPCR	serum extracellular vesicles	audited_independent::GSE137109	GSE137109	5	TRUE	78	78	4
+GSE145176	acute lymphoblastic leukemia	small-RNA-seq	plasma and plasma exosomes	audited_independent::GSE145176	GSE145176	5	TRUE	240	120	4
+GSE186595	colorectal and gastric cancers	small-RNA-seq	plasma	geo_superseries::GSE186607	GSE186595	5	TRUE	49	49	4
+GSE188232	non-small-cell lung cancer	small-RNA-seq	serum	audited_independent::GSE188232	GSE188232	5	TRUE	190	190	4
+GSE188627	colorectal cancer	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE188627	GSE188627	5	TRUE	192	192	4
+GSE198834	colorectal cancer	small-RNA-seq	serum	audited_independent::GSE198834	GSE198834	5	TRUE	155	155	4
+GSE200489	head and neck squamous cell carcinoma	small-RNA-seq	serum extracellular vesicles	audited_independent::GSE200489	GSE200489	3	TRUE	32	32	3
+GSE204951	non-small-cell lung cancer	five-platform repeated assay	plasma	int-milan-cross-platform::grouped	GSE203510;GSE203514;GSE204942;GSE204945;GSE204950	3	TRUE	115	23	3
+GSE210329	breast cancer	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE210329	GSE210329	5	TRUE	130	130	4
+GSE210546	gastrointestinal cancers	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE210546	GSE210546	3	TRUE	39	39	3
+GSE221088	follicular thyroid carcinoma	small-RNA-seq	paired plasma EV and cell-free fractions	audited_independent::GSE221088	GSE221088	5	TRUE	80	41	4
+GSE227778	gastric cancer	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE227778	GSE227778	3	TRUE	30	30	3
+GSE259327_DIAGNOSTIC	pancreatic ductal adenocarcinoma	HTG EdgeSeq miRNA WTA counts	plasma	audited_independent::GSE259327::MDA_Anderson_diagnostic	GSE259327	5	TRUE	203	203	4
+GSE266859	invasive melanoma	small-RNA-seq	plasma	audited_independent::GSE266859	GSE266859	3	TRUE	61	61	3
+GSE270497	breast cancer	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE270497	GSE270497	5	TRUE	180	180	4
+GSE279209	non-small-cell lung cancer	OpenArray qPCR	plasma	audited_independent::GSE279209	GSE279209	5	TRUE	333	333	4
+GSE304572	pancreatic ductal adenocarcinoma	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE304572	GSE304572	5	TRUE	85	85	4
+GSE31568	multiple cancers	microarray	whole blood	audited_independent::GSE31568	GSE31568	5	FALSE	238	238	4
+GSE320031	breast cancer	qPCR	serum	audited_independent::GSE320031	GSE320031	5	TRUE	444	444	4
+GSE41922	breast cancer	Exiqon qPCR	serum	geo_superseries::GSE42128	GSE41922	5	TRUE	54	54	4
+GSE50013	hepatocellular carcinoma	TaqMan TLDA qPCR	plasma	audited_independent::GSE50013	GSE50013	5	TRUE	40	40	4
+GSE64591	non-small-cell lung cancer	TaqMan TLDA qPCR	plasma	audited_independent::GSE64591	GSE64591	5	TRUE	200	200	4
+GSE65071	osteosarcoma	Exiqon qPCR	plasma	audited_independent::GSE65071	GSE65071	5	TRUE	35	35	4
+GSE70080	non-small-cell lung cancer	TLDA qPCR	serum	audited_independent::GSE70080	GSE70080	5	TRUE	54	54	4
+GSE71008	multiple solid cancers	small-RNA-seq	plasma extracellular vesicles	audited_independent::GSE71008	GSE71008	5	TRUE	192	192	4
+GSE83977	hepatocellular carcinoma	small-RNA-seq	serum extracellular vesicles	audited_independent::GSE83977	GSE83977	3	TRUE	31	31	3
+GSE85589	pancreatic ductal adenocarcinoma	Affymetrix miRNA microarray	serum	audited_independent::GSE85589	GSE85589	5	TRUE	107	107	4
+GSE94533_PUBLIC	epithelial ovarian cancer	small-RNA-seq	serum	audited_independent::GSE94533::public_reanalysis	GSE94533	5	TRUE	174	174	4
+PRJEB30542	sarcoma	small-RNA-seq	serum	audited_independent::PRJEB30542	PRJEB30542	5	TRUE	116	116	4

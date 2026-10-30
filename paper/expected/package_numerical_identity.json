@@ -1,0 +1,111 @@
+{
+  "package_commit": "b27bec71373ef9cb63aaa270bc0d4f0f6f39dbf2",
+  "reference": "69fded5282a2cb946fac52a24b44a48095fdea7e",
+  "identity_basis": "Executed numerical comparisons agree with deposited values at their recorded tolerances.",
+  "computing_files": 145,
+  "byte_identical": 139,
+  "executed_comparisons": [
+    {
+      "route": "CUDA frozen replay",
+      "evidence": "expected/verification/reproduction_device_cuda_replay.tsv",
+      "comparisons": 15,
+      "sha256": "ded28f9af4098a4d58fd1d3b0de1bc140cf950eefb0808d66da3b615df078082",
+      "pass_check": true
+    },
+    {
+      "route": "benchmark refit",
+      "evidence": "expected/verification/reproduction_device_source_refit.tsv",
+      "comparisons": 16,
+      "sha256": "8c3609f55422ed4769a196d439c820c515fd3c8fcf3e12d6d6aaa99b70f5ea4b",
+      "pass_check": true
+    },
+    {
+      "route": "normalization refit",
+      "evidence": "expected/verification/reproduction_device_normalization_refit.tsv",
+      "comparisons": 9,
+      "sha256": "72afc1c324d39a3f752f15e3a178771053392bca716d21c38568e7b0257613c1",
+      "pass_check": true
+    },
+    {
+      "route": "calibration refit",
+      "evidence": "expected/verification/reproduction_device_calibration_refit.tsv",
+      "comparisons": 17,
+      "sha256": "660a9a56ea830dfcf038b92d67caba7eeccb48234d8b219ad7f6c31721a011ff",
+      "pass_check": true
+    },
+    {
+      "route": "case mix refit",
+      "evidence": "expected/verification/reproduction_checks_case_mix_refit.tsv",
+      "comparisons": 3,
+      "sha256": "a9a2f4f2fe1089648c84ed559bd1f175460e22d72436957be80c292edb6f3233",
+      "pass_check": true
+    },
+    {
+      "route": "re-assay refit",
+      "evidence": "expected/verification/reproduction_checks_reassay_refit.tsv",
+      "comparisons": 3,
+      "sha256": "8219be290b1f201ed1ff072adcdd561fd8fae1788c8790f62d2f663d7a26621c",
+      "pass_check": true
+    },
+    {
+      "route": "transfer target refit",
+      "evidence": "expected/verification/reproduction_checks_transfer_target_refit.tsv",
+      "comparisons": 6,
+      "sha256": "d01c5a42712db730563a28d663b644f590de40b253114ec2fcb405acea7ef385",
+      "pass_check": true
+    },
+    {
+      "route": "published fixed rule",
+      "evidence": "expected/verification/reproduction_checks_published_rule_refit.tsv",
+      "comparisons": 3,
+      "sha256": "a5531fb259504f84577c1eff56e153000d0682196938427f09b5976a39ff7144",
+      "pass_check": true
+    }
+  ],
+  "secondary_refit_gate": "All four representative routes meet their comparison tolerances.",
+  "scope": "Each executed replay and refit comparison uses deposited values and its recorded tolerance. Evidence is limited to those routes.",
+  "source_comparisons": [
+    {
+      "path": "R/benchmark-folds.R",
+      "reference_sha256": "",
+      "source_sha256": "41ca37a5d9235a97a8b428048b52e4f364dad24e4e81a80f14bcac87ba245f40",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Public fold export uses the deposited fold generator and seeds."
+    },
+    {
+      "path": "R/method-dependencies.R",
+      "reference_sha256": "",
+      "source_sha256": "fee3b2cc5ebc1efc5767d2b93249152b7f2862902392d4cedad00f72247913c9",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Dependency checks precede the fitted-model and scoring functions."
+    },
+    {
+      "path": "R/singlesample-deploy.R",
+      "reference_sha256": "58eaef56ca874038dfbde66a6fdd58567f81802770526d9af1f8ab95aef66074",
+      "source_sha256": "fcc3223d097fcb4c17dfc6eadba50c4406fe28d6adec0084684adacd65d92721",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Transfer deployment uses the training score direction. Transfer refit comparisons test the oriented scores."
+    },
+    {
+      "path": "R/singlesample-state.R",
+      "reference_sha256": "e1819fbe63003eff5e783b3d3107381d3b6ce8e7918705d23240095f6991df31",
+      "source_sha256": "002282b3359c45e027af589e093a9e1169c2555687c0f9f9e135f4375ce2d6d2",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Canonical state fingerprints verify frozen state independently of model coefficients and scores."
+    },
+    {
+      "path": "R/zzzz-method-dependency-errors.R",
+      "reference_sha256": "",
+      "source_sha256": "aa3d3800ae8fe4032f55a711d154313ede06e4ebcf366240936b57a3c8186e79",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Missing dependencies produce stable error codes. Numerical functions execute when dependencies are available."
+    },
+    {
+      "path": "inst/python/singlesample_state.py",
+      "reference_sha256": "65c93654ba8985af233a0b89f81c4273682fcbab0538092a3e18e01e68c69ebb",
+      "source_sha256": "84d36dbbed06bee87eae6faf987dff920b6ef73cf137ea574e63394d32d805fb",
+      "byte_identical": "False",
+      "numerical_effect_explanation": "Canonical Python state fingerprints identify frozen objects. Replay compares held-out scores and tests state immutability."
+    }
+  ]
+}

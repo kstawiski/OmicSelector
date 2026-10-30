@@ -1,0 +1,201 @@
+analysis	unit	method	scenario	metric	stored	reproduced	max_abs_difference	tolerance	passed
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	-0.38371253649078	-0.38371253649078	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.47495195470199	-0.47495195470199	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	-0.29247311827957	-0.29247311827957	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.417232328904753	0.417232328904752	9.992007221626409e-16	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Mean held-out AUC	0.497305253623189	0.497305253623189	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.484329710144928	0.484329710144928	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.510280797101449	0.510280797101449	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0421171389751553	-0.0421171389751553	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.0569649327122153	-0.0569649327122153	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	100-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.0272693452380953	-0.0272693452380953	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	-0.338305264069487	-0.338305264069487	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	-0.443725735512247	-0.443725735512247	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	-0.232884792626728	-0.232884792626728	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Mean absolute change in specimen percentile rank	0.415331212902373	0.415331212902373	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Mean held-out AUC	0.413719591097308	0.413719591097308	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Minimum held-out AUC	0.359679089026915	0.359679089026915	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Maximum held-out AUC	0.467760093167702	0.467760093167702	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.125702801501036	-0.125702801501035	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.17787105331263	-0.17787105331263	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	20-miRNA assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.073534549689441	-0.073534549689441	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	0.0857610246224095	0.0857610246224095	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.329806451612903	-0.329806451612903	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.501328500857722	0.501328500857722	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.317278191552647	0.317278191552647	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Mean held-out AUC	0.484261775362319	0.484261775362319	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.472250258799172	0.472250258799172	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.496273291925466	0.496273291925466	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0551606172360249	-0.0551606172360249	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.069044384057971	-0.069044384057971	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	50-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.0412768504140788	-0.0412768504140788	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Mean absolute change in specimen percentile rank	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Mean held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Minimum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Maximum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0	0	0.0	1e-10	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Mean held-out AUC	0.539422392598344	0.539422392598344	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Minimum held-out AUC	0.537550142339545	0.537550142339545	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Maximum held-out AUC	0.541294642857143	0.541294642857143	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-alr-pivot	Full assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	0.999652588734092	0.999652588734091	9.992007221626409e-16	1e-10	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	0.999576036866359	0.999576036866359	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.999729140601824	0.999729140601824	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.00428065199286139	0.00428065199286139	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Mean held-out AUC	0.46468685300207	0.46468685300207	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.389538043478261	0.389538043478261	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.53983566252588	0.53983566252588	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.00367090450310562	-0.00367090450310562	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.0108323628364389	-0.0108323628364389	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	100-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0.00349055383022767	0.00349055383022767	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	-0.294870465945726	-0.294870465945726	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	-0.461802375823864	-0.461802375823864	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	-0.127938556067588	-0.127938556067588	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Mean absolute change in specimen percentile rank	0.381453211183819	0.381453211183819	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Mean held-out AUC	0.416278467908903	0.416278467908903	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Minimum held-out AUC	0.41189182194617	0.41189182194617	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Maximum held-out AUC	0.420665113871636	0.420665113871636	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0520792895962735	-0.0520792895962735	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.115679994824017	-0.115679994824017	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	20-miRNA assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0.01152141563147	0.01152141563147	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	-0.0118840758627425	-0.0118840758627425	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.0220169996517522	-0.0220169996517522	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	-0.00175115207373272	-0.00175115207373272	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.308721007865689	0.308721007865689	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Mean held-out AUC	0.478823757763975	0.478823757763975	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.443575310559006	0.443575310559006	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.514072204968944	0.514072204968944	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	0.010466000258799	0.010466000258799	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.092769798136646	-0.092769798136646	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	50-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0.113701798654244	0.113701798654244	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Mean absolute change in specimen percentile rank	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Mean held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Minimum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Maximum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0	0	0.0	1e-10	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Mean held-out AUC	0.468357757505176	0.468357757505176	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Minimum held-out AUC	0.4003704063147	0.4003704063147	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Maximum held-out AUC	0.536345108695652	0.536345108695652	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-dominance	Full assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	0.185261548394801	0.185261548394801	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.0836387503512298	-0.0836387503512298	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.454161847140831	0.454161847140831	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.280664827549739	0.280664827549739	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Mean held-out AUC	0.528535843685301	0.5285358436853	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.528293219461698	0.528293219461698	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.528778467908903	0.528778467908903	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0864518633540373	-0.0864518633540372	9.71445146547012e-17	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.088578869047619	-0.088578869047619	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	100-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.0843248576604555	-0.0843248576604555	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	0.155621219618774	0.155621219618774	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	0.00739772105589609	0.00739772105589609	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	0.303844718181651	0.303844718181651	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Mean absolute change in specimen percentile rank	0.305967903760989	0.305967903760989	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Mean held-out AUC	0.43496700310559	0.43496700310559	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Minimum held-out AUC	0.416893115942029	0.416893115942029	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Maximum held-out AUC	0.453040890269151	0.453040890269151	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.180020703933748	-0.180020703933748	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.199978972567288	-0.199978972567288	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	20-miRNA assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.160062435300207	-0.160062435300207	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	-0.108475085506907	-0.108475085506907	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.250013303409552	-0.250013303409552	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.0330631323957385	0.0330631323957385	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.364785959680084	0.364785959680084	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Mean held-out AUC	0.511319228778468	0.511319228778468	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.49726966873706	0.49726966873706	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.525368788819876	0.525368788819876	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.10366847826087	-0.10366847826087	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.119602419772257	-0.119602419772257	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	50-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.0877345367494824	-0.0877345367494824	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Mean absolute change in specimen percentile rank	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Mean held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Minimum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Maximum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0	0	0.0	1e-10	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Mean held-out AUC	0.614987707039338	0.614987707039337	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Minimum held-out AUC	0.613103325569358	0.613103325569358	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Maximum held-out AUC	0.616872088509317	0.616872088509317	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-mad-logratio	Full assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	-0.055222817785328	-0.055222817785328	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.588589861751152	-0.588589861751152	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.478144226180496	0.478144226180496	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.355185058629123	0.355185058629123	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Mean held-out AUC	0.504781314699793	0.504781314699793	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.473356625258799	0.473356625258799	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.536206004140787	0.536206004140787	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0847995923913045	-0.0847995923913045	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.164720820393375	-0.164720820393375	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	100-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.00487836438923395	-0.00487836438923395	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	0.108926905428305	0.108926905428305	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	-0.236712749615975	-0.236712749615975	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	0.454566560472585	0.454566560472585	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Mean absolute change in specimen percentile rank	0.308713719082557	0.308713719082557	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Mean held-out AUC	0.42511645962733	0.425116459627329	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Minimum held-out AUC	0.381631728778468	0.381631728778468	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Maximum held-out AUC	0.468601190476191	0.468601190476191	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.164464447463768	-0.164464447463768	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.169476255175983	-0.169476255175983	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	20-miRNA assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.159452639751553	-0.159452639751553	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	-0.113414172272719	-0.113414172272719	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	-0.330715821812596	-0.330715821812596	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	0.103887477267158	0.103887477267158	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0.343910499834755	0.343910499834755	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Mean held-out AUC	0.501099896480332	0.501099896480331	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Minimum held-out AUC	0.474585921325052	0.474585921325052	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Maximum held-out AUC	0.527613871635611	0.527613871635611	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	-0.0884810106107659	-0.088481010610766	1.1102230246251565e-16	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	-0.163491524327122	-0.163491524327122	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	50-miRNA assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	-0.0134704968944099	-0.0134704968944099	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Mean Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Minimum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Maximum Spearman correlation with full-assay scores	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Mean absolute change in specimen percentile rank	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Mean held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Minimum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Maximum held-out AUC	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Mean AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 10-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	NOT_ESTIMABLE	NOT_ESTIMABLE	0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Mean Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Minimum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Maximum Spearman correlation with full-assay scores	1	1	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Mean absolute change in specimen percentile rank	0	0	0.0	1e-10	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Mean held-out AUC	0.589580907091098	0.589580907091097	9.992007221626409e-16	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Minimum held-out AUC	0.541084368530021	0.541084368530021	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Maximum held-out AUC	0.638077445652174	0.638077445652174	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Mean AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Minimum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True
+panel_restriction	GSE198834	ws-rclr-trimmed	Full assay; 20-miRNA score	Maximum AUC difference from full-assay 20-miRNA score	0	0	0.0	1e-09	True

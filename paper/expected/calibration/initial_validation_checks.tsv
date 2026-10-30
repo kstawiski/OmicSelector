@@ -1,0 +1,23 @@
+check	passed	detail
+registered_cells_complete	True	
+all_method_target_calibrator_analyses_present	True	
+fixed_prevalence_threshold_grid	True	
+firth_primary_platt_sensitivity_isotonic	True	
+excluded_contrasts_absent_as_source_and_target	True	
+net_benefit_keys_unique	True	
+five_seeds_required	True	
+inner_group_overlap_zero	True	
+development_counts_balance	True	
+development_eligibility_exact	True	
+all_computed_folds_meet_minimum	True	
+firth_adjusted_score_convergence	True	
+unavailable_development_reason_recorded	True	
+unavailable_development_counts_reconcile	True	
+heldout_score_provenance_explicit	True	
+heldout_excluded_from_development	True	
+gse204951_twenty_people	True	
+bootstrap_interval_reference_arithmetic	True	
+net_benefit_probability_bounds	True	
+sparse_curve_intervals_explicit	True	
+computing_identity_recorded	True	
+no_firth_numerical_nonconvergence	False	

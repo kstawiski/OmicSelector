@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 This vignette demonstrates a full deep learning workflow with OmicSelector,
 including autoencoder feature compression, mlr3torch training, checkpoint
-export/import, and fine‑tuning.
+export/import, and fine-tuning.
 
 **Requirements:**
 - `torch`
@@ -120,7 +120,7 @@ export_omicfit_checkpoint(fit, "mlp_checkpoint.pt")
 fit <- import_omicfit_checkpoint(fit, "mlp_checkpoint.pt")
 ```
 
-# Fine‑tune on a New Task
+# Fine-tune on a New Task
 
 ```{r finetune, eval=FALSE, purl=FALSE}
 task <- pipeline$get_task()
@@ -145,5 +145,5 @@ finetuned_fit <- finetune_omicfit_checkpoint(
 
 - Autoencoders can also be trained separately via `autoencoder_fit()` and
   passed into the pipeline using `pretrained` and `freeze_encoder`.
-- For transfer learning across datasets, export checkpoints and re‑train
+- For transfer learning across datasets, export checkpoints and re-train
   with `finetune_mlr3torch_checkpoint()`.

@@ -1,0 +1,27 @@
+family	command	seconds
+case_mix	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE188627	0.09220380801707506
+case_mix	/opt/venv/bin/python /job/outputs/payload/paper/data/fetch_mirbase.py	0.08552224515005946
+case_mix	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE188627	7.845628316979855
+case_mix	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/case_mix_prepare.R	8.231176850385964
+case_mix	Rscript --vanilla /job/outputs/project/refit/case_mix/scripts/partB.R GSE188627 1	163.50769206415862
+case_mix	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R case_mix	1.7202898170799017
+reassay	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE268524	0.11083610402420163
+reassay	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/reassay_prepare.R	13.155356654897332
+reassay	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/reassay.R GSE268524__1__1__2	150.68788527976722
+reassay	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R reassay	4.963298439979553
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE210329	0.08421794744208455
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE320031	0.09805549308657646
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE41922	0.08449583128094673
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/fetch_mirbase.py	0.0890739569440484
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/reconstruct_metadata.py GSE210329	0.0612472016364336
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE210329	7.740719512104988
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE320031	6.968376318924129
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE41922	7.036273113917559
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/transfer_prepare.R	8.609488847199827
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/transfer.R reo-metaktsp 101 /job/outputs/project/refit/transfer_target	9.457168808206916
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R transfer_target	0.5114288800396025
+published_rule	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE85589	0.10217704204842448
+published_rule	/opt/venv/bin/python /job/outputs/payload/paper/data/fetch_mirbase.py	0.08276386186480522
+published_rule	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE85589	9.631459180731326
+published_rule	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/published_rule.R	0.35174980480223894
+published_rule	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R published_rule	0.3772099199704826

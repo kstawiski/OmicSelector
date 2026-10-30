@@ -1,0 +1,3 @@
+command	seconds	exit_code
+Rscript --vanilla inputs/payload/test_firth.R	0.2783997133374214	0
+Rscript --vanilla inputs/payload/summarize.R	149.8694077609107	0

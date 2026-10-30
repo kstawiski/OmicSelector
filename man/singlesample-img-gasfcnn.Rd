@@ -38,7 +38,7 @@ BatchNorm to its training running statistics, so a query's normalisation depends
 only on the FROZEN stats -- never on the other rows in the scored batch. In
 \code{net.train()} mode BatchNorm would compute per-batch statistics and COUPLE the
 rows, breaking single-sample deployability; eval mode is therefore mandatory and is
-asserted by a dedicated test (§7.10). (2) On a TRAINED net the float32 conv
+asserted by a dedicated test (section 7.10). (2) On a TRAINED net the float32 conv
 accumulation across the batch dimension makes a 1-row forward differ from the same
 row inside an \eqn{n>1} batch by \eqn{\sim 2\times 10^{-7}} (a tiling/accumulation
 artefact, not a cross-row coupling). To remove even that, this scorer forwards in
@@ -59,7 +59,7 @@ image. Because the bounds are FROZEN (training-derived), a query is scaled by
 training bounds -- never its own min/max -- so the image depends ONLY on the query
 and the frozen bounds, making it single-sample. The transform is implemented in
 python (numpy) at fit and score; a pure-R \code{.img_gasfcnn_gasf} reimplements the
-closed form and is used only by a §7 test to independently verify the python GASF.
+closed form and is used only by a section 7 test to independently verify the python GASF.
 
 \strong{Single-sample transform.} Each specimen is mapped to the self-contained
 per-sample robust CLR over its OWN strictly-positive support (geometric-mean

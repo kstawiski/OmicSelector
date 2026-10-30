@@ -36,8 +36,10 @@ row and the frozen model and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_proto_net(X, y)
-score_proto_net(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_proto_net(X, y)
+  score_proto_net(model, X[1, , drop = FALSE])
+}
 }
 
 }

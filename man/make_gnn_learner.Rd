@@ -42,13 +42,16 @@ The GNN uses:
 }
 \examples{
 \dontrun{
-# Create adjacency from correlation
-cor_mat <- cor(data)
-adj <- (abs(cor_mat) > 0.7) * 1
-diag(adj) <- 0
+if (requireNamespace("torch", quietly = TRUE) &&
+    requireNamespace("mlr3torch", quietly = TRUE)) {
+  # Create adjacency from correlation
+  cor_mat <- cor(data)
+  adj <- (abs(cor_mat) > 0.7) * 1
+  diag(adj) <- 0
 
-learner <- make_gnn_learner(adj)
-learner$train(task)
+  learner <- make_gnn_learner(adj)
+  learner$train(task)
+}
 }
 
 }

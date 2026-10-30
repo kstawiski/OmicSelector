@@ -1,0 +1,43 @@
+cohort	scorer	extremes_pairwise_flip_rate	n_specimens_both_extremes	cohort_label	display
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0	800	"Toray 3D-Gene"	"0"
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0	800	"Toray 3D-Gene"	"0"
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0	800	"Toray 3D-Gene"	"0"
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.3350625	800	"Toray 3D-Gene"	"33.5"
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.430625	800	"Toray 3D-Gene"	"43.1"
+"GSE64591"	"Trimmed-rCLR"	0	80	"GSE64591"	"0"
+"GSE64591"	"k-TSP"	0	80	"GSE64591"	"0"
+"GSE64591"	"Pair-ratio"	0	80	"GSE64591"	"0"
+"GSE64591"	"Within-batch
+standardization"	0.152833333333333	80	"GSE64591"	"15.3"
+"GSE64591"	"Test-batch
+centring"	0.0981388888888889	80	"GSE64591"	"9.8"
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0	70	"GSE94533"	"0"
+"GSE94533_PUBLIC"	"k-TSP"	0	70	"GSE94533"	"0"
+"GSE94533_PUBLIC"	"Pair-ratio"	0	70	"GSE94533"	"0"
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.17968717984621	70	"GSE94533"	"18"
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.358331653072893	70	"GSE94533"	"35.8"
+"GSE188627"	"Trimmed-rCLR"	0	78	"GSE188627"	"0"
+"GSE188627"	"k-TSP"	0	78	"GSE188627"	"0"
+"GSE188627"	"Pair-ratio"	0	78	"GSE188627"	"0"
+"GSE188627"	"Within-batch
+standardization"	0.348488113447074	78	"GSE188627"	"34.8"
+"GSE188627"	"Test-batch
+centring"	0.369660528962855	78	"GSE188627"	"37"
+"GSE279209"	"Trimmed-rCLR"	0	134	"GSE279209"	"0"
+"GSE279209"	"k-TSP"	0	134	"GSE279209"	"0"
+"GSE279209"	"Pair-ratio"	0	134	"GSE279209"	"0"
+"GSE279209"	"Within-batch
+standardization"	0	134	"GSE279209"	"0"
+"GSE279209"	"Test-batch
+centring"	0.079315192807985	134	"GSE279209"	"7.9"
+"GSE320031"	"Trimmed-rCLR"	0	178	"GSE320031"	"0.0"
+"GSE320031"	"k-TSP"	0	178	"GSE320031"	"0.0"
+"GSE320031"	"Pair-ratio"	0	178	"GSE320031"	"0.0"
+"GSE320031"	"Within-batch
+standardization"	0.259965995562182	178	"GSE320031"	"26.0"
+"GSE320031"	"Test-batch
+centring"	0.139195847215122	178	"GSE320031"	"13.9"

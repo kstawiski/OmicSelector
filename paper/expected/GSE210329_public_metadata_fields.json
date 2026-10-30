@@ -1,0 +1,10 @@
+{
+  "public_samples": 131,
+  "fields_per_sample": 10,
+  "field_differences": 0,
+  "source_sha256": "23083e7fac33d4a778950afb308f110025f1609e6a0485f8411eae132de95b36",
+  "public_labels": {
+    "case": 65,
+    "control": 66
+  }
+}

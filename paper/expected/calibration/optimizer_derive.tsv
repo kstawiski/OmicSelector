@@ -1,0 +1,3 @@
+context	target	method	seed	outer_fold	original_reason	final_status	max_adjusted_score	n_available	optimizer	host
+within	TORAY_PUBLIC_CANONICAL	ws-mad-logratio	202	4	FIRTH_NONCONVERGENCE	COMPUTED	9.31693942655965e-09	15315	same_Firth_objective_Newton_correction	s5
+within	TORAY_PUBLIC_CANONICAL	ws-mad-logratio	404	1	FIRTH_NONCONVERGENCE	COMPUTED	4.52779050793615e-08	15313	same_Firth_objective_Newton_correction	s5

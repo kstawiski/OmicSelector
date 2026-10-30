@@ -1,0 +1,108 @@
+metric	method	analysis	value	source_file
+PartA_planned_datasets		normalization	30.0	normalization/companion_sensitivity/computing_bundle/
+PartA_fitted_datasets		normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartB_planned_datasets		normalization	11.0	normalization/companion_sensitivity/computing_bundle/
+PartA_intercept_only_fits		normalization	642.0	normalization/companion_sensitivity/computing_bundle/
+PartA_intercept_only_datasets		normalization	17.0	normalization/companion_sensitivity/computing_bundle/
+PartB_intercept_only_fits		normalization	42.0	normalization/companion_sensitivity/computing_bundle/
+PartB_intercept_only_datasets		normalization	5.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-STD minus FZ-STD	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-STD minus FZ-STD	normalization	-0.0079365079365078	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-STD minus FZ-STD	normalization	0.035	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-STD minus FZ-STD	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_median	CN-STD minus FZ-STD	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_minimum	CN-STD minus FZ-STD	normalization	-0.035	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_maximum	CN-STD minus FZ-STD	normalization	0.0079365079365078	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-QN minus FZ-QN	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-QN minus FZ-QN	normalization	-0.0158730158730159	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-QN minus FZ-QN	normalization	0.0106666666666667	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-QN minus FZ-QN	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_median	CN-QN minus FZ-QN	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_minimum	CN-QN minus FZ-QN	normalization	-0.0106666666666667	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_maximum	CN-QN minus FZ-QN	normalization	0.0158730158730159	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-COMBAT minus FZ-RAW	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-COMBAT minus FZ-RAW	normalization	-0.0066666666666666	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-COMBAT minus FZ-RAW	normalization	0.0281746031746032	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-COMBAT minus FZ-RAW	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_median	CN-COMBAT minus FZ-RAW	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_minimum	CN-COMBAT minus FZ-RAW	normalization	-0.0281746031746032	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_maximum	CN-COMBAT minus FZ-RAW	normalization	0.0066666666666666	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	TBC minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_median	TBC minus R	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_minimum	TBC minus R	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+frozen_minus_cohort_maximum	TBC minus R	normalization	-0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	SS-CLR minus CN-STD	normalization	3.26797385620869e-05	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	SS-CLR minus CN-STD	normalization	-0.0575	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	SS-CLR minus CN-STD	normalization	0.166626666666667	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	SS-CLR minus CN-STD	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	SS-CLR minus CN-QN	normalization	0.0011029411764705	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	SS-CLR minus CN-QN	normalization	-0.101538461538462	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	SS-CLR minus CN-QN	normalization	0.0751677559912853	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	SS-CLR minus CN-QN	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	SS-CLR minus CN-COMBAT	normalization	0.0007142857142857	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	SS-CLR minus CN-COMBAT	normalization	-0.0293052733430092	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	SS-CLR minus CN-COMBAT	normalization	0.168108148148148	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	SS-CLR minus CN-COMBAT	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	FZ-STD minus R	normalization	-0.0277777777777778	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	FZ-STD minus R	normalization	-0.314814814814815	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	FZ-STD minus R	normalization	0.0720110347985348	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	FZ-STD minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-STD minus R	normalization	-0.0269822485207099	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-STD minus R	normalization	-0.322751322751323	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-STD minus R	normalization	0.0825	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-STD minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	FZ-QN minus R	normalization	-0.0011029411764705	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	FZ-QN minus R	normalization	-0.275925925925926	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	FZ-QN minus R	normalization	0.108042962962963	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	FZ-QN minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-QN minus R	normalization	-0.0011029411764705	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-QN minus R	normalization	-0.278306878306878	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-QN minus R	normalization	0.107850370370371	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-QN minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	FZ-RAW minus R	normalization	-0.0219246031746031	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	FZ-RAW minus R	normalization	-0.241666666666667	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	FZ-RAW minus R	normalization	0.0608147435897436	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	FZ-RAW minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	CN-COMBAT minus R	normalization	-0.0171895424836601	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	CN-COMBAT minus R	normalization	-0.24484126984127	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	CN-COMBAT minus R	normalization	0.0590509615384616	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	CN-COMBAT minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	TBC minus R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	TBC minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_median	SS-CLR minus R	normalization	-0.0182679738562091	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_minimum	SS-CLR minus R	normalization	-0.21031746031746	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_maximum	SS-CLR minus R	normalization	0.0924325925925927	normalization/companion_sensitivity/computing_bundle/
+PartA_dataset_datasets_evaluable	SS-CLR minus R	normalization	29.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E1_held		normalization	373.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E1_not estimable		normalization	12.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E2_held		normalization	184.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E2_not estimable		normalization	35.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E2_not held		normalization	1.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E3_held		normalization	4.0	normalization/companion_sensitivity/computing_bundle/
+expectation_E4_not estimable		normalization	1.0	normalization/companion_sensitivity/computing_bundle/
+deployment_minus_fullset_mean	CN-COMBAT	normalization	-0.076895407470057	normalization/companion_sensitivity/computing_bundle/
+deployment_minus_fullset_mean	CN-QN	normalization	-0.0224162840015174	normalization/companion_sensitivity/computing_bundle/
+deployment_minus_fullset_mean	CN-STD	normalization	-0.12766354510669	normalization/companion_sensitivity/computing_bundle/
+deployment_minus_fullset_mean	TBC	normalization	-0.159520014188006	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	CN-COMBAT	normalization	0.15908618032272	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	CN-QN	normalization	0.0695186421350206	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	CN-STD	normalization	0.229774481044562	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	FZ-QN	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	FZ-RAW	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	FZ-STD	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	R	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	SS-CLR	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	TBC	normalization	0.300905416135319	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	reo-ktsp	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+deployment_median_call_discordance	reo-pairratio	normalization	0.0	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_pooled.tsv_minimum_ci_lo		normalization	-0.0043833032567175	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_pooled.tsv_min_k		normalization	11.0	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_pooled.tsv_max_k		normalization	14.0	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_without_toray_pooled.tsv_minimum_ci_lo		normalization	-0.0083413903725034	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_without_toray_pooled.tsv_min_k		normalization	10.0	normalization/companion_sensitivity/computing_bundle/
+partA_nonempty_without_toray_pooled.tsv_max_k		normalization	13.0	normalization/companion_sensitivity/computing_bundle/

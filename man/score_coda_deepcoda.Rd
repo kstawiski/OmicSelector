@@ -40,8 +40,10 @@ invariant to per-specimen positive scaling.
 }
 \examples{
 \dontrun{
-model <- fit_coda_deepcoda(X, y)
-score_coda_deepcoda(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_coda_deepcoda(X, y)
+  score_coda_deepcoda(model, X[1, , drop = FALSE])
+}
 }
 
 }

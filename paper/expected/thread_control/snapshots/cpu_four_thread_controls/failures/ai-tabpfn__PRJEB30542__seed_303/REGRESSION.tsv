@@ -1,0 +1,2 @@
+method	cohort	seed	model_seed	eligible_old	eligible_new	valid_folds_old	valid_folds_new	reason
+ai-tabpfn	PRJEB30542	303	42	TRUE	FALSE	5	4	n_valid_folds=4 < 5; per-fold: training-only score direction unavailable; ok; ok; ok; ok

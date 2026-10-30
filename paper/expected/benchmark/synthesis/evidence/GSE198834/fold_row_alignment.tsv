@@ -1,0 +1,7 @@
+method	cohort	method_rows	baseline_rows_for_method_seeds	merged_rows	row_fold_group_label_train_test_match	status
+ai-tabpfn	GSE198834	775	775	775	TRUE	exact_match
+tab-tabicl	GSE198834	465	465	465	TRUE	exact_match
+tab-tabdpt	GSE198834	775	775	775	TRUE	exact_match
+reo-pairratio	GSE198834	0	0	0		method_not_evaluable
+reo-ktsp	GSE198834	155	155	155	TRUE	exact_match
+ws-rclr-trimmed	GSE198834	775	775	775	TRUE	exact_match

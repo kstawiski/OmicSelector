@@ -38,8 +38,10 @@ scaling.
 }
 \examples{
 \dontrun{
-model <- fit_unc_sngp(X, y)
-score_unc_sngp(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_unc_sngp(X, y)
+  score_unc_sngp(model, X[1, , drop = FALSE])
+}
 }
 
 }

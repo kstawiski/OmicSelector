@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"model_load_seconds"	"reload_maximum_difference"	"reload_pass"	"state_match"
+"ws-rclr-trimmed"	"GSE85589"	1	"cpu"	0.0157420635223389	0	TRUE	TRUE

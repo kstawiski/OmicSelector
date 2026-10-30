@@ -223,16 +223,16 @@ if (!is.null(rd$meta$config)) {
 
 | Item | Description | Status |
 |------|-------------|--------|
-| 1 | Title identifies as prediction model study | ✓ |
-| 4 | Data source described | `r ifelse(!is.null(rd$data$n_samples), "✓", "○")` |
-| 5 | Validation approach described | ✓ Nested CV |
-| 6 | Outcome defined | `r ifelse(!is.null(rd$data$target_name), "✓", "○")` |
-| 7 | Predictors defined | `r ifelse(!is.null(rd$model$filter_method), "✓", "○")` |
-| 10 | Statistical analysis described | ✓ |
-| 15 | Model performance reported | `r ifelse(!is.null(rd$discrimination$auc), "✓", "○")` |
-| 16 | Calibration assessed | `r ifelse(!is.null(rd$calibration$slope), "✓", "○")` |
+| 1 | Title identifies as prediction model study | Yes |
+| 4 | Data source described | `r ifelse(!is.null(rd$data$n_samples), "Yes", "Partial / N/A")` |
+| 5 | Validation approach described | Yes Nested CV |
+| 6 | Outcome defined | `r ifelse(!is.null(rd$data$target_name), "Yes", "Partial / N/A")` |
+| 7 | Predictors defined | `r ifelse(!is.null(rd$model$filter_method), "Yes", "Partial / N/A")` |
+| 10 | Statistical analysis described | Yes |
+| 15 | Model performance reported | `r ifelse(!is.null(rd$discrimination$auc), "Yes", "Partial / N/A")` |
+| 16 | Calibration assessed | `r ifelse(!is.null(rd$calibration$slope), "Yes", "Partial / N/A")` |
 
-**Legend:** ✓ = Addressed, ○ = Partially addressed or N/A
+**Legend:** Yes = Addressed, Partial / N/A = Partially addressed or N/A
 
 ---
 

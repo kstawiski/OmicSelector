@@ -1,0 +1,91 @@
+check	pass_check	detail
+grouped_outer_alignment	True	
+independent_checks	True	14848 checks; maximum error 7.35615586223e-07
+matched_source_hashes_present	True	
+primary_30_units	True	
+primary_1500_rows_7500_cells	True	
+unaffected_cohort_statistics_unchanged	True	
+complete_grouped_counterparts	True	
+40_eligible_10_refused_grouped_cells	True	
+grouped_predictions_only_complete_cells	True	
+S9_12_blocks	True	
+S9_both_48_test_families	True	
+primary_weights_sum_100	True	
+all_required_R12a_synthesis_paths_reissued	True	
+ungrouped_replays_R12a_primary	True	
+matched_pool_invariance_primary	True	
+ungrouped_replays_R12a_full32_sensitivity	True	
+matched_pool_invariance_full32_sensitivity	True	
+matched_grouped_pairratio_no_partial_folds	True	
+normalization_invariance_printed_metrics.tsv	True	0.0
+normalization_invariance_R2d/nonempty_cohort_weights.tsv	True	0.0
+normalization_invariance_R2d/partA_nonempty_pooled.tsv	True	0.0
+normalization_invariance_R2d/partA_nonempty_without_toray_pooled.tsv	True	0.0
+normalization_invariance_R2d/intercept_only_by_dataset.tsv	True	0
+normalization_invariance_R2c/partA_without_toray_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2d/partA_nonempty_without_toray_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2d/nonempty_cohort_weights.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2d/partA_nonempty_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2d/intercept_only_by_dataset.tsv	True	0
+normalization_invariance_full32_sensitivity/R2c/partA_without_toray_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/restriction/D2_partA_manager.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/restriction/D2_restriction.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/restriction/D2_partB_manager.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/restriction/D2_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_dataset_descriptives.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_fold_auc.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_across_datasets.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S1_FZ_STD_fold_auc.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S1_baseline_manifest.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/failures.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_pooling_coverage.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_contrasts_dataset.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_contrasts_dataset.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_fits.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/figure_data.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_summary.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/nonestimable_outcomes.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_fold_auc.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/cohort_weights.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_dataset_auc.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partB_outcomes.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_pooled.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/expectations.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_fits.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_evaluability.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_pooled_all.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/ssclr_audit.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/S2_dataset_auc.tsv	True	0.0
+normalization_invariance_full32_sensitivity/R2b/m16/partA_contrasts_dataset.tsv	True	0.0
+normalization_invariance_R2b/restriction/D2_partB_manager.tsv	True	0.0
+normalization_invariance_R2b/restriction/D2_partA_manager.tsv	True	0.0
+normalization_invariance_R2b/restriction/D2_restriction.tsv	True	0.0
+normalization_invariance_R2b/restriction/D2_pooled.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_fits.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_dataset_descriptives.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_contrasts_dataset.tsv	True	0.0
+normalization_invariance_R2b/m16/S1_FZ_STD_fold_auc.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_fold_auc.tsv	True	0.0
+normalization_invariance_R2b/m16/S1_baseline_manifest.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_across_datasets.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_summary.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_pooling_coverage.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_pooled.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_evaluability.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_dataset_auc.tsv	True	0.0
+normalization_invariance_R2b/m16/figure_data.tsv	True	0.0
+normalization_invariance_R2b/m16/cohort_weights.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_fold_auc.tsv	True	0.0
+normalization_invariance_R2b/m16/nonestimable_outcomes.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_contrasts_dataset.tsv	True	0.0
+normalization_invariance_R2b/m16/expectations.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_pooled.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_pooled_all.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_outcomes.tsv	True	0.0
+normalization_invariance_R2b/m16/failures.tsv	True	0.0
+normalization_invariance_R2b/m16/S2_dataset_auc.tsv	True	0.0
+normalization_invariance_R2b/m16/ssclr_audit.tsv	True	0.0
+normalization_invariance_R2b/m16/partA_contrasts_dataset.tsv	True	0.0
+normalization_invariance_R2b/m16/partB_fits.tsv	True	0.0
+report_300_words	True	224

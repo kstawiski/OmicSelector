@@ -34,10 +34,11 @@ Compare two prediction-score vectors on the same labels using the paired
 DeLong test (Robin et al. 2011 implementation in \code{\link[pROC]{roc.test}}).
 }
 \examples{
-set.seed(7)
-y <- rep(c(0, 1), each = 50)
-a <- y + rnorm(100, sd = 0.5)            # informative
-b <- rnorm(100)                          # random
-os_paired_delong(y, a, b, alternative = "greater")
-
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(7)
+  y <- rep(c(0, 1), each = 50)
+  a <- y + rnorm(100, sd = 0.5)            # informative
+  b <- rnorm(100)                          # random
+  os_paired_delong(y, a, b, alternative = "greater")
+}
 }

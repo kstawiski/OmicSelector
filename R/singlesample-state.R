@@ -127,25 +127,53 @@
 })
 
 .ss_python_snapshot <- function(x) {
-  if (inherits(x, "python.builtin.object")) return(list(
-    python_state_sha256 = reticulate::py_to_r(.ss_python_state_module()$state_fingerprint(x))))
-  # Bytecode can change through R's JIT without changing fitted state. Keep
-  # code and closure state; deparse avoids unbound formal-argument sentinels.
-  if (is.function(x)) return(list(formals = deparse(formals(x)), body = deparse(body(x)),
-                                 environment = environment(x)))
-  if (is.list(x)) {
-    out <- lapply(x, .ss_python_snapshot)
-    attributes(out) <- attributes(x)
-    return(out)
+  environments <- list()
+  walk <- function(value) {
+    if (inherits(value, "python.builtin.object")) return(list(
+      python_state_sha256 = reticulate::py_to_r(.ss_python_state_module()$state_fingerprint(value))))
+    # Snapshot closure bindings recursively: dependency wrappers retain the
+    # original function in a local environment. Serializing that function raw
+    # would include session-specific JIT bytecode and source references.
+    if (is.function(value)) return(list(formals = deparse(formals(value)),
+      body = deparse(body(value)), environment = walk(environment(value))))
+    if (is.environment(value)) {
+      if (isNamespace(value)) return(list(namespace = getNamespaceName(value)))
+      if (identical(value, globalenv())) return(list(environment = ".GlobalEnv"))
+      if (identical(value, baseenv())) return(list(environment = "base"))
+      if (identical(value, emptyenv())) return(list(environment = "empty"))
+      for (i in seq_along(environments)) {
+        if (identical(value, environments[[i]])) return(list(environment_reference = i))
+      }
+      index <- length(environments) + 1L
+      environments[[index]] <<- value
+      keys <- sort(ls(value, all.names = TRUE))
+      if (any(vapply(keys, bindingIsActive, logical(1L), env = value)))
+        stop("Cannot fingerprint an environment with active bindings.", call. = FALSE)
+      bindings <- lapply(keys, function(key) walk(get(key, envir = value, inherits = FALSE)))
+      names(bindings) <- keys
+      return(list(environment_index = index, bindings = bindings,
+                  parent = walk(parent.env(value))))
+    }
+    if (is.list(value)) {
+      out <- lapply(value, walk)
+      attributes(out) <- attributes(value)
+      return(out)
+    }
+    value
   }
-  x
+  walk(x)
 }
 
 #' Fingerprint frozen fitted state, including Python parameters and buffers
 #'
 #' Computes SHA-256 of R state and deterministic content snapshots of nested
 #' Python objects. Python snapshots include estimator preprocessing, training
-#' context, neural parameters, buffers and evaluation flags. Unknown opaque
+#' context, neural parameters, buffers and evaluation flags. Snapshots use
+#' numerical content rather than shared-object identities or pickle bytes.
+#' Autograd ownership, TabICL checkpoint paths and temporary inference workspaces
+#' are excluded; frozen context caches and estimator inference settings remain
+#' included. Fingerprints from earlier package versions must be regenerated.
+#' Unknown opaque
 #' state is rejected, rather than hashed as a pointer placeholder.
 #' @param model A fitted model or single-sample deployment object.
 #' @return One SHA-256 string. Equality tests detect state changes, not validity

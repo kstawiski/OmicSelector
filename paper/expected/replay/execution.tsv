@@ -1,0 +1,2 @@
+host	tier	seconds	exit_code
+s5	frozen_replay_construction	260	0

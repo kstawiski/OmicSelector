@@ -1,0 +1,2 @@
+method	cohort	cv_seed	model_seed	device	host	threads	reference_path	reference_sha256	n_scores	maximum_method_score_difference	maximum_baseline_score_difference	auc_difference	changed_calls_at_0_5	pass
+ai-tabpfn	GSE50013	404	404	cpu	argos2	4	./analyses/foundation_model_seed_sensitivity/out/cells/ai-tabpfn__GSE50013__seed_404/within_bundle.rds	514b61849adf399f801ccf6e7fcadfa16d6270e282622e4cc01f1f083b8096a0	40	0	0	0	0	TRUE

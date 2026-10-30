@@ -1,0 +1,2 @@
+method	cohort	cv_seed	model_seed	device	host	threads	reference_path	reference_sha256	n_scores	maximum_method_score_difference	maximum_baseline_score_difference	auc_difference	changed_calls_at_0_5	pass
+tab-tabicl	GSE137109	202	202	cpu	argos2	4	./analyses/foundation_model_seed_sensitivity/out/cells/tab-tabicl__GSE137109__seed_202/within_bundle.rds	3923ea577d88dca2dd1237521a63cdbb757a89d5b40acce5f9d0f54cb7c02750	78	8.34465026855469e-07	0	0	0	TRUE

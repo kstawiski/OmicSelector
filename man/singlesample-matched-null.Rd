@@ -22,7 +22,7 @@ Methods provided:
   \item \code{\link{singlesample_bh_fdr_correct_matched_null}}: BH-FDR within a
     modality family.
   \item \code{\link{singlesample_holm_correct_familywise}}: Holm correction for
-    family-wise method × claim-state contrasts.
+    family-wise method  x  claim-state contrasts.
   \item \code{\link{singlesample_bh_fdr_correct_blocked}}: block-aware two-stage
     BH-FDR for specimen-shared cohort clusters.
 }
@@ -30,5 +30,5 @@ Methods provided:
 \references{
 Benjamini Y, Hochberg Y. (1995) Controlling the False Discovery Rate:
 A Practical and Powerful Approach to Multiple Testing.
-\emph{Journal of the Royal Statistical Society Series B} 57(1): 289–300.
+\emph{Journal of the Royal Statistical Society Series B} 57(1): 289-300.
 }

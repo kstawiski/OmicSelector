@@ -38,8 +38,10 @@ scaling.
 }
 \examples{
 \dontrun{
-model <- fit_moe_gated(X, y)
-score_moe_gated(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_moe_gated(X, y)
+  score_moe_gated(model, X[1, , drop = FALSE])
+}
 }
 
 }

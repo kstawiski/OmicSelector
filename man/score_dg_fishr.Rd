@@ -36,8 +36,10 @@ row and the frozen model and is exactly invariant to per-specimen positive scali
 }
 \examples{
 \dontrun{
-model <- fit_dg_fishr(X, y, meta_train = meta)
-score_dg_fishr(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dg_fishr(X, y, meta_train = meta)
+  score_dg_fishr(model, X[1, , drop = FALSE])
+}
 }
 
 }

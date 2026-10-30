@@ -1,0 +1,397 @@
+check	cell_key	pass	max_difference
+"cell_auc_and_coverage"	"GSE210329 biofluid-anchor-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-anchor-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-anchor-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-anchor-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-anchor-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-residualized-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-residualized-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-residualized-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-residualized-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-residualized-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-stratified-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-stratified-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-stratified-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-stratified-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 biofluid-stratified-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 blood-cell-marker-excl-rclr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 blood-cell-marker-excl-rclr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 blood-cell-marker-excl-rclr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 blood-cell-marker-excl-rclr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 blood-cell-marker-excl-rclr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 cross-tech-harmonized-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 cross-tech-harmonized-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 cross-tech-harmonized-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 cross-tech-harmonized-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 cross-tech-harmonized-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 cvae 101"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 cvae 202"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 cvae 303"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 cvae 404"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 cvae 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dann 101"	TRUE	2.77555756156289e-16
+"cell_auc_and_coverage"	"GSE210329 dann 202"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dann 303"	TRUE	3.7470027081099e-16
+"cell_auc_and_coverage"	"GSE210329 dann 404"	TRUE	3.88578058618805e-16
+"cell_auc_and_coverage"	"GSE210329 dann 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dg-fishr 101"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dg-fishr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE210329 dg-fishr 303"	TRUE	2.77555756156289e-16
+"cell_auc_and_coverage"	"GSE210329 dg-fishr 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dg-fishr 505"	TRUE	5.13478148889135e-16
+"cell_auc_and_coverage"	"GSE210329 dg-ibirm 101"	TRUE	2.77555756156289e-16
+"cell_auc_and_coverage"	"GSE210329 dg-ibirm 202"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 dg-ibirm 303"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dg-ibirm 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dg-ibirm 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dro-group 101"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 dro-group 202"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dro-group 303"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 dro-group 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dro-group 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dro-vrex 101"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 dro-vrex 202"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE210329 dro-vrex 303"	TRUE	2.77555756156289e-16
+"cell_auc_and_coverage"	"GSE210329 dro-vrex 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 dro-vrex 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 hemolysis-kit-dual-anchor 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 hemolysis-kit-dual-anchor 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 hemolysis-kit-dual-anchor 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 hemolysis-kit-dual-anchor 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 hemolysis-kit-dual-anchor 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 icp 101"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 icp 202"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 icp 303"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 icp 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 icp 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 kit-fe-adjusted-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-fe-adjusted-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-fe-adjusted-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-fe-adjusted-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-fe-adjusted-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-orthogonal-ilr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-orthogonal-ilr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-orthogonal-ilr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-orthogonal-ilr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-orthogonal-ilr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-residual-mad 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-residual-mad 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-residual-mad 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-residual-mad 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-residual-mad 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stable-anchor-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stable-anchor-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stable-anchor-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stable-anchor-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stable-anchor-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stratified-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stratified-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stratified-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stratified-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 kit-stratified-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 moe-gated 101"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 moe-gated 202"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 moe-gated 303"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 moe-gated 404"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 moe-gated 505"	TRUE	3.33066907387547e-16
+"cell_auc_and_coverage"	"GSE210329 reo-metaktsp 101"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 reo-metaktsp 202"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 reo-metaktsp 303"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 reo-metaktsp 404"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 reo-metaktsp 505"	TRUE	2.22044604925031e-16
+"cell_auc_and_coverage"	"GSE210329 rin-weighted-score 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 rin-weighted-score 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 rin-weighted-score 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 rin-weighted-score 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 rin-weighted-score 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-residualized-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-residualized-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-residualized-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-residualized-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-residualized-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-stratified-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-stratified-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-stratified-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-stratified-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE210329 tech-stratified-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 biofluid-anchor-rclr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-anchor-rclr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-anchor-rclr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-anchor-rclr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-anchor-rclr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-residualized-alr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-residualized-alr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-residualized-alr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-residualized-alr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-residualized-alr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-stratified-rclr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-stratified-rclr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-stratified-rclr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-stratified-rclr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 biofluid-stratified-rclr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 blood-cell-marker-excl-rclr 101"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 blood-cell-marker-excl-rclr 202"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 blood-cell-marker-excl-rclr 303"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 blood-cell-marker-excl-rclr 404"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 blood-cell-marker-excl-rclr 505"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 cross-tech-harmonized-rclr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cross-tech-harmonized-rclr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cross-tech-harmonized-rclr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cross-tech-harmonized-rclr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cross-tech-harmonized-rclr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cvae 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cvae 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cvae 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cvae 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 cvae 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dann 101"	TRUE	5.55111512312578e-16
+"cell_auc_and_coverage"	"GSE320031 dann 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dann 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dann 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dann 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-fishr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-fishr 202"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 dg-fishr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-fishr 404"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 dg-fishr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-ibirm 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-ibirm 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-ibirm 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dg-ibirm 404"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 dg-ibirm 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE320031 dro-group 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-group 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-group 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-group 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-group 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-vrex 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-vrex 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-vrex 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-vrex 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 dro-vrex 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 hemolysis-kit-dual-anchor 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 hemolysis-kit-dual-anchor 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 hemolysis-kit-dual-anchor 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 hemolysis-kit-dual-anchor 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 hemolysis-kit-dual-anchor 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 icp 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 icp 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 icp 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 icp 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 icp 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 kit-fe-adjusted-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-fe-adjusted-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-fe-adjusted-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-fe-adjusted-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-fe-adjusted-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-orthogonal-ilr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-orthogonal-ilr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-orthogonal-ilr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-orthogonal-ilr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-orthogonal-ilr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-residual-mad 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-residual-mad 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-residual-mad 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-residual-mad 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-residual-mad 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stable-anchor-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stable-anchor-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stable-anchor-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stable-anchor-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stable-anchor-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stratified-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stratified-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stratified-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stratified-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 kit-stratified-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 moe-gated 101"	TRUE	4.9960036108132e-16
+"cell_auc_and_coverage"	"GSE320031 moe-gated 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 moe-gated 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 moe-gated 404"	TRUE	5.55111512312578e-16
+"cell_auc_and_coverage"	"GSE320031 moe-gated 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 reo-metaktsp 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 reo-metaktsp 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 reo-metaktsp 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 reo-metaktsp 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 reo-metaktsp 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 rin-weighted-score 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 rin-weighted-score 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 rin-weighted-score 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 rin-weighted-score 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 rin-weighted-score 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-residualized-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-residualized-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-residualized-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-residualized-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-residualized-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE320031 tech-stratified-rclr 101"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 tech-stratified-rclr 202"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 tech-stratified-rclr 303"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 tech-stratified-rclr 404"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE320031 tech-stratified-rclr 505"	TRUE	4.44089209850063e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-anchor-rclr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-anchor-rclr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-anchor-rclr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-anchor-rclr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-anchor-rclr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-residualized-alr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-residualized-alr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-residualized-alr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-residualized-alr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-residualized-alr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-stratified-rclr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-stratified-rclr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-stratified-rclr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-stratified-rclr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 biofluid-stratified-rclr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 blood-cell-marker-excl-rclr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 blood-cell-marker-excl-rclr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 blood-cell-marker-excl-rclr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 blood-cell-marker-excl-rclr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 blood-cell-marker-excl-rclr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cross-tech-harmonized-rclr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cross-tech-harmonized-rclr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cross-tech-harmonized-rclr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cross-tech-harmonized-rclr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cross-tech-harmonized-rclr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cvae 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cvae 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cvae 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cvae 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 cvae 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dann 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dann 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dann 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dann 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dann 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-fishr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-fishr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-fishr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-fishr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-fishr 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-ibirm 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-ibirm 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-ibirm 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-ibirm 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dg-ibirm 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-group 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-group 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-group 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-group 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-group 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-vrex 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-vrex 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-vrex 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-vrex 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 dro-vrex 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 hemolysis-kit-dual-anchor 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 hemolysis-kit-dual-anchor 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 hemolysis-kit-dual-anchor 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 hemolysis-kit-dual-anchor 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 hemolysis-kit-dual-anchor 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 icp 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 icp 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 icp 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 icp 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 icp 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 kit-fe-adjusted-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-fe-adjusted-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-fe-adjusted-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-fe-adjusted-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-fe-adjusted-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-orthogonal-ilr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-orthogonal-ilr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-orthogonal-ilr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-orthogonal-ilr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-orthogonal-ilr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-residual-mad 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-residual-mad 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-residual-mad 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-residual-mad 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-residual-mad 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stable-anchor-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stable-anchor-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stable-anchor-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stable-anchor-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stable-anchor-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stratified-rclr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stratified-rclr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stratified-rclr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stratified-rclr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 kit-stratified-rclr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 moe-gated 101"	TRUE	5.55111512312578e-16
+"cell_auc_and_coverage"	"GSE41922 moe-gated 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 moe-gated 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 moe-gated 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 moe-gated 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 reo-metaktsp 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 reo-metaktsp 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 reo-metaktsp 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 reo-metaktsp 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 reo-metaktsp 505"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 rin-weighted-score 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 rin-weighted-score 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 rin-weighted-score 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 rin-weighted-score 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 rin-weighted-score 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-residualized-alr 101"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-residualized-alr 202"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-residualized-alr 303"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-residualized-alr 404"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-residualized-alr 505"	TRUE	0
+"cell_auc_and_coverage"	"GSE41922 tech-stratified-rclr 101"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 tech-stratified-rclr 202"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 tech-stratified-rclr 303"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 tech-stratified-rclr 404"	TRUE	4.71844785465692e-16
+"cell_auc_and_coverage"	"GSE41922 tech-stratified-rclr 505"	TRUE	4.71844785465692e-16
+"GSE204951_115_profiles_20_person_groups_unchanged"	"GSE204951"	TRUE	0
+"original_summary_replay"	"disease"	TRUE	0
+"original_summary_replay"	"held_out"	TRUE	0
+"original_summary_replay"	"method"	TRUE	0
+"original_summary_replay"	"n_prespecified_seeds"	TRUE	0
+"original_summary_replay"	"n_eligible_seeds"	TRUE	0
+"original_summary_replay"	"all_seeds_eligible"	TRUE	0
+"original_summary_replay"	"all_required_engagement"	TRUE	0
+"original_summary_replay"	"ineligible_reason"	TRUE	0
+"original_summary_replay"	"n_common_features"	TRUE	0
+"original_summary_replay"	"training_cohorts"	TRUE	0
+"original_summary_replay"	"n_training_cohorts"	TRUE	0
+"original_summary_replay"	"engagement_metric"	TRUE	0
+"original_summary_replay"	"engagement_value"	TRUE	0
+"original_summary_replay"	"auc_method"	TRUE	0
+"original_summary_replay"	"auc_method_se_cluster"	TRUE	0
+"original_summary_replay"	"auc_method_ci_lo"	TRUE	0
+"original_summary_replay"	"auc_method_ci_hi"	TRUE	0
+"original_summary_replay"	"auc_baseline"	TRUE	0
+"original_summary_replay"	"auc_baseline_se_cluster"	TRUE	0
+"original_summary_replay"	"auc_baseline_ci_lo"	TRUE	0
+"original_summary_replay"	"auc_baseline_ci_hi"	TRUE	0
+"original_summary_replay"	"lift"	TRUE	0
+"original_summary_replay"	"lift_se"	TRUE	0
+"original_summary_replay"	"lift_ci_lo"	TRUE	0
+"original_summary_replay"	"lift_ci_hi"	TRUE	0
+"original_summary_replay"	"p_lift_gt_zero"	TRUE	0
+"original_summary_replay"	"p_lift_gt_margin_0_05"	TRUE	0
+"original_summary_replay"	"lift_se_corrected_rcv"	TRUE	0
+"original_summary_replay"	"corrected_rcv_complete"	TRUE	0
+"original_summary_replay"	"corrected_rcv_expected_strata"	TRUE	0
+"original_summary_replay"	"corrected_rcv_df"	TRUE	0
+"original_summary_replay"	"corrected_rcv_factor"	TRUE	0
+"original_summary_replay"	"mean_test_train_ratio"	TRUE	0
+"original_summary_replay"	"lift_se_group_cluster_diagnostic"	TRUE	0
+"original_summary_replay"	"lift_ci_lo_group_cluster_diagnostic"	TRUE	0
+"original_summary_replay"	"lift_ci_hi_group_cluster_diagnostic"	TRUE	0
+"original_summary_replay"	"auc_method_group_collapsed"	TRUE	0
+"original_summary_replay"	"auc_baseline_group_collapsed"	TRUE	0
+"original_summary_replay"	"lift_group_collapsed"	TRUE	0
+"original_summary_replay"	"lift_group_collapsed_se_corrected_rcv"	TRUE	0
+"original_summary_replay"	"group_corrected_rcv_complete"	TRUE	0
+"original_summary_replay"	"lift_group_collapsed_ci_lo"	TRUE	0
+"original_summary_replay"	"lift_group_collapsed_ci_hi"	TRUE	0
+"original_summary_replay"	"lift_profile_minus_group_collapsed"	TRUE	0
+"original_summary_replay"	"n_groups"	TRUE	0
+"original_summary_replay"	"n_profiles"	TRUE	0
+"original_summary_replay"	"n_predictions"	TRUE	0
+"original_summary_replay"	"n_valid_strata"	TRUE	0
+"original_summary_replay"	"performance_complete"	TRUE	0
+"all_nonbreast_summaries_unchanged"	"322"	TRUE	0

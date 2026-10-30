@@ -1,9 +1,5 @@
 library(testthat)
 
-# Source helper: pROC is required by singlesample_matched_null_benchmark.
-# Skip the whole file gracefully if pROC is absent (CI environments).
-skip_if_not_installed("pROC")
-
 set.seed(42L)
 
 # Synthetic dataset used by most tests.
@@ -28,6 +24,7 @@ set.seed(42L)
 # ============================================================================
 
 test_that("singlesample_matched_null_benchmark: signal panel beats null at p < 0.05 (headline behaviour)", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   dat <- .make_y_and_inject(X, .true_panel)
   scoring_fn <- function(M) rowSums(log(M + 1))
@@ -42,6 +39,7 @@ test_that("singlesample_matched_null_benchmark: signal panel beats null at p < 0
 })
 
 test_that("singlesample_matched_null_benchmark: fails when panel not in colnames(X)", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   y <- stats::rbinom(nrow(X), 1L, 0.5)
   expect_error(
@@ -52,6 +50,7 @@ test_that("singlesample_matched_null_benchmark: fails when panel not in colnames
 })
 
 test_that("singlesample_matched_null_benchmark: null panels do NOT overlap observed panel", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   dat <- .make_y_and_inject(X, .true_panel)
   scoring_fn <- function(M) rowSums(log(M + 1))
@@ -69,6 +68,7 @@ test_that("singlesample_matched_null_benchmark: null panels do NOT overlap obser
 })
 
 test_that("singlesample_matched_null_benchmark: hemolysis markers excluded when post_hemolysis_corrected=TRUE", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   set.seed(99L)
   hemo_mir <- "hsa-miR-451a"
@@ -90,6 +90,7 @@ test_that("singlesample_matched_null_benchmark: hemolysis markers excluded when 
 })
 
 test_that("singlesample_matched_null_benchmark: tier-3 fallback returns eligible=FALSE, p_emp=NA", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(11L)
   n_s <- 50L; p_s <- 30L
   X_s <- matrix(rlnorm(n_s * p_s, 5, 1), nrow = n_s,
@@ -238,6 +239,7 @@ test_that("singlesample_hanley_mcneil_auc_ci shrinks with larger sample counts",
 })
 
 test_that("singlesample_matched_null_benchmark: returns AUC CI bracketing auc_obs (hanley_mcneil)", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   dat <- .make_y_and_inject(X, .true_panel)
   scoring_fn <- function(M) rowSums(log(M + 1))
@@ -254,6 +256,7 @@ test_that("singlesample_matched_null_benchmark: returns AUC CI bracketing auc_ob
 })
 
 test_that("singlesample_matched_null_benchmark: auc_ci_method='none' returns NA CI", {
+  testthat::skip_if_not_installed("pROC")
   X <- .make_X()
   dat <- .make_y_and_inject(X, .true_panel)
   scoring_fn <- function(M) rowSums(log(M + 1))
@@ -267,6 +270,7 @@ test_that("singlesample_matched_null_benchmark: auc_ci_method='none' returns NA 
 })
 
 test_that("singlesample_matched_null_benchmark: AUC CI shrinks with growing N (hanley_mcneil)", {
+  testthat::skip_if_not_installed("pROC")
   scoring_fn <- function(M) rowSums(log(M + 1))
   panel <- paste0("mir-", sprintf("%03d", 11:22))
   ci_width <- function(n) {
@@ -290,6 +294,7 @@ test_that("singlesample_matched_null_benchmark: AUC CI shrinks with growing N (h
 # ============================================================================
 
 test_that("singlesample_matched_null_benchmark_cv: signal panel passes 5-fold CV", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(99L)
   n_cv <- 150L; p_cv <- 120L
   X_cv <- matrix(stats::rlnorm(n_cv * p_cv, meanlog = 5, sdlog = 1), nrow = n_cv,
@@ -312,6 +317,7 @@ test_that("singlesample_matched_null_benchmark_cv: signal panel passes 5-fold CV
 })
 
 test_that("singlesample_matched_null_benchmark_cv: panel selection respects training-fold-only", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(99L)
   n_cv <- 120L; p_cv <- 80L
   X_cv <- matrix(stats::rlnorm(n_cv * p_cv, meanlog = 5, sdlog = 1), nrow = n_cv,
@@ -329,6 +335,7 @@ test_that("singlesample_matched_null_benchmark_cv: panel selection respects trai
 })
 
 test_that("singlesample_matched_null_benchmark_cv: grouped folds honour group_id", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(77L)
   n_grp <- 100L; p_grp <- 60L
   X_grp <- matrix(stats::rlnorm(n_grp * p_grp, meanlog = 5, sdlog = 1), nrow = n_grp,
@@ -346,6 +353,7 @@ test_that("singlesample_matched_null_benchmark_cv: grouped folds honour group_id
 })
 
 test_that("singlesample_matched_null_benchmark_cv: returns eligible=FALSE under min_valid_folds", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(3L)
   n_tiny <- 30L; p_tiny <- 40L
   X_t <- matrix(stats::rlnorm(n_tiny * p_tiny), nrow = n_tiny,
@@ -359,6 +367,7 @@ test_that("singlesample_matched_null_benchmark_cv: returns eligible=FALSE under 
 })
 
 test_that("singlesample_matched_null_benchmark_cv: same seed -> identical p_emp_cv", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(99L)
   n_cv <- 150L; p_cv <- 120L
   X_cv <- matrix(stats::rlnorm(n_cv * p_cv, meanlog = 5, sdlog = 1), nrow = n_cv,
@@ -378,6 +387,7 @@ test_that("singlesample_matched_null_benchmark_cv: same seed -> identical p_emp_
 })
 
 test_that("singlesample_matched_null_benchmark_cv: returns AUC CI brackets auc_obs_cv", {
+  testthat::skip_if_not_installed("pROC")
   set.seed(99L)
   n_cv <- 150L; p_cv <- 120L
   X_cv <- matrix(stats::rlnorm(n_cv * p_cv, meanlog = 5, sdlog = 1), nrow = n_cv,

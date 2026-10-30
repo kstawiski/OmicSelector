@@ -1,0 +1,2 @@
+method	cohort	seed	model_seed	device	score_batch	threads	host	analysis_code_id	package_commit
+tab-tabicl	GSE188232	404	42	cpu	TRUE	4	argos9	f804883b63c36ae6	69fded5282a2cb946fac52a24b44a48095fdea7e

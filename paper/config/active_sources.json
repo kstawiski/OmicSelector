@@ -1,0 +1,11 @@
+{
+  "analyses": [
+    "benchmark",
+    "transfer",
+    "scoring_conditions",
+    "calibration",
+    "practical_cost",
+    "thread_control"
+  ],
+  "summary_contracts": "config/active_summary_contracts.json"
+}

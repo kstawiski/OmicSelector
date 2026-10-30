@@ -14,7 +14,7 @@ fit_frozen_quantile(
 \item{x_train}{Numeric matrix (samples \eqn{\times} features). Must have
 column names. All values must be non-negative.}
 
-\item{n_quantiles}{Integer — number of quantile grid levels (resolution).
+\item{n_quantiles}{Integer -- number of quantile grid levels (resolution).
 Default 1000.}
 
 \item{na_action}{\code{"median"} (default, replaces NA test values with
@@ -45,5 +45,5 @@ fit <- fit_frozen_quantile(x_train, n_quantiles = 100L)
 
 }
 \references{
-Bolstad BM, et al. (2003) \emph{Bioinformatics} 19: 185–193.
+Bolstad BM, et al. (2003) \emph{Bioinformatics} 19: 185-193.
 }

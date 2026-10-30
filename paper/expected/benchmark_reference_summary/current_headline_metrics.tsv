@@ -1,0 +1,1320 @@
+metric	method	analysis	value	source_file
+planned_method_cohort_cells			1700	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+evaluable_method_cohort_cells			1555	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+datasets			34	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+synthesis_planned_units			32	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+methods			50	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+method_seed_units			250	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+planned_method_seed_dataset_cells			8500	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+estimable_methods			48	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+BY_above_zero			0	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+BY_above_005			0	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+smallest_primary_BY			0.603750064609275	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+CI_wholly_below_zero			29	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+CI_wholly_above_zero			2	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+CI_upper_below_005			48	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+CI_upper_above_005			0	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+near_zero_count			4	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+near_zero_list			gsp-gft;ssl-vicreg;unc-sngp;ws-mad-logratio	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+shared_pairratio_reference_cohorts			15	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+pairratio_shared_median_AUC			0.953426837796246	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+reference_shared_median_AUC			0.946812237518387	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+shared_median_paired_AUC_difference			0.0	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+reference_evaluable_pairratio_unavailable			16	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+reference_evaluable_pairratio_unavailable_list			GSE109319;GSE130654;GSE137109;GSE186595;GSE204951;GSE210329;GSE210546;GSE221088;GSE227778;GSE279209;GSE304572;GSE50013;GSE64591;GSE83977;GSE94533_PUBLIC;PRJEB30542	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+pairratio_positive_signs			7	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+pairratio_sign_denominator			14	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+minimum_sensitivity_BY			0.12511911533665	method_cohort_performance.tsv; pooled_effects.tsv; sensitivity_effects.tsv
+pooled_point_estimate_rank	ai-tabpfn		1	evidence/pooled.tsv
+pooled_point_estimate_rank	tab-tabicl		2	evidence/pooled.tsv
+pooled_point_estimate_rank	reo-pairratio		3	evidence/pooled.tsv
+pooled_point_estimate_rank	bal-selbal		4	evidence/pooled.tsv
+pooled_point_estimate_rank	proto-net		5	evidence/pooled.tsv
+pooled_point_estimate_rank	reo-ktsp		6	evidence/pooled.tsv
+pooled_point_estimate_rank	man-nystrom		7	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-bw		8	evidence/pooled.tsv
+pooled_point_estimate_rank	nc-sinkhorn-single		9	evidence/pooled.tsv
+pooled_point_estimate_rank	ai-scarf		10	evidence/pooled.tsv
+pooled_point_estimate_rank	ws-alr-pivot		11	evidence/pooled.tsv
+pooled_point_estimate_rank	tab-tabdpt		12	evidence/pooled.tsv
+pooled_point_estimate_rank	coda-deepcoda		13	evidence/pooled.tsv
+pooled_point_estimate_rank	kme-witness		14	evidence/pooled.tsv
+pooled_point_estimate_rank	ssl-vicreg		15	evidence/pooled.tsv
+pooled_point_estimate_rank	reo-ucell		16	evidence/pooled.tsv
+pooled_point_estimate_rank	inv-scatter		17	evidence/pooled.tsv
+pooled_point_estimate_rank	reo-singscore		18	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-deepmaha		19	evidence/pooled.tsv
+pooled_point_estimate_rank	hemolysis-resid		20	evidence/pooled.tsv
+pooled_point_estimate_rank	gsp-gft		21	evidence/pooled.tsv
+pooled_point_estimate_rank	ws-mad-logratio		22	evidence/pooled.tsv
+pooled_point_estimate_rank	coda-codacore		23	evidence/pooled.tsv
+pooled_point_estimate_rank	unc-sngp		24	evidence/pooled.tsv
+pooled_point_estimate_rank	conf-mondrian		25	evidence/pooled.tsv
+pooled_point_estimate_rank	ig-fisherrao		26	evidence/pooled.tsv
+pooled_point_estimate_rank	ot-slicedlrt		27	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-copula		28	evidence/pooled.tsv
+pooled_point_estimate_rank	tda-ph		29	evidence/pooled.tsv
+pooled_point_estimate_rank	robust-pca-resid		30	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-nbkde		31	evidence/pooled.tsv
+pooled_point_estimate_rank	inv-fdaqf		32	evidence/pooled.tsv
+pooled_point_estimate_rank	dre-ulsif		33	evidence/pooled.tsv
+pooled_point_estimate_rank	ot-lot		34	evidence/pooled.tsv
+pooled_point_estimate_rank	frozen-ruv		35	evidence/pooled.tsv
+pooled_point_estimate_rank	inv-glcm		36	evidence/pooled.tsv
+pooled_point_estimate_rank	frac-mfdfa		37	evidence/pooled.tsv
+pooled_point_estimate_rank	nc-ecod-copod		38	evidence/pooled.tsv
+pooled_point_estimate_rank	sig-path		39	evidence/pooled.tsv
+pooled_point_estimate_rank	img-gasfcnn		40	evidence/pooled.tsv
+pooled_point_estimate_rank	inv-olbp		41	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-vinecopula		42	evidence/pooled.tsv
+pooled_point_estimate_rank	inv-css		43	evidence/pooled.tsv
+pooled_point_estimate_rank	ws-dominance		44	evidence/pooled.tsv
+pooled_point_estimate_rank	nc-conformal-anom		45	evidence/pooled.tsv
+pooled_point_estimate_rank	nc-isoforest		46	evidence/pooled.tsv
+pooled_point_estimate_rank	ws-balance-ilr		47	evidence/pooled.tsv
+pooled_point_estimate_rank	lrt-tcopula		48	evidence/pooled.tsv
+REML_execution_requests			2218	evidence/reml_diagnostics.tsv
+REML_execution_boundary_requests			40	evidence/reml_diagnostics.tsv
+largest_pooled_lift	ai-tabpfn		0.024096380567909	evidence/pooled.tsv
+largest_ci_hi	tab-tabicl		0.0483620721415553	evidence/pooled.tsv
+largest_pi_hi	lrt-tcopula		0.324976315133209	evidence/pooled.tsv
+k	ai-scarf		30	evidence/pooled.tsv
+pooled_lift	ai-scarf		0.0004751496934962	evidence/pooled.tsv
+pooled_se	ai-scarf		0.0017640085475447	evidence/pooled.tsv
+ci_lo	ai-scarf		-0.0031326528769176	evidence/pooled.tsv
+ci_hi	ai-scarf		0.0040829522639102	evidence/pooled.tsv
+pi_lo	ai-scarf		-0.0039627858571002	evidence/pooled.tsv
+pi_hi	ai-scarf		0.0049130852440927	evidence/pooled.tsv
+p_lift_gt_zero	ai-scarf		0.394780777378768	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ai-scarf		1.0	evidence/pooled.tsv
+tau2	ai-scarf		1.59672234870223e-06	evidence/pooled.tsv
+I2	ai-scarf		0.842150330655431	evidence/pooled.tsv
+Q	ai-scarf		41.5117188241736	evidence/pooled.tsv
+Q_p	ai-scarf		0.0620868749560415	evidence/pooled.tsv
+df_knha	ai-scarf		29.0	evidence/pooled.tsv
+reml_attempts	ai-scarf		2	evidence/pooled.tsv
+tau2_profile	ai-scarf		1.59701929162824e-06	evidence/pooled.tsv
+tau2_profile_abs_difference	ai-scarf		2.96942926009605e-10	evidence/pooled.tsv
+profile_loglik_gap	ai-scarf		7.867129170335829e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	ai-scarf		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ai-scarf		1.0	evidence/pooled.tsv
+relevance_margin	ai-scarf		0.05	evidence/pooled.tsv
+k	ai-tabpfn		30	evidence/pooled.tsv
+pooled_lift	ai-tabpfn		0.024096380567909	evidence/pooled.tsv
+pooled_se	ai-tabpfn		0.0080597360873674	evidence/pooled.tsv
+ci_lo	ai-tabpfn		0.0076123694142584	evidence/pooled.tsv
+ci_hi	ai-tabpfn		0.0405803917215595	evidence/pooled.tsv
+pi_lo	ai-tabpfn		-0.0271448317268307	evidence/pooled.tsv
+pi_hi	ai-tabpfn		0.0753375928626487	evidence/pooled.tsv
+p_lift_gt_zero	ai-tabpfn		0.002820968492662	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ai-tabpfn		0.998398921773417	evidence/pooled.tsv
+tau2	ai-tabpfn		0.0005627442767987	evidence/pooled.tsv
+I2	ai-tabpfn		79.1370797837753	evidence/pooled.tsv
+Q	ai-tabpfn		213.128887329322	evidence/pooled.tsv
+Q_p	ai-tabpfn		6.1251551314065094e-30	evidence/pooled.tsv
+df_knha	ai-tabpfn		29.0	evidence/pooled.tsv
+reml_attempts	ai-tabpfn		2	evidence/pooled.tsv
+tau2_profile	ai-tabpfn		0.0005627441344326	evidence/pooled.tsv
+tau2_profile_abs_difference	ai-tabpfn		1.42366020773436e-10	evidence/pooled.tsv
+profile_loglik_gap	ai-tabpfn		8.5265128291212e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	ai-tabpfn		0.603750064609275	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ai-tabpfn		1.0	evidence/pooled.tsv
+relevance_margin	ai-tabpfn		0.05	evidence/pooled.tsv
+k	bal-selbal		19	evidence/pooled.tsv
+pooled_lift	bal-selbal		0.0079362640867197	evidence/pooled.tsv
+pooled_se	bal-selbal		0.0151863680999705	evidence/pooled.tsv
+ci_lo	bal-selbal		-0.0239691113657217	evidence/pooled.tsv
+ci_hi	bal-selbal		0.0398416395391611	evidence/pooled.tsv
+pi_lo	bal-selbal		-0.0672471391842204	evidence/pooled.tsv
+pi_hi	bal-selbal		0.0831196673576598	evidence/pooled.tsv
+p_lift_gt_zero	bal-selbal		0.303815795387563	evidence/pooled.tsv
+p_lift_gt_margin_0_05	bal-selbal		0.993686973016308	evidence/pooled.tsv
+tau2	bal-selbal		0.0010500054497508	evidence/pooled.tsv
+I2	bal-selbal		50.7388880544929	evidence/pooled.tsv
+Q	bal-selbal		38.3909505123181	evidence/pooled.tsv
+Q_p	bal-selbal		0.0034372318779859	evidence/pooled.tsv
+df_knha	bal-selbal		18.0	evidence/pooled.tsv
+reml_attempts	bal-selbal		2	evidence/pooled.tsv
+tau2_profile	bal-selbal		0.0010500050923164	evidence/pooled.tsv
+tau2_profile_abs_difference	bal-selbal		3.57434412796842e-10	evidence/pooled.tsv
+profile_loglik_gap	bal-selbal		2.1316282072803e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	bal-selbal		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	bal-selbal		1.0	evidence/pooled.tsv
+relevance_margin	bal-selbal		0.05	evidence/pooled.tsv
+k	coda-codacore		31	evidence/pooled.tsv
+pooled_lift	coda-codacore		-0.0317104450367683	evidence/pooled.tsv
+pooled_se	coda-codacore		0.0104884645877016	evidence/pooled.tsv
+ci_lo	coda-codacore		-0.0531307473731222	evidence/pooled.tsv
+ci_hi	coda-codacore		-0.0102901427004145	evidence/pooled.tsv
+pi_lo	coda-codacore		-0.0912724160491564	evidence/pooled.tsv
+pi_hi	coda-codacore		0.0278515259756198	evidence/pooled.tsv
+p_lift_gt_zero	coda-codacore		0.997459065992748	evidence/pooled.tsv
+p_lift_gt_margin_0_05	coda-codacore		0.999999994595535	evidence/pooled.tsv
+tau2	coda-codacore		0.0007405634827766	evidence/pooled.tsv
+I2	coda-codacore		52.584217507401	evidence/pooled.tsv
+Q	coda-codacore		55.5020916791578	evidence/pooled.tsv
+Q_p	coda-codacore		0.0031130732562456	evidence/pooled.tsv
+df_knha	coda-codacore		30.0	evidence/pooled.tsv
+reml_attempts	coda-codacore		2	evidence/pooled.tsv
+tau2_profile	coda-codacore		0.0007405636825694	evidence/pooled.tsv
+tau2_profile_abs_difference	coda-codacore		1.9979279916679901e-10	evidence/pooled.tsv
+profile_loglik_gap	coda-codacore		3.5527136788004997e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	coda-codacore		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	coda-codacore		1.0	evidence/pooled.tsv
+relevance_margin	coda-codacore		0.05	evidence/pooled.tsv
+k	coda-deepcoda		30	evidence/pooled.tsv
+pooled_lift	coda-deepcoda		-0.0045673805811019	evidence/pooled.tsv
+pooled_se	coda-deepcoda		0.0093695780804741	evidence/pooled.tsv
+ci_lo	coda-deepcoda		-0.0237303194055645	evidence/pooled.tsv
+ci_hi	coda-deepcoda		0.0145955582433606	evidence/pooled.tsv
+pi_lo	coda-deepcoda		-0.0724883170759488	evidence/pooled.tsv
+pi_hi	coda-deepcoda		0.0633535559137449	evidence/pooled.tsv
+p_lift_gt_zero	coda-deepcoda		0.685204635654718	evidence/pooled.tsv
+p_lift_gt_margin_0_05	coda-deepcoda		0.9999987075406	evidence/pooled.tsv
+tau2	coda-deepcoda		0.0010150780873395	evidence/pooled.tsv
+I2	coda-deepcoda		79.7183774747636	evidence/pooled.tsv
+Q	coda-deepcoda		156.310654226988	evidence/pooled.tsv
+Q_p	coda-deepcoda		2.13820505353047e-19	evidence/pooled.tsv
+df_knha	coda-deepcoda		29.0	evidence/pooled.tsv
+reml_attempts	coda-deepcoda		2	evidence/pooled.tsv
+tau2_profile	coda-deepcoda		0.0010150783024803	evidence/pooled.tsv
+tau2_profile_abs_difference	coda-deepcoda		2.15140815319065e-10	evidence/pooled.tsv
+profile_loglik_gap	coda-deepcoda		3.5527136788004997e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	coda-deepcoda		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	coda-deepcoda		1.0	evidence/pooled.tsv
+relevance_margin	coda-deepcoda		0.05	evidence/pooled.tsv
+k	conf-mondrian		31	evidence/pooled.tsv
+pooled_lift	conf-mondrian		-0.0342911129329406	evidence/pooled.tsv
+pooled_se	conf-mondrian		0.0076978341869912	evidence/pooled.tsv
+ci_lo	conf-mondrian		-0.0500121876662067	evidence/pooled.tsv
+ci_hi	conf-mondrian		-0.0185700381996744	evidence/pooled.tsv
+pi_lo	conf-mondrian		-0.0873857322823197	evidence/pooled.tsv
+pi_hi	conf-mondrian		0.0188035064164386	evidence/pooled.tsv
+p_lift_gt_zero	conf-mondrian		0.999945956998767	evidence/pooled.tsv
+p_lift_gt_margin_0_05	conf-mondrian		0.999999999997348	evidence/pooled.tsv
+tau2	conf-mondrian		0.0006166296788874	evidence/pooled.tsv
+I2	conf-mondrian		51.8345523916159	evidence/pooled.tsv
+Q	conf-mondrian		66.675841802618	evidence/pooled.tsv
+Q_p	conf-mondrian		0.0001333413901539	evidence/pooled.tsv
+df_knha	conf-mondrian		30.0	evidence/pooled.tsv
+reml_attempts	conf-mondrian		2	evidence/pooled.tsv
+tau2_profile	conf-mondrian		0.0006166297231729	evidence/pooled.tsv
+tau2_profile_abs_difference	conf-mondrian		4.4285509179058096e-11	evidence/pooled.tsv
+profile_loglik_gap	conf-mondrian		1.4210854715202e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	conf-mondrian		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	conf-mondrian		1.0	evidence/pooled.tsv
+relevance_margin	conf-mondrian		0.05	evidence/pooled.tsv
+k	dre-ulsif		30	evidence/pooled.tsv
+pooled_lift	dre-ulsif		-0.113007602051903	evidence/pooled.tsv
+pooled_se	dre-ulsif		0.0202871277597876	evidence/pooled.tsv
+ci_lo	dre-ulsif		-0.154499437099954	evidence/pooled.tsv
+ci_hi	dre-ulsif		-0.0715157670038524	evidence/pooled.tsv
+pi_lo	dre-ulsif		-0.307876386780225	evidence/pooled.tsv
+pi_hi	dre-ulsif		0.0818611826764189	evidence/pooled.tsv
+p_lift_gt_zero	dre-ulsif		0.999997397023316	evidence/pooled.tsv
+p_lift_gt_margin_0_05	dre-ulsif		0.999999996333193	evidence/pooled.tsv
+tau2	dre-ulsif		0.0086666460387115	evidence/pooled.tsv
+I2	dre-ulsif		87.9930497386186	evidence/pooled.tsv
+Q	dre-ulsif		192.522483189621	evidence/pooled.tsv
+Q_p	dre-ulsif		4.70103427440343e-26	evidence/pooled.tsv
+df_knha	dre-ulsif		29.0	evidence/pooled.tsv
+reml_attempts	dre-ulsif		1	evidence/pooled.tsv
+tau2_profile	dre-ulsif		0.0086669678839751	evidence/pooled.tsv
+tau2_profile_abs_difference	dre-ulsif		3.21845263617088e-07	evidence/pooled.tsv
+profile_loglik_gap	dre-ulsif		4.8847610401026e-09	evidence/pooled.tsv
+p_lift_gt_zero_BY	dre-ulsif		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	dre-ulsif		1.0	evidence/pooled.tsv
+relevance_margin	dre-ulsif		0.05	evidence/pooled.tsv
+k	frac-mfdfa		21	evidence/pooled.tsv
+pooled_lift	frac-mfdfa		-0.126888186546268	evidence/pooled.tsv
+pooled_se	frac-mfdfa		0.0282044018736559	evidence/pooled.tsv
+ci_lo	frac-mfdfa		-0.185721537906711	evidence/pooled.tsv
+ci_hi	frac-mfdfa		-0.0680548351858246	evidence/pooled.tsv
+pi_lo	frac-mfdfa		-0.347437766559115	evidence/pooled.tsv
+pi_hi	frac-mfdfa		0.0936613934665799	evidence/pooled.tsv
+p_lift_gt_zero	frac-mfdfa		0.999890328306295	evidence/pooled.tsv
+p_lift_gt_margin_0_05	frac-mfdfa		0.999997995669107	evidence/pooled.tsv
+tau2	frac-mfdfa		0.0103834120009539	evidence/pooled.tsv
+I2	frac-mfdfa		85.1036700715059	evidence/pooled.tsv
+Q	frac-mfdfa		120.21474262805	evidence/pooled.tsv
+Q_p	frac-mfdfa		2.6019631558203897e-16	evidence/pooled.tsv
+df_knha	frac-mfdfa		20.0	evidence/pooled.tsv
+reml_attempts	frac-mfdfa		1	evidence/pooled.tsv
+tau2_profile	frac-mfdfa		0.0103831043229373	evidence/pooled.tsv
+tau2_profile_abs_difference	frac-mfdfa		3.07678016580118e-07	evidence/pooled.tsv
+profile_loglik_gap	frac-mfdfa		1.94396321262502e-09	evidence/pooled.tsv
+p_lift_gt_zero_BY	frac-mfdfa		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	frac-mfdfa		1.0	evidence/pooled.tsv
+relevance_margin	frac-mfdfa		0.05	evidence/pooled.tsv
+k	frozen-ruv		31	evidence/pooled.tsv
+pooled_lift	frozen-ruv		-0.124057628365946	evidence/pooled.tsv
+pooled_se	frozen-ruv		0.0200000826052914	evidence/pooled.tsv
+ci_lo	frozen-ruv		-0.164903246194482	evidence/pooled.tsv
+ci_hi	frozen-ruv		-0.0832120105374096	evidence/pooled.tsv
+pi_lo	frozen-ruv		-0.249621969184645	evidence/pooled.tsv
+pi_hi	frozen-ruv		0.0015067124527537	evidence/pooled.tsv
+p_lift_gt_zero	frozen-ruv		0.999999604026132	evidence/pooled.tsv
+p_lift_gt_margin_0_05	frozen-ruv		0.999999999476136	evidence/pooled.tsv
+tau2	frozen-ruv		0.0033801140416206	evidence/pooled.tsv
+I2	frozen-ruv		51.9048700097016	evidence/pooled.tsv
+Q	frozen-ruv		54.7747679665194	evidence/pooled.tsv
+Q_p	frozen-ruv		0.0037641145268204	evidence/pooled.tsv
+df_knha	frozen-ruv		30.0	evidence/pooled.tsv
+reml_attempts	frozen-ruv		2	evidence/pooled.tsv
+tau2_profile	frozen-ruv		0.00338011363437	evidence/pooled.tsv
+tau2_profile_abs_difference	frozen-ruv		4.07250670252796e-10	evidence/pooled.tsv
+profile_loglik_gap	frozen-ruv		1.4210854715202e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	frozen-ruv		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	frozen-ruv		1.0	evidence/pooled.tsv
+relevance_margin	frozen-ruv		0.05	evidence/pooled.tsv
+k	gsp-gft		30	evidence/pooled.tsv
+pooled_lift	gsp-gft		-0.0225422072070122	evidence/pooled.tsv
+pooled_se	gsp-gft		0.0082898736963364	evidence/pooled.tsv
+ci_lo	gsp-gft		-0.0394969026202957	evidence/pooled.tsv
+ci_hi	gsp-gft		-0.0055875117937286	evidence/pooled.tsv
+pi_lo	gsp-gft		-0.0674028772970178	evidence/pooled.tsv
+pi_hi	gsp-gft		0.0223184628829935	evidence/pooled.tsv
+p_lift_gt_zero	gsp-gft		0.994532828936172	evidence/pooled.tsv
+p_lift_gt_margin_0_05	gsp-gft		0.999999999378142	evidence/pooled.tsv
+tau2	gsp-gft		0.0004123912864566	evidence/pooled.tsv
+I2	gsp-gft		49.7768824914149	evidence/pooled.tsv
+Q	gsp-gft		62.7137199495609	evidence/pooled.tsv
+Q_p	gsp-gft		0.0002805631028785	evidence/pooled.tsv
+df_knha	gsp-gft		29.0	evidence/pooled.tsv
+reml_attempts	gsp-gft		2	evidence/pooled.tsv
+tau2_profile	gsp-gft		0.0004123914385771	evidence/pooled.tsv
+tau2_profile_abs_difference	gsp-gft		1.52120424926332e-10	evidence/pooled.tsv
+profile_loglik_gap	gsp-gft		6.3948846218409e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	gsp-gft		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	gsp-gft		1.0	evidence/pooled.tsv
+relevance_margin	gsp-gft		0.05	evidence/pooled.tsv
+k	hemolysis-resid		18	evidence/pooled.tsv
+pooled_lift	hemolysis-resid		-0.0176005924661907	evidence/pooled.tsv
+pooled_se	hemolysis-resid		0.0085401744926169	evidence/pooled.tsv
+ci_lo	hemolysis-resid		-0.0356187856481288	evidence/pooled.tsv
+ci_hi	hemolysis-resid		0.0004176007157473	evidence/pooled.tsv
+pi_lo	hemolysis-resid		-0.056483804482609	evidence/pooled.tsv
+pi_hi	hemolysis-resid		0.0212826195502276	evidence/pooled.tsv
+p_lift_gt_zero	hemolysis-resid		0.97252473699462	evidence/pooled.tsv
+p_lift_gt_margin_0_05	hemolysis-resid		0.999999789214766	evidence/pooled.tsv
+tau2	hemolysis-resid		0.0002667182809643	evidence/pooled.tsv
+I2	hemolysis-resid		28.8252983166787	evidence/pooled.tsv
+Q	hemolysis-resid		22.7352504943092	evidence/pooled.tsv
+Q_p	hemolysis-resid		0.158069735822313	evidence/pooled.tsv
+df_knha	hemolysis-resid		17.0	evidence/pooled.tsv
+reml_attempts	hemolysis-resid		2	evidence/pooled.tsv
+tau2_profile	hemolysis-resid		0.0002667186411464	evidence/pooled.tsv
+tau2_profile_abs_difference	hemolysis-resid		3.60182077360164e-10	evidence/pooled.tsv
+profile_loglik_gap	hemolysis-resid		2.55795384873636e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	hemolysis-resid		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	hemolysis-resid		1.0	evidence/pooled.tsv
+relevance_margin	hemolysis-resid		0.05	evidence/pooled.tsv
+k	ig-fisherrao		30	evidence/pooled.tsv
+pooled_lift	ig-fisherrao		-0.0399634543113253	evidence/pooled.tsv
+pooled_se	ig-fisherrao		0.0126388813973022	evidence/pooled.tsv
+ci_lo	ig-fisherrao		-0.0658128691884873	evidence/pooled.tsv
+ci_hi	ig-fisherrao		-0.0141140394341633	evidence/pooled.tsv
+pi_lo	ig-fisherrao		-0.140479938312237	evidence/pooled.tsv
+pi_hi	ig-fisherrao		0.0605530296895865	evidence/pooled.tsv
+p_lift_gt_zero	ig-fisherrao		0.998171757454966	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ig-fisherrao		0.999999960837202	evidence/pooled.tsv
+tau2	ig-fisherrao		0.0022556662343723	evidence/pooled.tsv
+I2	ig-fisherrao		80.1847960600462	evidence/pooled.tsv
+Q	ig-fisherrao		89.3160027437255	evidence/pooled.tsv
+Q_p	ig-fisherrao		4.63719629438997e-08	evidence/pooled.tsv
+df_knha	ig-fisherrao		29.0	evidence/pooled.tsv
+reml_attempts	ig-fisherrao		1	evidence/pooled.tsv
+tau2_profile	ig-fisherrao		0.0022569100516235	evidence/pooled.tsv
+tau2_profile_abs_difference	ig-fisherrao		1.24381725126075e-06	evidence/pooled.tsv
+profile_loglik_gap	ig-fisherrao		5.34582468958433e-07	evidence/pooled.tsv
+p_lift_gt_zero_BY	ig-fisherrao		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ig-fisherrao		1.0	evidence/pooled.tsv
+relevance_margin	ig-fisherrao		0.05	evidence/pooled.tsv
+k	img-gasfcnn		31	evidence/pooled.tsv
+pooled_lift	img-gasfcnn		-0.1351356965348	evidence/pooled.tsv
+pooled_se	img-gasfcnn		0.0230257463922545	evidence/pooled.tsv
+ci_lo	img-gasfcnn		-0.182160544177479	evidence/pooled.tsv
+ci_hi	img-gasfcnn		-0.0881108488921207	evidence/pooled.tsv
+pi_lo	img-gasfcnn		-0.351939471972342	evidence/pooled.tsv
+pi_hi	img-gasfcnn		0.0816680789027423	evidence/pooled.tsv
+p_lift_gt_zero	img-gasfcnn		0.999998993752845	evidence/pooled.tsv
+p_lift_gt_margin_0_05	img-gasfcnn		0.999999997177843	evidence/pooled.tsv
+tau2	img-gasfcnn		0.0107393584248308	evidence/pooled.tsv
+I2	img-gasfcnn		85.4832974065847	evidence/pooled.tsv
+Q	img-gasfcnn		156.467458073112	evidence/pooled.tsv
+Q_p	img-gasfcnn		4.72980761625219e-19	evidence/pooled.tsv
+df_knha	img-gasfcnn		30.0	evidence/pooled.tsv
+reml_attempts	img-gasfcnn		1	evidence/pooled.tsv
+tau2_profile	img-gasfcnn		0.0107393334344415	evidence/pooled.tsv
+tau2_profile_abs_difference	img-gasfcnn		2.49903893256159e-08	evidence/pooled.tsv
+profile_loglik_gap	img-gasfcnn		1.85451654033386e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	img-gasfcnn		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	img-gasfcnn		1.0	evidence/pooled.tsv
+relevance_margin	img-gasfcnn		0.05	evidence/pooled.tsv
+k	inv-css		30	evidence/pooled.tsv
+pooled_lift	inv-css		-0.15110827005464	evidence/pooled.tsv
+pooled_se	inv-css		0.0249591763519162	evidence/pooled.tsv
+ci_lo	inv-css		-0.202155517372797	evidence/pooled.tsv
+ci_hi	inv-css		-0.100061022736483	evidence/pooled.tsv
+pi_lo	inv-css		-0.370092736038702	evidence/pooled.tsv
+pi_hi	inv-css		0.067876195929422	evidence/pooled.tsv
+p_lift_gt_zero	inv-css		0.999999313603371	evidence/pooled.tsv
+p_lift_gt_margin_0_05	inv-css		0.999999996535317	evidence/pooled.tsv
+tau2	inv-css		0.0108412053629493	evidence/pooled.tsv
+I2	inv-css		89.745111984115	evidence/pooled.tsv
+Q	inv-css		164.426640702055	evidence/pooled.tsv
+Q_p	inv-css		7.24707449970937e-21	evidence/pooled.tsv
+df_knha	inv-css		29.0	evidence/pooled.tsv
+reml_attempts	inv-css		1	evidence/pooled.tsv
+tau2_profile	inv-css		0.010840451772326	evidence/pooled.tsv
+tau2_profile_abs_difference	inv-css		7.53590623268213e-07	evidence/pooled.tsv
+profile_loglik_gap	inv-css		1.27798074345264e-08	evidence/pooled.tsv
+p_lift_gt_zero_BY	inv-css		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	inv-css		1.0	evidence/pooled.tsv
+relevance_margin	inv-css		0.05	evidence/pooled.tsv
+k	inv-fdaqf		30	evidence/pooled.tsv
+pooled_lift	inv-fdaqf		-0.105466884383063	evidence/pooled.tsv
+pooled_se	inv-fdaqf		0.0169438926636904	evidence/pooled.tsv
+ci_lo	inv-fdaqf		-0.140121035911957	evidence/pooled.tsv
+ci_hi	inv-fdaqf		-0.070812732854168	evidence/pooled.tsv
+pi_lo	inv-fdaqf		-0.24829676958233	evidence/pooled.tsv
+pi_hi	inv-fdaqf		0.0373630008162047	evidence/pooled.tsv
+p_lift_gt_zero	inv-fdaqf		0.999999568997046	evidence/pooled.tsv
+p_lift_gt_margin_0_05	inv-fdaqf		0.99999999977602	evidence/pooled.tsv
+tau2	inv-fdaqf		0.004589918670372	evidence/pooled.tsv
+I2	inv-fdaqf		83.2863222712932	evidence/pooled.tsv
+Q	inv-fdaqf		98.3919033199758	evidence/pooled.tsv
+Q_p	inv-fdaqf		1.7664161265421401e-09	evidence/pooled.tsv
+df_knha	inv-fdaqf		29.0	evidence/pooled.tsv
+reml_attempts	inv-fdaqf		1	evidence/pooled.tsv
+tau2_profile	inv-fdaqf		0.0045899180774743	evidence/pooled.tsv
+tau2_profile_abs_difference	inv-fdaqf		5.928977586666661e-10	evidence/pooled.tsv
+profile_loglik_gap	inv-fdaqf		5.6843418860808e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	inv-fdaqf		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	inv-fdaqf		1.0	evidence/pooled.tsv
+relevance_margin	inv-fdaqf		0.05	evidence/pooled.tsv
+k	inv-glcm		30	evidence/pooled.tsv
+pooled_lift	inv-glcm		-0.124297155055741	evidence/pooled.tsv
+pooled_se	inv-glcm		0.0227024940817029	evidence/pooled.tsv
+ci_lo	inv-glcm		-0.170728968901982	evidence/pooled.tsv
+ci_hi	inv-glcm		-0.0778653412094995	evidence/pooled.tsv
+pi_lo	inv-glcm		-0.327288011237476	evidence/pooled.tsv
+pi_hi	inv-glcm		0.0786937011259954	evidence/pooled.tsv
+p_lift_gt_zero	inv-glcm		0.999996609989363	evidence/pooled.tsv
+p_lift_gt_margin_0_05	inv-glcm		0.999999990879097	evidence/pooled.tsv
+tau2	inv-glcm		0.0093353353406547	evidence/pooled.tsv
+I2	inv-glcm		91.5146196838182	evidence/pooled.tsv
+Q	inv-glcm		194.04481105534	evidence/pooled.tsv
+Q_p	inv-glcm		2.43927847330566e-26	evidence/pooled.tsv
+df_knha	inv-glcm		29.0	evidence/pooled.tsv
+reml_attempts	inv-glcm		1	evidence/pooled.tsv
+tau2_profile	inv-glcm		0.0093358611963079	evidence/pooled.tsv
+tau2_profile_abs_difference	inv-glcm		5.25855653226576e-07	evidence/pooled.tsv
+profile_loglik_gap	inv-glcm		8.726154021587721e-09	evidence/pooled.tsv
+p_lift_gt_zero_BY	inv-glcm		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	inv-glcm		1.0	evidence/pooled.tsv
+relevance_margin	inv-glcm		0.05	evidence/pooled.tsv
+k	inv-olbp		30	evidence/pooled.tsv
+pooled_lift	inv-olbp		-0.142258865105026	evidence/pooled.tsv
+pooled_se	inv-olbp		0.0213205594479104	evidence/pooled.tsv
+ci_lo	inv-olbp		-0.185864305274745	evidence/pooled.tsv
+ci_hi	inv-olbp		-0.0986534249353076	evidence/pooled.tsv
+pi_lo	inv-olbp		-0.33614665693793	evidence/pooled.tsv
+pi_hi	inv-olbp		0.0516289267278769	evidence/pooled.tsv
+p_lift_gt_zero	inv-olbp		0.999999871763837	evidence/pooled.tsv
+p_lift_gt_margin_0_05	inv-olbp		0.999999999673527	evidence/pooled.tsv
+tau2	inv-olbp		0.0085324757619385	evidence/pooled.tsv
+I2	inv-olbp		85.9242604443946	evidence/pooled.tsv
+Q	inv-olbp		174.418042500063	evidence/pooled.tsv
+Q_p	inv-olbp		1.07574826882767e-22	evidence/pooled.tsv
+df_knha	inv-olbp		29.0	evidence/pooled.tsv
+reml_attempts	inv-olbp		1	evidence/pooled.tsv
+tau2_profile	inv-olbp		0.0085324771261169	evidence/pooled.tsv
+tau2_profile_abs_difference	inv-olbp		1.36417835534808e-09	evidence/pooled.tsv
+profile_loglik_gap	inv-olbp		4.9737991503207e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	inv-olbp		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	inv-olbp		1.0	evidence/pooled.tsv
+relevance_margin	inv-olbp		0.05	evidence/pooled.tsv
+k	inv-scatter		30	evidence/pooled.tsv
+pooled_lift	inv-scatter		-0.0067173210542927	evidence/pooled.tsv
+pooled_se	inv-scatter		0.0086545557498179	evidence/pooled.tsv
+ci_lo	inv-scatter		-0.0244178750133103	evidence/pooled.tsv
+ci_hi	inv-scatter		0.0109832329047249	evidence/pooled.tsv
+pi_lo	inv-scatter		-0.0693269002094793	evidence/pooled.tsv
+pi_hi	inv-scatter		0.0558922581008939	evidence/pooled.tsv
+p_lift_gt_zero	inv-scatter		0.778030552011155	evidence/pooled.tsv
+p_lift_gt_margin_0_05	inv-scatter		0.999999823399096	evidence/pooled.tsv
+tau2	inv-scatter		0.0008622234239406	evidence/pooled.tsv
+I2	inv-scatter		66.3997421271896	evidence/pooled.tsv
+Q	inv-scatter		85.5138879598922	evidence/pooled.tsv
+Q_p	inv-scatter		1.75620493839661e-07	evidence/pooled.tsv
+df_knha	inv-scatter		29.0	evidence/pooled.tsv
+reml_attempts	inv-scatter		2	evidence/pooled.tsv
+tau2_profile	inv-scatter		0.0008622234623797	evidence/pooled.tsv
+tau2_profile_abs_difference	inv-scatter		3.8439075707164e-11	evidence/pooled.tsv
+profile_loglik_gap	inv-scatter		1.4210854715202e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	inv-scatter		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	inv-scatter		1.0	evidence/pooled.tsv
+relevance_margin	inv-scatter		0.05	evidence/pooled.tsv
+k	kme-witness		30	evidence/pooled.tsv
+pooled_lift	kme-witness		-0.0046443389279296	evidence/pooled.tsv
+pooled_se	kme-witness		0.0088137394584763	evidence/pooled.tsv
+ci_lo	kme-witness		-0.0226704601264402	evidence/pooled.tsv
+ci_hi	kme-witness		0.0133817822705808	evidence/pooled.tsv
+pi_lo	kme-witness		-0.0523434642953209	evidence/pooled.tsv
+pi_hi	kme-witness		0.0430547864394616	evidence/pooled.tsv
+p_lift_gt_zero	kme-witness		0.698879455965605	evidence/pooled.tsv
+p_lift_gt_margin_0_05	kme-witness		0.999999539120578	evidence/pooled.tsv
+tau2	kme-witness		0.0004662400586235	evidence/pooled.tsv
+I2	kme-witness		68.9409297148892	evidence/pooled.tsv
+Q	kme-witness		78.8749701102727	evidence/pooled.tsv
+Q_p	kme-witness		1.69048971727747e-06	evidence/pooled.tsv
+df_knha	kme-witness		29.0	evidence/pooled.tsv
+reml_attempts	kme-witness		2	evidence/pooled.tsv
+tau2_profile	kme-witness		0.0004662387856203	evidence/pooled.tsv
+tau2_profile_abs_difference	kme-witness		1.27300317579989e-09	evidence/pooled.tsv
+profile_loglik_gap	kme-witness		1.46371803566581e-12	evidence/pooled.tsv
+p_lift_gt_zero_BY	kme-witness		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	kme-witness		1.0	evidence/pooled.tsv
+relevance_margin	kme-witness		0.05	evidence/pooled.tsv
+k	lrt-bw		30	evidence/pooled.tsv
+pooled_lift	lrt-bw		0.0024606623096672	evidence/pooled.tsv
+pooled_se	lrt-bw		0.0063279130096162	evidence/pooled.tsv
+ci_lo	lrt-bw		-0.010481372950437	evidence/pooled.tsv
+ci_hi	lrt-bw		0.0154026975697716	evidence/pooled.tsv
+pi_lo	lrt-bw		-0.0330955747136148	evidence/pooled.tsv
+pi_hi	lrt-bw		0.0380168993329494	evidence/pooled.tsv
+p_lift_gt_zero	lrt-bw		0.350110706103936	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-bw		0.999999986043862	evidence/pooled.tsv
+tau2	lrt-bw		0.0002621943767129	evidence/pooled.tsv
+I2	lrt-bw		51.6074065750882	evidence/pooled.tsv
+Q	lrt-bw		47.9479323662036	evidence/pooled.tsv
+Q_p	lrt-bw		0.0148816457960782	evidence/pooled.tsv
+df_knha	lrt-bw		29.0	evidence/pooled.tsv
+reml_attempts	lrt-bw		2	evidence/pooled.tsv
+tau2_profile	lrt-bw		0.0002621949080124	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-bw		5.31299508999428e-10	evidence/pooled.tsv
+profile_loglik_gap	lrt-bw		1.12265752250096e-12	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-bw		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-bw		1.0	evidence/pooled.tsv
+relevance_margin	lrt-bw		0.05	evidence/pooled.tsv
+k	lrt-copula		30	evidence/pooled.tsv
+pooled_lift	lrt-copula		-0.0568157819788466	evidence/pooled.tsv
+pooled_se	lrt-copula		0.0141670804170516	evidence/pooled.tsv
+ci_lo	lrt-copula		-0.0857907147902783	evidence/pooled.tsv
+ci_hi	lrt-copula		-0.0278408491674148	evidence/pooled.tsv
+pi_lo	lrt-copula		-0.191653183157718	evidence/pooled.tsv
+pi_hi	lrt-copula		0.0780216192000251	evidence/pooled.tsv
+p_lift_gt_zero	lrt-copula		0.999805544109153	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-copula		0.99999998698883	evidence/pooled.tsv
+tau2	lrt-copula		0.0041457628674016	evidence/pooled.tsv
+I2	lrt-copula		84.3392006211841	evidence/pooled.tsv
+Q	lrt-copula		165.419848869865	evidence/pooled.tsv
+Q_p	lrt-copula		4.7786309980226204e-21	evidence/pooled.tsv
+df_knha	lrt-copula		29.0	evidence/pooled.tsv
+reml_attempts	lrt-copula		1	evidence/pooled.tsv
+tau2_profile	lrt-copula		0.0041444865220564	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-copula		1.27634534523562e-06	evidence/pooled.tsv
+profile_loglik_gap	lrt-copula		3.2133960559122e-07	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-copula		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-copula		1.0	evidence/pooled.tsv
+relevance_margin	lrt-copula		0.05	evidence/pooled.tsv
+k	lrt-deepmaha		30	evidence/pooled.tsv
+pooled_lift	lrt-deepmaha		-0.0111127263802419	evidence/pooled.tsv
+pooled_se	lrt-deepmaha		0.0137220432110795	evidence/pooled.tsv
+ci_lo	lrt-deepmaha		-0.0391774559061676	evidence/pooled.tsv
+ci_hi	lrt-deepmaha		0.0169520031456838	evidence/pooled.tsv
+pi_lo	lrt-deepmaha		-0.102970138029262	evidence/pooled.tsv
+pi_hi	lrt-deepmaha		0.0807446852687782	evidence/pooled.tsv
+p_lift_gt_zero	lrt-deepmaha		0.787687524011155	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-deepmaha		0.999942293757516	evidence/pooled.tsv
+tau2	lrt-deepmaha		0.0018288836582959	evidence/pooled.tsv
+I2	lrt-deepmaha		77.6472943688721	evidence/pooled.tsv
+Q	lrt-deepmaha		108.41989357789	evidence/pooled.tsv
+Q_p	lrt-deepmaha		4.212888678902009e-11	evidence/pooled.tsv
+df_knha	lrt-deepmaha		29.0	evidence/pooled.tsv
+reml_attempts	lrt-deepmaha		2	evidence/pooled.tsv
+tau2_profile	lrt-deepmaha		0.0018288831911069	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-deepmaha		4.67188986715689e-10	evidence/pooled.tsv
+profile_loglik_gap	lrt-deepmaha		3.5527136788004997e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-deepmaha		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-deepmaha		1.0	evidence/pooled.tsv
+relevance_margin	lrt-deepmaha		0.05	evidence/pooled.tsv
+k	lrt-nbkde		30	evidence/pooled.tsv
+pooled_lift	lrt-nbkde		-0.0793361540559908	evidence/pooled.tsv
+pooled_se	lrt-nbkde		0.0177833178855329	evidence/pooled.tsv
+ci_lo	lrt-nbkde		-0.115707122930951	evidence/pooled.tsv
+ci_hi	lrt-nbkde		-0.0429651851810303	evidence/pooled.tsv
+pi_lo	lrt-nbkde		-0.23445355753953	evidence/pooled.tsv
+pi_hi	lrt-nbkde		0.0757812494275482	evidence/pooled.tsv
+p_lift_gt_zero	lrt-nbkde		0.999943499916966	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-nbkde		0.999999973935854	evidence/pooled.tsv
+tau2	lrt-nbkde		0.0054359922569864	evidence/pooled.tsv
+I2	lrt-nbkde		86.379945495464	evidence/pooled.tsv
+Q	lrt-nbkde		125.129032919048	evidence/pooled.tsv
+Q_p	lrt-nbkde		6.58848044375768e-14	evidence/pooled.tsv
+df_knha	lrt-nbkde		29.0	evidence/pooled.tsv
+reml_attempts	lrt-nbkde		1	evidence/pooled.tsv
+tau2_profile	lrt-nbkde		0.0054369234971921	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-nbkde		9.31240205706042e-07	evidence/pooled.tsv
+profile_loglik_gap	lrt-nbkde		7.55431486254565e-08	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-nbkde		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-nbkde		1.0	evidence/pooled.tsv
+relevance_margin	lrt-nbkde		0.05	evidence/pooled.tsv
+k	lrt-tcopula		31	evidence/pooled.tsv
+pooled_lift	lrt-tcopula		-0.263264240935412	evidence/pooled.tsv
+pooled_se	lrt-tcopula		0.0524801526803098	evidence/pooled.tsv
+ci_lo	lrt-tcopula		-0.370443011256892	evidence/pooled.tsv
+ci_hi	lrt-tcopula		-0.156085470613931	evidence/pooled.tsv
+pi_lo	lrt-tcopula		-0.851504797004032	evidence/pooled.tsv
+pi_hi	lrt-tcopula		0.324976315133209	evidence/pooled.tsv
+p_lift_gt_zero	lrt-tcopula		0.999988880436529	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-tcopula		0.999999240148387	evidence/pooled.tsv
+tau2	lrt-tcopula		0.0802084741841157	evidence/pooled.tsv
+I2	lrt-tcopula		96.3593392361479	evidence/pooled.tsv
+Q	lrt-tcopula		1325.91100945532	evidence/pooled.tsv
+Q_p	lrt-tcopula		4.4844646056393e-260	evidence/pooled.tsv
+df_knha	lrt-tcopula		30.0	evidence/pooled.tsv
+reml_attempts	lrt-tcopula		1	evidence/pooled.tsv
+tau2_profile	lrt-tcopula		0.0802087230089932	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-tcopula		2.48824877507881e-07	evidence/pooled.tsv
+profile_loglik_gap	lrt-tcopula		6.306066779870889e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-tcopula		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-tcopula		1.0	evidence/pooled.tsv
+relevance_margin	lrt-tcopula		0.05	evidence/pooled.tsv
+k	lrt-vinecopula		31	evidence/pooled.tsv
+pooled_lift	lrt-vinecopula		-0.149203038058818	evidence/pooled.tsv
+pooled_se	lrt-vinecopula		0.0211124460471678	evidence/pooled.tsv
+ci_lo	lrt-vinecopula		-0.192320405106095	evidence/pooled.tsv
+ci_hi	lrt-vinecopula		-0.106085671011541	evidence/pooled.tsv
+pi_lo	lrt-vinecopula		-0.334048688426708	evidence/pooled.tsv
+pi_hi	lrt-vinecopula		0.0356426123090725	evidence/pooled.tsv
+p_lift_gt_zero	lrt-vinecopula		0.999999963005348	evidence/pooled.tsv
+p_lift_gt_margin_0_05	lrt-vinecopula		0.999999999912995	evidence/pooled.tsv
+tau2	lrt-vinecopula		0.0077462866390812	evidence/pooled.tsv
+I2	lrt-vinecopula		61.6425844838823	evidence/pooled.tsv
+Q	lrt-vinecopula		68.341881956862	evidence/pooled.tsv
+Q_p	lrt-vinecopula		8.06606649254172e-05	evidence/pooled.tsv
+df_knha	lrt-vinecopula		30.0	evidence/pooled.tsv
+reml_attempts	lrt-vinecopula		1	evidence/pooled.tsv
+tau2_profile	lrt-vinecopula		0.0077463012103863	evidence/pooled.tsv
+tau2_profile_abs_difference	lrt-vinecopula		1.45713050896112e-08	evidence/pooled.tsv
+profile_loglik_gap	lrt-vinecopula		7.57438556320267e-12	evidence/pooled.tsv
+p_lift_gt_zero_BY	lrt-vinecopula		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	lrt-vinecopula		1.0	evidence/pooled.tsv
+relevance_margin	lrt-vinecopula		0.05	evidence/pooled.tsv
+k	man-nystrom		30	evidence/pooled.tsv
+pooled_lift	man-nystrom		0.0037444712465196	evidence/pooled.tsv
+pooled_se	man-nystrom		0.0050600223326278	evidence/pooled.tsv
+ci_lo	man-nystrom		-0.0066044364180242	evidence/pooled.tsv
+ci_hi	man-nystrom		0.0140933789110635	evidence/pooled.tsv
+pi_lo	man-nystrom		-0.0242893535062542	evidence/pooled.tsv
+pi_hi	man-nystrom		0.0317782959992934	evidence/pooled.tsv
+p_lift_gt_zero	man-nystrom		0.232621271868512	evidence/pooled.tsv
+p_lift_gt_margin_0_05	man-nystrom		0.999999999757138	evidence/pooled.tsv
+tau2	man-nystrom		0.0001622761739074	evidence/pooled.tsv
+I2	man-nystrom		39.1373910750779	evidence/pooled.tsv
+Q	man-nystrom		61.6702796919442	evidence/pooled.tsv
+Q_p	man-nystrom		0.0003810633174222	evidence/pooled.tsv
+df_knha	man-nystrom		29.0	evidence/pooled.tsv
+reml_attempts	man-nystrom		2	evidence/pooled.tsv
+tau2_profile	man-nystrom		0.0001622761486799	evidence/pooled.tsv
+tau2_profile_abs_difference	man-nystrom		2.5227505062166598e-11	evidence/pooled.tsv
+profile_loglik_gap	man-nystrom		2.8421709430404e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	man-nystrom		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	man-nystrom		1.0	evidence/pooled.tsv
+relevance_margin	man-nystrom		0.05	evidence/pooled.tsv
+k	nc-conformal-anom		31	evidence/pooled.tsv
+pooled_lift	nc-conformal-anom		-0.175069917743585	evidence/pooled.tsv
+pooled_se	nc-conformal-anom		0.0255339994886225	evidence/pooled.tsv
+ci_lo	nc-conformal-anom		-0.227217301598409	evidence/pooled.tsv
+ci_hi	nc-conformal-anom		-0.122922533888762	evidence/pooled.tsv
+pi_lo	nc-conformal-anom		-0.4312240988064	evidence/pooled.tsv
+pi_hi	nc-conformal-anom		0.0810842633192294	evidence/pooled.tsv
+p_lift_gt_zero	nc-conformal-anom		0.999999934494716	evidence/pooled.tsv
+p_lift_gt_margin_0_05	nc-conformal-anom		0.999999999603382	evidence/pooled.tsv
+tau2	nc-conformal-anom		0.0150797105893161	evidence/pooled.tsv
+I2	nc-conformal-anom		87.4601681320108	evidence/pooled.tsv
+Q	nc-conformal-anom		280.485198395214	evidence/pooled.tsv
+Q_p	nc-conformal-anom		1.7973110016275797e-42	evidence/pooled.tsv
+df_knha	nc-conformal-anom		30.0	evidence/pooled.tsv
+reml_attempts	nc-conformal-anom		1	evidence/pooled.tsv
+tau2_profile	nc-conformal-anom		0.015079115693936	evidence/pooled.tsv
+tau2_profile_abs_difference	nc-conformal-anom		5.94895380165439e-07	evidence/pooled.tsv
+profile_loglik_gap	nc-conformal-anom		6.5036473984037e-09	evidence/pooled.tsv
+p_lift_gt_zero_BY	nc-conformal-anom		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	nc-conformal-anom		1.0	evidence/pooled.tsv
+relevance_margin	nc-conformal-anom		0.05	evidence/pooled.tsv
+k	nc-ecod-copod		30	evidence/pooled.tsv
+pooled_lift	nc-ecod-copod		-0.131191534531042	evidence/pooled.tsv
+pooled_se	nc-ecod-copod		0.0243041914366004	evidence/pooled.tsv
+ci_lo	nc-ecod-copod		-0.180899187285245	evidence/pooled.tsv
+ci_hi	nc-ecod-copod		-0.081483881776839	evidence/pooled.tsv
+pi_lo	nc-ecod-copod		-0.352516073698146	evidence/pooled.tsv
+pi_hi	nc-ecod-copod		0.0901330046360621	evidence/pooled.tsv
+p_lift_gt_zero	nc-ecod-copod		0.999995801256069	evidence/pooled.tsv
+p_lift_gt_margin_0_05	nc-ecod-copod		0.999999983799144	evidence/pooled.tsv
+tau2	nc-ecod-copod		0.0111197939262519	evidence/pooled.tsv
+I2	nc-ecod-copod		88.5853821921404	evidence/pooled.tsv
+Q	nc-ecod-copod		837.972267661205	evidence/pooled.tsv
+Q_p	nc-ecod-copod		1.22194033851644e-157	evidence/pooled.tsv
+df_knha	nc-ecod-copod		29.0	evidence/pooled.tsv
+reml_attempts	nc-ecod-copod		1	evidence/pooled.tsv
+tau2_profile	nc-ecod-copod		0.0111196612526971	evidence/pooled.tsv
+tau2_profile_abs_difference	nc-ecod-copod		1.32673554751814e-07	evidence/pooled.tsv
+profile_loglik_gap	nc-ecod-copod		5.02581087857834e-10	evidence/pooled.tsv
+p_lift_gt_zero_BY	nc-ecod-copod		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	nc-ecod-copod		1.0	evidence/pooled.tsv
+relevance_margin	nc-ecod-copod		0.05	evidence/pooled.tsv
+k	nc-isoforest		31	evidence/pooled.tsv
+pooled_lift	nc-isoforest		-0.206569599846477	evidence/pooled.tsv
+pooled_se	nc-isoforest		0.0291414226599663	evidence/pooled.tsv
+ci_lo	nc-isoforest		-0.266084324682359	evidence/pooled.tsv
+ci_hi	nc-isoforest		-0.147054875010595	evidence/pooled.tsv
+pi_lo	nc-isoforest		-0.480993511992766	evidence/pooled.tsv
+pi_hi	nc-isoforest		0.0678543122998119	evidence/pooled.tsv
+p_lift_gt_zero	nc-isoforest		0.999999965086895	evidence/pooled.tsv
+p_lift_gt_margin_0_05	nc-isoforest		0.999999999593174	evidence/pooled.tsv
+tau2	nc-isoforest		0.0172065694508861	evidence/pooled.tsv
+I2	nc-isoforest		86.695241297228	evidence/pooled.tsv
+Q	nc-isoforest		146.141718961404	evidence/pooled.tsv
+Q_p	nc-isoforest		3.22433046979061e-17	evidence/pooled.tsv
+df_knha	nc-isoforest		30.0	evidence/pooled.tsv
+reml_attempts	nc-isoforest		1	evidence/pooled.tsv
+tau2_profile	nc-isoforest		0.0172057068343983	evidence/pooled.tsv
+tau2_profile_abs_difference	nc-isoforest		8.62616487844192e-07	evidence/pooled.tsv
+profile_loglik_gap	nc-isoforest		8.40655900447018e-09	evidence/pooled.tsv
+p_lift_gt_zero_BY	nc-isoforest		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	nc-isoforest		1.0	evidence/pooled.tsv
+relevance_margin	nc-isoforest		0.05	evidence/pooled.tsv
+k	nc-mahalanobis		4	evidence/pooled.tsv
+pooled_lift	nc-mahalanobis			evidence/pooled.tsv
+pooled_se	nc-mahalanobis			evidence/pooled.tsv
+ci_lo	nc-mahalanobis			evidence/pooled.tsv
+ci_hi	nc-mahalanobis			evidence/pooled.tsv
+pi_lo	nc-mahalanobis			evidence/pooled.tsv
+pi_hi	nc-mahalanobis			evidence/pooled.tsv
+p_lift_gt_zero	nc-mahalanobis			evidence/pooled.tsv
+p_lift_gt_margin_0_05	nc-mahalanobis			evidence/pooled.tsv
+tau2	nc-mahalanobis			evidence/pooled.tsv
+I2	nc-mahalanobis			evidence/pooled.tsv
+Q	nc-mahalanobis			evidence/pooled.tsv
+Q_p	nc-mahalanobis			evidence/pooled.tsv
+df_knha	nc-mahalanobis			evidence/pooled.tsv
+reml_attempts	nc-mahalanobis		0	evidence/pooled.tsv
+tau2_profile	nc-mahalanobis			evidence/pooled.tsv
+tau2_profile_abs_difference	nc-mahalanobis			evidence/pooled.tsv
+profile_loglik_gap	nc-mahalanobis			evidence/pooled.tsv
+p_lift_gt_zero_BY	nc-mahalanobis			evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	nc-mahalanobis			evidence/pooled.tsv
+relevance_margin	nc-mahalanobis		0.05	evidence/pooled.tsv
+k	nc-sinkhorn-single		30	evidence/pooled.tsv
+pooled_lift	nc-sinkhorn-single		0.0018250743750144	evidence/pooled.tsv
+pooled_se	nc-sinkhorn-single		0.0067176751332246	evidence/pooled.tsv
+ci_lo	nc-sinkhorn-single		-0.0119141139336744	evidence/pooled.tsv
+ci_hi	nc-sinkhorn-single		0.0155642626837032	evidence/pooled.tsv
+pi_lo	nc-sinkhorn-single		-0.0413132491545515	evidence/pooled.tsv
+pi_hi	nc-sinkhorn-single		0.0449633979045803	evidence/pooled.tsv
+p_lift_gt_zero	nc-sinkhorn-single		0.39389549934484	evidence/pooled.tsv
+p_lift_gt_margin_0_05	nc-sinkhorn-single		0.99999996597449	evidence/pooled.tsv
+tau2	nc-sinkhorn-single		0.0003997523158239	evidence/pooled.tsv
+I2	nc-sinkhorn-single		67.9977737129874	evidence/pooled.tsv
+Q	nc-sinkhorn-single		118.583263185134	evidence/pooled.tsv
+Q_p	nc-sinkhorn-single		8.540410816447839e-13	evidence/pooled.tsv
+df_knha	nc-sinkhorn-single		29.0	evidence/pooled.tsv
+reml_attempts	nc-sinkhorn-single		2	evidence/pooled.tsv
+tau2_profile	nc-sinkhorn-single		0.0003997521767865	evidence/pooled.tsv
+tau2_profile_abs_difference	nc-sinkhorn-single		1.39037346306298e-10	evidence/pooled.tsv
+profile_loglik_gap	nc-sinkhorn-single		1.4210854715201999e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	nc-sinkhorn-single		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	nc-sinkhorn-single		1.0	evidence/pooled.tsv
+relevance_margin	nc-sinkhorn-single		0.05	evidence/pooled.tsv
+k	ot-lot		30	evidence/pooled.tsv
+pooled_lift	ot-lot		-0.116654125786857	evidence/pooled.tsv
+pooled_se	ot-lot		0.0194053965394047	evidence/pooled.tsv
+ci_lo	ot-lot		-0.156342618006587	evidence/pooled.tsv
+ci_hi	ot-lot		-0.0769656335671269	evidence/pooled.tsv
+pi_lo	ot-lot		-0.282626507210693	evidence/pooled.tsv
+pi_hi	ot-lot		0.0493182556369796	evidence/pooled.tsv
+p_lift_gt_zero	ot-lot		0.999999228180964	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ot-lot		0.999999999074678	evidence/pooled.tsv
+tau2	ot-lot		0.0062089114766674	evidence/pooled.tsv
+I2	ot-lot		88.256130059706	evidence/pooled.tsv
+Q	ot-lot		101.583475756196	evidence/pooled.tsv
+Q_p	ot-lot		5.45034484209012e-10	evidence/pooled.tsv
+df_knha	ot-lot		29.0	evidence/pooled.tsv
+reml_attempts	ot-lot		1	evidence/pooled.tsv
+tau2_profile	ot-lot		0.0062098702094647	evidence/pooled.tsv
+tau2_profile_abs_difference	ot-lot		9.58732797346797e-07	evidence/pooled.tsv
+profile_loglik_gap	ot-lot		5.29861381437513e-08	evidence/pooled.tsv
+p_lift_gt_zero_BY	ot-lot		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ot-lot		1.0	evidence/pooled.tsv
+relevance_margin	ot-lot		0.05	evidence/pooled.tsv
+k	ot-slicedlrt		30	evidence/pooled.tsv
+pooled_lift	ot-slicedlrt		-0.0538492963085821	evidence/pooled.tsv
+pooled_se	ot-slicedlrt		0.0139899030211354	evidence/pooled.tsv
+ci_lo	ot-slicedlrt		-0.08246186065797	evidence/pooled.tsv
+ci_hi	ot-slicedlrt		-0.0252367319591942	evidence/pooled.tsv
+pi_lo	ot-slicedlrt		-0.160423295841021	evidence/pooled.tsv
+pi_hi	ot-slicedlrt		0.052724703223857	evidence/pooled.tsv
+p_lift_gt_zero	ot-slicedlrt		0.999699183928428	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ot-slicedlrt		0.999999982393849	evidence/pooled.tsv
+tau2	ot-slicedlrt		0.0025195860660969	evidence/pooled.tsv
+I2	ot-slicedlrt		85.6756230149149	evidence/pooled.tsv
+Q	ot-slicedlrt		107.92347084088	evidence/pooled.tsv
+Q_p	ot-slicedlrt		5.08269522415905e-11	evidence/pooled.tsv
+df_knha	ot-slicedlrt		29.0	evidence/pooled.tsv
+reml_attempts	ot-slicedlrt		2	evidence/pooled.tsv
+tau2_profile	ot-slicedlrt		0.002519585757409	evidence/pooled.tsv
+tau2_profile_abs_difference	ot-slicedlrt		3.0868788384805203e-10	evidence/pooled.tsv
+profile_loglik_gap	ot-slicedlrt		0.0	evidence/pooled.tsv
+p_lift_gt_zero_BY	ot-slicedlrt		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ot-slicedlrt		1.0	evidence/pooled.tsv
+relevance_margin	ot-slicedlrt		0.05	evidence/pooled.tsv
+k	proto-net		30	evidence/pooled.tsv
+pooled_lift	proto-net		0.0053462681036644	evidence/pooled.tsv
+pooled_se	proto-net		0.0068365052289019	evidence/pooled.tsv
+ci_lo	proto-net		-0.008635955039081	evidence/pooled.tsv
+ci_hi	proto-net		0.0193284912464099	evidence/pooled.tsv
+pi_lo	proto-net		-0.0371495820282431	evidence/pooled.tsv
+pi_hi	proto-net		0.0478421182355719	evidence/pooled.tsv
+p_lift_gt_zero	proto-net		0.220271426445208	evidence/pooled.tsv
+p_lift_gt_margin_0_05	proto-net		0.999999812698747	evidence/pooled.tsv
+tau2	proto-net		0.0003849888746677	evidence/pooled.tsv
+I2	proto-net		60.1473783176909	evidence/pooled.tsv
+Q	proto-net		86.8209986583527	evidence/pooled.tsv
+Q_p	proto-net		1.11410559285936e-07	evidence/pooled.tsv
+df_knha	proto-net		29.0	evidence/pooled.tsv
+reml_attempts	proto-net		2	evidence/pooled.tsv
+tau2_profile	proto-net		0.0003849890474076	evidence/pooled.tsv
+tau2_profile_abs_difference	proto-net		1.72739834101206e-10	evidence/pooled.tsv
+profile_loglik_gap	proto-net		1.70530256582424e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	proto-net		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	proto-net		1.0	evidence/pooled.tsv
+relevance_margin	proto-net		0.05	evidence/pooled.tsv
+k	reo-ktsp		26	evidence/pooled.tsv
+pooled_lift	reo-ktsp		0.0042328948805136	evidence/pooled.tsv
+pooled_se	reo-ktsp		0.0047263749341477	evidence/pooled.tsv
+ci_lo	reo-ktsp		-0.0055012565111304	evidence/pooled.tsv
+ci_hi	reo-ktsp		0.0139670462721577	evidence/pooled.tsv
+pi_lo	reo-ktsp		-0.0095835540908432	evidence/pooled.tsv
+pi_hi	reo-ktsp		0.0180493438518705	evidence/pooled.tsv
+p_lift_gt_zero	reo-ktsp		0.189507151825473	evidence/pooled.tsv
+p_lift_gt_margin_0_05	reo-ktsp		0.999999999694315	evidence/pooled.tsv
+tau2	reo-ktsp		2.26655775723599e-05	evidence/pooled.tsv
+I2	reo-ktsp		10.1340217221623	evidence/pooled.tsv
+Q	reo-ktsp		50.0714710977999	evidence/pooled.tsv
+Q_p	reo-ktsp		0.002088332627605	evidence/pooled.tsv
+df_knha	reo-ktsp		25.0	evidence/pooled.tsv
+reml_attempts	reo-ktsp		2	evidence/pooled.tsv
+tau2_profile	reo-ktsp		2.26655280397022e-05	evidence/pooled.tsv
+tau2_profile_abs_difference	reo-ktsp		4.9532657702978395e-11	evidence/pooled.tsv
+profile_loglik_gap	reo-ktsp		7.38964445190504e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	reo-ktsp		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	reo-ktsp		1.0	evidence/pooled.tsv
+relevance_margin	reo-ktsp		0.05	evidence/pooled.tsv
+k	reo-pairratio		14	evidence/pooled.tsv
+pooled_lift	reo-pairratio		0.0082005628031166	evidence/pooled.tsv
+pooled_se	reo-pairratio		0.0034507641046225	evidence/pooled.tsv
+ci_lo	reo-pairratio		0.000745640190643	evidence/pooled.tsv
+ci_hi	reo-pairratio		0.0156554854155901	evidence/pooled.tsv
+pi_lo	reo-pairratio		-0.0007691085549255	evidence/pooled.tsv
+pi_hi	reo-pairratio		0.0171702341611588	evidence/pooled.tsv
+p_lift_gt_zero	reo-pairratio		0.0167648450361579	evidence/pooled.tsv
+p_lift_gt_margin_0_05	reo-pairratio		0.999999990663881	evidence/pooled.tsv
+tau2	reo-pairratio		5.33064189607066e-06	evidence/pooled.tsv
+I2	reo-pairratio		1.90498187989535	evidence/pooled.tsv
+Q	reo-pairratio		16.5535003127206	evidence/pooled.tsv
+Q_p	reo-pairratio		0.220527292282425	evidence/pooled.tsv
+df_knha	reo-pairratio		13.0	evidence/pooled.tsv
+reml_attempts	reo-pairratio		2	evidence/pooled.tsv
+tau2_profile	reo-pairratio		5.33051399890476e-06	evidence/pooled.tsv
+tau2_profile_abs_difference	reo-pairratio		1.27897165902503e-10	evidence/pooled.tsv
+profile_loglik_gap	reo-pairratio		1.91846538655227e-12	evidence/pooled.tsv
+p_lift_gt_zero_BY	reo-pairratio		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	reo-pairratio		1.0	evidence/pooled.tsv
+relevance_margin	reo-pairratio		0.05	evidence/pooled.tsv
+k	reo-singscore		30	evidence/pooled.tsv
+pooled_lift	reo-singscore		-0.0067583338632049	evidence/pooled.tsv
+pooled_se	reo-singscore		0.0051717256795993	evidence/pooled.tsv
+ci_lo	reo-singscore		-0.0173357005241005	evidence/pooled.tsv
+ci_hi	reo-singscore		0.0038190327976905	evidence/pooled.tsv
+pi_lo	reo-singscore		-0.0336379820354076	evidence/pooled.tsv
+pi_hi	reo-singscore		0.0201213143089977	evidence/pooled.tsv
+p_lift_gt_zero	reo-singscore		0.899222927371105	evidence/pooled.tsv
+p_lift_gt_margin_0_05	reo-singscore		0.99999999999616	evidence/pooled.tsv
+tau2	reo-singscore		0.0001459813563265	evidence/pooled.tsv
+I2	reo-singscore		48.8856053026203	evidence/pooled.tsv
+Q	reo-singscore		73.3751588919536	evidence/pooled.tsv
+Q_p	reo-singscore		1.03275681653884e-05	evidence/pooled.tsv
+df_knha	reo-singscore		29.0	evidence/pooled.tsv
+reml_attempts	reo-singscore		2	evidence/pooled.tsv
+tau2_profile	reo-singscore		0.0001459812851369	evidence/pooled.tsv
+tau2_profile_abs_difference	reo-singscore		7.1189679232966e-11	evidence/pooled.tsv
+profile_loglik_gap	reo-singscore		1.13686837721616e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	reo-singscore		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	reo-singscore		1.0	evidence/pooled.tsv
+relevance_margin	reo-singscore		0.05	evidence/pooled.tsv
+k	reo-ucell		30	evidence/pooled.tsv
+pooled_lift	reo-ucell		-0.006158087972163	evidence/pooled.tsv
+pooled_se	reo-ucell		0.0054766517855444	evidence/pooled.tsv
+ci_lo	reo-ucell		-0.0173590985435975	evidence/pooled.tsv
+ci_hi	reo-ucell		0.0050429225992714	evidence/pooled.tsv
+pi_lo	reo-ucell		-0.0350760424767487	evidence/pooled.tsv
+pi_hi	reo-ucell		0.0227598665324226	evidence/pooled.tsv
+p_lift_gt_zero	reo-ucell		0.864973101039518	evidence/pooled.tsv
+p_lift_gt_margin_0_05	reo-ucell		0.999999999981381	evidence/pooled.tsv
+tau2	reo-ucell		0.0001699238639849	evidence/pooled.tsv
+I2	reo-ucell		50.1479574595155	evidence/pooled.tsv
+Q	reo-ucell		73.0557305940631	evidence/pooled.tsv
+Q_p	reo-ucell		1.14489534914575e-05	evidence/pooled.tsv
+df_knha	reo-ucell		29.0	evidence/pooled.tsv
+reml_attempts	reo-ucell		1	evidence/pooled.tsv
+tau2_profile	reo-ucell		0.000169804540428	evidence/pooled.tsv
+tau2_profile_abs_difference	reo-ucell		1.19323556950116e-07	evidence/pooled.tsv
+profile_loglik_gap	reo-ucell		3.49422464296367e-07	evidence/pooled.tsv
+p_lift_gt_zero_BY	reo-ucell		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	reo-ucell		1.0	evidence/pooled.tsv
+relevance_margin	reo-ucell		0.05	evidence/pooled.tsv
+k	robust-pca-resid		31	evidence/pooled.tsv
+pooled_lift	robust-pca-resid		-0.0691506787841421	evidence/pooled.tsv
+pooled_se	robust-pca-resid		0.0209636410427765	evidence/pooled.tsv
+ci_lo	robust-pca-resid		-0.111964145469591	evidence/pooled.tsv
+ci_hi	robust-pca-resid		-0.0263372120986935	evidence/pooled.tsv
+pi_lo	robust-pca-resid		-0.267016225437778	evidence/pooled.tsv
+pi_hi	robust-pca-resid		0.128714867869493	evidence/pooled.tsv
+p_lift_gt_zero	robust-pca-resid		0.998745782652692	evidence/pooled.tsv
+p_lift_gt_margin_0_05	robust-pca-resid		0.999998307343219	evidence/pooled.tsv
+tau2	robust-pca-resid		0.0089472270555353	evidence/pooled.tsv
+I2	robust-pca-resid		79.1301647159037	evidence/pooled.tsv
+Q	robust-pca-resid		311.228697670901	evidence/pooled.tsv
+Q_p	robust-pca-resid		1.60870902366545e-48	evidence/pooled.tsv
+df_knha	robust-pca-resid		30.0	evidence/pooled.tsv
+reml_attempts	robust-pca-resid		1	evidence/pooled.tsv
+tau2_profile	robust-pca-resid		0.0089464686986246	evidence/pooled.tsv
+tau2_profile_abs_difference	robust-pca-resid		7.58356910652083e-07	evidence/pooled.tsv
+profile_loglik_gap	robust-pca-resid		2.47187372792723e-08	evidence/pooled.tsv
+p_lift_gt_zero_BY	robust-pca-resid		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	robust-pca-resid		1.0	evidence/pooled.tsv
+relevance_margin	robust-pca-resid		0.05	evidence/pooled.tsv
+k	sig-path		30	evidence/pooled.tsv
+pooled_lift	sig-path		-0.131968452739165	evidence/pooled.tsv
+pooled_se	sig-path		0.0253031252643749	evidence/pooled.tsv
+ci_lo	sig-path		-0.183719154568461	evidence/pooled.tsv
+ci_hi	sig-path		-0.0802177509098682	evidence/pooled.tsv
+pi_lo	sig-path		-0.385651348510895	evidence/pooled.tsv
+pi_hi	sig-path		0.121714443032565	evidence/pooled.tsv
+p_lift_gt_zero	sig-path		0.999993032356988	evidence/pooled.tsv
+p_lift_gt_margin_0_05	sig-path		0.999999967732693	evidence/pooled.tsv
+tau2	sig-path		0.0147447771975102	evidence/pooled.tsv
+I2	sig-path		94.7308032294075	evidence/pooled.tsv
+Q	sig-path		176.02683040546	evidence/pooled.tsv
+Q_p	sig-path		5.43867607157447e-23	evidence/pooled.tsv
+df_knha	sig-path		29.0	evidence/pooled.tsv
+reml_attempts	sig-path		1	evidence/pooled.tsv
+tau2_profile	sig-path		0.0147448401871519	evidence/pooled.tsv
+tau2_profile_abs_difference	sig-path		6.29896417300019e-08	evidence/pooled.tsv
+profile_loglik_gap	sig-path		7.7982065249671e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	sig-path		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	sig-path		1.0	evidence/pooled.tsv
+relevance_margin	sig-path		0.05	evidence/pooled.tsv
+k	ssl-vicreg		31	evidence/pooled.tsv
+pooled_lift	ssl-vicreg		-0.0050317970023225	evidence/pooled.tsv
+pooled_se	ssl-vicreg		0.0017457473423372	evidence/pooled.tsv
+ci_lo	ssl-vicreg		-0.0085970887152388	evidence/pooled.tsv
+ci_hi	ssl-vicreg		-0.0014665052894061	evidence/pooled.tsv
+pi_lo	ssl-vicreg		-0.0106948301958567	evidence/pooled.tsv
+pi_hi	ssl-vicreg		0.0006312361912116	evidence/pooled.tsv
+p_lift_gt_zero	ssl-vicreg		0.996385037792973	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ssl-vicreg		1.0	evidence/pooled.tsv
+tau2	ssl-vicreg		4.64138380182835e-06	evidence/pooled.tsv
+I2	ssl-vicreg		4.13301096319707	evidence/pooled.tsv
+Q	ssl-vicreg		28.2994237279456	evidence/pooled.tsv
+Q_p	ssl-vicreg		0.554573090429997	evidence/pooled.tsv
+df_knha	ssl-vicreg		30.0	evidence/pooled.tsv
+reml_attempts	ssl-vicreg		2	evidence/pooled.tsv
+tau2_profile	ssl-vicreg		4.64142310978834e-06	evidence/pooled.tsv
+tau2_profile_abs_difference	ssl-vicreg		3.9307959991957293e-11	evidence/pooled.tsv
+profile_loglik_gap	ssl-vicreg		5.51381162949838e-12	evidence/pooled.tsv
+p_lift_gt_zero_BY	ssl-vicreg		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ssl-vicreg		1.0	evidence/pooled.tsv
+relevance_margin	ssl-vicreg		0.05	evidence/pooled.tsv
+k	tab-tabdpt		30	evidence/pooled.tsv
+pooled_lift	tab-tabdpt		-0.0038792962751365	evidence/pooled.tsv
+pooled_se	tab-tabdpt		0.0109997929487741	evidence/pooled.tsv
+ci_lo	tab-tabdpt		-0.0263763988712917	evidence/pooled.tsv
+ci_hi	tab-tabdpt		0.0186178063210186	evidence/pooled.tsv
+pi_lo	tab-tabdpt		-0.0837917891337701	evidence/pooled.tsv
+pi_hi	tab-tabdpt		0.076033196583497	evidence/pooled.tsv
+p_lift_gt_zero	tab-tabdpt		0.636556845176726	evidence/pooled.tsv
+p_lift_gt_margin_0_05	tab-tabdpt		0.99998316974741	evidence/pooled.tsv
+tau2	tab-tabdpt		0.001405674656377	evidence/pooled.tsv
+I2	tab-tabdpt		80.7822787457869	evidence/pooled.tsv
+Q	tab-tabdpt		153.709102175207	evidence/pooled.tsv
+Q_p	tab-tabdpt		6.28131361534055e-19	evidence/pooled.tsv
+df_knha	tab-tabdpt		29.0	evidence/pooled.tsv
+reml_attempts	tab-tabdpt		2	evidence/pooled.tsv
+tau2_profile	tab-tabdpt		0.0014056748713828	evidence/pooled.tsv
+tau2_profile_abs_difference	tab-tabdpt		2.15005882455571e-10	evidence/pooled.tsv
+profile_loglik_gap	tab-tabdpt		1.4210854715202e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	tab-tabdpt		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	tab-tabdpt		1.0	evidence/pooled.tsv
+relevance_margin	tab-tabdpt		0.05	evidence/pooled.tsv
+k	tab-tabicl		29	evidence/pooled.tsv
+pooled_lift	tab-tabicl		0.022598400023406	evidence/pooled.tsv
+pooled_se	tab-tabicl		0.0125774176395273	evidence/pooled.tsv
+ci_lo	tab-tabicl		-0.0031652720947432	evidence/pooled.tsv
+ci_hi	tab-tabicl		0.0483620721415553	evidence/pooled.tsv
+pi_lo	tab-tabicl		-0.0577704486680029	evidence/pooled.tsv
+pi_hi	tab-tabicl		0.102967248714815	evidence/pooled.tsv
+p_lift_gt_zero	tab-tabicl		0.0415863426259214	evidence/pooled.tsv
+p_lift_gt_margin_0_05	tab-tabicl		0.98103276324542	evidence/pooled.tsv
+tau2	tab-tabicl		0.001381178256093	evidence/pooled.tsv
+I2	tab-tabicl		84.8650591581535	evidence/pooled.tsv
+Q	tab-tabicl		147.771084335868	evidence/pooled.tsv
+Q_p	tab-tabicl		3.10092469179798e-18	evidence/pooled.tsv
+df_knha	tab-tabicl		28.0	evidence/pooled.tsv
+reml_attempts	tab-tabicl		2	evidence/pooled.tsv
+tau2_profile	tab-tabicl		0.0013811776803274	evidence/pooled.tsv
+tau2_profile_abs_difference	tab-tabicl		5.75765551121682e-10	evidence/pooled.tsv
+profile_loglik_gap	tab-tabicl		1.06581410364015e-13	evidence/pooled.tsv
+p_lift_gt_zero_BY	tab-tabicl		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	tab-tabicl		1.0	evidence/pooled.tsv
+relevance_margin	tab-tabicl		0.05	evidence/pooled.tsv
+k	tda-ph		30	evidence/pooled.tsv
+pooled_lift	tda-ph		-0.0628692198492835	evidence/pooled.tsv
+pooled_se	tda-ph		0.018939151798896	evidence/pooled.tsv
+ci_lo	tda-ph		-0.101604134505237	evidence/pooled.tsv
+ci_hi	tda-ph		-0.0241343051933304	evidence/pooled.tsv
+pi_lo	tda-ph		-0.203947322883342	evidence/pooled.tsv
+pi_hi	tda-ph		0.0782088831847748	evidence/pooled.tsv
+p_lift_gt_zero	tda-ph		0.998779717692433	evidence/pooled.tsv
+p_lift_gt_margin_0_05	tda-ph		0.999999110134318	evidence/pooled.tsv
+tau2	tda-ph		0.0043994249700915	evidence/pooled.tsv
+I2	tda-ph		76.7230897990896	evidence/pooled.tsv
+Q	tda-ph		111.841719136339	evidence/pooled.tsv
+Q_p	tda-ph		1.1470678711636398e-11	evidence/pooled.tsv
+df_knha	tda-ph		29.0	evidence/pooled.tsv
+reml_attempts	tda-ph		1	evidence/pooled.tsv
+tau2_profile	tda-ph		0.0043964116687567	evidence/pooled.tsv
+tau2_profile_abs_difference	tda-ph		3.01330133489503e-06	evidence/pooled.tsv
+profile_loglik_gap	tda-ph		6.96552099554992e-07	evidence/pooled.tsv
+p_lift_gt_zero_BY	tda-ph		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	tda-ph		1.0	evidence/pooled.tsv
+relevance_margin	tda-ph		0.05	evidence/pooled.tsv
+k	unc-sngp		30	evidence/pooled.tsv
+pooled_lift	unc-sngp		-0.0324933426665155	evidence/pooled.tsv
+pooled_se	unc-sngp		0.0117621696896245	evidence/pooled.tsv
+ci_lo	unc-sngp		-0.0565496807715305	evidence/pooled.tsv
+ci_hi	unc-sngp		-0.0084370045615006	evidence/pooled.tsv
+pi_lo	unc-sngp		-0.12809561685643	evidence/pooled.tsv
+pi_hi	unc-sngp		0.0631089315233988	evidence/pooled.tsv
+p_lift_gt_zero	unc-sngp		0.99507357978279	evidence/pooled.tsv
+p_lift_gt_margin_0_05	unc-sngp		0.99999994837138	evidence/pooled.tsv
+tau2	unc-sngp		0.0020466556335789	evidence/pooled.tsv
+I2	unc-sngp		81.467080074759	evidence/pooled.tsv
+Q	unc-sngp		103.939722486295	evidence/pooled.tsv
+Q_p	unc-sngp		2.26928180526485e-10	evidence/pooled.tsv
+df_knha	unc-sngp		29.0	evidence/pooled.tsv
+reml_attempts	unc-sngp		1	evidence/pooled.tsv
+tau2_profile	unc-sngp		0.002046675570761	evidence/pooled.tsv
+tau2_profile_abs_difference	unc-sngp		1.99371821118371e-08	evidence/pooled.tsv
+profile_loglik_gap	unc-sngp		1.63069557856943e-10	evidence/pooled.tsv
+p_lift_gt_zero_BY	unc-sngp		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	unc-sngp		1.0	evidence/pooled.tsv
+relevance_margin	unc-sngp		0.05	evidence/pooled.tsv
+k	ws-alr-pivot		30	evidence/pooled.tsv
+pooled_lift	ws-alr-pivot		-0.0025108159061183	evidence/pooled.tsv
+pooled_se	ws-alr-pivot		0.005008346348285	evidence/pooled.tsv
+ci_lo	ws-alr-pivot		-0.0127540343156979	evidence/pooled.tsv
+ci_hi	ws-alr-pivot		0.0077324025034612	evidence/pooled.tsv
+pi_lo	ws-alr-pivot		-0.0325802843500113	evidence/pooled.tsv
+pi_hi	ws-alr-pivot		0.0275586525377746	evidence/pooled.tsv
+p_lift_gt_zero	ws-alr-pivot		0.690037013564331	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ws-alr-pivot		0.999999999988844	evidence/pooled.tsv
+tau2	ws-alr-pivot		0.0001910724916305	evidence/pooled.tsv
+I2	ws-alr-pivot		57.6223944168129	evidence/pooled.tsv
+Q	ws-alr-pivot		122.626406154806	evidence/pooled.tsv
+Q_p	ws-alr-pivot		1.76238360581467e-13	evidence/pooled.tsv
+df_knha	ws-alr-pivot		29.0	evidence/pooled.tsv
+reml_attempts	ws-alr-pivot		2	evidence/pooled.tsv
+tau2_profile	ws-alr-pivot		0.0001910724677787	evidence/pooled.tsv
+tau2_profile_abs_difference	ws-alr-pivot		2.3851737804888397e-11	evidence/pooled.tsv
+profile_loglik_gap	ws-alr-pivot		1.4210854715202e-14	evidence/pooled.tsv
+p_lift_gt_zero_BY	ws-alr-pivot		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ws-alr-pivot		1.0	evidence/pooled.tsv
+relevance_margin	ws-alr-pivot		0.05	evidence/pooled.tsv
+k	ws-balance-ilr		21	evidence/pooled.tsv
+pooled_lift	ws-balance-ilr		-0.234142119950823	evidence/pooled.tsv
+pooled_se	ws-balance-ilr		0.0329059642963824	evidence/pooled.tsv
+ci_lo	ws-balance-ilr		-0.302782758670112	evidence/pooled.tsv
+ci_hi	ws-balance-ilr		-0.165501481231534	evidence/pooled.tsv
+pi_lo	ws-balance-ilr		-0.520798074667733	evidence/pooled.tsv
+pi_hi	ws-balance-ilr		0.0525138347660872	evidence/pooled.tsv
+p_lift_gt_zero	ws-balance-ilr		0.999999661039505	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ws-balance-ilr		0.999999982440603	evidence/pooled.tsv
+tau2	ws-balance-ilr		0.0178018304495264	evidence/pooled.tsv
+I2	ws-balance-ilr		95.7806668791151	evidence/pooled.tsv
+Q	ws-balance-ilr		1483.48260058587	evidence/pooled.tsv
+Q_p	ws-balance-ilr		1.39203428661218e-302	evidence/pooled.tsv
+df_knha	ws-balance-ilr		20.0	evidence/pooled.tsv
+reml_attempts	ws-balance-ilr		1	evidence/pooled.tsv
+tau2_profile	ws-balance-ilr		0.0178019117401037	evidence/pooled.tsv
+tau2_profile_abs_difference	ws-balance-ilr		8.12905773528438e-08	evidence/pooled.tsv
+profile_loglik_gap	ws-balance-ilr		6.660627605015179e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	ws-balance-ilr		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ws-balance-ilr		1.0	evidence/pooled.tsv
+relevance_margin	ws-balance-ilr		0.05	evidence/pooled.tsv
+k	ws-dominance		31	evidence/pooled.tsv
+pooled_lift	ws-dominance		-0.154630092729492	evidence/pooled.tsv
+pooled_se	ws-dominance		0.0273519591632667	evidence/pooled.tsv
+ci_lo	ws-dominance		-0.210490245554508	evidence/pooled.tsv
+ci_hi	ws-dominance		-0.0987699399044766	evidence/pooled.tsv
+pi_lo	ws-dominance		-0.420454250861112	evidence/pooled.tsv
+pi_hi	ws-dominance		0.111194065402128	evidence/pooled.tsv
+p_lift_gt_zero	ws-dominance		0.999998156552773	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ws-dominance		0.999999987797072	evidence/pooled.tsv
+tau2	ws-dominance		0.0161937477038979	evidence/pooled.tsv
+I2	ws-dominance		89.8375328603158	evidence/pooled.tsv
+Q	ws-dominance		639.341502192385	evidence/pooled.tsv
+Q_p	ws-dominance		2.05860693123664e-115	evidence/pooled.tsv
+df_knha	ws-dominance		30.0	evidence/pooled.tsv
+reml_attempts	ws-dominance		1	evidence/pooled.tsv
+tau2_profile	ws-dominance		0.0161937154029889	evidence/pooled.tsv
+tau2_profile_abs_difference	ws-dominance		3.23009089718551e-08	evidence/pooled.tsv
+profile_loglik_gap	ws-dominance		1.56035184772918e-11	evidence/pooled.tsv
+p_lift_gt_zero_BY	ws-dominance		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ws-dominance		1.0	evidence/pooled.tsv
+relevance_margin	ws-dominance		0.05	evidence/pooled.tsv
+k	ws-mad-logratio		31	evidence/pooled.tsv
+pooled_lift	ws-mad-logratio		-0.0258434179536426	evidence/pooled.tsv
+pooled_se	ws-mad-logratio		0.0104736538730057	evidence/pooled.tsv
+ci_lo	ws-mad-logratio		-0.0472334727753149	evidence/pooled.tsv
+ci_hi	ws-mad-logratio		-0.0044533631319702	evidence/pooled.tsv
+pi_lo	ws-mad-logratio		-0.106177352105558	evidence/pooled.tsv
+pi_hi	ws-mad-logratio		0.0544905161982724	evidence/pooled.tsv
+p_lift_gt_zero	ws-mad-logratio		0.990232862126533	evidence/pooled.tsv
+p_lift_gt_margin_0_05	ws-mad-logratio		0.99999997685379	evidence/pooled.tsv
+tau2	ws-mad-logratio		0.001437588986448	evidence/pooled.tsv
+I2	ws-mad-logratio		75.4218112834012	evidence/pooled.tsv
+Q	ws-mad-logratio		90.9124170784826	evidence/pooled.tsv
+Q_p	ws-mad-logratio		4.77290543413085e-08	evidence/pooled.tsv
+df_knha	ws-mad-logratio		30.0	evidence/pooled.tsv
+reml_attempts	ws-mad-logratio		1	evidence/pooled.tsv
+tau2_profile	ws-mad-logratio		0.0014370305978971	evidence/pooled.tsv
+tau2_profile_abs_difference	ws-mad-logratio		5.58388550889926e-07	evidence/pooled.tsv
+profile_loglik_gap	ws-mad-logratio		2.65820318645638e-07	evidence/pooled.tsv
+p_lift_gt_zero_BY	ws-mad-logratio		1.0	evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ws-mad-logratio		1.0	evidence/pooled.tsv
+relevance_margin	ws-mad-logratio		0.05	evidence/pooled.tsv
+k	ws-rclr-trimmed		0	evidence/pooled.tsv
+pooled_lift	ws-rclr-trimmed			evidence/pooled.tsv
+pooled_se	ws-rclr-trimmed			evidence/pooled.tsv
+ci_lo	ws-rclr-trimmed			evidence/pooled.tsv
+ci_hi	ws-rclr-trimmed			evidence/pooled.tsv
+pi_lo	ws-rclr-trimmed			evidence/pooled.tsv
+pi_hi	ws-rclr-trimmed			evidence/pooled.tsv
+p_lift_gt_zero	ws-rclr-trimmed			evidence/pooled.tsv
+p_lift_gt_margin_0_05	ws-rclr-trimmed			evidence/pooled.tsv
+tau2	ws-rclr-trimmed			evidence/pooled.tsv
+I2	ws-rclr-trimmed			evidence/pooled.tsv
+Q	ws-rclr-trimmed			evidence/pooled.tsv
+Q_p	ws-rclr-trimmed			evidence/pooled.tsv
+df_knha	ws-rclr-trimmed			evidence/pooled.tsv
+reml_attempts	ws-rclr-trimmed		0	evidence/pooled.tsv
+tau2_profile	ws-rclr-trimmed			evidence/pooled.tsv
+tau2_profile_abs_difference	ws-rclr-trimmed			evidence/pooled.tsv
+profile_loglik_gap	ws-rclr-trimmed			evidence/pooled.tsv
+p_lift_gt_zero_BY	ws-rclr-trimmed			evidence/pooled.tsv
+p_lift_gt_margin_0_05_BY	ws-rclr-trimmed			evidence/pooled.tsv
+relevance_margin	ws-rclr-trimmed		0.05	evidence/pooled.tsv
+Toray_weight_percent	ai-scarf		82.8270403976879	evidence/cohort_weights.tsv
+Toray_weight_percent	ai-tabpfn		9.77148189303925	evidence/cohort_weights.tsv
+Toray_weight_percent	bal-selbal		16.5055934163156	evidence/cohort_weights.tsv
+Toray_weight_percent	coda-codacore		13.3892785333215	evidence/cohort_weights.tsv
+Toray_weight_percent	coda-deepcoda		8.43601621497498	evidence/cohort_weights.tsv
+Toray_weight_percent	conf-mondrian		11.7828049016781	evidence/cohort_weights.tsv
+Toray_weight_percent	dre-ulsif		5.33908312147092	evidence/cohort_weights.tsv
+Toray_weight_percent	frozen-ruv		9.45849841050061	evidence/cohort_weights.tsv
+Toray_weight_percent	gsp-gft		14.3253637187177	evidence/cohort_weights.tsv
+Toray_weight_percent	ig-fisherrao		7.19408669270191	evidence/cohort_weights.tsv
+Toray_weight_percent	img-gasfcnn		5.09259083502491	evidence/cohort_weights.tsv
+Toray_weight_percent	inv-css		5.35389404206737	evidence/cohort_weights.tsv
+Toray_weight_percent	inv-fdaqf		6.74796903769333	evidence/cohort_weights.tsv
+Toray_weight_percent	inv-glcm		5.55865801775711	evidence/cohort_weights.tsv
+Toray_weight_percent	inv-olbp		5.73615700828748	evidence/cohort_weights.tsv
+Toray_weight_percent	inv-scatter		10.1136915636905	evidence/cohort_weights.tsv
+Toray_weight_percent	kme-witness		10.0300228630275	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-bw		14.3965803125973	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-copula		5.58112732021411	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-deepmaha		8.1989932985168	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-nbkde		6.46743981991239	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-tcopula		3.56513459959668	evidence/cohort_weights.tsv
+Toray_weight_percent	lrt-vinecopula		5.76497495457775	evidence/cohort_weights.tsv
+Toray_weight_percent	man-nystrom		16.1297098393468	evidence/cohort_weights.tsv
+Toray_weight_percent	nc-conformal-anom		4.81766592075154	evidence/cohort_weights.tsv
+Toray_weight_percent	nc-ecod-copod		5.29124164939601	evidence/cohort_weights.tsv
+Toray_weight_percent	nc-isoforest		4.74009999875458	evidence/cohort_weights.tsv
+Toray_weight_percent	nc-sinkhorn-single		12.0201943326144	evidence/cohort_weights.tsv
+Toray_weight_percent	ot-lot		6.30130455045231	evidence/cohort_weights.tsv
+Toray_weight_percent	ot-slicedlrt		6.83620810586154	evidence/cohort_weights.tsv
+Toray_weight_percent	proto-net		12.1413952409425	evidence/cohort_weights.tsv
+Toray_weight_percent	reo-ktsp		39.6595287826961	evidence/cohort_weights.tsv
+Toray_weight_percent	reo-pairratio		75.8100671202686	evidence/cohort_weights.tsv
+Toray_weight_percent	reo-singscore		16.2168209388703	evidence/cohort_weights.tsv
+Toray_weight_percent	reo-ucell		15.4059935832307	evidence/cohort_weights.tsv
+Toray_weight_percent	robust-pca-resid		5.37281494177468	evidence/cohort_weights.tsv
+Toray_weight_percent	sig-path		4.64535000353715	evidence/cohort_weights.tsv
+Toray_weight_percent	ssl-vicreg		55.9326976906081	evidence/cohort_weights.tsv
+Toray_weight_percent	tab-tabdpt		8.14755981224536	evidence/cohort_weights.tsv
+Toray_weight_percent	tab-tabicl		8.03226606524703	evidence/cohort_weights.tsv
+Toray_weight_percent	tda-ph		7.11265217981753	evidence/cohort_weights.tsv
+Toray_weight_percent	unc-sngp		8.48269484766599	evidence/cohort_weights.tsv
+Toray_weight_percent	ws-alr-pivot		13.0519110102924	evidence/cohort_weights.tsv
+Toray_weight_percent	ws-balance-ilr		6.30665385710962	evidence/cohort_weights.tsv
+Toray_weight_percent	ws-dominance		4.51329527666926	evidence/cohort_weights.tsv
+Toray_weight_percent	ws-mad-logratio		6.72286813787485	evidence/cohort_weights.tsv
+maximum_absolute_grouped_tuning_change			0.0010589992761311	evidence/grouped_changes.tsv
+figure_family_planned	A		136	evidence/figure_family_coverage.tsv
+figure_family_evaluable	A		132	evidence/figure_family_coverage.tsv
+figure_family_fraction	A		0.9705882352941176	evidence/figure_family_coverage.tsv
+figure_family_planned	B		102	evidence/figure_family_coverage.tsv
+figure_family_evaluable	B		86	evidence/figure_family_coverage.tsv
+figure_family_fraction	B		0.8431372549019608	evidence/figure_family_coverage.tsv
+figure_family_planned	K		204	evidence/figure_family_coverage.tsv
+figure_family_evaluable	K		155	evidence/figure_family_coverage.tsv
+figure_family_fraction	K		0.7598039215686274	evidence/figure_family_coverage.tsv
+figure_family_planned	L		374	evidence/figure_family_coverage.tsv
+figure_family_evaluable	L		363	evidence/figure_family_coverage.tsv
+figure_family_fraction	L		0.9705882352941176	evidence/figure_family_coverage.tsv
+figure_family_planned	M		374	evidence/figure_family_coverage.tsv
+figure_family_evaluable	M		353	evidence/figure_family_coverage.tsv
+figure_family_fraction	M		0.9438502673796791	evidence/figure_family_coverage.tsv
+figure_family_planned	N		170	evidence/figure_family_coverage.tsv
+figure_family_evaluable	N		165	evidence/figure_family_coverage.tsv
+figure_family_fraction	N		0.9705882352941176	evidence/figure_family_coverage.tsv
+figure_family_planned	NC		170	evidence/figure_family_coverage.tsv
+figure_family_evaluable	NC		136	evidence/figure_family_coverage.tsv
+figure_family_fraction	NC		0.8	evidence/figure_family_coverage.tsv
+figure_family_planned	O		170	evidence/figure_family_coverage.tsv
+figure_family_evaluable	O		165	evidence/figure_family_coverage.tsv
+figure_family_fraction	O		0.9705882352941176	evidence/figure_family_coverage.tsv
+sensitivity_estimable		Primary eligible-set synthesis (30 units)	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Primary eligible-set synthesis (30 units)	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Primary eligible-set synthesis (30 units)	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Primary eligible-set synthesis (30 units)	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Primary eligible-set synthesis (30 units)	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Primary eligible-set synthesis (30 units)		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Primary eligible-set synthesis (30 units)	0.0483620721415553	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Primary eligible-set synthesis (30 units)	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Primary eligible-set synthesis (30 units)	0.0082005628031166	sensitivity_effects.tsv
+sensitivity_pairratio_k		Primary eligible-set synthesis (30 units)	14	sensitivity_effects.tsv
+sensitivity_estimable		Excluding four hemolysis-associated units	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding four hemolysis-associated units	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding four hemolysis-associated units	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding four hemolysis-associated units	28	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding four hemolysis-associated units	2	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding four hemolysis-associated units	bal-selbal;tab-tabicl	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding four hemolysis-associated units	0.062378960515482	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding four hemolysis-associated units	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding four hemolysis-associated units	0.0071844385594857	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding four hemolysis-associated units	11	sensitivity_effects.tsv
+sensitivity_estimable		Excluding the two units with repeated profiles per person	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding the two units with repeated profiles per person	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding the two units with repeated profiles per person	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding the two units with repeated profiles per person	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding the two units with repeated profiles per person	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding the two units with repeated profiles per person		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding the two units with repeated profiles per person	0.0398326160314821	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding the two units with repeated profiles per person	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding the two units with repeated profiles per person	0.0082005628031166	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding the two units with repeated profiles per person	14	sensitivity_effects.tsv
+sensitivity_estimable		Excluding units with unresolved scale or timing or normalized input	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding units with unresolved scale or timing or normalized input	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding units with unresolved scale or timing or normalized input	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding units with unresolved scale or timing or normalized input	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding units with unresolved scale or timing or normalized input	3	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding units with unresolved scale or timing or normalized input	ai-tabpfn;bal-selbal;tab-tabicl	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding units with unresolved scale or timing or normalized input	0.0621286964184833	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding units with unresolved scale or timing or normalized input	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding units with unresolved scale or timing or normalized input	0.0140918266137345	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding units with unresolved scale or timing or normalized input	10	sensitivity_effects.tsv
+sensitivity_estimable		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	30	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	1	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	tab-tabicl	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	0.0571355003894609	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	0.0111545534227909	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	12	sensitivity_effects.tsv
+sensitivity_estimable		Excluding the Toray unit	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding the Toray unit	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding the Toray unit	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding the Toray unit	28	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding the Toray unit	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding the Toray unit		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding the Toray unit	0.0486201466688926	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding the Toray unit	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding the Toray unit	0.0127528181445652	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding the Toray unit	13	sensitivity_effects.tsv
+sensitivity_estimable		Excluding GSE85589	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Excluding GSE85589	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Excluding GSE85589	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Excluding GSE85589	30	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Excluding GSE85589	1	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Excluding GSE85589	tab-tabicl	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Excluding GSE85589	0.0525653373551365	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Excluding GSE85589	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Excluding GSE85589	0.009224570402128	sensitivity_effects.tsv
+sensitivity_pairratio_k		Excluding GSE85589	13	sensitivity_effects.tsv
+sensitivity_estimable		GSE186595 exclusion (already excluded from eligible primary; identical result)	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		GSE186595 exclusion (already excluded from eligible primary; identical result)	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		GSE186595 exclusion (already excluded from eligible primary; identical result)	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		GSE186595 exclusion (already excluded from eligible primary; identical result)	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		GSE186595 exclusion (already excluded from eligible primary; identical result)	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		GSE186595 exclusion (already excluded from eligible primary; identical result)		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		GSE186595 exclusion (already excluded from eligible primary; identical result)	0.0485704360780425	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		GSE186595 exclusion (already excluded from eligible primary; identical result)	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		GSE186595 exclusion (already excluded from eligible primary; identical result)	0.0082005628031166	sensitivity_effects.tsv
+sensitivity_pairratio_k		GSE186595 exclusion (already excluded from eligible primary; identical result)	14	sensitivity_effects.tsv
+sensitivity_estimable		GSE85589 entered as deposited log2 signal	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		GSE85589 entered as deposited log2 signal	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		GSE85589 entered as deposited log2 signal	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		GSE85589 entered as deposited log2 signal	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		GSE85589 entered as deposited log2 signal	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		GSE85589 entered as deposited log2 signal		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		GSE85589 entered as deposited log2 signal	0.0488221901098517	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		GSE85589 entered as deposited log2 signal	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		GSE85589 entered as deposited log2 signal	0.008684373669132	sensitivity_effects.tsv
+sensitivity_pairratio_k		GSE85589 entered as deposited log2 signal	14	sensitivity_effects.tsv
+sensitivity_estimable		Person-grouped inner resampling	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Person-grouped inner resampling	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Person-grouped inner resampling	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Person-grouped inner resampling	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Person-grouped inner resampling	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Person-grouped inner resampling		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Person-grouped inner resampling	0.0483620721415553	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Person-grouped inner resampling	tab-tabicl	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Person-grouped inner resampling	0.0082005628031166	sensitivity_effects.tsv
+sensitivity_pairratio_k		Person-grouped inner resampling	14	sensitivity_effects.tsv
+sensitivity_estimable		Foundation model seed tied to CV seed; all three methods	48	sensitivity_effects.tsv
+sensitivity_BY_above_zero		Foundation model seed tied to CV seed; all three methods	0	sensitivity_effects.tsv
+sensitivity_BY_above_005		Foundation model seed tied to CV seed; all three methods	0	sensitivity_effects.tsv
+sensitivity_CI_wholly_below_zero		Foundation model seed tied to CV seed; all three methods	29	sensitivity_effects.tsv
+sensitivity_CI_upper_above_005		Foundation model seed tied to CV seed; all three methods	0	sensitivity_effects.tsv
+sensitivity_methods_CI_upper_above_005		Foundation model seed tied to CV seed; all three methods		sensitivity_effects.tsv
+sensitivity_maximum_CI_upper		Foundation model seed tied to CV seed; all three methods	0.0422680907731985	sensitivity_effects.tsv
+sensitivity_maximum_CI_upper_method		Foundation model seed tied to CV seed; all three methods	ai-tabpfn	sensitivity_effects.tsv
+sensitivity_pairratio_lift		Foundation model seed tied to CV seed; all three methods	0.0082005628031166	sensitivity_effects.tsv
+sensitivity_pairratio_k		Foundation model seed tied to CV seed; all three methods	14	sensitivity_effects.tsv
+model_seed_effect_minimum	ai-tabpfn		-0.050000000000000044	evidence/ai-tabpfn_seed_effects.tsv
+model_seed_effect_maximum	ai-tabpfn		0.04232804232804299	evidence/ai-tabpfn_seed_effects.tsv
+model_seed_effect_cells	ai-tabpfn		170	evidence/ai-tabpfn_seed_effects.tsv
+model_seed_effect_minimum	tab-tabicl		-0.09027777777777801	evidence/tab-tabicl_seed_effects.tsv
+model_seed_effect_maximum	tab-tabicl		0.08333333333333304	evidence/tab-tabicl_seed_effects.tsv
+model_seed_effect_cells	tab-tabicl		170	evidence/tab-tabicl_seed_effects.tsv
+model_seed_effect_minimum	tab-tabdpt		-0.00010269584239397389	evidence/tab-tabdpt_seed_effects.tsv
+model_seed_effect_maximum	tab-tabdpt		0.0003893022981880101	evidence/tab-tabdpt_seed_effects.tsv
+model_seed_effect_cells	tab-tabdpt		170	evidence/tab-tabdpt_seed_effects.tsv

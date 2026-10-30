@@ -72,15 +72,17 @@ episodic class-mean prototypes), not a cross-entropy classification head.
 }
 \examples{
 \dontrun{
-set.seed(1)
-n <- 80; p <- 30; k <- 8
-L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
-            dimnames = list(NULL, paste0("miR-", seq_len(p))))
-y <- rep(c(0, 1), each = n / 2)
-L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
-X <- exp(L)
-model <- fit_proto_net(X, y)
-score_proto_net(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  set.seed(1)
+  n <- 80; p <- 30; k <- 8
+  L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
+              dimnames = list(NULL, paste0("miR-", seq_len(p))))
+  y <- rep(c(0, 1), each = n / 2)
+  L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
+  X <- exp(L)
+  model <- fit_proto_net(X, y)
+  score_proto_net(model, X[1, , drop = FALSE])
+}
 }
 
 }

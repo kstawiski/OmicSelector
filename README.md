@@ -1,32 +1,101 @@
-# OmicSelector 2.6.7
+# OmicSelector 2.6.10
 
-**Rigorous biomarker discovery from high-dimensional omics data with zero data leakage.**
+OmicSelector provides 73 registered scoring methods and audits whether a frozen
+model can score one specimen independently. All existing methods, validation
+routes and outputs remain available.
 
-Release 2.6.7 registers 73 single-sample scoring methods (50 for use within one cohort and 23 for transfer between cohorts), deploys each as a frozen object that scores one specimen at a time, audits any scoring function for dependence on companion specimens, and refuses unusable inputs with documented codes. See `NEWS.md` for the changes in each release since 2.6.0.
-
-[![R-CMD-check](https://github.com/kstawiski/OmicSelector/workflows/R-CMD-check/badge.svg)](https://github.com/kstawiski/OmicSelector/actions)
-
----
-
-## Single-sample deployment (what's distinctive)
-
-OmicSelector can freeze a rostered single-sample scorer and later score
-one incoming specimen without a co-resident test batch, reference cohort, or
-test-time batch-correction step. This is a deployability feature, not a
-superiority claim: it does not assert that any single-sample method
-out-discriminates a batch-corrected pipeline. Choose and validate the scoring
-method on your own data.
+## Quick start: core R installation
 
 ```r
-dep <- deploy_singlesample(X_train, y_train, method = "ws-balance-ilr")
-score <- score_specimen(dep, x_new)
-is_singlesample_deployable(dep, X_probe = X_train)
-singlesample_method_roster()
+install.packages("remotes")
+remotes::install_github("kstawiski/OmicSelector@v2.6.10", dependencies = NA)
+library(OmicSelector)
+
+set.seed(2610)
+X <- matrix(rexp(41 * 30), 41, 30,
+            dimnames = list(NULL, paste0("marker", 1:30)))
+y <- rep(0:1, each = 20)
+X[21:40, 1:5] <- X[21:40, 1:5] * 3
+X_train <- X[1:40, , drop = FALSE]
+x_new <- X[41, , drop = FALSE]
+frozen <- deploy_singlesample(X_train, y, method = "ws-rclr-trimmed")
+saveRDS(frozen, "reference.rds")
+frozen <- readRDS("reference.rds")
+score_specimen(frozen, x_new, strict = TRUE)
+is_singlesample_deployable(frozen, X_train[1:8, , drop = FALSE])
 ```
 
-The default `ws-balance-ilr` is a compositional deployment default, not a
-certified winner. Use `singlesample_method_roster()` to inspect deployable
-methods and explicit rejection routes without ranking them.
+This simulated example needs no Python or suggested R packages. The reference
+returns a signed panel score, not a disease probability. The audit checks score
+independence from companion specimens and frozen model state. Clinical
+performance and decision thresholds require validation for the intended use.
+See [Deploying a frozen single-sample classifier](vignettes/deploying-frozen-classifier.Rmd).
+
+## Choosing a method
+
+Start with the reference `ws-rclr-trimmed`. In the prespecified benchmark,
+none of 48 estimable methods in the 30-unit primary synthesis improved on
+the reference after BY multiplicity correction. TabPFN had a pooled AUC
+difference of +0.0245 (95% CI +0.0060 to +0.0431), TabICL +0.0228
+(-0.0071 to +0.0526), and selbal +0.0116 (-0.0227 to +0.0460).
+Lack of a significant difference does not establish equivalence. An exploratory
+input-quality exclusion favored selbal (+0.0302; BY P = 2.68e-7), with
+98.63% of the estimate's weight from Toray. These are distinct analyses.
+Source: the R12a primary synthesis and sensitivity tables in the completed
+[paper reproduction bundle](paper/README.md).
+
+```r
+requirements <- method_requirements()
+requirements[, c("method_id", "family", "r_packages", "python_modules",
+                 "model_weights", "gpu", "fit_seconds",
+                 "score_seconds_per_specimen", "peak_memory_bytes",
+                 "frozen_model_bytes", "measuring_node", "cost_status")]
+available_methods()
+```
+
+PB1 costs summarize completed CPU measurements. The `measurements` attribute
+retains dataset-specific results, hardware and source information. Missing
+measurements are shown as NA. Transfer methods may require kit, technology,
+biofluid or other training metadata. Dependency availability does not replace
+these input requirements or the deployment audit.
+
+<!-- MEASURED_COSTS_START -->
+
+| Method | Fit (s) | Score one specimen (s) | Peak fit memory (MiB) | Frozen model (MiB) | CPU hardware |
+|---|---:|---:|---:|---:|---|
+| ws-rclr-trimmed | 0.3649 | 0.02435 | 170.4 | 0.06907 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| reo-ktsp | 6.612 | 0.02383 | 189.8 | 0.1144 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| ai-tabpfn | 751.2 | 7.855 | 1.426e+04 | 2836 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| tab-tabdpt | 15.32 | 0.5271 | 1400 | 248.6 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| tab-tabicl | 331.9 | 4.974 | 1.955e+04 | 5896 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+
+These are medians over completed CPU measurement cells; dataset sizes and hardware are retained in the shipped tables.
+<!-- MEASURED_COSTS_END -->
+
+## Full installation
+
+```r
+# Preview the required packages and checkpoints without changing the environment.
+install_method_dependencies(c("ai-tabpfn", "tab-tabdpt", "tab-tabicl"), dry_run = TRUE)
+# In a fresh R session, install every registered method's required dependencies.
+install_method_dependencies()
+# Or select methods or roster families.
+install_method_dependencies(families = "A", python = FALSE)
+available_methods()
+```
+
+The installer uses the `omicselector` reticulate virtual environment by default
+and reuses packages and weights already present. In later R sessions, set
+`RETICULATE_PYTHON` to that environment's interpreter before loading OmicSelector.
+Optional alternative implementations are reported separately. Other package
+features, such as the web interface and plotting, retain their documented
+suggested packages; install those with `remotes::install_github(...,
+dependencies = TRUE)` where their repositories are available.
+
+The release workflow builds `kstawiski/omicselector:2.6.10`. Its Dockerfile
+provides the RStudio and web-interface environment. Add selected Python-backed
+methods with the same installer inside a persistent container and retain the
+virtual environment and weight caches. See [Dockerfile](Dockerfile).
 
 ---
 
@@ -137,7 +206,7 @@ measured environment used the same build on all hosts. Record these variables,
 the host CPU, library versions, device and thread counts with the results.
 
 Under these matched startup settings, measured TabPFN and TabDPT scores on
-s8, s5, cpd and AVX-512 Argos nodes agreed within 8.05e-7, with zero changed
+x86-64 CPU workstations, a CPU server and AVX-512 cluster nodes agreed within 8.05e-7, with zero changed
 classifications and zero AUC differences. Without matched dispatch, AVX-512
 scores differed by up to 0.030 for TabDPT and 0.0003 for TabPFN. Repeated CPU
 TabICL runs differed by up to 5.96e-7. A fixed seed alone does not guarantee
@@ -1078,3 +1147,7 @@ Department of Biostatistics and Translational Medicine, Medical University of Lo
 - [Documentation](https://kstawiski.github.io/OmicSelector/)
 - [Issues & Bug Reports](https://github.com/kstawiski/OmicSelector/issues)
 - [Source Code](https://github.com/kstawiski/OmicSelector)
+
+### Reproducing the benchmark folds
+
+Use `os_make_benchmark_folds(y, group_id, k = 5L, seed = 101L)` with the archived row order and seed to reproduce the benchmark partitions. It shuffles groups within outcome and assigns them round-robin. `os_make_grouped_stratified_folds()` retains its existing row-count balancing algorithm and produces different partitions.

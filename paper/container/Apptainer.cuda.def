@@ -1,0 +1,12 @@
+Bootstrap: docker-daemon
+From: omicselector-paper:cuda
+
+%labels
+    RVersion 4.5.2
+    PythonVersion 3.12.3
+    E1SourceImage sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030
+    PackageSourceCommit b27bec71373ef9cb63aaa270bc0d4f0f6f39dbf2
+    VerificationStatus source_recipe_requires_execution
+
+%runscript
+    exec "$@"

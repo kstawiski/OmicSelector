@@ -1,0 +1,51 @@
+part	cohort	method	seed	completed	execution_status	outcome_code	reason	last_start_utc	start_log
+grouped_tuning	GSE204951	reo-pairratio	101	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT;ALL_NONDETECT	n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable	2026-10-11T13:05:22Z	logs/grouped_smoke_pairratio.log
+grouped_tuning	GSE204951	reo-pairratio	202	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT	n_valid_folds=1 < 3; per-fold: training-only score direction unavailable; ok; training-only score direction unavailable	2026-10-11T13:21:44Z	logs/grouped_tuning__GSE204951__reo-pairratio.log
+grouped_tuning	GSE204951	reo-pairratio	303	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT	n_valid_folds=1 < 3; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable	2026-10-11T13:21:50Z	logs/grouped_tuning__GSE204951__reo-pairratio.log
+grouped_tuning	GSE204951	reo-pairratio	404	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT	n_valid_folds=1 < 3; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable	2026-10-11T13:21:55Z	logs/grouped_tuning__GSE204951__reo-pairratio.log
+grouped_tuning	GSE204951	reo-pairratio	505	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT;ALL_NONDETECT	n_valid_folds=0 < 3; per-fold: training-only score direction unavailable; training-only score direction unavailable; training-only score direction unavailable	2026-10-11T13:22:00Z	logs/grouped_tuning__GSE204951__reo-pairratio.log
+grouped_tuning	GSE204951	inv-scatter	101	TRUE	executed_eligible	OK		2026-10-11T13:22:50Z	logs/grouped_tuning__GSE204951__inv-scatter.log
+grouped_tuning	GSE204951	inv-scatter	202	TRUE	executed_eligible	OK		2026-10-11T13:23:07Z	logs/grouped_tuning__GSE204951__inv-scatter.log
+grouped_tuning	GSE204951	inv-scatter	303	TRUE	executed_eligible	OK		2026-10-11T13:23:15Z	logs/grouped_tuning__GSE204951__inv-scatter.log
+grouped_tuning	GSE204951	inv-scatter	404	TRUE	executed_eligible	OK		2026-10-11T13:23:23Z	logs/grouped_tuning__GSE204951__inv-scatter.log
+grouped_tuning	GSE204951	inv-scatter	505	TRUE	executed_eligible	OK		2026-10-11T13:23:30Z	logs/grouped_tuning__GSE204951__inv-scatter.log
+grouped_tuning	GSE204951	sig-path	101	TRUE	executed_eligible	OK		2026-10-11T13:22:51Z	logs/grouped_tuning__GSE204951__sig-path.log
+grouped_tuning	GSE204951	sig-path	202	TRUE	executed_eligible	OK		2026-10-11T13:23:25Z	logs/grouped_tuning__GSE204951__sig-path.log
+grouped_tuning	GSE204951	sig-path	303	TRUE	executed_eligible	OK		2026-10-11T13:24:01Z	logs/grouped_tuning__GSE204951__sig-path.log
+grouped_tuning	GSE204951	sig-path	404	TRUE	executed_eligible	OK		2026-10-11T13:24:40Z	logs/grouped_tuning__GSE204951__sig-path.log
+grouped_tuning	GSE204951	sig-path	505	TRUE	executed_eligible	OK		2026-10-11T13:25:21Z	logs/grouped_tuning__GSE204951__sig-path.log
+grouped_tuning	GSE204951	proto-net	101	TRUE	executed_eligible	OK		2026-10-11T13:21:43Z	logs/grouped_tuning__GSE204951__proto-net.log
+grouped_tuning	GSE204951	proto-net	202	TRUE	executed_eligible	OK		2026-10-11T13:22:05Z	logs/grouped_tuning__GSE204951__proto-net.log
+grouped_tuning	GSE204951	proto-net	303	TRUE	executed_eligible	OK		2026-10-11T13:22:14Z	logs/grouped_tuning__GSE204951__proto-net.log
+grouped_tuning	GSE204951	proto-net	404	TRUE	executed_eligible	OK		2026-10-11T13:22:23Z	logs/grouped_tuning__GSE204951__proto-net.log
+grouped_tuning	GSE204951	proto-net	505	TRUE	executed_eligible	OK		2026-10-11T13:22:33Z	logs/grouped_tuning__GSE204951__proto-net.log
+grouped_tuning	GSE204951	nc-conformal-anom	101	TRUE	executed_eligible	OK		2026-10-11T13:26:12Z	logs/grouped_tuning__GSE204951__nc-conformal-anom.log
+grouped_tuning	GSE204951	nc-conformal-anom	202	TRUE	executed_eligible	OK		2026-10-11T13:26:16Z	logs/grouped_tuning__GSE204951__nc-conformal-anom.log
+grouped_tuning	GSE204951	nc-conformal-anom	303	TRUE	executed_eligible	OK		2026-10-11T13:26:17Z	logs/grouped_tuning__GSE204951__nc-conformal-anom.log
+grouped_tuning	GSE204951	nc-conformal-anom	404	TRUE	executed_eligible	OK		2026-10-11T13:26:19Z	logs/grouped_tuning__GSE204951__nc-conformal-anom.log
+grouped_tuning	GSE204951	nc-conformal-anom	505	TRUE	executed_eligible	OK		2026-10-11T13:26:19Z	logs/grouped_tuning__GSE204951__nc-conformal-anom.log
+grouped_tuning	GSE221088	reo-pairratio	101	TRUE	executed_ineligible	ALL_NONDETECT	n_valid_folds=3 < 5; per-fold: ok; ok; training-only score direction unavailable; ok; training-only score direction unavailable	2026-10-11T13:22:09Z	logs/grouped_tuning__GSE221088__reo-pairratio.log
+grouped_tuning	GSE221088	reo-pairratio	202	TRUE	executed_ineligible	ALL_NONDETECT	n_valid_folds=2 < 5; per-fold: ok; training-only score direction unavailable; training-only score direction unavailable; ok; training-only score direction unavailable	2026-10-11T13:22:17Z	logs/grouped_tuning__GSE221088__reo-pairratio.log
+grouped_tuning	GSE221088	reo-pairratio	303	TRUE	executed_ineligible	EMPTY_FITTED_SUPPORT	n_valid_folds=4 < 5; per-fold: ok; ok; ok; ok; training-only score direction unavailable	2026-10-11T13:22:23Z	logs/grouped_tuning__GSE221088__reo-pairratio.log
+grouped_tuning	GSE221088	reo-pairratio	404	TRUE	executed_ineligible	ALL_NONDETECT	n_valid_folds=4 < 5; per-fold: ok; ok; method/baseline score is not a complete finite held-out vector; ok; ok	2026-10-11T13:22:30Z	logs/grouped_tuning__GSE221088__reo-pairratio.log
+grouped_tuning	GSE221088	reo-pairratio	505	TRUE	executed_ineligible	ALL_NONDETECT	n_valid_folds=3 < 5; per-fold: ok; training-only score direction unavailable; ok; training-only score direction unavailable; ok	2026-10-11T13:22:37Z	logs/grouped_tuning__GSE221088__reo-pairratio.log
+grouped_tuning	GSE221088	inv-scatter	101	TRUE	executed_eligible	OK		2026-10-11T13:23:37Z	logs/grouped_tuning__GSE221088__inv-scatter.log
+grouped_tuning	GSE221088	inv-scatter	202	TRUE	executed_eligible	OK		2026-10-11T13:24:21Z	logs/grouped_tuning__GSE221088__inv-scatter.log
+grouped_tuning	GSE221088	inv-scatter	303	TRUE	executed_eligible	OK		2026-10-11T13:24:52Z	logs/grouped_tuning__GSE221088__inv-scatter.log
+grouped_tuning	GSE221088	inv-scatter	404	TRUE	executed_eligible	OK		2026-10-11T13:25:25Z	logs/grouped_tuning__GSE221088__inv-scatter.log
+grouped_tuning	GSE221088	inv-scatter	505	TRUE	executed_eligible	OK		2026-10-11T13:25:59Z	logs/grouped_tuning__GSE221088__inv-scatter.log
+grouped_tuning	GSE221088	sig-path	101	TRUE	executed_eligible	OK		2026-10-11T13:23:43Z	logs/grouped_tuning__GSE221088__sig-path.log
+grouped_tuning	GSE221088	sig-path	202	TRUE	executed_eligible	OK		2026-10-11T13:32:22Z	logs/grouped_tuning__GSE221088__sig-path.log
+grouped_tuning	GSE221088	sig-path	303	TRUE	executed_eligible	OK		2026-10-11T13:41:09Z	logs/grouped_tuning__GSE221088__sig-path.log
+grouped_tuning	GSE221088	sig-path	404	TRUE	executed_eligible	OK		2026-10-11T13:50:14Z	logs/grouped_tuning__GSE221088__sig-path.log
+grouped_tuning	GSE221088	sig-path	505	TRUE	executed_eligible	OK		2026-10-11T13:58:48Z	logs/grouped_tuning__GSE221088__sig-path.log
+grouped_tuning	GSE221088	proto-net	101	TRUE	executed_eligible	OK		2026-10-11T13:21:43Z	logs/grouped_tuning__GSE221088__proto-net.log
+grouped_tuning	GSE221088	proto-net	202	TRUE	executed_eligible	OK		2026-10-11T13:22:15Z	logs/grouped_tuning__GSE221088__proto-net.log
+grouped_tuning	GSE221088	proto-net	303	TRUE	executed_eligible	OK		2026-10-11T13:22:37Z	logs/grouped_tuning__GSE221088__proto-net.log
+grouped_tuning	GSE221088	proto-net	404	TRUE	executed_eligible	OK		2026-10-11T13:22:55Z	logs/grouped_tuning__GSE221088__proto-net.log
+grouped_tuning	GSE221088	proto-net	505	TRUE	executed_eligible	OK		2026-10-11T13:23:14Z	logs/grouped_tuning__GSE221088__proto-net.log
+grouped_tuning	GSE221088	nc-conformal-anom	101	TRUE	executed_eligible	OK		2026-10-11T13:26:23Z	logs/grouped_tuning__GSE221088__nc-conformal-anom.log
+grouped_tuning	GSE221088	nc-conformal-anom	202	TRUE	executed_eligible	OK		2026-10-11T13:26:28Z	logs/grouped_tuning__GSE221088__nc-conformal-anom.log
+grouped_tuning	GSE221088	nc-conformal-anom	303	TRUE	executed_eligible	OK		2026-10-11T13:26:31Z	logs/grouped_tuning__GSE221088__nc-conformal-anom.log
+grouped_tuning	GSE221088	nc-conformal-anom	404	TRUE	executed_eligible	OK		2026-10-11T13:26:35Z	logs/grouped_tuning__GSE221088__nc-conformal-anom.log
+grouped_tuning	GSE221088	nc-conformal-anom	505	TRUE	executed_eligible	OK		2026-10-11T13:26:38Z	logs/grouped_tuning__GSE221088__nc-conformal-anom.log

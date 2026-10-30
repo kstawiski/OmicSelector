@@ -1,0 +1,551 @@
+method	modality	k	pooled_lift	pooled_se	ci_lo	ci_hi	pi_lo	pi_hi	p_lift_gt_zero	p_lift_gt_margin_0_05	tau2	I2	Q	Q_p	df_knha	convergence_status	reml_attempts	reml_boundary	tau2_profile	tau2_profile_abs_difference	profile_loglik_gap	profile_check_pass
+ai-scarf	small-RNA-seq	19	-0.0284354955670772	0.0107022926515655	-0.0509201780798609	-0.00595081305429348	-0.079561854637579	0.0226908635034246	0.991974410761055	0.999999583028059	0.000477662915059623	26.9952004774432	21.10788489552	0.274005114499658	18	retry_converged	2	FALSE	0.000477663074962338	1.59902714821306e-10	3.5527136788005e-14	TRUE
+ai-scarf	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ai-scarf	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ai-scarf	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ai-scarf	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ai-scarf	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ai-scarf	qPCR	1														not_estimable_insufficient_k	0					
+ai-scarf	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ai-scarf	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ai-scarf	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ai-scarf	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ai-tabpfn	small-RNA-seq	19	0.0152553948538789	0.00829517803493089	-0.00217212750743074	0.0326829172151886	-0.0267130881724604	0.0572238778802182	0.0412306880957062	0.999723945230575	0.000330239427697972	29.1832034848613	22.0129396148899	0.231411162480023	18	retry_converged	2	FALSE	0.000330239474810838	4.71128659088743e-11	0	TRUE
+ai-tabpfn	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ai-tabpfn	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ai-tabpfn	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ai-tabpfn	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ai-tabpfn	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ai-tabpfn	qPCR	1														not_estimable_insufficient_k	0					
+ai-tabpfn	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ai-tabpfn	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ai-tabpfn	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ai-tabpfn	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+bal-selbal	small-RNA-seq	7	-0.019105578887206	0.0146314302701196	-0.054907399014363	0.016696241239951	-0.054907399014363	0.016696241239951	0.880274010706824	0.99837619117412	0	0	4.41822873173959	0.620270816897645	6	retry_converged	2	TRUE	0	0	0	TRUE
+bal-selbal	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+bal-selbal	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+bal-selbal	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+bal-selbal	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+bal-selbal	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+bal-selbal	qPCR	1														not_estimable_insufficient_k	0					
+bal-selbal	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+bal-selbal	TLDA qPCR	1														not_estimable_insufficient_k	0					
+bal-selbal	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+bal-selbal	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+coda-codacore	small-RNA-seq	19	-0.0350960118660197	0.0119192553051413	-0.060137438039851	-0.0100545856921884	-0.060137438039851	-0.0100545856921884	0.995665132995642	0.999999404331892	0	0	21.3293102046482	0.2631256400405	18	retry_converged	2	TRUE	0	0	0	TRUE
+coda-codacore	Exiqon qPCR	3	-0.0935237863365294	0.0733479791005453	-0.409114668835097	0.222067096162039	-0.681143468442037	0.494095895768978	0.834812639831192	0.905240902868643	0.0132718450714412	82.4064738876263	12.2416601041803	0.00219663188721904	2	default_converged	1	FALSE	0.0132716651398106	1.79931630654023e-07	6.08006978097819e-11	TRUE
+coda-codacore	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+coda-codacore	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+coda-codacore	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+coda-codacore	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+coda-codacore	qPCR	1														not_estimable_insufficient_k	0					
+coda-codacore	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+coda-codacore	TLDA qPCR	1														not_estimable_insufficient_k	0					
+coda-codacore	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+coda-codacore	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+coda-deepcoda	small-RNA-seq	19	-0.0315743231116947	0.0141700373112022	-0.0613444668098372	-0.0018041794135522	-0.114475871373063	0.0513272251496731	0.980573173601519	0.999990692535513	0.00135627025965978	50.048731479565	31.6956786715585	0.023882221068696	18	default_converged	1	FALSE	0.00135627674803074	6.48837096420621e-09	1.63922209139855e-11	TRUE
+coda-deepcoda	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+coda-deepcoda	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+coda-deepcoda	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+coda-deepcoda	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+coda-deepcoda	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+coda-deepcoda	qPCR	1														not_estimable_insufficient_k	0					
+coda-deepcoda	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+coda-deepcoda	TLDA qPCR	1														not_estimable_insufficient_k	0					
+coda-deepcoda	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+coda-deepcoda	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+conf-mondrian	small-RNA-seq	19	-0.054598203347455	0.0113076916546303	-0.0783547819689174	-0.0308416247259926	-0.103864138369077	-0.00533226832583268	0.999932610149179	0.999999985386956	0.000422023277257242	16.5886741626006	17.6196643916994	0.480959561840932	18	default_converged	1	FALSE	0.000422069605104341	4.63278470989349e-08	2.01240624164711e-09	TRUE
+conf-mondrian	Exiqon qPCR	3	-0.040359392747126	0.00790732325578398	-0.0743818587386364	-0.00633692675561568	-0.0743818587386364	-0.00633692675561568	0.981845978406535	0.996214455468018	0	0	0.184496670390298	0.911878669857385	2	retry_converged	2	TRUE	0	0	0	TRUE
+conf-mondrian	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+conf-mondrian	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+conf-mondrian	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+conf-mondrian	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+conf-mondrian	qPCR	1														not_estimable_insufficient_k	0					
+conf-mondrian	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+conf-mondrian	TLDA qPCR	1														not_estimable_insufficient_k	0					
+conf-mondrian	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+conf-mondrian	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+dre-ulsif	small-RNA-seq	19	-0.138776846861975	0.0313046147612443	-0.204545401975128	-0.073008291748822	-0.390048999156556	0.112495305432605	0.999839460708387	0.999994703969486	0.0133243947190789	77.2618163482097	83.9834370648336	1.70610277918636e-10	18	default_converged	1	FALSE	0.0133248548163526	4.60097273717597e-07	2.76182277048065e-09	TRUE
+dre-ulsif	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+dre-ulsif	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+dre-ulsif	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+dre-ulsif	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+dre-ulsif	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+dre-ulsif	qPCR	1														not_estimable_insufficient_k	0					
+dre-ulsif	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+dre-ulsif	TLDA qPCR	1														not_estimable_insufficient_k	0					
+dre-ulsif	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+dre-ulsif	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+frac-mfdfa	small-RNA-seq	16	-0.144402353118139	0.0327225016207776	-0.214148714327325	-0.0746559919089539	-0.369594019124367	0.0807893128880882	0.999748154389981	0.999986464100056	0.0100915590620491	75.902884486699	69.0086511657801	6.7041861706829e-09	15	default_converged	1	FALSE	0.0100915536351755	5.42687359460226e-09	4.47641923528863e-13	TRUE
+frac-mfdfa	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+frac-mfdfa	TaqMan OpenArray qPCR	0														not_estimable_insufficient_k	0					
+frac-mfdfa	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+frac-mfdfa	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+frac-mfdfa	OpenArray qPCR	0														not_estimable_insufficient_k	0					
+frac-mfdfa	qPCR	0														not_estimable_insufficient_k	0					
+frac-mfdfa	TaqMan TLDA qPCR	1														not_estimable_insufficient_k	0					
+frac-mfdfa	TLDA qPCR	0														not_estimable_insufficient_k	0					
+frac-mfdfa	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+frac-mfdfa	3D-Gene miRNA microarray	0														not_estimable_insufficient_k	0					
+frozen-ruv	small-RNA-seq	19	-0.109842804654088	0.0315419361746379	-0.176109953555261	-0.0435756557529153	-0.307775522869775	0.0880899135615989	0.998670810231561	0.999959890756031	0.00788106558871305	59.2644558612076	40.3272499942695	0.00188332123149018	18	default_converged	1	FALSE	0.0078799838785434	1.08171016964531e-06	1.65955924558148e-08	TRUE
+frozen-ruv	Exiqon qPCR	3	-0.294009673611904	0.0485207170224926	-0.502777469158133	-0.0852418780656743	-0.502777469158133	-0.0852418780656743	0.986914594406695	0.990340511882585	0	0	0.905615880230527	0.635840241303501	2	retry_converged	2	TRUE	0	0	0	TRUE
+frozen-ruv	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+frozen-ruv	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+frozen-ruv	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+frozen-ruv	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+frozen-ruv	qPCR	1														not_estimable_insufficient_k	0					
+frozen-ruv	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+frozen-ruv	TLDA qPCR	1														not_estimable_insufficient_k	0					
+frozen-ruv	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+frozen-ruv	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+gsp-gft	small-RNA-seq	19	-0.0309683871390666	0.0126754046907763	-0.0575984242228931	-0.00433835005523998	-0.0935919067056151	0.031655132427482	0.987452990640337	0.999997428344714	0.000727829283427796	40.8797671023124	28.692393600475	0.0522704984245947	18	retry_converged	2	FALSE	0.000727829464768623	1.81340827553819e-10	2.1316282072803e-14	TRUE
+gsp-gft	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+gsp-gft	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+gsp-gft	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+gsp-gft	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+gsp-gft	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+gsp-gft	qPCR	1														not_estimable_insufficient_k	0					
+gsp-gft	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+gsp-gft	TLDA qPCR	1														not_estimable_insufficient_k	0					
+gsp-gft	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+gsp-gft	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+hemolysis-resid	small-RNA-seq	16	-0.0289034646914	0.0108935009782727	-0.0521224124010942	-0.00568451698170574	-0.0868312476692654	0.0290243182864655	0.990963672823687	0.999998568294713	0.000619956123465856	40.8784560987729	20.7959107521812	0.14347775415154	15	default_converged	1	FALSE	0.000619956619790893	4.96325037058903e-10	2.77111666946439e-13	TRUE
+hemolysis-resid	Exiqon qPCR	1														not_estimable_insufficient_k	0					
+hemolysis-resid	TaqMan OpenArray qPCR	0														not_estimable_insufficient_k	0					
+hemolysis-resid	five-platform repeated assay	0														not_estimable_insufficient_k	0					
+hemolysis-resid	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+hemolysis-resid	OpenArray qPCR	0														not_estimable_insufficient_k	0					
+hemolysis-resid	qPCR	0														not_estimable_insufficient_k	0					
+hemolysis-resid	TaqMan TLDA qPCR	0														not_estimable_insufficient_k	0					
+hemolysis-resid	TLDA qPCR	0														not_estimable_insufficient_k	0					
+hemolysis-resid	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+hemolysis-resid	3D-Gene miRNA microarray	0														not_estimable_insufficient_k	0					
+ig-fisherrao	small-RNA-seq	19	-0.0421460249410852	0.0166354497727221	-0.0770958080179198	-0.0071962418642506	-0.154795268035616	0.0705032181534459	0.989597850574452	0.999985323262578	0.00259825408287491	59.7732235037914	36.4815309711203	0.00611816216840422	18	default_converged	1	FALSE	0.00259829097806333	3.68951884157157e-08	2.16907380945486e-10	TRUE
+ig-fisherrao	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ig-fisherrao	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ig-fisherrao	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ig-fisherrao	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ig-fisherrao	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ig-fisherrao	qPCR	1														not_estimable_insufficient_k	0					
+ig-fisherrao	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ig-fisherrao	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ig-fisherrao	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ig-fisherrao	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+img-gasfcnn	small-RNA-seq	19	-0.169760642669691	0.0343261984089365	-0.241877309464712	-0.0976439758746691	-0.431440205029615	0.091918919690234	0.999947761809165	0.999997500665225	0.0143355673618633	72.3676113358686	66.9299519098026	1.48367575304158e-07	18	default_converged	1	FALSE	0.0143355695938632	2.23199990954936e-09	6.03961325396085e-14	TRUE
+img-gasfcnn	Exiqon qPCR	3	-0.101181103012648	0.0447312551070144	-0.293644159903963	0.0912819538786673	-0.433564365670089	0.231202159644793	0.923958925452955	0.961248271701306	0.00396679722444236	59.8124881834081	5.16031368366525	0.0757621204211365	2	default_converged	1	FALSE	0.00396632969138011	4.67533062246776e-07	2.83068812834131e-09	TRUE
+img-gasfcnn	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+img-gasfcnn	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+img-gasfcnn	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+img-gasfcnn	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+img-gasfcnn	qPCR	1														not_estimable_insufficient_k	0					
+img-gasfcnn	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+img-gasfcnn	TLDA qPCR	1														not_estimable_insufficient_k	0					
+img-gasfcnn	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+img-gasfcnn	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-css	small-RNA-seq	19	-0.159770549090785	0.032043076934452	-0.227090555659515	-0.0924505425220557	-0.380148134626999	0.0606070364454282	0.999952162961618	0.999998123586578	0.00997633886171388	71.7349386503449	56.4926322500694	7.44922709220808e-06	18	default_converged	1	FALSE	0.00997525284512717	1.08601658671374e-06	1.56227386582941e-08	TRUE
+inv-css	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+inv-css	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-css	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+inv-css	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+inv-css	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-css	qPCR	1														not_estimable_insufficient_k	0					
+inv-css	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+inv-css	TLDA qPCR	1														not_estimable_insufficient_k	0					
+inv-css	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-css	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-fdaqf	small-RNA-seq	19	-0.121476216125521	0.0232474953302281	-0.170317391445198	-0.0726350408058442	-0.281033513426269	0.0380810811752266	0.99997142286287	0.999999618235712	0.00522739746343871	60.0043612351669	41.5537031402113	0.00127607637529715	18	default_converged	1	FALSE	0.00522740780280322	1.03393645112596e-08	4.65050220554986e-12	TRUE
+inv-fdaqf	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+inv-fdaqf	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-fdaqf	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+inv-fdaqf	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+inv-fdaqf	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-fdaqf	qPCR	1														not_estimable_insufficient_k	0					
+inv-fdaqf	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+inv-fdaqf	TLDA qPCR	1														not_estimable_insufficient_k	0					
+inv-fdaqf	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-fdaqf	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-glcm	small-RNA-seq	19	-0.142688626001282	0.0317215320085408	-0.209333091748237	-0.0760441602543275	-0.385408770940718	0.100031518938153	0.999860938040189	0.999995159483909	0.0123409936742045	79.9388918808771	103.583938626076	4.86140843265648e-14	18	default_converged	1	FALSE	0.0123410843898029	9.07155983699559e-08	1.0612311029945e-10	TRUE
+inv-glcm	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+inv-glcm	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-glcm	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+inv-glcm	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+inv-glcm	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-glcm	qPCR	1														not_estimable_insufficient_k	0					
+inv-glcm	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+inv-glcm	TLDA qPCR	1														not_estimable_insufficient_k	0					
+inv-glcm	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-glcm	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-olbp	small-RNA-seq	19	-0.138044425215858	0.0234468504885859	-0.187304430181565	-0.0887844202501519	-0.311813788869917	0.0357249384382002	0.999992899853185	0.999999881753095	0.0062913547848713	67.772012328295	51.887737007284	3.8929681351997e-05	18	default_converged	1	FALSE	0.00629075472490683	6.00059964470795e-07	1.51137307113913e-08	TRUE
+inv-olbp	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+inv-olbp	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-olbp	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+inv-olbp	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+inv-olbp	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-olbp	qPCR	1														not_estimable_insufficient_k	0					
+inv-olbp	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+inv-olbp	TLDA qPCR	1														not_estimable_insufficient_k	0					
+inv-olbp	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-olbp	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-scatter	small-RNA-seq	19	-0.0126659320041477	0.00655091617168929	-0.0264288961730211	0.00109703216472582	-0.0264288961730211	0.00109703216472582	0.965467788056371	0.999999991199688	0	0	17.734165448105	0.47328997553903	18	retry_converged	2	TRUE	0	0	0	TRUE
+inv-scatter	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+inv-scatter	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-scatter	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+inv-scatter	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+inv-scatter	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+inv-scatter	qPCR	1														not_estimable_insufficient_k	0					
+inv-scatter	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+inv-scatter	TLDA qPCR	1														not_estimable_insufficient_k	0					
+inv-scatter	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+inv-scatter	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+kme-witness	small-RNA-seq	19	-0.0038521167081708	0.0182198193261771	-0.0421305366997459	0.0344263032834043	-0.113752631121187	0.106048397704846	0.582534331231034	0.99576917536115	0.00240443814838454	76.1677862017154	44.2995864582552	0.000522661916061347	18	retry_converged	2	FALSE	0.00240443786429323	2.84091316877372e-10	1.4210854715202e-14	TRUE
+kme-witness	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+kme-witness	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+kme-witness	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+kme-witness	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+kme-witness	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+kme-witness	qPCR	1														not_estimable_insufficient_k	0					
+kme-witness	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+kme-witness	TLDA qPCR	1														not_estimable_insufficient_k	0					
+kme-witness	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+kme-witness	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-bw	small-RNA-seq	19	-0.0056514046322977	0.00980964417011265	-0.0262607022762094	0.014957893011614	-0.0568083732912883	0.0455055640266929	0.714161663823347	0.99998891906911	0.000496682184740487	34.8910323118524	20.3425352760977	0.313868938066326	18	retry_converged	2	FALSE	0.000496682332169115	1.47428628333168e-10	2.1316282072803e-14	TRUE
+lrt-bw	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+lrt-bw	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-bw	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-bw	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-bw	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-bw	qPCR	1														not_estimable_insufficient_k	0					
+lrt-bw	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-bw	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-bw	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-bw	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-copula	small-RNA-seq	19	-0.0449942872221956	0.0154433192285672	-0.0774394969639708	-0.0125490774804204	-0.131882980376961	0.0418944059325699	0.995364631458525	0.999995859136828	0.00147193921210728	48.3495048280807	30.227625006117	0.0352913939223005	18	default_converged	1	FALSE	0.00147294700055006	1.00778844277474e-06	2.26228060284939e-07	TRUE
+lrt-copula	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+lrt-copula	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-copula	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-copula	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-copula	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-copula	qPCR	1														not_estimable_insufficient_k	0					
+lrt-copula	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-copula	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-copula	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-copula	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	small-RNA-seq	19	-0.0476099495372066	0.0231083677743279	-0.0961588287082879	0.000938929633874756	-0.202317175965171	0.107097276890758	0.972936197303694	0.999744864385242	0.00488852538148225	60.5435345409403	37.7829258940595	0.00413770418864457	18	default_converged	1	FALSE	0.00488881577311682	2.90391634572874e-07	3.6005758374813e-09	TRUE
+lrt-deepmaha	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+lrt-deepmaha	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	qPCR	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-deepmaha	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-deepmaha	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-nbkde	small-RNA-seq	19	-0.113147425739516	0.0248447211802059	-0.165344248050654	-0.0609506034283782	-0.289749607448122	0.0634547559690901	0.999877089083517	0.999998196826173	0.00644871740119086	69.0373232083545	83.0049563308947	2.54032995459706e-10	18	default_converged	1	FALSE	0.00644959391234443	8.76511153565136e-07	2.79778795686525e-08	TRUE
+lrt-nbkde	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+lrt-nbkde	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-nbkde	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-nbkde	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-nbkde	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-nbkde	qPCR	1														not_estimable_insufficient_k	0					
+lrt-nbkde	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-nbkde	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-nbkde	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-nbkde	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-tcopula	small-RNA-seq	19	-0.231398745120796	0.0633223135303182	-0.364433989255695	-0.0983635009858974	-0.803902084193355	0.341104593951762	0.999092907660025	0.999843246119146	0.0702470749887209	91.9913401152427	294.265688231001	7.2656989721108e-52	18	default_converged	1	FALSE	0.070247753064143	6.78075422103075e-07	3.55178997324401e-10	TRUE
+lrt-tcopula	Exiqon qPCR	3	-0.485238656307853	0.257960886892373	-1.59515477046392	0.62467745784821	-2.69139066623914	1.72091335362344	0.899650729572157	0.913158096144987	0.196360835883605	97.8143038574341	126.011077777307	4.33552935726485e-28	2	default_converged	1	FALSE	0.196360790017465	4.58661393865079e-08	2.65343302885412e-14	TRUE
+lrt-tcopula	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-tcopula	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-tcopula	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-tcopula	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-tcopula	qPCR	1														not_estimable_insufficient_k	0					
+lrt-tcopula	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-tcopula	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-tcopula	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-tcopula	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	small-RNA-seq	18	-0.156951121973868	0.0302636195129621	-0.220801777863935	-0.0931004660837997	-0.37470872654332	0.0608064825955848	0.999962814427573	0.999998558915124	0.00973676366384148	56.3712301168647	37.0212967835394	0.00334287072011246	17	default_converged	1	FALSE	0.00973644923989569	3.14423945789455e-07	1.44591894013502e-09	TRUE
+lrt-vinecopula	Exiqon qPCR	3	-0.179202962995905	0.0498294539415689	-0.393601799019521	0.0351958730277118	-0.527174989968713	0.168769063976903	0.96531534213936	0.977921434694377	0.00405760270917457	45.4376845182202	3.5278443407238	0.171371396148077	2	default_converged	1	FALSE	0.00405660017337194	1.00253580263224e-06	7.9945738917786e-09	TRUE
+lrt-vinecopula	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	qPCR	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+lrt-vinecopula	TLDA qPCR	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+lrt-vinecopula	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+man-nystrom	small-RNA-seq	19	-0.00408102266197814	0.00563999308929942	-0.0159302084500944	0.00776816312613816	-0.0159302145793745	0.00776816925541822	0.760690731693647	0.999999991513168	3.29085092042076e-11	3.95201617420896e-06	16.4944526103644	0.558081106262387	18	retry_converged	2	FALSE	0	3.29085092042076e-11	7.45588053518986e-08	TRUE
+man-nystrom	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+man-nystrom	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+man-nystrom	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+man-nystrom	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+man-nystrom	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+man-nystrom	qPCR	1														not_estimable_insufficient_k	0					
+man-nystrom	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+man-nystrom	TLDA qPCR	1														not_estimable_insufficient_k	0					
+man-nystrom	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+man-nystrom	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	small-RNA-seq	19	-0.18363283265594	0.0364490413577548	-0.260209426990105	-0.107056238321776	-0.478709733604561	0.11144406829268	0.999957247694133	0.999997538866862	0.0183979908261353	79.4099786014435	97.2997970113546	6.89906189238317e-13	18	default_converged	1	FALSE	0.0183978283688534	1.62457281984579e-07	1.86510362709669e-10	TRUE
+nc-conformal-anom	Exiqon qPCR	3	-0.135553933066175	0.048775723259154	-0.345418931892679	0.0743110657603284	-0.39297188746715	0.1218640213348	0.945621405426394	0.968663765818007	0.00120028633671168	15.4239467950505	2.3037068933196	0.316050443546155	2	default_converged	1	FALSE	0.00120018017831961	1.06158392065023e-07	1.01232355831371e-10	TRUE
+nc-conformal-anom	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	qPCR	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+nc-conformal-anom	TLDA qPCR	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-conformal-anom	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	small-RNA-seq	19	-0.128856447318549	0.0329517356613385	-0.198085475033652	-0.0596274196034467	-0.355521377989067	0.097808483351968	0.999487380765169	0.999981433900189	0.0105540707885198	75.2496592441735	77.836637564132	2.04305024418063e-09	18	default_converged	1	FALSE	0.0105532326989546	8.38089565160377e-07	9.24867649132466e-09	TRUE
+nc-ecod-copod	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+nc-ecod-copod	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	qPCR	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+nc-ecod-copod	TLDA qPCR	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-ecod-copod	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-isoforest	small-RNA-seq	19	-0.193635717777633	0.0395273618620756	-0.276679623506251	-0.110591812049015	-0.49277729894025	0.105505863384983	0.999942181481481	0.999995963302154	0.0187113193919653	79.5706151079016	90.4499968383948	1.19875858925625e-11	18	default_converged	1	FALSE	0.0187107059354957	6.1345646968497e-07	2.02572536522894e-09	TRUE
+nc-isoforest	Exiqon qPCR	3	-0.345777551918464	0.145256750921095	-0.970766907783653	0.279211803946726	-1.54949876399091	0.857943660153978	0.9298626082372	0.943782800643103	0.0571675753413936	86.494216164643	19.0620645315558	7.25646792825679e-05	2	default_converged	1	FALSE	0.0571668583061591	7.17035234486241e-07	6.2841287729043e-11	TRUE
+nc-isoforest	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-isoforest	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+nc-isoforest	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+nc-isoforest	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-isoforest	qPCR	1														not_estimable_insufficient_k	0					
+nc-isoforest	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+nc-isoforest	TLDA qPCR	1														not_estimable_insufficient_k	0					
+nc-isoforest	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-isoforest	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-mahalanobis	small-RNA-seq	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	Exiqon qPCR	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-mahalanobis	five-platform repeated assay	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	HTG EdgeSeq miRNA WTA counts	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-mahalanobis	qPCR	1														not_estimable_insufficient_k	0					
+nc-mahalanobis	TaqMan TLDA qPCR	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	TLDA qPCR	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	Affymetrix miRNA microarray	0														not_estimable_insufficient_k	0					
+nc-mahalanobis	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	small-RNA-seq	19	-0.00764766469220042	0.00565968102819423	-0.0195382133050677	0.00424288392066689	-0.0241880302351595	0.00889270085075865	0.903322660510632	0.999999996638086	2.99506880749174e-05	3.36486123767384	17.2228961341751	0.507833646595207	18	retry_converged	2	FALSE	2.99515092272498e-05	8.21152332400001e-10	3.34665628543007e-12	TRUE
+nc-sinkhorn-single	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	qPCR	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	TLDA qPCR	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+nc-sinkhorn-single	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ot-lot	small-RNA-seq	19	-0.128217876223233	0.0241795082074099	-0.179017137938369	-0.0774186145080963	-0.291127837951695	0.034692085505229	0.999975779309957	0.99999961430306	0.00542813269984263	64.3048580070534	41.8629548414241	0.00115568045393946	18	default_converged	1	FALSE	0.00542822648998007	9.37901374403402e-08	3.23090887377475e-10	TRUE
+ot-lot	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ot-lot	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ot-lot	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ot-lot	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ot-lot	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ot-lot	qPCR	1														not_estimable_insufficient_k	0					
+ot-lot	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ot-lot	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ot-lot	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ot-lot	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	small-RNA-seq	19	-0.0799896758134322	0.0190088709961035	-0.119925831849245	-0.0400535197776197	-0.206970837085219	0.0469914854583545	0.999735641267207	0.999998939711649	0.0032917388831112	70.2619335754375	58.8693391084048	3.11222453760567e-06	18	default_converged	1	FALSE	0.00329173915827696	2.75165756066093e-10	0	TRUE
+ot-slicedlrt	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ot-slicedlrt	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	qPCR	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ot-slicedlrt	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ot-slicedlrt	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+proto-net	small-RNA-seq	19	-0.0114353181402435	0.0110191687802293	-0.0345857326957632	0.0117150964152762	-0.0703320274088122	0.0474613911283252	0.843440117258188	0.999986398578889	0.000664468685448849	32.9048102826175	21.3761641113699	0.260861539420102	18	default_converged	1	FALSE	0.000665009809126661	5.41123677812411e-07	2.36597081482159e-07	TRUE
+proto-net	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+proto-net	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+proto-net	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+proto-net	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+proto-net	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+proto-net	qPCR	1														not_estimable_insufficient_k	0					
+proto-net	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+proto-net	TLDA qPCR	1														not_estimable_insufficient_k	0					
+proto-net	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+proto-net	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-ktsp	small-RNA-seq	14	-0.00173248034242045	0.00779123400728198	-0.0185644180869194	0.0150994574020785	-0.0185644180869194	0.0150994574020785	0.586256579467476	0.999991934557487	0	0	13.6246736832022	0.400796911399575	13	retry_converged	2	TRUE	0	0	0	TRUE
+reo-ktsp	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+reo-ktsp	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-ktsp	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+reo-ktsp	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+reo-ktsp	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-ktsp	qPCR	1														not_estimable_insufficient_k	0					
+reo-ktsp	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+reo-ktsp	TLDA qPCR	1														not_estimable_insufficient_k	0					
+reo-ktsp	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-ktsp	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-pairratio	small-RNA-seq	7	0.00908586980540039	0.00799232512050772	-0.0104706452501736	0.0286423848609744	-0.0160918526088085	0.0342635922196093	0.149483455453428	0.998910004744447	4.19984242421224e-05	6.49828572725356	5.37261454575286	0.49698464940823	6	retry_converged	2	FALSE	4.19985677160754e-05	1.43473952987291e-10	1.45661260830821e-13	TRUE
+reo-pairratio	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+reo-pairratio	TaqMan OpenArray qPCR	0														not_estimable_insufficient_k	0					
+reo-pairratio	five-platform repeated assay	0														not_estimable_insufficient_k	0					
+reo-pairratio	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+reo-pairratio	OpenArray qPCR	0														not_estimable_insufficient_k	0					
+reo-pairratio	qPCR	1														not_estimable_insufficient_k	0					
+reo-pairratio	TaqMan TLDA qPCR	0														not_estimable_insufficient_k	0					
+reo-pairratio	TLDA qPCR	1														not_estimable_insufficient_k	0					
+reo-pairratio	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-pairratio	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-singscore	small-RNA-seq	19	-0.0108413012248129	0.00925488645642724	-0.0302850961610491	0.00860249371142343	-0.0481791814858397	0.026496579036214	0.871647021369038	0.999998222538056	0.000230196030645415	18.9716619597648	22.7060972616584	0.202137977437603	18	retry_converged	2	FALSE	0.000230195751136158	2.79509257427625e-10	1.13686837721616e-13	TRUE
+reo-singscore	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+reo-singscore	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-singscore	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+reo-singscore	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+reo-singscore	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-singscore	qPCR	1														not_estimable_insufficient_k	0					
+reo-singscore	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+reo-singscore	TLDA qPCR	1														not_estimable_insufficient_k	0					
+reo-singscore	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-singscore	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-ucell	small-RNA-seq	19	-0.0104881288229992	0.00894940533083208	-0.029290131729595	0.00831387408359655	-0.0429528671947937	0.0219766095487952	0.87174920526022	0.999998762827007	0.000158691438954099	13.3773218524307	22.7232191157675	0.201451249629475	18	retry_converged	2	FALSE	0.000158690842563764	5.96390335174616e-10	4.83169060316868e-13	TRUE
+reo-ucell	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+reo-ucell	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-ucell	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+reo-ucell	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+reo-ucell	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+reo-ucell	qPCR	1														not_estimable_insufficient_k	0					
+reo-ucell	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+reo-ucell	TLDA qPCR	1														not_estimable_insufficient_k	0					
+reo-ucell	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+reo-ucell	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+robust-pca-resid	small-RNA-seq	19	-0.0532019630990011	0.0249917512128853	-0.105707684046372	-0.000696242151629715	-0.216834054753765	0.110430128555763	0.976331268019367	0.99968519564047	0.00544161746523834	53.2129322068276	37.3558581669514	0.00470858177998835	18	default_converged	1	FALSE	0.00544171279812116	9.53328828197028e-08	3.07334602211995e-10	TRUE
+robust-pca-resid	Exiqon qPCR	3	-0.0990946658071922	0.015512985024207	-0.165841653168159	-0.0323476784462254	-0.165841653168159	-0.0323476784462254	0.988179301039557	0.994673363101702	0	0	0.236517485476357	0.888466138710115	2	retry_converged	2	TRUE	0	0	0	TRUE
+robust-pca-resid	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+robust-pca-resid	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+robust-pca-resid	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+robust-pca-resid	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+robust-pca-resid	qPCR	1														not_estimable_insufficient_k	0					
+robust-pca-resid	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+robust-pca-resid	TLDA qPCR	1														not_estimable_insufficient_k	0					
+robust-pca-resid	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+robust-pca-resid	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+sig-path	small-RNA-seq	19	-0.136152639406465	0.0261265383992473	-0.191042459764648	-0.0812628190482828	-0.338963093261938	0.0666578144490078	0.999970548630386	0.999999387921076	0.00863622133986629	68.0506999381268	60.3828596390953	1.77413472113067e-06	18	default_converged	1	FALSE	0.00863818210677706	1.96076691076456e-06	1.01186426348931e-07	TRUE
+sig-path	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+sig-path	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+sig-path	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+sig-path	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+sig-path	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+sig-path	qPCR	1														not_estimable_insufficient_k	0					
+sig-path	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+sig-path	TLDA qPCR	1														not_estimable_insufficient_k	0					
+sig-path	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+sig-path	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ssl-vicreg	small-RNA-seq	19	-0.0170358535726901	0.00544476405251932	-0.02847487837454	-0.00559682877084011	-0.02847487837454	-0.00559682877084011	0.997099438278073	0.999999999833263	0	0	13.3212297343408	0.772147230363555	18	retry_converged	2	TRUE	0	0	0	TRUE
+ssl-vicreg	Exiqon qPCR	3	-0.000281482069886676	0.00370565003488813	-0.0162256073079943	0.0156626431682209	-0.0162256073079943	0.0156626431682209	0.526817344892892	0.99730622129726	0	0	1.00869378853835	0.603899857116738	2	retry_converged	2	TRUE	0	0	0	TRUE
+ssl-vicreg	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ssl-vicreg	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ssl-vicreg	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ssl-vicreg	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ssl-vicreg	qPCR	1														not_estimable_insufficient_k	0					
+ssl-vicreg	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ssl-vicreg	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ssl-vicreg	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ssl-vicreg	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+tab-tabdpt	small-RNA-seq	19	-0.0287638726225072	0.0160524657328164	-0.0624888516807952	0.0049611064357808	-0.124493661742638	0.066965916497624	0.955009286983685	0.999943162810316	0.00181854293275388	54.6021294479133	31.6244934605355	0.0243465230753906	18	default_converged	1	FALSE	0.00181914927819983	6.06345445953093e-07	7.83612534860367e-08	TRUE
+tab-tabdpt	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+tab-tabdpt	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tab-tabdpt	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+tab-tabdpt	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+tab-tabdpt	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tab-tabdpt	qPCR	1														not_estimable_insufficient_k	0					
+tab-tabdpt	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+tab-tabdpt	TLDA qPCR	1														not_estimable_insufficient_k	0					
+tab-tabdpt	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+tab-tabdpt	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+tab-tabicl	small-RNA-seq	18	0.00678458075082852	0.0125863810584487	-0.0197703620748327	0.0333395235764897	-0.0472357789999247	0.0608049405015817	0.298423824403534	0.998415334464609	0.000497163402748032	35.0314711680516	29.3162709554153	0.0317188075525348	17	retry_converged	2	FALSE	0.000497163214861925	1.87886107280016e-10	4.2632564145606e-14	TRUE
+tab-tabicl	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+tab-tabicl	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tab-tabicl	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+tab-tabicl	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+tab-tabicl	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tab-tabicl	qPCR	1														not_estimable_insufficient_k	0					
+tab-tabicl	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+tab-tabicl	TLDA qPCR	0														not_estimable_insufficient_k	0					
+tab-tabicl	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+tab-tabicl	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+tda-ph	small-RNA-seq	19	-0.0676581067752877	0.0293357389302175	-0.129290207260539	-0.00602600629003667	-0.256740301270154	0.121424087719579	0.983400304397712	0.999590012793321	0.00723934681180206	63.3352941583875	42.7451462883792	0.000869317183507135	18	default_converged	1	FALSE	0.00723852200263559	8.24809166475107e-07	1.30564323796989e-08	TRUE
+tda-ph	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+tda-ph	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tda-ph	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+tda-ph	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+tda-ph	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+tda-ph	qPCR	1														not_estimable_insufficient_k	0					
+tda-ph	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+tda-ph	TLDA qPCR	1														not_estimable_insufficient_k	0					
+tda-ph	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+tda-ph	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+unc-sngp	small-RNA-seq	19	-0.0369808719141657	0.0138231512288499	-0.0660222349964414	-0.00793950883189	-0.118824870433139	0.0448631266048079	0.992279864284081	0.999996886577438	0.00132650820897293	53.2977559272855	25.0441980081055	0.12370358161718	18	default_converged	1	FALSE	0.00132700674779312	4.98538820188372e-07	7.60252589770971e-08	TRUE
+unc-sngp	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+unc-sngp	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+unc-sngp	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+unc-sngp	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+unc-sngp	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+unc-sngp	qPCR	1														not_estimable_insufficient_k	0					
+unc-sngp	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+unc-sngp	TLDA qPCR	1														not_estimable_insufficient_k	0					
+unc-sngp	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+unc-sngp	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	small-RNA-seq	19	0.00195764432877225	0.00379546355885533	-0.0060163287149586	0.00993161737250309	-0.0060163287149586	0.00993161737250309	0.30614091917658	0.999999999893639	0	0	15.2558072335343	0.644333990040488	18	retry_converged	2	TRUE	0	0	0	TRUE
+ws-alr-pivot	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ws-alr-pivot	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	qPCR	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ws-alr-pivot	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-alr-pivot	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	small-RNA-seq	14	-0.198274009628979	0.0362106887725247	-0.276502446682071	-0.120045572575888	-0.458124648755222	0.0615766294972632	0.999946759865773	0.999994204559004	0.0131562311262241	78.0045923832899	63.1867037956583	1.4047264619989e-08	13	default_converged	1	FALSE	0.0131561737350197	5.73912044381231e-08	3.32427418925363e-11	TRUE
+ws-balance-ilr	Exiqon qPCR	2														not_estimable_insufficient_k	0					
+ws-balance-ilr	TaqMan OpenArray qPCR	0														not_estimable_insufficient_k	0					
+ws-balance-ilr	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	OpenArray qPCR	0														not_estimable_insufficient_k	0					
+ws-balance-ilr	qPCR	0														not_estimable_insufficient_k	0					
+ws-balance-ilr	TaqMan TLDA qPCR	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-balance-ilr	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-dominance	small-RNA-seq	19	-0.12794511752644	0.0302396264930996	-0.19147621531445	-0.0644140197384305	-0.343372075971759	0.0874818409188783	0.999748817378609	0.999992855112063	0.00959986162149928	71.2008193881566	60.8568168480446	1.48640959416398e-06	18	default_converged	1	FALSE	0.00959973108785264	1.30533646636524e-07	2.85051982018558e-10	TRUE
+ws-dominance	Exiqon qPCR	3	-0.258088796114282	0.120477322508456	-0.776460876678197	0.260283284449632	-1.24363445377167	0.727456861543105	0.917273439018715	0.937547959520412	0.0379515713952184	84.4489774527217	15.1041155400767	0.000525028626580946	2	default_converged	1	FALSE	0.0379518830912439	3.11696025545594e-07	2.54212206840521e-11	TRUE
+ws-dominance	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-dominance	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ws-dominance	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ws-dominance	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-dominance	qPCR	1														not_estimable_insufficient_k	0					
+ws-dominance	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ws-dominance	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ws-dominance	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-dominance	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	small-RNA-seq	19	-0.0326525874565586	0.0180758033990086	-0.0706284412125995	0.00532326629948238	-0.152582427928427	0.0872772530153095	0.95619980580017	0.999881960190675	0.0029318922266555	64.7253907037288	47.7592442838393	0.000163480141226065	18	default_converged	1	FALSE	0.00293176699110552	1.25235549983723e-07	2.23202079041585e-09	TRUE
+ws-mad-logratio	Exiqon qPCR	3	-0.016750874565016	0.0137678276535859	-0.0759890558014375	0.0424873066714055	-0.0759890558014375	0.0424873066714055	0.826088078649683	0.979996823125314	0	0	1.2597772932842	0.532651110194407	2	retry_converged	2	TRUE	0	0	0	TRUE
+ws-mad-logratio	TaqMan OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	five-platform repeated assay	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	HTG EdgeSeq miRNA WTA counts	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	OpenArray qPCR	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	qPCR	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	TaqMan TLDA qPCR	2														not_estimable_insufficient_k	0					
+ws-mad-logratio	TLDA qPCR	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	Affymetrix miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-mad-logratio	3D-Gene miRNA microarray	1														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	small-RNA-seq	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	Exiqon qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	TaqMan OpenArray qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	five-platform repeated assay	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	HTG EdgeSeq miRNA WTA counts	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	OpenArray qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	TaqMan TLDA qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	TLDA qPCR	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	Affymetrix miRNA microarray	0														not_estimable_insufficient_k	0					
+ws-rclr-trimmed	3D-Gene miRNA microarray	0														not_estimable_insufficient_k	0					

@@ -44,6 +44,6 @@ tbl[tbl$mimat == "MIMAT0001631", ]       # hsa-miR-451a row
 }
 \references{
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 DOI: \doi{10.1093/nar/gky1141}
 }

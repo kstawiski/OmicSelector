@@ -34,8 +34,13 @@ Creates an AutoTuner with XGBoost learner and omics-optimized search space.
 }
 \examples{
 \dontrun{
-at <- make_autotuner_xgboost(task, n_evals = 30)
-rr <- resample(task, at, rsmp("cv", folds = 5))
+if (requireNamespace("mlr3mbo", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("xgboost", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE)) {
+  at <- make_autotuner_xgboost(task, n_evals = 30)
+  rr <- resample(task, at, rsmp("cv", folds = 5))
+}
 }
 
 }

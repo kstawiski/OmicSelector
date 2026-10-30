@@ -1,6 +1,8 @@
 # Run testthat tests for OmicSelector package
 
-library(testthat)
-library(OmicSelector)
+if (requireNamespace("testthat", quietly = TRUE)) {
+  library(testthat)
+  library(OmicSelector)
 
-test_check("OmicSelector")
+  test_check("OmicSelector")
+}

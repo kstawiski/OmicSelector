@@ -1,0 +1,634 @@
+analysis	output	script	quantity
+transfer_analysis	expected/transfer_analysis/output_sha256.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: output sha256
+transfer_analysis	expected/transfer_analysis/checks.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: checks
+transfer_analysis	expected/transfer_analysis/input_sha256.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: input sha256
+transfer_analysis	expected/transfer_analysis/summaries/outcome_counts.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: outcome counts
+transfer_analysis	expected/transfer_analysis/summaries/transfer_summary.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer summary
+transfer_analysis	expected/transfer_analysis/summaries/derive_decision_curves_by_seed.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: derive decision curves by seed
+transfer_analysis	expected/transfer_analysis/summaries/headline.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: headline
+transfer_analysis	expected/transfer_analysis/summaries/validation.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: validation
+transfer_analysis	expected/transfer_analysis/summaries/matched_baseline_numbers.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: matched baseline numbers
+transfer_analysis	expected/transfer_analysis/summaries/refusals.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: refusals
+transfer_analysis	expected/transfer_analysis/summaries/decision_curve_status_counts.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: decision curve status counts
+transfer_analysis	expected/transfer_analysis/summaries/transfer_performance.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer performance
+transfer_analysis	expected/transfer_analysis/summaries/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/summaries/derive_locked_cutoffs.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: derive locked cutoffs
+transfer_analysis	expected/transfer_analysis/summaries/decision_curves.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: decision curves
+transfer_analysis	expected/transfer_analysis/summaries/operating_points.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: operating points
+transfer_analysis	expected/transfer_analysis/summaries/transfer_validation.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer validation
+transfer_analysis	expected/transfer_analysis/summaries/derive_cell_audit.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: derive cell audit
+transfer_analysis	expected/transfer_analysis/summaries/derive_calibrator_fits.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: derive calibrator fits
+transfer_analysis	expected/transfer_analysis/summaries/method_target_medians.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: method target medians
+transfer_analysis	expected/transfer_analysis/summaries/decision_curve_headline.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: decision curve headline
+transfer_analysis	expected/transfer_analysis/summaries/calibration.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: calibration
+transfer_analysis	expected/transfer_analysis/summaries/paired_contrast_coverage.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: paired contrast coverage
+transfer_analysis	expected/transfer_analysis/transfer_inputs/transfer_BC.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer bc
+transfer_analysis	expected/transfer_analysis/transfer_inputs/refusal_key.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: refusal key
+transfer_analysis	expected/transfer_analysis/transfer_inputs/transfer_performance.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer performance
+transfer_analysis	expected/transfer_analysis/transfer_inputs/transfer_transport_conditions_values.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer transport conditions values
+transfer_analysis	expected/transfer_analysis/cells/breast_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: breast cells
+transfer_analysis	expected/transfer_analysis/cells/decision_curve_input_identity.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: decision curve input identity
+transfer_analysis	expected/transfer_analysis/cells/artifact_manifest.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: artifact manifest
+transfer_analysis	expected/transfer_analysis/cells/result_lineage.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: result lineage
+transfer_analysis	expected/transfer_analysis/cells/computing_identity.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: computing identity
+transfer_analysis	expected/transfer_analysis/cells/validated_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: validated cells
+transfer_analysis	expected/transfer_analysis/cells/decision_curve_computing_identity.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: decision curve computing identity
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-residualized-alr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-fishr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-residualized-alr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/blood-cell-marker-excl-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-fishr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/blood-cell-marker-excl-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/blood-cell-marker-excl-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-fishr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-residualized-alr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-orthogonal-ilr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/reo-metaktsp__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-orthogonal-ilr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/reo-metaktsp__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-orthogonal-ilr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/reo-metaktsp__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dann__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cvae__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cvae__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dann__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dann__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/icp__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/hemolysis-kit-dual-anchor__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/hemolysis-kit-dual-anchor__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/icp__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-stratified-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stratified-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/hemolysis-kit-dual-anchor__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stratified-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-stratified-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/icp__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cross-tech-harmonized-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cross-tech-harmonized-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cross-tech-harmonized-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-anchor-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/moe-gated__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-vrex__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-group__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-vrex__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-group__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-anchor-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-vrex__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/moe-gated__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-ibirm__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-stratified-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/rin-weighted-score__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-stratified-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-ibirm__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-stratified-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/rin-weighted-score__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stable-anchor-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-residual-mad__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-residualized-alr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-residualized-alr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-fe-adjusted-alr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-fe-adjusted-alr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-residualized-alr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stable-anchor-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-residual-mad__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-fishr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-residualized-alr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/blood-cell-marker-excl-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/blood-cell-marker-excl-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-residualized-alr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-fishr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/reo-metaktsp__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-orthogonal-ilr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/reo-metaktsp__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-orthogonal-ilr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dann__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cvae__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cvae__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dann__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cvae__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stratified-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-stratified-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/icp__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/hemolysis-kit-dual-anchor__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-stratified-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stratified-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/hemolysis-kit-dual-anchor__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stratified-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-stratified-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/icp__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cross-tech-harmonized-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/cross-tech-harmonized-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-anchor-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-vrex__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-group__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/moe-gated__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-group__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-anchor-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/moe-gated__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-group__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-anchor-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/moe-gated__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dro-vrex__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-ibirm__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-stratified-rclr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/rin-weighted-score__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/rin-weighted-score__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-ibirm__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/dg-ibirm__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/tech-stratified-rclr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/rin-weighted-score__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stable-anchor-rclr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-residual-mad__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-fe-adjusted-alr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-fe-adjusted-alr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-residualized-alr__seed_505/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/biofluid-residualized-alr__seed_303/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-fe-adjusted-alr__seed_404/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-residual-mad__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stable-anchor-rclr__seed_101/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-stable-anchor-rclr__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/cells/transfer/kit-residual-mad__seed_202/transfer_cells.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: transfer cells
+transfer_analysis	expected/transfer_analysis/summaries/paired_auc_contrasts/supplement_paired_auc_contrasts.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: supplement paired auc contrasts
+transfer_analysis	expected/transfer_analysis/summaries/paired_auc_contrasts/primary_paired_auc_contrasts.tsv	scripts/transfer/summaries.py	Target-cohort discrimination and clinical operating points: primary paired auc contrasts
+published_rules_analysis	expected/published_rules_analysis/transport_rescore.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: transport rescore
+published_rules_analysis	expected/published_rules_analysis/fidelity_table.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: fidelity table
+published_rules_analysis	expected/published_rules_analysis/fidelity_checks.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: fidelity checks
+published_rules_analysis	expected/published_rules_analysis/sources.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: sources
+published_rules_analysis	expected/published_rules_analysis/training_two_vote_specimens.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: training two vote specimens
+published_rules_analysis	expected/published_rules_analysis/weights.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: weights
+published_rules_analysis	expected/published_rules_analysis/transport_specimen_scores.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: transport specimen scores
+published_rules_analysis	expected/published_rules_analysis/training_pair_ties.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: training pair ties
+published_rules_analysis	expected/published_rules_analysis/figure4a_inputs.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: figure4a inputs
+published_rules_analysis	expected/published_rules_analysis/training_scores.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: training scores
+published_rules_analysis	expected/published_rules_analysis/feature_filter_audit.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: feature filter audit
+published_rules_analysis	expected/published_rules_analysis/validation_overlap.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: validation overlap
+published_rules_analysis	expected/published_rules_analysis/differing_specimens.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: differing specimens
+published_rules_analysis	expected/published_rules_analysis/SHA256SUMS.tsv	scripts/transfer/summaries.py	Fixed published-rule scores and target-cohort discrimination: sha256sums
+calibration	expected/calibration/cell_inventory.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: cell inventory
+calibration	expected/calibration/firth_checks.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: firth checks
+calibration	expected/calibration/input_sha256.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: input sha256
+calibration	expected/calibration/optimizer_derive.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: optimizer derive
+calibration	expected/calibration/failure_counts.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: failure counts
+calibration	expected/calibration/coverage.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: coverage
+calibration	expected/calibration/cell_status.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: cell status
+calibration	expected/calibration/derive_input_sha256.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: derive input sha256
+calibration	expected/calibration/derive_integrity.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: derive integrity
+calibration	expected/calibration/initial_validation_checks.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: initial validation checks
+calibration	expected/calibration/checks.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: checks
+calibration	expected/calibration/output_sha256.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: output sha256
+calibration	expected/calibration/calibration.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: calibration
+calibration	expected/calibration/net_benefit.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: net benefit
+calibration	expected/calibration/summary.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: summary
+calibration	expected/calibration/failures.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: failures
+calibration	expected/calibration/completeness.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: completeness
+calibration	expected/calibration/audit.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: audit
+calibration	expected/calibration/development_availability.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: development availability
+calibration	expected/calibration/fold_status.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: fold status
+calibration	expected/calibration/score_audit.tsv	scripts/calibration/summaries.py	Calibration, discrimination and net benefit: score audit
+scoring_conditions	expected/scoring_conditions/item1_scoring_conditions_scoring_conditions.tsv	scripts/computing_bundle/summaries.py	Scoring conditions, intercept sensitivity and person grouping: item1 scoring conditions scoring conditions
+scoring_conditions	expected/scoring_conditions/item2_intercept_only_sensitivity.tsv	scripts/computing_bundle/summaries.py	Scoring conditions, intercept sensitivity and person grouping: item2 intercept only sensitivity
+practical_cost	expected/practical_cost/dependencies.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: dependencies
+practical_cost	expected/practical_cost/method_costs.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: method costs
+practical_cost	expected/practical_cost/repeat_measurements.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: repeat measurements
+practical_cost	expected/practical_cost/all_attempt_measurements.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: all attempt measurements
+practical_cost	expected/practical_cost/family_summary.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: family summary
+practical_cost	expected/practical_cost/environment.tsv	scripts/computing_bundle/summaries.py	Measured fitting, scoring, loading, memory and storage requirements: environment
+thread_control	expected/thread_control/pairs.tsv	scripts/computing_bundle/summaries.py	Numerical agreement and resource use by numerical-library thread setting: pairs
+thread_control	expected/thread_control/method_summary.tsv	scripts/computing_bundle/summaries.py	Numerical agreement and resource use by numerical-library thread setting: method summary
+thread_control	expected/thread_control/gates.tsv	scripts/computing_bundle/summaries.py	Numerical agreement and resource use by numerical-library thread setting: gates
+benchmark	expected/benchmark/synthesis/cells_union_extended.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union extended
+benchmark	expected/benchmark/synthesis/sensitivity_effects.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/synthesis/pooled_effects.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/method_cohort_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: method cohort performance
+benchmark	expected/benchmark/synthesis/cells_union_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union complete
+benchmark	expected/benchmark/synthesis/independent_primary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: independent primary
+benchmark	expected/benchmark/synthesis/cells_union.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union
+benchmark	expected/benchmark/synthesis/independent_global_optimum.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: independent global optimum
+benchmark	expected/benchmark/synthesis/independent_check.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: independent check
+benchmark	expected/benchmark/synthesis/optimizer_stopping_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: optimizer stopping audit
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed_sensitivities.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: foundation seed sensitivities
+benchmark	expected/benchmark/synthesis/evidence/GSE198834_seed_sensitivity.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/synthesis/evidence/cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights
+benchmark	expected/benchmark/synthesis/evidence/within_ungrouped.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within ungrouped
+benchmark	expected/benchmark/synthesis/evidence/pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/analysis_set.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: analysis set
+benchmark	expected/benchmark/synthesis/evidence/within_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within performance
+benchmark	expected/benchmark/synthesis/evidence/grouped_predictions.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped predictions
+benchmark	expected/benchmark/synthesis/evidence/ungrouped_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ungrouped performance
+benchmark	expected/benchmark/synthesis/evidence/inner_group_split_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inner group split audit
+benchmark	expected/benchmark/synthesis/evidence/grouped_execution_coverage.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped execution coverage
+benchmark	expected/benchmark/synthesis/evidence/reml_diagnostics.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reml diagnostics
+benchmark	expected/benchmark/synthesis/evidence/matched_baseline_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/grouped_cells_source.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped cells source
+benchmark	expected/benchmark/synthesis/evidence/GSE198834_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gse198834 performance
+benchmark	expected/benchmark/synthesis/evidence/leave_one_cohort_out.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: leave one cohort out
+benchmark	expected/benchmark/synthesis/evidence/grouped_changes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped changes
+benchmark	expected/benchmark/synthesis/evidence/within_grouped.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within grouped
+benchmark	expected/benchmark/synthesis/evidence/within_linear.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within linear
+benchmark	expected/benchmark/synthesis/evidence/grouped_summary_reconstruction.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped summary reconstruction
+benchmark	expected/benchmark/synthesis/evidence/pending_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pending cells
+benchmark	expected/benchmark/synthesis/evidence/sensitivity_cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/synthesis/evidence/modality_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/within_performance_without_exclusions.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within performance without exclusions
+benchmark	expected/benchmark/synthesis/evidence/grouped_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped performance
+benchmark	expected/benchmark/synthesis/evidence/group_forwarding_completeness.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: group forwarding completeness
+benchmark	expected/benchmark/synthesis/evidence/group_forwarding_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: group forwarding audit
+benchmark	expected/benchmark/synthesis/evidence/sensitivity_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/exclusion_impact.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: exclusion impact
+benchmark	expected/benchmark/synthesis/evidence/all_biofluid_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/cohort_weights_without_exclusions.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights without exclusions
+benchmark	expected/benchmark/synthesis/evidence/pooled_without_exclusions.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/matched_baseline_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: matched baseline dataset
+benchmark	expected/benchmark/synthesis/evidence/all_set_reml_diagnostics.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: all set reml diagnostics
+benchmark	expected/benchmark/synthesis/evidence/log2_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: log2 performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/method_cohort_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: method cohort performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/cells_union.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union
+benchmark	expected/benchmark/synthesis/full32_sensitivity/pooled_effects.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/sensitivity_effects.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/synthesis/full32_sensitivity/cells_union_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/cells_union_extended.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union extended
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/cells_union_extended.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union extended
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/cells_union_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union complete
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/cells_union.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/pooled_effects.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/ungrouped_inner_sensitivity/method_cohort_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: method cohort performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/within_ungrouped.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within ungrouped
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/all_biofluid_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed_sensitivities.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: foundation seed sensitivities
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/within_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/matched_baseline_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/pooled_without_exclusions.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/reml_diagnostics.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reml diagnostics
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/modality_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/grouped_changes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped changes
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/within_grouped.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within grouped
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/grouped_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: grouped performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/cohort_weights_without_exclusions.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights without exclusions
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/ungrouped_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ungrouped performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/leave_one_cohort_out.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: leave one cohort out
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/within_performance_without_exclusions.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within performance without exclusions
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/exclusion_impact.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: exclusion impact
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/within_linear.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: within linear
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/log2_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: log2 performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/sensitivity_cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/pending_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pending cells
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/matched_baseline_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: matched baseline dataset
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/sensitivity_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/cells_union_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/pooled_effects.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/cells_union.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/cells_union_extended.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells union extended
+benchmark	expected/benchmark/synthesis/full32_sensitivity/ungrouped_inner_sensitivity/method_cohort_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: method cohort performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-fdaqf_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-fdaqf cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-dominance_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-dominance performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-ecod-copod_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-ecod-copod performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-olbp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-olbp performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/conf-mondrian_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: conf-mondrian cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ot-lot_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-lot performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-rclr-trimmed_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-rclr-trimmed performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-pairratio_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-pairratio performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/img-gasfcnn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: img-gasfcnn performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ai-tabpfn_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-copula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-copula cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-conformal-anom_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-conformal-anom performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/hemolysis-resid_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis-resid performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-glcm_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-glcm cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-tcopula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-tcopula performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-mad-logratio_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-mad-logratio performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-css_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-css performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/gsp-gft_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gsp-gft cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-deepmaha_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-deepmaha performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-copula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-copula performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tda-ph_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tda-ph performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-dominance_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-dominance cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-tcopula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-tcopula cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/frozen-ruv_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frozen-ruv performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-singscore_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-singscore cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/dre-ulsif_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dre-ulsif performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-olbp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-olbp cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-ucell_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ucell cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/frac-mfdfa_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frac-mfdfa cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/proto-net_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: proto-net cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-fdaqf_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-fdaqf performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ai-scarf_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-scarf performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-sinkhorn-single_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-sinkhorn-single performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/unc-sngp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: unc-sngp cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-bw_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-bw cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-balance-ilr_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-balance-ilr performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-deepmaha_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-deepmaha cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-isoforest_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-isoforest cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-nbkde_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-nbkde cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-scatter_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-scatter performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tab-tabdpt_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tda-ph_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tda-ph cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ig-fisherrao_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ig-fisherrao performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-sinkhorn-single_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-sinkhorn-single cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/man-nystrom_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: man-nystrom cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-mahalanobis_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-mahalanobis performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/coda-deepcoda_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-deepcoda performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-ecod-copod_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-ecod-copod cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-rclr-trimmed_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-rclr-trimmed cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-ktsp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ktsp cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-pairratio_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-pairratio cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/frozen-ruv_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frozen-ruv cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/sig-path_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: sig-path performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/img-gasfcnn_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: img-gasfcnn cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/kme-witness_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: kme-witness performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/frac-mfdfa_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frac-mfdfa performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-ucell_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ucell performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-vinecopula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-vinecopula cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tab-tabdpt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-nbkde_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-nbkde performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ig-fisherrao_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ig-fisherrao cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/kme-witness_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: kme-witness cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-glcm_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-glcm performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-singscore_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-singscore performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/unc-sngp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: unc-sngp performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ot-slicedlrt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-slicedlrt performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/man-nystrom_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: man-nystrom performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ssl-vicreg_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssl-vicreg performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/sig-path_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: sig-path cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-css_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-css cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/inv-scatter_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-scatter cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-mahalanobis_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-mahalanobis cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/dre-ulsif_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dre-ulsif cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/bal-selbal_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: bal-selbal performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-alr-pivot_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-alr-pivot performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/proto-net_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: proto-net performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/hemolysis-resid_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis-resid cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-alr-pivot_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-alr-pivot cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/conf-mondrian_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: conf-mondrian performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ai-scarf_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-scarf cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tab-tabicl_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ssl-vicreg_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssl-vicreg cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/robust-pca-resid_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: robust-pca-resid performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/coda-deepcoda_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-deepcoda cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-balance-ilr_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-balance-ilr cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/reo-ktsp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ktsp performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-bw_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-bw performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ot-lot_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-lot cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ai-tabpfn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/robust-pca-resid_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: robust-pca-resid cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/coda-codacore_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-codacore cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/coda-codacore_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-codacore performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/tab-tabicl_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ot-slicedlrt_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-slicedlrt cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/bal-selbal_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: bal-selbal cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/gsp-gft_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gsp-gft performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/ws-mad-logratio_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-mad-logratio cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/lrt-vinecopula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-vinecopula performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-conformal-anom_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-conformal-anom cells complete
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/methods/nc-isoforest_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-isoforest performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabdpt_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt cells
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabicl_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/ai-tabpfn_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn cells
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabdpt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt performance
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabicl_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl cells
+benchmark	expected/benchmark/synthesis/full32_sensitivity/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/ai-tabpfn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-balance-ilr_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-balance-ilr cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/robust-pca-resid_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: robust-pca-resid performance
+benchmark	expected/benchmark/synthesis/evidence/methods/coda-deepcoda_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-deepcoda cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-olbp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-olbp performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ig-fisherrao_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ig-fisherrao performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ot-lot_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-lot performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ai-tabpfn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn performance
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-nbkde_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-nbkde cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/frac-mfdfa_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frac-mfdfa cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/tda-ph_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tda-ph performance
+benchmark	expected/benchmark/synthesis/evidence/methods/frozen-ruv_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frozen-ruv performance
+benchmark	expected/benchmark/synthesis/evidence/methods/tab-tabdpt_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ot-lot_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-lot cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-ucell_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ucell cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/proto-net_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: proto-net cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ig-fisherrao_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ig-fisherrao cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/coda-codacore_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-codacore cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ai-scarf_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-scarf cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/frozen-ruv_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frozen-ruv cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-vinecopula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-vinecopula performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-css_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-css performance
+benchmark	expected/benchmark/synthesis/evidence/methods/coda-deepcoda_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-deepcoda performance
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-deepmaha_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-deepmaha performance
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-ecod-copod_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-ecod-copod performance
+benchmark	expected/benchmark/synthesis/evidence/methods/img-gasfcnn_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: img-gasfcnn cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/proto-net_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: proto-net performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ot-slicedlrt_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-slicedlrt cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/kme-witness_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: kme-witness cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-vinecopula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-vinecopula cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-copula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-copula performance
+benchmark	expected/benchmark/synthesis/evidence/methods/robust-pca-resid_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: robust-pca-resid cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/gsp-gft_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gsp-gft cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/hemolysis-resid_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis-resid cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ai-scarf_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-scarf performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ai-tabpfn_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-pairratio_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-pairratio performance
+benchmark	expected/benchmark/synthesis/evidence/methods/sig-path_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: sig-path cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-scatter_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-scatter cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-mad-logratio_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-mad-logratio cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/man-nystrom_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: man-nystrom performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-alr-pivot_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-alr-pivot cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-conformal-anom_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-conformal-anom cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-copula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-copula cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-ucell_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ucell performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-dominance_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-dominance performance
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-nbkde_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-nbkde performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-fdaqf_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-fdaqf cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-mahalanobis_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-mahalanobis cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/kme-witness_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: kme-witness performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-glcm_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-glcm performance
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-isoforest_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-isoforest performance
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-ktsp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ktsp cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/conf-mondrian_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: conf-mondrian performance
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-tcopula_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-tcopula cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/hemolysis-resid_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis-resid performance
+benchmark	expected/benchmark/synthesis/evidence/methods/sig-path_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: sig-path performance
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-bw_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-bw cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-mad-logratio_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-mad-logratio performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-scatter_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-scatter performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ssl-vicreg_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssl-vicreg cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-singscore_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-singscore cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/tda-ph_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tda-ph cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/unc-sngp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: unc-sngp performance
+benchmark	expected/benchmark/synthesis/evidence/methods/coda-codacore_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coda-codacore performance
+benchmark	expected/benchmark/synthesis/evidence/methods/tab-tabicl_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/unc-sngp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: unc-sngp cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-balance-ilr_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-balance-ilr performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-fdaqf_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-fdaqf performance
+benchmark	expected/benchmark/synthesis/evidence/methods/bal-selbal_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: bal-selbal cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-rclr-trimmed_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-rclr-trimmed performance
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-pairratio_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-pairratio cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-ecod-copod_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-ecod-copod cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-olbp_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-olbp cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/man-nystrom_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: man-nystrom cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-mahalanobis_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-mahalanobis performance
+benchmark	expected/benchmark/synthesis/evidence/methods/tab-tabicl_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl performance
+benchmark	expected/benchmark/synthesis/evidence/methods/dre-ulsif_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dre-ulsif performance
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-isoforest_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-isoforest cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-deepmaha_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-deepmaha cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-bw_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-bw performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-alr-pivot_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-alr-pivot performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-glcm_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-glcm cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/lrt-tcopula_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: lrt-tcopula performance
+benchmark	expected/benchmark/synthesis/evidence/methods/inv-css_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: inv-css cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-sinkhorn-single_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-sinkhorn-single performance
+benchmark	expected/benchmark/synthesis/evidence/methods/dre-ulsif_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dre-ulsif cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-ktsp_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-ktsp performance
+benchmark	expected/benchmark/synthesis/evidence/methods/bal-selbal_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: bal-selbal performance
+benchmark	expected/benchmark/synthesis/evidence/methods/reo-singscore_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: reo-singscore performance
+benchmark	expected/benchmark/synthesis/evidence/methods/conf-mondrian_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: conf-mondrian cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/img-gasfcnn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: img-gasfcnn performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-dominance_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-dominance cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-sinkhorn-single_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-sinkhorn-single cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/gsp-gft_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gsp-gft performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ws-rclr-trimmed_cells_complete.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ws-rclr-trimmed cells complete
+benchmark	expected/benchmark/synthesis/evidence/methods/tab-tabdpt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ot-slicedlrt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ot-slicedlrt performance
+benchmark	expected/benchmark/synthesis/evidence/methods/frac-mfdfa_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: frac-mfdfa performance
+benchmark	expected/benchmark/synthesis/evidence/methods/ssl-vicreg_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssl-vicreg performance
+benchmark	expected/benchmark/synthesis/evidence/methods/nc-conformal-anom_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nc-conformal-anom performance
+benchmark	expected/benchmark/synthesis/evidence/GSE198834/benchmark_sources.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: benchmark sources
+benchmark	expected/benchmark/synthesis/evidence/GSE198834/matched_fold_differences.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: matched fold differences
+benchmark	expected/benchmark/synthesis/evidence/GSE198834/matched_baseline_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/synthesis/evidence/GSE198834/fold_row_alignment.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fold row alignment
+benchmark	expected/benchmark/synthesis/evidence/GSE198834/matched_baseline_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: matched baseline dataset
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabicl_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl performance
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabicl_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabicl cells
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabdpt_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt performance
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/ai-tabpfn_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn cells
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/ai-tabpfn_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn performance
+benchmark	expected/benchmark/synthesis/evidence/foundation_seed/Foundation_model_seed_tied_to_CV_seed_all_three_methods/tab-tabdpt_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt cells
+benchmark	expected/benchmark/normalization/restriction_replacement.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: restriction replacement
+benchmark	expected/benchmark/normalization/normalization/partA_without_toray_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/normalization_comparison/partA_nonempty_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/normalization_comparison/intercept_only_by_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: intercept only by dataset
+benchmark	expected/benchmark/normalization/normalization_comparison/partA_nonempty_without_toray_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/normalization_comparison/nonempty_cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nonempty cohort weights
+benchmark	expected/benchmark/normalization/full32_sensitivity/normalization_comparison/nonempty_cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nonempty cohort weights
+benchmark	expected/benchmark/normalization/full32_sensitivity/normalization_comparison/partA_nonempty_without_toray_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/normalization_comparison/partA_nonempty_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/normalization_comparison/intercept_only_by_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: intercept only by dataset
+benchmark	expected/benchmark/normalization/full32_sensitivity/normalization/partA_without_toray_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/restriction/benchmark_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/restriction/benchmark_restriction.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: benchmark restriction
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/restriction/benchmark_partA_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/restriction/benchmark_partB_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: contrasts dataset
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta fold auc
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_fits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta fits
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/evaluability.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: evaluability
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_dataset_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta dataset auc
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_summary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb summary
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/pooling_coverage.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pooling coverage
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta contrasts dataset
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/baseline_manifest.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: baseline manifest
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/ssclr_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssclr audit
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb contrasts dataset
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/expectations.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: expectations
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fold auc
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/nonestimable_outcomes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nonestimable outcomes
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/dataset_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dataset auc
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_across_datasets.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb across datasets
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partA_dataset_descriptives.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta dataset descriptives
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_fits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb fits
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/failures.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: failures
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/FZ_STD_fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fz std fold auc
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/partB_outcomes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb outcomes
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/pooled_all.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/full32_sensitivity/companion_sensitivity/computing_bundle/figure_data.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: figure data
+benchmark	expected/benchmark/normalization/companion_sensitivity/restriction/benchmark_partA_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/restriction/benchmark_restriction.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: benchmark restriction
+benchmark	expected/benchmark/normalization/companion_sensitivity/restriction/benchmark_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/restriction/benchmark_partB_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_across_datasets.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb across datasets
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/evaluability.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: evaluability
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_summary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb summary
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/failures.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: failures
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/cohort_weights.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cohort weights
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta fold auc
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb contrasts dataset
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_dataset_descriptives.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta dataset descriptives
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: contrasts dataset
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/pooling_coverage.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pooling coverage
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/ssclr_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ssclr audit
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/FZ_STD_fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fz std fold auc
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/baseline_manifest.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: baseline manifest
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_fits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb fits
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_dataset_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta dataset auc
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/expectations.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: expectations
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/nonestimable_outcomes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: nonestimable outcomes
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/fold_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fold auc
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/pooled_all.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_fits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta fits
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/dataset_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: dataset auc
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_pooled.tsv	scripts/benchmark/summary.py	Pooled AUC lift above the matched training baseline
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/figure_data.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: figure data
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partA_contrasts_dataset.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: parta contrasts dataset
+benchmark	expected/benchmark/normalization/companion_sensitivity/computing_bundle/partB_outcomes.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: partb outcomes
+benchmark	expected/benchmark/ranktree/performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: performance
+benchmark	expected/benchmark/ranktree/coverage.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: coverage
+benchmark	expected/benchmark/ranktree/supplementary_file_rank_tree_competitors_rank_tree_competitors.csv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: supplementary file rank tree competitors rank tree competitors
+benchmark	expected/benchmark/ranktree/units.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: units
+benchmark	expected/benchmark/ranktree/splits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: splits
+benchmark	expected/benchmark/ranktree/meta.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: meta
+benchmark	expected/benchmark/ranktree/pair_strata.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pair strata
+benchmark	expected/benchmark/ranktree/cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cells
+benchmark	expected/benchmark/ranktree/pairwise.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: pairwise
+benchmark	expected/benchmark/ranktree/eligibility.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: eligibility
+benchmark	expected/benchmark/transfer/transfer_performance_r3.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: transfer performance r3
+benchmark	expected/benchmark/transfer/transfer_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: transfer cells
+benchmark	expected/benchmark/transfer/transfer_performance.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: transfer performance
+benchmark	expected/benchmark/transfer/validated_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: validated cells
+benchmark	expected/benchmark/transfer/supplement/transfer_cells.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: transfer cells
+benchmark	expected/benchmark/transfer/supplement/transfer_summary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: transfer summary
+benchmark	expected/benchmark/decision/derive_cell_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: derive cell audit
+benchmark	expected/benchmark/decision/operating_points.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: operating points
+benchmark	expected/benchmark/decision/derive_locked_cutoffs.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: derive locked cutoffs
+benchmark	expected/benchmark/decision/calibration.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: calibration
+benchmark	expected/benchmark/decision/decision_curves.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: decision curves
+benchmark	expected/benchmark/decision/derive_decision_curves_by_seed.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: derive decision curves by seed
+benchmark	expected/benchmark/decision/derive_calibrator_fits.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: derive calibrator fits
+benchmark	expected/benchmark/decision/derive_partition_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: derive partition audit
+benchmark	expected/benchmark/calibration/summary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: summary
+benchmark	expected/benchmark/calibration/fold_status.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fold status
+benchmark	expected/benchmark/calibration/audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: audit
+benchmark	expected/benchmark/calibration/failures.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: failures
+benchmark	expected/benchmark/calibration/score_audit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: score audit
+benchmark	expected/benchmark/calibration/development_availability.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: development availability
+benchmark	expected/benchmark/calibration/net_benefit.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: net benefit
+benchmark	expected/benchmark/calibration/completeness.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: completeness
+benchmark	expected/benchmark/calibration/calibration.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: calibration
+benchmark	expected/benchmark/calibration/cell_status.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cell status
+benchmark	expected/benchmark/calibration/cell_inventory.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: cell inventory
+benchmark	expected/benchmark/deployment/fold_alignment.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: fold alignment
+benchmark	expected/benchmark/deployment/deployed_vs_benchmark.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: deployed vs benchmark
+benchmark	expected/benchmark/deployment/tab-tabdpt__fold_1__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt  fold 1  paired scores
+benchmark	expected/benchmark/deployment/planned_coverage.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: planned coverage
+benchmark	expected/benchmark/deployment/environment.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: environment
+benchmark	expected/benchmark/deployment/summary.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: summary
+benchmark	expected/benchmark/deployment/tab-tabdpt__fold_3__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt  fold 3  paired scores
+benchmark	expected/benchmark/deployment/ai-tabpfn__fold_2__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn  fold 2  paired scores
+benchmark	expected/benchmark/deployment/ai-tabpfn__fold_5__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn  fold 5  paired scores
+benchmark	expected/benchmark/deployment/independent_checks.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: independent checks
+benchmark	expected/benchmark/deployment/tab-tabdpt__fold_4__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt  fold 4  paired scores
+benchmark	expected/benchmark/deployment/gse198834_replacement.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: gse198834 replacement
+benchmark	expected/benchmark/deployment/tab-tabdpt__fold_5__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt  fold 5  paired scores
+benchmark	expected/benchmark/deployment/ai-tabpfn__fold_4__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn  fold 4  paired scores
+benchmark	expected/benchmark/deployment/ai-tabpfn__fold_3__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn  fold 3  paired scores
+benchmark	expected/benchmark/deployment/tab-tabdpt__fold_2__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: tab-tabdpt  fold 2  paired scores
+benchmark	expected/benchmark/deployment/speed.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: speed
+benchmark	expected/benchmark/deployment/ai-tabpfn__fold_1__paired_scores.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: ai-tabpfn  fold 1  paired scores
+benchmark	expected/benchmark/deployment/failures.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: failures
+benchmark	expected/benchmark/panel_restriction/supplementary_file_panel_restriction_panel_restriction.csv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: supplementary file panel restriction panel restriction
+benchmark	expected/benchmark/panel_restriction/summary_reproduction_gate.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: summary reproduction gate
+benchmark	expected/benchmark/panel_restriction/panel_sensitivity_comparisons.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/panel_restriction/panel_sensitivity_cells.tsv	scripts/benchmark/summary.py	Benchmark sensitivity analyses
+benchmark	expected/benchmark/hemolysis/hemolysis_anchor_values.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis anchor values
+benchmark	expected/benchmark/hemolysis/hemolysis_index_auc.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis index auc
+benchmark	expected/benchmark/hemolysis/hemolysis_input_equality.tsv	scripts/benchmark/summary.py	Benchmark cohort performance and inference: hemolysis input equality

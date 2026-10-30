@@ -1,0 +1,9 @@
+check	passed	max_abs_error
+overlap_closed_form	TRUE	3.12273540359342e-10
+complete_separation_closed_form	TRUE	3.86281095651753e-10
+quasi_separation_closed_form	TRUE	5.72461137521296e-10
+row_permutation_invariant	TRUE	3.33066907387547e-16
+affine_invariant	TRUE	3.33066907387547e-16
+adjusted_score_convergence	TRUE	1.97536699388434e-08
+constant_predictor_explicit_failure	TRUE	NA
+independent_numerical_optimizer	TRUE	1.36533698846808e-07

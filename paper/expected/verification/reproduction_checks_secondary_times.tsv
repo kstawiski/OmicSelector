@@ -1,0 +1,17 @@
+family	command	seconds
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE210329	0.10339198214933276
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE320031	0.112305898219347
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE41922	0.1046859952621162
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/fetch_mirbase.py	0.09776236908510327
+transfer_target	/opt/venv/bin/python /job/outputs/payload/paper/data/reconstruct_metadata.py GSE210329	0.07844092370942235
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE210329	10.954179435037076
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE320031	9.388369349762797
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE41922	8.939344254788011
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/transfer_prepare.R	10.54165519727394
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/transfer.R reo-metaktsp 101 /job/outputs/project/refit/transfer_target	10.771743561141193
+transfer_target	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R transfer_target	0.497647216077894
+published_rule	/opt/venv/bin/python /job/outputs/payload/paper/data/acquire.py --accession GSE85589	0.1099957819096744
+published_rule	/opt/venv/bin/python /job/outputs/payload/paper/data/fetch_mirbase.py	0.08751391805708408
+published_rule	Rscript --vanilla /job/outputs/payload/paper/data/prepare_all.R /job/outputs/payload/paper GSE85589	9.734413556754589
+published_rule	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/published_rule.R	0.34618313191458583
+published_rule	Rscript --vanilla /job/outputs/payload/paper/scripts/secondary/compare.R published_rule	0.3597897873260081

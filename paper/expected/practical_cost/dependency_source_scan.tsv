@@ -1,0 +1,74 @@
+method	source_referenced_R_extras	source_referenced_Python_modules	source_files	fit_referenced_R_extras	score_referenced_R_extras	score_referenced_Python_modules	score_source_files
+ws-rclr-trimmed			singlesample-input-guards.R				singlesample-input-guards.R
+ws-alr-pivot			singlesample-within-sample.R				singlesample-within-sample.R
+ws-mad-logratio							
+ws-dominance			singlesample-within-sample.R				
+frozen-ruv			singlesample-batch-correction.R				singlesample-batch-correction.R
+robust-pca-resid							
+hemolysis-resid			singlesample-hemolysis.R				singlesample-hemolysis.R
+kit-stratified-rclr	matrixStats		singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R	matrixStats	matrixStats		singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R
+kit-fe-adjusted-alr			singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R				singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R
+kit-orthogonal-ilr			singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R				singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R
+kit-residual-mad			singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R				singlesample-00-kit-aware-helpers.R;singlesample-01-kit-aware-compositional.R;zzz.R
+kit-stable-anchor-rclr			singlesample-anchor-denoising.R				singlesample-anchor-denoising.R
+hemolysis-kit-dual-anchor			singlesample-anchor-denoising.R;zzz.R				singlesample-anchor-denoising.R;zzz.R
+rin-weighted-score			singlesample-anchor-denoising.R;zzz.R				singlesample-anchor-denoising.R;zzz.R
+tech-stratified-rclr			singlesample-technology-aware-scoring.R				singlesample-technology-aware-scoring.R
+cross-tech-harmonized-rclr			singlesample-input-guards.R;singlesample-technology-aware-scoring.R				singlesample-input-guards.R;singlesample-technology-aware-scoring.R
+tech-residualized-alr	lme4		singlesample-input-guards.R;singlesample-technology-aware-scoring.R	lme4	lme4		singlesample-input-guards.R;singlesample-technology-aware-scoring.R
+biofluid-stratified-rclr	matrixStats		singlesample-biofluid-aware-scoring.R	matrixStats	matrixStats		singlesample-biofluid-aware-scoring.R
+biofluid-anchor-rclr			singlesample-biofluid-aware-scoring.R;singlesample-input-guards.R				singlesample-biofluid-aware-scoring.R;singlesample-input-guards.R
+biofluid-residualized-alr	lme4		singlesample-biofluid-aware-scoring.R	lme4	lme4		singlesample-biofluid-aware-scoring.R
+blood-cell-marker-excl-rclr	matrixStats		singlesample-biofluid-aware-scoring.R		matrixStats		singlesample-biofluid-aware-scoring.R
+dann	reticulate	numpy;torch	singlesample-dann-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-dann-scorer.R;singlesample-reo-scorers.R
+cvae	reticulate	numpy;torch	singlesample-cvae-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-cvae-scorer.R;singlesample-reo-scorers.R
+icp			singlesample-icp-scorer.R;singlesample-reo-scorers.R				singlesample-icp-scorer.R;singlesample-reo-scorers.R
+reo-ktsp			panel-gates.R;singlesample-input-guards.R;singlesample-reo-scorers.R				singlesample-input-guards.R;singlesample-reo-scorers.R
+reo-pairratio	glmnet		grouped-resampling.R;panel-gates.R;singlesample-grouped-tuning.R;singlesample-input-guards.R;singlesample-reo-scorers.R;within-sample.R	glmnet			singlesample-input-guards.R;singlesample-reo-scorers.R
+reo-singscore			singlesample-reo-scorers.R				singlesample-reo-scorers.R
+reo-ucell			singlesample-reo-scorers.R				singlesample-reo-scorers.R
+reo-metaktsp			panel-gates.R;singlesample-reo-scorers.R				singlesample-reo-scorers.R
+bal-selbal	selbal		singlesample-bal-selbal-scorers.R;singlesample-reo-scorers.R	selbal			singlesample-bal-selbal-scorers.R;singlesample-reo-scorers.R
+ws-balance-ilr			singlesample-balance-scorers.R;singlesample-input-guards.R;singlesample-reo-scorers.R;singlesample-within-sample.R				singlesample-balance-scorers.R;singlesample-input-guards.R;singlesample-reo-scorers.R;singlesample-within-sample.R
+lrt-bw			singlesample-bures-wasserstein-scorers.R;singlesample-reo-scorers.R				singlesample-bures-wasserstein-scorers.R;singlesample-reo-scorers.R
+lrt-nbkde			singlesample-nbkde-scorers.R;singlesample-reo-scorers.R				singlesample-nbkde-scorers.R;singlesample-reo-scorers.R
+lrt-copula			singlesample-copula-lrt-scorers.R;singlesample-reo-scorers.R				singlesample-copula-lrt-scorers.R;singlesample-reo-scorers.R
+lrt-tcopula			singlesample-reo-scorers.R;singlesample-tcopula-lrt-scorers.R				singlesample-reo-scorers.R;singlesample-tcopula-lrt-scorers.R
+conf-mondrian			singlesample-conformal-mondrian-scorers.R;singlesample-reo-scorers.R				singlesample-conformal-mondrian-scorers.R;singlesample-reo-scorers.R
+ai-scarf	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-scarf-scorer.R	reticulate			singlesample-reo-scorers.R;singlesample-scarf-scorer.R
+ai-tabpfn	reticulate	numpy;tabpfn;tabpfn.constants;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabpfn-scorer.R	reticulate	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabpfn-scorer.R
+dro-group	matrixStats		grouped-resampling.R;panel-gates.R;singlesample-00-group-dro-helpers.R;singlesample-01-group-dro-scorer.R;singlesample-dro-group-wrapper.R;singlesample-grouped-tuning.R;singlesample-input-guards.R;singlesample-reo-scorers.R;zzz.R	matrixStats			singlesample-00-group-dro-helpers.R;singlesample-01-group-dro-scorer.R;singlesample-reo-scorers.R
+dro-vrex	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-vrex-scorer.R	reticulate			singlesample-reo-scorers.R;singlesample-vrex-scorer.R
+moe-gated	reticulate	numpy;torch	singlesample-moe-gated-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-moe-gated-scorer.R;singlesample-reo-scorers.R
+inv-scatter	reticulate	kymatio.scattering1d.frontend.torch_frontend;numpy;torch	grouped-resampling.R;panel-gates.R;singlesample-grouped-tuning.R;singlesample-input-guards.R;singlesample-inv-scatter-scorer.R;singlesample-reo-scorers.R	reticulate	reticulate	kymatio.scattering1d.frontend.torch_frontend;numpy;torch	singlesample-inv-scatter-scorer.R;singlesample-reo-scorers.R
+inv-olbp			singlesample-ordinal-lbp-scorers.R;singlesample-reo-scorers.R				singlesample-ordinal-lbp-scorers.R;singlesample-reo-scorers.R
+tda-ph			singlesample-persistent-homology-scorers.R;singlesample-reo-scorers.R				singlesample-persistent-homology-scorers.R;singlesample-reo-scorers.R
+sig-path			grouped-resampling.R;panel-gates.R;singlesample-grouped-tuning.R;singlesample-input-guards.R;singlesample-reo-scorers.R;singlesample-sig-path-scorer.R				singlesample-reo-scorers.R;singlesample-sig-path-scorer.R
+frac-mfdfa			singlesample-multifractal-dfa-scorers.R;singlesample-reo-scorers.R				singlesample-multifractal-dfa-scorers.R;singlesample-reo-scorers.R
+img-gasfcnn	reticulate	numpy;torch	singlesample-img-gasfcnn-scorer.R;singlesample-reo-scorers.R	reticulate	reticulate	numpy;torch	singlesample-img-gasfcnn-scorer.R;singlesample-reo-scorers.R
+ot-lot			singlesample-linearized-ot-scorers.R;singlesample-reo-scorers.R				singlesample-linearized-ot-scorers.R;singlesample-reo-scorers.R
+ot-slicedlrt			singlesample-reo-scorers.R;singlesample-sliced-ot-scorers.R				singlesample-reo-scorers.R;singlesample-sliced-ot-scorers.R
+kme-witness			singlesample-kernel-scorers.R;singlesample-reo-scorers.R				singlesample-kernel-scorers.R;singlesample-reo-scorers.R
+ig-fisherrao			singlesample-information-geometry-scorers.R;singlesample-reo-scorers.R				singlesample-information-geometry-scorers.R;singlesample-reo-scorers.R
+dre-ulsif			singlesample-densratio-scorers.R;singlesample-reo-scorers.R				singlesample-densratio-scorers.R;singlesample-reo-scorers.R
+gsp-gft			singlesample-graph-spectral-scorers.R;singlesample-reo-scorers.R				singlesample-graph-spectral-scorers.R;singlesample-reo-scorers.R
+man-nystrom			singlesample-manifold-nystrom-scorers.R;singlesample-reo-scorers.R				singlesample-manifold-nystrom-scorers.R;singlesample-reo-scorers.R
+unc-sngp	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-sngp-scorer.R	reticulate			singlesample-reo-scorers.R;singlesample-sngp-scorer.R
+ssl-vicreg	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-vicreg-scorer.R	reticulate			singlesample-reo-scorers.R;singlesample-vicreg-scorer.R
+coda-deepcoda	reticulate	numpy;torch	singlesample-deepcoda-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-deepcoda-scorer.R;singlesample-reo-scorers.R
+tab-tabicl	reticulate	numpy;tabicl;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabicl-scorer.R	reticulate	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabicl-scorer.R
+tab-tabdpt	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabdpt-scorer.R	reticulate	reticulate	numpy;torch	singlesample-reo-scorers.R;singlesample-state.R;singlesample-tabdpt-scorer.R
+inv-glcm			singlesample-glcm-haralick-scorers.R;singlesample-reo-scorers.R				singlesample-glcm-haralick-scorers.R;singlesample-reo-scorers.R
+inv-fdaqf			singlesample-quantile-fda-scorers.R;singlesample-reo-scorers.R				singlesample-quantile-fda-scorers.R;singlesample-reo-scorers.R
+inv-css			singlesample-curvature-scale-space-scorers.R;singlesample-reo-scorers.R				singlesample-curvature-scale-space-scorers.R;singlesample-reo-scorers.R
+lrt-vinecopula	rvinecopulib		singlesample-reo-scorers.R;singlesample-vinecopula-lrt-scorers.R	rvinecopulib	rvinecopulib		singlesample-reo-scorers.R;singlesample-vinecopula-lrt-scorers.R
+proto-net	reticulate	numpy;torch	grouped-resampling.R;panel-gates.R;singlesample-grouped-tuning.R;singlesample-input-guards.R;singlesample-protonet-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-protonet-scorer.R;singlesample-reo-scorers.R
+lrt-deepmaha	reticulate	numpy;torch	singlesample-deepmaha-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-deepmaha-scorer.R;singlesample-reo-scorers.R
+coda-codacore	reticulate	numpy;torch	singlesample-coda-codacore-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-coda-codacore-scorer.R;singlesample-reo-scorers.R
+dg-fishr	reticulate	numpy;torch	singlesample-dg-fishr-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-dg-fishr-scorer.R;singlesample-reo-scorers.R
+dg-ibirm	reticulate	numpy;torch	singlesample-dg-ibirm-scorer.R;singlesample-reo-scorers.R	reticulate			singlesample-dg-ibirm-scorer.R;singlesample-reo-scorers.R
+nc-mahalanobis	robustbase		singlesample-outlier-detection.R	robustbase			singlesample-outlier-detection.R
+nc-conformal-anom			singlesample-grouped-tuning.R;singlesample-input-guards.R				
+nc-isoforest			singlesample-outlier-detection.R				singlesample-outlier-detection.R
+nc-ecod-copod	reticulate	numpy;pyod.models.copod;pyod.models.ecod	singlesample-ecod-copod-scorers.R;singlesample-reo-scorers.R	reticulate			singlesample-ecod-copod-scorers.R;singlesample-reo-scorers.R
+nc-sinkhorn-single			singlesample-reo-scorers.R;singlesample-sinkhorn-single-scorer.R				singlesample-reo-scorers.R;singlesample-sinkhorn-single-scorer.R

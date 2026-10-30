@@ -1,0 +1,29 @@
+metric	value	source_file	source_rows_or_filter
+planned_method_cohort_cells	1700.0	method_cohort_performance.tsv	all rows
+evaluable_method_cohort_cells	1555.0	method_cohort_performance.tsv	complete and finite AUC
+available_chunks	250.0	chunk_sources.tsv	same original metric definition
+pending_chunks	0.0	chunk_sources.tsv	same original metric definition
+pending_method_seed_cohort_cells	0.0	evidence/pending_cells.tsv	all rows
+estimable_methods	48.0	pooled_effects.tsv	finite pooled estimates
+BY_above_zero	0.0	pooled_effects.tsv	BY-adjusted P < 0.05
+BY_above_005	0.0	pooled_effects.tsv	BY-adjusted P above 0.05 margin < 0.05
+CI_wholly_below_zero	29.0	pooled_effects.tsv	upper CI < 0
+CI_wholly_above_zero	2.0	pooled_effects.tsv	lower CI > 0
+CI_upper_below_005	48.0	pooled_effects.tsv	upper CI < 0.05
+largest_pooled_gain	0.024096380567909	evidence/pooled.tsv	2
+largest_CI_upper	0.0483620721415553	evidence/pooled.tsv	43
+largest_PI_upper	0.324976315133209	evidence/pooled.tsv	24
+shared_pairratio_reference_cohorts	15.0	evidence/shared_cohort_auc.tsv	all rows
+pairratio_shared_median_AUC	0.953426837796246	evidence/shared_cohort_auc.tsv	all rows
+reference_shared_median_AUC	0.946812237518387	evidence/shared_cohort_auc.tsv	all rows
+shared_median_paired_AUC_difference	0.0	evidence/shared_cohort_auc.tsv	all rows
+reference_evaluable_pairratio_unavailable	16.0	evidence/within_performance.tsv	same original metric definition
+newly_estimable_methods	13.0	evidence/v6/pooled.tsv; evidence/pooled.tsv	same original metric definition
+no_longer_estimable_methods	0.0	evidence/v6/pooled.tsv; evidence/pooled.tsv	same original metric definition
+maximum_absolute_grouped_tuning_change	0.0010589992761311	evidence/grouped_changes.tsv	same original metric definition
+datasets	34.0	evidence/within_performance.tsv	same original metric definition
+profiles	23192.0	evidence/within_performance.tsv	same original metric definition
+recorded_groups	22938.0	evidence/within_performance.tsv	same original metric definition
+source_accessions	47.0	evidence/within_performance.tsv	same original metric definition
+Toray_profiles	19143.0	evidence/within_performance.tsv	same original metric definition
+Toray_corpus_percentage	82.54139358399448	evidence/within_performance.tsv	same original metric definition

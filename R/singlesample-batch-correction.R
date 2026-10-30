@@ -15,17 +15,17 @@
 #'     features. Reference: Risso et al. (Nat Biotechnol 2014).
 #'   \item \code{\link{fit_robust_pca_residual}} /
 #'     \code{\link{apply_robust_pca_residual}}: MAD-scaled SVD residual filter.
-#'     NOT the Candès RPCA (ALM sparse-low-rank) decomposition.
+#'     NOT the Candes RPCA (ALM sparse-low-rank) decomposition.
 #' }
 #'
 #' @references
 #' Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq data
 #' using factor analysis of control genes or samples.
-#' \emph{Nature Biotechnology} 32(9): 896–902.
+#' \emph{Nature Biotechnology} 32(9): 896-902.
 #'
 #' Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA: A New Approach
 #' to Robust Principal Component Analysis.
-#' \emph{Technometrics} 47(1): 64–79.
+#' \emph{Technometrics} 47(1): 64-79.
 #'
 #' @name singlesample-batch-correction
 NULL
@@ -55,7 +55,7 @@ NULL
 #'   non-cancer-relevant (empirical negative controls). Default = a curated set
 #'   of stably-expressed serum/plasma miRNAs.
 #' @param k Integer or integer vector (range). Number of unwanted factors to
-#'   estimate. Default \code{2:6} — BIC selects within this range.
+#'   estimate. Default \code{2:6} -- BIC selects within this range.
 #' @param select Method for selecting \code{k}. \code{"BIC"} (default),
 #'   \code{"fixed"} (uses the smallest value in \code{k}), or \code{"explicit"}
 #'   (if \code{select} is a single numeric).
@@ -77,7 +77,7 @@ NULL
 #' @references
 #' Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq data
 #' using factor analysis of control genes or samples.
-#' \emph{Nature Biotechnology} 32(9): 896–902.
+#' \emph{Nature Biotechnology} 32(9): 896-902.
 #'
 #' @export
 fit_frozen_ruv <- function(X_train,
@@ -205,8 +205,8 @@ apply_frozen_ruv <- function(x, fit) {
 #' @title Fit a MAD-scaled SVD residual filter for batch correction
 #'
 #' @description
-#' Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candès RPCA
-#' (ALM sparse-low-rank decomposition) — it is classical SVD on a robustified
+#' Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candes RPCA
+#' (ALM sparse-low-rank decomposition) -- it is classical SVD on a robustified
 #' pre-processing step (per-feature median centering + MAD scaling), which is
 #' more resistant to outlier samples than vanilla CLR-then-PCA but is not the
 #' L+S sparse-low-rank framework.
@@ -216,7 +216,7 @@ apply_frozen_ruv <- function(x, fit) {
 #'
 #' @param x_train Numeric matrix (samples \eqn{\times} features). Must have
 #'   column names. All values must be non-negative.
-#' @param n_components Integer — number of principal components to retain
+#' @param n_components Integer -- number of principal components to retain
 #'   (and remove). Default 5.
 #' @param pseudocount Numeric \eqn{> 0}. Added before log transform. Default
 #'   0.5.
@@ -236,7 +236,7 @@ apply_frozen_ruv <- function(x, fit) {
 #'
 #' @references
 #' Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA.
-#' \emph{Technometrics} 47(1): 64–79.
+#' \emph{Technometrics} 47(1): 64-79.
 #'
 #' @export
 fit_robust_pca_residual <- function(x_train,

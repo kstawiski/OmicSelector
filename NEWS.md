@@ -1,3 +1,23 @@
+# OmicSelector 2.6.10
+
+- Deployment now freezes the training-median direction for every transfer route,
+  matching the benchmark harness without changing the fitted model or harness scores.
+- Fitted Python state fingerprints use numerical content and canonical reload
+  defaults; checkpoint serialization and shared-object references do not define identity.
+- `os_make_benchmark_folds()` reproduces archived benchmark partitions. The existing
+  grouped stratified fold helper retains its row-count balancing behavior.
+
+
+- Skip tests and examples that require unavailable suggested packages, while
+  retaining checks for routes that do not need them.
+
+- Inspect the R packages, Python modules and cached weights needed by each of
+  the 73 methods. Install selected methods or families with a dry-run plan.
+- Start with the core R installation, fit and save the reference scorer, and
+  score one specimen using the new deployment guide.
+- Missing dependency errors include the method-specific installer command.
+  Existing numerical implementation files are retained unchanged.
+
 # OmicSelector 2.6.9
 
 - Undetermined projection directions and arbitrary signs made TabDPT fits
