@@ -51,6 +51,7 @@ articles:
 - title: Single-sample scoring & deployment
   contents:
   - single-sample-deployment
+  - deploying-frozen-classifier
 
 reference:
 - title: Single-sample scoring & deployment
