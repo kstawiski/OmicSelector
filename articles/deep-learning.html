@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
       <h1>Deep Learning with OmicSelector</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.9/vignettes/deep-learning.Rmd" class="external-link"><code>vignettes/deep-learning.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/vignettes/deep-learning.Rmd" class="external-link"><code>vignettes/deep-learning.Rmd</code></a></small>
       <div class="d-none name"><code>deep-learning.Rmd</code></div>
     </div>
 
@@ -74,7 +74,7 @@
 </h2>
 <p>This vignette demonstrates a full deep learning workflow with
 OmicSelector, including autoencoder feature compression, mlr3torch
-training, checkpoint export/import, and fine‑tuning.</p>
+training, checkpoint export/import, and fine-tuning.</p>
 <p><strong>Requirements:</strong> - <code>torch</code> -
 <code>mlr3torch</code></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -170,7 +170,7 @@ selection and trains an MLP via mlr3torch.</p>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_omicfit_checkpoint.html">import_omicfit_checkpoint</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"mlp_checkpoint.pt"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="finetune-on-a-new-task">Fine‑tune on a New Task<a class="anchor" aria-label="anchor" href="#finetune-on-a-new-task"></a>
+<h2 id="fine-tune-on-a-new-task">Fine-tune on a New Task<a class="anchor" aria-label="anchor" href="#fine-tune-on-a-new-task"></a>
 </h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">task</span> <span class="op">&lt;-</span> <span class="va">pipeline</span><span class="op">$</span><span class="fu">get_task</span><span class="op">(</span><span class="op">)</span></span>
@@ -198,7 +198,7 @@ selection and trains an MLP via mlr3torch.</p>
 <code><a href="../reference/autoencoder_fit.html">autoencoder_fit()</a></code> and passed into the pipeline using
 <code>pretrained</code> and <code>freeze_encoder</code>.</li>
 <li>For transfer learning across datasets, export checkpoints and
-re‑train with <code><a href="../reference/finetune_mlr3torch_checkpoint.html">finetune_mlr3torch_checkpoint()</a></code>.</li>
+re-train with <code><a href="../reference/finetune_mlr3torch_checkpoint.html">finetune_mlr3torch_checkpoint()</a></code>.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

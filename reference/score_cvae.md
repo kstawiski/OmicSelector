@@ -55,7 +55,9 @@ arXiv:1312.6114.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_cvae(X, y)
-score_cvae(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_cvae(X, y)
+  score_cvae(model, X[1, , drop = FALSE])
+}
 } # }
 ```

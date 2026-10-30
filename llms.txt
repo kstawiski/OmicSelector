@@ -605,6 +605,8 @@ Internal functions and helpers (exported for advanced use)
   : Load Autoencoder State
 - [`autoencoder_save()`](https://kstawiski.github.io/OmicSelector/reference/autoencoder_save.md)
   : Save Autoencoder State
+- [`available_methods()`](https://kstawiski.github.io/OmicSelector/reference/available_methods.md)
+  : Inspect installed method dependencies
 - [`balance_classes()`](https://kstawiski.github.io/OmicSelector/reference/balance_classes.md)
   : Create Balanced Training Set
 - [`bias-audit`](https://kstawiski.github.io/OmicSelector/reference/bias-audit.md)
@@ -959,6 +961,8 @@ Internal functions and helpers (exported for advanced use)
   : Import mlr3torch Checkpoint into OmicFit
 - [`impute_within_fold()`](https://kstawiski.github.io/OmicSelector/reference/impute_within_fold.md)
   : Within-Fold Median Imputation (Leakage-Free)
+- [`install_method_dependencies()`](https://kstawiski.github.io/OmicSelector/reference/install_method_dependencies.md)
+  : Install dependencies for selected methods
 - [`interpretability`](https://kstawiski.github.io/OmicSelector/reference/interpretability.md)
   : Model Interpretability for OmicSelector
 - [`is_singlesample_deployable()`](https://kstawiski.github.io/OmicSelector/reference/is_singlesample_deployable.md)
@@ -998,6 +1002,8 @@ Internal functions and helpers (exported for advanced use)
   : Memoize Function with Split Context
 - [`merge_omics_data()`](https://kstawiski.github.io/OmicSelector/reference/merge_omics_data.md)
   : Merge Multi-Omics Data for Analysis
+- [`method_requirements()`](https://kstawiski.github.io/OmicSelector/reference/method_requirements.md)
+  : Requirements and measured costs for registered methods
 - [`methods-comparison`](https://kstawiski.github.io/OmicSelector/reference/methods-comparison.md)
   : Methods Comparison Utilities
 - [`mimat_hsa_lookup`](https://kstawiski.github.io/OmicSelector/reference/mimat_hsa_lookup.md)
@@ -1044,6 +1050,8 @@ Internal functions and helpers (exported for advanced use)
   : Adaptive Pseudocount log2 Transform
 - [`os_mahalanobis_score()`](https://kstawiski.github.io/OmicSelector/reference/os_mahalanobis_score.md)
   : Mahalanobis Anomaly Score from a Reference Set
+- [`os_make_benchmark_folds()`](https://kstawiski.github.io/OmicSelector/reference/os_make_benchmark_folds.md)
+  : Reproduce the archived benchmark grouped folds
 - [`os_make_grouped_stratified_folds()`](https://kstawiski.github.io/OmicSelector/reference/os_make_grouped_stratified_folds.md)
   : Build Grouped Stratified Folds
 - [`os_mde_margin_record()`](https://kstawiski.github.io/OmicSelector/reference/os_mde_margin_record.md)
@@ -1617,3 +1625,5 @@ Internal functions and helpers (exported for advanced use)
 
 - [Single-sample deployment with
   OmicSelector](https://kstawiski.github.io/OmicSelector/articles/single-sample-deployment.md):
+- [Deploying a frozen single-sample
+  classifier](https://kstawiski.github.io/OmicSelector/articles/deploying-frozen-classifier.md):

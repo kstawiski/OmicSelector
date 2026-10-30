@@ -36,13 +36,16 @@ A PipeOp object
 
 ``` r
 if (FALSE) { # \dontrun{
-# Create pipeline with frozen ComBat
-library(mlr3pipelines)
+if (requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE)) {
+  # Create pipeline with frozen ComBat
+  library(mlr3pipelines)
 
-po_combat <- create_frozen_combat_pipeop(batch_col = "batch")
-po_scale <- po("scale")
-po_learner <- po("learner", lrn("classif.ranger"))
+  po_combat <- create_frozen_combat_pipeop(batch_col = "batch")
+  po_scale <- po("scale")
+  po_learner <- po("learner", lrn("classif.ranger"))
 
-graph <- po_combat %>>% po_scale %>>% po_learner
+  graph <- po_combat %>>% po_scale %>>% po_learner
+}
 } # }
 ```

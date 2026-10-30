@@ -27,7 +27,7 @@ fit_frozen_quantile(
 
 - n_quantiles:
 
-  Integer — number of quantile grid levels (resolution). Default 1000.
+  Integer – number of quantile grid levels (resolution). Default 1000.
 
 - na_action:
 
@@ -42,7 +42,7 @@ Object of class `frozen_quantile_fit` with components: `quantile_ref`
 
 ## References
 
-Bolstad BM, et al. (2003) *Bioinformatics* 19: 185–193.
+Bolstad BM, et al. (2003) *Bioinformatics* 19: 185-193.
 
 ## Examples
 

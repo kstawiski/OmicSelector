@@ -54,7 +54,7 @@ should supply a custom table via the `table` argument of
 
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from
 microRNA sequences to function. *Nucleic Acids Research* 47(D1):
-D155–D162. DOI:
+D155-D162. DOI:
 [doi:10.1093/nar/gky1141](https://doi.org/10.1093/nar/gky1141)
 
 ## Examples

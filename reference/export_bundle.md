@@ -51,13 +51,15 @@ List with paths to all exported files
 
 ``` r
 if (FALSE) { # \dontrun{
-# Create complete export bundle
-bundle <- export_bundle(
-  learner = trained_learner,
-  model_name = "biomarker_classifier",
-  task = my_task,
-  output_dir = "model_export",
-  create_api = TRUE
-)
+if (requireNamespace("jsonlite", quietly = TRUE)) {
+  # Create complete export bundle
+  bundle <- export_bundle(
+    learner = trained_learner,
+    model_name = "biomarker_classifier",
+    task = my_task,
+    output_dir = "model_export",
+    create_api = TRUE
+  )
+}
 } # }
 ```

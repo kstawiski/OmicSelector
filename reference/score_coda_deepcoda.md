@@ -57,7 +57,9 @@ PMLR 119. arXiv:2006.01392.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_coda_deepcoda(X, y)
-score_coda_deepcoda(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_coda_deepcoda(X, y)
+  score_coda_deepcoda(model, X[1, , drop = FALSE])
+}
 } # }
 ```

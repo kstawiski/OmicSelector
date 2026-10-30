@@ -55,7 +55,9 @@ Extrapolation (REx). *ICML*. arXiv:2003.00688.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_dro_vrex(X, y, meta_train = meta)
-score_dro_vrex(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dro_vrex(X, y, meta_train = meta)
+  score_dro_vrex(model, X[1, , drop = FALSE])
+}
 } # }
 ```

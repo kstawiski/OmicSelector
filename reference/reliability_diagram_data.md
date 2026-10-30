@@ -30,14 +30,16 @@ A data frame suitable for ggplot2
 
 ``` r
 if (FALSE) { # \dontrun{
-library(ggplot2)
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  library(ggplot2)
 
-diagram_data <- reliability_diagram_data(probs, labels)
+  diagram_data <- reliability_diagram_data(probs, labels)
 
-ggplot(diagram_data, aes(x = mean_predicted, y = fraction_positive)) +
-  geom_point(aes(size = n_samples)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
-  xlim(0, 1) + ylim(0, 1) +
-  labs(x = "Mean Predicted Probability", y = "Fraction of Positives")
+  ggplot(diagram_data, aes(x = mean_predicted, y = fraction_positive)) +
+    geom_point(aes(size = n_samples)) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    xlim(0, 1) + ylim(0, 1) +
+    labs(x = "Mean Predicted Probability", y = "Fraction of Positives")
+}
 } # }
 ```

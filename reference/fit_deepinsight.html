@@ -15,7 +15,7 @@ Requires Rtsne package."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ Requires Rtsne package."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fit DeepInsight Feature Layout</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.9/R/image-encodings.R" class="external-link"><code>R/image-encodings.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/image-encodings.R" class="external-link"><code>R/image-encodings.R</code></a></small>
       <div class="d-none name"><code>fit_deepinsight.Rd</code></div>
     </div>
 
@@ -64,7 +64,7 @@ collisions by nearest-free-cell search.</p>
 
 
 <dl><dt id="arg-x-train">X_train<a class="anchor" aria-label="anchor" href="#arg-x-train"></a></dt>
-<dd><p>Numeric matrix (n_train × p features)</p></dd>
+<dd><p>Numeric matrix (n_train  x  p features)</p></dd>
 
 
 <dt id="arg-grid-size">grid_size<a class="anchor" aria-label="anchor" href="#arg-grid-size"></a></dt>
@@ -81,7 +81,7 @@ collisions by nearest-free-cell search.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with:</p><ul><li><p><code>positions</code>: p × 2 integer matrix of (row, col) per feature</p></li>
+    <p>A list with:</p><ul><li><p><code>positions</code>: p  x  2 integer matrix of (row, col) per feature</p></li>
 <li><p><code>grid_size</code>: the grid dimension</p></li>
 </ul></div>
     <div class="section level2">
@@ -92,8 +92,10 @@ collisions by nearest-free-cell search.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">X_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">10</span>, ncol <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">layout</span> <span class="op">&lt;-</span> <span class="fu">fit_deepinsight</span><span class="op">(</span><span class="va">X_train</span>, grid_size <span class="op">=</span> <span class="fl">7</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"Rtsne"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">X_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">10</span>, ncol <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">layout</span> <span class="op">&lt;-</span> <span class="fu">fit_deepinsight</span><span class="op">(</span><span class="va">X_train</span>, grid_size <span class="op">=</span> <span class="fl">7</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

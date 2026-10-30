@@ -2,6 +2,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/404.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/LICENSE-text.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/articles/deep-learning.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/articles/deploying-frozen-classifier.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/articles/getting-started.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/articles/index.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/articles/single-sample-deployment.html</loc></url>
@@ -56,6 +57,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/autoencoder_fit.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/autoencoder_load.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/autoencoder_save.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/available_methods.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/balance_classes.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/bias-audit.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/biofluid_aware_scoring.html</loc></url>
@@ -267,6 +269,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/import_omicfit_checkpoint.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/impute_within_fold.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/index.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/install_method_dependencies.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/interpret_stability.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/interpretability.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/is_singlesample_deployable.html</loc></url>
@@ -287,6 +290,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/make_tabpfn_learner.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/memoize_with_split.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/merge_omics_data.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/method_requirements.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/methods-comparison.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/mimat_hsa_lookup.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/mirna_alias_table.html</loc></url>
@@ -310,6 +314,7 @@
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_ktsp_fit.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_log_transform_adaptive.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_mahalanobis_score.html</loc></url>
+<url><loc>https://kstawiski.github.io/OmicSelector/reference/os_make_benchmark_folds.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_make_grouped_stratified_folds.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_mde_margin_record.html</loc></url>
 <url><loc>https://kstawiski.github.io/OmicSelector/reference/os_null_qc.html</loc></url>

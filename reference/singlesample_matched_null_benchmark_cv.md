@@ -121,13 +121,15 @@ audit. See the single-sample statistical-evaluation protocol.
 
 ``` r
 if (FALSE) { # \dontrun{
-set.seed(99)
-X <- matrix(rlnorm(150 * 120, 5, 1), nrow = 150,
-            dimnames = list(NULL, paste0("f-", seq_len(120))))
-y <- rbinom(150, 1, 0.5)
-X[y == 1, paste0("f-", 1:10)] <- X[y == 1, paste0("f-", 1:10)] * 3
-res <- singlesample_matched_null_benchmark_cv(X, y, panel_size = 10L,
-                                         K = 100L, outer_k = 5L)
-res$p_emp_cv
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(99)
+  X <- matrix(rlnorm(150 * 120, 5, 1), nrow = 150,
+              dimnames = list(NULL, paste0("f-", seq_len(120))))
+  y <- rbinom(150, 1, 0.5)
+  X[y == 1, paste0("f-", 1:10)] <- X[y == 1, paste0("f-", 1:10)] * 3
+  res <- singlesample_matched_null_benchmark_cv(X, y, panel_size = 10L,
+                                           K = 100L, outer_k = 5L)
+  res$p_emp_cv
+}
 } # }
 ```

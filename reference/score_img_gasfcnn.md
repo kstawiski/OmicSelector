@@ -58,7 +58,9 @@ and Imputation. *IJCAI*; arXiv:1506.00327.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_img_gasfcnn(X, y)
-score_img_gasfcnn(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_img_gasfcnn(X, y)
+  score_img_gasfcnn(model, X[1, , drop = FALSE])
+}
 } # }
 ```

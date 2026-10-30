@@ -19,14 +19,14 @@ Methods provided:
 - [`fit_robust_pca_residual`](https://kstawiski.github.io/OmicSelector/reference/fit_robust_pca_residual.md)
   /
   [`apply_robust_pca_residual`](https://kstawiski.github.io/OmicSelector/reference/apply_robust_pca_residual.md):
-  MAD-scaled SVD residual filter. NOT the Candès RPCA (ALM
+  MAD-scaled SVD residual filter. NOT the Candes RPCA (ALM
   sparse-low-rank) decomposition.
 
 ## References
 
 Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq
 data using factor analysis of control genes or samples. *Nature
-Biotechnology* 32(9): 896–902.
+Biotechnology* 32(9): 896-902.
 
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA: A New Approach
-to Robust Principal Component Analysis. *Technometrics* 47(1): 64–79.
+to Robust Principal Component Analysis. *Technometrics* 47(1): 64-79.

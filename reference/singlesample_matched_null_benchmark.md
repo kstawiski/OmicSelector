@@ -50,15 +50,15 @@ singlesample_matched_null_benchmark(
 
 - K:
 
-  Integer — number of null panels. Default 10,000 (per plan v0.3.3).
+  Integer – number of null panels. Default 10,000 (per plan v0.3.3).
 
 - feature_pool:
 
-  Character vector — full feature pool. Defaults to `colnames(X)`.
+  Character vector – full feature pool. Defaults to `colnames(X)`.
 
 - exclude_features:
 
-  Character — feature names to exclude from the candidate pool (e.g.,
+  Character – feature names to exclude from the candidate pool (e.g.,
   hemolysis markers). Default `character(0)`.
 
 - post_hemolysis_corrected:
@@ -68,7 +68,7 @@ singlesample_matched_null_benchmark(
 
 - seed:
 
-  Integer — RNG seed. Default 42.
+  Integer – RNG seed. Default 42.
 
 - auc_ci_method:
 
@@ -131,14 +131,16 @@ A list with components:
 
 ``` r
 if (FALSE) { # \dontrun{
-set.seed(42)
-X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
-            dimnames = list(NULL, paste0("mir-", seq_len(50))))
-y <- rbinom(100, 1, 0.5)
-panel <- paste0("mir-", 1:10)
-res <- singlesample_matched_null_benchmark(X, y, panel,
-         scoring_fn = function(M) rowSums(log(M + 1)),
-         K = 200L)
-res$p_emp
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(42)
+  X <- matrix(rlnorm(100 * 50, meanlog = 5, sdlog = 1), nrow = 100,
+              dimnames = list(NULL, paste0("mir-", seq_len(50))))
+  y <- rbinom(100, 1, 0.5)
+  panel <- paste0("mir-", 1:10)
+  res <- singlesample_matched_null_benchmark(X, y, panel,
+           scoring_fn = function(M) rowSums(log(M + 1)),
+           K = 200L)
+  res$p_emp
+}
 } # }
 ```

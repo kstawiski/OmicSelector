@@ -55,13 +55,15 @@ correlations (safe to interpret)
 
 ``` r
 if (FALSE) { # \dontrun{
-# Compute SHAP with correlation warnings
-result <- compute_shap_with_warnings(model, test_data)
+if (requireNamespace("DALEX", quietly = TRUE)) {
+  # Compute SHAP with correlation warnings
+  result <- compute_shap_with_warnings(model, test_data)
 
-# Check which features have reliable SHAP interpretations
-print(result$reliable_features)
+  # Check which features have reliable SHAP interpretations
+  print(result$reliable_features)
 
-# View correlation warnings
-print(result$warnings)
+  # View correlation warnings
+  print(result$warnings)
+}
 } # }
 ```

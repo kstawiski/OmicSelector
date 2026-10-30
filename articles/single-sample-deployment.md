@@ -3,7 +3,7 @@
 ``` r
 
 library(OmicSelector)
-#> OmicSelector 2.6.9 - Leakage-Resistant Biomarker Discovery
+#> OmicSelector 2.6.10 - Leakage-Resistant Biomarker Discovery
 #> Use OmicPipeline$new() to start. Run ?OmicSelector for help.
 ```
 
@@ -19,7 +19,7 @@ library(OmicSelector)
 > scores one incoming specimen from its own panel values plus frozen
 > fit-time parameters, with no co-resident test batch. It is not a claim
 > that `ws-balance-ilr`, or any single-sample method, out-discriminates
-> a batch-corrected pipeline — choose and validate the scoring method on
+> a batch-corrected pipeline – choose and validate the scoring method on
 > your own data.
 
 ## Make a tiny synthetic compositional panel
@@ -201,11 +201,10 @@ on other panels or clinical readiness.
 
 ## Inspect the method roster, not a ranking
 
-The deployment wrapper is intentionally fail-closed. Roughly 30 rostered
-single-sample methods are deployable through this fit-freeze-score
-pattern, and methods needing cohort context, unavailable backends, or
-non-scalar outputs reject cleanly rather than pretending to be
-singleton-safe. Use
+The deployment wrapper is intentionally fail-closed. All 73 rostered
+methods retain their fit-freeze-score routes. Methods with missing
+required context, unavailable backends, or invalid outputs stop with an
+error. Use
 [`singlesample_method_roster()`](https://kstawiski.github.io/OmicSelector/reference/singlesample_method_roster.md)
 to inspect the current roster and do not treat the roster order as a
 performance ranking.

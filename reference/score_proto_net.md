@@ -54,7 +54,9 @@ Learning. *NeurIPS* 30. arXiv:1703.05175.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_proto_net(X, y)
-score_proto_net(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_proto_net(X, y)
+  score_proto_net(model, X[1, , drop = FALSE])
+}
 } # }
 ```

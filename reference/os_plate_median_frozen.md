@@ -23,7 +23,7 @@ and an empirical-Bayes shrinkage is desirable.
 
 - `$new(scale)`:
 
-  Constructor; `scale` ∈ {"none", "iqr", "mad"}.
+  Constructor; `scale` is one of "none", "iqr" or "mad".
 
 - `$fit(data, plate)`:
 

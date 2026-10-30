@@ -23,7 +23,7 @@ preprocess_inverse_log(x, base = 2, pseudo = 0)
 - x:
 
   Numeric matrix (features \\\times\\ samples, or samples \\\times\\
-  features — the function operates element-wise). Both orientations are
+  features – the function operates element-wise). Both orientations are
   accepted; the transform is purely element-wise.
 
 - base:
@@ -44,7 +44,7 @@ scale. The attribute `preprocessing` records the transform applied.
 
 ## References
 
-Toray Industries, Inc. (3D-Gene microRNA chip) — data format
+Toray Industries, Inc. (3D-Gene microRNA chip) – data format
 specification.
 
 ## Examples

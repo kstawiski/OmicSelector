@@ -39,8 +39,12 @@ A DALEX explainer object
 
 ``` r
 if (FALSE) { # \dontrun{
-learner <- lrn("classif.ranger", predict_type = "prob")
-learner$train(task)
-explainer <- xai_explainer_mlr3(learner, task)
+if (requireNamespace("DALEX", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE)) {
+  learner <- lrn("classif.ranger", predict_type = "prob")
+  learner$train(task)
+  explainer <- xai_explainer_mlr3(learner, task)
+}
 } # }
 ```

@@ -56,7 +56,9 @@ arXiv:2106.15147.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_ai_scarf(X, y)
-score_ai_scarf(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_ai_scarf(X, y)
+  score_ai_scarf(model, X[1, , drop = FALSE])
+}
 } # }
 ```

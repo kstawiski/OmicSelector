@@ -42,7 +42,7 @@ A list with class `"os_bias_floor"`:
 
 - apparent_auc:
 
-  Logistic regression AUC on the training data (upper bound — optimistic
+  Logistic regression AUC on the training data (upper bound – optimistic
   by design)
 
 - cv_auc:

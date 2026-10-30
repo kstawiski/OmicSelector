@@ -80,14 +80,16 @@ Mixture-of-Experts Layer. *ICLR*. arXiv:1701.06538.
 
 ``` r
 if (FALSE) { # \dontrun{
-set.seed(1)
-n <- 80; p <- 30; k <- 8
-L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
-            dimnames = list(NULL, paste0("miR-", seq_len(p))))
-y <- rep(c(0, 1), each = n / 2)
-L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
-X <- exp(L)
-model <- fit_moe_gated(X, y)
-score_moe_gated(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  set.seed(1)
+  n <- 80; p <- 30; k <- 8
+  L <- matrix(stats::rnorm(n * p, 4, 0.5), nrow = n,
+              dimnames = list(NULL, paste0("miR-", seq_len(p))))
+  y <- rep(c(0, 1), each = n / 2)
+  L[y == 1, seq_len(k)] <- L[y == 1, seq_len(k)] + 1.2
+  X <- exp(L)
+  model <- fit_moe_gated(X, y)
+  score_moe_gated(model, X[1, , drop = FALSE])
+}
 } # }
 ```

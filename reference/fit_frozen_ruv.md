@@ -37,7 +37,7 @@ fit_frozen_ruv(
 - k:
 
   Integer or integer vector (range). Number of unwanted factors to
-  estimate. Default `2:6` — BIC selects within this range.
+  estimate. Default `2:6` – BIC selects within this range.
 
 - select:
 
@@ -55,7 +55,7 @@ Object of class `frozen_ruv_fit` with components: `feat_mean`,
 
 Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq
 data using factor analysis of control genes or samples. *Nature
-Biotechnology* 32(9): 896–902.
+Biotechnology* 32(9): 896-902.
 
 ## Examples
 

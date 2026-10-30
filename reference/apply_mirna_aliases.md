@@ -2,7 +2,7 @@
 
 Convenience wrapper around
 [`resolve_mirna_aliases`](https://kstawiski.github.io/OmicSelector/reference/resolve_mirna_aliases.md)
-that accepts a samples × features matrix or a named numeric vector and
+that accepts a samples x features matrix or a named numeric vector and
 renames the features (column names of the matrix, or
 [`names()`](https://rdrr.io/r/base/names.html) of the vector) to the
 target namespace. Unresolved features are either dropped
@@ -26,7 +26,7 @@ apply_mirna_aliases(
 
 - x:
 
-  A samples × features `matrix` with column names, or a named numeric
+  A samples x features `matrix` with column names, or a named numeric
   vector.
 
 - target_namespace:
@@ -65,7 +65,7 @@ features are unresolved, those columns / elements are removed.
 
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from
 microRNA sequences to function. *Nucleic Acids Research* 47(D1):
-D155–D162. DOI:
+D155-D162. DOI:
 [doi:10.1093/nar/gky1141](https://doi.org/10.1093/nar/gky1141)
 
 ## Examples

@@ -55,7 +55,9 @@ for Out-of-Distribution Generalization. *NeurIPS 34*. arXiv:2106.06607.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_dg_ibirm(X, y, meta_train = meta)
-score_dg_ibirm(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dg_ibirm(X, y, meta_train = meta)
+  score_dg_ibirm(model, X[1, , drop = FALSE])
+}
 } # }
 ```

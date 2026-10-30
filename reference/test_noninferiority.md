@@ -92,12 +92,14 @@ A list with:
 
 ``` r
 if (FALSE) { # \dontrun{
-result <- test_noninferiority(
-  response = y_test,
-  predictor_candidate = pred_reduced_panel,
-  predictor_reference = pred_full_panel,
-  delta = 0.03
-)
-cat("Non-inferior:", result$non_inferior, "\n")
+if (requireNamespace("pROC", quietly = TRUE)) {
+  result <- test_noninferiority(
+    response = y_test,
+    predictor_candidate = pred_reduced_panel,
+    predictor_reference = pred_full_panel,
+    delta = 0.03
+  )
+  cat("Non-inferior:", result$non_inferior, "\n")
+}
 } # }
 ```

@@ -55,7 +55,9 @@ Detecting Out-of-Distribution Samples and Adversarial Attacks. *NeurIPS*
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_lrt_deepmaha(X, y)
-score_lrt_deepmaha(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_lrt_deepmaha(X, y)
+  score_lrt_deepmaha(model, X[1, , drop = FALSE])
+}
 } # }
 ```

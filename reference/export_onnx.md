@@ -48,12 +48,16 @@ vetiver for R-based deployment of these models.
 
 ``` r
 if (FALSE) { # \dontrun{
-# Train xgboost model
-task <- tsk("iris")
-learner <- lrn("classif.xgboost", nrounds = 50)
-learner$train(task)
+if (requireNamespace("jsonlite", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("xgboost", quietly = TRUE)) {
+  # Train xgboost model
+  task <- tsk("iris")
+  learner <- lrn("classif.xgboost", nrounds = 50)
+  learner$train(task)
 
-# Export to ONNX-compatible format
-export_onnx(learner, "model.onnx", task)
+  # Export to ONNX-compatible format
+  export_onnx(learner, "model.onnx", task)
+}
 } # }
 ```

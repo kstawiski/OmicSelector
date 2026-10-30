@@ -26,17 +26,20 @@ A StabilityEnsemble object
 
 ``` r
 if (FALSE) { # \dontrun{
-# Default: 100 bootstraps, glmnet base learner
-ensemble <- create_stability_ensemble("default")
+if (requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("glmnet", quietly = TRUE)) {
+  # Default: 100 bootstraps, glmnet base learner
+  ensemble <- create_stability_ensemble("default")
 
-# Fast: 50 bootstraps for quick exploration
-ensemble <- create_stability_ensemble("fast")
+  # Fast: 50 bootstraps for quick exploration
+  ensemble <- create_stability_ensemble("fast")
 
-# Thorough: 500 bootstraps for publication-quality results
-ensemble <- create_stability_ensemble("thorough")
+  # Thorough: 500 bootstraps for publication-quality results
+  ensemble <- create_stability_ensemble("thorough")
 
-# Fit and predict
-ensemble$fit(task)
-probs <- ensemble$predict(task)
+  # Fit and predict
+  ensemble$fit(task)
+  probs <- ensemble$predict(task)
+}
 } # }
 ```

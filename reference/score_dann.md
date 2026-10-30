@@ -57,7 +57,9 @@ Ganin Y, et al. (2016) Domain-Adversarial Training of Neural Networks.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_dann(X, y, meta_train = meta)
-score_dann(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dann(X, y, meta_train = meta)
+  score_dann(model, X[1, , drop = FALSE])
+}
 } # }
 ```

@@ -42,16 +42,16 @@ so a query's normalisation depends only on the FROZEN stats – never on
 the other rows in the scored batch. In `net.train()` mode BatchNorm
 would compute per-batch statistics and COUPLE the rows, breaking
 single-sample deployability; eval mode is therefore mandatory and is
-asserted by a dedicated test (§7.10). (2) On a TRAINED net the float32
-conv accumulation across the batch dimension makes a 1-row forward
-differ from the same row inside an \\n\>1\\ batch by \\\sim 2\times
-10^{-7}\\ (a tiling/accumulation artefact, not a cross-row coupling). To
-remove even that, this scorer forwards in **float64** and ONE ROW AT A
-TIME, so the \\n=1\\ path is used uniformly and a row's logit is
-bit-identical whether scored alone or in any batch (single-row score ==
-batch score EXACTLY 0). float64 also makes the same image in a batch of
-1 vs a batch of 32 agree to \\\sim 4\times 10^{-16}\\ (the frozen-BN
-eval-mode proof).
+asserted by a dedicated test (section 7.10). (2) On a TRAINED net the
+float32 conv accumulation across the batch dimension makes a 1-row
+forward differ from the same row inside an \\n\>1\\ batch by \\\sim
+2\times 10^{-7}\\ (a tiling/accumulation artefact, not a cross-row
+coupling). To remove even that, this scorer forwards in **float64** and
+ONE ROW AT A TIME, so the \\n=1\\ path is used uniformly and a row's
+logit is bit-identical whether scored alone or in any batch (single-row
+score == batch score EXACTLY 0). float64 also makes the same image in a
+batch of 1 vs a batch of 32 agree to \\\sim 4\times 10^{-16}\\ (the
+frozen-BN eval-mode proof).
 
 **GASF transform (deterministic, single-sample-safe via FROZEN
 bounds).** For a specimen's universe-aligned per-sample rCLR vector
@@ -67,8 +67,8 @@ single-channel \\p \times p\\ image. Because the bounds are FROZEN
 min/max – so the image depends ONLY on the query and the frozen bounds,
 making it single-sample. The transform is implemented in python (numpy)
 at fit and score; a pure-R `.img_gasfcnn_gasf` reimplements the closed
-form and is used only by a §7 test to independently verify the python
-GASF.
+form and is used only by a section 7 test to independently verify the
+python GASF.
 
 **Single-sample transform.** Each specimen is mapped to the
 self-contained per-sample robust CLR over its OWN strictly-positive

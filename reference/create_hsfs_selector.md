@@ -26,16 +26,20 @@ A SequentialSelector object
 
 ``` r
 if (FALSE) { # \dontrun{
-# Default pipeline: variance -> ANOVA(5000) -> RF_importance(1000) -> AUC_filter
-selector <- create_hsfs_selector("default")
+if (requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE) &&
+    requireNamespace("xgboost", quietly = TRUE)) {
+  # Default pipeline: variance -> ANOVA(5000) -> RF_importance(1000) -> AUC_filter
+  selector <- create_hsfs_selector("default")
 
-# Aggressive reduction for very high-dimensional data
-selector <- create_hsfs_selector("aggressive")
+  # Aggressive reduction for very high-dimensional data
+  selector <- create_hsfs_selector("aggressive")
 
-# Conservative - keep more features
-selector <- create_hsfs_selector("conservative")
+  # Conservative - keep more features
+  selector <- create_hsfs_selector("conservative")
 
-# Create GraphLearner
-learner <- selector$create_learner(model = "xgboost")
+  # Create GraphLearner
+  learner <- selector$create_learner(model = "xgboost")
+}
 } # }
 ```

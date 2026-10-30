@@ -23,4 +23,4 @@ Methods provided:
 ## References
 
 Huber PJ. (1964) Robust Estimation of a Location Parameter. *The Annals
-of Mathematical Statistics* 35(1): 73–101.
+of Mathematical Statistics* 35(1): 73-101.

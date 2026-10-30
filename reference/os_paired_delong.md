@@ -42,10 +42,11 @@ return one), `n_pos`, `n_neg`, `alternative`, and `method` (= "DeLong").
 ## Examples
 
 ``` r
-set.seed(7)
-y <- rep(c(0, 1), each = 50)
-a <- y + rnorm(100, sd = 0.5)            # informative
-b <- rnorm(100)                          # random
-os_paired_delong(y, a, b, alternative = "greater")
-#> Error: os_paired_delong() requires the 'pROC' package. Install it first.
+if (requireNamespace("pROC", quietly = TRUE)) {
+  set.seed(7)
+  y <- rep(c(0, 1), each = 50)
+  a <- y + rnorm(100, sd = 0.5)            # informative
+  b <- rnorm(100)                          # random
+  os_paired_delong(y, a, b, alternative = "greater")
+}
 ```

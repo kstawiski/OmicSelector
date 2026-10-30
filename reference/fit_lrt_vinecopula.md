@@ -178,15 +178,17 @@ Joe H. (2014) *Dependence Modeling with Copulas*. Chapman and Hall/CRC.
 
 ``` r
 if (FALSE) { # \dontrun{
-set.seed(1)
-n <- 120; p <- 30
-L <- matrix(stats::rnorm(n * p, 4, 0.6), nrow = n,
-            dimnames = list(NULL, paste0("miR-", seq_len(p))))
-y <- rep(c(0, 1), each = n / 2)
-f <- stats::rnorm(sum(y == 1))
-L[y == 1, 1:8] <- L[y == 1, 1:8] + outer(f, rep(1.4, 8))  # case-only block
-X <- exp(L)
-model <- fit_lrt_vinecopula(X, y)
-score <- score_lrt_vinecopula(model, X)
+if (requireNamespace("rvinecopulib", quietly = TRUE)) {
+  set.seed(1)
+  n <- 120; p <- 30
+  L <- matrix(stats::rnorm(n * p, 4, 0.6), nrow = n,
+              dimnames = list(NULL, paste0("miR-", seq_len(p))))
+  y <- rep(c(0, 1), each = n / 2)
+  f <- stats::rnorm(sum(y == 1))
+  L[y == 1, 1:8] <- L[y == 1, 1:8] + outer(f, rep(1.4, 8))  # case-only block
+  X <- exp(L)
+  model <- fit_lrt_vinecopula(X, y)
+  score <- score_lrt_vinecopula(model, X)
+}
 } # }
 ```

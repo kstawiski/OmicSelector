@@ -41,7 +41,7 @@ fit_dacvae(X_train, y_train, meta_train = NULL, annotation, hp = list())
 - annotation:
 
   data.frame with columns `feature` (miRNA id), `cluster`
-  (genomic-cluster id), `gc` (GC fraction) — the Stage-1 SBP priors.
+  (genomic-cluster id), `gc` (GC fraction) – the Stage-1 SBP priors.
 
 - hp:
 

@@ -89,7 +89,7 @@ A list with:
 
 - `oof_predictions`:
 
-  Named list of length `length(seeds)` — each element is a named list of
+  Named list of length `length(seeds)` – each element is a named list of
   OOF score vectors keyed by pipeline.
 
 - `pairwise_delong`:

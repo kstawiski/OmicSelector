@@ -23,7 +23,7 @@ Methods provided:
   BH-FDR within a modality family.
 
 - [`singlesample_holm_correct_familywise`](https://kstawiski.github.io/OmicSelector/reference/singlesample_holm_correct_familywise.md):
-  Holm correction for family-wise method × claim-state contrasts.
+  Holm correction for family-wise method x claim-state contrasts.
 
 - [`singlesample_bh_fdr_correct_blocked`](https://kstawiski.github.io/OmicSelector/reference/singlesample_bh_fdr_correct_blocked.md):
   block-aware two-stage BH-FDR for specimen-shared cohort clusters.
@@ -32,4 +32,4 @@ Methods provided:
 
 Benjamini Y, Hochberg Y. (1995) Controlling the False Discovery Rate: A
 Practical and Powerful Approach to Multiple Testing. *Journal of the
-Royal Statistical Society Series B* 57(1): 289–300.
+Royal Statistical Society Series B* 57(1): 289-300.

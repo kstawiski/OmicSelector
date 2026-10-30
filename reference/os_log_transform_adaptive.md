@@ -3,7 +3,7 @@
 Compute `log2(x + pseudocount)` where the pseudocount is chosen
 per-feature to avoid distorting the dynamic range. Critical when the
 same analysis matrix mixes raw counts (typical scale 1-10000) with
-pre-normalized ratios (typical scale 0.001-0.1) — adding a fixed +1 to a
+pre-normalized ratios (typical scale 0.001-0.1) – adding a fixed +1 to a
 0.003 ratio compresses its log2 to near zero and erases the signal.
 
 ## Usage

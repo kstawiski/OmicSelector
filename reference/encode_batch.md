@@ -18,7 +18,7 @@ encode_batch(
 
 - X:
 
-  Numeric matrix (n × p)
+  Numeric matrix (n x p)
 
 - method:
 
@@ -35,7 +35,7 @@ encode_batch(
 
 ## Value
 
-A 3D array (n × height × width)
+A 3D array (n x height x width)
 
 ## References
 

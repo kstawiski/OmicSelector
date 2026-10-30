@@ -24,13 +24,13 @@ Methods provided:
 ## References
 
 Aitchison J, Shen SM. (1980) Logistic-normal distributions: some
-properties and uses. *Biometrika* 67(2): 261–272.
+properties and uses. *Biometrika* 67(2): 261-272.
 
 Efron B. (2010) Large-Scale Inference. Cambridge University Press.
 
 Bolstad BM, Irizarry RA, Astrand M, Speed TP. (2003) A comparison of
 normalization methods for high density oligonucleotide array data based
-on variance and bias. *Bioinformatics* 19(2): 185–193.
+on variance and bias. *Bioinformatics* 19(2): 185-193.
 
 Hicks SC, Okrah K, Paulson JN, Quackenbush J, Irizarry RA, Bravo HC.
-(2018) Smooth quantile normalization. *Biostatistics* 19(2): 185–198.
+(2018) Smooth quantile normalization. *Biostatistics* 19(2): 185-198.

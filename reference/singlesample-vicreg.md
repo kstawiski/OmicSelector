@@ -29,7 +29,7 @@ on the per-dimension embedding std; and the covariance term \\c(Z) =
 squared off-diagonal of the embedding covariance. Defaults \\\lambda =
 25, \mu = 25, \nu = 1\\ (the paper's standard). Adam optimises encoder +
 expander over `epochs` steps. The DOWNSTREAM embedding is the ENCODER
-output (pre-expander) — standard VICReg practice; the expander is
+output (pre-expander) – standard VICReg practice; the expander is
 discarded and only the encoder is exported.
 
 **Torch is confined to FIT.** The encoder is trained with torch on the

@@ -1,7 +1,7 @@
 # Resolve miRNA identifiers to a canonical namespace
 
-Maps a character vector of miRNA feature identifiers — in any of the
-supported input namespaces — to either the canonical mature miRNA name
+Maps a character vector of miRNA feature identifiers – in any of the
+supported input namespaces – to either the canonical mature miRNA name
 (`"mirna_name"`) or the primary MIMAT accession (`"mimat"`).
 Case-insensitive matching is applied to MIMAT accessions (the `MIMAT`
 prefix is treated case-insensitively); mature names and alias strings
@@ -59,21 +59,21 @@ resolved to `target_namespace` or `NA` (if unresolved and
 
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from
 microRNA sequences to function. *Nucleic Acids Research* 47(D1):
-D155–D162. DOI:
+D155-D162. DOI:
 [doi:10.1093/nar/gky1141](https://doi.org/10.1093/nar/gky1141)
 
 ## Examples
 
 ``` r
-# Toray MIMAT IDs → canonical names
+# Toray MIMAT IDs -> canonical names
 resolve_mirna_aliases(c("MIMAT0001631", "MIMAT0000418"))
 #> [1] "hsa-miR-451a" NA            
 
-# Legacy name → canonical
+# Legacy name -> canonical
 resolve_mirna_aliases("hsa-miR-451")
 #> [1] "hsa-miR-451a"
 
-# Reverse: canonical name → MIMAT
+# Reverse: canonical name -> MIMAT
 resolve_mirna_aliases("hsa-miR-451a", target_namespace = "mimat")
 #> [1] "MIMAT0001631"
 ```

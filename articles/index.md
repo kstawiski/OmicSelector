@@ -11,3 +11,5 @@
 
 - [Single-sample deployment with
   OmicSelector](https://kstawiski.github.io/OmicSelector/articles/single-sample-deployment.md):
+- [Deploying a frozen single-sample
+  classifier](https://kstawiski.github.io/OmicSelector/articles/deploying-frozen-classifier.md):

@@ -56,7 +56,9 @@ Neural Networks. *ICLR*. arXiv:1701.06538.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_moe_gated(X, y)
-score_moe_gated(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_moe_gated(X, y)
+  score_moe_gated(model, X[1, , drop = FALSE])
+}
 } # }
 ```

@@ -2,7 +2,7 @@
 
 Returns, for each row of `X`, the mean Euclidean distance in the frozen
 latent space from its encoded \\\mu\\ to its `model$novelty_k` nearest
-TRAIN control (reference) latents — a kNN-distance novelty score (design
+TRAIN control (reference) latents – a kNN-distance novelty score (design
 F9: a multi-reference score, not a single-centroid Mahalanobis). Larger
 = more out-of-distribution relative to the training reference
 population. This is a SECONDARY capability (it supports the

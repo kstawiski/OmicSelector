@@ -58,7 +58,9 @@ log-ratios for high-throughput sequencing data. *Bioinformatics*
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_coda_codacore(X, y)
-score_coda_codacore(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_coda_codacore(X, y)
+  score_coda_codacore(model, X[1, , drop = FALSE])
+}
 } # }
 ```

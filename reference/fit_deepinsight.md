@@ -18,7 +18,7 @@ fit_deepinsight(X_train, grid_size = 14L, perplexity = NULL, seed = 42L)
 
 - X_train:
 
-  Numeric matrix (n_train × p features)
+  Numeric matrix (n_train x p features)
 
 - grid_size:
 
@@ -36,7 +36,7 @@ fit_deepinsight(X_train, grid_size = 14L, perplexity = NULL, seed = 42L)
 
 A list with:
 
-- `positions`: p × 2 integer matrix of (row, col) per feature
+- `positions`: p x 2 integer matrix of (row, col) per feature
 
 - `grid_size`: the grid dimension
 
@@ -48,7 +48,9 @@ Sharma A et al. (2019). Scientific Reports 9:11399.
 
 ``` r
 if (FALSE) { # \dontrun{
-X_train <- matrix(rnorm(70), nrow = 10, ncol = 7)
-layout <- fit_deepinsight(X_train, grid_size = 7, seed = 1)
+if (requireNamespace("Rtsne", quietly = TRUE)) {
+  X_train <- matrix(rnorm(70), nrow = 10, ncol = 7)
+  layout <- fit_deepinsight(X_train, grid_size = 7, seed = 1)
+}
 } # }
 ```

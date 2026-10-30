@@ -55,7 +55,9 @@ Learning. *ICLR*. arXiv:2105.04906.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_ssl_vicreg(X, y)
-score_ssl_vicreg(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_ssl_vicreg(X, y)
+  score_ssl_vicreg(model, X[1, , drop = FALSE])
+}
 } # }
 ```

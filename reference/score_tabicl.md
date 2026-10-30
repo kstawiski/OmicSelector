@@ -61,7 +61,9 @@ arXiv:2502.05564.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_tabicl(X, y)
-score_tabicl(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_tabicl(X, y)
+  score_tabicl(model, X[1, , drop = FALSE])
+}
 } # }
 ```

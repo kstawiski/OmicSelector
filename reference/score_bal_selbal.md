@@ -57,13 +57,15 @@ M, Calle ML. (2018) Balances: a new perspective for microbiome analysis.
 
 ``` r
 if (FALSE) { # \dontrun{
-set.seed(1)
-X <- matrix(stats::rgamma(120 * 15, shape = 30, rate = 2), nrow = 120,
-            dimnames = list(NULL, paste0("f", sprintf("%02d", seq_len(15)))))
-y <- rep(c(0, 1), each = 60)
-X[y == 1, c("f01", "f02", "f03")] <- X[y == 1, c("f01", "f02", "f03")] * 1.8
-X[y == 1, c("f13", "f14", "f15")] <- X[y == 1, c("f13", "f14", "f15")] / 1.8
-model <- fit_bal_selbal(X, y, hp = list(logit_acc = "Dev"))
-score_bal_selbal(model, X[1, , drop = FALSE])
+if (requireNamespace("selbal", quietly = TRUE)) {
+  set.seed(1)
+  X <- matrix(stats::rgamma(120 * 15, shape = 30, rate = 2), nrow = 120,
+              dimnames = list(NULL, paste0("f", sprintf("%02d", seq_len(15)))))
+  y <- rep(c(0, 1), each = 60)
+  X[y == 1, c("f01", "f02", "f03")] <- X[y == 1, c("f01", "f02", "f03")] * 1.8
+  X[y == 1, c("f13", "f14", "f15")] <- X[y == 1, c("f13", "f14", "f15")] / 1.8
+  model <- fit_bal_selbal(X, y, hp = list(logit_acc = "Dev"))
+  score_bal_selbal(model, X[1, , drop = FALSE])
+}
 } # }
 ```

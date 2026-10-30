@@ -49,7 +49,9 @@ case-like.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_ecod_copod(X, y)
-score_ecod_copod(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_ecod_copod(X, y)
+  score_ecod_copod(model, X[1, , drop = FALSE])
+}
 } # }
 ```

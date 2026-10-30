@@ -79,22 +79,26 @@ Requires mlr3torch + torch. No non-deep-learning fallbacks are used.
 
 ``` r
 if (FALSE) { # \dontrun{
-# Basic MLP
-mlp <- create_mlp_learner()
+if (requireNamespace("torch", quietly = TRUE) &&
+    requireNamespace("mlr3torch", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE)) {
+  # Basic MLP
+  mlp <- create_mlp_learner()
 
-# Deeper network with more regularization
-mlp_deep <- create_mlp_learner(
-  hidden_layers = c(128, 64, 32),
-  dropout = 0.3,
-  epochs = 200
-)
+  # Deeper network with more regularization
+  mlp_deep <- create_mlp_learner(
+    hidden_layers = c(128, 64, 32),
+    dropout = 0.3,
+    epochs = 200
+  )
 
-# Use in OmicPipeline
-pipeline <- OmicPipeline$new(data, target = "outcome")
-learner <- pipeline$create_graph_learner(
-  filter = "anova",
-  model = mlp,  # Pass the MLP learner
-  n_features = 50
-)
+  # Use in OmicPipeline
+  pipeline <- OmicPipeline$new(data, target = "outcome")
+  learner <- pipeline$create_graph_learner(
+    filter = "anova",
+    model = mlp,  # Pass the MLP learner
+    n_features = 50
+  )
+}
 } # }
 ```

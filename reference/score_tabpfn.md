@@ -61,7 +61,9 @@ tabular foundation model. *Nature* 637:319-326.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_tabpfn(X, y)
-score_tabpfn(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_tabpfn(X, y)
+  score_tabpfn(model, X[1, , drop = FALSE])
+}
 } # }
 ```

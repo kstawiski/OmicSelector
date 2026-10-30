@@ -4,19 +4,19 @@ Helpers for comparing biomarker preprocessing pipelines on the same
 cohort under leakage-free cross-validation. Includes:
 
 - [`os_log_transform_adaptive()`](https://kstawiski.github.io/OmicSelector/reference/os_log_transform_adaptive.md)
-  — per-feature pseudocount log2 transform that survives mixtures of raw
+  – per-feature pseudocount log2 transform that survives mixtures of raw
   counts and pre-normalized ratios.
 
-- `os_plate_median_frozen` — R6 class for fold-frozen plate-median (or
+- `os_plate_median_frozen` – R6 class for fold-frozen plate-median (or
   batch-median) centering, simpler and more deployable than ComBat when
   only a location shift is suspected.
 
 - [`os_paired_delong()`](https://kstawiski.github.io/OmicSelector/reference/os_paired_delong.md)
-  — paired DeLong test wrapper for AUC comparison of two scoring
+  – paired DeLong test wrapper for AUC comparison of two scoring
   functions on the same cohort.
 
 - [`os_oof_pipeline_compare()`](https://kstawiski.github.io/OmicSelector/reference/os_oof_pipeline_compare.md)
-  — grouped-CV driver that runs each pipeline train-fold-frozen, pools
+  – grouped-CV driver that runs each pipeline train-fold-frozen, pools
   out-of-fold predictions per seed, and reports paired DeLong tests vs a
   reference pipeline.
 

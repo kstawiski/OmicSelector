@@ -55,7 +55,9 @@ for Out-of-Distribution Generalization. *ICML*. arXiv:2109.02934.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_dg_fishr(X, y, meta_train = meta)
-score_dg_fishr(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_dg_fishr(X, y, meta_train = meta)
+  score_dg_fishr(model, X[1, , drop = FALSE])
+}
 } # }
 ```

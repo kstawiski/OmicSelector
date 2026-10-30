@@ -56,12 +56,18 @@ A benchmark result with tuned learners
 
 ``` r
 if (FALSE) { # \dontrun{
-result <- run_bayesian_benchmark(
-  task,
-  learners = c("xgboost", "ranger", "glmnet"),
-  outer_folds = 5,
-  n_evals = 30
-)
-result$aggregate(msr("classif.auc"))
+if (requireNamespace("mlr3mbo", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("xgboost", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE) &&
+    requireNamespace("glmnet", quietly = TRUE)) {
+  result <- run_bayesian_benchmark(
+    task,
+    learners = c("xgboost", "ranger", "glmnet"),
+    outer_folds = 5,
+    n_evals = 30
+  )
+  result$aggregate(msr("classif.auc"))
+}
 } # }
 ```

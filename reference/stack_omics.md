@@ -50,15 +50,19 @@ OmicStackedEnsemble object
 
 ``` r
 if (FALSE) { # \dontrun{
-# Create and train ensemble
-ensemble <- stack_omics(
-  data_list = list(mRNA = rna_matrix, miRNA = mirna_matrix),
-  learner_list = list(mRNA = "classif.ranger", miRNA = "classif.glmnet"),
-  y = y_vector,
-  meta_learner = "classif.log_reg"
-)
+if (requireNamespace("mlr3learners", quietly = TRUE) &&
+    requireNamespace("ranger", quietly = TRUE) &&
+    requireNamespace("glmnet", quietly = TRUE)) {
+  # Create and train ensemble
+  ensemble <- stack_omics(
+    data_list = list(mRNA = rna_matrix, miRNA = mirna_matrix),
+    learner_list = list(mRNA = "classif.ranger", miRNA = "classif.glmnet"),
+    y = y_vector,
+    meta_learner = "classif.log_reg"
+  )
 
-# Predict
-preds <- ensemble$predict(list(mRNA = new_rna, miRNA = new_mirna))
+  # Predict
+  preds <- ensemble$predict(list(mRNA = new_rna, miRNA = new_mirna))
+}
 } # }
 ```

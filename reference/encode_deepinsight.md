@@ -20,7 +20,7 @@ encode_deepinsight(x, layout)
 
 ## Value
 
-A grid_size × grid_size numeric matrix
+A grid_size x grid_size numeric matrix
 
 ## References
 

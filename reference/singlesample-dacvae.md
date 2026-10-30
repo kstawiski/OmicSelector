@@ -8,10 +8,10 @@ DA-cVAE"). The encoder ingests the **Stage-1 structural-ILR balances**
 computed per specimen via
 [`ws_balance_ilr`](https://kstawiski.github.io/OmicSelector/reference/ws_balance_ilr.md)
 and standardised with train-only statistics) and maps them to a latent
-\\z\\. Training combines three FIT-only regularisers on that latent — a
+\\z\\. Training combines three FIT-only regularisers on that latent – a
 conditional VAE decoder \\p(\mathrm{balances}\mid z,
 \mathrm{platform})\\, a KL prior, and a **gradient-reversal platform
-adversary** — with a supervised disease LABEL head. The encoder + label
+adversary** – with a supervised disease LABEL head. The encoder + label
 head are then **FROZEN** and exported to R; a new specimen is scored in
 PURE base-R by its frozen disease logit on the deterministic latent \\z
 = \mu\\. Larger = more case-like.
@@ -21,12 +21,12 @@ platform/assay label conditions ONLY the decoder (conditional
 generation) and drives the GRL adversary; the ENCODER never sees the
 platform, so a held-out specimen is scored with no platform/cohort
 covariate (single-sample-faithful). The reversed adversary gradient
-pushes \\z\\ toward a representation whose platform is not recoverable —
+pushes \\z\\ toward a representation whose platform is not recoverable –
 the mechanism for *reduced platform imprint / improved cross-platform
-transportability*. As enforced in the design (v2.1 §0), this is the
-claim ceiling: the method targets reduced platform imprint, NOT platform
-"invariance", and every result from it is EXPLORATORY and never merged
-into the frozen primary headline.
+transportability*. As enforced in the design (v2.1 section 0), this is
+the claim ceiling: the method targets reduced platform imprint, NOT
+platform "invariance", and every result from it is EXPLORATORY and never
+merged into the frozen primary headline.
 
 **The DA-cVAE objective.** Let \\b\\ be the standardised structural-ILR
 balances of a specimen, \\(\mu, \log\sigma^2) = \mathrm{enc}(b)\\, \\z =
@@ -53,7 +53,7 @@ INDEPENDENT of `grl_lambda`; the GRL adversary is engaged SEPARATELY,
 only when `grl_lambda > 0` (recorded as `model$adv_engaged`). Setting
 `grl_lambda = 0` with \\\ge 2\\ platforms is therefore the design's
 **no-GRL ablation**: the SAME architecture (conditional decoder
-preserved), adversary off — exactly the baseline the design's
+preserved), adversary off – exactly the baseline the design's
 non-negotiable no-harm guard compares against. A single platform (or
 `NULL` `meta_train`) collapses the decoder to unconditional
 (`n_platforms == 1`) with the adversary necessarily off.
@@ -62,7 +62,7 @@ non-negotiable no-harm guard compares against. A single platform (or
 up to and including the \\\mu\\ head) and the disease LABEL head \\(w,
 b_0)\\ are EXPORTED to R as plain float64 matrices/vectors; the python
 module (logvar head, decoder, adversary, GRL) is DISCARDED. The fitted
-model holds NO external pointer and NO python dependency at score time —
+model holds NO external pointer and NO python dependency at score time –
 the encoder forward and the linear logit are pure base-R, so the suite
 runs the scorer on any host without the venv, and the default
 `model_digest` is a stable deterministic snapshot.
@@ -89,7 +89,7 @@ per-sample pseudocount makes them exactly invariant to per-specimen
 positive scaling), standardised with the FROZEN train mean/sd (missing
 balances imputed to the standardised mean `0`), and embedded by the
 frozen encoder. No cross-row / batch statistic is used, so a specimen's
-score depends only on that specimen and the frozen model — it passes
+score depends only on that specimen and the frozen model – it passes
 [`singlesample_assert_row_equivariant`](https://kstawiski.github.io/OmicSelector/reference/singlesample_assert_row_equivariant.md)
 (single row == batch EXACTLY, exact per-specimen scale invariance).
 Specimens with empty positive support over the frozen universe, or fewer

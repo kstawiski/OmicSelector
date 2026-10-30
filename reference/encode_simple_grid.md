@@ -1,7 +1,7 @@
 # Simple Row-Major Grid Encoding
 
 Places feature values in a rectangular grid in row-major order. Simple
-reshape with zero-padding if (rows × cols) \> p.
+reshape with zero-padding if (rows x cols) \> p.
 
 ## Usage
 
@@ -25,7 +25,7 @@ encode_simple_grid(x, rows = NULL, cols = NULL)
 
 ## Value
 
-A rows × cols numeric matrix
+A rows x cols numeric matrix
 
 ## References
 

@@ -1,6 +1,6 @@
 # Block-aware two-stage BH-FDR for specimen-shared cohort clusters
 
-Naïve BH-FDR within a modality family treats specimen-shared cohorts
+Naive BH-FDR within a modality family treats specimen-shared cohorts
 (e.g., Toray clusters with \\\sim 94.5\\\\ specimen reuse) as
 independent tests, which is anti-conservative due to strongly correlated
 test statistics. This function implements a two-stage correction:

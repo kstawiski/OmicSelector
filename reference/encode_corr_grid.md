@@ -30,7 +30,7 @@ encode_corr_grid(x, order, rows = NULL, cols = NULL)
 
 ## Value
 
-A rows × cols numeric matrix
+A rows x cols numeric matrix
 
 ## References
 

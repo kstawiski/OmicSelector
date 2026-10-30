@@ -48,3 +48,9 @@ os_make_grouped_stratified_folds(
 ## Value
 
 A list of integer test-row indices with class `"os_grouped_folds"`.
+
+## See also
+
+[`os_make_benchmark_folds`](https://kstawiski.github.io/OmicSelector/reference/os_make_benchmark_folds.md)
+reproduces the benchmark harness partitions using first-row group order
+and round-robin assignment. This helper retains row-count balancing.

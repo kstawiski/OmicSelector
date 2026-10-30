@@ -17,7 +17,7 @@ fit_corr_order(X_train, method = "average")
 
 - X_train:
 
-  Numeric matrix (n_train × p features) for fitting the order
+  Numeric matrix (n_train x p features) for fitting the order
 
 - method:
 

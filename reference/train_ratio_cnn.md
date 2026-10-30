@@ -97,10 +97,13 @@ sequencing data as compositions: an outlook and review.
 
 ``` r
 if (FALSE) { # \dontrun{
-X_train <- matrix(rnorm(14 * 20), nrow = 20)
-y_train <- factor(rep(c("control", "case"), each = 10))
-X_test <- matrix(rnorm(14 * 5), nrow = 5)
-fit <- train_ratio_cnn(X_train, y_train, X_test, epochs = 5, verbose = FALSE)
-fit$predictions
+if (requireNamespace("torch", quietly = TRUE) &&
+    requireNamespace("coro", quietly = TRUE)) {
+  X_train <- matrix(rnorm(14 * 20), nrow = 20)
+  y_train <- factor(rep(c("control", "case"), each = 10))
+  X_test <- matrix(rnorm(14 * 5), nrow = 5)
+  fit <- train_ratio_cnn(X_train, y_train, X_test, epochs = 5, verbose = FALSE)
+  fit$predictions
+}
 } # }
 ```

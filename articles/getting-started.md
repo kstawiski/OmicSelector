@@ -120,4 +120,4 @@ fit$selected_features
 
 - Increase folds for a more reliable estimate
 - Swap filters (`"mrmr"`, `"relief"`, `"correlation"`)
-- Use multi‑omics input by passing a **named list** of data.frames
+- Use multi-omics input by passing a **named list** of data.frames

@@ -60,7 +60,9 @@ Foundation Models. arXiv:2410.18164.
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_tabdpt(X, y)
-score_tabdpt(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_tabdpt(X, y)
+  score_tabdpt(model, X[1, , drop = FALSE])
+}
 } # }
 ```

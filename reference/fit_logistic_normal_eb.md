@@ -36,7 +36,7 @@ Object of class `logistic_normal_eb_fit` with components:
 
 ## References
 
-Aitchison J, Shen SM. (1980) *Biometrika* 67: 261–272. Efron B. (2010)
+Aitchison J, Shen SM. (1980) *Biometrika* 67: 261-272. Efron B. (2010)
 Large-Scale Inference. Cambridge UP.
 
 ## Examples

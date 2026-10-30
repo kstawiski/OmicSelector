@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
       <h1>Single-sample deployment with OmicSelector</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.9/vignettes/single-sample-deployment.Rmd" class="external-link"><code>vignettes/single-sample-deployment.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/vignettes/single-sample-deployment.Rmd" class="external-link"><code>vignettes/single-sample-deployment.Rmd</code></a></small>
       <div class="d-none name"><code>single-sample-deployment.Rmd</code></div>
     </div>
 
@@ -71,7 +71,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kstawiski/OmicSelector" class="external-link">OmicSelector</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; OmicSelector 2.6.9 - Leakage-Resistant Biomarker Discovery</span></span>
+<span><span class="co">#&gt; OmicSelector 2.6.10 - Leakage-Resistant Biomarker Discovery</span></span>
 <span><span class="co">#&gt; Use OmicPipeline$new() to start. Run ?OmicSelector for help.</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
@@ -86,7 +86,7 @@ co-resident test samples.</p>
 <em>deployability</em>: it scores one incoming specimen from its own
 panel values plus frozen fit-time parameters, with no co-resident test
 batch. It is not a claim that <code>ws-balance-ilr</code>, or any
-single-sample method, out-discriminates a batch-corrected pipeline —
+single-sample method, out-discriminates a batch-corrected pipeline –
 choose and validate the scoring method on your own data.</p>
 </blockquote>
 </div>
@@ -256,13 +256,12 @@ readiness.</p>
 <div class="section level2">
 <h2 id="inspect-the-method-roster-not-a-ranking">Inspect the method roster, not a ranking<a class="anchor" aria-label="anchor" href="#inspect-the-method-roster-not-a-ranking"></a>
 </h2>
-<p>The deployment wrapper is intentionally fail-closed. Roughly 30
-rostered single-sample methods are deployable through this
-fit-freeze-score pattern, and methods needing cohort context,
-unavailable backends, or non-scalar outputs reject cleanly rather than
-pretending to be singleton-safe. Use
-<code><a href="../reference/singlesample_method_roster.html">singlesample_method_roster()</a></code> to inspect the current roster
-and do not treat the roster order as a performance ranking.</p>
+<p>The deployment wrapper is intentionally fail-closed. All 73 rostered
+methods retain their fit-freeze-score routes. Methods with missing
+required context, unavailable backends, or invalid outputs stop with an
+error. Use <code><a href="../reference/singlesample_method_roster.html">singlesample_method_roster()</a></code> to inspect the
+current roster and do not treat the roster order as a performance
+ranking.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/singlesample_method_roster.html">singlesample_method_roster</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">roster</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"method_id"</span>, <span class="st">"tier"</span>, <span class="st">"dep_route"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">8</span><span class="op">)</span></span>

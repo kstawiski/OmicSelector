@@ -60,7 +60,9 @@ Anden J, Mallat S. (2014) Deep Scattering Spectrum. *IEEE TSP*
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- fit_inv_scatter(X, y)
-score_inv_scatter(model, X[1, , drop = FALSE])
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  model <- fit_inv_scatter(X, y)
+  score_inv_scatter(model, X[1, , drop = FALSE])
+}
 } # }
 ```

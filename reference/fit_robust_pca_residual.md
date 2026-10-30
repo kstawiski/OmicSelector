@@ -1,7 +1,7 @@
 # Fit a MAD-scaled SVD residual filter for batch correction
 
-Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candès
-RPCA (ALM sparse-low-rank decomposition) — it is classical SVD on a
+Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candes
+RPCA (ALM sparse-low-rank decomposition) – it is classical SVD on a
 robustified pre-processing step (per-feature median centering + MAD
 scaling), which is more resistant to outlier samples than vanilla
 CLR-then-PCA but is not the L+S sparse-low-rank framework.
@@ -24,7 +24,7 @@ fit_robust_pca_residual(x_train, n_components = 5L, pseudocount = 0.5)
 
 - n_components:
 
-  Integer — number of principal components to retain (and remove).
+  Integer – number of principal components to retain (and remove).
   Default 5.
 
 - pseudocount:
@@ -41,7 +41,7 @@ features \\\times\\ `n_components`), `n_components`, `pseudocount`,
 ## References
 
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA. *Technometrics*
-47(1): 64–79.
+47(1): 64-79.
 
 ## Examples
 

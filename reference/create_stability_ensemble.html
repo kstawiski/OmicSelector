@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OmicSelector</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Create a Stability Ensemble with Presets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/v2.6.9/R/StabilityEnsemble.R" class="external-link"><code>R/StabilityEnsemble.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kstawiski/OmicSelector/blob/main/R/StabilityEnsemble.R" class="external-link"><code>R/StabilityEnsemble.R</code></a></small>
       <div class="d-none name"><code>create_stability_ensemble.Rd</code></div>
     </div>
 
@@ -67,18 +67,21 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Default: 100 bootstraps, glmnet base learner</span></span></span>
-<span class="r-in"><span><span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"mlr3learners"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"glmnet"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Default: 100 bootstraps, glmnet base learner</span></span></span>
+<span class="r-in"><span>  <span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Fast: 50 bootstraps for quick exploration</span></span></span>
-<span class="r-in"><span><span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"fast"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># Fast: 50 bootstraps for quick exploration</span></span></span>
+<span class="r-in"><span>  <span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"fast"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Thorough: 500 bootstraps for publication-quality results</span></span></span>
-<span class="r-in"><span><span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"thorough"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># Thorough: 500 bootstraps for publication-quality results</span></span></span>
+<span class="r-in"><span>  <span class="va">ensemble</span> <span class="op">&lt;-</span> <span class="fu">create_stability_ensemble</span><span class="op">(</span><span class="st">"thorough"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Fit and predict</span></span></span>
-<span class="r-in"><span><span class="va">ensemble</span><span class="op">$</span><span class="fu">fit</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="va">ensemble</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># Fit and predict</span></span></span>
+<span class="r-in"><span>  <span class="va">ensemble</span><span class="op">$</span><span class="fu">fit</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">probs</span> <span class="op">&lt;-</span> <span class="va">ensemble</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

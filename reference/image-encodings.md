@@ -3,7 +3,7 @@
 Converts tabular biomarker expression data into 2D image representations
 suitable for CNN classification. Four encoding methods are supported:
 
-1.  `encode_simple_grid`: Fixed row-major layout in rows×cols grid
+1.  `encode_simple_grid`: Fixed row-major layout in rows x cols grid
 
 2.  `encode_corr_grid`: Features ordered by hierarchical correlation
     clustering
