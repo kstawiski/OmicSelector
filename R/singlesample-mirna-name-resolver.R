@@ -1,4 +1,4 @@
-#' @title Single-sample miRNA name / alias resolver (Module A, P1 — cross-platform)
+#' @title Single-sample miRNA name / alias resolver (Module A, P1 -- cross-platform)
 #'
 #' @description
 #' Platform-portable alias resolver for circulating miRNA feature vectors.
@@ -7,40 +7,40 @@
 #' (e.g. \code{MIMAT0001631}); Affymetrix miRNA-3_0 / -4_0 arrays use
 #' Affy-internal probe IDs; Agilent miRNA arrays use Agilent probe IDs;
 #' NanoString and FirePlex panels typically use mature-name strings of varying
-#' vintage (miRBase v19–v22). Because \code{\link[OmicSelector]{ws_balance_ilr}}
+#' vintage (miRBase v19-v22). Because \code{\link[OmicSelector]{ws_balance_ilr}}
 #' and \code{\link[OmicSelector]{ws_alr_pivot}} key the biology-frozen partition
 #' dictionary on canonical mature miRNA names (e.g. \code{hsa-miR-451a},
 #' \code{hsa-let-7a-5p}), a feature vector arriving with MIMAT IDs will produce
 #' NA balances and fall to an AUC of 0.500. This module resolves that mismatch
-#' for the ~60–100 highest-priority circulating-miRNA features used in the single-sample scoring bank.
+#' for the ~60-100 highest-priority circulating-miRNA features used in the single-sample scoring bank.
 #'
 #' Three exported functions are provided:
 #' \itemize{
-#'   \item \code{\link{mirna_alias_table}} — curated miRBase v22.1 lookup table
+#'   \item \code{\link{mirna_alias_table}} -- curated miRBase v22.1 lookup table
 #'     mapping canonical mature names to MIMAT accessions and common aliases.
-#'   \item \code{\link{resolve_mirna_aliases}} — maps a character vector of
+#'   \item \code{\link{resolve_mirna_aliases}} -- maps a character vector of
 #'     identifiers in any supported namespace to the target namespace.
-#'   \item \code{\link{apply_mirna_aliases}} — convenience wrapper that renames
-#'     the columns of a samples × features matrix (or names of a numeric vector).
+#'   \item \code{\link{apply_mirna_aliases}} -- convenience wrapper that renames
+#'     the columns of a samples  x  features matrix (or names of a numeric vector).
 #' }
 #'
 #' Supported input namespaces (detected automatically):
 #' \itemize{
 #'   \item Canonical mature miRNA name (\code{hsa-miR-451a}, \code{hsa-let-7a-5p})
-#'   \item MIMAT accession (\code{MIMAT0001631}) — case-insensitive prefix match
-#'   \item Precursor MI accession (\code{MI0001729}) — resolves to the primary arm
+#'   \item MIMAT accession (\code{MIMAT0001631}) -- case-insensitive prefix match
+#'   \item Precursor MI accession (\code{MI0001729}) -- resolves to the primary arm
 #'   \item Legacy / alias names stored in the \code{aliases} column (semicolon-separated)
 #' }
 #'
 #' @references
 #' Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 #' DOI: \doi{10.1093/nar/gky1141}
 #'
 #' Mitchell P. S., Parkin R. K., Kroh E. M., et al. (2008) Circulating
 #' microRNAs as stable blood-based markers for cancer detection.
 #' \emph{Proceedings of the National Academy of Sciences USA} 105(30):
-#' 10513–10518.
+#' 10513-10518.
 #'
 #' @name singlesample-mirna-name-resolver
 #' @keywords internal
@@ -99,7 +99,7 @@ NULL
 #'
 #' @references
 #' Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 #' DOI: \doi{10.1093/nar/gky1141}
 mirna_alias_table <- function() {
   # Each row: mirna_name, mimat, mimat_pre, aliases
@@ -322,8 +322,8 @@ mirna_alias_table <- function() {
 #' @title Resolve miRNA identifiers to a canonical namespace
 #'
 #' @description
-#' Maps a character vector of miRNA feature identifiers — in any of the
-#' supported input namespaces — to either the canonical mature miRNA name
+#' Maps a character vector of miRNA feature identifiers -- in any of the
+#' supported input namespaces -- to either the canonical mature miRNA name
 #' (\code{"mirna_name"}) or the primary MIMAT accession (\code{"mimat"}).
 #' Case-insensitive matching is applied to MIMAT accessions (the \code{MIMAT}
 #' prefix is treated case-insensitively); mature names and alias strings are
@@ -350,18 +350,18 @@ mirna_alias_table <- function() {
 #' @export
 #'
 #' @examples
-#' # Toray MIMAT IDs → canonical names
+#' # Toray MIMAT IDs -> canonical names
 #' resolve_mirna_aliases(c("MIMAT0001631", "MIMAT0000418"))
 #'
-#' # Legacy name → canonical
+#' # Legacy name -> canonical
 #' resolve_mirna_aliases("hsa-miR-451")
 #'
-#' # Reverse: canonical name → MIMAT
+#' # Reverse: canonical name -> MIMAT
 #' resolve_mirna_aliases("hsa-miR-451a", target_namespace = "mimat")
 #'
 #' @references
 #' Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 #' DOI: \doi{10.1093/nar/gky1141}
 resolve_mirna_aliases <- function(features,
                                   target_namespace = c("mirna_name", "mimat"),
@@ -480,13 +480,13 @@ resolve_mirna_aliases <- function(features,
 #'
 #' @description
 #' Convenience wrapper around \code{\link{resolve_mirna_aliases}} that accepts
-#' a samples × features matrix or a named numeric vector and renames the
+#' a samples  x  features matrix or a named numeric vector and renames the
 #' features (column names of the matrix, or \code{names()} of the vector) to
 #' the target namespace.  Unresolved features are either dropped
 #' (\code{keep_unresolved = FALSE}) or retained with their original name
 #' (\code{keep_unresolved = TRUE}, default).
 #'
-#' @param x A samples × features \code{matrix} with column names, or a named
+#' @param x A samples  x  features \code{matrix} with column names, or a named
 #'   numeric vector.
 #' @param target_namespace One of \code{"mirna_name"} (default) or
 #'   \code{"mimat"}.  Passed to \code{\link{resolve_mirna_aliases}}.
@@ -516,7 +516,7 @@ resolve_mirna_aliases <- function(features,
 #'
 #' @references
 #' Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+#' sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 #' DOI: \doi{10.1093/nar/gky1141}
 apply_mirna_aliases <- function(x,
                                 target_namespace = c("mirna_name", "mimat"),

@@ -14,11 +14,11 @@ encode_simple_grid(x, rows = NULL, cols = NULL)
 \item{cols}{Number of columns (default: ceiling(p / rows))}
 }
 \value{
-A rows × cols numeric matrix
+A rows  x  cols numeric matrix
 }
 \description{
 Places feature values in a rectangular grid in row-major order. Simple
-reshape with zero-padding if (rows × cols) > p.
+reshape with zero-padding if (rows  x  cols) > p.
 }
 \examples{
 encode_simple_grid(1:6, rows = 2, cols = 3)

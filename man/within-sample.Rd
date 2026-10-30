@@ -6,8 +6,8 @@
 \description{
 Functions for within-sample normalization that operate ONLY on a single
 sample's feature values. Because these methods use no population-level
-statistics — each sample is normalized independently using only its own
-feature values — they cancel specific classes of per-sample nuisance
+statistics -- each sample is normalized independently using only its own
+feature values -- they cancel specific classes of per-sample nuisance
 variation WITHOUT a reference cohort. Invariance scope is method-specific
 (see Details). These methods are NOT a general "batch-effect remover":
 gene-specific batch effects, non-linear platform response, and

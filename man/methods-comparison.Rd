@@ -7,15 +7,15 @@
 Helpers for comparing biomarker preprocessing pipelines on the same cohort
 under leakage-free cross-validation. Includes:
 \itemize{
-  \item \code{os_log_transform_adaptive()} — per-feature pseudocount log2
+  \item \code{os_log_transform_adaptive()} -- per-feature pseudocount log2
         transform that survives mixtures of raw counts and pre-normalized
         ratios.
-  \item \code{os_plate_median_frozen} — R6 class for fold-frozen plate-median
+  \item \code{os_plate_median_frozen} -- R6 class for fold-frozen plate-median
         (or batch-median) centering, simpler and more deployable than ComBat
         when only a location shift is suspected.
-  \item \code{os_paired_delong()} — paired DeLong test wrapper for AUC
+  \item \code{os_paired_delong()} -- paired DeLong test wrapper for AUC
         comparison of two scoring functions on the same cohort.
-  \item \code{os_oof_pipeline_compare()} — grouped-CV driver that runs each
+  \item \code{os_oof_pipeline_compare()} -- grouped-CV driver that runs each
         pipeline train-fold-frozen, pools out-of-fold predictions per seed,
         and reports paired DeLong tests vs a reference pipeline.
 }

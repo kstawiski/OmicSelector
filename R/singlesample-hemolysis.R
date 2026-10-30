@@ -22,7 +22,7 @@
 #'
 #' @references
 #' Huber PJ. (1964) Robust Estimation of a Location Parameter.
-#' \emph{The Annals of Mathematical Statistics} 35(1): 73–101.
+#' \emph{The Annals of Mathematical Statistics} 35(1): 73-101.
 #'
 #' @name singlesample-hemolysis
 NULL
@@ -118,7 +118,7 @@ hemolysis_index_blondal <- function(X_log) {
 #'
 #' @references
 #' Huber PJ. (1964) Robust Estimation of a Location Parameter.
-#' \emph{The Annals of Mathematical Statistics} 35(1): 73–101.
+#' \emph{The Annals of Mathematical Statistics} 35(1): 73-101.
 #'
 #' @export
 fit_hemolysis_rr <- function(X_train,

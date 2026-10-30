@@ -3,8 +3,8 @@
 #' @description
 #' Functions for within-sample normalization that operate ONLY on a single
 #' sample's feature values. Because these methods use no population-level
-#' statistics — each sample is normalized independently using only its own
-#' feature values — they cancel specific classes of per-sample nuisance
+#' statistics -- each sample is normalized independently using only its own
+#' feature values -- they cancel specific classes of per-sample nuisance
 #' variation WITHOUT a reference cohort. Invariance scope is method-specific
 #' (see Details). These methods are NOT a general "batch-effect remover":
 #' gene-specific batch effects, non-linear platform response, and
@@ -134,7 +134,7 @@ ws_zscore <- function(x) {
 #' @description
 #' Computes all pairwise log-ratios between features within each sample.
 #' For p features, produces p*(p-1)/2 ratio features. Each ratio is
-#' inherently self-normalizing — multiplicative batch effects cancel.
+#' inherently self-normalizing -- multiplicative batch effects cancel.
 #'
 #' If the input is already on log scale (e.g., log2 expression), the
 #' log-ratio is simply the difference: log(A/B) = log(A) - log(B).

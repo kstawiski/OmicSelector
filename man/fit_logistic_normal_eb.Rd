@@ -40,6 +40,6 @@ length(fit$prior_var)
 
 }
 \references{
-Aitchison J, Shen SM. (1980) \emph{Biometrika} 67: 261–272.
+Aitchison J, Shen SM. (1980) \emph{Biometrika} 67: 261-272.
 Efron B. (2010) Large-Scale Inference. Cambridge UP.
 }

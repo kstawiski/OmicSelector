@@ -29,7 +29,7 @@ library(OmicSelector)
 > one incoming specimen from its own panel values plus frozen fit-time
 > parameters, with no co-resident test batch. It is not a claim that
 > `ws-balance-ilr`, or any single-sample method, out-discriminates a
-> batch-corrected pipeline — choose and validate the scoring method on your own
+> batch-corrected pipeline -- choose and validate the scoring method on your own
 > data.
 
 ## Make a tiny synthetic compositional panel

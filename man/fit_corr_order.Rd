@@ -7,7 +7,7 @@
 fit_corr_order(X_train, method = "average")
 }
 \arguments{
-\item{X_train}{Numeric matrix (n_train × p features) for fitting the order}
+\item{X_train}{Numeric matrix (n_train  x  p features) for fitting the order}
 
 \item{method}{Linkage method for \code{hclust} (default: "average")}
 }

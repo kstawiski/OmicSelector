@@ -28,19 +28,19 @@ Should be the full feature pool, not just the observed panel.}
 \item{scoring_fn}{Function \code{function(X_subset)} returning a per-sample
 numeric score.}
 
-\item{K}{Integer — number of null panels. Default 10,000 (per plan v0.3.3).}
+\item{K}{Integer -- number of null panels. Default 10,000 (per plan v0.3.3).}
 
-\item{feature_pool}{Character vector — full feature pool. Defaults to
+\item{feature_pool}{Character vector -- full feature pool. Defaults to
 \code{colnames(X)}.}
 
-\item{exclude_features}{Character — feature names to exclude from the
+\item{exclude_features}{Character -- feature names to exclude from the
 candidate pool (e.g., hemolysis markers). Default \code{character(0)}.}
 
 \item{post_hemolysis_corrected}{Logical. If \code{TRUE}, prepends the
 canonical hemolysis-marker list to \code{exclude_features}. Default
 \code{FALSE}.}
 
-\item{seed}{Integer — RNG seed. Default 42.}
+\item{seed}{Integer -- RNG seed. Default 42.}
 
 \item{auc_ci_method}{Character; one of \code{"hanley_mcneil"} (default;
 closed-form Hanley-McNeil 1982 standard error), \code{"delong"}

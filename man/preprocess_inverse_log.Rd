@@ -8,7 +8,7 @@ preprocess_inverse_log(x, base = 2, pseudo = 0)
 }
 \arguments{
 \item{x}{Numeric matrix (features \eqn{\times} samples, or samples
-\eqn{\times} features — the function operates element-wise). Both
+\eqn{\times} features -- the function operates element-wise). Both
 orientations are accepted; the transform is purely element-wise.}
 
 \item{base}{Numeric. The log base used by the deposit. Default 2
@@ -48,5 +48,5 @@ stopifnot(all(abundance > 0))
 
 }
 \references{
-Toray Industries, Inc. (3D-Gene microRNA chip) — data format specification.
+Toray Industries, Inc. (3D-Gene microRNA chip) -- data format specification.
 }

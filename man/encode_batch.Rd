@@ -12,7 +12,7 @@ encode_batch(
 )
 }
 \arguments{
-\item{X}{Numeric matrix (n × p)}
+\item{X}{Numeric matrix (n  x  p)}
 
 \item{method}{One of "simple", "corr", "deepinsight", "ratio"}
 
@@ -22,7 +22,7 @@ For "simple" or "ratio": ignored.}
 \item{...}{Additional arguments passed to the encoding function}
 }
 \value{
-A 3D array (n × height × width)
+A 3D array (n  x  height  x  width)
 }
 \description{
 Convenience wrapper that applies an encoding method to every row of an

@@ -18,15 +18,15 @@ Methods provided:
     features. Reference: Risso et al. (Nat Biotechnol 2014).
   \item \code{\link{fit_robust_pca_residual}} /
     \code{\link{apply_robust_pca_residual}}: MAD-scaled SVD residual filter.
-    NOT the Candès RPCA (ALM sparse-low-rank) decomposition.
+    NOT the Candes RPCA (ALM sparse-low-rank) decomposition.
 }
 }
 \references{
 Risso D, Ngai J, Speed TP, Dudoit S. (2014) Normalization of RNA-seq data
 using factor analysis of control genes or samples.
-\emph{Nature Biotechnology} 32(9): 896–902.
+\emph{Nature Biotechnology} 32(9): 896-902.
 
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA: A New Approach
 to Robust Principal Component Analysis.
-\emph{Technometrics} 47(1): 64–79.
+\emph{Technometrics} 47(1): 64-79.
 }

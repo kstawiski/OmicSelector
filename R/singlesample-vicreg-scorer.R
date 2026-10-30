@@ -27,7 +27,7 @@
 #' \sum_{i\neq j} [\mathrm{Cov}(Z)_{ij}]^2} penalises the squared off-diagonal of the
 #' embedding covariance. Defaults \eqn{\lambda = 25, \mu = 25, \nu = 1} (the paper's
 #' standard). Adam optimises encoder + expander over \code{epochs} steps. The
-#' DOWNSTREAM embedding is the ENCODER output (pre-expander) — standard VICReg
+#' DOWNSTREAM embedding is the ENCODER output (pre-expander) -- standard VICReg
 #' practice; the expander is discarded and only the encoder is exported.
 #'
 #' \strong{Torch is confined to FIT.} The encoder is trained with torch on the

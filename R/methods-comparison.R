@@ -4,15 +4,15 @@
 #' Helpers for comparing biomarker preprocessing pipelines on the same cohort
 #' under leakage-free cross-validation. Includes:
 #' \itemize{
-#'   \item \code{os_log_transform_adaptive()} — per-feature pseudocount log2
+#'   \item \code{os_log_transform_adaptive()} -- per-feature pseudocount log2
 #'         transform that survives mixtures of raw counts and pre-normalized
 #'         ratios.
-#'   \item \code{os_plate_median_frozen} — R6 class for fold-frozen plate-median
+#'   \item \code{os_plate_median_frozen} -- R6 class for fold-frozen plate-median
 #'         (or batch-median) centering, simpler and more deployable than ComBat
 #'         when only a location shift is suspected.
-#'   \item \code{os_paired_delong()} — paired DeLong test wrapper for AUC
+#'   \item \code{os_paired_delong()} -- paired DeLong test wrapper for AUC
 #'         comparison of two scoring functions on the same cohort.
-#'   \item \code{os_oof_pipeline_compare()} — grouped-CV driver that runs each
+#'   \item \code{os_oof_pipeline_compare()} -- grouped-CV driver that runs each
 #'         pipeline train-fold-frozen, pools out-of-fold predictions per seed,
 #'         and reports paired DeLong tests vs a reference pipeline.
 #' }
@@ -51,7 +51,7 @@ NULL
 #' Compute \code{log2(x + pseudocount)} where the pseudocount is chosen
 #' per-feature to avoid distorting the dynamic range. Critical when the same
 #' analysis matrix mixes raw counts (typical scale 1-10000) with pre-normalized
-#' ratios (typical scale 0.001-0.1) — adding a fixed +1 to a 0.003 ratio
+#' ratios (typical scale 0.001-0.1) -- adding a fixed +1 to a 0.003 ratio
 #' compresses its log2 to near zero and erases the signal.
 #'
 #' @param x Numeric matrix or data.frame with samples in rows and features in
@@ -141,7 +141,7 @@ os_log_transform_adaptive <- function(x,
 #'
 #' @section Public methods:
 #' \describe{
-#'   \item{\code{$new(scale)}}{Constructor; \code{scale} ∈ \{"none", "iqr", "mad"\}.}
+#'   \item{\code{$new(scale)}}{Constructor; \code{scale} is one of "none", "iqr" or "mad".}
 #'   \item{\code{$fit(data, plate)}}{Learn per-plate medians (and optional scales)
 #'         from training data only.}
 #'   \item{\code{$transform(data, plate)}}{Apply frozen parameters to new data.
@@ -410,7 +410,7 @@ os_paired_delong <- function(y_true, scores_a, scores_b,
 #'     \item{\code{summary}}{data.frame: pipeline, mean_auc, mean_ci_lo,
 #'           mean_ci_hi (across seeds).}
 #'     \item{\code{oof_predictions}}{Named list of length \code{length(seeds)}
-#'           — each element is a named list of OOF score vectors keyed by
+#'           -- each element is a named list of OOF score vectors keyed by
 #'           pipeline.}
 #'     \item{\code{pairwise_delong}}{data.frame of paired DeLong results vs
 #'           \code{reference} per seed (NULL if \code{reference} is NULL).}

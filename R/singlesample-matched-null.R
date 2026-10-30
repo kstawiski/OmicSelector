@@ -19,7 +19,7 @@
 #'   \item \code{\link{singlesample_bh_fdr_correct_matched_null}}: BH-FDR within a
 #'     modality family.
 #'   \item \code{\link{singlesample_holm_correct_familywise}}: Holm correction for
-#'     family-wise method × claim-state contrasts.
+#'     family-wise method  x  claim-state contrasts.
 #'   \item \code{\link{singlesample_bh_fdr_correct_blocked}}: block-aware two-stage
 #'     BH-FDR for specimen-shared cohort clusters.
 #' }
@@ -27,7 +27,7 @@
 #' @references
 #' Benjamini Y, Hochberg Y. (1995) Controlling the False Discovery Rate:
 #' A Practical and Powerful Approach to Multiple Testing.
-#' \emph{Journal of the Royal Statistical Society Series B} 57(1): 289–300.
+#' \emph{Journal of the Royal Statistical Society Series B} 57(1): 289-300.
 #'
 #' @name singlesample-matched-null
 NULL
@@ -115,15 +115,15 @@ NULL
 #' @param panel Character vector of feature names in the observed panel.
 #' @param scoring_fn Function \code{function(X_subset)} returning a per-sample
 #'   numeric score.
-#' @param K Integer — number of null panels. Default 10,000 (per plan v0.3.3).
-#' @param feature_pool Character vector — full feature pool. Defaults to
+#' @param K Integer -- number of null panels. Default 10,000 (per plan v0.3.3).
+#' @param feature_pool Character vector -- full feature pool. Defaults to
 #'   \code{colnames(X)}.
-#' @param exclude_features Character — feature names to exclude from the
+#' @param exclude_features Character -- feature names to exclude from the
 #'   candidate pool (e.g., hemolysis markers). Default \code{character(0)}.
 #' @param post_hemolysis_corrected Logical. If \code{TRUE}, prepends the
 #'   canonical hemolysis-marker list to \code{exclude_features}. Default
 #'   \code{FALSE}.
-#' @param seed Integer — RNG seed. Default 42.
+#' @param seed Integer -- RNG seed. Default 42.
 #' @param auc_ci_method Character; one of \code{"hanley_mcneil"} (default;
 #'   closed-form Hanley-McNeil 1982 standard error), \code{"delong"}
 #'   (\code{pROC::ci.auc(method="delong")}; requires \code{pROC} >= 1.16),
@@ -411,7 +411,7 @@ singlesample_holm_correct_familywise <- function(p_values) {
 #' @title Block-aware two-stage BH-FDR for specimen-shared cohort clusters
 #'
 #' @description
-#' Naïve BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
+#' Naive BH-FDR within a modality family treats specimen-shared cohorts (e.g.,
 #' Toray clusters with \eqn{\sim 94.5\%} specimen reuse) as independent tests,
 #' which is anti-conservative due to strongly correlated test statistics. This
 #' function implements a two-stage correction:

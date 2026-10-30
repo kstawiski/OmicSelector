@@ -7,9 +7,9 @@
 #' GC-tertile Sequential Binary Partition of \code{\link{fit_ss_struct_ilr}}, computed
 #' per specimen via \code{\link{ws_balance_ilr}} and standardised with train-only
 #' statistics) and maps them to a latent \eqn{z}. Training combines three FIT-only
-#' regularisers on that latent — a conditional VAE decoder \eqn{p(\mathrm{balances}\mid
+#' regularisers on that latent -- a conditional VAE decoder \eqn{p(\mathrm{balances}\mid
 #' z, \mathrm{platform})}, a KL prior, and a \strong{gradient-reversal platform
-#' adversary} — with a supervised disease LABEL head. The encoder + label head are then
+#' adversary} -- with a supervised disease LABEL head. The encoder + label head are then
 #' \strong{FROZEN} and exported to R; a new specimen is scored in PURE base-R by its
 #' frozen disease logit on the deterministic latent \eqn{z = \mu}. Larger = more
 #' case-like.
@@ -18,9 +18,9 @@
 #' label conditions ONLY the decoder (conditional generation) and drives the GRL
 #' adversary; the ENCODER never sees the platform, so a held-out specimen is scored
 #' with no platform/cohort covariate (single-sample-faithful). The reversed adversary
-#' gradient pushes \eqn{z} toward a representation whose platform is not recoverable —
+#' gradient pushes \eqn{z} toward a representation whose platform is not recoverable --
 #' the mechanism for \emph{reduced platform imprint / improved cross-platform
-#' transportability}. As enforced in the design (v2.1 §0), this is the claim ceiling:
+#' transportability}. As enforced in the design (v2.1 section 0), this is the claim ceiling:
 #' the method targets reduced platform imprint, NOT platform "invariance", and every
 #' result from it is EXPLORATORY and never merged into the frozen primary headline.
 #'
@@ -46,7 +46,7 @@
 #' \code{grl_lambda > 0} (recorded as \code{model$adv_engaged}). Setting
 #' \code{grl_lambda = 0} with \eqn{\ge 2} platforms is therefore the design's
 #' \strong{no-GRL ablation}: the SAME architecture (conditional decoder preserved),
-#' adversary off — exactly the baseline the design's non-negotiable no-harm guard
+#' adversary off -- exactly the baseline the design's non-negotiable no-harm guard
 #' compares against. A single platform (or \code{NULL} \code{meta_train}) collapses the
 #' decoder to unconditional (\code{n_platforms == 1}) with the adversary necessarily
 #' off.
@@ -55,7 +55,7 @@
 #' and including the \eqn{\mu} head) and the disease LABEL head \eqn{(w, b_0)} are
 #' EXPORTED to R as plain float64 matrices/vectors; the python module (logvar head,
 #' decoder, adversary, GRL) is DISCARDED. The fitted model holds NO external pointer and
-#' NO python dependency at score time — the encoder forward and the linear logit are
+#' NO python dependency at score time -- the encoder forward and the linear logit are
 #' pure base-R, so the suite runs the scorer on any host without the venv, and the
 #' default \code{model_digest} is a stable deterministic snapshot.
 #'
@@ -77,7 +77,7 @@
 #' invariant to per-specimen positive scaling), standardised with the FROZEN train
 #' mean/sd (missing balances imputed to the standardised mean \code{0}), and embedded by
 #' the frozen encoder. No cross-row / batch statistic is used, so a specimen's score
-#' depends only on that specimen and the frozen model — it passes
+#' depends only on that specimen and the frozen model -- it passes
 #' \code{\link{singlesample_assert_row_equivariant}} (single row == batch EXACTLY,
 #' exact per-specimen scale invariance). Specimens with empty positive support over the
 #' frozen universe, or fewer than \code{hp$min_features} universe features present,
@@ -664,7 +664,7 @@ class _DACVAE_AdvHead(nn.Module):
 #'   (so \code{grl_lambda = 0} here is the no-GRL ablation: conditional decoder preserved,
 #'   adversary off). Must have one row per row of \code{X_train}.
 #' @param annotation data.frame with columns \code{feature} (miRNA id), \code{cluster}
-#'   (genomic-cluster id), \code{gc} (GC fraction) — the Stage-1 SBP priors.
+#'   (genomic-cluster id), \code{gc} (GC fraction) -- the Stage-1 SBP priors.
 #' @param hp Optional list of hyperparameters (all frozen into the model). Fields:
 #'   \code{enc_hidden} (encoder trunk widths; default \code{c(64L,32L)}),
 #'   \code{dec_hidden} (FIT-only decoder widths; default \code{c(32L,64L)}),
@@ -904,7 +904,7 @@ score_dacvae <- function(model, X, meta = NULL) {
 #' @description
 #' Returns, for each row of \code{X}, the mean Euclidean distance in the frozen latent
 #' space from its encoded \eqn{\mu} to its \code{model$novelty_k} nearest TRAIN control
-#' (reference) latents — a kNN-distance novelty score (design F9: a multi-reference
+#' (reference) latents -- a kNN-distance novelty score (design F9: a multi-reference
 #' score, not a single-centroid Mahalanobis). Larger = more out-of-distribution relative
 #' to the training reference population. This is a SECONDARY capability (it supports the
 #' cross-platform / OOD use case) and is NOT the disease score. Floored / degenerate

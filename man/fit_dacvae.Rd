@@ -20,7 +20,7 @@ decoder is always used; the adversary is engaged only when \code{grl_lambda > 0}
 adversary off). Must have one row per row of \code{X_train}.}
 
 \item{annotation}{data.frame with columns \code{feature} (miRNA id), \code{cluster}
-(genomic-cluster id), \code{gc} (GC fraction) — the Stage-1 SBP priors.}
+(genomic-cluster id), \code{gc} (GC fraction) -- the Stage-1 SBP priors.}
 
 \item{hp}{Optional list of hyperparameters (all frozen into the model). Fields:
 \code{enc_hidden} (encoder trunk widths; default \code{c(64L,32L)}),

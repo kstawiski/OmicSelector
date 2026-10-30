@@ -10,7 +10,7 @@ fit_robust_pca_residual(x_train, n_components = 5L, pseudocount = 0.5)
 \item{x_train}{Numeric matrix (samples \eqn{\times} features). Must have
 column names. All values must be non-negative.}
 
-\item{n_components}{Integer — number of principal components to retain
+\item{n_components}{Integer -- number of principal components to retain
 (and remove). Default 5.}
 
 \item{pseudocount}{Numeric \eqn{> 0}. Added before log transform. Default
@@ -23,8 +23,8 @@ Object of class \code{robust_pca_residual_fit} with components:
   \code{n_components}, \code{pseudocount}, \code{method}.
 }
 \description{
-Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candès RPCA
-(ALM sparse-low-rank decomposition) — it is classical SVD on a robustified
+Fits a frozen MAD-scaled PCA residual filter. This is NOT the Candes RPCA
+(ALM sparse-low-rank decomposition) -- it is classical SVD on a robustified
 pre-processing step (per-feature median centering + MAD scaling), which is
 more resistant to outlier samples than vanilla CLR-then-PCA but is not the
 L+S sparse-low-rank framework.
@@ -43,5 +43,5 @@ fit <- fit_robust_pca_residual(x_train, n_components = 3L)
 }
 \references{
 Hubert M, Rousseeuw PJ, Vanden Branden K. (2005) ROBPCA.
-\emph{Technometrics} 47(1): 64–79.
+\emph{Technometrics} 47(1): 64-79.
 }

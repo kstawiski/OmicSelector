@@ -14,7 +14,7 @@ apply_mirna_aliases(
 )
 }
 \arguments{
-\item{x}{A samples × features \code{matrix} with column names, or a named
+\item{x}{A samples  x  features \code{matrix} with column names, or a named
 numeric vector.}
 
 \item{target_namespace}{One of \code{"mirna_name"} (default) or
@@ -37,7 +37,7 @@ An object of the same class and structure as \code{x} with feature
 }
 \description{
 Convenience wrapper around \code{\link{resolve_mirna_aliases}} that accepts
-a samples × features matrix or a named numeric vector and renames the
+a samples  x  features matrix or a named numeric vector and renames the
 features (column names of the matrix, or \code{names()} of the vector) to
 the target namespace.  Unresolved features are either dropped
 (\code{keep_unresolved = FALSE}) or retained with their original name
@@ -57,6 +57,6 @@ apply_mirna_aliases(M, keep_unresolved = FALSE)
 }
 \references{
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 DOI: \doi{10.1093/nar/gky1141}
 }

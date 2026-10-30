@@ -77,7 +77,7 @@ $ cd DearWXpub
  
 3. Data Status
 
-| 　   | TOTAL | Tumor | Normal | Tumor Ratio(%) |
+|     | TOTAL | Tumor | Normal | Tumor Ratio(%) |
 |------|-------|-------|--------|----------------|
 | TYPE | **6226**  | **5609**  | **617**    | **90.09**  |
 | BLCA | 427   | 408   | 19     | 95.55          |
@@ -127,7 +127,7 @@ TCGA data( Downloaded at Dec. 26th. 2017 ), Half of data for feature selection /
 
 **Accuracy of 14 Biomarker**
 
-|       |         | Wx 14  |       | Peng 14 |       | EdgeR 14 |        |
+|       |         | Wx 14  |       | Peng 14 |       | EdgeR 14 |        |
 |:-----:|---------|--------|-------|---------|-------|----------|--------|
 | TYPE  | SAMPLES | Hit    | Acc(%)| Hit     | Acc(%)| Hit      | Acc(%) |
 | **TOTAL** | **3119** | **3017** | **96.72** | **2961** | **94.93** | **2957** | **94.81** |
@@ -173,22 +173,22 @@ TCGA data( Downloaded at Dec. 26th. 2017 ), Half of data for feature selection /
  `LUSC : 'BRCA1', 'ETS2', 'HIF1A', 'JUN', 'LMO4', 'PIAS3', 'RBBP7'`
  
 
-| 　    | 　   | WX 7 | 　      | Martinez 7 | 　     |
+|      |     | WX 7 |        | Martinez 7 |       |
 |-------|------|------|---------|------------|--------|
 | TYPE  | SAMPLES | Hit    | Acc(%)| Hit     | Acc(%)|
-| TOTAL | 3119 | 2986 | 95.74   | 　         | 　     |
+| TOTAL | 3119 | 2986 | 95.74   |           |       |
 | BLCA  | 214  | 205  | 95.79   | 206        | 96.26  |
 | BRCA  | 608  | 591  | 97.20   | 556        | 91.45  |
-| COAD  | 164  | 152  | 92.68   | 　         | 　     |
+| COAD  | 164  | 152  | 92.68   |           |       |
 | HNSC  | 283  | 269  | 95.05   | 268        | 94.70  |
-| KICH  | 46   | 45   | 97.83   | 　         | 　     |
+| KICH  | 46   | 45   | 97.83   |           |       |
 | KIRC  | 303  | 299  | 98.68   | 273        | 90.10  |
-| KIRP  | 162  | 162  | 100.00  | 　         | 　     |
-| LIHC  | 212  | 187  | 88.21   | 　         | 　     |
+| KIRP  | 162  | 162  | 100.00  |           |       |
+| LIHC  | 212  | 187  | 88.21   |           |       |
 | LUAD  | 289  | 283  | 97.92   | 260        | 89.97  |
 | LUSC  | 277  | 271  | 97.83   | 257        | 92.78  |
-| PRAD  | 275  | 249  | 90.55   | 　         | 　     |
-| THCA  | 286  | 273  | 95.45   | 　         | 　     |
+| PRAD  | 275  | 249  | 90.55   |           |       |
+| THCA  | 286  | 273  | 95.45   |           |       |
 
 ## Wx example from actual data file
 

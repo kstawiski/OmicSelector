@@ -18,7 +18,7 @@ encode_corr_grid(x, order, rows = NULL, cols = NULL)
 \code{ceiling(length(x) / rows)}.}
 }
 \value{
-A rows × cols numeric matrix
+A rows  x  cols numeric matrix
 }
 \description{
 Encode with Correlation-Ordered Grid

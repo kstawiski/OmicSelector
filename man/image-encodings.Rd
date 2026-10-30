@@ -8,7 +8,7 @@ Converts tabular biomarker expression data into 2D image representations
 suitable for CNN classification. Four encoding methods are supported:
 
 \enumerate{
-  \item \code{encode_simple_grid}: Fixed row-major layout in rows×cols grid
+  \item \code{encode_simple_grid}: Fixed row-major layout in rows x cols grid
   \item \code{encode_corr_grid}: Features ordered by hierarchical correlation clustering
   \item \code{encode_deepinsight}: Feature positions learned via t-SNE on training data
     (Sharma et al., 2019, Scientific Reports)

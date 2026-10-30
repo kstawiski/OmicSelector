@@ -37,26 +37,26 @@ Character vector of the same length as \code{features}, with each
   \code{keep_unresolved = TRUE}).
 }
 \description{
-Maps a character vector of miRNA feature identifiers — in any of the
-supported input namespaces — to either the canonical mature miRNA name
+Maps a character vector of miRNA feature identifiers -- in any of the
+supported input namespaces -- to either the canonical mature miRNA name
 (\code{"mirna_name"}) or the primary MIMAT accession (\code{"mimat"}).
 Case-insensitive matching is applied to MIMAT accessions (the \code{MIMAT}
 prefix is treated case-insensitively); mature names and alias strings are
 matched with trimmed whitespace but otherwise case-sensitive.
 }
 \examples{
-# Toray MIMAT IDs → canonical names
+# Toray MIMAT IDs -> canonical names
 resolve_mirna_aliases(c("MIMAT0001631", "MIMAT0000418"))
 
-# Legacy name → canonical
+# Legacy name -> canonical
 resolve_mirna_aliases("hsa-miR-451")
 
-# Reverse: canonical name → MIMAT
+# Reverse: canonical name -> MIMAT
 resolve_mirna_aliases("hsa-miR-451a", target_namespace = "mimat")
 
 }
 \references{
 Kozomara A., Birgaoanu M., Griffiths-Jones S. (2019) miRBase: from microRNA
-sequences to function. \emph{Nucleic Acids Research} 47(D1): D155–D162.
+sequences to function. \emph{Nucleic Acids Research} 47(D1): D155-D162.
 DOI: \doi{10.1093/nar/gky1141}
 }

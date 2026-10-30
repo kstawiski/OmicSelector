@@ -50,6 +50,7 @@ Suggests:
     bslib,
     shinyWidgets,
     testthat (>= 3.0.0),
+    withr,
     ggplot2,
     ggrepel,
     cachem,

@@ -19,7 +19,7 @@ Finite numeric vector of length \code{nrow(X)}; higher = more novel.
 \description{
 Returns, for each row of \code{X}, the mean Euclidean distance in the frozen latent
 space from its encoded \eqn{\mu} to its \code{model$novelty_k} nearest TRAIN control
-(reference) latents — a kNN-distance novelty score (design F9: a multi-reference
+(reference) latents -- a kNN-distance novelty score (design F9: a multi-reference
 score, not a single-centroid Mahalanobis). Larger = more out-of-distribution relative
 to the training reference population. This is a SECONDARY capability (it supports the
 cross-platform / OOD use case) and is NOT the disease score. Floored / degenerate

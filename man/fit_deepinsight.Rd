@@ -7,7 +7,7 @@
 fit_deepinsight(X_train, grid_size = 14L, perplexity = NULL, seed = 42L)
 }
 \arguments{
-\item{X_train}{Numeric matrix (n_train × p features)}
+\item{X_train}{Numeric matrix (n_train  x  p features)}
 
 \item{grid_size}{Integer, size of the square output grid (default: 14)}
 
@@ -18,7 +18,7 @@ fit_deepinsight(X_train, grid_size = 14L, perplexity = NULL, seed = 42L)
 \value{
 A list with:
   \itemize{
-    \item \code{positions}: p × 2 integer matrix of (row, col) per feature
+    \item \code{positions}: p  x  2 integer matrix of (row, col) per feature
     \item \code{grid_size}: the grid dimension
   }
 }
