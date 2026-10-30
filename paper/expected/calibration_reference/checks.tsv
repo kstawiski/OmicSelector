@@ -1,0 +1,22 @@
+check	passed	detail
+registered_cells_complete	True	
+all_method_target_calibrator_summaries_present	True	
+fixed_prevalence_threshold_grid	True	
+excluded_contrasts_absent_as_source_and_target	True	
+net_benefit_keys_unique	True	
+five_seeds_required	True	
+inner_group_overlap_zero	True	
+heldout_score_provenance_explicit	True	
+heldout_excluded_from_development	True	
+no_partition_log_or_missing_bank_failures	True	
+gse204951_twenty_people	True	
+bootstrap_interval_reference_arithmetic	True	
+net_benefit_probability_bounds	True	
+sparse_curve_intervals_explicit	True	
+computing_identity_recorded	True	
+independent_python_net_benefit_recalculation	True	max_abs_difference=4.5796699765787707e-16
+fit_managed_lifecycle_cleaned	True	
+repair_failed_managed_lifecycle_cleaned	True	
+repair_managed_lifecycle_cleaned	True	
+summary_managed_lifecycle_cleaned	True	
+summary_repaired_managed_lifecycle_cleaned	True	

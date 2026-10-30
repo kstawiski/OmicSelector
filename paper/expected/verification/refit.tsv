@@ -1,0 +1,17 @@
+check	method	seed	maximum_absolute_error	seconds	pass
+public_GEO_prepared_matrix_matches_deposited	""		0	1.617	TRUE
+refit_heldout_predictions	reo-ktsp	101	0	1.976	TRUE
+refit_heldout_predictions	reo-ktsp	202	0	0.891	TRUE
+refit_heldout_predictions	reo-ktsp	303	0	0.848999999999998	TRUE
+refit_heldout_predictions	reo-ktsp	404	0	0.867000000000001	TRUE
+refit_heldout_predictions	reo-ktsp	505	0	1.061	TRUE
+refit_heldout_predictions	reo-pairratio	101	0	3.198	TRUE
+refit_heldout_predictions	reo-pairratio	202	0	1.668	TRUE
+refit_heldout_predictions	reo-pairratio	303	0	1.619	TRUE
+refit_heldout_predictions	reo-pairratio	404	0	1.613	TRUE
+refit_heldout_predictions	reo-pairratio	505	0	1.579	TRUE
+refit_heldout_predictions	ws-balance-ilr	101	0	0.545999999999999	TRUE
+refit_heldout_predictions	ws-balance-ilr	202	0	0.174	TRUE
+refit_heldout_predictions	ws-balance-ilr	303	0	0.257999999999999	TRUE
+refit_heldout_predictions	ws-balance-ilr	404	0	0.178000000000001	TRUE
+refit_heldout_predictions	ws-balance-ilr	505	0	0.192	TRUE

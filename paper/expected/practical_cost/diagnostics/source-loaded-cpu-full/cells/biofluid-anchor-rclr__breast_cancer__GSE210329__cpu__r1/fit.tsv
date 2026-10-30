@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"biofluid-anchor-rclr"	"breast_cancer__GSE210329"	1	"cpu"	0.377360582351685	0.206	0.00138342380523682	0.00185316801071167	7.105427357601e-15	1e-05	TRUE	678	26	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

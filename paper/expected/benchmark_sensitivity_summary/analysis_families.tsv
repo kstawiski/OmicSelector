@@ -1,0 +1,13 @@
+analysis	method_rows	above_zero_finite_tests	above_margin_finite_tests
+Excluding GSE266859 (legacy cancer-status sensitivity; eligible melanoma contrast)	49	48	48
+Excluding GSE85589	49	48	48
+Excluding four hemolysis-associated units	49	48	48
+Excluding the Toray unit	49	48	48
+Excluding the two units with repeated profiles per person	49	48	48
+Excluding units with unresolved scale or timing or normalized input	49	48	48
+Foundation model seed tied to CV seed; all three methods	49	48	48
+Full 32-unit set sensitivity (includes GSE270497 and GSE186595)	49	48	48
+GSE186595 exclusion (already excluded from eligible primary; identical result)	49	48	48
+GSE85589 entered as deposited log2 signal	49	48	48
+Primary eligible-set synthesis (30 units; person-grouped inner)	49	48	48
+Ungrouped inner resampling sensitivity (R12a primary cells)	49	48	48

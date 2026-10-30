@@ -1,0 +1,517 @@
+unit	analysis	metric	estimate	standard_error	ci_lo	ci_hi	status	source_file	class
+GSE109319	Part A	CN-STD minus FZ-STD	-0.00114285714285714	0.00307860767858176	-0.00749679110249904	0.00521107681678475	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	CN-QN minus FZ-QN	-0.00871428571428571	0.00867187651870005	-0.0266121591878466	0.00918358775927517	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	CN-COMBAT minus FZ-RAW	-0.00114285714285714	0.00307860767858176	-0.00749679110249904	0.00521107681678475	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	SS-CLR minus CN-STD	-0.0172857142857143	0.0224375805020092	-0.0635946044102241	0.0290231758387955	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	SS-CLR minus CN-QN	0.00171428571428571	0.0410965444974028	-0.0831048133617862	0.0865333847903576	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	SS-CLR minus CN-COMBAT	-0.0182380952380952	0.0218191568229983	-0.0632706216210177	0.0267944311448272	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	FZ-STD minus R	0.0222380952380952	0.0491538629033946	-0.0792104917066819	0.123686682182872	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	CN-STD minus R	0.0210952380952381	0.0494059573377713	-0.0808736461900437	0.12306412238052	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	FZ-QN minus R	0.0108095238095238	0.0378819267131858	-0.0673749302455186	0.0889939778645663	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	CN-QN minus R	0.00209523809523809	0.0377020347194353	-0.0757179371326543	0.0799084133231305	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	FZ-RAW minus R	0.0231904761904762	0.047094660958092	-0.0740081268212894	0.120389079202242	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	CN-COMBAT minus R	0.022047619047619	0.0473646667380004	-0.0757082485049308	0.119803486600169	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Part A	SS-CLR minus R	0.0038095238095238	0.0483530893363763	-0.0959863477220946	0.103605395341142	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE109319	Within-cohort reference AUC	ws-rclr-trimmed	0.865	NA	0.757308737557684	0.972691262442316	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE130654	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE130654	Within-cohort reference AUC	ws-rclr-trimmed	0.573611111111111	NA	0.449275934495861	0.697946287726361	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE137109	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE137109	Within-cohort reference AUC	ws-rclr-trimmed	0.64781887755102	NA	0.547979899111589	0.747657855990451	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE145176	Within-cohort reference AUC	ws-rclr-trimmed	0.717564588189588	NA	0.650909826356707	0.78421935002247	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE186595	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE186595	Within-cohort reference AUC	ws-rclr-trimmed	0.349333333333333	NA	0.251344829397534	0.447321837269133	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE188627	Part A	CN-STD minus FZ-STD	0.00233862433862433	0.00490298091469776	-0.00778063091891004	0.0124578795961587	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	CN-QN minus FZ-QN	0.000603174603174601	0.00381705535865587	-0.00727484046120979	0.00848118966755899	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	CN-COMBAT minus FZ-RAW	0.00200809212573918	0.00472584748318655	-0.00774557769728295	0.0117617619487613	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	SS-CLR minus CN-STD	0.000511360099595404	0.00536744310277019	-0.0105664979998323	0.0115892181990231	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	SS-CLR minus CN-QN	0.0145888577653284	0.0110721831717636	-0.00826300515695648	0.0374407206876132	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	SS-CLR minus CN-COMBAT	0.00234578275754746	0.00575514382185499	-0.00953225029834146	0.0142238158134364	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	FZ-STD minus R	0.0242103952692188	0.013816596845252	-0.00430565908629109	0.0527264496247287	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	CN-STD minus R	0.0265490196078431	0.0125956371255636	0.000552902261603875	0.0525451369540824	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	FZ-QN minus R	0.0118683473389356	0.0124201927542029	-0.0137656706216066	0.0375023652994777	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	CN-QN minus R	0.0124715219421102	0.0113427560494103	-0.0109387759531653	0.0358818198373856	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	FZ-RAW minus R	0.0227065048241519	0.0140716333873456	-0.00633591908374766	0.0517489287320514	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	CN-COMBAT minus R	0.0247145969498911	0.0126545906753394	-0.0014031945429333	0.0508323884427154	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part A	SS-CLR minus R	0.0270603797074385	0.0124286528348719	0.00140890099857232	0.0527118584163047	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	CN-STD minus FZ-STD	-0.248618375	0.0165304626858264	-0.280867399466526	-0.216022649481393	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	CN-QN minus FZ-QN	-0.00697773749999997	0.00360106177138443	-0.0138383583783369	0.000334805557325281	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	CN-COMBAT minus FZ-RAW	-0.1863062	0.0142800464160919	-0.214356551845087	-0.15696229265087	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	TBC minus R	-0.27816525	0.0165097224632089	-0.311973304878423	-0.245997486787668	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	SS-CLR minus CN-STD	0.255212425	0.0175287041050214	0.219722495163658	0.289902755780054	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	SS-CLR minus CN-QN	0.0259972375	0.00707295077046101	0.0133806167034271	0.0407805478772358	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	SS-CLR minus CN-COMBAT	0.1946102375	0.0156098897342528	0.16349082114291	0.225306695539753	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Part B deployment AUC	SS-CLR minus TBC	0.2982483375	0.0200325237162658	0.258547175247079	0.337308357364508	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	b
+GSE188627	Case mix call changes	ws-rclr-trimmed: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-ktsp: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-pairratio: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Within-batch standardization: all_batches_decision_change_prop	0.576923076923077	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Test-batch centring: all_batches_decision_change_prop	0.58974358974359	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	ws-rclr-trimmed: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-ktsp: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-pairratio: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Within-batch standardization: extremes_pairwise_flip_rate	0.348488113447074	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Test-batch centring: extremes_pairwise_flip_rate	0.369660528962855	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	ws-rclr-trimmed: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-ktsp: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	reo-pairratio: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Within-batch standardization: extremes_any_flip_prop	0.576923076923077	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Case mix call changes	Test-batch centring: extremes_any_flip_prop	0.58974358974359	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	b
+GSE188627	Within-cohort reference AUC	ws-rclr-trimmed	0.928215063803299	NA	0.893577371460359	0.962852756146239	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	b
+GSE198834	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	TBC minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	FZ-STD minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	CN-STD minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	FZ-QN minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	CN-QN minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	FZ-RAW minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	CN-COMBAT minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	TBC minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Part A	SS-CLR minus R	NA	NA	NA	NA	gate_failed	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE198834	Within-cohort reference AUC	ws-rclr-trimmed	NA	NA	NA	NA	not_estimable	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE200489	Part A	CN-STD minus FZ-STD	0.0345238095238095	0.0391949826965245	-0.0495410675968648	0.118588686644484	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	CN-QN minus FZ-QN	0.00317460317460317	0.00928019347233103	-0.0167294322461541	0.0230786385953605	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	SS-CLR minus CN-STD	0.00347222222222222	0.0600904644121355	-0.125409005919725	0.132353450364169	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	SS-CLR minus CN-QN	-0.0133928571428571	0.0484796090677491	-0.117371277306825	0.0905855630211104	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	FZ-STD minus R	0.0145833333333333	0.0956739320423416	-0.190616842491834	0.2197835091585	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	CN-STD minus R	0.0491071428571429	0.095505946137721	-0.155732739036036	0.253947024750322	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	FZ-QN minus R	0.0627976190476191	0.0885022920571263	-0.127020918806719	0.252616156901957	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	CN-QN minus R	0.0659722222222222	0.0832899614484034	-0.1126669783295	0.244611422773945	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Part A	SS-CLR minus R	0.0525793650793651	0.0567558312546579	-0.0691497862573345	0.174308516416065	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	b
+GSE200489	Within-cohort reference AUC	ws-rclr-trimmed	0.922420634920635	NA	0.851371441571451	0.993469828269819	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	b
+GSE204951	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	CN-QN minus FZ-QN	-0.055868075	0.0106778936235155	-0.0769438968966405	-0.0360215006368853	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	TBC minus R	-0.030626575	0.00543569257392519	-0.0418371446054206	-0.0203778718180525	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Part B deployment AUC	SS-CLR minus TBC	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE204951	Within-cohort reference AUC	ws-rclr-trimmed	0.579971851851852	NA	0.505895029636879	0.654048674066825	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE210329	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	CN-QN minus FZ-QN	0.00189349112426036	0.021840038164324	-0.0431821322289891	0.0469691144775098	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	FZ-QN minus R	0.0714792899408284	0.0514950666160198	-0.0348013039789141	0.177759883860571	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	CN-QN minus R	0.0733727810650888	0.0530815734837135	-0.0361822020968999	0.182927764227077	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	CN-QN minus FZ-QN	-0.13974555	0.0125976239562044	-0.166180972030047	-0.116583744894781	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	TBC minus R	-0.1878798375	0.0112701596297525	-0.211455887679432	-0.166481355061189	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Part B deployment AUC	SS-CLR minus TBC	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE210329	Within-cohort reference AUC	ws-rclr-trimmed	0.724023668639053	NA	0.644528486091063	0.803518851187044	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE210546	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE210546	Within-cohort reference AUC	ws-rclr-trimmed	0.595092592592593	NA	0.460323414000278	0.729861771184907	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE221088	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE221088	Within-cohort reference AUC	ws-rclr-trimmed	0.573226190476191	NA	0.481614769956638	0.664837610995743	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE227778	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE227778	Within-cohort reference AUC	ws-rclr-trimmed	0.868783068783069	NA	0.755752734135848	0.98181340343029	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE266859	Part A	CN-STD minus FZ-STD	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	CN-QN minus FZ-QN	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	CN-COMBAT minus FZ-RAW	-0.000980392156862749	0.00285882231577072	-0.00711195620285014	0.00515117188912464	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	SS-CLR minus CN-STD	0.0074142156862745	0.0157726111249276	-0.0264146706881745	0.0412431020607235	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	SS-CLR minus CN-QN	0.00110294117647059	0.00806677068138077	-0.0161985611954405	0.0184044435483817	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	SS-CLR minus CN-COMBAT	0.00533088235294118	0.0162063106289318	-0.0294281969442527	0.040089961650135	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	FZ-STD minus R	-0.0074142156862745	0.0157726111249276	-0.0412431020607235	0.0264146706881745	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	CN-STD minus R	-0.0074142156862745	0.0157726111249276	-0.0412431020607235	0.0264146706881745	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	FZ-QN minus R	-0.00110294117647058	0.00908768790396514	-0.0205940932168467	0.0183882108639055	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	CN-QN minus R	-0.00110294117647058	0.00908768790396514	-0.0205940932168467	0.0183882108639055	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	FZ-RAW minus R	-0.00435049019607842	0.0166483012357752	-0.0400575450630146	0.0313565646708577	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	CN-COMBAT minus R	-0.00533088235294117	0.0162063106289319	-0.040089961650135	0.0294281969442527	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Part A	SS-CLR minus R	7.40152824133402e-18	0.0041848873597613	-0.00897569069965151	0.00897569069965152	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE266859	Within-cohort reference AUC	ws-rclr-trimmed	0.993075980392157	NA	0.979015667139464	1	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE270497	Part A	CN-STD minus FZ-STD	-0.000972222222222219	0.00190993264833957	-0.00491412946793666	0.00296968502349223	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	CN-QN minus FZ-QN	0.000833333333333335	0.00145640304349548	-0.00217253481328765	0.00383920147995432	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	CN-COMBAT minus FZ-RAW	-0.000833333333333326	0.0015532131421073	-0.00403900770323033	0.00237234103656367	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	SS-CLR minus CN-STD	0.00416666666666667	0.00665484097753012	-0.00956825005472099	0.0179015833880543	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	SS-CLR minus CN-QN	-0.00180555555555556	0.00584159467911474	-0.0138620144113944	0.0102509033002833	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	SS-CLR minus CN-COMBAT	0.00375	0.00619970763365487	-0.00904556766761456	0.0165455676676146	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	FZ-STD minus R	0.01125	0.010920088286699	-0.0112879545077691	0.0337879545077691	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	CN-STD minus R	0.0102777777777778	0.0115199486745381	-0.0134982277216301	0.0340537832771856	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	FZ-QN minus R	0.0154166666666667	0.0105233350222119	-0.00630242934920633	0.0371357626825397	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	CN-QN minus R	0.01625	0.0104906133025668	-0.00540156170576347	0.0379015617057635	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	FZ-RAW minus R	0.0115277777777778	0.0112024601391268	-0.0115929635900613	0.0346485191456168	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	CN-COMBAT minus R	0.0106944444444444	0.0114621381169006	-0.0129622459282085	0.0343511348170973	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part A	SS-CLR minus R	0.0144444444444444	0.0107506826094407	-0.00774387392969957	0.0366327628185885	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	CN-STD minus FZ-STD	-0.2153123	0.0194181019530974	-0.254193617533696	-0.178773565634318	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	CN-QN minus FZ-QN	0.00421171250000003	0.00200456674340484	0.000797117709781492	0.00839462981292065	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	CN-COMBAT minus FZ-RAW	-0.0917215125	0.0120882454175692	-0.116386308680314	-0.0686475109695377	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	TBC minus R	-0.2684024875	0.0227227276315938	-0.312646324345928	-0.224785404441762	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	SS-CLR minus CN-STD	0.2122185375	0.0206859204761045	0.173921121829687	0.253882993963854	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	SS-CLR minus CN-QN	-0.00664886250000001	0.00316603135496401	-0.0134122869851317	-0.00133007798274428	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	SS-CLR minus CN-COMBAT	0.08879685	0.0136316153766652	0.0635985107587603	0.117019806391283	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Part B deployment AUC	SS-CLR minus TBC	0.2701424125	0.0236161066171031	0.223905462396507	0.316508047142078	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE270497	Within-cohort reference AUC	ws-rclr-trimmed	0.971805555555556	NA	0.947880086989292	0.995731024121819	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE279209	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	TBC minus R	0.00363212499999998	0.0019823169328079	-0.000207781066081954	0.00750728178053423	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Part B deployment AUC	SS-CLR minus TBC	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE279209	Case mix call changes	ws-rclr-trimmed: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-ktsp: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-pairratio: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Within-batch standardization: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Test-batch centring: all_batches_decision_change_prop	0.425373134328358	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	ws-rclr-trimmed: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-ktsp: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-pairratio: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Within-batch standardization: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Test-batch centring: extremes_pairwise_flip_rate	0.079315192807985	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	ws-rclr-trimmed: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-ktsp: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	reo-pairratio: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Within-batch standardization: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Case mix call changes	Test-batch centring: extremes_any_flip_prop	0.380597014925373	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE279209	Within-cohort reference AUC	ws-rclr-trimmed	0.552752159789896	NA	0.484219811296633	0.621284508283158	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE304572	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE304572	Within-cohort reference AUC	ws-rclr-trimmed	0.593076923076923	NA	0.506836658506044	0.679317187647802	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE320031	Part A	CN-STD minus FZ-STD	-0.00217922771672771	0.00540395866243708	-0.0133324502272289	0.00897399479377349	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	CN-QN minus FZ-QN	-0.000182799145299137	0.00160704920590405	-0.00349958568982996	0.00313398739923168	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	CN-COMBAT minus FZ-RAW	-0.00176378205128203	0.00396968023011188	-0.00995679936833314	0.00642923526576907	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	SS-CLR minus CN-STD	0.0104297771672772	0.00794551304485746	-0.00596895577740086	0.0268285101119552	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	SS-CLR minus CN-QN	0.00495027472527472	0.0179396954345168	-0.0320754368780694	0.0419759863286188	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	SS-CLR minus CN-COMBAT	0.0212106227106227	0.0110762195078079	-0.00164957079981831	0.0440708162210637	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	FZ-STD minus R	0.0720110347985348	0.0358884283019603	-0.0020590407529716	0.146081110350041	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	CN-STD minus R	0.0698318070818071	0.0351413372187981	-0.00269634825775579	0.14235996242137	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	FZ-QN minus R	0.0754941086691087	0.0303729393428256	0.0128074428470357	0.138180774491182	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	CN-QN minus R	0.0753113095238095	0.0304365891714229	0.0124932769120466	0.138129342135572	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	FZ-RAW minus R	0.0608147435897436	0.0367137835726863	-0.0149587815178462	0.136588268697333	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	CN-COMBAT minus R	0.0590509615384616	0.0352481947804758	-0.013697736968947	0.13179966004587	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part A	SS-CLR minus R	0.0802615842490843	0.0342777882368947	0.00951570641116724	0.151007462087001	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	CN-STD minus FZ-STD	-0.1514637625	0.0056999747111616	-0.163072492441298	-0.140495380998502	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	CN-QN minus FZ-QN	-0.023177125	0.00188299534704608	-0.0269224605350598	-0.0196340048710583	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	CN-COMBAT minus FZ-RAW	-0.0732416125	0.00378910823796724	-0.0807201536399783	-0.0660168381271119	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	TBC minus R	-0.0910256125	0.00463035989928053	-0.100331182168986	-0.0822114400747881	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	SS-CLR minus CN-STD	0.1695331875	0.00766416821276855	0.155436518038909	0.184948245331059	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	SS-CLR minus CN-QN	0.018402075	0.0106304115934383	-0.00290300732424071	0.0390497969633498	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	SS-CLR minus CN-COMBAT	0.103195675	0.00720957635359792	0.0895558026713264	0.117678485293563	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Part B deployment AUC	SS-CLR minus TBC	0.1736441375	0.0155138151225402	0.144676022697088	0.204957044502164	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE320031	Case mix call changes	ws-rclr-trimmed: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-ktsp: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-pairratio: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Within-batch standardization: all_batches_decision_change_prop	0.533707865168539	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Test-batch centring: all_batches_decision_change_prop	0.348314606741573	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	ws-rclr-trimmed: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-ktsp: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-pairratio: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Within-batch standardization: extremes_pairwise_flip_rate	0.259965995562182	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Test-batch centring: extremes_pairwise_flip_rate	0.139195847215122	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	ws-rclr-trimmed: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-ktsp: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	reo-pairratio: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Within-batch standardization: extremes_any_flip_prop	0.528089887640449	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Case mix call changes	Test-batch centring: extremes_any_flip_prop	0.342696629213483	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE320031	Within-cohort reference AUC	ws-rclr-trimmed	0.696913141025641	NA	0.644599909407925	0.749226372643357	ok	./analyses/companion_dependence/out/computing_bundle/units/GSE320031/partA_pred.tsv.gz	a
+GSE41922	Part A	CN-STD minus FZ-STD	-0.0050952380952381	0.0137384479900779	-0.0334500011409613	0.0232595249504851	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	CN-QN minus FZ-QN	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	CN-COMBAT minus FZ-RAW	-0.00280952380952381	0.00840066468867038	-0.0201476435771899	0.0145285959581423	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	SS-CLR minus CN-STD	0.0202857142857143	0.0203569643798662	-0.0217289952170045	0.0623004237884331	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	SS-CLR minus CN-QN	0.00333333333333334	0.0143835260805834	-0.0263528054555219	0.0330194721221886	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	SS-CLR minus CN-COMBAT	0.023	0.0264427914047437	-0.0315752391456805	0.0775752391456805	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	FZ-STD minus R	-0.00342857142857143	0.0241868397543837	-0.0533477552079716	0.0464906123508287	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	CN-STD minus R	-0.00852380952380952	0.027127118303592	-0.0645114299717064	0.0474638109240874	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	FZ-QN minus R	0.00842857142857143	0.0179867875770913	-0.0286943335800961	0.0455514764372389	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	CN-QN minus R	0.00842857142857143	0.0179867875770913	-0.0286943335800961	0.0455514764372389	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	FZ-RAW minus R	-0.00842857142857143	0.0297057001143419	-0.0697381231667151	0.0528809803095723	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	CN-COMBAT minus R	-0.0112380952380952	0.0315907757808961	-0.0764382519330001	0.0539620614568096	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Part A	SS-CLR minus R	0.0117619047619048	0.0161585380628306	-0.0215876787039829	0.0451114882277925	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE41922	Within-cohort reference AUC	ws-rclr-trimmed	0.984904761904762	NA	0.968263868085033	1	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE64591	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	TBC minus R	-0.03004565	0.00432126337072453	-0.038905157139381	-0.0219385359995552	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Part B deployment AUC	SS-CLR minus TBC	0.16767065	0.0307890295619072	0.107301892231296	0.225966703516633	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE64591	Case mix call changes	ws-rclr-trimmed: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-ktsp: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-pairratio: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Within-batch standardization: all_batches_decision_change_prop	0.4375	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Test-batch centring: all_batches_decision_change_prop	0.4	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	ws-rclr-trimmed: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-ktsp: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-pairratio: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Within-batch standardization: extremes_pairwise_flip_rate	0.152833333333333	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Test-batch centring: extremes_pairwise_flip_rate	0.0981388888888889	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	ws-rclr-trimmed: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-ktsp: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	reo-pairratio: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Within-batch standardization: extremes_any_flip_prop	0.4	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Case mix call changes	Test-batch centring: extremes_any_flip_prop	0.3625	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE64591	Within-cohort reference AUC	ws-rclr-trimmed	0.5584	NA	0.489450591550123	0.627349408449877	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE71008	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	TBC minus R	-0.1140843	0.00810904956791353	-0.130638961555027	-0.0990962938069519	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Part B deployment AUC	SS-CLR minus TBC	0.0883368	0.0316876862093551	0.0261586365774209	0.15003906353525	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE71008	Within-cohort reference AUC	ws-rclr-trimmed	0.67651724137931	NA	0.606182613118063	0.746851869640558	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+GSE83977	Part A	CN-STD minus FZ-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	FZ-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	CN-STD minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE83977	Within-cohort reference AUC	ws-rclr-trimmed	0.762962962962963	NA	0.654648091979205	0.871277833946721	ok	./analyses/companion_dependence/out/computing_bundle/units/GSE83977/partA_pred.tsv.gz	a
+GSE94533_PUBLIC	Part A	CN-STD minus FZ-STD	-0.00237229102167181	0.00753357595844433	-0.0179208276062205	0.0131762455628769	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	CN-QN minus FZ-QN	-0.000965342277261798	0.00317210213608447	-0.00751223931326373	0.00558155475874013	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	CN-COMBAT minus FZ-RAW	-0.00183178534571724	0.00561038836101268	-0.0134110578141859	0.00974748712275144	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	SS-CLR minus CN-STD	0.0412542999656003	0.0175022029446872	0.00513152848273855	0.077377071448462	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	SS-CLR minus CN-QN	-0.0338944788441692	0.023523551390438	-0.0824447027232772	0.0146557450349387	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	SS-CLR minus CN-COMBAT	0.0411674406604747	0.0182849154487326	0.00342922996634554	0.0789056513546039	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	FZ-STD minus R	-0.0519784141726866	0.0356602139858574	-0.125577478525445	0.021620650180072	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	CN-STD minus R	-0.0543507051943584	0.0357963826927772	-0.128230807945468	0.0195293975567507	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	FZ-QN minus R	0.0217634158926729	0.0358214329848332	-0.0521683881201791	0.0956952199055248	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	CN-QN minus R	0.0207980736154111	0.0359366569364184	-0.0533715409453826	0.0949676881762047	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	FZ-RAW minus R	-0.0524320605435157	0.0344215390855184	-0.12347462555114	0.0186105044641085	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	CN-COMBAT minus R	-0.0542638458892329	0.0346554966264107	-0.125789275528987	0.017261583750521	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part A	SS-CLR minus R	-0.0130964052287582	0.0322989154195187	-0.0797580903052481	0.0535652798477317	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	CN-STD minus FZ-STD	-0.13275999375	0.0085342226026573	-0.150208727361347	-0.116481616738099	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	CN-QN minus FZ-QN	0.0159911	0.00361679959409236	0.00893983303143312	0.0229246720883497	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	CN-COMBAT minus FZ-RAW	-0.08544699375	0.00645160591395166	-0.0985640459008098	-0.0731978298985641	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	TBC minus R	-0.1524447375	0.0115080271558989	-0.175425900917419	-0.130191448137272	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	SS-CLR minus CN-STD	0.17925530625	0.0174132980066349	0.145579208628283	0.215114344505479	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	SS-CLR minus CN-QN	-0.00782812499999999	0.0153278816848539	-0.0400926320465684	0.0204098979248094	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	SS-CLR minus CN-COMBAT	0.12852586875	0.016856989535586	0.0957889110537114	0.162647937892233	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Part B deployment AUC	SS-CLR minus TBC	0.15953895	0.023333107694683	0.114683015700304	0.205238884054378	ok	./analyses/companion_dependence/out/computing_bundle/partB_contrasts_dataset.tsv	a
+GSE94533_PUBLIC	Case mix call changes	ws-rclr-trimmed: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-ktsp: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-pairratio: all_batches_decision_change_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Within-batch standardization: all_batches_decision_change_prop	0.471428571428571	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Test-batch centring: all_batches_decision_change_prop	0.642857142857143	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	ws-rclr-trimmed: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-ktsp: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-pairratio: extremes_pairwise_flip_rate	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Within-batch standardization: extremes_pairwise_flip_rate	0.17968717984621	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Test-batch centring: extremes_pairwise_flip_rate	0.358331653072893	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	ws-rclr-trimmed: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-ktsp: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	reo-pairratio: extremes_any_flip_prop	0	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Within-batch standardization: extremes_any_flip_prop	0.471428571428571	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Case mix call changes	Test-batch centring: extremes_any_flip_prop	0.628571428571429	NA	NA	NA	ok	./analyses/companion_dependence/out/case_mix/results_all_units.tsv	a
+GSE94533_PUBLIC	Within-cohort reference AUC	ws-rclr-trimmed	0.791059081527348	NA	0.729731856988652	0.852386306066044	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a
+PRJEB30542	Part A	CN-STD minus FZ-STD	-0.000718954248366002	0.00840191508702755	-0.018059654711403	0.016621746214671	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	CN-QN minus FZ-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	CN-COMBAT minus FZ-RAW	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	SS-CLR minus CN-STD	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	SS-CLR minus CN-QN	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	SS-CLR minus CN-COMBAT	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	FZ-STD minus R	-0.0766187363834423	0.0391130118551979	-0.157344025292325	0.00410655252544059	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	CN-STD minus R	-0.0773376906318083	0.0408533935527536	-0.16165495082296	0.00697956955934354	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	FZ-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	CN-QN minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	FZ-RAW minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	CN-COMBAT minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	TBC minus R	0	0	0	0	ok	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Part A	SS-CLR minus R	NA	NA	NA	NA	not_estimable	./analyses/companion_dependence/out/computing_bundle/partA_contrasts_dataset.tsv	a
+PRJEB30542	Within-cohort reference AUC	ws-rclr-trimmed	0.830039215686275	NA	0.759617264120356	0.900461167252193	ok	./analyses/pooled_analysis_synthesis/out/method_cohort_performance.tsv	a

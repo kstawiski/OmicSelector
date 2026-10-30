@@ -1,0 +1,2 @@
+method	cohort	cv_seed	model_seed	device	host	threads	reference_path	reference_sha256	n_scores	maximum_method_score_difference	maximum_baseline_score_difference	auc_difference	changed_calls_at_0_5	pass
+ai-tabpfn	GSE137109	303	303	cpu	argos2	4	./analyses/foundation_model_seed_sensitivity/out/cells/ai-tabpfn__GSE137109__seed_303/within_bundle.rds	d1c514c8b9ecb7bc57c9774d865c18ecaa980996db106d5028fe42bf4d0d7a29	78	0	0	0	0	TRUE

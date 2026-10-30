@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"biofluid-residualized-alr"	"breast_cancer__GSE210329"	2	"cpu"	0.431602478027344	0.265000000000001	0.00143992900848389	0.00286159515380859	3.5527136788005e-15	1e-05	TRUE	678	26	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

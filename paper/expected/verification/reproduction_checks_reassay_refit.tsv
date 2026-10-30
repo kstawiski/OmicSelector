@@ -1,0 +1,4 @@
+family	field	n	max_absolute_error	tolerance	pass
+reassay	score	217689	0	1e-10	TRUE
+reassay	threshold	217689	0	1e-10	TRUE
+reassay	decision	217689	0	1e-10	TRUE

@@ -1,0 +1,253 @@
+cohort	scorer	case_fraction	metric	value
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.8725
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.8875
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.885833333333333
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.1	"Sensitivity"	0.865
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.5	"Sensitivity"	0.8675
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.9	"Sensitivity"	0.866111111111111
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.1	"Sensitivity"	0.8975
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.5	"Sensitivity"	0.9
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.9	"Sensitivity"	0.895
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.1	"Sensitivity"	0.995
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.5	"Sensitivity"	0.9535
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.9	"Sensitivity"	0.697777777777778
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.1	"Sensitivity"	0.99
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.5	"Sensitivity"	0.918
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.9	"Sensitivity"	0.607222222222222
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.1	"Specificity"	0.854166666666667
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.5	"Specificity"	0.8555
+"TORAY_PUBLIC_CANONICAL"	"Trimmed-rCLR"	0.9	"Specificity"	0.845
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.1	"Specificity"	0.881666666666667
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.5	"Specificity"	0.8835
+"TORAY_PUBLIC_CANONICAL"	"k-TSP"	0.9	"Specificity"	0.8725
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.1	"Specificity"	0.891388888888889
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.5	"Specificity"	0.8915
+"TORAY_PUBLIC_CANONICAL"	"Pair-ratio"	0.9	"Specificity"	0.9025
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.1	"Specificity"	0.634444444444445
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.5	"Specificity"	0.9335
+"TORAY_PUBLIC_CANONICAL"	"Within-batch
+standardization"	0.9	"Specificity"	0.995
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.1	"Specificity"	0.492222222222222
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.5	"Specificity"	0.8395
+"TORAY_PUBLIC_CANONICAL"	"Test-batch
+centring"	0.9	"Specificity"	0.9575
+"GSE64591"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.325
+"GSE64591"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.325
+"GSE64591"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.325
+"GSE64591"	"k-TSP"	0.1	"Sensitivity"	0.725
+"GSE64591"	"k-TSP"	0.5	"Sensitivity"	0.725
+"GSE64591"	"k-TSP"	0.9	"Sensitivity"	0.725
+"GSE64591"	"Pair-ratio"	0.1	"Sensitivity"	0.675
+"GSE64591"	"Pair-ratio"	0.5	"Sensitivity"	0.675
+"GSE64591"	"Pair-ratio"	0.9	"Sensitivity"	0.675
+"GSE64591"	"Within-batch
+standardization"	0.1	"Sensitivity"	0.7675
+"GSE64591"	"Within-batch
+standardization"	0.5	"Sensitivity"	0.683
+"GSE64591"	"Within-batch
+standardization"	0.9	"Sensitivity"	0.592777777777778
+"GSE64591"	"Test-batch
+centring"	0.1	"Sensitivity"	0.45
+"GSE64591"	"Test-batch
+centring"	0.5	"Sensitivity"	0.4385
+"GSE64591"	"Test-batch
+centring"	0.9	"Sensitivity"	0.426111111111111
+"GSE64591"	"Trimmed-rCLR"	0.1	"Specificity"	0.6
+"GSE64591"	"Trimmed-rCLR"	0.5	"Specificity"	0.6
+"GSE64591"	"Trimmed-rCLR"	0.9	"Specificity"	0.6
+"GSE64591"	"k-TSP"	0.1	"Specificity"	0.65
+"GSE64591"	"k-TSP"	0.5	"Specificity"	0.65
+"GSE64591"	"k-TSP"	0.9	"Specificity"	0.65
+"GSE64591"	"Pair-ratio"	0.1	"Specificity"	0.475
+"GSE64591"	"Pair-ratio"	0.5	"Specificity"	0.475
+"GSE64591"	"Pair-ratio"	0.9	"Specificity"	0.475
+"GSE64591"	"Within-batch
+standardization"	0.1	"Specificity"	0.498611111111111
+"GSE64591"	"Within-batch
+standardization"	0.5	"Specificity"	0.5515
+"GSE64591"	"Within-batch
+standardization"	0.9	"Specificity"	0.6
+"GSE64591"	"Test-batch
+centring"	0.1	"Specificity"	0.528888888888889
+"GSE64591"	"Test-batch
+centring"	0.5	"Specificity"	0.548
+"GSE64591"	"Test-batch
+centring"	0.9	"Specificity"	0.5575
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.6375
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.639
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.638888888888889
+"GSE94533_PUBLIC"	"k-TSP"	0.1	"Sensitivity"	0.585
+"GSE94533_PUBLIC"	"k-TSP"	0.5	"Sensitivity"	0.5825
+"GSE94533_PUBLIC"	"k-TSP"	0.9	"Sensitivity"	0.583333333333333
+"GSE94533_PUBLIC"	"Pair-ratio"	0.1	"Sensitivity"	0.7475
+"GSE94533_PUBLIC"	"Pair-ratio"	0.5	"Sensitivity"	0.7505
+"GSE94533_PUBLIC"	"Pair-ratio"	0.9	"Sensitivity"	0.75
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.1	"Sensitivity"	0.8025
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.5	"Sensitivity"	0.726
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.9	"Sensitivity"	0.626666666666667
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.1	"Sensitivity"	0.79
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.5	"Sensitivity"	0.6575
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.9	"Sensitivity"	0.486944444444444
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.1	"Specificity"	0.735555555555556
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.5	"Specificity"	0.735
+"GSE94533_PUBLIC"	"Trimmed-rCLR"	0.9	"Specificity"	0.735
+"GSE94533_PUBLIC"	"k-TSP"	0.1	"Specificity"	0.764444444444445
+"GSE94533_PUBLIC"	"k-TSP"	0.5	"Specificity"	0.7655
+"GSE94533_PUBLIC"	"k-TSP"	0.9	"Specificity"	0.765
+"GSE94533_PUBLIC"	"Pair-ratio"	0.1	"Specificity"	0.529444444444445
+"GSE94533_PUBLIC"	"Pair-ratio"	0.5	"Specificity"	0.5295
+"GSE94533_PUBLIC"	"Pair-ratio"	0.9	"Specificity"	0.5275
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.1	"Specificity"	0.405277777777778
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.5	"Specificity"	0.4985
+"GSE94533_PUBLIC"	"Within-batch
+standardization"	0.9	"Specificity"	0.575
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.1	"Specificity"	0.446666666666667
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.5	"Specificity"	0.668
+"GSE94533_PUBLIC"	"Test-batch
+centring"	0.9	"Specificity"	0.86
+"GSE188627"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.79
+"GSE188627"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.7855
+"GSE188627"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.785555555555556
+"GSE188627"	"k-TSP"	0.1	"Sensitivity"	0.86
+"GSE188627"	"k-TSP"	0.5	"Sensitivity"	0.8565
+"GSE188627"	"k-TSP"	0.9	"Sensitivity"	0.857222222222222
+"GSE188627"	"Pair-ratio"	0.1	"Sensitivity"	0.8125
+"GSE188627"	"Pair-ratio"	0.5	"Sensitivity"	0.809
+"GSE188627"	"Pair-ratio"	0.9	"Sensitivity"	0.809444444444445
+"GSE188627"	"Within-batch
+standardization"	0.1	"Sensitivity"	0.94
+"GSE188627"	"Within-batch
+standardization"	0.5	"Sensitivity"	0.8505
+"GSE188627"	"Within-batch
+standardization"	0.9	"Sensitivity"	0.589722222222222
+"GSE188627"	"Test-batch
+centring"	0.1	"Sensitivity"	0.885
+"GSE188627"	"Test-batch
+centring"	0.5	"Sensitivity"	0.801
+"GSE188627"	"Test-batch
+centring"	0.9	"Sensitivity"	0.495555555555556
+"GSE188627"	"Trimmed-rCLR"	0.1	"Specificity"	0.916666666666667
+"GSE188627"	"Trimmed-rCLR"	0.5	"Specificity"	0.917
+"GSE188627"	"Trimmed-rCLR"	0.9	"Specificity"	0.915
+"GSE188627"	"k-TSP"	0.1	"Specificity"	0.833333333333333
+"GSE188627"	"k-TSP"	0.5	"Specificity"	0.834
+"GSE188627"	"k-TSP"	0.9	"Specificity"	0.8325
+"GSE188627"	"Pair-ratio"	0.1	"Specificity"	0.833333333333333
+"GSE188627"	"Pair-ratio"	0.5	"Specificity"	0.834
+"GSE188627"	"Pair-ratio"	0.9	"Specificity"	0.8325
+"GSE188627"	"Within-batch
+standardization"	0.1	"Specificity"	0.645277777777778
+"GSE188627"	"Within-batch
+standardization"	0.5	"Specificity"	0.89
+"GSE188627"	"Within-batch
+standardization"	0.9	"Specificity"	0.9925
+"GSE188627"	"Test-batch
+centring"	0.1	"Specificity"	0.641666666666667
+"GSE188627"	"Test-batch
+centring"	0.5	"Specificity"	0.9085
+"GSE188627"	"Test-batch
+centring"	0.9	"Specificity"	0.99
+"GSE279209"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.415
+"GSE279209"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.414
+"GSE279209"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.413611111111111
+"GSE279209"	"k-TSP"	0.1	"Sensitivity"	0.31
+"GSE279209"	"k-TSP"	0.5	"Sensitivity"	0.3105
+"GSE279209"	"k-TSP"	0.9	"Sensitivity"	0.31
+"GSE279209"	"Pair-ratio"	0.1	"Sensitivity"	0.38
+"GSE279209"	"Pair-ratio"	0.5	"Sensitivity"	0.3795
+"GSE279209"	"Pair-ratio"	0.9	"Sensitivity"	0.379166666666667
+"GSE279209"	"Within-batch
+standardization"	0.1	"Sensitivity"	1
+"GSE279209"	"Within-batch
+standardization"	0.5	"Sensitivity"	1
+"GSE279209"	"Within-batch
+standardization"	0.9	"Sensitivity"	1
+"GSE279209"	"Test-batch
+centring"	0.1	"Sensitivity"	0.4175
+"GSE279209"	"Test-batch
+centring"	0.5	"Sensitivity"	0.437
+"GSE279209"	"Test-batch
+centring"	0.9	"Sensitivity"	0.434166666666667
+"GSE279209"	"Trimmed-rCLR"	0.1	"Specificity"	0.553333333333333
+"GSE279209"	"Trimmed-rCLR"	0.5	"Specificity"	0.552
+"GSE279209"	"Trimmed-rCLR"	0.9	"Specificity"	0.555
+"GSE279209"	"k-TSP"	0.1	"Specificity"	0.6
+"GSE279209"	"k-TSP"	0.5	"Specificity"	0.6
+"GSE279209"	"k-TSP"	0.9	"Specificity"	0.6
+"GSE279209"	"Pair-ratio"	0.1	"Specificity"	0.6675
+"GSE279209"	"Pair-ratio"	0.5	"Specificity"	0.6665
+"GSE279209"	"Pair-ratio"	0.9	"Specificity"	0.66
+"GSE279209"	"Within-batch
+standardization"	0.1	"Specificity"	0
+"GSE279209"	"Within-batch
+standardization"	0.5	"Specificity"	0
+"GSE279209"	"Within-batch
+standardization"	0.9	"Specificity"	0
+"GSE279209"	"Test-batch
+centring"	0.1	"Specificity"	0.513888888888889
+"GSE279209"	"Test-batch
+centring"	0.5	"Specificity"	0.5015
+"GSE279209"	"Test-batch
+centring"	0.9	"Specificity"	0.495
+"GSE320031"	"Trimmed-rCLR"	0.1	"Sensitivity"	0.795
+"GSE320031"	"Trimmed-rCLR"	0.5	"Sensitivity"	0.794
+"GSE320031"	"Trimmed-rCLR"	0.9	"Sensitivity"	0.794444444444444
+"GSE320031"	"k-TSP"	0.1	"Sensitivity"	0.645
+"GSE320031"	"k-TSP"	0.5	"Sensitivity"	0.65
+"GSE320031"	"k-TSP"	0.9	"Sensitivity"	0.651666666666667
+"GSE320031"	"Pair-ratio"	0.1	"Sensitivity"	0.5675
+"GSE320031"	"Pair-ratio"	0.5	"Sensitivity"	0.563
+"GSE320031"	"Pair-ratio"	0.9	"Sensitivity"	0.563888888888889
+"GSE320031"	"Within-batch
+standardization"	0.1	"Sensitivity"	0.8575
+"GSE320031"	"Within-batch
+standardization"	0.5	"Sensitivity"	0.7065
+"GSE320031"	"Within-batch
+standardization"	0.9	"Sensitivity"	0.556666666666667
+"GSE320031"	"Test-batch
+centring"	0.1	"Sensitivity"	0.895
+"GSE320031"	"Test-batch
+centring"	0.5	"Sensitivity"	0.8315
+"GSE320031"	"Test-batch
+centring"	0.9	"Sensitivity"	0.748888888888889
+"GSE320031"	"Trimmed-rCLR"	0.1	"Specificity"	0.481111111111111
+"GSE320031"	"Trimmed-rCLR"	0.5	"Specificity"	0.48
+"GSE320031"	"Trimmed-rCLR"	0.9	"Specificity"	0.48
+"GSE320031"	"k-TSP"	0.1	"Specificity"	0.808055555555556
+"GSE320031"	"k-TSP"	0.5	"Specificity"	0.8075
+"GSE320031"	"k-TSP"	0.9	"Specificity"	0.805
+"GSE320031"	"Pair-ratio"	0.1	"Specificity"	0.8275
+"GSE320031"	"Pair-ratio"	0.5	"Specificity"	0.827
+"GSE320031"	"Pair-ratio"	0.9	"Specificity"	0.8275
+"GSE320031"	"Within-batch
+standardization"	0.1	"Specificity"	0.534444444444445
+"GSE320031"	"Within-batch
+standardization"	0.5	"Specificity"	0.6285
+"GSE320031"	"Within-batch
+standardization"	0.9	"Specificity"	0.6925
+"GSE320031"	"Test-batch
+centring"	0.1	"Specificity"	0.420833333333333
+"GSE320031"	"Test-batch
+centring"	0.5	"Specificity"	0.4775
+"GSE320031"	"Test-batch
+centring"	0.9	"Specificity"	0.53

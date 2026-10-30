@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"ws-rclr-trimmed"	"GSE94533_PUBLIC"	2	"cpu"	0.49540901184082	0.286999999999999	0.0237010717391968	0.0508083462715152	0	1e-05	TRUE	138	2524	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

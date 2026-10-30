@@ -1,0 +1,5 @@
+step	seconds	exit_code
+R14/prepare.py	29.16611098498106	0
+R14/analyze.R	8.832303338684142	0
+R12b/summary.R	44.42861456843093	0
+R12b/finalize_tables.py	7.622741213068366	0

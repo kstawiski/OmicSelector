@@ -178,10 +178,10 @@ for (.route in c("pairratio", "dro", "sig", "scatter", "proto", "stable", "confo
       skip_if(!nzchar(path) || !file.exists(path), "separate base installation snapshot not supplied")
       d <- readRDS(path); z <- d$cases[[route]]
       skip_if(!is.null(z$error), paste("base backend unavailable:", z$error))
-      venv <- "/home/konrad/.virtualenvs/omicselector_torch/bin/python"
-      if (file.exists(venv) && !nzchar(Sys.getenv("RETICULATE_PYTHON"))) {
-        Sys.setenv(RETICULATE_PYTHON = venv)
-      }
+      python <- Sys.getenv("RETICULATE_PYTHON", Sys.getenv("OMICSELECTOR_TEST_PYTHON"))
+      skip_if(!nzchar(python) || !file.exists(python),
+              "set RETICULATE_PYTHON or OMICSELECTOR_TEST_PYTHON to the fixture Python interpreter")
+      Sys.setenv(RETICULATE_PYTHON = python)
       fit <- get(z$fit, asNamespace("OmicSelector"))
       score <- get(z$score, asNamespace("OmicSelector"))
       set.seed(991)

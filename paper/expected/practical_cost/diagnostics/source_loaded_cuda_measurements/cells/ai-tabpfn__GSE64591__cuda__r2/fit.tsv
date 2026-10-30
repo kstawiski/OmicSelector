@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"ai-tabpfn"	"GSE64591"	2	"cuda"	111.343904733658	94.543	1.35861790180206	1.45638957023621	2.98023223876953e-07	1e-05	TRUE	160	301	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

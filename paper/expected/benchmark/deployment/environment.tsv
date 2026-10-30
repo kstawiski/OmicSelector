@@ -1,0 +1,450 @@
+phase	dataset	method	fold	host	device	threads	image	package_version	package_commit	batch_size	n_features
+deploy	GSE109319	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	ai-tabpfn	2	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	ai-tabpfn	3	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	ai-tabpfn	4	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	ai-tabpfn	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	ai-tabpfn	5	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	ai-tabpfn	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	tab-tabdpt	1	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	tab-tabdpt	4	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE109319	tab-tabdpt	5	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2548
+stored_benchmark	GSE109319	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2548
+deploy	GSE117063	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE117063	ai-tabpfn	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE117063	ai-tabpfn	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE117063	tab-tabdpt	1	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE117063	tab-tabdpt	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE117063	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	166
+stored_benchmark	GSE117063	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	166
+deploy	GSE122488	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	ai-tabpfn	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	ai-tabpfn	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	ai-tabpfn	4	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	ai-tabpfn	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	ai-tabpfn	5	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	ai-tabpfn	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	tab-tabdpt	4	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE122488	tab-tabdpt	5	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1900
+stored_benchmark	GSE122488	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1900
+deploy	GSE130654	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE130654	ai-tabpfn	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE130654	ai-tabpfn	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE130654	tab-tabdpt	1	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE130654	tab-tabdpt	2	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE130654	tab-tabdpt	3	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	838
+stored_benchmark	GSE130654	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	838
+deploy	GSE186595	ai-tabpfn	1	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	ai-tabpfn	1	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	ai-tabpfn	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	ai-tabpfn	2	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	ai-tabpfn	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	ai-tabpfn	3	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	ai-tabpfn	4	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	ai-tabpfn	4	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	ai-tabpfn	5	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	ai-tabpfn	5	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	tab-tabdpt	4	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE186595	tab-tabdpt	5	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1877
+stored_benchmark	GSE186595	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1877
+deploy	GSE188232	ai-tabpfn	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	ai-tabpfn	1	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	ai-tabpfn	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	ai-tabpfn	2	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	ai-tabpfn	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	ai-tabpfn	3	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	ai-tabpfn	4	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	ai-tabpfn	4	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	ai-tabpfn	5	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	ai-tabpfn	5	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	tab-tabdpt	2	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	tab-tabdpt	4	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188232	tab-tabdpt	5	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	725
+stored_benchmark	GSE188232	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	725
+deploy	GSE188627	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	ai-tabpfn	1	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	ai-tabpfn	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	ai-tabpfn	2	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	ai-tabpfn	3	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	ai-tabpfn	3	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	ai-tabpfn	4	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	ai-tabpfn	4	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	ai-tabpfn	5	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	ai-tabpfn	5	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	tab-tabdpt	2	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	tab-tabdpt	4	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE188627	tab-tabdpt	5	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1232
+stored_benchmark	GSE188627	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1232
+deploy	GSE200489	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	ai-tabpfn	1	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE200489	ai-tabpfn	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	ai-tabpfn	2	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE200489	ai-tabpfn	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	ai-tabpfn	3	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE200489	tab-tabdpt	1	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE200489	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE200489	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	70
+stored_benchmark	GSE200489	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	70
+deploy	GSE204951	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE204951	ai-tabpfn	2	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE204951	ai-tabpfn	3	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE204951	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE204951	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE204951	tab-tabdpt	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	184
+stored_benchmark	GSE204951	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	184
+deploy	GSE210329	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	ai-tabpfn	1	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	ai-tabpfn	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	ai-tabpfn	2	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	ai-tabpfn	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	ai-tabpfn	3	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	ai-tabpfn	4	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	ai-tabpfn	4	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	ai-tabpfn	5	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	ai-tabpfn	5	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	tab-tabdpt	2	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	tab-tabdpt	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	tab-tabdpt	4	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210329	tab-tabdpt	5	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	1213
+stored_benchmark	GSE210329	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	1213
+deploy	GSE210546	ai-tabpfn	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	ai-tabpfn	1	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE210546	ai-tabpfn	2	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	ai-tabpfn	2	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE210546	ai-tabpfn	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	ai-tabpfn	3	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE210546	tab-tabdpt	1	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE210546	tab-tabdpt	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE210546	tab-tabdpt	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	105
+stored_benchmark	GSE210546	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	105
+deploy	GSE221088	ai-tabpfn	1	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	ai-tabpfn	1	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	ai-tabpfn	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	ai-tabpfn	2	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	ai-tabpfn	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	ai-tabpfn	3	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	ai-tabpfn	4	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	ai-tabpfn	4	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	ai-tabpfn	5	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	ai-tabpfn	5	argos8	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	tab-tabdpt	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	tab-tabdpt	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	tab-tabdpt	4	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE221088	tab-tabdpt	5	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2652
+stored_benchmark	GSE221088	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2652
+deploy	GSE227778	ai-tabpfn	1	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	ai-tabpfn	1	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE227778	ai-tabpfn	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	ai-tabpfn	2	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE227778	ai-tabpfn	3	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	ai-tabpfn	3	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE227778	tab-tabdpt	1	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE227778	tab-tabdpt	2	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE227778	tab-tabdpt	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	543
+stored_benchmark	GSE227778	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	543
+deploy	GSE259327_DIAGNOSTIC	ai-tabpfn	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	ai-tabpfn	1	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	ai-tabpfn	2	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	ai-tabpfn	2	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	ai-tabpfn	3	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	ai-tabpfn	3	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	ai-tabpfn	4	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	ai-tabpfn	4	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	ai-tabpfn	5	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	ai-tabpfn	5	s5	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	tab-tabdpt	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	tab-tabdpt	2	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	tab-tabdpt	3	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	tab-tabdpt	4	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE259327_DIAGNOSTIC	tab-tabdpt	5	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	2050
+stored_benchmark	GSE259327_DIAGNOSTIC	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2050
+deploy	GSE266859	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	ai-tabpfn	1	argos9	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE266859	ai-tabpfn	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	ai-tabpfn	2	argos9	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE266859	ai-tabpfn	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	ai-tabpfn	3	argos9	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE266859	tab-tabdpt	1	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE266859	tab-tabdpt	2	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE266859	tab-tabdpt	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2655
+stored_benchmark	GSE266859	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2655
+deploy	GSE270497	ai-tabpfn	1	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	ai-tabpfn	1	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	ai-tabpfn	2	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	ai-tabpfn	2	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	ai-tabpfn	3	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	ai-tabpfn	3	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	ai-tabpfn	4	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	ai-tabpfn	4	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	ai-tabpfn	5	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	ai-tabpfn	5	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	tab-tabdpt	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	tab-tabdpt	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	tab-tabdpt	4	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE270497	tab-tabdpt	5	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2656
+stored_benchmark	GSE270497	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2656
+deploy	GSE279209	ai-tabpfn	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	ai-tabpfn	1	argos1	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	ai-tabpfn	2	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	ai-tabpfn	2	argos1	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	ai-tabpfn	3	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	ai-tabpfn	3	argos1	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	ai-tabpfn	4	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	ai-tabpfn	4	argos1	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	ai-tabpfn	5	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	ai-tabpfn	5	argos1	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	tab-tabdpt	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	tab-tabdpt	2	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	tab-tabdpt	3	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	tab-tabdpt	4	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE279209	tab-tabdpt	5	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	53
+stored_benchmark	GSE279209	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	53
+deploy	GSE304572	ai-tabpfn	1	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	ai-tabpfn	1	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	ai-tabpfn	2	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	ai-tabpfn	2	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	ai-tabpfn	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	ai-tabpfn	3	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	ai-tabpfn	4	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	ai-tabpfn	4	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	ai-tabpfn	5	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	ai-tabpfn	5	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	tab-tabdpt	2	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	tab-tabdpt	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	tab-tabdpt	4	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE304572	tab-tabdpt	5	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2369
+stored_benchmark	GSE304572	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2369
+deploy	GSE41922	ai-tabpfn	1	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	ai-tabpfn	1	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	ai-tabpfn	2	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	ai-tabpfn	2	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	ai-tabpfn	3	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	ai-tabpfn	3	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	ai-tabpfn	4	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	ai-tabpfn	4	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	ai-tabpfn	5	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	ai-tabpfn	5	argos3	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	tab-tabdpt	1	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	tab-tabdpt	2	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	tab-tabdpt	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	tab-tabdpt	4	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE41922	tab-tabdpt	5	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	123
+stored_benchmark	GSE41922	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	123
+deploy	GSE64591	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	ai-tabpfn	1	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	ai-tabpfn	2	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	ai-tabpfn	2	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	ai-tabpfn	3	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	ai-tabpfn	3	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	ai-tabpfn	4	argos9	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	ai-tabpfn	4	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	ai-tabpfn	5	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	ai-tabpfn	5	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	tab-tabdpt	1	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	tab-tabdpt	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	tab-tabdpt	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	tab-tabdpt	4	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE64591	tab-tabdpt	5	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	301
+stored_benchmark	GSE64591	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	301
+deploy	GSE71008	ai-tabpfn	1	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	ai-tabpfn	1	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	ai-tabpfn	2	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	ai-tabpfn	2	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	ai-tabpfn	3	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	ai-tabpfn	3	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	ai-tabpfn	4	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	ai-tabpfn	4	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	ai-tabpfn	5	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	ai-tabpfn	5	argos6	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	tab-tabdpt	2	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	tab-tabdpt	3	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	tab-tabdpt	4	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE71008	tab-tabdpt	5	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2499
+stored_benchmark	GSE71008	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2499
+deploy	GSE94533_PUBLIC	ai-tabpfn	1	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	ai-tabpfn	1	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	ai-tabpfn	2	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	ai-tabpfn	2	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	ai-tabpfn	3	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	ai-tabpfn	3	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	ai-tabpfn	4	argos8	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	ai-tabpfn	4	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	ai-tabpfn	5	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	ai-tabpfn	5	argos4	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	tab-tabdpt	1	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	tab-tabdpt	2	argos2	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	tab-tabdpt	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	tab-tabdpt	4	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	GSE94533_PUBLIC	tab-tabdpt	5	argos7	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2524
+stored_benchmark	GSE94533_PUBLIC	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2524
+deploy	PRJEB30542	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	ai-tabpfn	1	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	ai-tabpfn	2	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	ai-tabpfn	2	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	ai-tabpfn	3	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	ai-tabpfn	3	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	ai-tabpfn	4	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	ai-tabpfn	4	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	ai-tabpfn	5	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	ai-tabpfn	5	argos7	cpu	6	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	tab-tabdpt	1	argos3	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	tab-tabdpt	2	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	tab-tabdpt	3	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	tab-tabdpt	4	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	PRJEB30542	tab-tabdpt	5	argos1	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	2067
+stored_benchmark	PRJEB30542	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	2067
+deploy	TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	argos4	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	79
+stored_benchmark	TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	gpu_server_01	cuda	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b068d0584211c9f25b8993072e391e983	balanced benchmark chunks	79
+deploy	TORAY_PUBLIC_CANONICAL	tab-tabdpt	1	argos6	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	one specimen per score_specimen call	79
+stored_benchmark	TORAY_PUBLIC_CANONICAL	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	79
+factorial	GSE109319	ai-tabpfn	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	2548
+factorial	GSE109319	tab-tabdpt	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	2548
+factorial	GSE117063	ai-tabpfn	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	166
+factorial	GSE117063	tab-tabdpt	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	166
+factorial	TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	79
+factorial	TORAY_PUBLIC_CANONICAL	tab-tabdpt	1	gpu_workstation_01	cuda,cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b	batch and singleton	79
+gate	GSE137109	ai-tabpfn	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	ai-tabpfn	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	ai-tabpfn	2	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	ai-tabpfn	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	ai-tabpfn	3	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	ai-tabpfn	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	ai-tabpfn	4	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	ai-tabpfn	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	ai-tabpfn	5	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	ai-tabpfn	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	tab-tabdpt	1	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	tab-tabdpt	1	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	tab-tabdpt	2	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	tab-tabdpt	2	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	tab-tabdpt	3	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	tab-tabdpt	3	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	tab-tabdpt	4	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	tab-tabdpt	4	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+gate	GSE137109	tab-tabdpt	5	s5	cpu	4	sha256:73cbfec297c73126b9513c4140efdd8e009970094cc93479d7173821958e888f	2.6.8	e68e243b	one specimen per score_specimen call	46
+stored_benchmark	GSE137109	tab-tabdpt	5	gpu_workstation_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	a55f6c2b99c986cb4ac897cced9c0996f5014c82	balanced benchmark chunks	46
+toray_independent_metrics	TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	s5	cpu	1	omicselector-m19-e1-lane:2fa387c6	2.6.8 scores; R pROC metrics	e68e243b068d0584211c9f25b8993072e391e983	stored score pairs	79
+controlled_scoring	GSE259327_DIAGNOSTIC	ai-tabpfn	1	gpu_server_01	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b068d0584211c9f25b8993072e391e983	batched	2050
+controlled_scoring	GSE259327_DIAGNOSTIC	ai-tabpfn	1	gpu_server_01	cpu	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b068d0584211c9f25b8993072e391e983	singleton	2050
+controlled_scoring	GSE259327_DIAGNOSTIC	ai-tabpfn	1	gpu_server_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b068d0584211c9f25b8993072e391e983	batched	2050
+controlled_scoring	GSE259327_DIAGNOSTIC	ai-tabpfn	1	gpu_server_01	cuda	4	sha256:2fa387c63144aed56acdd867e81de36aa192346f183dc36f19d6cddd2acfc030	2.6.8	e68e243b068d0584211c9f25b8993072e391e983	singleton	2050
+deploy	GSE198834	ai-tabpfn	5	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.8	e68e243b068d0584211c9f25b8993072e391e983		1349
+deploy	GSE198834	ai-tabpfn	2	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.8	e68e243b068d0584211c9f25b8993072e391e983		1349
+deploy	GSE198834	tab-tabdpt	4	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e		1349
+deploy	GSE198834	ai-tabpfn	1	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.8	e68e243b068d0584211c9f25b8993072e391e983		1349
+deploy	GSE198834	tab-tabdpt	3	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e		1349
+deploy	GSE198834	ai-tabpfn	3	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.8	e68e243b068d0584211c9f25b8993072e391e983		1349
+deploy	GSE198834	tab-tabdpt	1	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e		1349
+deploy	GSE198834	ai-tabpfn	4	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.8	e68e243b068d0584211c9f25b8993072e391e983		1349
+deploy	GSE198834	tab-tabdpt	2	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e		1349
+deploy	GSE198834	tab-tabdpt	5	argos1	cpu	4	./runtime/legacy-home/scratch/m19-e1-20261022/lane-2fa387c6.sif	2.6.9	69fded5282a2cb946fac52a24b44a48095fdea7e		1349

@@ -1,0 +1,35 @@
+cohort	disease	modality	n_profiles_inventory	n_groups_inventory	n_source_accessions	primary	full32_sensitivity	reason
+GSE109319	pancreatic and biliary tract cancers	small-RNA-seq	55	55	1	TRUE	TRUE	Eligible
+GSE117063	diffuse large B-cell lymphoma	Exiqon qPCR	31	31	1	TRUE	TRUE	Eligible
+GSE122488	glioma	small-RNA-seq	38	38	1	TRUE	TRUE	Eligible
+GSE130654	gastric cancer	small-RNA-seq	48	48	1	TRUE	TRUE	Eligible
+GSE137109	oropharyngeal squamous cell carcinoma	TaqMan OpenArray qPCR	78	78	1	TRUE	TRUE	Eligible
+GSE145176	acute lymphoblastic leukemia	small-RNA-seq	240	120	1	FALSE	FALSE	Survivor cohort. Outside cancer-discrimination synthesis.
+GSE186595	colorectal and gastric cancers	small-RNA-seq	49	49	1	FALSE	TRUE	Donor/pool membership unresolved. Independent-group threshold unverifiable.
+GSE188232	non-small-cell lung cancer	small-RNA-seq	190	190	1	TRUE	TRUE	Eligible
+GSE188627	colorectal cancer	small-RNA-seq	192	192	1	TRUE	TRUE	Eligible
+GSE198834	colorectal cancer	small-RNA-seq	155	155	1	TRUE	TRUE	Eligible
+GSE200489	head and neck squamous cell carcinoma	small-RNA-seq	32	32	1	TRUE	TRUE	Eligible
+GSE204951	non-small-cell lung cancer	five-platform repeated assay	115	20	5	TRUE	TRUE	Eligible
+GSE210329	breast cancer	small-RNA-seq	130	130	1	TRUE	TRUE	Eligible
+GSE210546	gastrointestinal cancers	small-RNA-seq	39	39	1	TRUE	TRUE	Eligible
+GSE221088	follicular thyroid carcinoma	small-RNA-seq	80	41	1	TRUE	TRUE	Eligible
+GSE227778	gastric cancer	small-RNA-seq	30	30	1	TRUE	TRUE	Eligible
+GSE259327_DIAGNOSTIC	pancreatic ductal adenocarcinoma	HTG EdgeSeq miRNA WTA counts	203	203	1	TRUE	TRUE	Eligible
+GSE266859	invasive melanoma	small-RNA-seq	61	61	1	TRUE	TRUE	Eligible
+GSE270497	breast cancer	small-RNA-seq	180	180	1	FALSE	TRUE	Imaging screen status without pathological confirmation.
+GSE279209	non-small-cell lung cancer	OpenArray qPCR	333	333	1	TRUE	TRUE	Eligible
+GSE304572	pancreatic ductal adenocarcinoma	small-RNA-seq	85	85	1	TRUE	TRUE	Eligible
+GSE31568	multiple cancers	microarray	238	238	1	FALSE	FALSE	Whole blood. Outside primary biofluid synthesis.
+GSE320031	breast cancer	qPCR	444	444	1	TRUE	TRUE	Eligible
+GSE41922	breast cancer	Exiqon qPCR	54	54	1	TRUE	TRUE	Eligible
+GSE50013	hepatocellular carcinoma	TaqMan TLDA qPCR	40	40	1	TRUE	TRUE	Eligible
+GSE64591	non-small-cell lung cancer	TaqMan TLDA qPCR	200	200	1	TRUE	TRUE	Eligible
+GSE65071	osteosarcoma	Exiqon qPCR	35	35	1	TRUE	TRUE	Eligible
+GSE70080	non-small-cell lung cancer	TLDA qPCR	54	54	1	TRUE	TRUE	Eligible
+GSE71008	multiple solid cancers	small-RNA-seq	192	192	1	TRUE	TRUE	Eligible
+GSE83977	hepatocellular carcinoma	small-RNA-seq	31	31	1	TRUE	TRUE	Eligible
+GSE85589	pancreatic ductal adenocarcinoma	Affymetrix miRNA microarray	107	107	1	TRUE	TRUE	Eligible
+GSE94533_PUBLIC	epithelial ovarian cancer	small-RNA-seq	174	174	1	TRUE	TRUE	Eligible
+PRJEB30542	sarcoma	small-RNA-seq	116	116	1	TRUE	TRUE	Eligible
+TORAY_PUBLIC_CANONICAL	multiple cancers	3D-Gene miRNA microarray	19143	19143	10	TRUE	TRUE	Eligible

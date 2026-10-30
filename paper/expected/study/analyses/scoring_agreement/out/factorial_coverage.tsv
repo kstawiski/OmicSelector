@@ -1,0 +1,7 @@
+phase	dataset	method	fold	planned_specimens	completed_specimens	status
+factorial	GSE109319	ai-tabpfn	1	12	12	complete
+factorial	GSE109319	tab-tabdpt	1	12	12	complete
+factorial	GSE117063	ai-tabpfn	1	11	11	complete
+factorial	GSE117063	tab-tabdpt	1	11	11	complete
+factorial	TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	200	200	complete
+factorial	TORAY_PUBLIC_CANONICAL	tab-tabdpt	1	200	200	complete

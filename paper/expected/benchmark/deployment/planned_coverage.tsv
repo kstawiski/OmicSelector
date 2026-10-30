@@ -1,0 +1,225 @@
+dataset	method	fold	n	n_train	stored_n	stored_eligible	stored_reason	modality	n_features	feature_count	original_planned_n	original_planned_n_train	fold_source	planned_specimens	scored_specimens	completed_specimens	status
+TORAY_PUBLIC_CANONICAL	ai-tabpfn	1	200	15313	3830	True		3D-Gene miRNA microarray	79	<=128	200	15313	R8 seed-101 held-out indices	200	200	200	complete
+TORAY_PUBLIC_CANONICAL	tab-tabdpt	1	200	15313	3830	True		3D-Gene miRNA microarray	79	<=128	200	15313	R8 seed-101 held-out indices	200	200	200	complete
+GSE109319	ai-tabpfn	1	12	43	12	True		small-RNA-seq	2548	>128	12	43	R8 seed-101 held-out indices	12	12	12	complete
+GSE109319	ai-tabpfn	2	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	ai-tabpfn	3	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	ai-tabpfn	4	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	ai-tabpfn	5	10	45	10	True		small-RNA-seq	2548	>128	10	45	R8 seed-101 held-out indices	10	10	10	complete
+GSE109319	tab-tabdpt	1	12	43	12	True		small-RNA-seq	2548	>128	12	43	R8 seed-101 held-out indices	12	12	12	complete
+GSE109319	tab-tabdpt	2	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	tab-tabdpt	3	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	tab-tabdpt	4	11	44	11	True		small-RNA-seq	2548	>128	11	44	R8 seed-101 held-out indices	11	11	11	complete
+GSE109319	tab-tabdpt	5	10	45	10	True		small-RNA-seq	2548	>128	10	45	R8 seed-101 held-out indices	10	10	10	complete
+GSE117063	ai-tabpfn	1	11	20	11	True		Exiqon qPCR	166	>128	11	20	R8 seed-101 held-out indices	11	11	11	complete
+GSE117063	ai-tabpfn	2	11	20	11	True		Exiqon qPCR	166	>128	11	20	R8 seed-101 held-out indices	11	11	11	complete
+GSE117063	ai-tabpfn	3	9	22	9	True		Exiqon qPCR	166	>128	9	22	R8 seed-101 held-out indices	9	9	9	complete
+GSE117063	tab-tabdpt	1	11	20	11	True		Exiqon qPCR	166	>128	11	20	R8 seed-101 held-out indices	11	11	11	complete
+GSE117063	tab-tabdpt	2	11	20	11	True		Exiqon qPCR	166	>128	11	20	R8 seed-101 held-out indices	11	11	11	complete
+GSE117063	tab-tabdpt	3	9	22	9	True		Exiqon qPCR	166	>128	9	22	R8 seed-101 held-out indices	9	9	9	complete
+GSE122488	ai-tabpfn	1	9	29	9	True		small-RNA-seq	1900	>128	9	29	R8 seed-101 held-out indices	9	9	9	complete
+GSE122488	ai-tabpfn	2	8	30	8	True		small-RNA-seq	1900	>128	8	30	R8 seed-101 held-out indices	8	8	8	complete
+GSE122488	ai-tabpfn	3	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE122488	ai-tabpfn	4	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE122488	ai-tabpfn	5	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE122488	tab-tabdpt	1	9	29	9	True		small-RNA-seq	1900	>128	9	29	R8 seed-101 held-out indices	9	9	9	complete
+GSE122488	tab-tabdpt	2	8	30	8	True		small-RNA-seq	1900	>128	8	30	R8 seed-101 held-out indices	8	8	8	complete
+GSE122488	tab-tabdpt	3	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE122488	tab-tabdpt	4	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE122488	tab-tabdpt	5	7	31	7	True		small-RNA-seq	1900	>128	7	31	R8 seed-101 held-out indices	7	7	7	complete
+GSE130654	ai-tabpfn	1	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE130654	ai-tabpfn	2	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE130654	ai-tabpfn	3	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE130654	tab-tabdpt	1	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE130654	tab-tabdpt	2	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE130654	tab-tabdpt	3	16	32	16	True		small-RNA-seq	838	>128	16	32	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	ai-tabpfn	1	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	ai-tabpfn	2	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	ai-tabpfn	3	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	ai-tabpfn	4	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	ai-tabpfn	5	14	64	14	True		TaqMan OpenArray qPCR	46	<=128	14	64	R8 seed-101 held-out indices	14	14	14	complete
+GSE137109	tab-tabdpt	1	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	tab-tabdpt	2	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	tab-tabdpt	3	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	tab-tabdpt	4	16	62	16	True		TaqMan OpenArray qPCR	46	<=128	16	62	R8 seed-101 held-out indices	16	16	16	complete
+GSE137109	tab-tabdpt	5	14	64	14	True		TaqMan OpenArray qPCR	46	<=128	14	64	R8 seed-101 held-out indices	14	14	14	complete
+GSE186595	ai-tabpfn	1	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	ai-tabpfn	2	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	ai-tabpfn	3	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	ai-tabpfn	4	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	ai-tabpfn	5	9	40	9	True		small-RNA-seq	1877	>128	9	40	R8 seed-101 held-out indices	9	9	9	complete
+GSE186595	tab-tabdpt	1	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	tab-tabdpt	2	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	tab-tabdpt	3	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	tab-tabdpt	4	10	39	10	True		small-RNA-seq	1877	>128	10	39	R8 seed-101 held-out indices	10	10	10	complete
+GSE186595	tab-tabdpt	5	9	40	9	True		small-RNA-seq	1877	>128	9	40	R8 seed-101 held-out indices	9	9	9	complete
+GSE188232	ai-tabpfn	1	39	151	39	True		small-RNA-seq	725	>128	39	151	R8 seed-101 held-out indices	39	39	39	complete
+GSE188232	ai-tabpfn	2	39	151	39	True		small-RNA-seq	725	>128	39	151	R8 seed-101 held-out indices	39	39	39	complete
+GSE188232	ai-tabpfn	3	38	152	38	True		small-RNA-seq	725	>128	38	152	R8 seed-101 held-out indices	38	38	38	complete
+GSE188232	ai-tabpfn	4	37	153	37	True		small-RNA-seq	725	>128	37	153	R8 seed-101 held-out indices	37	37	37	complete
+GSE188232	ai-tabpfn	5	37	153	37	True		small-RNA-seq	725	>128	37	153	R8 seed-101 held-out indices	37	37	37	complete
+GSE188232	tab-tabdpt	1	39	151	39	True		small-RNA-seq	725	>128	39	151	R8 seed-101 held-out indices	39	39	39	complete
+GSE188232	tab-tabdpt	2	39	151	39	True		small-RNA-seq	725	>128	39	151	R8 seed-101 held-out indices	39	39	39	complete
+GSE188232	tab-tabdpt	3	38	152	38	True		small-RNA-seq	725	>128	38	152	R8 seed-101 held-out indices	38	38	38	complete
+GSE188232	tab-tabdpt	4	37	153	37	True		small-RNA-seq	725	>128	37	153	R8 seed-101 held-out indices	37	37	37	complete
+GSE188232	tab-tabdpt	5	37	153	37	True		small-RNA-seq	725	>128	37	153	R8 seed-101 held-out indices	37	37	37	complete
+GSE188627	ai-tabpfn	1	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	ai-tabpfn	2	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	ai-tabpfn	3	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	ai-tabpfn	4	38	154	38	True		small-RNA-seq	1232	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE188627	ai-tabpfn	5	37	155	37	True		small-RNA-seq	1232	>128	37	155	R8 seed-101 held-out indices	37	37	37	complete
+GSE188627	tab-tabdpt	1	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	tab-tabdpt	2	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	tab-tabdpt	3	39	153	39	True		small-RNA-seq	1232	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE188627	tab-tabdpt	4	38	154	38	True		small-RNA-seq	1232	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE188627	tab-tabdpt	5	37	155	37	True		small-RNA-seq	1232	>128	37	155	R8 seed-101 held-out indices	37	37	37	complete
+GSE198834	ai-tabpfn	1	32	123	0	True		small-RNA-seq	1349	>128	32	123	Corrected-label grouped folds, seed 101	32	32	32	complete
+GSE198834	ai-tabpfn	2	32	123	0	True		small-RNA-seq	1349	>128	32	123	Corrected-label grouped folds, seed 101	32	32	32	complete
+GSE198834	ai-tabpfn	3	31	124	0	True		small-RNA-seq	1349	>128	31	124	Corrected-label grouped folds, seed 101	31	31	31	complete
+GSE198834	ai-tabpfn	4	30	125	0	True		small-RNA-seq	1349	>128	30	125	Corrected-label grouped folds, seed 101	30	30	30	complete
+GSE198834	ai-tabpfn	5	30	125	0	True		small-RNA-seq	1349	>128	30	125	Corrected-label grouped folds, seed 101	30	30	30	complete
+GSE198834	tab-tabdpt	1	32	123	0	True		small-RNA-seq	1349	>128	32	123	Corrected-label grouped folds, seed 101	32	32	32	complete
+GSE198834	tab-tabdpt	2	32	123	0	True		small-RNA-seq	1349	>128	32	123	Corrected-label grouped folds, seed 101	32	32	32	complete
+GSE198834	tab-tabdpt	3	31	124	0	True		small-RNA-seq	1349	>128	31	124	Corrected-label grouped folds, seed 101	31	31	31	complete
+GSE198834	tab-tabdpt	4	30	125	0	True		small-RNA-seq	1349	>128	30	125	Corrected-label grouped folds, seed 101	30	30	30	complete
+GSE198834	tab-tabdpt	5	30	125	0	True		small-RNA-seq	1349	>128	30	125	Corrected-label grouped folds, seed 101	30	30	30	complete
+GSE200489	ai-tabpfn	1	12	20	12	True		small-RNA-seq	70	<=128	12	20	R8 seed-101 held-out indices	12	12	12	complete
+GSE200489	ai-tabpfn	2	10	22	10	True		small-RNA-seq	70	<=128	10	22	R8 seed-101 held-out indices	10	10	10	complete
+GSE200489	ai-tabpfn	3	10	22	10	True		small-RNA-seq	70	<=128	10	22	R8 seed-101 held-out indices	10	10	10	complete
+GSE200489	tab-tabdpt	1	12	20	12	True		small-RNA-seq	70	<=128	12	20	R8 seed-101 held-out indices	12	12	12	complete
+GSE200489	tab-tabdpt	2	10	22	10	True		small-RNA-seq	70	<=128	10	22	R8 seed-101 held-out indices	10	10	10	complete
+GSE200489	tab-tabdpt	3	10	22	10	True		small-RNA-seq	70	<=128	10	22	R8 seed-101 held-out indices	10	10	10	complete
+GSE204951	ai-tabpfn	1	50	65	50	True		five-platform repeated assay	184	>128	40	75	R8 seed-101 held-out indices	50	50	50	complete
+GSE204951	ai-tabpfn	2	30	85	30	True		five-platform repeated assay	184	>128	40	75	R8 seed-101 held-out indices	30	30	30	complete
+GSE204951	ai-tabpfn	3	35	80	35	True		five-platform repeated assay	184	>128	35	80	R8 seed-101 held-out indices	35	35	35	complete
+GSE204951	tab-tabdpt	1	50	65	50	True		five-platform repeated assay	184	>128	40	75	R8 seed-101 held-out indices	50	50	50	complete
+GSE204951	tab-tabdpt	2	30	85	30	True		five-platform repeated assay	184	>128	40	75	R8 seed-101 held-out indices	30	30	30	complete
+GSE204951	tab-tabdpt	3	35	80	35	True		five-platform repeated assay	184	>128	35	80	R8 seed-101 held-out indices	35	35	35	complete
+GSE210329	ai-tabpfn	1	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	ai-tabpfn	2	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	ai-tabpfn	3	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	ai-tabpfn	4	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	ai-tabpfn	5	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	tab-tabdpt	1	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	tab-tabdpt	2	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	tab-tabdpt	3	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	tab-tabdpt	4	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210329	tab-tabdpt	5	26	104	26	True		small-RNA-seq	1213	>128	26	104	R8 seed-101 held-out indices	26	26	26	complete
+GSE210546	ai-tabpfn	1	14	25	14	True		small-RNA-seq	105	<=128	14	25	R8 seed-101 held-out indices	14	14	14	complete
+GSE210546	ai-tabpfn	2	13	26	13	True		small-RNA-seq	105	<=128	13	26	R8 seed-101 held-out indices	13	13	13	complete
+GSE210546	ai-tabpfn	3	12	27	12	True		small-RNA-seq	105	<=128	12	27	R8 seed-101 held-out indices	12	12	12	complete
+GSE210546	tab-tabdpt	1	14	25	14	True		small-RNA-seq	105	<=128	14	25	R8 seed-101 held-out indices	14	14	14	complete
+GSE210546	tab-tabdpt	2	13	26	13	True		small-RNA-seq	105	<=128	13	26	R8 seed-101 held-out indices	13	13	13	complete
+GSE210546	tab-tabdpt	3	12	27	12	True		small-RNA-seq	105	<=128	12	27	R8 seed-101 held-out indices	12	12	12	complete
+GSE221088	ai-tabpfn	1	17	63	17	True		small-RNA-seq	2652	>128	17	63	R8 seed-101 held-out indices	17	17	17	complete
+GSE221088	ai-tabpfn	2	15	65	15	True		small-RNA-seq	2652	>128	15	65	R8 seed-101 held-out indices	15	15	15	complete
+GSE221088	ai-tabpfn	3	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE221088	ai-tabpfn	4	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE221088	ai-tabpfn	5	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE221088	tab-tabdpt	1	17	63	17	True		small-RNA-seq	2652	>128	17	63	R8 seed-101 held-out indices	17	17	17	complete
+GSE221088	tab-tabdpt	2	15	65	15	True		small-RNA-seq	2652	>128	15	65	R8 seed-101 held-out indices	15	15	15	complete
+GSE221088	tab-tabdpt	3	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE221088	tab-tabdpt	4	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE221088	tab-tabdpt	5	16	64	16	True		small-RNA-seq	2652	>128	16	64	R8 seed-101 held-out indices	16	16	16	complete
+GSE227778	ai-tabpfn	1	11	19	11	True		small-RNA-seq	543	>128	11	19	R8 seed-101 held-out indices	11	11	11	complete
+GSE227778	ai-tabpfn	2	10	20	10	True		small-RNA-seq	543	>128	10	20	R8 seed-101 held-out indices	10	10	10	complete
+GSE227778	ai-tabpfn	3	9	21	9	True		small-RNA-seq	543	>128	9	21	R8 seed-101 held-out indices	9	9	9	complete
+GSE227778	tab-tabdpt	1	11	19	11	True		small-RNA-seq	543	>128	11	19	R8 seed-101 held-out indices	11	11	11	complete
+GSE227778	tab-tabdpt	2	10	20	10	True		small-RNA-seq	543	>128	10	20	R8 seed-101 held-out indices	10	10	10	complete
+GSE227778	tab-tabdpt	3	9	21	9	True		small-RNA-seq	543	>128	9	21	R8 seed-101 held-out indices	9	9	9	complete
+GSE259327_DIAGNOSTIC	ai-tabpfn	1	42	161	42	True		HTG EdgeSeq miRNA WTA counts	2050	>128	42	161	R8 seed-101 held-out indices	42	42	42	complete
+GSE259327_DIAGNOSTIC	ai-tabpfn	2	41	162	41	True		HTG EdgeSeq miRNA WTA counts	2050	>128	41	162	R8 seed-101 held-out indices	41	41	41	complete
+GSE259327_DIAGNOSTIC	ai-tabpfn	3	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE259327_DIAGNOSTIC	ai-tabpfn	4	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE259327_DIAGNOSTIC	ai-tabpfn	5	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE259327_DIAGNOSTIC	tab-tabdpt	1	42	161	42	True		HTG EdgeSeq miRNA WTA counts	2050	>128	42	161	R8 seed-101 held-out indices	42	42	42	complete
+GSE259327_DIAGNOSTIC	tab-tabdpt	2	41	162	41	True		HTG EdgeSeq miRNA WTA counts	2050	>128	41	162	R8 seed-101 held-out indices	41	41	41	complete
+GSE259327_DIAGNOSTIC	tab-tabdpt	3	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE259327_DIAGNOSTIC	tab-tabdpt	4	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE259327_DIAGNOSTIC	tab-tabdpt	5	40	163	40	True		HTG EdgeSeq miRNA WTA counts	2050	>128	40	163	R8 seed-101 held-out indices	40	40	40	complete
+GSE266859	ai-tabpfn	1	21	40	21	True		small-RNA-seq	2655	>128	21	40	R8 seed-101 held-out indices	21	21	21	complete
+GSE266859	ai-tabpfn	2	20	41	20	True		small-RNA-seq	2655	>128	20	41	R8 seed-101 held-out indices	20	20	20	complete
+GSE266859	ai-tabpfn	3	20	41	20	True		small-RNA-seq	2655	>128	20	41	R8 seed-101 held-out indices	20	20	20	complete
+GSE266859	tab-tabdpt	1	21	40	21	True		small-RNA-seq	2655	>128	21	40	R8 seed-101 held-out indices	21	21	21	complete
+GSE266859	tab-tabdpt	2	20	41	20	True		small-RNA-seq	2655	>128	20	41	R8 seed-101 held-out indices	20	20	20	complete
+GSE266859	tab-tabdpt	3	20	41	20	True		small-RNA-seq	2655	>128	20	41	R8 seed-101 held-out indices	20	20	20	complete
+GSE270497	ai-tabpfn	1	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	ai-tabpfn	2	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	ai-tabpfn	3	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	ai-tabpfn	4	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	ai-tabpfn	5	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	tab-tabdpt	1	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	tab-tabdpt	2	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	tab-tabdpt	3	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	tab-tabdpt	4	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE270497	tab-tabdpt	5	36	144	36	True		small-RNA-seq	2656	>128	36	144	R8 seed-101 held-out indices	36	36	36	complete
+GSE279209	ai-tabpfn	1	68	265	68	True		OpenArray qPCR	53	<=128	68	265	R8 seed-101 held-out indices	68	68	68	complete
+GSE279209	ai-tabpfn	2	67	266	67	True		OpenArray qPCR	53	<=128	67	266	R8 seed-101 held-out indices	67	67	67	complete
+GSE279209	ai-tabpfn	3	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE279209	ai-tabpfn	4	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE279209	ai-tabpfn	5	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE279209	tab-tabdpt	1	68	265	68	True		OpenArray qPCR	53	<=128	68	265	R8 seed-101 held-out indices	68	68	68	complete
+GSE279209	tab-tabdpt	2	67	266	67	True		OpenArray qPCR	53	<=128	67	266	R8 seed-101 held-out indices	67	67	67	complete
+GSE279209	tab-tabdpt	3	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE279209	tab-tabdpt	4	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE279209	tab-tabdpt	5	66	267	66	True		OpenArray qPCR	53	<=128	66	267	R8 seed-101 held-out indices	66	66	66	complete
+GSE304572	ai-tabpfn	1	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	ai-tabpfn	2	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	ai-tabpfn	3	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	ai-tabpfn	4	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	ai-tabpfn	5	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	tab-tabdpt	1	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	tab-tabdpt	2	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	tab-tabdpt	3	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	tab-tabdpt	4	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE304572	tab-tabdpt	5	17	68	17	True		small-RNA-seq	2369	>128	17	68	R8 seed-101 held-out indices	17	17	17	complete
+GSE41922	ai-tabpfn	1	12	42	12	True		Exiqon qPCR	123	<=128	12	42	R8 seed-101 held-out indices	12	12	12	complete
+GSE41922	ai-tabpfn	2	12	42	12	True		Exiqon qPCR	123	<=128	12	42	R8 seed-101 held-out indices	12	12	12	complete
+GSE41922	ai-tabpfn	3	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE41922	ai-tabpfn	4	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE41922	ai-tabpfn	5	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE41922	tab-tabdpt	1	12	42	12	True		Exiqon qPCR	123	<=128	12	42	R8 seed-101 held-out indices	12	12	12	complete
+GSE41922	tab-tabdpt	2	12	42	12	True		Exiqon qPCR	123	<=128	12	42	R8 seed-101 held-out indices	12	12	12	complete
+GSE41922	tab-tabdpt	3	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE41922	tab-tabdpt	4	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE41922	tab-tabdpt	5	10	44	10	True		Exiqon qPCR	123	<=128	10	44	R8 seed-101 held-out indices	10	10	10	complete
+GSE64591	ai-tabpfn	1	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	ai-tabpfn	2	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	ai-tabpfn	3	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	ai-tabpfn	4	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	ai-tabpfn	5	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	tab-tabdpt	1	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	tab-tabdpt	2	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	tab-tabdpt	3	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	tab-tabdpt	4	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE64591	tab-tabdpt	5	40	160	40	True		TaqMan TLDA qPCR	301	>128	40	160	R8 seed-101 held-out indices	40	40	40	complete
+GSE71008	ai-tabpfn	1	39	153	39	True		small-RNA-seq	2499	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE71008	ai-tabpfn	2	39	153	39	True		small-RNA-seq	2499	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE71008	ai-tabpfn	3	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE71008	ai-tabpfn	4	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE71008	ai-tabpfn	5	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE71008	tab-tabdpt	1	39	153	39	True		small-RNA-seq	2499	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE71008	tab-tabdpt	2	39	153	39	True		small-RNA-seq	2499	>128	39	153	R8 seed-101 held-out indices	39	39	39	complete
+GSE71008	tab-tabdpt	3	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE71008	tab-tabdpt	4	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE71008	tab-tabdpt	5	38	154	38	True		small-RNA-seq	2499	>128	38	154	R8 seed-101 held-out indices	38	38	38	complete
+GSE94533_PUBLIC	ai-tabpfn	1	36	138	36	True		small-RNA-seq	2524	>128	36	138	R8 seed-101 held-out indices	36	36	36	complete
+GSE94533_PUBLIC	ai-tabpfn	2	35	139	35	True		small-RNA-seq	2524	>128	35	139	R8 seed-101 held-out indices	35	35	35	complete
+GSE94533_PUBLIC	ai-tabpfn	3	35	139	35	True		small-RNA-seq	2524	>128	35	139	R8 seed-101 held-out indices	35	35	35	complete
+GSE94533_PUBLIC	ai-tabpfn	4	34	140	34	True		small-RNA-seq	2524	>128	34	140	R8 seed-101 held-out indices	34	34	34	complete
+GSE94533_PUBLIC	ai-tabpfn	5	34	140	34	True		small-RNA-seq	2524	>128	34	140	R8 seed-101 held-out indices	34	34	34	complete
+GSE94533_PUBLIC	tab-tabdpt	1	36	138	36	True		small-RNA-seq	2524	>128	36	138	R8 seed-101 held-out indices	36	36	36	complete
+GSE94533_PUBLIC	tab-tabdpt	2	35	139	35	True		small-RNA-seq	2524	>128	35	139	R8 seed-101 held-out indices	35	35	35	complete
+GSE94533_PUBLIC	tab-tabdpt	3	35	139	35	True		small-RNA-seq	2524	>128	35	139	R8 seed-101 held-out indices	35	35	35	complete
+GSE94533_PUBLIC	tab-tabdpt	4	34	140	34	True		small-RNA-seq	2524	>128	34	140	R8 seed-101 held-out indices	34	34	34	complete
+GSE94533_PUBLIC	tab-tabdpt	5	34	140	34	True		small-RNA-seq	2524	>128	34	140	R8 seed-101 held-out indices	34	34	34	complete
+PRJEB30542	ai-tabpfn	1	24	92	24	True		small-RNA-seq	2067	>128	24	92	R8 seed-101 held-out indices	24	24	24	complete
+PRJEB30542	ai-tabpfn	2	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	ai-tabpfn	3	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	ai-tabpfn	4	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	ai-tabpfn	5	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	tab-tabdpt	1	24	92	24	True		small-RNA-seq	2067	>128	24	92	R8 seed-101 held-out indices	24	24	24	complete
+PRJEB30542	tab-tabdpt	2	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	tab-tabdpt	3	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	tab-tabdpt	4	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete
+PRJEB30542	tab-tabdpt	5	23	93	23	True		small-RNA-seq	2067	>128	23	93	R8 seed-101 held-out indices	23	23	23	complete

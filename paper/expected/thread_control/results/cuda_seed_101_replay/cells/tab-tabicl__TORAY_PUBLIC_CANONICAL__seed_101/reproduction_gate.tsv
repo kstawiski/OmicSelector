@@ -1,0 +1,2 @@
+method	cohort	cv_seed	model_seed	device	host	threads	reference_path	reference_sha256	n_scores	maximum_method_score_difference	maximum_baseline_score_difference	auc_difference	changed_calls_at_0_5	pass	reference_kind
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	101	cuda	gpu_workstation_01	4	./analyses/thread_control/out/snapshots/cuda_cv_seed_sensitivity/cells/tab-tabicl__TORAY_PUBLIC_CANONICAL__seed_101/within_bundle.rds	b086805f45d6e097c2935324291908b555f85480cc3ee54b8bb5821f4ad9ca2b	19143	0	0	0	0	TRUE	fresh_matched_s8_sensitivity

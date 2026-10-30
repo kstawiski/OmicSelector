@@ -1,0 +1,37 @@
+[
+  {
+    "accession": "GSE145176",
+    "file": "sample_metadata.tsv",
+    "sha256": "eeed926cf68edd16488a965e54407dc36515912301b20dd3bec6abc2e3447793",
+    "expected_sha256": "eeed926cf68edd16488a965e54407dc36515912301b20dd3bec6abc2e3447793",
+    "pass_check": true
+  },
+  {
+    "accession": "GSE145176",
+    "file": "sample_id_bridge.tsv",
+    "sha256": "1258be4aaaddf162ac44be8e01de833094d8819bc7e6125f98c7d5e19332470e",
+    "expected_sha256": "1258be4aaaddf162ac44be8e01de833094d8819bc7e6125f98c7d5e19332470e",
+    "pass_check": true
+  },
+  {
+    "accession": "GSE198834",
+    "file": "sample_metadata.tsv",
+    "sha256": "063f5b2abd828f6f92bfd6af0694c4e3db892ef0c1d6aec4f7ed0f7fd5feea7c",
+    "expected_sha256": "063f5b2abd828f6f92bfd6af0694c4e3db892ef0c1d6aec4f7ed0f7fd5feea7c",
+    "pass_check": true
+  },
+  {
+    "accession": "GSE198834",
+    "file": "sample_id_bridge.tsv",
+    "sha256": "af546e62b7ac9109e8c0fcea7a4e51157cb1b6fab0b3b724890b6f83fcede105",
+    "expected_sha256": "af546e62b7ac9109e8c0fcea7a4e51157cb1b6fab0b3b724890b6f83fcede105",
+    "pass_check": true
+  },
+  {
+    "accession": "GSE210329",
+    "file": "sample_id_bridge.tsv",
+    "sha256": "3d017a51bfe505c66136605df15e4a80fcd4fb556f517004f0aef9e29fc0ce7b",
+    "expected_sha256": "3d017a51bfe505c66136605df15e4a80fcd4fb556f517004f0aef9e29fc0ce7b",
+    "pass_check": true
+  }
+]

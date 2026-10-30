@@ -1,0 +1,9 @@
+command	seconds	exit_code
+Rscript --vanilla /job/outputs/payload/paper/scripts/corrected_input_consistency.R	2.799438967835158	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/R13b/public-summary/inputs/payload/item1.R	29.468629008624703	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/R13b/public-summary/inputs/payload/item2.R	86.44875462073833	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/R13b/public-summary/inputs/payload/finalize.R	3.557586274109781	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/R13b/public-summary/inputs/payload/finalize.R	23.713953056838363	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/R13d/public-summary/inputs/payload/item3.R	165.84064884483814	0
+/opt/venv/bin/python /job/outputs/project/delegated_tasks/review_response_20261020/PB1/scripts/aggregate.py	2.206945762038231	0
+Rscript --vanilla /job/outputs/project/delegated_tasks/review_response_20261020/TM1/scripts/analyze.R	14.52427657134831	0

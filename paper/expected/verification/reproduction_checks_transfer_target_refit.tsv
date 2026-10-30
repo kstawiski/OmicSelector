@@ -1,0 +1,7 @@
+family	field	n	max_absolute_error	tolerance	pass
+transfer_target	score_m	628	0	1e-10	TRUE
+transfer_target	score_b	628	1.03028696685215e-13	1e-10	TRUE
+transfer_target	auc_method	3	0	1e-10	TRUE
+transfer_target	auc_baseline	3	0	1e-10	TRUE
+transfer_target	lift	3	0	1e-10	TRUE
+transfer_target	lift_se	3	0	1e-10	TRUE

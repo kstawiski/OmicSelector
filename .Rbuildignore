@@ -62,3 +62,4 @@ Rplots.pdf
 ^tests/policy-hardening-20261005$
 ^tests/strict-passthrough-20261006$
 ^tests/release-verification-20261006$
+^paper$

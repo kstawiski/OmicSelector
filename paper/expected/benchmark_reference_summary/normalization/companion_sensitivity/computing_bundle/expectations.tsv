@@ -1,0 +1,611 @@
+expectation	dataset	arm	repetition	status	value	additional_value	auc_difference	reason
+E1	GSE188232	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188232	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE188627	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-pairratio	1	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-pairratio	2	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-pairratio	4	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE204951	reo-pairratio	5	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-pairratio	1	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-pairratio	4	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE210329	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE259327_DIAGNOSTIC	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-pairratio	1	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-pairratio	3	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE279209	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE320031	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-pairratio	2	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-pairratio	3	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-pairratio	4	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE64591	reo-pairratio	5	not estimable	NA	NA	NA	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE71008	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	GSE94533_PUBLIC	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-QN	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-QN	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-QN	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-QN	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-QN	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-RAW	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-RAW	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-RAW	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-RAW	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-RAW	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-STD	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-STD	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-STD	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-STD	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	FZ-STD	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	R	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	R	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	R	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	R	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	R	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	SS-CLR	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	SS-CLR	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	SS-CLR	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	SS-CLR	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	SS-CLR	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-ktsp	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-ktsp	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-ktsp	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-ktsp	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-ktsp	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-pairratio	1	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-pairratio	2	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-pairratio	3	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-pairratio	4	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E1	TORAY_PUBLIC_CANONICAL	reo-pairratio	5	held	0	0	0	Singleton/batch score identity, zero discordance, and singleton AUC over identical appearances.
+E2	GSE188232	CN-QN	1	held	0.027845315280956	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-COMBAT	1	held	0.246666945619706	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	TBC	1	held	0.415567425921963	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-STD	1	held	0.349940476680441	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-QN	2	held	0.0531662113101281	10	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-COMBAT	2	held	0.188945765584329	15	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	TBC	2	held	0.359446378823715	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-STD	2	held	0.326873221102752	17	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-QN	3	held	0.060913094467218	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-COMBAT	3	held	0.226172168672385	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	TBC	3	held	0.40895294062233	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-STD	3	held	0.331039167521818	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-QN	4	held	0.0138307774832765	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-COMBAT	4	held	0.238030033638993	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	TBC	4	held	0.403183134270616	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-STD	4	held	0.355310139760046	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-QN	5	held	0.02814656169801	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-COMBAT	5	held	0.19888646291205	7	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	TBC	5	held	0.338835653445207	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188232	CN-STD	5	held	0.344994319189957	10	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-QN	1	held	0.0128205128205128	35	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-COMBAT	1	held	0.261843068518855	44	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	TBC	1	held	0.374838739565142	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-STD	1	held	0.299301464609262	27	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-QN	2	held	0.0679260545402816	23	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-COMBAT	2	held	0.345247210609728	19	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	TBC	2	held	0.418292835755216	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-STD	2	held	0.406613971983329	18	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-QN	3	held	0.0205827505827506	14	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-COMBAT	3	held	0.304679542983237	13	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	TBC	3	held	0.413908200529268	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-STD	3	held	0.365558547699451	13	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-QN	4	held	0.0877348159769501	7	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-COMBAT	4	held	0.31057211066787	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	TBC	4	held	0.375474078538374	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-STD	4	held	0.369965690437647	10	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-QN	5	held	0.0256677636089401	29	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-COMBAT	5	held	0.337170542635659	29	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	TBC	5	held	0.381946383403292	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE188627	CN-STD	5	held	0.388557122312252	29	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-QN	1	held	0.154991452991453	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-COMBAT	1	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	TBC	1	held	0.117741147741148	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-STD	1	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-QN	2	held	0.145037728937729	3	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-COMBAT	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	TBC	2	held	0.118362026862027	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-STD	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-QN	3	held	0.149771306471307	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-COMBAT	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	TBC	3	held	0.129439438339438	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-STD	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-QN	4	held	0.0281984126984127	9	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-COMBAT	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	TBC	4	held	0.09956336996337	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-STD	4	held	0.286414163614164	26	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-QN	5	held	0.154020024420024	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-COMBAT	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	TBC	5	held	0.0873380952380953	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE204951	CN-STD	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-QN	1	held	0.509527787469021	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-COMBAT	1	held	0.267181371959289	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	TBC	1	held	0.399584621600378	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-STD	1	held	0.105887280142441	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-QN	2	held	0.0139725009290227	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-COMBAT	2	held	0.136171982146724	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	TBC	2	held	0.207051733195383	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-STD	2	held	0.215456071597571	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-QN	3	held	0.0846192694673692	7	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-COMBAT	3	held	0.173386834011052	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	TBC	3	held	0.311749446596569	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-STD	3	held	0.251967188790773	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-QN	4	held	0.52841137625017	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-COMBAT	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	TBC	4	held	0.390404190025906	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-STD	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-QN	5	held	0.0565763609847908	7	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-COMBAT	5	held	0.22521524586351	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	TBC	5	held	0.195737089258359	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE210329	CN-STD	5	held	0.292619031864809	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-QN	1	held	0.0708747507286394	11	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-COMBAT	1	held	0.143059463546118	17	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	TBC	1	held	0.343737921586518	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-STD	1	held	0.269541002026046	15	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-QN	2	held	0.187706703482129	23	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-COMBAT	2	held	0.228666608229425	16	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	TBC	2	held	0.402710173193376	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-STD	2	held	0.36215118444985	16	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-QN	3	held	0.0347967479674797	16	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-COMBAT	3	held	0.141110455352287	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	TBC	3	held	0.337705096457973	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-STD	3	held	0.283204275016286	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-QN	4	held	0.0264227642276423	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-COMBAT	4	held	0.109106109414439	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	TBC	4	held	0.35566570643653	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-STD	4	held	0.233282602502575	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-QN	5	held	0.0714924506387921	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-COMBAT	5	held	0.17348826507133	13	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	TBC	5	held	0.379900948874718	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE259327_DIAGNOSTIC	CN-STD	5	held	0.340813555979226	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-QN	1	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-COMBAT	1	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	TBC	1	held	0.0879690947228119	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-STD	1	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-QN	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-COMBAT	2	held	0.0710974704018121	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	TBC	2	held	0.0788333557933377	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-STD	2	held	0.0863408091431824	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-QN	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-COMBAT	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	TBC	3	held	0.0818568992724307	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-STD	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-QN	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-COMBAT	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	TBC	4	held	0.0834768709157675	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-STD	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-QN	5	held	0.0940621220896788	3	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-COMBAT	5	held	0.0548464487828389	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	TBC	5	held	0.096139920121228	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE279209	CN-STD	5	held	0.108501033834518	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-QN	1	held	0.0701049383586125	13	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-COMBAT	1	held	0.121437621592781	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	TBC	1	held	0.166551862225274	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-STD	1	held	0.230368437656888	14	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-QN	2	held	0.0654830891135492	10	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-COMBAT	2	held	0.220378243863622	31	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	TBC	2	held	0.143174071929869	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-STD	2	held	0.321282476739159	27	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-QN	3	held	0.131309017298276	10	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-COMBAT	3	held	0.161774166230345	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	TBC	3	held	0.156052010110515	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-STD	3	held	0.255168072063487	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-QN	4	held	0.0292266587412554	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-COMBAT	4	held	0.110411592243319	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	TBC	4	held	0.0745489242308449	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-STD	4	held	0.162356124162179	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-QN	5	held	0.0514695071634098	19	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-COMBAT	5	held	0.120193789828314	15	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	TBC	5	held	0.224496269120656	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE320031	CN-STD	5	held	0.226692724493062	15	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-QN	1	held	0.0363611111111111	9	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-COMBAT	1	held	0.102055555555556	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	TBC	1	held	0.08175	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-STD	1	held	0.153861111111111	9	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-QN	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-COMBAT	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	TBC	2	held	0.176	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-STD	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-QN	3	held	0.106027777777778	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-COMBAT	3	held	0.0588333333333333	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	TBC	3	held	0.0780277777777778	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-STD	3	held	0.0955277777777778	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-QN	4	held	0.0337777777777778	7	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-COMBAT	4	held	0.179888888888889	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	TBC	4	held	0.0863888888888889	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-STD	4	held	0.14975	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-QN	5	held	0.0558055555555556	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-COMBAT	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	TBC	5	held	0.116055555555556	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE64591	CN-STD	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-QN	1	held	0.132630568356375	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-COMBAT	1	held	0.118502763664054	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	TBC	1	held	0.201534785405753	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-STD	1	held	0.211073397928237	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-QN	2	held	0.172246248375281	2	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-COMBAT	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	TBC	2	held	0.0707756749423416	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-STD	2	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-QN	3	held	0.0430109402459633	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-COMBAT	3	not held	0	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	TBC	3	held	0.268056704347027	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-STD	3	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-QN	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-COMBAT	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	TBC	4	held	0.213421823099243	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-STD	4	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-QN	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-COMBAT	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	TBC	5	held	0.263778867488545	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE71008	CN-STD	5	not estimable	0	0	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-QN	1	held	0.0954732500204198	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-COMBAT	1	held	0.183252062403006	3	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	TBC	1	held	0.315742838473297	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-STD	1	held	0.245291921914563	3	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-QN	2	held	0.102137721068988	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-COMBAT	2	held	0.230028039346099	6	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	TBC	2	held	0.310600459737926	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-STD	2	held	0.26850405479516	12	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-QN	3	held	0.111068626192615	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-COMBAT	3	held	0.178927200382726	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	TBC	3	held	0.280377405164467	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-STD	3	held	0.268590704892592	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-QN	4	held	0.0841507800375725	8	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-COMBAT	4	held	0.157755615453729	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	TBC	4	held	0.364253976032952	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-STD	4	held	0.196772663096113	1	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-QN	5	held	0.0841145144164012	4	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-COMBAT	5	held	0.123011855170885	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	TBC	5	held	0.290440333251654	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	GSE94533_PUBLIC	CN-STD	5	held	0.169713060524381	5	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-QN	1	held	0.0383958333333333	46	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-COMBAT	1	held	0.2035	49	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	TBC	1	held	0.4156875	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-STD	1	held	0.3285625	49	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-QN	2	held	0.104770833333333	46	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-COMBAT	2	held	0.187583333333333	33	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	TBC	2	held	0.384041666666667	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-STD	2	held	0.315041666666667	33	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-QN	3	held	0.0306458333333333	36	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-COMBAT	3	held	0.202625	35	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	TBC	3	held	0.400791666666667	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-STD	3	held	0.3281875	35	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-QN	4	held	0.0388958333333333	45	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-COMBAT	4	held	0.211208333333333	36	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	TBC	4	held	0.430958333333333	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-STD	4	held	0.3475625	36	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-QN	5	held	0.0293125	43	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-COMBAT	5	held	0.205875	34	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	TBC	5	held	0.406770833333334	20	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E2	TORAY_PUBLIC_CANONICAL	CN-STD	5	held	0.322604166666667	34	NA	Positive discordance expectation applies only to cohort-normalized arms with selected features. Intercept-only arms remain valid fitted predictors.
+E3	ACROSS_DATASETS	CN-COMBAT	NA	held	-0.076895407470057	11	-0.076895407470057	Equal-dataset mean deployment AUC minus full-set AUC.
+E3	ACROSS_DATASETS	CN-QN	NA	held	-0.0224162840015174	11	-0.0224162840015174	Equal-dataset mean deployment AUC minus full-set AUC.
+E3	ACROSS_DATASETS	CN-STD	NA	held	-0.12766354510669	11	-0.12766354510669	Equal-dataset mean deployment AUC minus full-set AUC.
+E3	ACROSS_DATASETS	TBC	NA	held	-0.159520014188006	11	-0.159520014188006	Equal-dataset mean deployment AUC minus full-set AUC.
+E4	ALL	ALL	NA	not estimable	NA	NA	NA	Part A contrasts and single-sample versus cohort-normalized B1 are descriptive without a directional expectation.

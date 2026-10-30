@@ -1,0 +1,2 @@
+"method"	"unit"	"repeat_id"	"device"	"fit_wall_seconds"	"registered_fit_seconds"	"score_median_seconds"	"score_p95_seconds"	"maximum_difference"	"tolerance"	"consistency_pass"	"n_train"	"n_features"	"n_scored"	"fit_includes"	"state_unchanged"
+"hemolysis-kit-dual-anchor"	"breast_cancer__GSE210329"	1	"cpu"	0.351249217987061	0.192	0.00131285190582275	0.00236988067626953	65.3964814776803	1e-05	FALSE	678	26	20	"deployment construction: registered fit, frozen direction, preflight; verify=FALSE"	TRUE

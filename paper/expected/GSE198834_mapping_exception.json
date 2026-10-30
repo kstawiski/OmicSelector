@@ -1,0 +1,9 @@
+{
+  "exact_profile_matches": 154,
+  "total": 155,
+  "remaining_gsm": "GSM5957628",
+  "remaining_chip": "chip.sample122.tsv",
+  "mapping_basis": "The mapping uses the unique remaining pair after 154 exact one-to-one raw count matches.",
+  "material_difference": "Per-sample GEO counts differ from the deposited matrix for this sample. The deposited matrix is retained unchanged.",
+  "corroborating_Pearson_correlation": 0.999999663454722
+}

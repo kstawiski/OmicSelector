@@ -1,0 +1,5 @@
+step	seconds	exit_code
+assemble_final.R	160.67631157999858	0
+synthesis.R	53.717396850232035	0
+repair_cached_summaries.R	2.690838216803968	0
+derived_tables.py	0.6065993262454867	0

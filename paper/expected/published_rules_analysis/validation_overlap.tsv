@@ -1,0 +1,4 @@
+cohort	reported_validation_accession	reported_validation_n	reported_validation_case_n	reported_validation_noncancer_n	target_n	overlap_target_n	overlap_target_cases	overlap_target_controls	basis	computing_identity
+"GSE94533_PUBLIC"	FALSE	0	0	0	174	0	0	0	"Accession absent from article validation/test lists; no exact sample ID match to ST2/ST4; no cross-study donor identity inference"	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"PRJEB30542"	FALSE	0	0	0	114	0	0	0	"Accession absent from article validation/test lists; no exact sample ID match to ST2/ST4; no cross-study donor identity inference"	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"GSE85589"	TRUE	232	203	29	107	107	88	19	"All target GSM IDs in released validation metadata and Supplementary Table S4; selected PDAC/healthy subset of 232 samples"	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"

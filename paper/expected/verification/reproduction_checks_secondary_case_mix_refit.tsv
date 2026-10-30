@@ -1,0 +1,4 @@
+family	field	n	max_absolute_error	tolerance	pass
+case_mix	score	132000	0	1e-10	TRUE
+case_mix	threshold	132000	0	1e-10	TRUE
+case_mix	call	132000	0	1e-10	TRUE

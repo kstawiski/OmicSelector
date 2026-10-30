@@ -1,0 +1,9 @@
+feature	minimum_deposited	mean_deposited	retained_mean_filter	retained_median_filter	computing_identity
+"hsa-miR-4258"	1.688784465	9.56903290677684	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-4730"	-0.854971404	8.56211576068635	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-663a"	8.022650222	11.6582390519741	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-1228-5p"	7.846799057	11.2962910433957	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-6787-5p"	2.644400665	8.93418335700803	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-6800-5p"	0.002163245	8.16781653748672	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-1469"	9.357278612	11.4391316849792	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"
+"hsa-miR-1268a"	8.022650222	10.7807325926772	TRUE	TRUE	"s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread"

@@ -1,0 +1,2 @@
+type	contrast	left	right	k	pooled_lift	pooled_se	ci_lo	ci_hi	p_lift_gt_zero	p_lift_gt_margin_0_05	tau2	I2	pi_lo	pi_hi	failure	warnings	not_inferior_at_margin_0_02	status	contrast_direction	eligible_universe
+A3	FZ-STD minus R	FZ-STD	R	30	-0.0035772643722947	0.0094496694157075	-0.0229040083696547	0.0157494796250653	0.646113942964492	0.999998022401551	0.0007476992269716	63.8281051086154	-0.0627475457550843	0.0555930170104949				ok	FZ-STD minus R	32

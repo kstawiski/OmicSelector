@@ -1,0 +1,68 @@
+{
+  "routes": [
+    {
+      "family": "benchmark",
+      "entry": "scripts/run_all_refit.sh",
+      "representative": "GSE117063",
+      "scope": "The representatives use three classical methods and five seeds. Other registered cells use benchmark/refit_registered.py.",
+      "status": "representative_executed"
+    },
+    {
+      "family": "normalization_comparison",
+      "entry": "scripts/normalization/refit.py",
+      "representative": "GSE117063",
+      "scope": "The analysis uses nine arms, five seeds and the retained-intercept rule.",
+      "status": "representative_executed"
+    },
+    {
+      "family": "calibration",
+      "entry": "scripts/calibration/refit.py",
+      "representative": "GSE210329",
+      "scope": "Within-cell k-TSP uses seed 101 and the calibration-analysis calibrators.",
+      "status": "representative_executed"
+    },
+    {
+      "family": "case_mix",
+      "entry": "scripts/robustness/refit.py case_mix",
+      "representative": "GSE188627",
+      "scope": "The analysis uses eleven arms and repetition 1. All 132000 scores, thresholds and calls match exactly.",
+      "status": "representative_executed",
+      "tolerance": 1e-10,
+      "evidence": "expected/verification/reproduction_checks_case_mix_refit.tsv"
+    },
+    {
+      "family": "reassay",
+      "entry": "scripts/robustness/refit.py reassay",
+      "representative": "GSE268524",
+      "scope": "Training uses array 1 and testing uses array 2 in repetition 1. All 217689 specified scores, thresholds and decisions match exactly.",
+      "status": "representative_executed",
+      "tolerance": 1e-10,
+      "evidence": "expected/verification/reproduction_checks_reassay_refit.tsv"
+    },
+    {
+      "family": "transfer_target",
+      "entry": "scripts/robustness/refit.py transfer_target",
+      "representative": "GSE210329;GSE320031;GSE41922",
+      "scope": "Breast-cancer k-TSP transfer uses seed 101 and all three held-out targets. Across 628 scores, the maximum baseline error is 1.03028696685215e-13.",
+      "status": "representative_executed",
+      "tolerance": 1e-10,
+      "evidence": "expected/verification/reproduction_checks_transfer_target_refit.tsv"
+    },
+    {
+      "family": "published_rule",
+      "entry": "scripts/robustness/refit.py published_rule",
+      "representative": "GSE85589",
+      "scope": "Four released weighted inequalities and first-class tie rule. 107 target scores and calls match exactly. Fixed published weights are applied without classifier fitting.",
+      "status": "representative_executed",
+      "tolerance": 1e-10,
+      "evidence": "expected/verification/reproduction_checks_published_rule_refit.tsv"
+    }
+  ],
+  "training_contracts": "Six public raw matrices and missingness masks match exactly. Expected/verification/R16d_training_contracts.tsv.",
+  "unexecuted": [
+    "Full GSE71008 and PRJEB30542 FASTQ quantification",
+    "All registered cells beyond the declared representatives"
+  ],
+  "public_source_reconstruction": "Four public source reconstructions passed exact matrix and label/group SHA-256 checks. Expected/verification/R16d_source_preparation.tsv.",
+  "secondary_run": "All four secondary-family routes meet their comparison tolerances on the CPU server. Recorded commands take 401.686 seconds, excluding setup and staging."
+}

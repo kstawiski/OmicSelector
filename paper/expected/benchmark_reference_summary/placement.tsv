@@ -1,0 +1,2 @@
+host	pid	nice	device	analysis_processes	numerical_threads	python	execution
+gpu_server_01	2312	10	CPU	1	1	3.14.3 | packaged by conda-forge | (main, Feb  9 2026, 21:56:02) [GCC 14.3.0]	Commands execute sequentially without classifier refits.

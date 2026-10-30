@@ -1,0 +1,5 @@
+rule	feature_a	feature_b	normalized_weight	witness	published_cancer_score	derivation	strict_probability_difference	half_tie_probability_difference	computing_identity
+1	hsa-miR-4258	hsa-miR-4730	0.253630390101444	GSM6483323	0.746369609898556	The score is 1 minus the published three-of-four cancer score. No model is fitted.	0.889401386602589	0.889451784747937	s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread
+2	hsa-miR-663a	hsa-miR-1228-5p	0.25137383518561	GSM6483175	0.74862616481439	The score is 1 minus the published three-of-four cancer score. No model is fitted.	0.881538327295123	0.881538327295123	s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread
+3	hsa-miR-6787-5p	hsa-miR-6800-5p	0.247574846378329	GSM6483272	0.752425153621671	The score is 1 minus the published three-of-four cancer score. No model is fitted.	0.868093880401382	0.868215715445688	s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread
+4	hsa-miR-1469	hsa-miR-1268a	0.247420928334616	GSM6483301	0.752579071665384	The score is 1 minus the published three-of-four cancer score. No model is fitted.	0.867675951228616	0.867675951228616	s5 | R version 4.4.2 (2024-10-31) | CPU; 1 thread

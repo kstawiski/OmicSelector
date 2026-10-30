@@ -1,0 +1,13 @@
+method	cohort	seed	model_seed	phase	device	score_batch	threads	use_flash	cuda_peak_allocated_bytes	host	package_commit
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_start	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e
+ai-tabpfn	GSE200489	202	42	score_end	cpu	TRUE	4		0	argos7	69fded5282a2cb946fac52a24b44a48095fdea7e

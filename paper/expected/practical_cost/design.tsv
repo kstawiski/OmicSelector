@@ -1,0 +1,5 @@
+unit	estimand	train_n	held_n	timed_n	features	preparation	source_cohorts
+GSE94533_PUBLIC	within	138	36	20	2524	unchanged benchmark abundance cache	GSE94533_PUBLIC
+GSE64591	within	160	40	20	301	unchanged benchmark abundance cache	GSE64591
+GSE85589	within	85	22	20	2550	R1/R8 training-only preparation; linear GSE85589	GSE85589
+breast_cancer__GSE210329	transfer	678	130	20	26	S14/R5 training-only source preparation and target filling	GSE270497,GSE320031,GSE41922

@@ -59,6 +59,19 @@ measurements are shown as NA. Transfer methods may require kit, technology,
 biofluid or other training metadata. Dependency availability does not replace
 these input requirements or the deployment audit.
 
+<!-- MEASURED_COSTS_START -->
+
+| Method | Fit (s) | Score one specimen (s) | Peak fit memory (MiB) | Frozen model (MiB) | CPU hardware |
+|---|---:|---:|---:|---:|---|
+| ws-rclr-trimmed | 0.3649 | 0.02435 | 170.4 | 0.06907 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| reo-ktsp | 6.612 | 0.02383 | 189.8 | 0.1144 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| ai-tabpfn | 751.2 | 7.855 | 1.426e+04 | 2836 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| tab-tabdpt | 15.32 | 0.5271 | 1400 | 248.6 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+| tab-tabicl | 331.9 | 4.974 | 1.955e+04 | 5896 | Intel(R) Xeon(R) Platinum 8380 CPU @ 2.30GHz |
+
+These are medians over completed CPU measurement cells; dataset sizes and hardware are retained in the shipped tables.
+<!-- MEASURED_COSTS_END -->
+
 ## Full installation
 
 ```r
@@ -193,7 +206,7 @@ measured environment used the same build on all hosts. Record these variables,
 the host CPU, library versions, device and thread counts with the results.
 
 Under these matched startup settings, measured TabPFN and TabDPT scores on
-s8, s5, cpd and AVX-512 Argos nodes agreed within 8.05e-7, with zero changed
+x86-64 CPU workstations, a CPU server and AVX-512 cluster nodes agreed within 8.05e-7, with zero changed
 classifications and zero AUC differences. Without matched dispatch, AVX-512
 scores differed by up to 0.030 for TabDPT and 0.0003 for TabPFN. Repeated CPU
 TabICL runs differed by up to 5.96e-7. A fixed seed alone does not guarantee

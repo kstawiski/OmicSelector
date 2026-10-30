@@ -1,0 +1,7 @@
+{
+  "schema": "omicselector-paper-reproduction-v1",
+  "root_environment": "OMICSELECTOR_PAPER_ROOT",
+  "default_root": "work",
+  "package_version": "2.6.10",
+  "package_commit": "b27bec71373ef9cb63aaa270bc0d4f0f6f39dbf2"
+}

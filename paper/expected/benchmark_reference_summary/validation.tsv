@@ -1,0 +1,55 @@
+check	pass_check	detail
+independent_recomputation	True	8552 checks; max error 7.35615586223e-07
+semantic_keys_normalization/R2b/m16/partA_fits.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_contrasts_dataset.tsv	True	
+semantic_keys_normalization/R2b/m16/S1_FZ_STD_fold_auc.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_fold_auc.tsv	True	
+semantic_keys_normalization/R2b/m16/S1_baseline_manifest.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_across_datasets.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_summary.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_pooling_coverage.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_pooled.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_evaluability.tsv	True	
+semantic_keys_normalization/R2b/m16/partA_dataset_auc.tsv	True	
+semantic_keys_normalization/R2b/m16/figure_data.tsv	True	
+semantic_keys_normalization/R2b/m16/partA_fold_auc.tsv	True	
+semantic_keys_normalization/R2b/m16/nonestimable_outcomes.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_contrasts_dataset.tsv	True	
+semantic_keys_normalization/R2b/m16/expectations.tsv	True	
+semantic_keys_normalization/R2b/m16/partA_pooled.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_pooled_all.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_outcomes.tsv	True	
+semantic_keys_normalization/R2b/m16/failures.tsv	True	
+semantic_keys_normalization/R2b/m16/S2_dataset_auc.tsv	True	
+semantic_keys_normalization/R2b/m16/ssclr_audit.tsv	True	
+semantic_keys_normalization/R2b/m16/partA_contrasts_dataset.tsv	True	
+semantic_keys_normalization/R2b/m16/partB_fits.tsv	True	
+semantic_keys_normalization/R2c/partA_without_toray_pooled.tsv	True	
+semantic_keys_normalization/R2d/partA_nonempty_pooled.tsv	True	
+semantic_keys_normalization/R2d/partA_nonempty_without_toray_pooled.tsv	True	
+semantic_keys_normalization/R2d/intercept_only_by_dataset.tsv	True	
+semantic_keys_normalization/R2b/restriction/D2_partB_manager.tsv	True	
+semantic_keys_normalization/R2b/restriction/D2_partA_manager.tsv	True	
+semantic_keys_normalization/R2b/restriction/D2_restriction.tsv	True	
+semantic_keys_normalization/R2b/restriction/D2_pooled.tsv	True	
+full32_benchmark_replay_pooled.tsv	True	
+full32_numeric_replay_pooled.tsv	True	0.0
+full32_benchmark_replay_leave_one_cohort_out.tsv	True	
+full32_numeric_replay_leave_one_cohort_out.tsv	True	1.1102230246251565e-16
+full32_benchmark_replay_cohort_weights.tsv	True	
+full32_numeric_replay_cohort_weights.tsv	True	0.0
+full32_benchmark_replay_sensitivity_pooled.tsv	True	
+full32_numeric_replay_sensitivity_pooled.tsv	True	4.6538200029755394e-10
+full32_normalization_replay_R2b/m16/partA_pooled.tsv	True	3.1489810758955628e-12
+full32_normalization_replay_R2b/m16/partB_pooled.tsv	True	9.992007221626409e-16
+full32_normalization_replay_R2c/partA_without_toray_pooled.tsv	True	0.0
+full32_normalization_replay_R2d/partA_nonempty_pooled.tsv	True	2.0450308113595383e-12
+full32_normalization_replay_R2d/partA_nonempty_without_toray_pooled.tsv	True	1.9100276915651193e-12
+primary_units	True	
+retained_cohort_estimands_unchanged	True	
+S9_12_blocks	True	
+S9_both_48_test_families	True	
+primary_weights_sum_100	True	
+matched_six_test_families	True	
+no_refits	True	
+primary_A2_noninferiority	True	

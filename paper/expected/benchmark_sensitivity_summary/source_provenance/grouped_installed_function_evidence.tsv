@@ -1,0 +1,268 @@
+method	evidence
+reo-pairratio	fit_reo_pairratio:         stop("fit_reo_pairratio: each class must have at least 2 samples for ", "cross-validated glmnet (got ", sum(y == 1L), " case(s), ", sum(y == 
+reo-pairratio	fit_reo_pairratio:     cv_fit <- tryCatch(glmnet::cv.glmnet(x = R, y = y, family = "binomial", alpha = hp$alpha, foldid = foldid, nfolds = hp$nfolds, maxit = 1000000L), 
+reo-pairratio	fit_reo_pairratio:             stop("fit_reo_pairratio: cv.glmnet failed (training partition likely too ", "small or imbalanced for nfolds=", hp$nfolds, "): ", 
+reo-pairratio	fit_reo_pairratio:     chosen_lambda <- unname(cv_fit[[lambda_name]])
+reo-pairratio	fit_reo_pairratio:     coef_mat <- as.matrix(stats::coef(cv_fit, s = lambda_name))
+reo-pairratio	.reo_pairratio_foldid:         return(.ss_grouped_inner_folds(y, group_train, nfolds, seed, min_folds = 3L))
+reo-pairratio	.ss_grouped_inner_folds: function (y, group_train, k, seed = 1L, min_folds = 2L) 
+reo-pairratio	.ss_grouped_inner_folds: {
+reo-pairratio	.ss_grouped_inner_folds:     caller <- "grouped inner resampling"
+reo-pairratio	.ss_grouped_inner_folds:     groups <- .ss_validate_groups(group_train, length(y), caller)
+reo-pairratio	.ss_grouped_inner_folds:     k <- min(as.integer(k), length(unique(groups)))
+reo-pairratio	.ss_grouped_inner_folds:     if (k < min_folds) {
+reo-pairratio	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", paste0("inner resampling requires at least ", min_folds, " distinct groups"), caller)
+reo-pairratio	.ss_grouped_inner_folds:     }
+reo-pairratio	.ss_grouped_inner_folds:     folds <- os_make_grouped_stratified_folds(y, group_id = match(groups, unique(groups)), n_folds = k, seed = seed, mixed_group_action = "allow")
+reo-pairratio	.ss_grouped_inner_folds:     fold <- integer(length(y))
+reo-pairratio	.ss_grouped_inner_folds:     for (i in seq_along(folds)) fold[folds[[i]]] <- i
+reo-pairratio	.ss_grouped_inner_folds:     if (any(lengths(folds) == 0L) || any(vapply(seq_len(k), function(i) {
+reo-pairratio	.ss_grouped_inner_folds:         length(unique(y[fold != i])) < 2L
+reo-pairratio	.ss_grouped_inner_folds:     }, logical(1L)))) {
+reo-pairratio	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", "groups cannot form non-empty folds with both outcomes in every training partition", caller)
+reo-pairratio	.ss_grouped_inner_folds:     }
+reo-pairratio	.ss_grouped_inner_folds:     fold
+reo-pairratio	.ss_grouped_inner_folds: }
+bal-selbal	.bal_selbal_run_selection:     sel <- tryCatch(suppressWarnings(suppressMessages(selbal::selbal(x = x_df, y = y_fac, maxV = hp$max_vars, draw = FALSE, logit.acc = hp$logit_acc, 
+inv-scatter	fit_inv_scatter:         lambda <- .inv_scatter_cv_lambda(Cs, y, hp$seed, group_train)
+inv-scatter	.inv_scatter_cv_lambda: function (Xs, y, seed, group_train = NULL) 
+inv-scatter	.inv_scatter_cv_lambda: {
+inv-scatter	.inv_scatter_cv_lambda:     grid <- 10^seq(-3, 3, by = 0.5)
+inv-scatter	.inv_scatter_cv_lambda:     n <- nrow(Xs)
+inv-scatter	.inv_scatter_cv_lambda:     k <- max(2L, min(5L, sum(y == 1L), sum(y == 0L)))
+inv-scatter	.inv_scatter_cv_lambda:     fold <- .inv_scatter_cv_folds(y, k, group_train, seed)
+inv-scatter	.inv_scatter_cv_lambda:     dev_of <- function(lambda) {
+inv-scatter	.inv_scatter_cv_lambda:         tot <- 0
+inv-scatter	.inv_scatter_cv_lambda:         cnt <- 0L
+inv-scatter	.inv_scatter_cv_lambda:         for (f in seq_len(k)) {
+inv-scatter	.inv_scatter_cv_lambda:             te <- which(fold == f)
+inv-scatter	.inv_scatter_cv_lambda:             tr <- which(fold != f)
+inv-scatter	.inv_scatter_cv_lambda:             if (length(te) == 0L) 
+inv-scatter	.inv_scatter_cv_lambda:                 next
+inv-scatter	.inv_scatter_cv_lambda:             if (!any(y[tr] == 1L) || !any(y[tr] == 0L)) 
+inv-scatter	.inv_scatter_cv_lambda:                 next
+inv-scatter	.inv_scatter_cv_lambda:             head <- .inv_scatter_ridge_logit(Xs[tr, , drop = FALSE], y[tr], lambda)
+inv-scatter	.inv_scatter_cv_lambda:             eta <- head$intercept + as.vector(Xs[te, , drop = FALSE] %*% head$weights)
+inv-scatter	.inv_scatter_cv_lambda:             mu <- 1/(1 + exp(-eta))
+inv-scatter	.inv_scatter_cv_lambda:             eps <- 1e-12
+inv-scatter	.inv_scatter_cv_lambda:             mu <- pmin(pmax(mu, eps), 1 - eps)
+inv-scatter	.inv_scatter_cv_lambda:             tot <- tot - 2 * sum(y[te] * log(mu) + (1 - y[te]) * log(1 - mu))
+inv-scatter	.inv_scatter_cv_lambda:             cnt <- cnt + length(te)
+inv-scatter	.inv_scatter_cv_lambda:         }
+inv-scatter	.inv_scatter_cv_lambda:         if (cnt == 0L) 
+inv-scatter	.inv_scatter_cv_lambda:             return(Inf)
+inv-scatter	.inv_scatter_cv_lambda:         tot/cnt
+inv-scatter	.inv_scatter_cv_lambda:     }
+inv-scatter	.inv_scatter_cv_lambda:     devs <- vapply(grid, dev_of, numeric(1L))
+inv-scatter	.inv_scatter_cv_lambda:     if (all(!is.finite(devs))) 
+inv-scatter	.inv_scatter_cv_lambda:         return(1)
+inv-scatter	.inv_scatter_cv_lambda:     grid[which.min(devs)]
+inv-scatter	.inv_scatter_cv_lambda: }
+inv-scatter	.inv_scatter_cv_folds: function (y, k, group_train = NULL, seed = 1L) 
+inv-scatter	.inv_scatter_cv_folds: {
+inv-scatter	.inv_scatter_cv_folds:     if (!is.null(group_train)) {
+inv-scatter	.inv_scatter_cv_folds:         return(.ss_grouped_inner_folds(y, group_train, k, seed))
+inv-scatter	.inv_scatter_cv_folds:     }
+inv-scatter	.inv_scatter_cv_folds:     fold <- integer(length(y))
+inv-scatter	.inv_scatter_cv_folds:     for (cl in c(0L, 1L)) {
+inv-scatter	.inv_scatter_cv_folds:         idx <- which(y == cl)
+inv-scatter	.inv_scatter_cv_folds:         if (length(idx) > 0L) {
+inv-scatter	.inv_scatter_cv_folds:             fold[idx] <- ((seq_along(idx) - 1L)%%k) + 1L
+inv-scatter	.inv_scatter_cv_folds:         }
+inv-scatter	.inv_scatter_cv_folds:     }
+inv-scatter	.inv_scatter_cv_folds:     fold
+inv-scatter	.inv_scatter_cv_folds: }
+inv-scatter	.ss_grouped_inner_folds: function (y, group_train, k, seed = 1L, min_folds = 2L) 
+inv-scatter	.ss_grouped_inner_folds: {
+inv-scatter	.ss_grouped_inner_folds:     caller <- "grouped inner resampling"
+inv-scatter	.ss_grouped_inner_folds:     groups <- .ss_validate_groups(group_train, length(y), caller)
+inv-scatter	.ss_grouped_inner_folds:     k <- min(as.integer(k), length(unique(groups)))
+inv-scatter	.ss_grouped_inner_folds:     if (k < min_folds) {
+inv-scatter	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", paste0("inner resampling requires at least ", min_folds, " distinct groups"), caller)
+inv-scatter	.ss_grouped_inner_folds:     }
+inv-scatter	.ss_grouped_inner_folds:     folds <- os_make_grouped_stratified_folds(y, group_id = match(groups, unique(groups)), n_folds = k, seed = seed, mixed_group_action = "allow")
+inv-scatter	.ss_grouped_inner_folds:     fold <- integer(length(y))
+inv-scatter	.ss_grouped_inner_folds:     for (i in seq_along(folds)) fold[folds[[i]]] <- i
+inv-scatter	.ss_grouped_inner_folds:     if (any(lengths(folds) == 0L) || any(vapply(seq_len(k), function(i) {
+inv-scatter	.ss_grouped_inner_folds:         length(unique(y[fold != i])) < 2L
+inv-scatter	.ss_grouped_inner_folds:     }, logical(1L)))) {
+inv-scatter	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", "groups cannot form non-empty folds with both outcomes in every training partition", caller)
+inv-scatter	.ss_grouped_inner_folds:     }
+inv-scatter	.ss_grouped_inner_folds:     fold
+inv-scatter	.ss_grouped_inner_folds: }
+sig-path	fit_sig_path:         lambda <- .sig_path_cv_lambda(Cs, y, hp$seed, group_train)
+sig-path	.sig_path_cv_lambda: function (Xs, y, seed, group_train = NULL) 
+sig-path	.sig_path_cv_lambda: {
+sig-path	.sig_path_cv_lambda:     grid <- 10^seq(-3, 3, by = 0.5)
+sig-path	.sig_path_cv_lambda:     k <- max(2L, min(5L, sum(y == 1L), sum(y == 0L)))
+sig-path	.sig_path_cv_lambda:     fold <- .sig_path_cv_folds(y, k, group_train, seed)
+sig-path	.sig_path_cv_lambda:     dev_of <- function(lambda) {
+sig-path	.sig_path_cv_lambda:         tot <- 0
+sig-path	.sig_path_cv_lambda:         cnt <- 0L
+sig-path	.sig_path_cv_lambda:         for (f in seq_len(k)) {
+sig-path	.sig_path_cv_lambda:             te <- which(fold == f)
+sig-path	.sig_path_cv_lambda:             tr <- which(fold != f)
+sig-path	.sig_path_cv_lambda:             if (length(te) == 0L) 
+sig-path	.sig_path_cv_lambda:                 next
+sig-path	.sig_path_cv_lambda:             if (!any(y[tr] == 1L) || !any(y[tr] == 0L)) 
+sig-path	.sig_path_cv_lambda:                 next
+sig-path	.sig_path_cv_lambda:             head <- .sig_path_ridge_logit(Xs[tr, , drop = FALSE], y[tr], lambda)
+sig-path	.sig_path_cv_lambda:             eta <- head$intercept + as.vector(Xs[te, , drop = FALSE] %*% head$weights)
+sig-path	.sig_path_cv_lambda:             mu <- 1/(1 + exp(-eta))
+sig-path	.sig_path_cv_lambda:             eps <- 1e-12
+sig-path	.sig_path_cv_lambda:             mu <- pmin(pmax(mu, eps), 1 - eps)
+sig-path	.sig_path_cv_lambda:             tot <- tot - 2 * sum(y[te] * log(mu) + (1 - y[te]) * log(1 - mu))
+sig-path	.sig_path_cv_lambda:             cnt <- cnt + length(te)
+sig-path	.sig_path_cv_lambda:         }
+sig-path	.sig_path_cv_lambda:         if (cnt == 0L) 
+sig-path	.sig_path_cv_lambda:             return(Inf)
+sig-path	.sig_path_cv_lambda:         tot/cnt
+sig-path	.sig_path_cv_lambda:     }
+sig-path	.sig_path_cv_lambda:     devs <- vapply(grid, dev_of, numeric(1L))
+sig-path	.sig_path_cv_lambda:     if (all(!is.finite(devs))) 
+sig-path	.sig_path_cv_lambda:         return(1)
+sig-path	.sig_path_cv_lambda:     grid[which.min(devs)]
+sig-path	.sig_path_cv_lambda: }
+sig-path	.sig_path_cv_folds: function (y, k, group_train = NULL, seed = 1L) 
+sig-path	.sig_path_cv_folds: {
+sig-path	.sig_path_cv_folds:     if (!is.null(group_train)) {
+sig-path	.sig_path_cv_folds:         return(.ss_grouped_inner_folds(y, group_train, k, seed))
+sig-path	.sig_path_cv_folds:     }
+sig-path	.sig_path_cv_folds:     fold <- integer(length(y))
+sig-path	.sig_path_cv_folds:     for (cl in c(0L, 1L)) {
+sig-path	.sig_path_cv_folds:         idx <- which(y == cl)
+sig-path	.sig_path_cv_folds:         if (length(idx) > 0L) {
+sig-path	.sig_path_cv_folds:             fold[idx] <- ((seq_along(idx) - 1L)%%k) + 1L
+sig-path	.sig_path_cv_folds:         }
+sig-path	.sig_path_cv_folds:     }
+sig-path	.sig_path_cv_folds:     fold
+sig-path	.sig_path_cv_folds: }
+sig-path	.ss_grouped_inner_folds: function (y, group_train, k, seed = 1L, min_folds = 2L) 
+sig-path	.ss_grouped_inner_folds: {
+sig-path	.ss_grouped_inner_folds:     caller <- "grouped inner resampling"
+sig-path	.ss_grouped_inner_folds:     groups <- .ss_validate_groups(group_train, length(y), caller)
+sig-path	.ss_grouped_inner_folds:     k <- min(as.integer(k), length(unique(groups)))
+sig-path	.ss_grouped_inner_folds:     if (k < min_folds) {
+sig-path	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", paste0("inner resampling requires at least ", min_folds, " distinct groups"), caller)
+sig-path	.ss_grouped_inner_folds:     }
+sig-path	.ss_grouped_inner_folds:     folds <- os_make_grouped_stratified_folds(y, group_id = match(groups, unique(groups)), n_folds = k, seed = seed, mixed_group_action = "allow")
+sig-path	.ss_grouped_inner_folds:     fold <- integer(length(y))
+sig-path	.ss_grouped_inner_folds:     for (i in seq_along(folds)) fold[folds[[i]]] <- i
+sig-path	.ss_grouped_inner_folds:     if (any(lengths(folds) == 0L) || any(vapply(seq_len(k), function(i) {
+sig-path	.ss_grouped_inner_folds:         length(unique(y[fold != i])) < 2L
+sig-path	.ss_grouped_inner_folds:     }, logical(1L)))) {
+sig-path	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", "groups cannot form non-empty folds with both outcomes in every training partition", caller)
+sig-path	.ss_grouped_inner_folds:     }
+sig-path	.ss_grouped_inner_folds:     fold
+sig-path	.ss_grouped_inner_folds: }
+proto-net	fit_proto_net:     plan <- .proto_net_episode_plan(idx_case, idx_ctrl, hp, group_train)
+proto-net	.proto_net_episode_plan: function (idx_case, idx_ctrl, hp, group_train = NULL) 
+proto-net	.proto_net_episode_plan: {
+proto-net	.proto_net_episode_plan:     if (!is.null(group_train)) {
+proto-net	.proto_net_episode_plan:         return(.ss_grouped_episode_plan(idx_case, idx_ctrl, hp, group_train))
+proto-net	.proto_net_episode_plan:     }
+proto-net	.proto_net_episode_plan:     classes <- list(`0` = idx_ctrl, `1` = idx_case)
+proto-net	.proto_net_episode_plan:     n_sup_req <- hp$n_support
+proto-net	.proto_net_episode_plan:     n_qry_req <- hp$n_query
+proto-net	.proto_net_episode_plan:     plan <- vector("list", hp$epochs)
+proto-net	.proto_net_episode_plan:     for (ep in seq_len(hp$epochs)) {
+proto-net	.proto_net_episode_plan:         sup <- integer(0L)
+proto-net	.proto_net_episode_plan:         qry <- integer(0L)
+proto-net	.proto_net_episode_plan:         qry_lab <- integer(0L)
+proto-net	.proto_net_episode_plan:         for (cl in c(0L, 1L)) {
+proto-net	.proto_net_episode_plan:             pool <- classes[[as.character(cl)]]
+proto-net	.proto_net_episode_plan:             m <- length(pool)
+proto-net	.proto_net_episode_plan:             if (m >= 2L) {
+proto-net	.proto_net_episode_plan:                 n_sup <- min(n_sup_req, m - 1L)
+proto-net	.proto_net_episode_plan:                 n_sup <- max(1L, n_sup)
+proto-net	.proto_net_episode_plan:                 sup_i <- pool[sample.int(m, n_sup)]
+proto-net	.proto_net_episode_plan:                 rest <- setdiff(pool, sup_i)
+proto-net	.proto_net_episode_plan:                 n_qry <- min(n_qry_req, length(rest))
+proto-net	.proto_net_episode_plan:                 n_qry <- max(1L, n_qry)
+proto-net	.proto_net_episode_plan:                 qry_i <- rest[sample.int(length(rest), n_qry)]
+proto-net	.proto_net_episode_plan:             }
+proto-net	.proto_net_episode_plan:             else {
+proto-net	.proto_net_episode_plan:                 sup_i <- pool
+proto-net	.proto_net_episode_plan:                 qry_i <- pool
+proto-net	.proto_net_episode_plan:             }
+proto-net	.proto_net_episode_plan:             sup <- c(sup, sup_i)
+proto-net	.proto_net_episode_plan:             qry <- c(qry, qry_i)
+proto-net	.proto_net_episode_plan:             qry_lab <- c(qry_lab, rep.int(cl, length(qry_i)))
+proto-net	.proto_net_episode_plan:         }
+proto-net	.proto_net_episode_plan:         plan[[ep]] <- list(support = sup, query = qry, query_label = qry_lab)
+proto-net	.proto_net_episode_plan:     }
+proto-net	.proto_net_episode_plan:     plan
+proto-net	.proto_net_episode_plan: }
+proto-net	.ss_grouped_episode_plan: function (idx_case, idx_ctrl, hp, group_train) 
+proto-net	.ss_grouped_episode_plan: {
+proto-net	.ss_grouped_episode_plan:     n <- length(idx_case) + length(idx_ctrl)
+proto-net	.ss_grouped_episode_plan:     groups <- .ss_validate_groups(group_train, n, "fit_proto_net")
+proto-net	.ss_grouped_episode_plan:     y <- integer(n)
+proto-net	.ss_grouped_episode_plan:     y[idx_case] <- 1L
+proto-net	.ss_grouped_episode_plan:     take <- function(pool, target) {
+proto-net	.ss_grouped_episode_plan:         chosen <- integer()
+proto-net	.ss_grouped_episode_plan:         for (cl in c(0L, 1L)) {
+proto-net	.ss_grouped_episode_plan:             candidates <- unique(groups[pool[y[pool] == cl]])
+proto-net	.ss_grouped_episode_plan:             candidates <- candidates[sample.int(length(candidates))]
+proto-net	.ss_grouped_episode_plan:             count <- 0L
+proto-net	.ss_grouped_episode_plan:             for (g in candidates) {
+proto-net	.ss_grouped_episode_plan:                 rows <- pool[groups[pool] == g]
+proto-net	.ss_grouped_episode_plan:                 chosen <- union(chosen, rows)
+proto-net	.ss_grouped_episode_plan:                 count <- count + sum(y[rows] == cl)
+proto-net	.ss_grouped_episode_plan:                 if (count >= target) 
+proto-net	.ss_grouped_episode_plan:                   break
+proto-net	.ss_grouped_episode_plan:             }
+proto-net	.ss_grouped_episode_plan:         }
+proto-net	.ss_grouped_episode_plan:         sort(chosen)
+proto-net	.ss_grouped_episode_plan:     }
+proto-net	.ss_grouped_episode_plan:     lapply(seq_len(hp$epochs), function(ep) {
+proto-net	.ss_grouped_episode_plan:         seed <- as.integer((as.double(hp$seed) + ep)%%.Machine$integer.max)
+proto-net	.ss_grouped_episode_plan:         fold <- .ss_grouped_inner_folds(y, groups, k = 2L, seed = seed)
+proto-net	.ss_grouped_episode_plan:         support <- take(which(fold == 1L), hp$n_support)
+proto-net	.ss_grouped_episode_plan:         query <- take(which(fold == 2L), hp$n_query)
+proto-net	.ss_grouped_episode_plan:         list(support = support, query = query, query_label = y[query])
+proto-net	.ss_grouped_episode_plan:     })
+proto-net	.ss_grouped_episode_plan: }
+proto-net	.ss_grouped_inner_folds: function (y, group_train, k, seed = 1L, min_folds = 2L) 
+proto-net	.ss_grouped_inner_folds: {
+proto-net	.ss_grouped_inner_folds:     caller <- "grouped inner resampling"
+proto-net	.ss_grouped_inner_folds:     groups <- .ss_validate_groups(group_train, length(y), caller)
+proto-net	.ss_grouped_inner_folds:     k <- min(as.integer(k), length(unique(groups)))
+proto-net	.ss_grouped_inner_folds:     if (k < min_folds) {
+proto-net	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", paste0("inner resampling requires at least ", min_folds, " distinct groups"), caller)
+proto-net	.ss_grouped_inner_folds:     }
+proto-net	.ss_grouped_inner_folds:     folds <- os_make_grouped_stratified_folds(y, group_id = match(groups, unique(groups)), n_folds = k, seed = seed, mixed_group_action = "allow")
+proto-net	.ss_grouped_inner_folds:     fold <- integer(length(y))
+proto-net	.ss_grouped_inner_folds:     for (i in seq_along(folds)) fold[folds[[i]]] <- i
+proto-net	.ss_grouped_inner_folds:     if (any(lengths(folds) == 0L) || any(vapply(seq_len(k), function(i) {
+proto-net	.ss_grouped_inner_folds:         length(unique(y[fold != i])) < 2L
+proto-net	.ss_grouped_inner_folds:     }, logical(1L)))) {
+proto-net	.ss_grouped_inner_folds:         .ss_input_reject("INVALID_GROUPS", "groups cannot form non-empty folds with both outcomes in every training partition", caller)
+proto-net	.ss_grouped_inner_folds:     }
+proto-net	.ss_grouped_inner_folds:     fold
+proto-net	.ss_grouped_inner_folds: }
+nc-conformal-anom	fit_conformal_anomaly:         .ss_grouped_calibration_indices(group_train, calibration_split, min_reference = k)
+nc-conformal-anom	.ss_grouped_calibration_indices: function (group_train, fraction, min_reference = 1L) 
+nc-conformal-anom	.ss_grouped_calibration_indices: {
+nc-conformal-anom	.ss_grouped_calibration_indices:     groups <- unique(group_train)
+nc-conformal-anom	.ss_grouped_calibration_indices:     if (length(groups) < 2L || !is.finite(fraction) || fraction <= 0 || fraction >= 1) {
+nc-conformal-anom	.ss_grouped_calibration_indices:         .ss_input_reject("INVALID_GROUPS", "calibration requires at least two groups and a fraction between zero and one", "fit_conformal_anomaly")
+nc-conformal-anom	.ss_grouped_calibration_indices:     }
+nc-conformal-anom	.ss_grouped_calibration_indices:     groups <- groups[sample.int(length(groups))]
+nc-conformal-anom	.ss_grouped_calibration_indices:     sizes <- vapply(groups, function(g) sum(group_train == g), integer(1L))
+nc-conformal-anom	.ss_grouped_calibration_indices:     n <- length(group_train)
+nc-conformal-anom	.ss_grouped_calibration_indices:     prefix <- cumsum(sizes)[-length(sizes)]
+nc-conformal-anom	.ss_grouped_calibration_indices:     counts <- c(prefix, n - prefix)
+nc-conformal-anom	.ss_grouped_calibration_indices:     candidates <- which(counts <= n - min_reference)
+nc-conformal-anom	.ss_grouped_calibration_indices:     if (!length(candidates)) {
+nc-conformal-anom	.ss_grouped_calibration_indices:         .ss_input_reject("INVALID_GROUPS", "grouped calibration leaves fewer than k reference rows", "fit_conformal_anomaly")
+nc-conformal-anom	.ss_grouped_calibration_indices:     }
+nc-conformal-anom	.ss_grouped_calibration_indices:     chosen <- candidates[which.min(abs(counts[candidates] - fraction * n))]
+nc-conformal-anom	.ss_grouped_calibration_indices:     take <- if (chosen <= length(prefix)) {
+nc-conformal-anom	.ss_grouped_calibration_indices:         seq_len(chosen)
+nc-conformal-anom	.ss_grouped_calibration_indices:     }
+nc-conformal-anom	.ss_grouped_calibration_indices:     else {
+nc-conformal-anom	.ss_grouped_calibration_indices:         seq.int(chosen - length(prefix) + 1L, length(groups))
+nc-conformal-anom	.ss_grouped_calibration_indices:     }
+nc-conformal-anom	.ss_grouped_calibration_indices:     which(group_train %in% groups[take])
+nc-conformal-anom	.ss_grouped_calibration_indices: }

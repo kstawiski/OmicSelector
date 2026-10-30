@@ -1,0 +1,1 @@
+.libPaths(c(.libPaths(),file.path(Sys.getenv('D2_RUNTIME'),'extra-r')));P<-Sys.getenv('D2_PAYLOAD');for(f in c('rank_repool.R','transfer/resummarize.R','decision/summary.R')){r<-system2('Rscript',c('--vanilla',file.path(P,f)));stopifnot(r==0L)};writeLines('VALID',file.path(Sys.getenv('D2_CELL'),'VALID'))

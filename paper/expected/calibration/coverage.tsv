@@ -1,0 +1,7 @@
+context	calibrator	analysis_role	analyses	reference_calibrator	reference_complete	analysis_complete	gained	lost	retained
+within	firth	primary_logistic	128	platt	73	77	16	12	61
+within	platt	sensitivity_standard_platt	128	platt	73	68	7	12	61
+within	isotonic	isotonic	128	isotonic	90	77	7	20	70
+transfer	firth	primary_logistic	68	platt	36	39	3	0	36
+transfer	platt	sensitivity_standard_platt	68	platt	36	39	3	0	36
+transfer	isotonic	isotonic	68	isotonic	36	39	3	0	36

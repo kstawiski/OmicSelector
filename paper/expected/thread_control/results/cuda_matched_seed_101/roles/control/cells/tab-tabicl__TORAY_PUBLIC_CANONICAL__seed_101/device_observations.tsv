@@ -1,0 +1,21 @@
+method	cohort	seed	model_seed	phase	device	score_batch	threads	use_flash	cuda_peak_allocated_bytes	host	package_commit
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		8914267648	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		8914267648	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		8914267648	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		8914267648	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_start	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
+tab-tabicl	TORAY_PUBLIC_CANONICAL	101	42	score_end	cuda	TRUE	4		10374797824	gpu_workstation_01	69fded5282a2cb946fac52a24b44a48095fdea7e
